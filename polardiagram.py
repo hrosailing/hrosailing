@@ -53,7 +53,7 @@ class PolarDiagramTable:
     def _convert_to_table(self):
         return self.data
         
-    def _plot_slice_discrete(self,true_wind_speed):
+    def _plot_slice(self,true_wind_speed):
         true_wind_angles = [np.radians(a) for a in np.arange(0,360,5)]
         # V: Hier müsste vielleicht noch nen Error abgefangen werden, wenn true_wind_speed ungerade ist
         # oder man macht die Tabelle so, dass sie true_wind_speed in 1er-Schritten dokumentiert,
@@ -76,7 +76,7 @@ class PolarDiagramTable:
         # Ich hab aber auch keine Ahnung, ob sowas möglich ist, weil man die Plots dafür ja irgendwie
         # speichern muss.
     
-    def _plot_discrete_3d(self):
+    def _plot_3d(self):
         # V: Erstmal nur das Konzept einer Funktion, um eine 3d-Darstellung der Slices, beziehungsweise
         # auch, wenn möglich, der konvexen Hülle zu bekommen?
     
@@ -85,7 +85,18 @@ class PolarDiagramTable:
         # Kann vielleicht auch komplett rausgelassen werden und durch einfaches Aufrufen der convex_hull_2d - Funktion
         # erledigt werden? 
     
+    
+    # V: Funktion um zu einem gegebenen true_wind_speed und true_wind_angle/Richtung wo man hinwill, einen 
+    # Kreuz-kurs zu berechnen
     def _find_cross_course(self,true_wind_speed,true_wind_angle):
+        convex_hull = convex_hull_2d(self.data[true_wind_speed/2])
+        
+        # Schnittpunkt mit konvexer Hülle finden
+        # Konvexkombination der Ecken berechnen
+        # Daraus Kurs angeben
+        
+        
+        
         
     
     
