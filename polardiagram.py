@@ -1,13 +1,13 @@
 import numpy as np
-import csv
 import pandas as pd
 import matplotlib.pyplot as plt
-from scipy.spatial import convex hull
+import pynmea2
+import sqlite3
 
 import logging
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
-# V: Algorithmus zum Berechnen der konvexen Hülle einer 2d-Punkt-Wolke.
+# V: Algorithmus zum Berechnen der konvexen Hülle einer 2d-Punkt-Wolke
 # Gibt Liste der Ecken aus
 # Muss aber noch für die Zwecke hier bearbeitet werden -> Ich denke an eine interne Konvertierung von
 # Polar- zu kartesischen Koordinaten, die sich aber nicht auf die Punkte auswirken soll...
@@ -34,11 +34,15 @@ logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 #    return lower_hull_list[:-1] + upper_hull_list[:-1]
     
 
-
-def from_file(path):
-
-
-
+# V: Statt von einer csv-Datei zu lesen, kann man soweit ich gesehen habe auch gleich die NMEA-Datei als solche einlesen
+# Hat der Stefan Simon glaub ich auch gemacht
+# Dabei kann man wahrscheinlich auch besser kontrollieren, welche Werte man mitnehmen will
+def from_nmea(nmea_path):
+    
+    
+    
+    
+    
 def convert_apparent_wind_speed_to_true(data):
     #true_wind_speed = apparent_wind_speed * sin(true_wind_angle) / sin(apparent_wind_angle)
     
@@ -81,11 +85,19 @@ class PolarDiagramTable:
         # V: Erstmal nur das Konzept einer Funktion, um eine 3d-Darstellung der Slices, beziehungsweise
         # auch, wenn möglich, der konvexen Hülle zu bekommen?
     
+    
     def _convex_hull_slice(self, true_wind_speed):
         # V: Hier soll die konvexe Hülle eines Slices des Polardiagrams berechnet werden -> für _find_cross_course
         # Kann vielleicht auch komplett rausgelassen werden und durch einfaches Aufrufen der convex_hull_2d - Funktion
-        # erledigt werden? 
-    
+        # erledigt werden?
+        # Kann aber möglicherweise zur Anschaulichkeit der konvexen Hülle dienen? (siehe unten)
+        convex_hull = convex_hull_2d(self.data[true_wind_speed/2])
+        plot_convex_hull = plt.subplot(1,1,1, projection = 'polar')
+        plot_convex_hull.set_theta_zero_location('N')
+        plot_convex_hull.set_theta_direction('clockwise')
+        plot_convex_hull.plot( , , 'ro-', ms = 1, lw = 0.75)
+        plt.show()
+        
     
     # V: Funktion um zu einem gegebenen true_wind_speed und true_wind_angle/Richtung wo man hinwill, einen 
     # Kreuz-kurs zu berechnen
