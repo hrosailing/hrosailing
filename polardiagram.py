@@ -7,7 +7,8 @@ from scipy.spatial import convex hull
 import logging
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
 
-# V: Algorithmus zum Berechnen der konvexen Hülle einer 2d-Punkt-Wolke
+# V: Algorithmus zum Berechnen der konvexen Hülle einer 2d-Punkt-Wolke.
+# Gibt Liste der Ecken aus
 # Muss aber noch für die Zwecke hier bearbeitet werden -> Ich denke an eine interne Konvertierung von
 # Polar- zu kartesischen Koordinaten, die sich aber nicht auf die Punkte auswirken soll...
 #def convex_hull_2d(point_cloud):
