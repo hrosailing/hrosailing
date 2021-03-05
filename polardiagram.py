@@ -123,6 +123,7 @@ class PolarDiagramTable():
  
 
     def find_cross_course(self,true_wind_speed,true_wind_angle):
+        # V: Normalenvektoren von Facetten gebrauchen?
         
     
     
