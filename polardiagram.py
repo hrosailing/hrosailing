@@ -3,6 +3,7 @@ import csv
 import sqlite3
 import pandas as pd
 import matplotlib.pyplot as plt
+from abs import ABC, ABCMeta
 
 import logging
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
@@ -53,7 +54,8 @@ def convert_apparent_wind_angle_to_true(data):
 def convert_apparent_wind_speed_to_true(data):
     #true_wind_speed = apparent_wind_speed - speed_over_ground? (wenn course_over_ground = apparent_wind_direction?)
     
-
+class PolarDiagram():
+    
 
 
 class PolarDiagramTable():
@@ -77,7 +79,7 @@ class PolarDiagramTable():
         return self.__data
     
     
-    def convert_to_table(self):
+    def as_table(self):
         return
         
     def plot_slice(self,true_wind_speed):
@@ -128,7 +130,7 @@ class PolarDiagramTable():
     
     
     
-class PolarDiagramParam(PolarDiagramTable):
+class PolarDiagramCurve():
     # V: Hier hab ich absolut keine Ahnung wie man sowas abspeichern könnte....? -> plot(s)?? Funktion(en)??
     def __init__(self, data = ...):
         self.__data =
@@ -140,7 +142,7 @@ class PolarDiagramParam(PolarDiagramTable):
 
 
 
-class PolarDiagramPointCloud(PolarDiagramTable):
+class PolarDiagramPointCloud():
     def __init__(self, data = [[0,0,0]]):
         # Ich bin noch unentschlossen, ob man hier nicht auf einfach ein np.array verwenden sollte,
         # ähnlich wie bei PolarDiagramTable, oder ob man bei beiden ein pandas Dataframe verwendet,
@@ -166,7 +168,7 @@ class PolarDiagramPointCloud(PolarDiagramTable):
         # V: --> Ergibt aber nur eine Spalte der Tabelle, da Windgeschwindigkeit "konstant"?
         
         
-    def convert_to_param(self):
+    def convert_to_curve(self):
         # V: Hier könnte man versuchen, aus der Punktwolke ( oder auch nur aus einem Slice der Punktwolke ) eine
         # parametrisierte Darstellung zu berechnen?
         # -> Forschung?
