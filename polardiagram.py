@@ -146,6 +146,12 @@ class PolarDiagramPointCloud(PolarDiagramTable):
         # ähnlich wie bei PolarDiagramTable, oder ob man bei beiden ein pandas Dataframe verwendet,
         # obwohl das bei der Table-Sache glaub ich Blödsinn ist?
         self.__data = pd.Dataframe(data = data , columns = ['TWS', 'TWA', 'BSP'])
+        
+    
+    
+    def add_data(self, data):
+        self.__data.append(data)
+        
     
     def plot_3d(self):
         # V: Funktion zum 3d-plotten der Punktwolke.
