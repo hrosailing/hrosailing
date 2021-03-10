@@ -208,10 +208,10 @@ class PolarDiagramTable(PolarDiagram):
         # wie oben also angemerkt ist es möglicherweise besser einfach nur diese zurückzugeben?
         convex_points = []
         for i in convex_hull.vertices:
-            convex_points.append(points[i])
+            convex_points.append([np.radians(points[i][1]), points[i][0]])
         # V: Da die Indizies etwas durcheinander sind ordne ich hier die Punkte nach ihrem Winkel,
         # sonst sieht der Plot blöd aus (und nicht wirklich nach etwas konvexem)
-        convex_points.sort(key = lambda point: point[1])
+        convex_points.sort(key = lambda point: point[0])
         convex_hull_plot = plt.subplot(1,1,1, projection = 'polar')
         convex_hull_plot.set_theta_zero_location('N')
         convex_hull_plot.set_theta_direction('clockwise')
