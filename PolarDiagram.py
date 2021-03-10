@@ -115,9 +115,9 @@ class PolarDiagramTable(PolarDiagram):
             self._resolution_wind_angle = list(np.arange(0,360,5))
 
         if kwargs["wind_speed_resolution"] is not None:
-            if type(wind_speed_resolution) is list
+            if type(wind_speed_resolution) is list:
                 self._resolution_wind_speed = wind_speed_resolution
-            elif type(wind_speed_resolution) = int:
+            elif type(wind_speed_resolution) is int:
                 self._resolution_wind_speed = list(np.arange(2,42,wind_speed_resolution))
             else:
                 raise PolarDiagramException("Wrong resolution", type(wind_speed_resolution))
@@ -126,7 +126,7 @@ class PolarDiagramTable(PolarDiagram):
 
         if kwargs["data"] is not None:
             data = kwargs["data"]
-            if data.shape != (self._resolution_wind_angle, self._resolution_wind_speed):
+            if data.shape != (len(self._resolution_wind_angle), len(self._resolution_wind_speed)):
                 raise PolarDiagramException("Wrong shape",(self._resolution_wind_angle, self._resolution_wind_speed), data.shape)
             if data.ndim != 2:
                 raise PolarDiagramException("Wrong dimension", data.ndim)
@@ -135,7 +135,7 @@ class PolarDiagramTable(PolarDiagram):
         else:
             self._data = np.zeros(len(self._resolution_wind_angle), len(self._resolution_wind_speed))
 
-    def to_csv(self,csvpath):
+    def to_csv(self,csv_path):
         # V: Das Format für PolarDiagramTables .csv-Datein ist
         # PolarDiagramTable
         # 2,4,6,8,10,......    <- True Wind Speed Resolution
@@ -163,13 +163,14 @@ class PolarDiagramTable(PolarDiagram):
     def get_slice_data(self,slice):
         try:
             column = self._resolution_wind_speed.index(slice)
-            return self._data[column]
+            return self._data[:,column]
         except:
             raise PolarDiagramException("Slice doesn't exist", self._resolution_wind_speed, slice)
 
     def polar_plot_slice(self, slice, **kwargs):
-        boat_speed = get_slice_data(slice)
-        if all(boat_speed == np.zeros(self._resolution_wind_angle,)) is True:
+        boat_speed = self.get_slice_data(slice)
+        angles = [np.radians(a) for a in self._resolution_wind_angle]
+        #if all(boat_speed == np.zeros(self._resolution_wind_angle,)) is True:
             # raise Exception("No data was available")
         polar_plot_diagram = plt.subplot(1, 1, 1, projection='polar')
         # V: Polarplot hat standardmäßig 0° nach Osten und geht gegen den Uhrzeigersinn
@@ -177,15 +178,15 @@ class PolarDiagramTable(PolarDiagram):
         polar_plot_diagram.set_theta_zero_location('N')
         polar_plot_diagram.set_theta_direction('clockwise')
         # V: User können jetzt selber das Aussehen des Plots bestimmen
-        polar_plot_diagram.plot(self._resolution_wind_angle, boat_speed, kwargs)
+        polar_plot_diagram.plot(angles, boat_speed, **kwargs)
         # V: Gibt jetzt nur noch den Plot zurück -> man könnte nun also mehrere Plots übereinanderlegen
         return polar_plot_diagram
 
     def flat_plot_slice(self, slice, **kwargs):
         # V: Hier die gewünschte flat_plot-Funktion (mit Achsenbezeichnung! :) )
-        boat_speed = get_slice_data(slice)
+        boat_speed = self.get_slice_data(slice)
         flat_plot_diagram = plt.subplot(1,1,1)
-        flat_plot_diagram.plot(self._resolution_wind_angle, boat_speed,kwargs)
+        flat_plot_diagram.plot(self._resolution_wind_angle, boat_speed,**kwargs)
         plt.xlabel('True Wind Angle')
         plt.ylabel('Boat Speed')
         return flat_plot_diagram
@@ -197,7 +198,8 @@ class PolarDiagramTable(PolarDiagram):
 
     def plot_convex_hull_slice(self, slice, **kwargs):
         # V: Hier die überarbeitete plot_convex_hull_slice-Funktion.
-        boat_speed = get_slice_data(slice)
+        # Hat noch Macken.
+        boat_speed = self.get_slice_data(slice)
         points =[[boat_speed[i], self._resolution_wind_angle[i]] for i in range(len(boat_speed))]
         # V: Ich übergebe hier nur eine Kopie der Punkte, damit man nicht später nochmal von
         # kartesischen in Polarkoordinaten umrechnen muss
@@ -213,7 +215,7 @@ class PolarDiagramTable(PolarDiagram):
         convex_hull_plot = plt.subplot(1,1,1, projection = 'polar')
         convex_hull_plot.set_theta_zero_location('N')
         convex_hull_plot.set_theta_direction('clockwise')
-        convex_hull_plot.plot(points, kwargs)
+        convex_hull_plot.plot(points, **kwargs)
         return convex_hull_plot
 
 
@@ -230,7 +232,7 @@ class PolarDiagramTable(PolarDiagram):
         # V: Wenn man jetzt ein PolarDiagramTable-Objekt printen will, sollte es eine
         # (bisher noch zu große um gut dargestellt zu werden) "schöne" Tabelle ausgeben.
         table = np.c_[self._resolution_wind_angle, self._data]
-        tab = tabulate(table, headers=["True Wind Angle \ True Wind Speed"] + self._resolution_wind_speed)
+        tab = tabulate(table, headers=["TWA \ TWS"] + self._resolution_wind_speed)
         return tab
 
     #def __iter__(self):
