@@ -22,7 +22,26 @@ def convex_hull_polar(points):
     # weiß aber nicht ob das eine gute Idee ist.
     def polar_to_kartesian(point):
         return [point[0] * np.cos(point[1]), point[0] * np.sin(point[1])]
+    # V: Die Umrechnung hier macht noch in sofern Probleme, dass sie ja nicht 100% exakt ist,
+    # und daher die Koordinaten der Punkte sich etwas "ändern" und die konvexe Hülle dann etwas
+    # falsch ist
+    # Hier ein Beispiel zum Nachgucken:
+    # import numpy as np
+    # from scipy.spatial import ConvexHull
+    #
+    # def polar_to_kartesian(point):
+    #     return [point[0] * np.cos(point[1]), point[0] * np.sin(point[1])]
+    #
+    # boat_speed = [4.82 5.11 5.35 5.31 4.98 4.72 4.27 3.78]
+    # wind_angle = [52,60,75,90,110,120,135,150]
+    # points = [[boat_speed[i], wind_angle[i] for i in range(len(boat_speed))]
+    # converted_points = np.array([polar_to_kartesian(point) for point in points])
+    # print(ConvexHull(converted_points).vertices)
+    # -> [0,1,2,3,4,5,7] (Index 6 fehlt hier offenbar)
+    # Wenn man sich dieses Slice aber plotten lässt, erkennt man, dass eigentlich alle
+    # 8 Punkte Ecken sind und nicht nur 7
     points = np.array([polar_to_kartesian(point) for point in points])
+
     return ConvexHull(points)
 
 def to_csv(csv_path, obj):
@@ -94,7 +113,7 @@ class PolarDiagram(ABC):
 
 
     @abstractmethod
-    def to_csv(self,csv_path):
+    def to_csv(self, csv_path):
         pass
 
 
@@ -157,8 +176,25 @@ class PolarDiagramTable(PolarDiagram):
                 csv_writer.writerow(row)
 
     # V: Noch in Arbeit
-    def set_data(self, datapoint):
-        pass
+    def change_entry(self, **kwargs):
+        if not "data" in kwargs:
+            raise PolardiagramException("No data given", )
+        data = kwargs["data"]
+        if "true_wind_speed" in kwargs:
+            true_wind_speed = list(kwargs["true_wind_speed"])
+            if "true_wind_angle" in kwargs:
+                true_wind_angle = list(kwargs["true_wind_angle"])
+                ind_list_speed = [i for i in range(len(true_wind_speed)) if true_wind_speed[i] in self._resolution_wind_speed]
+                ind_list_angle = [i for i in range(len(true_wind_angle)) if true_wind_angle[i] in self._resolution_wind_angle]
+                if data.shape != (len(ind_list_angle), len(ind_list_speed)):
+                    raise PolarDiagramException("Wrong shape", (len(ind_list_angle), len(ind_list_speed)), data.shape)
+                self._data[ind_list_angle,ind_list_speed] = data
+
+        elif "true_wind_angle" in kwargs:
+
+        else:
+            if data.shape != (len(self._resolution_wind_angle), len(self._resolution_wind_speed)):
+                raise PolarDiagramException("Wrong shape", (len(self._resolution_wind_angle), len(self._resolution_wind_speed)), data.shape)
 
     def get_slice_data(self,slice):
         try:
@@ -206,11 +242,14 @@ class PolarDiagramTable(PolarDiagram):
         convex_hull = convex_hull_polar(points.copy())
         # V: Von der convex_hull benötigen wir hier eigentlich nur die Indizes des vertices,
         # wie oben also angemerkt ist es möglicherweise besser einfach nur diese zurückzugeben?
-        convex_points = []
-        for i in convex_hull.vertices:
-            convex_points.append([np.radians(points[i][1]), points[i][0]])
-        # V: Da die Indizies etwas durcheinander sind ordne ich hier die Punkte nach ihrem Winkel,
-        # sonst sieht der Plot blöd aus (und nicht wirklich nach etwas konvexem)
+        vert = sorted(convex_hull.vertices)
+        # V: Wir sortieren hier die Indizies, da ja die Wind-Winkel der Größe nach geordnet sind
+        # und andernfalls der Plot etwas seltsam aussieht
+        angles = []
+        speed = []
+        for i in vert:
+            angles.append(np.radians(points[i][1]))
+            speed.append(points[i][0])
         convex_points.sort(key = lambda point: point[0])
         convex_hull_plot = plt.subplot(1,1,1, projection = 'polar')
         convex_hull_plot.set_theta_zero_location('N')
@@ -219,14 +258,11 @@ class PolarDiagramTable(PolarDiagram):
         return convex_hull_plot
 
 
-
     def plot_convex_hull_3d(self, **kwargs):
         # V: Funktion zum Plotten der konvexen Hülle des 3d-Polardiagrams
 
     def find_cross_course(self,**kwargs):
         # V: Normalenvektoren von Facetten gebrauchen?
-
-
 
     def __str__(self):
         # V: Wenn man jetzt ein PolarDiagramTable-Objekt printen will, sollte es eine
