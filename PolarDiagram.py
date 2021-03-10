@@ -103,7 +103,7 @@ class PolarDiagramTable(PolarDiagram):
         # V: Die "Auflösung" des Polardiagrams kann nun vom User selber bestimmt werden, d.h.
         # die User können entweder selber eine Liste von Windwinkeln und -geschwindigkeiten übergeben,
         # oder auch nur eine "Auflösungsgröße" oder die "Standardauflösung" verwenden
-        if kwargs["wind_angle_resolution"] is not None:
+        if "wind_angle_resolution" in kwargs:
             wind_angle_resolution = kwargs["wind_angle_resolution"]
             if type(wind_angle_resolution) is list:
                 self._resolution_wind_angle =wind_angle_resolution
@@ -114,7 +114,7 @@ class PolarDiagramTable(PolarDiagram):
         else:
             self._resolution_wind_angle = list(np.arange(0,360,5))
 
-        if kwargs["wind_speed_resolution"] is not None:
+        if "wind_speed_resolution" in kwargs:
             if type(wind_speed_resolution) is list:
                 self._resolution_wind_speed = wind_speed_resolution
             elif type(wind_speed_resolution) is int:
@@ -124,7 +124,7 @@ class PolarDiagramTable(PolarDiagram):
         else:
             self._resolution_wind_speed = list(np.arange(2,42,2))
 
-        if kwargs["data"] is not None:
+        if "data" in kwargs:
             data = kwargs["data"]
             if data.shape != (len(self._resolution_wind_angle), len(self._resolution_wind_speed)):
                 raise PolarDiagramException("Wrong shape",(self._resolution_wind_angle, self._resolution_wind_speed), data.shape)
@@ -133,7 +133,7 @@ class PolarDiagramTable(PolarDiagram):
             else:
                 self._data = data
         else:
-            self._data = np.zeros(len(self._resolution_wind_angle), len(self._resolution_wind_speed))
+            self._data = np.zeros((len(self._resolution_wind_angle), len(self._resolution_wind_speed)))
 
     def to_csv(self,csv_path):
         # V: Das Format für PolarDiagramTables .csv-Datein ist
