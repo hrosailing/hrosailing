@@ -39,7 +39,7 @@ def convex_hull_polar(points):
     # 8 Punkte Ecken sind
     points = np.array([polar_to_kartesian(point) for point in points])
 
-    return ConvexHull(points).vertices
+    return ConvexHull(points)
 
 def to_csv(csv_path, obj):
     # V: Funktion ruft einfach die jeweils interne Funktion des Objekts auf -> Nutzerfreundlichkeit?
@@ -70,7 +70,8 @@ def from_csv(csv_path):
             next(csv_reader)
             for row in csv_reader:
                 data.append([eval(entry) for entry in row])
-            return PolarDiagramTable(data = np.array(data), wind_angle_resolution = wind_angle_resolution, wind_speed_resolution = wind_speed_resolution)
+            return PolarDiagramTable(data = np.array(data), wind_angle_resolution = wind_angle_resolution,
+                                     wind_speed_resolution = wind_speed_resolution)
         elif row1 == 'PolarDiagramPointCloud':
             next(csv_reader)
             data = []
@@ -79,14 +80,14 @@ def from_csv(csv_path):
             return PolarDiagramPointCloud(data = np.array(data))
 
 
-def pickling(pickle_path, obj):
+def pickling(pkl_path, obj):
     #V: Funktion ruft einfach die jeweils interne Funktion des Objekts auf -> Nutzerfreundlichkeit?
-    obj.pickling(pickle_path)
+    obj.pickling(pkl_path)
 
 # V: Ich weiß der Name ist etwas verwirrend, aber das ist so ziemlich der umgekehrte pickling-Prozess,
 # daher macht es irgendwo Sinn, finde ich :D
-def cori_cycling(pickle_path):
-    with open(pickle_path, "rb") as file:
+def cori_cycling(pkl_path):
+    with open(pkl_path, "rb") as file:
         return pickle.load(file)
 
 
@@ -97,8 +98,10 @@ class PolarDiagramException(Exception):
     # Hab hier aber im Endeffekt die Struktur aus deiner QuadraticFormException-Klasse kopiert
     def __init__(self,type, *args):
         message_dict = {
-            "Wrong dimension" : f"Expecting 2 dimensional array to be viewed as Polar Diagram Tableau,\n got {args[0]} dimensional array instead.",
-            "Wrong resolution" : f"Expecting resolution of type 'list' or 'int',\n got resolution of type {args[0]} instead",
+            "Wrong dimension" : "Expecting 2 dimensional array to be viewed as Polar Diagram Tableau," +
+                                f"\n got {args[0]} dimensional array instead.",
+            "Wrong resolution" : "Expecting resolution of type 'list' or 'int'," +
+                                 f"\n got resolution of type {args[0]} instead",
             "No data present" : f"Expecting to get new data to update",
             "Wrong shape" : f"Expecting array with shape {args[0]},\n got array with shape {args[1]} instead",
             "Wind speed not in resolution" : f"Expecting wind speed to be in {args[0]},\n got {args[1]} instead",
@@ -127,8 +130,8 @@ class PolarDiagram(ABC):
 
     # V: Da der Fermentationsprozess in jeder Klasse derselbe ist, hab ich das einfach in die Baseclass geschrieben.
     # Ich hoffe das geht so?
-    def pickling(self, pickle_path):
-        with open(pickle_path, "wb") as file:
+    def pickling(self, pkl_path):
+        with open(pkl_path, "wb") as file:
             pickle.dump(self, file)
 
 class PolarDiagramTable(PolarDiagram):
@@ -138,8 +141,8 @@ class PolarDiagramTable(PolarDiagram):
         #                                                "data"
         # Gibt es eine einfache Möglichkeit hier auch Sachen wie "speed resolution", "angle resolution" "boat speeds" oder
         # Abkürzungen wie "was" "wsr" "d" etc. zu unterstüzen?
-        if "wind angle resolution" in kwargs:
-            wind_angle_resolution = kwargs["wind angle resolution"]
+        if "wind_angle_resolution" in kwargs:
+            wind_angle_resolution = kwargs["wind_angle_resolution"]
             if isinstance(wind_angle_resolution, list):
                 self._resolution_wind_angle = wind_angle_resolution
             elif isinstance(wind_angle_resolution, int):
@@ -149,8 +152,8 @@ class PolarDiagramTable(PolarDiagram):
         else:
             self._resolution_wind_angle = list(np.arange(0,360,5))
 
-        if "wind speed resolution" in kwargs:
-            wind_speed_resolution = kwargs["wind speed resolution"]
+        if "wind_speed_resolution" in kwargs:
+            wind_speed_resolution = kwargs["wind_speed_resolution"]
             if isinstance(wind_speed_resolution, list):
                 self._resolution_wind_speed = wind_speed_resolution
             elif isinstance(wind_speed_resolution, int):
@@ -165,9 +168,11 @@ class PolarDiagramTable(PolarDiagram):
             if data.ndim != 2:
                 raise PolarDiagramException("Wrong dimension", data.ndim)
             if data.shape != (len(self._resolution_wind_angle), len(self._resolution_wind_speed)):
-                raise PolarDiagramException("Wrong shape",(self._resolution_wind_angle, self._resolution_wind_speed), data.shape)
-            else:
-                self._data = data
+                raise PolarDiagramException("Wrong shape",
+                                            (len(self._resolution_wind_angle), len(self._resolution_wind_speed)),
+                                            data.shape)
+
+            self._data = data
         else:
             self._data = np.zeros((len(self._resolution_wind_angle), len(self._resolution_wind_speed)))
 
@@ -202,66 +207,102 @@ class PolarDiagramTable(PolarDiagram):
             raise PolarDiagramException("No data present")
         data = kwargs["data"]
 
-        if "true wind speed" in kwargs:
-            true_wind_speed = kwargs["true wind speed"]
-
-            if "true wind angle" in kwargs:
-                true_wind_angle = kwargs["true wind angle"]
-
+        if "true_wind_speed" in kwargs:
+            true_wind_speed = kwargs["true_wind_speed"]
+            if "true_wind_angle" in kwargs:
+                true_wind_angle = kwargs["true_wind_angle"]
                 if isinstance(true_wind_speed, list) and isinstance(true_wind_angle, list):
                     raise PolarDiagramException("Multiple lists given", type(true_wind_speed), type(true_wind_angle))
 
-                elif len(list(true_wind_speed)) == 1 and len(list(true_wind_angle)) == 1:
+                elif not isinstance(true_wind_speed, list) and not isinstance(true_wind_angle, list):
                     if np.array(data).shape != ():
                         raise PolarDiagramException("Wrong shape", (), np.array(data).shape)
-                    self._data[true_wind_angle, true_wind_speed] = data
+                    try:
+                        ind1 = self._resolution_wind_angle.index(true_wind_angle)
+                    except:
+                        raise PolarDiagramException("Wind angle not in resolution", self._resolution_wind_angle,
+                                                    true_wind_angle)
+                    try:
+                        ind2 = self._resolution_wind_speed.index(true_wind_speed)
+                    except:
+                        raise PolarDiagramException("Wind speed not in resolution", self._resolution_wind_speed,
+                                                    true_wind_speed)
+                    self._data[ind1, ind2] = data
 
-                elif len(list(true_wind_speed)) == 1:
+                elif isinstance(true_wind_angle, list):
                     try:
                         ind = self._resolution_wind_speed.index(true_wind_speed)
                     except:
-                        raise PolarDiagramException("Wind speed not in resolution", self._resolution_wind_speed, true_wind_speed)
+                        raise PolarDiagramException("Wind speed not in resolution", self._resolution_wind_speed,
+                                                    true_wind_speed)
 
-                    ind_list = [i for i in len(self._resolution_wind_angle) if self._resolution_wind_angle[i] in true_wind_angle]
+                    ind_list = [i for i in len(self._resolution_wind_angle)
+                                if self._resolution_wind_angle[i] in true_wind_angle]
                     if len(ind_list) < len(true_wind_angle):
-                        raise PolarDiagramException("Wind angle not in resolution", self._resolution_wind_angle, true_wind_angle)
+                        raise PolarDiagramException("Wind angle not in resolution", self._resolution_wind_angle,
+                                                    true_wind_angle)
+
+                    data = np.array(data)
                     if data.shape != (len(ind_list),):
                         raise PolarDiagramException("Wrong shape", (len(ind_list), ), data.shape)
 
                     self._data[ind_list, ind] = data
 
-                elif len(list(true_wind_angle)) == 1:
+                elif isinstance(true_wind_speed, list):
                     try:
                         ind = self._resolution_wind_angle.index(true_wind_angle)
                     except:
-                        raise PolarDiagramException("Wind angle not in resolution", self._resolution_wind_angle, true_wind_angle)
+                        raise PolarDiagramException("Wind angle not in resolution", self._resolution_wind_angle,
+                                                    true_wind_angle)
 
-                    ind_list = [i for i in len(self._resolution_wind_speed) if self._resolution_wind_speed[i] in true_wind_speed]
+                    ind_list = [i for i in len(self._resolution_wind_speed)
+                                if self._resolution_wind_speed[i] in true_wind_speed]
 
                     if len(ind_list) < len(true_wind_speed):
-                        raise PolarDiagramException("Wind speed not in resolution", self._resolution_wind_speed, true_wind_speed)
+                        raise PolarDiagramException("Wind speed not in resolution", self._resolution_wind_speed,
+                                                    true_wind_speed)
 
+                    data = np.array(data)
                     if data.shape != (len(ind_list),):
                         raise PolarDiagramException("Wrong shape", (len(ind_list), ), data.shape)
 
                     self._data[ind, ind_list] = data
 
             else:
-                if data.shape != (self._resolution_wind_angle,):
-                    raise PolarDiagramException("Wrong shape", (self._resolution_wind_angle,), data.shape)
+                if isinstance(true_wind_speed,list):
+                    if len(true_wind_speed) > 1:
+                        raise PolarDiagramException("")
+                    else:
+                        true_wind_speed = true_wind_speed[0]
+                try:
+                    ind = self._resolution_wind_speed.index(true_wind_speed)
+                except:
+                    raise PolarDiagramException("Wind speed not in resolution", self._resolution_wind_speed,
+                                                true_wind_speed)
+                data = np.array(data)
+                if data.shape != (len(self._resolution_wind_angle),):
+                    raise PolarDiagramException("Wrong shape", (len(self._resolution_wind_angle),), data.shape)
 
-                self._data[:, true_wind_speed] = data
+                self._data[:, ind] = data
 
-        elif "true wind angle" in kwargs:
-            true_wind_angle = kwargs["true wind angle"]
+        elif "true_wind_angle" in kwargs:
+            true_wind_angle = kwargs["true_wind_angle"]
+            if isinstance(true_wind_angle, list):
+                if len(true_wind_angle) > 1:
+                    raise PolarDiagramException("")
+                else:
+                    true_wind_angle = true_wind_angle[0]
 
-            if true_wind_angle not in self._resolution_wind_angle:
+            try:
+                ind = self._resolution_wind_angle.index(true_wind_angle)
+            except:
                 raise PolarDiagramException("Wind angle not in resolution", self._resolution_wind_angle, true_wind_angle)
 
-            if data.shape != (self._resolution_wind_speed,):
-                raise PolarDiagramException("Wrong shape", (self._resolution_wind_speed,), data.shape)
+            data = np.array(data)
+            if data.shape != (len(self._resolution_wind_speed),):
+                raise PolarDiagramException("Wrong shape", (len(self._resolution_wind_speed),), data.shape)
 
-            self._data[true_wind_angle,:] = data
+            self._data[ind,:] = data
 
         else:
             raise PolarDiagramException("No entry specified")
@@ -284,7 +325,7 @@ class PolarDiagramTable(PolarDiagram):
         polar_plot.set_theta_zero_location('N')
         polar_plot.set_theta_direction('clockwise')
         polar_plot.plot(angles, boat_speed, **kwargs)
-        return polar_plot_diagram
+        return polar_plot
 
     def flat_plot_slice(self, slice, **kwargs):
         boat_speed = self.get_slice_data(slice)
@@ -305,7 +346,7 @@ class PolarDiagramTable(PolarDiagram):
         # V: Hat noch Macken. Siehe convex_hull_polar-Funktion
         slice_data = self.get_slice_data(slice)
         points =[[slice_data[i], self._resolution_wind_angle[i]] for i in range(len(slice_data))]
-        vert = sorted(convex_hull_polar(points.copy()))
+        vert = sorted(convex_hull_polar(points.copy()).vertices)
         wind_angles = []
         boat_speed = []
         for i in vert:
@@ -338,7 +379,7 @@ class PolarDiagramTable(PolarDiagram):
 
 class PolarDiagramCurve(PolarDiagram):
     # V: Noch in Arbeit
-    def __init__(self,data, f, *params):
+    def __init__(self, f, *params):
         # V: Hier noch mögliche Errorchecks?
         self._f = f
         self._params = params
