@@ -145,7 +145,7 @@ class PolarDiagramTable(PolarDiagram):
             wind_angle_resolution = kwargs["wind_angle_resolution"]
             if isinstance(wind_angle_resolution, list):
                 self._resolution_wind_angle = wind_angle_resolution
-            elif isinstance(wind_angle_resolution, int):
+            elif isinstance(wind_angle_resolution, int) or isinstance(wind_angle_resolution, float):
                 self._resolution_wind_angle = list(np.arange(0,360,wind_angle_resolution))
             else:
                 raise PolarDiagramException("Wrong resolution", type(wind_angle_resolution))
@@ -156,7 +156,7 @@ class PolarDiagramTable(PolarDiagram):
             wind_speed_resolution = kwargs["wind_speed_resolution"]
             if isinstance(wind_speed_resolution, list):
                 self._resolution_wind_speed = wind_speed_resolution
-            elif isinstance(wind_speed_resolution, int):
+            elif isinstance(wind_speed_resolution, int) or isinstance(wind_speed_resolution, float):
                 self._resolution_wind_speed = list(np.arange(2,42,wind_speed_resolution))
             else:
                 raise PolarDiagramException("Wrong resolution", type(wind_speed_resolution))
