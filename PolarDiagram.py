@@ -128,8 +128,6 @@ class PolarDiagram(ABC):
     def to_csv(self, csv_path):
         pass
 
-    # V: Da der Fermentationsprozess in jeder Klasse derselbe ist, hab ich das einfach in die Baseclass geschrieben.
-    # Ich hoffe das geht so?
     def pickling(self, pkl_path):
         with open(pkl_path, "wb") as file:
             pickle.dump(self, file)
@@ -271,7 +269,19 @@ class PolarDiagramTable(PolarDiagram):
             else:
                 if isinstance(true_wind_speed,list):
                     if len(true_wind_speed) > 1:
-                        raise PolarDiagramException("")
+                        ind_list = [i for i in len(self._resolution_wind_speed)
+                                    if self._resolution_wind_speed[i] in true_wind_speed]
+
+                        if len(ind_list) < len(true_wind_speed):
+                            raise PolarDiagramException("Wind speed not in resolution", self._resolution_wind_speed,
+                                                    true_wind_speed)
+
+                        data = np.array(data)
+                        if data.shape != (len(ind_list),):
+                            raise PolarDiagramException("Wrong shape", (len(ind_list),), data.shape)
+
+                        self._data[:, ind_list] = data
+
                     else:
                         true_wind_speed = true_wind_speed[0]
                 try:
@@ -289,7 +299,18 @@ class PolarDiagramTable(PolarDiagram):
             true_wind_angle = kwargs["true_wind_angle"]
             if isinstance(true_wind_angle, list):
                 if len(true_wind_angle) > 1:
-                    raise PolarDiagramException("")
+                    ind_list = [i for i in len(self._resolution_wind_angle)
+                                if self._resolution_wind_angle[i] in true_wind_angle]
+                    if len(ind_list) < len(true_wind_angle):
+                        raise PolarDiagramException("Wind angle not in resolution", self._resolution_wind_speed,
+                                                    true_wind_angle)
+
+                    data = np.array(data)
+                    if data.shape != (len(ind_list),):
+                        raise PolarDiagramException("Wrong shape", (len(ind_list),), data.shape)
+
+                    self._data[:, ind_list] = data
+
                 else:
                     true_wind_angle = true_wind_angle[0]
 
@@ -305,9 +326,17 @@ class PolarDiagramTable(PolarDiagram):
             self._data[ind,:] = data
 
         else:
-            raise PolarDiagramException("No entry specified")
+            # V: Hier hab ich es jetzt so gemacht, dass wenn jemand keine Entries spezifiziert, geguckt wird, ob die
+            # übergebenen Daten die richtige Größe haben ( genau die Größe von self._data ) und falls das so ist
+            # self._data komplett überschrieben wird.
+            # Weiß aber nicht ob das so eine gute Idee ist, oder ob man nicht besser zumindest noch eine Warnung ausgibt?
+            data = np.array(data)
+            if data.shape != (len(self._resolution_wind_angle), len(self._resolution_wind_speed)):
+                raise PolarDiagramException("Wrong shape",
+                                            (len(self._resolution_wind_angle), len(self._resolution_wind_speed)),
+                                            data.shape)
 
-
+            self._data = data
 
     def get_slice_data(self,slice):
         try:
@@ -373,6 +402,11 @@ class PolarDiagramTable(PolarDiagram):
         table = np.c_[self._resolution_wind_angle, self._data]
         tab = tabulate(table, headers=["TWA \ TWS"] + self._resolution_wind_speed)
         return tab
+
+    # V: Weiß nicht ob wir sowas hier haben wollen,
+    # falls man die Tabelle irgendwie komplett mal irgendwas nehmen will
+    #def __mul__(self, other):
+    #    return other * self._data
 
     #def __iter__(self):
 
