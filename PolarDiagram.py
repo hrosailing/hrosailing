@@ -207,6 +207,7 @@ class PolarDiagramTable(PolarDiagram):
         #                                                "data"
         # Gibt es eine einfache Möglichkeit hier auch Sachen wie "speed resolution", "angle resolution" "boat speeds" oder
         # Abkürzungen wie "was" "wsr" "d" etc. zu unterstüzen?
+        # matplotlib -> Cookbook -> define_aliases?
         if "wind_angle_resolution" in kwargs:
             wind_angle_resolution = kwargs["wind_angle_resolution"]
             if isinstance(wind_angle_resolution, list):
@@ -262,9 +263,16 @@ class PolarDiagramTable(PolarDiagram):
             for row in self._data:
                 csv_writer.writerow(row)
 
+    # V: Damit man das Array mit den Boatspeeds extrahieren kann. Technisch gesehen auch die einzige
+    # "Größe" die nach der Erstellung verändert werden kann, oder wollen wir es möglich machen, dass
+    # man die wind speed und wind angle resolution im Nachhinein auch verändern kann?
+    # Würde glaube ich ein paar Probleme machen, da dann möglicherweise die Größe des data-arrays nicht mehr hinhaut
+    # Allerdings könnte man es vielleicht so machen, dass man die Einträge innerhalb der Liste verändern kann
+    # Wenn man z.B nicht mehr wirklich interessiert ist an dem wind angle 135, dafür aber brennend an den
+    # wind angle 132 oder so
+    # -> Mehr Customizability
     def data(self):
         return self._data
-
 
     # V: Noch in Arbeit.
     def change_entry(self, **kwargs):
@@ -374,7 +382,6 @@ class PolarDiagramTable(PolarDiagram):
                     ind_list = [i for i in len(self._resolution_wind_angle)
                                 if self._resolution_wind_angle[i] in true_wind_angle]
                     if len(ind_list) < len(true_wind_angle):
-                        polardiagram_logger.error(f"{true_wind_angle} raised an error")
                         raise PolarDiagramException("Wind angle not in resolution", self._resolution_wind_speed,
                                                     true_wind_angle)
 
@@ -413,17 +420,17 @@ class PolarDiagramTable(PolarDiagram):
             self._data = data
 
 
-    def get_slice_data(self,slice):
+    def get_slice_data(self,true_wind_speed):
         try:
-            column = self._resolution_wind_speed.index(slice)
+            column = self._resolution_wind_speed.index(true_wind_speed)
             return self._data[:,column]
         except:
             raise PolarDiagramException("Wind speed not in resolution", self._resolution_wind_speed, slice)
 
-    def polar_plot_slice(self, slice, **kwargs):
-        boat_speed = self.get_slice_data(slice)
+    def polar_plot_slice(self, true_wind_speed, **kwargs):
+        boat_speed = self.get_slice_data(true_wind_speed)
         angles = [np.radians(a) for a in self._resolution_wind_angle]
-        if all(boat_speed == np.zeros(self._resolution_wind_angle,)):
+        if all(boat_speed == np.zeros(len(self._resolution_wind_angle),)):
             polardiagram_logger.info("The to be plotted slice has no non-zero data")
 
         polar_plot = plt.subplot(1, 1, 1, projection='polar')
@@ -431,9 +438,9 @@ class PolarDiagramTable(PolarDiagram):
         polar_plot.set_theta_direction('clockwise')
         return polar_plot.plot(angles, boat_speed, **kwargs)
 
-    def flat_plot_slice(self, slice, **kwargs):
-        boat_speed = self.get_slice_data(slice)
-        if all(boat_speed == np.zeros(self._resolution_wind_angle, )):
+    def flat_plot_slice(self, true_wind_speed, **kwargs):
+        boat_speed = self.get_slice_data(true_wind_speed)
+        if all(boat_speed == np.zeros(len(self._resolution_wind_angle), )):
             polardiagram_logger.info("The to be plotted slice has no non-zero data")
 
         flat_plot = plt.subplot(1,1,1)
@@ -446,9 +453,9 @@ class PolarDiagramTable(PolarDiagram):
         # auch, wenn möglich, der konvexen Hülle zu bekommen?
         # -> majavi verwenden?
 
-    def plot_convex_hull_slice(self, slice, **kwargs):
+    def plot_convex_hull_slice(self, true_wind_speed, **kwargs):
         # V: Hat noch Macken. Siehe convex_hull_polar-Funktion
-        slice_data = self.get_slice_data(slice)
+        slice_data = self.get_slice_data(true_wind_speed)
         if all(slice_data == np.zeros(self._resolution_wind_angle)):
             polardiagram_logger.info("Slice has no non-zero data. Convex hull and plot will be trivial")
         points =[[slice_data[i], self._resolution_wind_angle[i]] for i in range(len(slice_data))]
@@ -467,9 +474,15 @@ class PolarDiagramTable(PolarDiagram):
 
     def plot_convex_hull_3d(self, **kwargs):
         # V: Funktion zum Plotten der konvexen Hülle des 3d-Polardiagrams
+        pass
 
+
+    # V: Soll das hier überhaupt eine Interne Methode sein? Ist ja weniger Visualisierung, Konvertierung,
+    # Erstellung und Interpretation von Polardiagrammen
     def find_cross_course(self,**kwargs):
         # V: Normalenvektoren von Facetten gebrauchen?
+        pass
+
 
     def __str__(self):
         # V: Gibt eine Tabelle mit den Zeilen und Spaltenbezeichnungen
@@ -484,7 +497,7 @@ class PolarDiagramCurve(PolarDiagram):
     # V: Noch in Arbeit
     def __init__(self, f, *params, **kwargs):
         # V: Hier noch mögliche Errorchecks?
-        #self._wind_speed = ...
+        #self._resolution_wind_speed = ...
         # Wir sollten vielleicht eine Liste von Funktionen und Parametern abspeichern die zu bestimmten
         # Windgeschwindigkeiten passen, oder?
         self._f = f
@@ -494,16 +507,20 @@ class PolarDiagramCurve(PolarDiagram):
     def to_csv(self,csv_path):
         # V: Das Format der .csv-Dateien ist
         # PolarDiagramCurve
+        ## Wind speed resolution:
+        ## self._resolution_wind_speed
         # Function:
         # self._f
         # Parameters:
         # self._params
-        with open(csv_path, "w", newline = '') as file:
+        with open(csv_path, 'w', newline = '') as file:
             csv_writer = csv.writer(file, delimiter = ',', quotechar = '"')
-            csv_writer.writerow(['PolarDiagramCurve'])
-            csv_writer.writerow(['Function:'])
+            csv_writer.writerow(["PolarDiagramCurve"])
+            #csv_writer.writerow(["Wind speed resolution:"])
+            #csv_writer.writerow(list(self._resolution_wind_speed))
+            csv_writer.writerow(["Function:"])
             csv_writer.writerow(["""self._f"""])
-            csv_writer.writerow(['Parameters:'])
+            csv_writer.writerow(["Parameters:"])
             csv_writer.writerow(list(self._params))
 
     # V: Noch in Arbeit
@@ -541,14 +558,14 @@ class PolarDiagramPointcloud(PolarDiagram):
         # PolarDiagramPointcloud
         # True Wind Speed: ,True Wind Angle: , Boat Speed:
         # self._data
-        with open(csv_path, "w", newline='') as file:
+        with open(csv_path, 'w', newline='') as file:
             csv_writer = csv.writer(file, delimiter=',', quotechar='"')
-            csv_writer.writerow(['PolarDiagramPointCloud'])
-            csv_writer.writerow(['True Wind Speed: ', 'True Wind Angle: ', 'Boat Speed: '])
+            csv_writer.writerow(["PolarDiagramPointCloud"])
+            csv_writer.writerow(["True Wind Speed: ", "True Wind Angle: ", "Boat Speed: "])
             for row in self._data:
                 csv_writer.writerow(row)
 
-    def polar_plot_slice(self, slice, **kwargs):
+    def polar_plot_slice(self, true_wind_speed, **kwargs):
         # V: Hier fange ich ab, das der User möglicherweise linestyle bzw. linewidth in den keywords hat.
         # Damit man auch wirklich eine PUNKT-Wolke plottet.
         # Sollte so funktionieren, sicher bin ich mir nicht.
@@ -564,7 +581,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             except:
                 del kwargs["lw"]
 
-        points = [[np.radians(point[1]), point[2]] for point in self._data if point[0] == slice]
+        points = [[np.radians(point[1]), point[2]] for point in self._data if point[0] == true_wind_speed]
         # V: Warning if points = []
         wind_angles = []
         boat_speeds = []
@@ -577,7 +594,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         polar_plot.plot(wind_angles, boat_speeds, **kwargs)
         return polar_plot
 
-    def flat_plot_slice(self, slice, **kwargs):
+    def flat_plot_slice(self, true_wind_speed, **kwargs):
         # V: Hier fange ich ab, das der User möglicherweise linestyle bzw. linewidth in den keywords hat
         # Damit man auch wirklich eine PUNKT-Wolke plottet
         # Sollte so funktionieren, sicher bin ich mir nicht
@@ -592,7 +609,7 @@ class PolarDiagramPointcloud(PolarDiagram):
                 del kwargs["linewidth"]
             except:
                 del kwargs["lw"]
-        points = [[point[1], point[2]] for point in self._data if point[0] == slice]
+        points = [[point[1], point[2]] for point in self._data if point[0] == true_wind_speed]
         # V: Warning if points = []
         wind_angles = []
         boat_speeds = []
@@ -606,11 +623,13 @@ class PolarDiagramPointcloud(PolarDiagram):
         return flat_plot
 
 
+    def plot_convex_hull_slice(self, true_wind_speed, **kwargs):
 
 
 
-   # def plot_3d(self):
+    def plot_3d(self):
         # V: Funktion zum 3d-plotten der Punktwolke.
+        pass
 
     def __str__(self):
         # V: Gibt Tabelle mit 3 Spalten und allen Punkten zurück
