@@ -1,5 +1,6 @@
 import csv
 import logging
+import sys
 import pickle
 import numpy as np
 import matplotlib.pyplot as plt
@@ -9,11 +10,82 @@ from scipy.spatial import ConvexHull
 
 
 # V: Ich werde noch schauen müssen, wo ich alles logging verwende. Kommt aber noch
-logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
+logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s', level=logging.INFO)
+LOG_FILE = "PolarDiagram.log"
+
+polardiagram_logger = logging.getLogger("__name__")
+console_handler = logging.StreamHandler(sys.stdout)
+file_handler = logging.handlers.TimedRotatingFileHandler(LOG_FILE, when = 'midnight')
+polardiagram_logger.addHandler(console_handler)
+polardiagram_logger.setLevel(logging.DEBUG)
+
 
 # V: Noch in Arbeit
-def convert(object, type):
-    pass
+def convert(object, type, **kwargs):
+    # V: Die kwargs sollen hier verschiedenen Spezifikationen dienen. Wenn man zum Beispiel nur bestimmte
+    # Punkte der PolarDiagramPointCloud für ein PolarDiagramTable verwenden will, kann man die wind_speed_resolution
+    # und wind_angle_resolution selber festlegen und dann werden nur die Punkte betrachtet, die darauf passen.
+    # Weiß aber nicht ob das ne gute Idee / notwendige Sache ist
+
+    type_object = type(object)
+    # V: Hier wird geprüft ob das object schon den gewünschten type hat. Wenn ja wird einfach das object unverändert
+    # zurückgegeben
+    if type_object == type:
+        return object
+
+    # V: Gibt es eine guten Weg die verschiedenen Fälle abzuklappern ohne 6 if-Bedingungen oder ist das der beste Weg?
+    if type_object is PolarDiagramTable and type is PolarDiagramPointcloud:
+        wind_speed = object._resolution_wind_speed
+        wind_angle = object._resolution_wind_angle
+        boat_speed = object.data
+        points = []
+        for tws in wind_speed:
+            for twa in wind_angle:
+                ind1 = wind_angle.index(twa)
+                ind2 = wind_speed.index(tws)
+                bsp = boat_speed[ind1,ind2]
+                points.append([tws,twa,bsp])
+
+        return PolarDiagramPointcloud(points)
+
+
+    if type_object is PolarDiagramPointcloud and type is PolarDiagramTable:
+        points = object._data
+        if "wind_speed_resolution" in kwargs:
+            wind_speed_resolution = kwargs["wind_speed_resolution"]
+        else:
+            wind_speed_resolution = list(dict.fromkeys(points[:,0]))
+
+        if "wind_angle_resolution" in kwargs:
+            wind_angle_resolution = kwargs["wind_angle_resolution"]
+        else:
+            wind_angle_resolution = list(dict.fromkeys(points[:,1]))
+
+        data = np.zeros(len(wind_angle_resolution), len(wind_speed_resolution))
+        for row in points:
+            ind1 = wind_angle_resolution.index(row[1])
+            ind2 = wind_speed_resolution.index(row[0])
+            data[ind1,ind2] = row[2]
+
+        return PolarDiagramTable(wind_speed_resolution = wind_speed_resolution,
+                                 wind_angle_resolution = wind_angle_resolution,
+                                 data = data)
+
+
+    if type_object is PolarDiagramTable and type is PolarDiagramCurve:
+        pass
+
+
+    if type_object is PolarDiagramCurve and type is PolarDiagramTable:
+        pass
+
+
+    if type_object is PolarDiagramPointcloud and type is PolarDiagramCurve:
+        pass
+
+
+    if type_object is PolarDiagramCurve and type is PolarDiagramPointcloud:
+        pass
 
 
 def convex_hull_polar(points):
@@ -42,19 +114,19 @@ def convex_hull_polar(points):
     return ConvexHull(points)
 
 def to_csv(csv_path, obj):
-    # V: Funktion ruft einfach die jeweils interne Funktion des Objekts auf -> Nutzerfreundlichkeit?
+    # V: Funktion ruft die jeweils interne Funktion des Objekts auf -> Nutzerfreundlichkeit?
     obj.to_csv(csv_path)
 
 
-# V: Hauptsächlich nicht benutzt. .csv-Datein dienen eher der menschlichen Lesbarkeit. Für Speichern und Laden von Daten
-# eher pickling und cori_cycling benutzen
+# V: Hauptsächlich nicht benutzt. .csv-Datein dienen eher der menschlichen Lesbarkeit.
+# Für Speichern und Laden von Daten eher pickling und cori_cycling benutzen
 def from_csv(csv_path):
     with open(csv_path, "r", newline = '') as file:
         csv_reader = csv.reader(file, delimiter = ',', quotechar = '"')
         # V: Die csv-Files werden in den to_csv-Funktionen so geschrieben, dass die
         # erste Zeile den Typ (PolarDiagramTable, PolarDiagramPointCloud) enthält
         # Dann wird hier anhand der ersten Zeile entschieden, was für ein PolarDiagram erstellt wird
-        # Kann nur PolarDiagramTable- und PolarDiagramPointCloud-Objekte erstellen
+        # Kann bisher nur PolarDiagramTable- und PolarDiagramPointCloud-Objekte erstellen
         # Für PolarDiagramCurve (aber auch für die anderen) ist cori_cycling zu verwenden
         row1 = next(csv_reader)[0]
         if row1 == 'PolarDiagramTable':
@@ -81,7 +153,7 @@ def from_csv(csv_path):
 
 
 def pickling(pkl_path, obj):
-    #V: Funktion ruft einfach die jeweils interne Funktion des Objekts auf -> Nutzerfreundlichkeit?
+    #V: Funktion ruft die jeweils interne Funktion des Objekts auf -> Nutzerfreundlichkeit?
     obj.pickling(pkl_path)
 
 # V: Ich weiß der Name ist etwas verwirrend, aber das ist so ziemlich der umgekehrte pickling-Prozess,
@@ -105,8 +177,8 @@ class PolarDiagramException(Exception):
             "No data present" : f"Expecting to get new data to update",
             "Wrong shape" : f"Expecting array with shape {args[0]},\n got array with shape {args[1]} instead",
             "Wind speed not in resolution" : f"Expecting wind speed to be in {args[0]},\n got {args[1]} instead",
-            "No entry specified" : f"Expecting to get an entry to update",
-            "Wind angle not in resolution" : f"Expecting wind angle to be in {args[0]},\n got {args[1]} instead"
+            "Wind angle not in resolution" : f"Expecting wind angle to be in {args[0]},\n got {args[1]} instead",
+            "No entry specified" : f"Expecting to get an entry to update"
         }
         if type in message_dict:
             super().__init__(message_dict[type])
@@ -119,10 +191,6 @@ class PolarDiagram(ABC):
     @abstractmethod
     def __str__(self):
         pass
-
-    #@abstractmethod
-    #def __iter__(self):
-    #    pass
 
     @abstractmethod
     def to_csv(self, csv_path):
@@ -162,7 +230,7 @@ class PolarDiagramTable(PolarDiagram):
             self._resolution_wind_speed = list(np.arange(2,42,2))
 
         if "data" in kwargs:
-            data = kwargs["data"]
+            data = np.array(kwargs["data"])
             if data.ndim != 2:
                 raise PolarDiagramException("Wrong dimension", data.ndim)
             if data.shape != (len(self._resolution_wind_angle), len(self._resolution_wind_speed)):
@@ -193,6 +261,10 @@ class PolarDiagramTable(PolarDiagram):
             csv_writer.writerow(["Boat speeds:"])
             for row in self._data:
                 csv_writer.writerow(row)
+
+    def data(self):
+        return self._data
+
 
     # V: Noch in Arbeit.
     def change_entry(self, **kwargs):
@@ -302,6 +374,7 @@ class PolarDiagramTable(PolarDiagram):
                     ind_list = [i for i in len(self._resolution_wind_angle)
                                 if self._resolution_wind_angle[i] in true_wind_angle]
                     if len(ind_list) < len(true_wind_angle):
+                        polardiagram_logger.error(f"{true_wind_angle} raised an error")
                         raise PolarDiagramException("Wind angle not in resolution", self._resolution_wind_speed,
                                                     true_wind_angle)
 
@@ -317,7 +390,8 @@ class PolarDiagramTable(PolarDiagram):
             try:
                 ind = self._resolution_wind_angle.index(true_wind_angle)
             except:
-                raise PolarDiagramException("Wind angle not in resolution", self._resolution_wind_angle, true_wind_angle)
+                raise PolarDiagramException("Wind angle not in resolution", self._resolution_wind_angle,
+                                            true_wind_angle)
 
             data = np.array(data)
             if data.shape != (len(self._resolution_wind_speed),):
@@ -338,6 +412,7 @@ class PolarDiagramTable(PolarDiagram):
 
             self._data = data
 
+
     def get_slice_data(self,slice):
         try:
             column = self._resolution_wind_speed.index(slice)
@@ -348,23 +423,23 @@ class PolarDiagramTable(PolarDiagram):
     def polar_plot_slice(self, slice, **kwargs):
         boat_speed = self.get_slice_data(slice)
         angles = [np.radians(a) for a in self._resolution_wind_angle]
-        #if all(boat_speed == np.zeros(self._resolution_wind_angle,)) is True:
-        #    raise Exception("No data was available")
+        if all(boat_speed == np.zeros(self._resolution_wind_angle,)):
+            polardiagram_logger.info("The to be plotted slice has no non-zero data")
+
         polar_plot = plt.subplot(1, 1, 1, projection='polar')
         polar_plot.set_theta_zero_location('N')
         polar_plot.set_theta_direction('clockwise')
-        polar_plot.plot(angles, boat_speed, **kwargs)
-        return polar_plot
+        return polar_plot.plot(angles, boat_speed, **kwargs)
 
     def flat_plot_slice(self, slice, **kwargs):
         boat_speed = self.get_slice_data(slice)
-        #if all(boat_speed == np.zeros(self._resolution_wind_angle,)) is True:
-        #    raise Exception("No data was available")
+        if all(boat_speed == np.zeros(self._resolution_wind_angle, )):
+            polardiagram_logger.info("The to be plotted slice has no non-zero data")
+
         flat_plot = plt.subplot(1,1,1)
-        flat_plot.plot(self._resolution_wind_angle, boat_speed,**kwargs)
-        plt.xlabel('True Wind Angle')
-        plt.ylabel('Boat Speed')
-        return flat_plot
+        plt.xlabel("True Wind Angle")
+        plt.ylabel("Boat Speed")
+        return flat_plot.plot(self._resolution_wind_angle, boat_speed,**kwargs)
 
     def plot_3d(self):
         # V: Erstmal nur das Konzept einer Funktion, um eine 3d-Darstellung der Slices, beziehungsweise
@@ -374,6 +449,8 @@ class PolarDiagramTable(PolarDiagram):
     def plot_convex_hull_slice(self, slice, **kwargs):
         # V: Hat noch Macken. Siehe convex_hull_polar-Funktion
         slice_data = self.get_slice_data(slice)
+        if all(slice_data == np.zeros(self._resolution_wind_angle)):
+            polardiagram_logger.info("Slice has no non-zero data. Convex hull and plot will be trivial")
         points =[[slice_data[i], self._resolution_wind_angle[i]] for i in range(len(slice_data))]
         vert = sorted(convex_hull_polar(points.copy()).vertices)
         wind_angles = []
@@ -385,8 +462,7 @@ class PolarDiagramTable(PolarDiagram):
         convex_hull_plot = plt.subplot(1,1,1, projection = 'polar')
         convex_hull_plot.set_theta_zero_location('N')
         convex_hull_plot.set_theta_direction('clockwise')
-        convex_hull_plot.plot(wind_angles, boat_speed, **kwargs)
-        return convex_hull_plot
+        return convex_hull_plot.plot(wind_angles, boat_speed, **kwargs)
 
 
     def plot_convex_hull_3d(self, **kwargs):
@@ -403,18 +479,14 @@ class PolarDiagramTable(PolarDiagram):
         tab = tabulate(table, headers=["TWA \ TWS"] + self._resolution_wind_speed)
         return tab
 
-    # V: Weiß nicht ob wir sowas hier haben wollen,
-    # falls man die Tabelle irgendwie komplett mal irgendwas nehmen will
-    #def __mul__(self, other):
-    #    return other * self._data
-
-    #def __iter__(self):
-
 
 class PolarDiagramCurve(PolarDiagram):
     # V: Noch in Arbeit
-    def __init__(self, f, *params):
+    def __init__(self, f, *params, **kwargs):
         # V: Hier noch mögliche Errorchecks?
+        #self._wind_speed = ...
+        # Wir sollten vielleicht eine Liste von Funktionen und Parametern abspeichern die zu bestimmten
+        # Windgeschwindigkeiten passen, oder?
         self._f = f
         self._params = params
 
@@ -435,22 +507,38 @@ class PolarDiagramCurve(PolarDiagram):
             csv_writer.writerow(list(self._params))
 
     # V: Noch in Arbeit
+    def polar_plot_slice(self, true_wind_speed, **kwargs):
+
+        polar_plot = plt.subplot(1,1,1, projection = 'polar')
+        polar_plot.set_theta_zero_location('N')
+        polar_plot.set_theta_direction('clockwise')
+        return polar_plot.plot(self._f,**kwargs)
+
+    # V: Noch in Arbeit
+    def flat_plot_slice(self, true_wind_speed, **kwargs):
+
+        flat_plot = plt.subplot(1,1,1)
+        plt.xlabel("True Wind Angle")
+        plt.ylabel("Boat Speed")
+
+        return flat_plot(self._f, **kwargs)
+
+    # V: Noch in Arbeit
     def __str__(self):
         # V: Weiß nicht ob das so geprinted werden soll. Die andere Idee wäre das der Print ein Plot der Funktion ist?
         # Das man sozusagen die curve sieht, aber dafür bräuchte ich dann ja data?
         return f"Function {self._f} with optimal parameters {self._params}"
 
-    #def __iter__(self):
 
-class PolarDiagramPointCloud(PolarDiagram):
+class PolarDiagramPointcloud(PolarDiagram):
     def __init__(self, data = np.array([[0,0,0]])):
         if len(data[0]) != 3:
             raise PolarDiagramException("Wrong shape", (len(data[0], "x"), (3, "x")))
-        self._data = data
+        self._data = np.array(data)
 
     def to_csv(self,csv_path):
         # V: Das Format der .cvs-Dateien ist
-        # PolarDiagramPointCloud
+        # PolarDiagramPointcloud
         # True Wind Speed: ,True Wind Angle: , Boat Speed:
         # self._data
         with open(csv_path, "w", newline='') as file:
@@ -518,12 +606,12 @@ class PolarDiagramPointCloud(PolarDiagram):
         return flat_plot
 
 
+
+
+
    # def plot_3d(self):
         # V: Funktion zum 3d-plotten der Punktwolke.
 
     def __str__(self):
         # V: Gibt Tabelle mit 3 Spalten und allen Punkten zurück
         return tabulate(self._data, headers = ["TWS", "TWA", "BSP"])
-
-
-    #def __iter__(self):
