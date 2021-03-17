@@ -1,5 +1,5 @@
 import csv
-import logging
+import logging, logging.handlers
 import sys
 import pickle
 import numpy as np
@@ -452,6 +452,7 @@ class PolarDiagramTable(PolarDiagram):
         # V: Erstmal nur das Konzept einer Funktion, um eine 3d-Darstellung der Slices, beziehungsweise
         # auch, wenn möglich, der konvexen Hülle zu bekommen?
         # -> majavi verwenden?
+        pass
 
     def plot_convex_hull_slice(self, true_wind_speed, **kwargs):
         # V: Hat noch Macken. Siehe convex_hull_polar-Funktion
@@ -624,8 +625,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
 
     def plot_convex_hull_slice(self, true_wind_speed, **kwargs):
-
-
+        pass
 
     def plot_3d(self):
         # V: Funktion zum 3d-plotten der Punktwolke.
