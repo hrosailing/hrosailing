@@ -99,7 +99,7 @@ def to_csv(csv_path, obj):
 # V: Hauptsächlich nicht benutzt. .csv-Datein dienen eher der menschlichen Lesbarkeit.
 # Für Speichern und Laden von Daten eher pickling und depickling benutzen
 def from_csv(csv_path):
-    with open(csv_path, "r", newline='') as file:
+    with open(csv_path, 'r', newline='') as file:
         csv_reader = csv.reader(file, delimiter=',', quotechar='"')
         # V: Die csv-Files werden in den to_csv-Funktionen so geschrieben, dass die
         # erste Zeile den Typ (PolarDiagramTable, PolarDiagramPointCloud) enthält
@@ -107,7 +107,7 @@ def from_csv(csv_path):
         # Kann bisher nur PolarDiagramTable- und PolarDiagramPointCloud-Objekte erstellen
         # Für PolarDiagramCurve (aber auch für die anderen) ist cori_cycling zu verwenden
         row1 = next(csv_reader)[0]
-        if row1 == 'PolarDiagramTable':
+        if row1 == "PolarDiagramTable":
             next(csv_reader)
             wind_speed_resolution = [eval(s) for s in next(csv_reader)]
             if len(wind_speed_resolution) == 1:
@@ -122,7 +122,7 @@ def from_csv(csv_path):
                 data.append([eval(entry) for entry in row])
             return PolarDiagramTable(data=np.array(data), wind_angle_resolution=wind_angle_resolution,
                                      wind_speed_resolution=wind_speed_resolution)
-        elif row1 == 'PolarDiagramPointcloud':
+        elif row1 == "PolarDiagramPointcloud":
             next(csv_reader)
             data = []
             for row in csv_reader:
@@ -136,7 +136,7 @@ def pickling(pkl_path, obj):
 
 
 def depickling(pkl_path):
-    with open(pkl_path, "rb") as file:
+    with open(pkl_path, 'rb') as file:
         return pickle.load(file)
 
 # def polar_diagram_from_data(, **kwargs):
@@ -239,9 +239,9 @@ class PolarDiagramTable(PolarDiagram):
         # self._resolution_wind_angle
         # Boat speeds:
         # self._data
-        with open(csv_path, "w", newline='') as file:
+        with open(csv_path, 'w', newline='') as file:
             csv_writer = csv.writer(file, delimiter=',', quotechar='"')
-            csv_writer.writerow(['PolarDiagramTable'])
+            csv_writer.writerow(["PolarDiagramTable"])
             csv_writer.writerow(["Wind speed resolution:"])
             csv_writer.writerow(list(self._resolution_wind_speed))
             csv_writer.writerow(["Wind angle resolution:"])
@@ -261,7 +261,6 @@ class PolarDiagramTable(PolarDiagram):
         return self._resolution_wind_speed
 
     @property
-    # Weiß nicht ob das eine gute Idee ist
     def boat_speeds(self):
         return self._data
 
@@ -497,6 +496,18 @@ class PolarDiagramCurve(PolarDiagram):
         self._f = f
         self._params = params
 
+    # @property
+    # def wind_speeds(self):
+    #     return self._resolution_wind_speed
+
+    @property
+    def curve(self):
+        return self._f
+
+    @property
+    def parameters(self):
+        return self._params
+
     # V: Noch in Arbeit
     def to_csv(self, csv_path):
         # V: Das Format der .csv-Dateien ist
@@ -513,7 +524,7 @@ class PolarDiagramCurve(PolarDiagram):
             # csv_writer.writerow(["Wind speed resolution:"])
             # csv_writer.writerow(list(self._resolution_wind_speed))
             csv_writer.writerow(["Function:"])
-            csv_writer.writerow(["""self._f"""])
+            csv_writer.writerow(["self._f"])
             csv_writer.writerow(["Parameters:"])
             csv_writer.writerow(list(self._params))
 
@@ -558,17 +569,17 @@ class PolarDiagramPointcloud(PolarDiagram):
             for row in self._data:
                 csv_writer.writerow(row)
 
-    @property
-    def wind_speeds(self):
-        return list(dict.fromkeys(self._data[:, 0]))
+    # @property
+    # def wind_speeds(self):
+    #     return list(dict.fromkeys(self._data[:, 0]))
 
-    @property
-    def wind_angles(self):
-        return list(dict.fromkeys(self._data[:, 1]))
+    # @property
+    # def wind_angles(self):
+    #     return list(dict.fromkeys(self._data[:, 1]))
 
-    @property
-    def boat_speed(self):
-        return list(dict.fromkeys(self._data[:, 2]))
+    # @property
+    # def boat_speed(self):
+    #     return list(dict.fromkeys(self._data[:, 2]))
 
     @property
     def get_points(self):
@@ -627,8 +638,8 @@ class PolarDiagramPointcloud(PolarDiagram):
             boat_speeds.append(point[1])
         flat_plot = plt.subplot(1, 1, 1)
         flat_plot.plot(wind_angles, boat_speeds, **kwargs)
-        plt.xlabel('True Wind Angle')
-        plt.ylabel('Boat Speed')
+        plt.xlabel("True Wind Angle")
+        plt.ylabel("Boat Speed")
         return flat_plot
 
     def plot_convex_hull_slice(self, true_wind_speed, **kwargs):
