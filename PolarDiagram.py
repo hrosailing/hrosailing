@@ -558,17 +558,17 @@ class PolarDiagramPointcloud(PolarDiagram):
             for row in self._data:
                 csv_writer.writerow(row)
 
-    # @property
-    # def wind_speeds(self):
-    #     return list(dict.fromkeys(self._data[:, 0]))
+    @property
+    def wind_speeds(self):
+        return list(dict.fromkeys(self._data[:, 0]))
 
-    # @property
-    # def wind_angles(self):
-    #     return list(dict.fromkeys(self._data[:, 1]))
+    @property
+    def wind_angles(self):
+        return list(dict.fromkeys(self._data[:, 1]))
 
-    # @property
-    # def boat_speed(self):
-    #     return list(dict.fromkeys(self._data[:, 2]))
+    @property
+    def boat_speed(self):
+        return list(dict.fromkeys(self._data[:, 2]))
 
     @property
     def get_points(self):
