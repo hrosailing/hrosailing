@@ -1,11 +1,12 @@
+# import collections
 import csv
 # import logging
 # import logging.handlers
-# import sys
 import pickle
-from abc import ABC, abstractmethod
+# import sys
 import matplotlib.pyplot as plt
 import numpy as np
+from abc import ABC, abstractmethod
 from scipy.spatial import ConvexHull
 from tabulate import tabulate
 
@@ -20,92 +21,64 @@ from tabulate import tabulate
 # polardiagram_logger.addHandler(console_handler)
 # polardiagram_logger.setLevel(logging.DEBUG)
 
+# V: Noch in Arbeit
+# def polar_diagram_from_data(, **kwargs):
 
 # V: Noch in Arbeit
-def convert(obj, convert_type, **kwargs):
-    # V: Die kwargs sollen hier verschiedenen Spezifikationen dienen. Wenn man zum Beispiel nur bestimmte
-    # Punkte der PolarDiagramPointCloud für ein PolarDiagramTable verwenden will, kann man die wind_speed_resolution
-    # und wind_angle_resolution selber festlegen und dann werden nur die Punkte betrachtet, die darauf passen.
-    # Weiß aber nicht ob das ne gute Idee / notwendige Sache ist
-
-    obj_type = type(obj)
-    # V: Hier wird geprüft ob das object schon den gewünschten type hat. Wenn ja wird einfach das object unverändert
-    # zurückgegeben
-    if obj_type == convert_type:
+def convert(obj, convert_type):
+    if type(object) is convert_type:
         return obj
 
-    # V: Gibt es eine guten Weg die verschiedenen Fälle abzuklappern ohne 6 if-Bedingungen oder ist das der beste Weg?
-    if obj_type is PolarDiagramTable and convert_type is PolarDiagramPointcloud:
-        wind_speed = obj.wind_speeds
-        wind_angle = obj.wind_angles
-        boat_speed = obj.boat_speeds
-        points = []
-        for tws in wind_speed:
-            for twa in wind_angle:
-                ind1 = wind_angle.index(twa)
-                ind2 = wind_speed.index(tws)
-                bsp = boat_speed[ind1, ind2]
-                points.append([tws, twa, bsp])
-
-        return PolarDiagramPointcloud(points)
-
-    if obj_type is PolarDiagramPointcloud and convert_type is PolarDiagramTable:
-        points = obj.get_points
-        if "wind_speed_resolution" in kwargs:
-            wind_speed_resolution = kwargs["wind_speed_resolution"]
-        else:
-            wind_speed_resolution = obj.wind_speeds
-
-        if "wind_angle_resolution" in kwargs:
-            wind_angle_resolution = kwargs["wind_angle_resolution"]
-        else:
-            wind_angle_resolution = obj.wind_angles
-
-        data = np.zeros(len(wind_angle_resolution), len(wind_speed_resolution))
-        for row in points:
-            ind1 = wind_angle_resolution.index(row[1])
-            ind2 = wind_speed_resolution.index(row[0])
-            data[ind1, ind2] = row[2]
-
-        return PolarDiagramTable(wind_speed_resolution=wind_speed_resolution,
-                                 wind_angle_resolution=wind_angle_resolution,
-                                 data=data)
-
-    if obj_type is PolarDiagramTable and convert_type is PolarDiagramCurve:
+    if convert_type is PolarDiagramTable:
         pass
 
-    if obj_type is PolarDiagramCurve and convert_type is PolarDiagramTable:
+    #    return PolarDiagramTable()
+
+    if convert_type is PolarDiagramCurve:
         pass
 
-    if obj_type is PolarDiagramPointcloud and convert_type is PolarDiagramCurve:
+    #    return PolarDiagramCurve()
+
+    if convert_type is PolarDiagramPointcloud:
         pass
 
-    if obj_type is PolarDiagramCurve and convert_type is PolarDiagramPointcloud:
-        pass
+    #    return PolarDiagramPointcloud()
 
 
 def convex_hull_polar(points_radians, points_angles):
+    # V: Bestimmt die konvexe Hülle einer endlichen Punktmenge welche in
+    #    Polarkoordinaten gegeben ist.
+
+    #    Die Berechnung findet über die scipy.spatial.ConvexHull-Funktion
+    #    statt.
     def polar_to_kartesian(radians, angles):
+        # V: Wandelt die eindimensionalen Arrays der Polarkoordinaten der Punktmenge
+        #    in ein zweidimensionales Array mit den kartesischen Koordinaten der
+        #    Punktmenge um.
         return np.column_stack((radians * np.cos(angles), radians * np.sin(angles)))
     converted_points = polar_to_kartesian(points_radians, points_angles)
     return ConvexHull(converted_points)
 
 
 def to_csv(csv_path, obj):
-    # V: Funktion ruft die jeweils interne Funktion des Objekts auf -> Nutzerfreundlichkeit?
+    # V: Erstellt eine .csv-Datei und schreibt eine menschlich lesbare
+    #    Representation der Daten eines PolarDiagram-Objekts hinein
+
+    #    Die Funktion selber ruft die interne Klassenmethode des
+    #    PolarDiagram-Objektes auf
     obj.to_csv(csv_path)
 
 
-# V: Hauptsächlich nicht benutzt. .csv-Datein dienen eher der menschlichen Lesbarkeit.
-# Für Speichern und Laden von Daten eher pickling und depickling benutzen
 def from_csv(csv_path):
+    # V: Erstellt ein PolarDiagram-Objekt aus den Daten in einer
+    #    .csv-Datei.
+    #    Die akzeptierten Formate für die jeweiligen PolarDiagram-Objekte
+    #    finden sich in den jeweiligen to_csv-Funktionen.
+    #
+    #    Achtung: Funktion kann kein PolarDiagramCurve-Objekt erstellen.
+    #    Dazu kann die Funktion depickling verwendet werden.
     with open(csv_path, 'r', newline='') as file:
         csv_reader = csv.reader(file, delimiter=',', quotechar='"')
-        # V: Die csv-Files werden in den to_csv-Funktionen so geschrieben, dass die
-        # erste Zeile den Typ (PolarDiagramTable, PolarDiagramPointCloud) enthält
-        # Dann wird hier anhand der ersten Zeile entschieden, was für ein PolarDiagram erstellt wird
-        # Kann bisher nur PolarDiagramTable- und PolarDiagramPointCloud-Objekte erstellen
-        # Für PolarDiagramCurve (aber auch für die anderen) ist depickling zu verwenden
         row1 = next(csv_reader)[0]
         if row1 == "PolarDiagramTable":
             next(csv_reader)
@@ -131,32 +104,35 @@ def from_csv(csv_path):
 
 
 def pickling(pkl_path, obj):
-    # V: Funktion ruft die jeweils interne Funktion des Objekts auf -> Nutzerfreundlichkeit?
+    # V: Speichert die Daten eines PolarDiagram-Objekts in einer .pkl-File
+    #    Diese können mittels der depickling-Funktion wieder in Python
+    #    geladen werden.
+
+    #    Die Funktion selber ruft die interne Klassenmethode des
+    #    PolarDiagram-Objektes auf.
     obj.pickling(pkl_path)
 
 
 def depickling(pkl_path):
-    # V: Lädt Data aus einer .pkl-File in Python
-    # Kann benutzt werden um damit Polardiagramme zu erstellen
+    # V: Lädt gespeicherte Daten aus einer .pkl-File in Python.
+    #    Hiermit können PolarDiagram-Objekte erstellt werden.
     with open(pkl_path, 'rb') as file:
         return pickle.load(file)
-# def polar_diagram_from_data(, **kwargs):
 
 
 class PolarDiagramException(Exception):
-    # V: Custom Exceptions die noch erweitert werden, sollte ich auf weitere Sachen stoßen
-    # Hab hier aber im Endeffekt die Struktur aus deiner QuadraticFormException-Klasse kopiert
     def __init__(self, exception_type, *args):
         message_dict = {
             "Wrong dimension": "Expecting 2 dimensional array to be viewed as Polar Diagram Tableau," +
                                f"\n got {args[0]} dimensional array instead.",
             "Wrong resolution": "Expecting resolution of type 'list' or 'int/float'," +
                                 f"\n got resolution of type {args[0]} instead",
-            "No data present": f"Expecting to get new data to update",
+            "No data given": "No new data to update old was given",
             "Wrong shape": f"Expecting array with shape {args[0]},\n got array with shape {args[1]} instead",
             "Wind speed not in resolution": f"Expecting wind speed to be in {args[0]},\n got {args[1]} instead",
             "Wind angle not in resolution": f"Expecting wind angle to be in {args[0]},\n got {args[1]} instead",
-            "No entry specified": f"Expecting to get an entry to update"
+            "No entry specified": f"Expecting to get an entry to update",
+            "No points found": f"The given true wind speed {args[0]} yielded no points in the current point cloud"
         }
         if exception_type in message_dict:
             super().__init__(message_dict[exception_type])
@@ -164,12 +140,21 @@ class PolarDiagramException(Exception):
             super().__init__(exception_type)
 
 
-# V: Noch in Arbeit
 class PolarDiagram(ABC):
+    # V: Abstrakte Basisklasse der PolarDiagram-Objekte.
 
     @abstractmethod
     def __str__(self):
         pass
+
+    @abstractmethod
+    def to_csv(self, csv_path):
+        pass
+
+    def pickling(self, pkl_path):
+        # V: Siehe die externe pickling-Funktion.
+        with open(pkl_path, 'wb') as file:
+            pickle.dump(self, file)
 
     @abstractmethod
     def polar_plot_slice(self, true_wind_speed, **kwargs):
@@ -179,25 +164,18 @@ class PolarDiagram(ABC):
     def flat_plot_slice(self, true_wind_speed, **kwargs):
         pass
 
-    @abstractmethod
-    def to_csv(self, csv_path):
-        pass
-
-    def pickling(self, pkl_path):
-        # V: Speichert die Daten eines Polardiagrams in einer .pkl-File
-        with open(pkl_path, 'wb') as file:
-            pickle.dump(self, file)
-
 
 class PolarDiagramTable(PolarDiagram):
     def __init__(self, **kwargs):
-        # V : Es werden 3 Keyword-Arguments unterstützt: "wind_angle_resolution"
-        #                                                "wind_speed_resolution"
-        #                                                "data"
-        # Gibt es eine einfache Möglichkeit hier auch Sachen wie "speed_resolution", "angle_resolution" "boat speeds"
-        # oder Abkürzungen wie "was" "wsr" "d" etc. zu unterstüzen?
-        # matplotlib -> Cookbook -> define_aliases?
-        # -> Ist vielleicht auch unnötig....
+        # V: Es werden 3 Keyword-Arguments unterstützt: "wind_angle_resolution"
+        #                                               "wind_speed_resolution"
+        #                                               "data"
+        #    Falls PolarDiagramTable keine Keyword-Arguments bekommt
+        #    wird ein PolarDiagramTable-Objekt mit den Attributen
+        #        self._resolution_wind_speed = [2,4,6,...., 36,38,40]
+        #        self._resolution_wind_angle = [0,5,10,.....,350,355]
+        #        self._data = np.zeros((72,20))
+        #    erstellt
         if "wind_angle_resolution" in kwargs:
             wind_angle_resolution = kwargs["wind_angle_resolution"]
             if isinstance(wind_angle_resolution, list):
@@ -233,28 +211,19 @@ class PolarDiagramTable(PolarDiagram):
         else:
             self._data = np.zeros((len(self._resolution_wind_angle), len(self._resolution_wind_speed)))
 
-    def to_csv(self, csv_path):
-        # V: Das Format für PolarDiagramTables .csv-Dateien ist
-        # PolarDiagramTable
-        # Wind speed resolution:
-        # self._resolution_wind_speed
-        # Wind angle resolution:
-        # self._resolution_wind_angle
-        # Boat speeds:
-        # self._data
-        with open(csv_path, 'w', newline='') as file:
-            csv_writer = csv.writer(file, delimiter=',', quotechar='"')
-            csv_writer.writerow(["PolarDiagramTable"])
-            csv_writer.writerow(["Wind speed resolution:"])
-            csv_writer.writerow(list(self._resolution_wind_speed))
-            csv_writer.writerow(["Wind angle resolution:"])
-            csv_writer.writerow(list(self._resolution_wind_angle))
-            csv_writer.writerow(["Boat speeds:"])
-            for row in self._data:
-                csv_writer.writerow(row)
+    def __str__(self):
+        # V: Gibt eine Tabelle mit den Zeilen und Spaltenbezeichnungen
+        #    der Wind angle und Wind speed resolution.
+        #    Falls es mehr als 15 Spalten gibt, werden nur die ersten 15 ausgegeben
+        if len(self._resolution_wind_speed) > 15:
+            table = np.c_[self._resolution_wind_angle, self._data[:, :15]]
+            # print / raise PolarDiagramException() / logging.INFO?
+            return tabulate(table, headers=["TWA \\ TWS"] + self._resolution_wind_speed[:15])
+        else:
+            table = np.c_[self._resolution_wind_angle, self._data]
+            return tabulate(table, headers=["TWA \\ TWS"] + self._resolution_wind_speed)
 
-    # V: Weiß nicht ob das eine gute Idee ist, aber damit man auch ohne Gefahr (also ohne sie zu verändern)
-    # auf die Daten "zugreifen" kann. Zum Übergeben für andere Funktionen zum Beispiel....?
+    # V: Weiß nicht ob das hier tatsächlich passt, dass als "Property" zu deklarieren
     @property
     def wind_angles(self):
         return self._resolution_wind_angle
@@ -267,29 +236,66 @@ class PolarDiagramTable(PolarDiagram):
     def boat_speeds(self):
         return self._data
 
+    def to_csv(self, csv_path):
+        # V: Erstellt eine .csv-Datei mit dem Format
+        #    PolarDiagramTable
+        #    Wind speed resolution:
+        #    self._resolution_wind_speed
+        #    Wind angle resolution:
+        #    self._resolution_wind_angle
+        #    Boat speeds:
+        #    self._data
+        with open(csv_path, 'w', newline='') as file:
+            csv_writer = csv.writer(file, delimiter=',', quotechar='"')
+            csv_writer.writerow(["PolarDiagramTable"])
+            csv_writer.writerow(["Wind speed resolution:"])
+            csv_writer.writerow(list(self._resolution_wind_speed))
+            csv_writer.writerow(["Wind angle resolution:"])
+            csv_writer.writerow(list(self._resolution_wind_angle))
+            csv_writer.writerow(["Boat speeds:"])
+            for row in self._data:
+                csv_writer.writerow(row)
+
     # V: Noch in Arbeit.
-    # Gibt es eine Möglichkeit aus data und change_entry eine getter und setter - Methode zu machen (auch mit kwargs)?
-    # Wäre das überhaupt eine gute Idee?
+    #    Dieses Monster muss noch doll überarbeitet werden
     def change_entry(self, **kwargs):
         # V: Will hier irgendwie gerne das multiple Entries gleichzeitig geändert werden können
-        # Weiß aber nicht, ob das so sinnvoll ist. Das sieht ehrlich gesagt nach ziemlichem Overkill aus xD
-        # Habs jetzt erstmal so gemacht, dass ganze Zeilen / Spalten geändert werden können
-        # oder mehrere Entries in der selben Spalte / Zeile
-        # Hier ist außerdem dasselbe Zeugs mit den kwargs wie in der __init__-Funktion
+        #    Weiß aber nicht, ob das so sinnvoll ist.
+        #    Hab es jetzt erstmal so gemacht, dass ganze Zeilen/Spalten geändert werden können
+        #    oder mehrere Entries in der selben Zeile/Spalte
         if "data" not in kwargs:
-            raise PolarDiagramException("No data present")
+            # V: Falls keine neuen Daten an die Funktion übergeben wurden,
+            #    brechen wir sofort ab, da nichts zu tun
+            #    Weiß aber nicht ob man hier tatsächlich eine Exception raisen sollte?
+            raise PolarDiagramException("No data given")
         data = kwargs["data"]
 
+        # V: Prüfen zunächst ob "true_wind_speed" übergeben wurde
         if "true_wind_speed" in kwargs:
+            # V: Falls ja, prüfen wir danach ob "true_wind_angle" übergeben wurde
             true_wind_speed = kwargs["true_wind_speed"]
+
             if "true_wind_angle" in kwargs:
                 true_wind_angle = kwargs["true_wind_angle"]
+
+                # V: Hier gehen wir die möglichen Typen der Variablen true_wind_angle
+                #    und true_wind_speed durch
                 if isinstance(true_wind_speed, list) and isinstance(true_wind_angle, list):
+                    # V: Falls beides Listen sind, wird eine Exception geraised.
+                    #    Der Grund hierfür ist, dass es wohl nicht wirklich möglich ist
+                    #    Subarrays von np-arrays zu überschreiben.
+                    #    Zumindest hab ich nichts gefunden
                     raise PolarDiagramException("Multiple lists given", type(true_wind_speed), type(true_wind_angle))
 
                 elif not isinstance(true_wind_speed, list) and not isinstance(true_wind_angle, list):
+                    # V: Falls beide keine Listen (also int/float) sind (hoffentlich)
+                    #    prüfen wir zunächst, ob data ebenfalls nur eine Zahl ist,
                     if np.array(data).shape != ():
                         raise PolarDiagramException("Wrong shape", (), np.array(data).shape)
+
+                    # V: Hier versuchen wir die Indizes des übergebenen wind speeds und wind angles
+                    #    zu finden.
+                    #    Falls nicht vorhanden wird Exception geraised
                     try:
                         ind1 = self._resolution_wind_angle.index(true_wind_angle)
                     except ValueError:
@@ -300,27 +306,38 @@ class PolarDiagramTable(PolarDiagram):
                     except ValueError:
                         raise PolarDiagramException("Wind speed not in resolution", self._resolution_wind_speed,
                                                     true_wind_speed)
+
+                    # V: Schlussendlich wird der gefundene Entry überschrieben
                     self._data[ind1, ind2] = data
 
+                # V: Nun bleiben noch die Fälle, dass jeweils eine Variable eine Liste ist und die andere nicht.
+                #    Da die beiden Fälle symmetrisch sind, könnte man hier vielleicht eine interne Funktion schreiben?
                 elif isinstance(true_wind_angle, list):
+                    # V: Falls true_wind_angle eine Liste ist, versuchen wir wieder den Index des übergebenen
+                    #    wind speeds zu finden und falls nicht vorhanden raisen wir wieder eine Exception
                     try:
                         ind = self._resolution_wind_speed.index(true_wind_speed)
                     except ValueError:
                         raise PolarDiagramException("Wind speed not in resolution", self._resolution_wind_speed,
                                                     true_wind_speed)
-
+                    # V: Hier ermitteln wir alle Indizes der wind angles in der Liste
                     ind_list = [i for i in len(self._resolution_wind_angle)
                                 if self._resolution_wind_angle[i] in true_wind_angle]
+                    # V: Falls die Liste der Indizes kürzer als die Liste der wind angles ist, muss es in der
+                    #    Liste wind angles geben, welche nicht in der resolution vorhanden sind
                     if len(ind_list) < len(true_wind_angle):
                         raise PolarDiagramException("Wind angle not in resolution", self._resolution_wind_angle,
                                                     true_wind_angle)
 
                     data = np.array(data)
+                    # V: Hier wird wieder überprüft ob data die richtige Größe (Shape) hat und falls nicht
+                    #    wird wieder eine Exception geraised
                     if data.shape != (len(ind_list),):
                         raise PolarDiagramException("Wrong shape", (len(ind_list), ), data.shape)
 
                     self._data[ind_list, ind] = data
 
+                # V: Läuft analog zum vorherigen Fall ab
                 elif isinstance(true_wind_speed, list):
                     try:
                         ind = self._resolution_wind_angle.index(true_wind_angle)
@@ -342,6 +359,7 @@ class PolarDiagramTable(PolarDiagram):
                     self._data[ind, ind_list] = data
 
             else:
+                # V: Muss überarbeitet werden
                 if isinstance(true_wind_speed, list):
                     if len(true_wind_speed) > 1:
                         ind_list = [i for i in len(self._resolution_wind_speed)
@@ -370,6 +388,7 @@ class PolarDiagramTable(PolarDiagram):
 
                 self._data[:, ind] = data
 
+        # V: Muss überarbeitet werden
         elif "true_wind_angle" in kwargs:
             true_wind_angle = kwargs["true_wind_angle"]
             if isinstance(true_wind_angle, list):
@@ -396,22 +415,16 @@ class PolarDiagramTable(PolarDiagram):
                                             true_wind_angle)
 
             data = np.array(data)
-            # Alternative zu if-Statements?
-            # try:
-            #    self._data[ind, :]
-            # except ValueError:
-            #    raise PolarDiagramException("Wrong shape", (len(self._resolution_wind_speed),), data.shape)
             if data.shape != (len(self._resolution_wind_speed),):
                 raise PolarDiagramException("Wrong shape", (len(self._resolution_wind_speed),), data.shape)
 
             self._data[ind, :] = data
 
+        # V: Falls weder true_wind_speed noch true_wind_angle in den Keywords vorhanden sind,
+        #    überprüfen wir ob die Größe von data gleich der von self._data ist.
+        #    Falls ja, dann wird self._data komplett überschrieben.
+        #    Falls nein, dann wir eine Exception geraised
         else:
-            # V: Hier hab ich es jetzt so gemacht, dass wenn jemand keine Entries spezifiziert, geprüft wird, ob die
-            # übergebenen Daten die richtige Größe (self._data.shape) haben und falls das so ist
-            # self._data komplett überschrieben wird.
-            # Weiß aber nicht ob das so eine gute Idee ist, oder ob man nicht
-            # besser zumindest noch eine Warnung ausgibt?
             data = np.array(data)
             if data.shape != (len(self._resolution_wind_angle), len(self._resolution_wind_speed)):
                 raise PolarDiagramException("Wrong shape",
@@ -421,6 +434,9 @@ class PolarDiagramTable(PolarDiagram):
             self._data = data
 
     def get_slice_data(self, true_wind_speed):
+        # V: Für ein gegebenen wind speed wird die Spalte der Tabelle, welche zu diesem korrespondiert
+        #    zurückgegeben
+        #    Ist der wind speed nicht in der resolution vorhanden wird eine Exception geraised
         try:
             column = self._resolution_wind_speed.index(true_wind_speed)
             return self._data[:, column]
@@ -441,22 +457,19 @@ class PolarDiagramTable(PolarDiagram):
         boat_speeds = self.get_slice_data(true_wind_speed)
         wind_angles = self._resolution_wind_angle
         # if all(boat_speed == np.zeros(len(self._resolution_wind_angle), )):
-        #    polardiagram_logger.info("The to be plotted slice has no non-zero data")
+        #
         flat_plot = plt.subplot(1, 1, 1)
         plt.xlabel("True Wind Angle")
         plt.ylabel("Boat Speed")
         return flat_plot.plot(wind_angles, boat_speeds, **kwargs)
 
     def plot_3d(self):
-        # V: Erstmal nur das Konzept einer Funktion, um eine 3d-Darstellung der Slices, beziehungsweise
-        # auch, wenn möglich, der konvexen Hülle zu bekommen?
-        # -> majavi verwenden?
         pass
 
     def plot_convex_hull_slice(self, true_wind_speed, **kwargs):
         speeds = self.get_slice_data(true_wind_speed)
         angles = np.deg2rad(self._resolution_wind_angle)
-        # if all(slice_data == np.zeros(self._resolution_wind_angle)):
+        # if all(speeds == np.zeros(self._resolution_wind_angle)):
         #
         vert = sorted(convex_hull_polar(speeds.copy(), angles.copy()).vertices)
         wind_angles = []
@@ -470,39 +483,24 @@ class PolarDiagramTable(PolarDiagram):
         return convex_hull_plot.plot(wind_angles, boat_speeds, **kwargs)
 
     def plot_convex_hull_3d(self, **kwargs):
-        # V: Funktion zum Plotten der konvexen Hülle des 3d-Polardiagrams
         pass
-
-    # V: Soll das hier überhaupt eine Interne Methode sein? Ist ja weniger Visualisierung, Konvertierung,
-    # Erstellung und Interpretation von Polardiagrammen
-    # und eigentlich auch keine Funktion von Polardiagrammen, ist eher etwas wo man
-    # Polardiagramme für nutzt
-    # def find_cross_course(self, **kwargs):
-    #     pass
-
-    def __str__(self):
-        # V: Gibt eine Tabelle mit den Zeilen und Spaltenbezeichnungen
-        # der Wind angle und Wind speed resolution.
-        # Unschön wenn zu viele Spalten
-        # Falls zu viele Spalten sind -> wird nur ein Teil der Spalten + Info ausgegeben?
-        if len(self._resolution_wind_speed) > 15:
-            table = np.c_[self._resolution_wind_angle, self._data[:, :15]]
-            # print / raise PolarDiagramException() / logging.INFO?
-            return tabulate(table, headers=["TWA \\ TWS"] + self._resolution_wind_speed[:15])
-        else:
-            table = np.c_[self._resolution_wind_angle, self._data]
-            return tabulate(table, headers=["TWA \\ TWS"] + self._resolution_wind_speed)
 
 
 class PolarDiagramCurve(PolarDiagram):
     # V: Noch in Arbeit
-    def __init__(self, f, *params, **kwargs):
+    def __init__(self, f, *params):
         # V: Hier noch mögliche Errorchecks?
         # self._resolution_wind_speed = ...
         # Wir sollten vielleicht eine Liste von Funktionen und Parametern abspeichern die zu bestimmten
         # Windgeschwindigkeiten passen, oder?
         self._f = f
         self._params = params
+
+    # V: Noch in Arbeit
+    def __str__(self):
+        # V: Weiß nicht ob das so geprinted werden soll. Die andere Idee wäre das der Print ein Plot der Funktion ist?
+        # Das man sozusagen die curve sieht, aber dafür bräuchte ich dann ja data?
+        return f"Function: {self._f}\n Optimal parameters: {self._params}"
 
     # @property
     # def wind_speeds(self):
@@ -554,18 +552,31 @@ class PolarDiagramCurve(PolarDiagram):
         # return flat_plot(self._f, **kwargs)
         pass
 
-    # V: Noch in Arbeit
-    def __str__(self):
-        # V: Weiß nicht ob das so geprinted werden soll. Die andere Idee wäre das der Print ein Plot der Funktion ist?
-        # Das man sozusagen die curve sieht, aber dafür bräuchte ich dann ja data?
-        return f"Function: {self._f}\n Optimal parameters: {self._params}"
-
 
 class PolarDiagramPointcloud(PolarDiagram):
     def __init__(self, data=np.array([[0, 0, 0]])):
         if len(data[0]) != 3:
             raise PolarDiagramException("Wrong shape", (len(data[0]), "x"), (3, "x"))
         self._data = np.array(data)
+
+    def __str__(self):
+        return tabulate(self._data, headers=["TWS", "TWA", "BSP"])
+
+    @property
+    def wind_speeds(self):
+        return list(dict.fromkeys(self._data[:, 0]))
+
+    @property
+    def wind_angles(self):
+        return list(dict.fromkeys(self._data[:, 1]))
+
+    @property
+    def boat_speeds(self):
+        return list(dict.fromkeys(self._data[:, 2]))
+
+    @property
+    def get_points(self):
+        return self._data
 
     def to_csv(self, csv_path):
         # V: Das Format der .cvs-Dateien ist
@@ -579,21 +590,11 @@ class PolarDiagramPointcloud(PolarDiagram):
             for row in self._data:
                 csv_writer.writerow(row)
 
-    @property
-    def wind_speeds(self):
-        return list(dict.fromkeys(self._data[:, 0]))
-
-    @property
-    def wind_angles(self):
-        return list(dict.fromkeys(self._data[:, 1]))
-
-    @property
-    def boat_speed(self):
-        return list(dict.fromkeys(self._data[:, 2]))
-
-    @property
-    def get_points(self):
-        return self._data
+    def add_points(self, points):
+        try:
+            self._data = np.r_[self._data, np.array(points)]
+        except ValueError:
+            raise PolarDiagramException("Wrong shape", (len(points[0]), "x"), (3, "x"))
 
     def polar_plot_slice(self, true_wind_speed, **kwargs):
         # V: Hier fange ich ab, das der User möglicherweise linestyle bzw. linewidth in den keywords hat.
@@ -611,12 +612,17 @@ class PolarDiagramPointcloud(PolarDiagram):
             except KeyError:
                 del kwargs["lw"]
         points = self._data[self._data[:, 0] == true_wind_speed][:, 1:]
-        boat_speeds = points[:, 0]
-        wind_angles = np.deg2rad(points[:, 1])
+        # V: Exception, falls es keine Punkte mit diesem Wind Speed gab
+        try:
+            boat_speeds = points[:, 0]
+            wind_angles = np.deg2rad(points[:, 1])
+        except ValueError:
+            raise PolarDiagramException("No points found", true_wind_speed)
+
         polar_plot = plt.subplot(1, 1, 1, projection='polar')
         polar_plot.set_theta_zero_location('N')
         polar_plot.set_theta_direction('clockwise')
-        return polar_plot.plot(wind_angles, boat_speeds, **kwargs)
+        return polar_plot.plot(wind_angles, boat_speeds, **kwargs, ls='')
 
     def flat_plot_slice(self, true_wind_speed, **kwargs):
         # V: Hier fange ich ab, das der User möglicherweise linestyle bzw. linewidth in den keywords hat
@@ -634,17 +640,30 @@ class PolarDiagramPointcloud(PolarDiagram):
             except KeyError:
                 del kwargs["lw"]
         points = self._data[self._data[:, 0] == true_wind_speed][:, 1:]
-        boat_speeds = points[:, 0]
-        wind_angles = points[:, 1]
+        # V: Exception, falls es keine Punkte mit diesem Wind Speed gab
+        try:
+            boat_speeds = points[:, 0]
+            wind_angles = points[:, 1]
+        except ValueError:
+            raise PolarDiagramException("No points found", true_wind_speed)
+
         flat_plot = plt.subplot(1, 1, 1)
         plt.xlabel("True Wind Angle")
         plt.ylabel("Boat Speed")
-        return flat_plot.plot(wind_angles, boat_speeds, **kwargs)
+        return flat_plot.plot(wind_angles, boat_speeds, **kwargs, ls='')
+
+    def plot_3d(self):
+        pass
 
     def plot_convex_hull_slice(self, true_wind_speed, **kwargs):
         points = self._data[self._data[:, 0] == true_wind_speed][:, 1:]
-        speeds = points[:, 0]
-        angles = np.deg2rad(points[:, 1])
+        # V: Exception, falls es keine Punkte mit diesem Wind Speed gab
+        try:
+            speeds = points[:, 0]
+            angles = np.deg2rad(points[:, 1])
+        except ValueError:
+            raise PolarDiagramException("No points found", true_wind_speed)
+
         vert = sorted(convex_hull_polar(speeds.copy(), angles.copy()).vertices)
         wind_angles = []
         boat_speeds = []
@@ -657,9 +676,5 @@ class PolarDiagramPointcloud(PolarDiagram):
         convex_hull_plot.set_theta_direction('clockwise')
         return convex_hull_plot.plot(wind_angles, boat_speeds, **kwargs)
 
-    def plot_3d(self):
-        # V: Funktion zum 3d-plotten der Punktwolke.
+    def plot_convex_hull_3d(self):
         pass
-
-    def __str__(self):
-        return tabulate(self._data, headers=["TWS", "TWA", "BSP"])
