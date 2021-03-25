@@ -9,6 +9,7 @@ import numpy as np
 from abc import ABC, abstractmethod
 from scipy.spatial import ConvexHull
 from tabulate import tabulate
+from utils import polar_to_kartesian
 
 
 # V: Ich werde noch schauen müssen, wo ich alles logging verwende. Kommt aber noch
@@ -38,14 +39,16 @@ def convert(obj, convert_type):
                                  data=data)
 
     if convert_type is PolarDiagramCurve:
-        wind_speed_resolution = obj.wind_speeds
+        # wind_speed_resolution = obj.wind_speeds
+        pass
 
     #    return PolarDiagramCurve()
 
     if convert_type is PolarDiagramPointcloud:
-        wind_speeds = obj.wind_speeds
-        wind_angles = obj.wind_angles
-        boat_speeds = ...
+        # wind_speeds = obj.wind_speeds
+        # wind_angles = obj.wind_angles
+        # boat_speeds = ...
+        pass
 
     #    return PolarDiagramPointcloud()
 
@@ -56,11 +59,6 @@ def convex_hull_polar(points_radians, points_angles):
 
     #    Die Berechnung findet über die scipy.spatial.ConvexHull-Funktion
     #    statt.
-    def polar_to_kartesian(radians, angles):
-        # V: Wandelt die eindimensionalen Arrays der Polarkoordinaten der Punktmenge
-        #    in ein zweidimensionales Array mit den kartesischen Koordinaten der
-        #    Punktmenge um.
-        return np.column_stack((radians * np.cos(angles), radians * np.sin(angles)))
     converted_points = polar_to_kartesian(points_radians, points_angles)
     return ConvexHull(converted_points)
 
@@ -139,7 +137,8 @@ class PolarDiagramException(Exception):
             "Wind speed not in resolution": f"Expecting wind speed to be in {args[0]},\n got {args[1]} instead",
             "Wind angle not in resolution": f"Expecting wind angle to be in {args[0]},\n got {args[1]} instead",
             "No entry specified": f"Expecting to get an entry to update",
-            "No points found": f"The given true wind speed {args[0]} yielded no points in the current point cloud"
+            "No points found": f"The given true wind speed {args[0]} yielded no points in the current point cloud",
+            "Multiple lists given": f"Both {args[0]} and {args[1]} are of type 'list'. This can lead to ambiguity"
         }
         if exception_type in message_dict:
             super().__init__(message_dict[exception_type])
@@ -303,7 +302,7 @@ class PolarDiagramTable(PolarDiagram):
                     #    Subarrays von np-arrays zu überschreiben.
                     #    Zumindest hab ich nichts gefunden
 
-                    raise PolarDiagramException("Multiple lists given", type(true_wind_speed), type(true_wind_angle))
+                    raise PolarDiagramException("Multiple lists given", true_wind_speed, true_wind_angle)
 
                 elif not isinstance(true_wind_speed, list) and not isinstance(true_wind_angle, list):
 
@@ -348,7 +347,7 @@ class PolarDiagramTable(PolarDiagram):
 
                     # V: Hier ermitteln wir alle Indizes der wind angles in der Liste
 
-                    ind_list = [i for i in len(self._resolution_wind_angle)
+                    ind_list = [i for i in range(len(self._resolution_wind_angle))
                                 if self._resolution_wind_angle[i] in true_wind_angle]
 
                     # V: Falls die Liste der Indizes kürzer als die Liste der wind angles ist, muss es in der
@@ -376,7 +375,7 @@ class PolarDiagramTable(PolarDiagram):
                         raise PolarDiagramException("Wind angle not in resolution", self._resolution_wind_angle,
                                                     true_wind_angle)
 
-                    ind_list = [i for i in len(self._resolution_wind_speed)
+                    ind_list = [i for i in range(len(self._resolution_wind_speed))
                                 if self._resolution_wind_speed[i] in true_wind_speed]
 
                     if len(ind_list) < len(true_wind_speed):
@@ -390,11 +389,11 @@ class PolarDiagramTable(PolarDiagram):
                     self._data[ind, ind_list] = data
 
             else:
-                # V: Muss überarbeitet werden
+                # V: Funktioniert, wird aber noch überarbeitet
 
                 if isinstance(true_wind_speed, list):
                     if len(true_wind_speed) > 1:
-                        ind_list = [i for i in len(self._resolution_wind_speed)
+                        ind_list = [i for i in range(len(self._resolution_wind_speed))
                                     if self._resolution_wind_speed[i] in true_wind_speed]
 
                         if len(ind_list) < len(true_wind_speed):
@@ -402,8 +401,9 @@ class PolarDiagramTable(PolarDiagram):
                                                         true_wind_speed)
 
                         data = np.array(data)
-                        if data.shape != (len(ind_list),):
-                            raise PolarDiagramException("Wrong shape", (len(ind_list),), data.shape)
+                        if data.shape != (len(self._resolution_wind_angle), len(ind_list)):
+                            raise PolarDiagramException("Wrong shape",
+                                                        (len(self._resolution_wind_angle), len(ind_list)), data.shape)
 
                         self._data[:, ind_list] = data
 
@@ -420,21 +420,22 @@ class PolarDiagramTable(PolarDiagram):
 
                 self._data[:, ind] = data
 
-        # V: Muss überarbeitet werden
+        # Funktioniert, wird aber noch überarbeitet
 
         elif "true_wind_angle" in kwargs:
             true_wind_angle = kwargs["true_wind_angle"]
             if isinstance(true_wind_angle, list):
                 if len(true_wind_angle) > 1:
-                    ind_list = [i for i in len(self._resolution_wind_angle)
+                    ind_list = [i for i in range(len(self._resolution_wind_angle))
                                 if self._resolution_wind_angle[i] in true_wind_angle]
                     if len(ind_list) < len(true_wind_angle):
                         raise PolarDiagramException("Wind angle not in resolution", self._resolution_wind_speed,
                                                     true_wind_angle)
 
                     data = np.array(data)
-                    if data.shape != (len(ind_list),):
-                        raise PolarDiagramException("Wrong shape", (len(ind_list),), data.shape)
+                    if data.shape != (len(ind_list), len(self._resolution_wind_speed)):
+                        raise PolarDiagramException("Wrong shape",
+                                                    (len(ind_list), len(self._resolution_wind_speed)), data.shape)
 
                     self._data[:, ind_list] = data
 
@@ -560,6 +561,14 @@ class PolarDiagramCurve(PolarDiagram):
     # def wind_speeds(self):
     #     return self._resolution_wind_speed
 
+    # @property
+    # def wind_angles(self):
+    #
+
+    # @property
+    # def boat_speeds(self):
+    #
+
     # V: Hier dieselbe Sache wie bei PolarDiagramTable, keine Ahnung, ob das Sinn macht, dass als "Property" zu
     #    deklarieren
     @property
@@ -633,6 +642,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     @property
     def boat_speeds(self):
+        # V: Macht noch nicht so wirklich Sinn
         return list(dict.fromkeys(self._data[:, 2]))
 
     @property
@@ -656,10 +666,13 @@ class PolarDiagramPointcloud(PolarDiagram):
     def add_points(self, points):
         # V: Fügt der Punktwolke neue gegebene Punkte hinzu.
         #    Falls die Punkte mehr als 3 Koeffizienten haben wird eine Exception geraised
+
+        # V: Ist vielleicht besser mit nem If-Statement
+
         try:
             self._data = np.r_[self._data, np.array(points)]
         except ValueError:
-            raise PolarDiagramException("Wrong shape", (len(points[0]), "x"), (3, "x"))
+            raise PolarDiagramException("Wrong shape", (3, "x"), (len(points[0]), "x"))
 
     def polar_plot_slice(self, true_wind_speed, **kwargs):
         # V: Für einen gegebenen wind speed werden all
@@ -667,18 +680,15 @@ class PolarDiagramPointcloud(PolarDiagram):
         #
 
         # V: Funktion akzeptiert die selben Keywords wie matplotlib.pyplot.plot
-        #    Werden allerdings die Keywords "linestyle" bzw. "ls" verwendet,
-        #    so werden diese entfernt
+        #    Falls "linestyle" bzw. "ls" nicht spezifiziert wird, setzten wir
+        #    es standardmäßig auf '', damit auch wirklich eine Punktwolke
+        #    dargestellt wird
 
-        # V: Hier überprüfen wir ob die Keywords "linestyle" bzw. "ls" übergebenen wurden.
-        #    Falls ja entfernen wir das jeweilige Keyword.
-        #    Damit wird "sichergestellt", dass tatsächlich eine Punktwolke geplottet wird.
+        if "linestyle" not in kwargs and "ls" not in kwargs:
+            kwargs["ls"] = ''
 
-        if "linestyle" in kwargs or "ls" in kwargs:
-            try:
-                del kwargs["linestyle"]
-            except KeyError:
-                del kwargs["ls"]
+        if "marker" not in kwargs:
+            kwargs["marker"] = 'o'
 
         # V: Wir filtern nun das Array nach Punkten deren erster Eintrag gleich dem
         #    gegebenen wind speed ist und teilen die zweiten und dritten Einträge dann
@@ -687,15 +697,15 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         points = self._data[self._data[:, 0] == true_wind_speed][:, 1:]
         try:
-            boat_speeds = points[:, 0]
-            wind_angles = np.deg2rad(points[:, 1])
-        except ValueError:
+            boat_speeds = points[:, 1]
+            wind_angles = np.deg2rad(points[:, 0])
+        except (ValueError, IndexError):
             raise PolarDiagramException("No points found", true_wind_speed)
 
         polar_plot = plt.subplot(1, 1, 1, projection='polar')
         polar_plot.set_theta_zero_location('N')
         polar_plot.set_theta_direction('clockwise')
-        return polar_plot.plot(wind_angles, boat_speeds, **kwargs, ls='')
+        return polar_plot.plot(wind_angles, boat_speeds, **kwargs)
 
     def flat_plot_slice(self, true_wind_speed, **kwargs):
         # V: Für einen gegebenen wind speed werden all
@@ -703,18 +713,15 @@ class PolarDiagramPointcloud(PolarDiagram):
         #
 
         # V: Funktion akzeptiert die selben Keywords wie matplotlib.pyplot.plot
-        #    Werden allerdings die Keywords "linestyle" bzw. "ls" verwendet,
-        #    so werden diese entfernt
+        #    Falls "linestyle" bzw. "ls" nicht spezifiziert wird, setzten wir
+        #    es standardmäßig auf '', damit auch wirklich eine Punktwolke
+        #    dargestellt wird
 
-        # V: Hier überprüfen wir ob die Keywords "linestyle" bzw. "ls" übergebenen wurden.
-        #    Falls ja entfernen wir das jeweilige Keyword.
-        #    Damit wird "sichergestellt", dass tatsächlich eine Punktwolke geplottet wird.
+        if "linestyle" not in kwargs and "ls" not in kwargs:
+            kwargs["ls"] = ''
 
-        if "linestyle" in kwargs or "ls" in kwargs:
-            try:
-                del kwargs["linestyle"]
-            except KeyError:
-                del kwargs["ls"]
+        if "marker" not in kwargs:
+            kwargs["marker"] = 'o'
 
         # V: Wir filtern nun das Array nach Punkten deren erster Eintrag gleich dem
         #    gegebenen wind speed ist und teilen die zweiten und dritten Einträge dann
@@ -723,15 +730,15 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         points = self._data[self._data[:, 0] == true_wind_speed][:, 1:]
         try:
-            boat_speeds = points[:, 0]
-            wind_angles = points[:, 1]
-        except ValueError:
+            boat_speeds = points[:, 1]
+            wind_angles = points[:, 0]
+        except (ValueError, IndexError):
             raise PolarDiagramException("No points found", true_wind_speed)
 
         flat_plot = plt.subplot(1, 1, 1)
         plt.xlabel("True Wind Angle")
         plt.ylabel("Boat Speed")
-        return flat_plot.plot(wind_angles, boat_speeds, **kwargs, ls='')
+        return flat_plot.plot(wind_angles, boat_speeds, **kwargs)
 
     def plot_3d(self):
         pass
@@ -748,11 +755,12 @@ class PolarDiagramPointcloud(PolarDiagram):
         #    in "x" und "y" Koordinaten auf.
         #    Sollte es keine solche Punkte geben, wird eine Exception geraised
 
-        points = self._data[self._data[:, 0] == true_wind_speed][:, 1:]
+        points = np.array(sorted(list(self._data[self._data[:, 0] == true_wind_speed][:, 1:]),
+                                 key=lambda x: x[0]))
         try:
-            speeds = points[:, 0]
-            angles = np.deg2rad(points[:, 1])
-        except ValueError:
+            speeds = points[:, 1]
+            angles = np.deg2rad(points[:, 0])
+        except (ValueError, IndexError):
             raise PolarDiagramException("No points found", true_wind_speed)
 
         vert = sorted(convex_hull_polar(speeds.copy(), angles.copy()).vertices)
