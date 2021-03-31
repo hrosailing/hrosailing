@@ -187,12 +187,12 @@ class PolarDiagramTable(PolarDiagram):
         Initializes a PolarDiagramTable object
     __str__()
     __repr__()
-    wind_speeds:
-
     wind_angles:
-
+        Returns a read only verion of self._wind_angle_resolution
+    wind_speeds:
+        Returns a read only version of self._wind_speed_resolution
     boat_speeds:
-
+        Returns a read only version of self._data
     to_csv(csv_path):
         Writes object to a .csv-file
     change_entry(data, **kwargs):
@@ -227,16 +227,6 @@ class PolarDiagramTable(PolarDiagram):
 
         """
         wind_speed_resolution, wind_angle_resolution = convert_wind(kwargs)
-        if wind_speed_resolution is not None:
-            if isinstance(wind_speed_resolution, Iterable):
-                self._resolution_wind_speed = list(wind_speed_resolution)
-            elif isinstance(wind_speed_resolution, (int, float)):
-                self._resolution_wind_speed = list(np.arange(wind_speed_resolution, 40,
-                                                             wind_speed_resolution))
-            else:
-                raise PolarDiagramException("Wrong resolution", type(wind_speed_resolution))
-        else:
-            self._resolution_wind_speed = list(np.arange(2, 42, 2))
 
         if wind_angle_resolution is not None:
             if isinstance(wind_angle_resolution, Iterable):
@@ -248,6 +238,17 @@ class PolarDiagramTable(PolarDiagram):
                 raise PolarDiagramException("Wrong resolution", type(wind_angle_resolution))
         else:
             self._resolution_wind_angle = list(np.arange(0, 360, 5))
+
+        if wind_speed_resolution is not None:
+            if isinstance(wind_speed_resolution, Iterable):
+                self._resolution_wind_speed = list(wind_speed_resolution)
+            elif isinstance(wind_speed_resolution, (int, float)):
+                self._resolution_wind_speed = list(np.arange(wind_speed_resolution, 40,
+                                                             wind_speed_resolution))
+            else:
+                raise PolarDiagramException("Wrong resolution", type(wind_speed_resolution))
+        else:
+            self._resolution_wind_speed = list(np.arange(2, 42, 2))
 
         if "data" in kwargs:
             data = np.array(kwargs["data"])
@@ -273,17 +274,17 @@ class PolarDiagramTable(PolarDiagram):
 
     @property
     def wind_angles(self):
-        """"""
+        """Returns a read only version of self._resolution_wind_angle"""
         return self._resolution_wind_angle
 
     @property
     def wind_speeds(self):
-        """"""
+        """Returns a read only version of self._resolution_wind_speed"""
         return self._resolution_wind_speed
 
     @property
     def boat_speeds(self):
-        """"""
+        """Returns a read only version of self._data"""
         return self._data
 
     def to_csv(self, csv_path):
@@ -386,6 +387,9 @@ class PolarDiagramTable(PolarDiagram):
 
         :type wind_speed: ``int`` or ``float``
         """
+        if not isinstance(wind_speed, (int, float)):
+            pass
+
         try:
             column = self._resolution_wind_speed.index(wind_speed)
             return list(self._data[:, column])
@@ -403,6 +407,8 @@ class PolarDiagramTable(PolarDiagram):
             See below
 
         :Keyword arguments:
+            Function accepts the same keyword arguments as the
+            matplotlib.pyplot.plot function
         """
         wind_angles = list(np.deg2rad(self._resolution_wind_angle))
         boat_speeds = self.get_slice_data(wind_speed)
@@ -418,6 +424,8 @@ class PolarDiagramTable(PolarDiagram):
             See below
 
         :Keyword arguments:
+            Function accepts the same keyword arguments as the
+            matplotlib.pyplot.plot function
         """
         wind_angles = self._resolution_wind_angle
         boat_speeds = self.get_slice_data(wind_speed)
@@ -436,6 +444,8 @@ class PolarDiagramTable(PolarDiagram):
             See below
 
         :Keyword arguments:
+            Function accepts the same keyword arguments as the
+            matplotlib.pyplot.plot function
         """
         angles = list(np.deg2rad(self._resolution_wind_angle))
         speeds = self.get_slice_data(wind_speed)
@@ -511,6 +521,8 @@ class PolarDiagramCurve(PolarDiagram):
             See below
 
         :Keyword arguments:
+            Function accepts the same keyword arguments as the
+            matplotlib.pyplot.plot function
         """
         pass
 
@@ -526,6 +538,8 @@ class PolarDiagramCurve(PolarDiagram):
             See below
 
         :Keyword arguments:
+            Function accepts the same keyword arguments as the
+            matplotlib.pyplot.plot function
         """
         pass
 
@@ -560,17 +574,17 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     @property
     def wind_speeds(self):
-        """"""
+        """Returns a list of all unique wind speeds in the point cloud"""
         return list(dict.fromkeys(self._data[:, 0]))
 
     @property
     def wind_angles(self):
-        """"""
+        """Returns a list of all unique wind angles in the point cloud"""
         return list(dict.fromkeys(self._data[:, 1]))
 
     @property
     def get_points(self):
-        """"""
+        """Returns a read only version of self._data"""
         return self._data
 
     def to_csv(self, csv_path):
@@ -611,7 +625,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         :param kwargs:
             See below
 
-        :Keyword arguments
+        :Keyword arguments:
+            Function accepts the same keyword arguments as the
+            matplotlib.pyplot.plot function
         """
         points = self._data[self._data[:, 0] == wind_speed][:, 1:]
         try:
@@ -631,6 +647,8 @@ class PolarDiagramPointcloud(PolarDiagram):
             See below
 
         :Keyword arguments:
+            Function accepts the same keyword arguments as the
+            matplotlib.pyplot.plot function
         """
         points = self._data[self._data[:, 0] == wind_speed][:, 1:]
         try:
@@ -653,6 +671,8 @@ class PolarDiagramPointcloud(PolarDiagram):
             See below
 
         :Keyword arguments:
+            Function accepts the same keyword arguments as the
+            matplotlib.pyplot.plot function
         """
         points = self._data[self._data[:, 0] == wind_speed][:, 1:]
         try:
