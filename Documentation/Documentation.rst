@@ -35,8 +35,10 @@ The ``hrosailing``-module defines the following functions:
 
             Parameters :
                         ``csv_path`` : ``string``
+                                Path where a .csv-file is located or where a new .csv-file will be created
 
                         ``obj`` : ``PolarDiagram``
+                                An ``hrosailing``.\ **PolarDiagram**\ -object which will be written to the .csv-file
 
             Calls the .\ **to_csv**-function of the ``hrosailing``.\ **PolarDiagram**-object.
 
@@ -62,7 +64,7 @@ The ``hrosailing``-module defines the following functions:
                         ``pkl_path`` : ``string``
                                 Path to an existing .pkl file or where the created .pkl file will be located
                         ``obj`` : ``PolarDiagram``
-                                An ``hrosailing``.\ **PolarDiagram**\ -object which is to be written to the .pkl file
+                                An ``hrosailing``.\ **PolarDiagram**\ -object which will be written to the .pkl file
 
             Calls the .\ **pickling**-function of the ``hrosailing``.\ **PolarDiagram**\ -object.
 
@@ -85,33 +87,36 @@ The ``hrosailing``-module defines the following functions:
 
                         ``points_angles`` : ``array_like``
 
-            Computes the convex hull of the given point cloud via the ``scipy.spatial``.\ **ConvexHull**\-class,
-            see `ConvexHull <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.ConvexHull.html>`_.
+            Computes the convex hull of the given point cloud with polar coordinates via the
+            ``scipy.spatial``.\ **ConvexHull**\-class, see
+            `ConvexHull <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.ConvexHull.html>`_.
 
 
     ``hrosailing``.\ **convert**\ (``obj, convert_type``)
 
             Parameters :
                         ``obj`` : ``PolarDiagram``
+                                An ``hrosailing``.\ **PolarDiagram**\ -object that is to be converted to another
+                                ``hrosailing``.\ **PolarDiagram**\ -type
 
                         ``convert_type`` : ``PolarDiagram``
+                                A subclass of ``hrosailing``.\ **PolarDiagram** \
 
+            For a given instance a ``hrosailing``.\ **PolarDiagram**\ -subclass, the function converts it into
+            an instance of a given ``hrosailing``.\ **PolarDiagram**\ -subclass.
 
-    ``hrosailing.utils``.\ **polar_to_kartesian**\ (radians, angles)
-
-            Parameters :
-                        ``radians`` : ``array_like``
-
-                        ``angles`` : ``array_like``
+            Currently only works for the subclasses **PolarDiagramTable** and **PolarDiagramPointcloud**
 
 
 The ``hrosailing``-module defines the following classes:
 
 
-    ``hrosailing``.\ **PolarDiagramException**\ (``exception_type, *args``)
-
     ``hrosailing``.\ **PolarDiagram**\ ()
 
+            An abstract base class for most classes in the ``hrosailing``-module
+
+
+            The **PolarDiagram** class defines the following public methods:
 
 
                     ``PolarDiagram``.\ **pickling**\ (``self, pkl_path``)
@@ -123,6 +128,37 @@ The ``hrosailing``-module defines the following classes:
                             Creates or overwrites a .pkl file via with the class data of the object which
                             called the function via the ``pickle``.\ **dump**-function,
                             see `dump <https://docs.python.org/3/library/pickle.html#pickle.dump>`_.
+
+
+            The **PolarDiagram** class also defines the following abstract methods:
+
+
+                    ``PolarDiagram``.\ **__str__**\ ()
+
+
+                    ``PolarDiagram``.\ **__repr__**\ ()
+
+
+                    ``PolarDiagram``.\ **wind_speeds**
+
+
+                    ``PolarDiagram``.\ **wind_angles**
+
+
+                    ``PolarDiagram``.\ **boat_speeds**
+
+
+                    ``PolarDiagram``.\ **to_csv**\ (``csv_path``)
+
+
+                    ``PolarDiagram``.\ **polar_plot_slice**\ (``wind_speed, **kwargs``)
+
+
+                    ``PolarDiagram``.\ **flat_plot_slice**\ (``wind_speed, **kwargs``)
+
+
+                    ``PolarDiagram``.\ **plot_convex_hull_slice**\ (``wind_speed, **kwargs``)
+
 
 
     ``hrosailing``.\ **PolarDiagramTable**\ (``**kwargs``)
@@ -159,7 +195,7 @@ The ``hrosailing``-module defines the following classes:
                         150  2.91  3.78  4.5   5.15  5.72  6.09  6.55
 
 
-            PolarDiagramTable objects have the following public methods:
+            The **PolarDiagramTable** class defines the following public methods:
 
 
                     ``PolarDiagramTable``.\ **__str__**\ ()
@@ -173,6 +209,21 @@ The ``hrosailing``-module defines the following classes:
 
 
                     ``PolarDiagramTable``.\ **__repr__**\ ()
+
+
+                    ``PolarDiagramTable``.\ **wind_speeds**
+
+                            Returns a read only version of ``self``._resolution_wind_speed
+
+
+                    ``PolarDiagramTable``.\ **wind_angles**
+
+                            Returns a read only version of ``self``._resolution_wind_angle
+
+
+                    ``PolarDiagramTable``.\ **boat_speeds**
+
+                            Returns a read only version of ``self``._data
 
 
                     ``PolarDiagramTable``.\ **to_csv**\ (``csv_path``)
@@ -198,18 +249,23 @@ The ``hrosailing``-module defines the following classes:
                             with the delimiter ','.
 
 
-                    ``PolarDiagramTable``.\ **change_entry**\ (``**kwargs``)
+                    ``PolarDiagramTable``.\ **change_entry**\ (``data, **kwargs``)
 
                             Parameters :
-                                        ``kwargs`` : Keywords containing the entries in the "table" that are to be changed and the new data.
+                                        ``data`` : ``int``, ``float`` or ``array_like`` of matching shape
 
-                                                - ``data`` : ``int``, ``float`` or ``array_like`` of matching shape
+
+                                        ``kwargs`` : Keywords containing the entries in the "table" that are to be changed and the new data.
 
                                                 - ``true_wind_speed`` : ``int``, ``float`` or ``Iterable``
 
+                                                - ``apparent_wind_speed`` : ``int``, ``float`` or ``Iterable``
+
                                                 - ``true_wind_angle`` : ``int``, ``float`` or ``Iterable``
 
-                            Updates ``self``.\ **_data** \ on the specified entries with the given new data.
+                                                - ``apparent_wind_angle`` : ``int``, ``float`` or ``Iterable``
+
+                            Updates ``self``._data on the specified entries with the given new data.
 
                                 >>> polar_table.change_entry(data=4,
                                 ...                          true_wind_angle=52,
@@ -243,33 +299,29 @@ The ``hrosailing``-module defines the following classes:
                                         135  3.39  4.27  5     5.64  6.01  6.32  6.78
                                         150  2.91  3.78  4.5   5.15  6.03  6.09  6.55
 
-                            Note that if both *true_wind_speed* and *true_wind_angle* are of type ``Iterable``,
-                            the function will throw an error to prevent ambiguity.
 
-
-                    ``PolarDiagramTable``.\ **get_slice_data**\ (``true_wind_speed``)
+                    ``PolarDiagramTable``.\ **get_slice_data**\ (``wind_speed``)
 
                             Parameters :
-                                        ``true_wind_speed`` : ``int`` or ``float``
-                                                Element in ``self``.\ **_resolution_wind_speed**
+                                        ``wind_speed`` : ``int`` or ``float``
+                                                Element in ``self``.\ *_resolution_wind_speed*
 
-                            Retrieves the corresponding column of ``self``.\ **_data**.
-                            Throws an error if ``true_wind_speed`` is not
-                            in ``self``.\ **_resolution_wind_speed**.
+                            Retrieves the corresponding column of ``self``.\ *_data*
 
 
-                    ``PolarDiagramTable``.\ **polar_plot_slice**\ (``true_wind_speed, **kwargs``)
+
+                    ``PolarDiagramTable``.\ **polar_plot_slice**\ (``wind_speed, **kwargs``)
 
                             Parameters :
-                                        ``true_wind_speed`` : ``int`` or ``float``
-                                                Element in ``self``.\ **_resolution_wind_speed**
+                                        ``wind_speed`` : ``int`` or ``float``
+                                                Element in ``self``.\ *_resolution_wind_speed*
 
                                         ``kwargs`` : Keyword arguments to change the appearence of the created plot. Supports the same keyword arguments as the ``matplotlib.pyplot``.\ **plot**-function
 
-                            For a given column of ``self``.\ **_data** corresponding to the input
-                            element of ``self``.\ **_resolution_wind_speed**, the function returns
+                            For a given column of ``self``.\ *_data* corresponding to the input
+                            element of ``self``.\ *_resolution_wind_speed*, the function returns
                             a polar plot of the column together with the corresponding elements in
-                            ``self``.\ **_resolution_wind_angle** via the ``matlibplot.pyplot``.\ **plot**-function,
+                            ``self``.\ *_resolution_wind_angle* via the ``matlibplot.pyplot``.\ **plot**-function,
                             see `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
 
                                 >>> polar_table.polar_plot_slice(6, ms=1, marker='o', lw=0.75, ls='-')
@@ -280,18 +332,18 @@ The ``hrosailing``-module defines the following classes:
 
 
 
-                    ``PolarDiagramTable``.\ **flat_plot_slice**\ (``true_wind_speed, **kwargs``)
+                    ``PolarDiagramTable``.\ **flat_plot_slice**\ (``wind_speed, **kwargs``)
 
                             Parameters :
-                                        ``true_wind_speed`` : ``int`` or ``float``
-                                                Element in ``self``.\ **_resolution_wind_speed**
+                                        ``wind_speed`` : ``int`` or ``float``
+                                                Element in ``self``.\ *_resolution_wind_speed*
 
                                         ``kwargs`` : Keyword arguments to change the appearence of the created plot. Supports the same keyword arguments as the ``matplotlib.pyplot``.\ **plot**-function
 
-                            For a given column of ``self``.\ **_data** corresponding to the input
-                            element of ``self``.\ **_resolution_wind_speed**, the function returns
+                            For a given column of ``self``.\ *_data* corresponding to the input
+                            element of ``self``.\ *_resolution_wind_speed*, the function returns
                             a plot of the column entries as y-coordiantes together with the
-                            corresponding elements in ``self``.\ **_resolution_wind_angle**
+                            corresponding elements in ``self``.\ *_resolution_wind_angle*
                             as x-coordinates via the ``matlibplot.pyplot``.\ **plot**-function, see
                             `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
 
@@ -302,18 +354,18 @@ The ``hrosailing``-module defines the following classes:
                                     :align: center
 
 
-                    ``PolarDiagramTable``.\ **plot_convex_hull_slice**\ (``true_wind_speed, **kwargs``)
+                    ``PolarDiagramTable``.\ **plot_convex_hull_slice**\ (``wind_speed, **kwargs``)
 
                             Parameters :
-                                        ``true_wind_speed`` : ``int`` or ``float``
-                                                Element in ``self``.\ **_resolution_wind_speed**
+                                        ``wind_speed`` : ``int`` or ``float``
+                                                Element in ``self``.\ *_resolution_wind_speed*
 
                                         ``kwargs`` : Keyword arguments to change the appearence of the created plot. Supports the same keyword arguments as the ``matplotlib.pyplot``.\ **plot**-function
 
-                            For a given column of ``self``.\ **_data** corresponding to the input
-                            element of ``self``.\ **_resolution_wind_speed**, the function computes
+                            For a given column of ``self``.\ *_data* corresponding to the input
+                            element of ``self``.\ *_resolution_wind_speed*\ , the function computes
                             the convex hull of the column entries together with the corresponding
-                            elements in ``self``.\ **_resolution_wind_angle** via the
+                            elements in ``self``.\ *_resolution_wind_angle* via the
                             ``hrosailing``.\ **convex_hull_polar**-function and returns a polar plot of
                             the computed convex hull via the ``matplotlib.pyplot``.\ **plot**-function, see
                             `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
@@ -332,13 +384,22 @@ The ``hrosailing``-module defines the following classes:
             with a list of optimal parameters
 
 
-            PolarDiagramCurve objects have the following public methods
+            The **PolarDiagramCurve** class defines the following public methods:
 
 
                     ``PolarDiagramCurve``.\ **__str__**\ ()
 
 
+                    ``PolarDiagramCurve``.\ **__repr__**\ ()
 
+
+                    ``PolarDiagramCurve``.\ **curve**
+
+                            Returns a read only version of ``self``.\ *_f*
+
+                    ``PolarDiagramCurve``.\ **parameters**
+
+                            Returns a read only version of ``self``.\ *_params*
 
                     ``PolarDiagramCurve``.\ **to_csv**\ (``csv_path``)
 
@@ -353,30 +414,35 @@ The ``hrosailing``-module defines the following classes:
                             The format of the .csv file will be as follows:
 
                                 | PolarDiagramCurve
-                                | Wind speed resolution:
-                                | self._resolution_wind_speed
-                                | Functions(s):
+                                | Functions:
                                 | self._f
                                 | Parameters:
                                 | self._params
 
                             with the delimiter ','
 
-                    ``PolarDiagramCurve``.\ **polar_plot_slice**\ (``true_wind_speed, **kwargs``)
+                    ``PolarDiagramCurve``.\ **polar_plot_slice**\ (``wind_speed, **kwargs``)
 
                             Parameters :
-                                        ``true_wind_speed`` : ``int`` or ``float``
+                                        ``wind_speed`` : ``int`` or ``float``
 
                                         ``kwargs`` : Keyword arguments to change the appearence of the created plot. Supports the same keyword arguments as the ``matplotlib.pyplot``.\ **plot**-function
 
 
-                    ``PolarDiagramCurve``.\ **flat_plot_slice**\ (``true_wind_speed, **kwargs``)
+                    ``PolarDiagramCurve``.\ **flat_plot_slice**\ (``wind_speed, **kwargs``)
 
                             Parameters :
-                                        ``true_wind_speed`` : ``int`` or ``float``
+                                        ``wind_speed`` : ``int`` or ``float``
 
                                         ``kwargs`` : Keyword arguments to change the appearence of the created plot. Supports the same keyword arguments as the ``matplotlib.pyplot``.\ **plot**-function
 
+
+                    ``PolarDiagramCurve``.\ **plot_convex_hull_slice**\ (``wind_speed, **kwargs``)
+
+                            Parameters :
+                                        ``wind_speed`` : ``int`` or ``float``
+
+                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot. Supports the same keyword arguments as the ``matplotlib.pyplot``.\ **plot**-function
 
 
     ``hrosailing``.\ **PolarDiagramPointcloud**\ (``data``)
@@ -384,10 +450,28 @@ The ``hrosailing``-module defines the following classes:
             A class to present, visualize and work with a polar performance diagram in form of a point cloud.
 
 
-            PolarDiagramPointcloud objects have the following public methods:
+            The **PolarDiagramPointcloud** class defines the following public methods:
 
 
                     ``PolarDiagramPointcloud``.\ **__str__**\ ()
+
+
+                    ``PolarDiagramPointcloud``.\ **__repr__**\ ()
+
+
+                    ``PolarDiagramPointcloud``.\ **wind_speeds**
+
+                            Returns a list of all occuring wind speeds
+
+
+                    ``PolarDiagramPointcloud``.\ **wind_angles**
+
+                            Returns a list of all occuring wind angles
+
+
+                    ``PolarDiagramPointcloud``.\ **points**
+
+                            Returns a read only version of ``self``.\ *_data*
 
 
                     ``PolarDiagramPointcloud``.\ **to_csv**\ (``csv_path``)
@@ -420,10 +504,10 @@ The ``hrosailing``-module defines the following classes:
                             Parameters :
 
 
-                    ``PolarDiagramPointcloud``.\ **polar_plot_slice**\ (``true_wind_speed, **kwargs``)
+                    ``PolarDiagramPointcloud``.\ **polar_plot_slice**\ (``wind_speed, **kwargs``)
 
                             Parameters :
-                                        ``true_wind_speed`` : ``int`` or ``float``
+                                        ``wind_speed`` : ``int`` or ``float``
 
                                         ``kwargs`` : Keyword arguments to change the appearence of the created plot. Supports the same keyword arguments as the ``matplotlib.pyplot``.\ **plot**-function
 
@@ -434,10 +518,10 @@ The ``hrosailing``-module defines the following classes:
                                     :scale: 50
                                     :align: center
 
-                    ``PolarDiagramPointcloud``.\ **flat_plot_slice**\ (``true_wind_speed, **kwargs``)
+                    ``PolarDiagramPointcloud``.\ **flat_plot_slice**\ (``wind_speed, **kwargs``)
 
                             Parameters :
-                                        ``true_wind_speed`` : ``int`` or ``float``
+                                        ``wind_speed`` : ``int`` or ``float``
 
                                         ``kwargs`` : Keyword arguments to change the appearence of the created plot. Supports the same keyword arguments as the ``matplotlib.pyplot``.\ **plot**-function
 
@@ -448,10 +532,10 @@ The ``hrosailing``-module defines the following classes:
                                     :scale: 50
                                     :align: center
 
-                    ``PolarDiagramPointcloud``.\ **plot_convex_hull_slice**\ (``true_wind_speed, **kwargs``)
+                    ``PolarDiagramPointcloud``.\ **plot_convex_hull_slice**\ (``wind_speed, **kwargs``)
 
                             Parameters :
-                                        ``true_wind_speed`` : ``int`` or ``float``
+                                        ``wind_speed`` : ``int`` or ``float``
 
                                         ``kwargs`` : Keyword arguments to change the appearence of the created plot. Supports the same keyword arguments as the ``matplotlib.pyplot``.\ **plot**-function
 

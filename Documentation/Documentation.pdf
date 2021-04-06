@@ -2,7 +2,7 @@
 %“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
 1 0 obj
 <<
-/F1 2 0 R /F2 3 0 R /F3 4 0 R /F4 14 0 R
+/F1 2 0 R /F2 3 0 R /F3 4 0 R /F4 15 0 R
 >>
 endobj
 2 0 obj
@@ -24,12 +24,12 @@ endobj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://docs.python.org/3/library/csv.html#csv.reader)
->> /Border [ 0 0 0 ] /Rect [ 236.8529 252.6236 265.7529 264.6236 ] /Subtype /Link /Type /Annot
+>> /Border [ 0 0 0 ] /Rect [ 236.8529 224.6236 265.7529 236.6236 ] /Subtype /Link /Type /Annot
 >>
 endobj
 6 0 obj
 <<
-/Annots [ 5 0 R ] /Contents 42 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 41 0 R /Resources <<
+/Annots [ 5 0 R ] /Contents 43 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 42 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -41,26 +41,26 @@ endobj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://docs.python.org/3/library/pickle.html#pickle.load)
->> /Border [ 0 0 0 ] /Rect [ 263.0829 698.2661 281.9829 710.2661 ] /Subtype /Link /Type /Annot
+>> /Border [ 0 0 0 ] /Rect [ 263.0829 633.0236 281.9829 645.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
 8 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.ConvexHull.html)
->> /Border [ 0 0 0 ] /Rect [ 121.5929 599.2661 172.7129 611.2661 ] /Subtype /Link /Type /Annot
+>> /Border [ 0 0 0 ] /Rect [ 289.0529 534.0236 340.1729 546.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
 9 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://docs.python.org/3/library/pickle.html#pickle.dump)
->> /Border [ 0 0 0 ] /Rect [ 283.7429 317.2661 308.7529 329.2661 ] /Subtype /Link /Type /Annot
+>> /Border [ 0 0 0 ] /Rect [ 341.5429 202.8661 366.5529 214.8661 ] /Subtype /Link /Type /Annot
 >>
 endobj
 10 0 obj
 <<
-/Annots [ 7 0 R 8 0 R 9 0 R ] /Contents 43 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 41 0 R /Resources <<
+/Annots [ 7 0 R 8 0 R 9 0 R ] /Contents 44 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 42 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -72,19 +72,19 @@ endobj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://pypi.org/project/tabulate/)
->> /Border [ 0 0 0 ] /Rect [ 294.6229 583.8236 330.2029 595.8236 ] /Subtype /Link /Type /Annot
+>> /Border [ 0 0 0 ] /Rect [ 294.6229 328.8661 330.2029 340.8661 ] /Subtype /Link /Type /Annot
 >>
 endobj
 12 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://docs.python.org/3/library/csv.html#csv.writer)
->> /Border [ 0 0 0 ] /Rect [ 273.5129 439.8236 297.9529 451.8236 ] /Subtype /Link /Type /Annot
+>> /Border [ 0 0 0 ] /Rect [ 311.3129 76.86614 335.7529 88.86614 ] /Subtype /Link /Type /Annot
 >>
 endobj
 13 0 obj
 <<
-/Annots [ 11 0 R 12 0 R ] /Contents 44 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 41 0 R /Resources <<
+/Annots [ 11 0 R 12 0 R ] /Contents 45 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 42 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -94,24 +94,24 @@ endobj
 endobj
 14 0 obj
 <<
-/BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding /Name /F4 /Subtype /Type1 /Type /Font
+/Contents 46 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 42 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
 >>
 endobj
 15 0 obj
 <<
-/A <<
-/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
->> /Border [ 0 0 0 ] /Rect [ 328.6129 104.3833 344.7329 116.3833 ] /Subtype /Link /Type /Annot
+/BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding /Name /F4 /Subtype /Type1 /Type /Font
 >>
 endobj
 16 0 obj
 <<
-/Annots [ 15 0 R ] /Contents 45 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 41 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 
-  /Trans <<
-
->> /Type /Page
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
+>> /Border [ 0 0 0 ] /Rect [ 328.6129 481.8236 344.7329 493.8236 ] /Subtype /Link /Type /Annot
 >>
 endobj
 17 0 obj
@@ -134,61 +134,12 @@ endobj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
->> /Border [ 0 0 0 ] /Rect [ 328.6129 573.0236 344.7329 585.0236 ] /Subtype /Link /Type /Annot
+>> /Border [ 0 0 0 ] /Rect [ 328.6129 104.6855 344.7329 116.6855 ] /Subtype /Link /Type /Annot
 >>
 endobj
 20 0 obj
 <<
-/BitsPerComponent 8 /ColorSpace /DeviceRGB /Filter [ /ASCII85Decode /FlateDecode ] /Height 262 /Length 6169 /SMask 21 0 R 
-  /Subtype /Image /Type /XObject /Width 386
->>
-stream
-Gb"0Wm?877fuNX]++-ja?DWfahB\@Q#f<`t+D;=OBVLW&#gn1!L'6K[8I/Ea<np(e(aI+")C9A0U;fMg"@K^7Sol2I0J'N6=gC0VAtO9[kIUQGR)q<Nh:(3/h</nSpJ[A8c?/ec1,D/?3Sf+D#QOi)z!!%PZ?$4[t?NuSm2)R8&o;4XN2VfYZL]](/5VH"@J6o#_!51oH!.'bo!;%Ih!9ciY!RQ`=10.VKXB[2[?+T>%,";nWW4Q9"0:-\=XA;>Mo,3rY=haiOH2(h$\5D+.7m?oSE]Mr%!oY;VN:NV@a<QbeKF.5/Mpg9-%1T<h1c?[nccWlg8lLrOlt:@Z*E$+BU?T8TAAJ=MZUXrlB/t!#m0b0O.:e7k?<O[.Y.e)2Hd6D*Vlrm">NOt5V6Nnc]2*%a<7*O6b5WAT]6DGd1GkV03`8M\rdK.Z0c<2^2JnW)d;"_S24WCTA^;E?ZpM[pRVQHR$sC):*e.G'D3O_OVr7c2O?sip%*5W%Xn$,B"rS;8p:[Q9ed!:EdVuMOa9j4DR]M7mmC19EAb,2oT/<(>&-HB2$>D4S-u7G7r;#1;A9_3\)23g/PsSLe=c$\NP1?ZbDE(ePe^jH9#SdmS;CH-E6aD0Sb+C&R<0,:724UaSRh\4i&6X#Fg!?\)Fn=b[/dj*s$H:$MF8c+4.Y"%76FDL[`+fH-?S6E^a?B9rJ-*SV$H9g'T8adir`DmQrdN\R<+5)nom^ECi.)B$6BN0,Q-GfK06d)(F^dK;cC^G-DNRAGeBg5fMF^[Ek.c;WF@FVV.$p.\T3'YEr9@?t4"[&MX,EDn9TX]"FI.SYd#p^Q7@a'GD@2A_ad+OD8%N/`o^q@M-8OuUErG[rbaQOmHq9%V;TL/!d[EL'r\QRW=2-6"pk;teXLjqb=cK/RT2sPaIIMgU;NPGZVbkX93UJ\Agpi.IMh:VKgpTp(9iAGq>eI#IRX"f&T/(8P])@:d71`-\.9&hTV\CWX;R*%)Krk2toi9N`putS\HX38o#]+=A\iMik6?akLTL`"[Cn&K,V./SbOHi&6^TK1Irpc'"R3VY.n*3\Ym94B0JNo9W:5`n?-b4(;.t?E';uP8Hi.LU(J*F,U,bq,LB"$sQjn*9CV'%d-9-KY)=]rbAd&pY0FfLm%j4lZNV3pQ;@5UHf@=sGQTVAA`-nka%B[7_W%/[paWdE(NDJ2T+lXeWul0-K"$B.I^H*MRsRb2TYHo`2F['Y39D^=7m'QRjbNb6S$]C/e`UCfb@^YF=RgicnF:EZAU;TQuZrUPqdaP==Hntb,/dU:ZZFYhkImCMV6O[pY-6\f4GCc1>+LEGe2+bb5ge-ncih5+-h!K*"+`N3[t(V_@Wh'C%$`W,(gnChZX;=rFD]'Fl<8>1W?:-SD425stN6d5"h/Jg(?G36Yq.@KH(eK]bT*dU@_EQ84*nbCS*e?gTMpZem`"sAW&Y^R;Dq$pKZ`N$7CFafZ.8_EsM#TY@)Bl-kZUF(:>eqC><^SsdO:6YhcFI*&W8>/\C<7cZD&N)Uj7]eh\I!Oe2ZGB3P:SD#gDR`!hIQN:nJfCaf[!o\l$LR%Sh5)6;),Ht&H8RDe$utj6\l8C/a-\P4>I'bc0>5;[ZuN2FYu8Zc+td$ENm+@3,LRpFqIN^rCu%-!9Zr**VU1S?l*e%ah>u.F),]GE1M/>%9):uF631]508M67(m.RT!sd>$r2(f%c=s.+Kgag'MbBD:Q(!gLK7iI3`g^jTEo#6&/qkc5GdO8CF#,&hM6qK1l9rDZP3t@BJP;mO,LVG"f;J%f^&@ZKXn\3.&Z&=CDO49e'qPqa<CB<Pe)@F<eD)1M]r&COKI>1^EbZ(a*1E1tgHrH@RQ,<Mc4CKmD7[@0*5(n*WL;4s!`>Sh%i.GDFp]rJSNbf;X%(L>?+T>eeRD1FOp>uuWGc[?476KE3eb/Ve@bYPhp5D3Z:1<NJVB@U7uoDLST7rCW:bmK>'/AIT[KAtN(@SL7u(9!Z+aPH`e_Q)E=,thO_1?\N3IW`)`Od^W=L*%>mbsOE=+l,YcLt@8hESme#-dRF>\RCkc!oIi)s5^B^8]AGoJ!V))O5uCY)0qXW0R.]+fLRaqQm[N"P<U4)mUPlI6MkbRJ$qoVKprbA'HAe>[E161X)Wo&uhuMcQoeFXNr\/;:1?ph%c[6lQ(]J%f+NEofpLFhh/&;J=`=2.%b.@'tU#pH?(\=rA1(>m_RI.>8V$L6Lb3FkHt#':C:,.<OpD9U`nU1`S[Y]Zce])13*o,D@aW<nHgs+q8bB4JV<mA=4UiU`bB:T9mlR?8]9EMOo&Z9aS]$H_[AZKiYBX-UAXh+tX&an`Z`ghgLG*)C,J8eCCB>L^QQ-h9UR'M\d$pVFWu[!Ie2Io95fFp!-qH;@(rd"jqo*W]LaY,#'6T8Z1TUK**M[2Q#W?rp=WHf9(?S&@*jR;cgPJfV#j:Cl9p"g_\nQ5;#5/+W_jQEm$'*LHk"*,K!2JTu&FUY=AdV)&eYWDGYNW6&UOsaM.;$rM?g'(=3g`S-B2I,`R<LMs`V].FJn[gDhDk@&DdeFmD1`B>uUQd:mUfF"o]bdr]fWjN4]OYO4G,-FOU<GsD_Q9G]=[Kfo(rdp5J07%HYqO[@EkZVsTGnG`<rlc9K4#dA)_=0n7"MFTd"+eYo8Ve#^Mq<0'ZF^tJ$"?8D]63YcW+7$'Sm78D97;JshRWW`9Xs;IZVNCcQ+87QreK]cULk>qDi^EV:^NJ.j?DJ-/;+lgNmJ#$Th0#NXY9`X_flJQ4+W+ebDQ0b'SfZ^1UljOK$G<QLU_$5+@u!aI`bJH2$d]Z`7u#7A^0P?rPefZAFefBo"Sf96MqiQP$kM[,,=VMW8^u]t5RP>09hfZoXXs&^RUBtU@<<F@p=*"rG:opHL*LXEq;'XU;@&"mCfE^-H8TKs<@bjF1/\CfinA0N(H;PV:'6'<5;-C=Jf:g^2+Sm`)Eg7Krf.LRe6PS-"\97Z]=<NZ`uH=XO;''<W`d`\]62_f=:q)K/(q"K9:)!&O[;U#2rBj&Zd]nO#U&DRA54RQYrP2Z+^#^&je7HO(QhC?;b0$C,7E'I.m2.XLe*hZ?LGBt??eb[*=3F]/Q?^ha1dJhK?tB#iX?;h?(DrpTY$5[M)p@/2M+oVV^$nW-Ki[R8RabCFk;a(^/E&(@;?^N7OJ*$D_cI8$k;I(,<6r_$e[JFLQD<E80K81k05Z2^)AGP(GYR'Jg#i0BT!YJP>CHr+sHl]:uHd#,))+lUSDQf[!1BS>t5N,fbTIJ777J+kq67>WsG7WV7R5tO[;<TNZF<TPGGZhG9(:RZr^6:;@)OVat*&-D_`E')ilFIgu`$e)XujN7qBRGh*i1)D[LKE%.Gd>QeQDAD;00a@4L^p<-V7;33'8T+f%b<T3C'Y[8hDk7LI]^o!NBiU_$GdoP&Hjm(rq^FdU3N$5Id'k`GmpmF``9?,mREV7\0Ia]K*'"9e5D;t@^+\r/6NBBk&8h/eW>qlK309L9'e0cM1"C").VpN5"q$rR@ehtckY)PXQNFk:%+^NXW"hUaDY#jHO-YY:H/!s?.#0E<O)kjlbYb+3`3%8jnsoisQfKOX1D=gLSA&\:u+6Jf1qH.D-bU_'h>CeSHeQ5r&/f:c2pp5G=H.ClsnGfu7C+.\EW$6^XsX>,._K^LnnnN/Aa[n#SF65=\iKod>Tpd_45Qk#EKiZV!c_THA$NE$RQ.;ujB2r9qL25^>LOF4XKj^f7+*gqA-MRF)%k4-Kg^0Z!q3^hdK'3hN:pch=nTHKkn\T?lO(Nn=A]80@`UuOpK#k2;B:hje-i'H1A`623hM<F,0m5\Zp!kBD+'LF^K4e&u>VIShP"[`V?ZW^P^)UlUA]'G/FJ/#:RNWLY_/DIO'Idhukgt^jIKo-t969oW6Hr/Ctf3Lcqk`GmX)BG(\1M$5th/u+=U=&5jO[?k&Me^-,[Plra6nDH-O?u2pNZM299_\5EXs6O[_o1CJUIPO,j5lWhem$Tc;B7<BK[FKV7OqQ?J'uJd$JDm9Kn+DM%3_c4A2T6BM%g"(Ts%6$&03p6]8d.N/d*Fg>FRZbG4D<p3l2[*WNO$-+i&!iDKQOgb1;q,Kn*]:[n^40SL1-DO=^4?]#AL7-J`ftLD0e&B6[P7FPkN@]8hu769l0+G,f84cCNEi7i4c?+JB8d<"h%t%dL3lC([:=`=r(_ch3Jg5XencW2Ze\IWJ#T.3oC;j5l.C;@)cd^0WDJO_@Vda@IHs;Rr<$aR"mFFOsBDkYfJNC>:mdL$)SR&b)a2>JBYC=gCH,\oa8O8Gm=uP0TNFNjOK?mhRRbIS`VLmllJIA7\]<@],/!!kbjC6/VXDgjF/e8#itU:7#cq(+BC][</DGju9l0n1W3(.ZPXL!@"EdO@"J)\X^7_orikq?&)31oZ2V-Kn'0)Y1`U?da=c#%R3K-+D(96PHTC/7RhLOi>F'IUsILcbE%+J]*Q_R+Wu4(H+EfiFaln*O?u2^%1L<8f-FjtC/P=.X&Gp,_?B,fd9T6gU_&VsYJ2]2k*UTH,:NbkgFn%*%1Tn,E((*7kr(FHZY%>6DsORD)(>]ahPEm1;TAERh/t\"Kn(^6F@b]^A8"MX*T`AL5XmRfaas]-M^X>p!j^kCHY)e\h*otX69o]r4gNdF3H@N3*M5e.!L[ujN*Le=)Qu%(.0O2+cCJ^er38!4Fo3%)"D#lZ<<c/q*SXhW?=#*N$3APrkLCj.4*Khjj8[(_mkeg!!%-pt<Wba,D7]&[ZmoPT927R369s%(>@mA9r@?\oQU2G!?"I@mm)#cY5R^tD60?G@>_B2f&E?*-+WbknSp<e<!AU)hEuCWofo$OGi\<24;l@e;rRqV*2*,%5I7YS)2B<h'VL)UlgrFT8hO[C4a8g:oqlX1R]inJlIPLK9Jg#huQo-eEZ=Os2QP9L?76WB^qNeeb9&/l.$3;R=m?NMAjlFNchinfV;!dssR5@M3qr<#n;@#OEX]so446'O0L_Knu[q(>s>8Pb8O[9'77Rq%dFF!>g38TQ-!`2p1Vn/,?qKLF[+TP9=[a<X@Y1c=,,)$$,=LV$@095`X80Iscnp-Wb=.5U'Hj`gXJ@kf0FTp1_j&$hh'EV+Y7j"^GWdB(;3B/Gj^l)9$<Hjj"E@E+]"MgdDbLCt7Td,6kGa-CN3JdCq$2Lg$&-2/O>YpbBSi[bN0k6\gdE>2%80PcBqtI.:W^fNF4.sT=Vb&$STf-^`.sHXml5l?l$J?Mf+GBfZIK01Z/[J8AQU:+'1Ag*p]iZ!]0\PBW9UVVUGHDp'+TT?K5-7ksn*[@P3&-pJ,DCZTg9F"_^0/IqW]CE\df?DQEi#j@<Rh[*9qgRFZ0)`K"JgRu&=PadG4#cfKG]#G_2puK;I$r;#)LQp$+N&G"JC'2N_"#h$k3BnQP9K4MW^RpHg_EL,:Na</.39:VG4f!,)$#MAU%>BlK$;8Is[;E!(,2l/mnI</71#8?!_^uK`HdAd3:)CUnPWjp7r7ME*9:c.tVFB!D!Pq#_66W&-0C7+TQhN63-X%K`L=*$3AM3'EXqoYpiWS+>\-&NEMGA#=@NU,e*R0<h=WZrFi-7MrYYGgr`PK\K;9GCQ[E3P?W=t-241.E\3GYHu^_Bz+@O>bOs*tnQP<K/=u5J?:$#rY1pcbS.K'".HlRlj0(r0PYIs4ghu:F,+%9oo(Pf2OJX'l*e&N`2rg!rYh]MG?p[VOsDeXg/od$e_Q`l9\Q"Pm$&%V20`nDoJJ"qm.dT;d1P4*egoCc7FqHlc`$7.4uZbue:K)*1C/!?9lBhBQG2ofW*]ukf;'2a$ufKY(q+-;&:=F&TgHm4"Op5jKuf%A,\S<[oIpm(fF`:sk^jVqcIj^(j+rp)7h^%.V4Tk&E0p*WS;4B%c!cK9U)af=,h[:\!^R`\9p[r8%@9E5%mz!!!#?]!+s.gJ8(/O72BW?Ch[N1]V-n?XsdopYsiq'a8/-%\/NS&<JI2NM;S8.2rZgD8__`/dHTX)DBj3/_`qC!6jEm/$AY^fkjuWU#KZZLNP8irQ2?&"#,MZO59f8;e!7Q;`4m9hm$]2Q\1McXN-b1R)=7XGs"F'.9-"Si]2_0p_*]?/XK/0(^4K3i%'MO'#UQ;_NXC&]%7A+*)7q^nY^4g8BL;ZRR/XIFEtlQ$<=/F!('OmCOcFNS7q9izz!(`"I"1_\Z-3~>endstream
-endobj
-21 0 obj
-<<
-/BitsPerComponent 8 /ColorSpace /DeviceGray /Decode [ 0 1 ] /Filter [ /ASCII85Decode /FlateDecode ] /Height 262 /Length 3338 
-  /Subtype /Image /Type /XObject /Width 386
->>
-stream
-Gb"0WI8CXP*QR^=!?)(SGuTV80OqLF7]g,f7]iOd)rj;j@QUPgERJIIVD6dJM:=F,'0?u#4CFFhJI\P\SBCV_>*GUWirdB?EZ?4\n4nt"JW-s.qN"glHcmGbiZ.:XIesS@cYFlJZGUT_mQGd+GC1W'zTZ:@-Vfib^<eUV!:k0JlE'jYD.)68q\=im]']=]Ige`M?$?/?5DCE:0"h:6+2\b2)!o-V&>9=$#CJ33;WHZce5_qT2r;(>HJ`,QY:d>HH"hmk-Ufq1!$UlHdL@50i;eEWKN$o5).e$\C(&&jV(nUsIjH3VR:GUl`+Ge>F)a87Jqp/#__r5]\[\]^K#^p!<cL/7Z_IGhF*<i$a*X)\`.l(uj^^UIWT`@"ci._<g:k0JlE'jYD.)68q\=im]']=]Ige`M?$?4HQ0=8r<4YmZRK[;Y2PS-RZ.SrA9Sb#09O]PCF#^u;2ZHN@a&459e&CI#FB\,aJD#'R7Gp/X'3l\LmqiCo=^3QDsHV4#bmR%I<qW<J=3[Di=Q/%-7@.9&4)[^OO!H'=$%0a88!&kVML'$.,J/\i76NM'Q^^UIWT`@"ci._<g:k5%LM(Qn_]6,k9#bc0Glfk11A5$frTl4CUq_LXbE@;r]^58u?)+8%-aqj,nr(Z(eemYDj'KcRfco84`B-D9e9l/(@cbu+:?/12T@.[00=gkci-_Z&%GX]U]"h:6+2\b2)!o1Eq9^[K6-LrX*il'MS<RnQB63.a6SqV>P:,KZj"\b^@+F.j$^a,?M`<ET_P@'7M-INS6?*eJ,RSX\POnNO3crf1L5771TVSJp<#>I78![c>0W#ei0A46M4BaRfN$CFLcT^X>[DuO_q$CF@_+RJjcc`bBsOI:F.1DenX41);ri=0@.aJ$2"Ppdc.VEdc6AX]"Lrld-b##lkk)o'Lgf]rW:5QpJBGbf^6[e5#OWgP3kB'!/bfn3*dKR6u4eTj=fQ9')ONt7iWXE2*k%jna_9iI]1V.O,tmN+G6:5kNXe)%?gG!(GuJ-_SF0tTVfh\k6kcg."ic/G'Ya.GTt&UaSD1,a^gSQ[.Sr$e+i?&_,N&MsY43Rlo/i">]r'5FYXf9D,oLYo;EV%X2lTIFjJV]d5J($$&&+U=B@f0W(6'JPZH^`V,S-G8o]W$i?6NM_4nFV+dNK8D0t?3R29-X(t,Zd7eW'_!o^!]<h3ldI.uQCrbb]F*.#D9^)5OL`"2fL"f=/FW=&;*ZtA!p`T'W3t"9djSTJmq\WX`Sj3p0KX+u>`Ebk!H'=$9iE1TF+XN@d1iNVDD3kZ-EdKcW;k:\[5rK*J;LoG$qW!F84_rn>KAV*7C/hFEYK(Zf9pksI!iSRgG?)Ld25YH;*YC]JV>[_3r[m\@u!+Moum#Q((s&7TJ!gAk5<p(WI&+?h5r'*Qb2s!@a!Xc"feLRLamc<:a`][S-tBlEW9$&mR%I<RK=Q@hGTkjVWT#P`7EXYU;E`T+G-IUG]:`]<M#U=cc"D0AKbKjnL,N3p0).^Jd%a(T'hFeHF_G3RSZ6P9n=Blg@:aZNI9_Lj8bsg(6Ta>Z$#fTk>=JM9n@Wd^S#le0Ti6JVILJ]8+GH7RC$Vd+27^!@c%2_^qY3qL*jol!bV!QOF2*;[r'aNSjEGkGnm9H]<ifN^/^'m-LrW/&N.ZP:r#c]F//$(.;Mbq6s^&bgphY,`f6Is:r#Jd<oJc7ge`M?$?/?5DCE<FB7]K-/Xh"+o6VGE6Oke6$[=#,./<QL'G.%CB-DD,McRShKE>WX0&W>R)GqR2<<*\:rmo\25b6Q]P>$30#h%nDODA=KiH07OV4rJGqYlI+)'/m3pajcTZ%W7ri"[+g']=]Ige`M?$?/?5DCE:0"h:6+2\b2)!o-V&)[^OO!H'=$%0a88!&o<>>Ka,!1D<VN#^m@j.?QI5o@I]d%lqGhSCf$C]SZbWkaU4fAJVd>?t.=:oM'-6c"ZbHX$bZt*+8D5Csdpe0qLP`LE'^o9l.f';nD^D+*)nZ2mHB0+\>Z^+9Z#5EC0bE.)68q\=im]']=]Ige`M?$?/?5DCE:0"h:6+2\b2)!o-V&)[^Q52mHrICq"`iE]<_9#8hk&>>H?K,\(:V%"/dngRfX(N^EgZoM'.ec6+T0;RS9aj_suB[LOekVVj0OK"d'n4:@"@DdmLrHm\Rb]hn,a%P[`+[ObWel]Y.1#eVAAL'$.,J/\i76NM'Q^^UIWT`@"ci._<g:k0JlE'jYD.)68q\=im]!sRDZoPs0o]!'t*;nmVTr>3i(5hrQaC>Nms5:F;V"h6_IDccOZEr^_U&5dJABmS86/K[A!=hU]K<ZGjfoj?Eh6sV=Lm*4EHY^4b%lb3YBX,/V#`Y_kGD``D;"!]_,V6r=3Ir-h`*/!JD)2;2<ROm>(lH4*h%ub64^Al`)6R^"MC)VBa;N-agIeJl@6EXJK\7PiD7pLlX.@k6jFe[.ZIC$58N_R:ge[!0+N3=k%k_q7'g:nt7(=a1Rs%D560XCVQcLtOSCpe::W%5?Q',@D;\Y.PhfqEN*Wu'l\>enEqs%9jcNH3o5=s3B\m"#'!s)3Ijb.Y%?r`9c8gLi7P3ileH;S^@gru1;NRX*QLZd@,eU?-Z:cU'/-L69m6O1.-?[kA9TIhnbW@jucR-M`V1dD4aU%:PPC0,e&sgkY1;a5jSc`VVb:.]]1VN0Ul2Y*R1j!@+ZDCf6O@Iq3Y(93ILAeSe]srUg1YX,B3SouXOG/(_0ecSMfZIRTF.).$%?!X;[-!!!!a^CVtgf<.`o5jeOmlrW&,,[,H^iK>7o1Ua5(&"M0&316Su"+"N/s.=dsAnUJn6jIL^dY:i:G'=[W\C*3+ZN(/fbK_Ybqnu]2#?rCK=%_4Q00_ZB:"AQ-WI1T@g,*=.5?d+ae13a9cW:K:S+h4E;:4M^(Xjc\YG(SZRSmP]fpY'V=auZb8hNpY9PT,K%h52EjiZGSj^WLaG@O06W)DR5OO-WFj"A@^4KTCoE98"<r$?]A`n;g.8C6i9V*N6h_s,_'=FZQa8hR?"\dJB#;b:`L<qcN?gWGj(/>%5`H%..cTBPKteG"c"\I&ad>,Z$q'eLZA8aif-g8boin:`,F(:*ofrKLP0NTdjT&D7_(gu.&dQo4mMWd+=k<rr,G0:eZF_d-[#^R`[9lUb718\+6j$]Fh0LAjn!OM722hang>16eLGPeEA9/e"E?X\655`*J6AE6;2=lu\t!p9"Hi97qt)<sllP*_g'QI"*fZ(U_&OpSIeb7/F0!X\O',55^Ojl#Sed]7=oKc;b2s?<)Gi=u/l)&@AQZs3^9aBAt;b>HNfcJ!@.9_%b]dSGOGCekShs);N74zh>RYs6kAn~>endstream
-endobj
-22 0 obj
-<<
-/A <<
-/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
->> /Border [ 0 0 0 ] /Rect [ 413.6529 102.7323 429.7729 114.7323 ] /Subtype /Link /Type /Annot
->>
-endobj
-23 0 obj
-<<
-/Annots [ 19 0 R 22 0 R ] /Contents 46 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 41 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ] /XObject <<
-/FormXob.3d7462a5dd46e429b96f2541facc47bf 17 0 R /FormXob.8fc74ee10fc34398d78f25bcfea2942f 20 0 R
->>
->> /Rotate 0 
-  /Trans <<
-
->> /Type /Page
->>
-endobj
-24 0 obj
-<<
-/A <<
-/S /URI /Type /Action /URI (https://docs.python.org/3/library/csv.html#csv.writer)
->> /Border [ 0 0 0 ] /Rect [ 273.5129 555.0236 297.9529 567.0236 ] /Subtype /Link /Type /Annot
->>
-endobj
-25 0 obj
-<<
-/A <<
-/S /URI /Type /Action /URI (https://docs.python.org/3/library/csv.html#csv.writer)
->> /Border [ 0 0 0 ] /Rect [ 273.5129 76.86614 297.9529 88.86614 ] /Subtype /Link /Type /Annot
->>
-endobj
-26 0 obj
-<<
-/Annots [ 24 0 R 25 0 R ] /Contents 47 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 41 0 R /Resources <<
+/Annots [ 16 0 R 19 0 R ] /Contents 47 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 42 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ] /XObject <<
 /FormXob.3d7462a5dd46e429b96f2541facc47bf 17 0 R
 >>
@@ -198,33 +149,80 @@ endobj
 >> /Type /Page
 >>
 endobj
+21 0 obj
+<<
+/BitsPerComponent 8 /ColorSpace /DeviceRGB /Filter [ /ASCII85Decode /FlateDecode ] /Height 262 /Length 6169 /SMask 22 0 R 
+  /Subtype /Image /Type /XObject /Width 386
+>>
+stream
+Gb"0Wm?877fuNX]++-ja?DWfahB\@Q#f<`t+D;=OBVLW&#gn1!L'6K[8I/Ea<np(e(aI+")C9A0U;fMg"@K^7Sol2I0J'N6=gC0VAtO9[kIUQGR)q<Nh:(3/h</nSpJ[A8c?/ec1,D/?3Sf+D#QOi)z!!%PZ?$4[t?NuSm2)R8&o;4XN2VfYZL]](/5VH"@J6o#_!51oH!.'bo!;%Ih!9ciY!RQ`=10.VKXB[2[?+T>%,";nWW4Q9"0:-\=XA;>Mo,3rY=haiOH2(h$\5D+.7m?oSE]Mr%!oY;VN:NV@a<QbeKF.5/Mpg9-%1T<h1c?[nccWlg8lLrOlt:@Z*E$+BU?T8TAAJ=MZUXrlB/t!#m0b0O.:e7k?<O[.Y.e)2Hd6D*Vlrm">NOt5V6Nnc]2*%a<7*O6b5WAT]6DGd1GkV03`8M\rdK.Z0c<2^2JnW)d;"_S24WCTA^;E?ZpM[pRVQHR$sC):*e.G'D3O_OVr7c2O?sip%*5W%Xn$,B"rS;8p:[Q9ed!:EdVuMOa9j4DR]M7mmC19EAb,2oT/<(>&-HB2$>D4S-u7G7r;#1;A9_3\)23g/PsSLe=c$\NP1?ZbDE(ePe^jH9#SdmS;CH-E6aD0Sb+C&R<0,:724UaSRh\4i&6X#Fg!?\)Fn=b[/dj*s$H:$MF8c+4.Y"%76FDL[`+fH-?S6E^a?B9rJ-*SV$H9g'T8adir`DmQrdN\R<+5)nom^ECi.)B$6BN0,Q-GfK06d)(F^dK;cC^G-DNRAGeBg5fMF^[Ek.c;WF@FVV.$p.\T3'YEr9@?t4"[&MX,EDn9TX]"FI.SYd#p^Q7@a'GD@2A_ad+OD8%N/`o^q@M-8OuUErG[rbaQOmHq9%V;TL/!d[EL'r\QRW=2-6"pk;teXLjqb=cK/RT2sPaIIMgU;NPGZVbkX93UJ\Agpi.IMh:VKgpTp(9iAGq>eI#IRX"f&T/(8P])@:d71`-\.9&hTV\CWX;R*%)Krk2toi9N`putS\HX38o#]+=A\iMik6?akLTL`"[Cn&K,V./SbOHi&6^TK1Irpc'"R3VY.n*3\Ym94B0JNo9W:5`n?-b4(;.t?E';uP8Hi.LU(J*F,U,bq,LB"$sQjn*9CV'%d-9-KY)=]rbAd&pY0FfLm%j4lZNV3pQ;@5UHf@=sGQTVAA`-nka%B[7_W%/[paWdE(NDJ2T+lXeWul0-K"$B.I^H*MRsRb2TYHo`2F['Y39D^=7m'QRjbNb6S$]C/e`UCfb@^YF=RgicnF:EZAU;TQuZrUPqdaP==Hntb,/dU:ZZFYhkImCMV6O[pY-6\f4GCc1>+LEGe2+bb5ge-ncih5+-h!K*"+`N3[t(V_@Wh'C%$`W,(gnChZX;=rFD]'Fl<8>1W?:-SD425stN6d5"h/Jg(?G36Yq.@KH(eK]bT*dU@_EQ84*nbCS*e?gTMpZem`"sAW&Y^R;Dq$pKZ`N$7CFafZ.8_EsM#TY@)Bl-kZUF(:>eqC><^SsdO:6YhcFI*&W8>/\C<7cZD&N)Uj7]eh\I!Oe2ZGB3P:SD#gDR`!hIQN:nJfCaf[!o\l$LR%Sh5)6;),Ht&H8RDe$utj6\l8C/a-\P4>I'bc0>5;[ZuN2FYu8Zc+td$ENm+@3,LRpFqIN^rCu%-!9Zr**VU1S?l*e%ah>u.F),]GE1M/>%9):uF631]508M67(m.RT!sd>$r2(f%c=s.+Kgag'MbBD:Q(!gLK7iI3`g^jTEo#6&/qkc5GdO8CF#,&hM6qK1l9rDZP3t@BJP;mO,LVG"f;J%f^&@ZKXn\3.&Z&=CDO49e'qPqa<CB<Pe)@F<eD)1M]r&COKI>1^EbZ(a*1E1tgHrH@RQ,<Mc4CKmD7[@0*5(n*WL;4s!`>Sh%i.GDFp]rJSNbf;X%(L>?+T>eeRD1FOp>uuWGc[?476KE3eb/Ve@bYPhp5D3Z:1<NJVB@U7uoDLST7rCW:bmK>'/AIT[KAtN(@SL7u(9!Z+aPH`e_Q)E=,thO_1?\N3IW`)`Od^W=L*%>mbsOE=+l,YcLt@8hESme#-dRF>\RCkc!oIi)s5^B^8]AGoJ!V))O5uCY)0qXW0R.]+fLRaqQm[N"P<U4)mUPlI6MkbRJ$qoVKprbA'HAe>[E161X)Wo&uhuMcQoeFXNr\/;:1?ph%c[6lQ(]J%f+NEofpLFhh/&;J=`=2.%b.@'tU#pH?(\=rA1(>m_RI.>8V$L6Lb3FkHt#':C:,.<OpD9U`nU1`S[Y]Zce])13*o,D@aW<nHgs+q8bB4JV<mA=4UiU`bB:T9mlR?8]9EMOo&Z9aS]$H_[AZKiYBX-UAXh+tX&an`Z`ghgLG*)C,J8eCCB>L^QQ-h9UR'M\d$pVFWu[!Ie2Io95fFp!-qH;@(rd"jqo*W]LaY,#'6T8Z1TUK**M[2Q#W?rp=WHf9(?S&@*jR;cgPJfV#j:Cl9p"g_\nQ5;#5/+W_jQEm$'*LHk"*,K!2JTu&FUY=AdV)&eYWDGYNW6&UOsaM.;$rM?g'(=3g`S-B2I,`R<LMs`V].FJn[gDhDk@&DdeFmD1`B>uUQd:mUfF"o]bdr]fWjN4]OYO4G,-FOU<GsD_Q9G]=[Kfo(rdp5J07%HYqO[@EkZVsTGnG`<rlc9K4#dA)_=0n7"MFTd"+eYo8Ve#^Mq<0'ZF^tJ$"?8D]63YcW+7$'Sm78D97;JshRWW`9Xs;IZVNCcQ+87QreK]cULk>qDi^EV:^NJ.j?DJ-/;+lgNmJ#$Th0#NXY9`X_flJQ4+W+ebDQ0b'SfZ^1UljOK$G<QLU_$5+@u!aI`bJH2$d]Z`7u#7A^0P?rPefZAFefBo"Sf96MqiQP$kM[,,=VMW8^u]t5RP>09hfZoXXs&^RUBtU@<<F@p=*"rG:opHL*LXEq;'XU;@&"mCfE^-H8TKs<@bjF1/\CfinA0N(H;PV:'6'<5;-C=Jf:g^2+Sm`)Eg7Krf.LRe6PS-"\97Z]=<NZ`uH=XO;''<W`d`\]62_f=:q)K/(q"K9:)!&O[;U#2rBj&Zd]nO#U&DRA54RQYrP2Z+^#^&je7HO(QhC?;b0$C,7E'I.m2.XLe*hZ?LGBt??eb[*=3F]/Q?^ha1dJhK?tB#iX?;h?(DrpTY$5[M)p@/2M+oVV^$nW-Ki[R8RabCFk;a(^/E&(@;?^N7OJ*$D_cI8$k;I(,<6r_$e[JFLQD<E80K81k05Z2^)AGP(GYR'Jg#i0BT!YJP>CHr+sHl]:uHd#,))+lUSDQf[!1BS>t5N,fbTIJ777J+kq67>WsG7WV7R5tO[;<TNZF<TPGGZhG9(:RZr^6:;@)OVat*&-D_`E')ilFIgu`$e)XujN7qBRGh*i1)D[LKE%.Gd>QeQDAD;00a@4L^p<-V7;33'8T+f%b<T3C'Y[8hDk7LI]^o!NBiU_$GdoP&Hjm(rq^FdU3N$5Id'k`GmpmF``9?,mREV7\0Ia]K*'"9e5D;t@^+\r/6NBBk&8h/eW>qlK309L9'e0cM1"C").VpN5"q$rR@ehtckY)PXQNFk:%+^NXW"hUaDY#jHO-YY:H/!s?.#0E<O)kjlbYb+3`3%8jnsoisQfKOX1D=gLSA&\:u+6Jf1qH.D-bU_'h>CeSHeQ5r&/f:c2pp5G=H.ClsnGfu7C+.\EW$6^XsX>,._K^LnnnN/Aa[n#SF65=\iKod>Tpd_45Qk#EKiZV!c_THA$NE$RQ.;ujB2r9qL25^>LOF4XKj^f7+*gqA-MRF)%k4-Kg^0Z!q3^hdK'3hN:pch=nTHKkn\T?lO(Nn=A]80@`UuOpK#k2;B:hje-i'H1A`623hM<F,0m5\Zp!kBD+'LF^K4e&u>VIShP"[`V?ZW^P^)UlUA]'G/FJ/#:RNWLY_/DIO'Idhukgt^jIKo-t969oW6Hr/Ctf3Lcqk`GmX)BG(\1M$5th/u+=U=&5jO[?k&Me^-,[Plra6nDH-O?u2pNZM299_\5EXs6O[_o1CJUIPO,j5lWhem$Tc;B7<BK[FKV7OqQ?J'uJd$JDm9Kn+DM%3_c4A2T6BM%g"(Ts%6$&03p6]8d.N/d*Fg>FRZbG4D<p3l2[*WNO$-+i&!iDKQOgb1;q,Kn*]:[n^40SL1-DO=^4?]#AL7-J`ftLD0e&B6[P7FPkN@]8hu769l0+G,f84cCNEi7i4c?+JB8d<"h%t%dL3lC([:=`=r(_ch3Jg5XencW2Ze\IWJ#T.3oC;j5l.C;@)cd^0WDJO_@Vda@IHs;Rr<$aR"mFFOsBDkYfJNC>:mdL$)SR&b)a2>JBYC=gCH,\oa8O8Gm=uP0TNFNjOK?mhRRbIS`VLmllJIA7\]<@],/!!kbjC6/VXDgjF/e8#itU:7#cq(+BC][</DGju9l0n1W3(.ZPXL!@"EdO@"J)\X^7_orikq?&)31oZ2V-Kn'0)Y1`U?da=c#%R3K-+D(96PHTC/7RhLOi>F'IUsILcbE%+J]*Q_R+Wu4(H+EfiFaln*O?u2^%1L<8f-FjtC/P=.X&Gp,_?B,fd9T6gU_&VsYJ2]2k*UTH,:NbkgFn%*%1Tn,E((*7kr(FHZY%>6DsORD)(>]ahPEm1;TAERh/t\"Kn(^6F@b]^A8"MX*T`AL5XmRfaas]-M^X>p!j^kCHY)e\h*otX69o]r4gNdF3H@N3*M5e.!L[ujN*Le=)Qu%(.0O2+cCJ^er38!4Fo3%)"D#lZ<<c/q*SXhW?=#*N$3APrkLCj.4*Khjj8[(_mkeg!!%-pt<Wba,D7]&[ZmoPT927R369s%(>@mA9r@?\oQU2G!?"I@mm)#cY5R^tD60?G@>_B2f&E?*-+WbknSp<e<!AU)hEuCWofo$OGi\<24;l@e;rRqV*2*,%5I7YS)2B<h'VL)UlgrFT8hO[C4a8g:oqlX1R]inJlIPLK9Jg#huQo-eEZ=Os2QP9L?76WB^qNeeb9&/l.$3;R=m?NMAjlFNchinfV;!dssR5@M3qr<#n;@#OEX]so446'O0L_Knu[q(>s>8Pb8O[9'77Rq%dFF!>g38TQ-!`2p1Vn/,?qKLF[+TP9=[a<X@Y1c=,,)$$,=LV$@095`X80Iscnp-Wb=.5U'Hj`gXJ@kf0FTp1_j&$hh'EV+Y7j"^GWdB(;3B/Gj^l)9$<Hjj"E@E+]"MgdDbLCt7Td,6kGa-CN3JdCq$2Lg$&-2/O>YpbBSi[bN0k6\gdE>2%80PcBqtI.:W^fNF4.sT=Vb&$STf-^`.sHXml5l?l$J?Mf+GBfZIK01Z/[J8AQU:+'1Ag*p]iZ!]0\PBW9UVVUGHDp'+TT?K5-7ksn*[@P3&-pJ,DCZTg9F"_^0/IqW]CE\df?DQEi#j@<Rh[*9qgRFZ0)`K"JgRu&=PadG4#cfKG]#G_2puK;I$r;#)LQp$+N&G"JC'2N_"#h$k3BnQP9K4MW^RpHg_EL,:Na</.39:VG4f!,)$#MAU%>BlK$;8Is[;E!(,2l/mnI</71#8?!_^uK`HdAd3:)CUnPWjp7r7ME*9:c.tVFB!D!Pq#_66W&-0C7+TQhN63-X%K`L=*$3AM3'EXqoYpiWS+>\-&NEMGA#=@NU,e*R0<h=WZrFi-7MrYYGgr`PK\K;9GCQ[E3P?W=t-241.E\3GYHu^_Bz+@O>bOs*tnQP<K/=u5J?:$#rY1pcbS.K'".HlRlj0(r0PYIs4ghu:F,+%9oo(Pf2OJX'l*e&N`2rg!rYh]MG?p[VOsDeXg/od$e_Q`l9\Q"Pm$&%V20`nDoJJ"qm.dT;d1P4*egoCc7FqHlc`$7.4uZbue:K)*1C/!?9lBhBQG2ofW*]ukf;'2a$ufKY(q+-;&:=F&TgHm4"Op5jKuf%A,\S<[oIpm(fF`:sk^jVqcIj^(j+rp)7h^%.V4Tk&E0p*WS;4B%c!cK9U)af=,h[:\!^R`\9p[r8%@9E5%mz!!!#?]!+s.gJ8(/O72BW?Ch[N1]V-n?XsdopYsiq'a8/-%\/NS&<JI2NM;S8.2rZgD8__`/dHTX)DBj3/_`qC!6jEm/$AY^fkjuWU#KZZLNP8irQ2?&"#,MZO59f8;e!7Q;`4m9hm$]2Q\1McXN-b1R)=7XGs"F'.9-"Si]2_0p_*]?/XK/0(^4K3i%'MO'#UQ;_NXC&]%7A+*)7q^nY^4g8BL;ZRR/XIFEtlQ$<=/F!('OmCOcFNS7q9izz!(`"I"1_\Z-3~>endstream
+endobj
+22 0 obj
+<<
+/BitsPerComponent 8 /ColorSpace /DeviceGray /Decode [ 0 1 ] /Filter [ /ASCII85Decode /FlateDecode ] /Height 262 /Length 3338 
+  /Subtype /Image /Type /XObject /Width 386
+>>
+stream
+Gb"0WI8CXP*QR^=!?)(SGuTV80OqLF7]g,f7]iOd)rj;j@QUPgERJIIVD6dJM:=F,'0?u#4CFFhJI\P\SBCV_>*GUWirdB?EZ?4\n4nt"JW-s.qN"glHcmGbiZ.:XIesS@cYFlJZGUT_mQGd+GC1W'zTZ:@-Vfib^<eUV!:k0JlE'jYD.)68q\=im]']=]Ige`M?$?/?5DCE:0"h:6+2\b2)!o-V&>9=$#CJ33;WHZce5_qT2r;(>HJ`,QY:d>HH"hmk-Ufq1!$UlHdL@50i;eEWKN$o5).e$\C(&&jV(nUsIjH3VR:GUl`+Ge>F)a87Jqp/#__r5]\[\]^K#^p!<cL/7Z_IGhF*<i$a*X)\`.l(uj^^UIWT`@"ci._<g:k0JlE'jYD.)68q\=im]']=]Ige`M?$?4HQ0=8r<4YmZRK[;Y2PS-RZ.SrA9Sb#09O]PCF#^u;2ZHN@a&459e&CI#FB\,aJD#'R7Gp/X'3l\LmqiCo=^3QDsHV4#bmR%I<qW<J=3[Di=Q/%-7@.9&4)[^OO!H'=$%0a88!&kVML'$.,J/\i76NM'Q^^UIWT`@"ci._<g:k5%LM(Qn_]6,k9#bc0Glfk11A5$frTl4CUq_LXbE@;r]^58u?)+8%-aqj,nr(Z(eemYDj'KcRfco84`B-D9e9l/(@cbu+:?/12T@.[00=gkci-_Z&%GX]U]"h:6+2\b2)!o1Eq9^[K6-LrX*il'MS<RnQB63.a6SqV>P:,KZj"\b^@+F.j$^a,?M`<ET_P@'7M-INS6?*eJ,RSX\POnNO3crf1L5771TVSJp<#>I78![c>0W#ei0A46M4BaRfN$CFLcT^X>[DuO_q$CF@_+RJjcc`bBsOI:F.1DenX41);ri=0@.aJ$2"Ppdc.VEdc6AX]"Lrld-b##lkk)o'Lgf]rW:5QpJBGbf^6[e5#OWgP3kB'!/bfn3*dKR6u4eTj=fQ9')ONt7iWXE2*k%jna_9iI]1V.O,tmN+G6:5kNXe)%?gG!(GuJ-_SF0tTVfh\k6kcg."ic/G'Ya.GTt&UaSD1,a^gSQ[.Sr$e+i?&_,N&MsY43Rlo/i">]r'5FYXf9D,oLYo;EV%X2lTIFjJV]d5J($$&&+U=B@f0W(6'JPZH^`V,S-G8o]W$i?6NM_4nFV+dNK8D0t?3R29-X(t,Zd7eW'_!o^!]<h3ldI.uQCrbb]F*.#D9^)5OL`"2fL"f=/FW=&;*ZtA!p`T'W3t"9djSTJmq\WX`Sj3p0KX+u>`Ebk!H'=$9iE1TF+XN@d1iNVDD3kZ-EdKcW;k:\[5rK*J;LoG$qW!F84_rn>KAV*7C/hFEYK(Zf9pksI!iSRgG?)Ld25YH;*YC]JV>[_3r[m\@u!+Moum#Q((s&7TJ!gAk5<p(WI&+?h5r'*Qb2s!@a!Xc"feLRLamc<:a`][S-tBlEW9$&mR%I<RK=Q@hGTkjVWT#P`7EXYU;E`T+G-IUG]:`]<M#U=cc"D0AKbKjnL,N3p0).^Jd%a(T'hFeHF_G3RSZ6P9n=Blg@:aZNI9_Lj8bsg(6Ta>Z$#fTk>=JM9n@Wd^S#le0Ti6JVILJ]8+GH7RC$Vd+27^!@c%2_^qY3qL*jol!bV!QOF2*;[r'aNSjEGkGnm9H]<ifN^/^'m-LrW/&N.ZP:r#c]F//$(.;Mbq6s^&bgphY,`f6Is:r#Jd<oJc7ge`M?$?/?5DCE<FB7]K-/Xh"+o6VGE6Oke6$[=#,./<QL'G.%CB-DD,McRShKE>WX0&W>R)GqR2<<*\:rmo\25b6Q]P>$30#h%nDODA=KiH07OV4rJGqYlI+)'/m3pajcTZ%W7ri"[+g']=]Ige`M?$?/?5DCE:0"h:6+2\b2)!o-V&)[^OO!H'=$%0a88!&o<>>Ka,!1D<VN#^m@j.?QI5o@I]d%lqGhSCf$C]SZbWkaU4fAJVd>?t.=:oM'-6c"ZbHX$bZt*+8D5Csdpe0qLP`LE'^o9l.f';nD^D+*)nZ2mHB0+\>Z^+9Z#5EC0bE.)68q\=im]']=]Ige`M?$?/?5DCE:0"h:6+2\b2)!o-V&)[^Q52mHrICq"`iE]<_9#8hk&>>H?K,\(:V%"/dngRfX(N^EgZoM'.ec6+T0;RS9aj_suB[LOekVVj0OK"d'n4:@"@DdmLrHm\Rb]hn,a%P[`+[ObWel]Y.1#eVAAL'$.,J/\i76NM'Q^^UIWT`@"ci._<g:k0JlE'jYD.)68q\=im]!sRDZoPs0o]!'t*;nmVTr>3i(5hrQaC>Nms5:F;V"h6_IDccOZEr^_U&5dJABmS86/K[A!=hU]K<ZGjfoj?Eh6sV=Lm*4EHY^4b%lb3YBX,/V#`Y_kGD``D;"!]_,V6r=3Ir-h`*/!JD)2;2<ROm>(lH4*h%ub64^Al`)6R^"MC)VBa;N-agIeJl@6EXJK\7PiD7pLlX.@k6jFe[.ZIC$58N_R:ge[!0+N3=k%k_q7'g:nt7(=a1Rs%D560XCVQcLtOSCpe::W%5?Q',@D;\Y.PhfqEN*Wu'l\>enEqs%9jcNH3o5=s3B\m"#'!s)3Ijb.Y%?r`9c8gLi7P3ileH;S^@gru1;NRX*QLZd@,eU?-Z:cU'/-L69m6O1.-?[kA9TIhnbW@jucR-M`V1dD4aU%:PPC0,e&sgkY1;a5jSc`VVb:.]]1VN0Ul2Y*R1j!@+ZDCf6O@Iq3Y(93ILAeSe]srUg1YX,B3SouXOG/(_0ecSMfZIRTF.).$%?!X;[-!!!!a^CVtgf<.`o5jeOmlrW&,,[,H^iK>7o1Ua5(&"M0&316Su"+"N/s.=dsAnUJn6jIL^dY:i:G'=[W\C*3+ZN(/fbK_Ybqnu]2#?rCK=%_4Q00_ZB:"AQ-WI1T@g,*=.5?d+ae13a9cW:K:S+h4E;:4M^(Xjc\YG(SZRSmP]fpY'V=auZb8hNpY9PT,K%h52EjiZGSj^WLaG@O06W)DR5OO-WFj"A@^4KTCoE98"<r$?]A`n;g.8C6i9V*N6h_s,_'=FZQa8hR?"\dJB#;b:`L<qcN?gWGj(/>%5`H%..cTBPKteG"c"\I&ad>,Z$q'eLZA8aif-g8boin:`,F(:*ofrKLP0NTdjT&D7_(gu.&dQo4mMWd+=k<rr,G0:eZF_d-[#^R`[9lUb718\+6j$]Fh0LAjn!OM722hang>16eLGPeEA9/e"E?X\655`*J6AE6;2=lu\t!p9"Hi97qt)<sllP*_g'QI"*fZ(U_&OpSIeb7/F0!X\O',55^Ojl#Sed]7=oKc;b2s?<)Gi=u/l)&@AQZs3^9aBAt;b>HNfcJ!@.9_%b]dSGOGCekShs);N74zh>RYs6kAn~>endstream
+endobj
+23 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
+>> /Border [ 0 0 0 ] /Rect [ 413.6529 579.0236 429.7729 591.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+24 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.python.org/3/library/csv.html#csv.writer)
+>> /Border [ 0 0 0 ] /Rect [ 273.5129 142.8661 297.9529 154.8661 ] /Subtype /Link /Type /Annot
+>>
+endobj
+25 0 obj
+<<
+/Annots [ 23 0 R 24 0 R ] /Contents 48 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 42 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ] /XObject <<
+/FormXob.3d7462a5dd46e429b96f2541facc47bf 17 0 R /FormXob.8fc74ee10fc34398d78f25bcfea2942f 21 0 R
+>>
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
+>>
+endobj
+26 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.python.org/3/library/csv.html#csv.writer)
+>> /Border [ 0 0 0 ] /Rect [ 311.3129 142.8661 335.7529 154.8661 ] /Subtype /Link /Type /Annot
+>>
+endobj
 27 0 obj
 <<
-/BitsPerComponent 8 /ColorSpace /DeviceRGB /Filter [ /ASCII85Decode /FlateDecode ] /Height 269 /Length 20277 /SMask 28 0 R 
+/Annots [ 26 0 R ] /Contents 49 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 42 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
+>>
+endobj
+28 0 obj
+<<
+/BitsPerComponent 8 /ColorSpace /DeviceRGB /Filter [ /ASCII85Decode /FlateDecode ] /Height 269 /Length 20277 /SMask 29 0 R 
   /Subtype /Image /Type /XObject /Width 280
 >>
 stream
 Gb"/l$ZoD1RJ.;9(^0rN-BJckK;'Q7+0VGNlD:pi*SPM#lE^9:RB`l2B5/HfY0,6[3oalGqhDKu06N7XF_5G[+C#&+![.kA8-0+Y$427pU-KnnOBC68rP%kUc8qQ1pNuW2m!VWHmshTE-i<8Dcb;OAkOq+.o/_ncKnY57KnY57KnY57KnY57KnY57KnVrB0I-\e5:nE;;IYFt]mY#=(B">lI'Gf>Y`Q]laMK,`gcXlXl`m\XO0CaPYQtd*b?7q8!_X^F$O[=M$O[=M$O[=M$O[=M$O[=M$O[=M$O[=M$]@1S>9.6_Tgp:gL(>@iC!rg4gt^#8-YI"%jlGL`jlK4-3d'/`Bn,\$J"lY)3HHNsk/G--m)C2IVG,tKZd(VTd`l5T5`,6>@Dh"/'S$IqB@"<fk*mH;i.4=T(;9_Dlg*-(gTb6YB4pBLrpU0ei?*OD@F>p7qrEr:lK[Xupu$c`hgG#3^\Ge*rS?@ZjXX]+1M73Y;IhoMN&*#e/G_5g!<;R2s03cno]ai>q9<jWgV<^Ak09BV*BRkZ2E-]h3.Cf#Q7Z<IGi=>[$Pm-k'WoYCo1Ve-MnT]JV;oRT6Z2G7m^h_e,tjPgQBm!nfk2JSCs&Luo^qcT<`Zs,dS"fAIJ5bbSAXG_S2eo:b+_Zt#paKtnp1-"\,Y'0rR^#GLSOg)O??-%GB`eeA]p`lG'5ceC?X$<Q;A@1"VpK"SiiFVs*NZ#hStNoJ+pS4V<PI`j\[#4s8DEV1EV)@@GFWMJ9(S9nO"'-8O1]nN#7*mT0%8bil-iAlg$@rUM8^b,$J/RSpTn9b:^C8X#b"F-qbtHF?hj)cj/mCB[NQ7NfLLGg`QOb#E6WY'.6!Dr,]`UJq=%fn0]/<'7(7bZa1<3c'U3f;eskH(/[AWn"?Lq]BqNC6<%D&09.#4Eo=`a]mKK32)Wq6e83gDA^dMN+.gFIp$;,_$O[?/`kViYgot3SHj@*EQ^;c$@q4Pj4aTBlpg[(?Bd:/NDA/@Tb*4>fSTU5R:R4Kd1*ARj-;5P$=L`;n![$uLa,_=_MW"daT-&IM!Mh+o/$#hUNjI[5iPRfA4i,1"'GEKg_\EiY($+B8,paj[F`m*=mDk5-',.#(R6#J*='+"grp.>]k2rZXTBoMmK+eM!#3^XH/pQ]a\&91+ip>R;5>E27c1^PZgY1AA*^+6fgIC]F-h$KkhR@E1D/F-0ENu5QT,"J[T;S]hlLN+O^\?T30=pAAqsM)bmC1ueo[6BX/='!G.=mSRGj!;=K*N\^>a62B*=dia4*KsUSd!&(6C9k;57N#`&QC50.`,KP_kBGQ;I1!emF5'171&JZ#=&""'2La,LPgtHX097kZH9rob)7LY?FF[<WS!h&ET3aS52*Sj/'8t(,NQ[.Mt#FEbh$90Tf.!@-n)mj^b<HE4iT<302I#9$bc5a>N9(1/B6CiH5;?&(rhLPPEV4%lDq,*Lu8L^PHCshV5:$8LId1sjnHOiI6+Mb*I2RF`PI03EA]a:7]3)Z"\1C`T51XD<[II3I.GC7++?36n9<`7LB))eq!jYEK,b04aH7_;;@'+O=77OD7&;,Z%1Ncbj6=iXVgJ@*dn`2FC21U%/Lr?hYf:SdK1/IUiIr*)If&N'SXo0NZ"5T$nA=8.P>O`69nO+sL(2$VH/t)XJsZ"8J9LA9M,\EHZ3;_SRm(h&?l[aSkm,92G;-5a#If!L6[*bK;boQq_]1jfGZq;tU/+'$'B[Q/8#-^cO<[8UCtlB-H%ni:`]c\M)'6bJQ,1^L^OCTBA`Y;3HkPqI6\c/rT0Jqbdi,+"JC@:Y*CoP*f3Shu9b&.&:f:1h>[0tXSM:52KFIHCJX[tF,BVYHBiFMJ?aae(Ue-cO@EL:ZPpbud'[Q%Y6*Z;&6XT]<QeL3KKC%LGeHLBDbKD-6h_mp,n0j<l7uq,H$4@5]AV9?1@Cl'U42YV#r8]$FgE5);HX,uok':A(LM::RO<!HdM4g$j%Aa6Ab9I0QgX=MJbYpd/Z?5>/%+?),S0@YZ2ig)9[6/Is_julO1,;4hIJ2@FX]m`%gk\U5IM:s4?f7%J[K\[oU8"Bo]0"*ZGMI1nWF8DFZ^+)^iV?U24Rsb$5SCd,lDlAYd-%$N?<^Wl`4!(]oi<'nLVCYN-PeX`FEFTk^V7:j3_3$7h07c$cH[IhCfnLEHh'`$p'2amfH\kC2fe!#F3d!np[6l6h%5Orf%(?qpn4I[,u"K@+d!W`jlPUKSiqGggprbXH>1NmH"_Qum,=Z*gpo5;gA0s-O"S!(P-JN;#17chB#p0+()lu<aDW1!WQ'u@J+LoDJ,8E-qE9l[4'#6WJhIqjN.Z3p@luLuCHlgu`:iTQnaqVcom?E)oIO+K+D"T$L^Qd])-u+WJY0%N@uh=\*dd6.]lAmu+gbe`G7kLt.\%eoH%Ls,#7hHEEKP%fXPj7JcGiXDq1Kd:iHYcTUqg!HoNf(Pl*#t_J,.8p#-9%AI-F4,/DP1pT-.A1-Ud4tpOE4PIQ,Ktk09BrWiCBg%)Hr)Jnn=m?]R)*@cDJ$MMd8sjL9!\7KA%K0.nm&cd1bVJ$P3?fFjhBa+54:='(1Sg==^g`\3lDFm?p^?]5*\ieoIY*ZNlgX^/Os8EN53p+7Hh_/+",/omfA-goW"fF/q^QkG>c>hHQ+UFIm2C22J3D]ehg]=V9G,4"FDED@37B4kk(HTQ5).f"^X498nS;d-0c%N^OQg.4KH`*L]V1#o@Ac4^&.79VDk<jRc<e[+;BcT]OJ)+'iI3XlN-KnY5<3(Q-FPNf7i`CI]?h=$G<KK2dXX;.64mKu/RjHInPo8M'3`dp%HWMrI'R!:16?[r$aET=-WkrV_UggC*S?gB6"d+aq]FLNZ<@V142"uhL5.k<-f"pM4+oL,'/".X4DCP0K/%!IN_pG@8RrK/<pe;(*-\n^p'e`'qX@YT`3duV=b)*duFO)-sc++YW`%tF@A]tW=7G;%?39(+nO&.Bhm]Y#3r_Kj$S)U2mB+Hh*mm)B`K/3$jJBdq>EiXA$;f:3]'5QCY2ro\b@s)XQVXDi6%Zi7X#rUeQ^##h]mV</hIoMNlVii=(]G2UZBc^."_,G3><+!LuJ4IHt%hOD^KK'VagQ%]QOd;96?#ehTLTb#VDHgWmeV-\h\7/umTs.n<Qm_GLLg=gWoME*&h3O(h@8I:N.qSmL'1k*C9@l1Gb)`MZQ4Jh*7q$BAS*g,<crV(gAG>"c=_2qd8c[u`lW#9<gMo1n!f8BLXTk@;&PF>7<<aS]Ih;b`[NZH$#E]Y,;FNgn>Xk\NJnDOL6p=Nk5<m!+\488?=s.!0.g\7KV5qZM5?EfEmJq@"q0GtgVb"Or#\(9!UU=^0*YB&J3GMtQ%&ea^LZ.k0i^1aWH`h;*I@NtKC-^FDnh2AHLI_h7:`9SK`)B.&U'&O@jXAb*/MWX'`BK\N.:2t:DY$JXP2o\Fbrd=_@k:MrS!71":&s\Q%*:aA(S_r/9Im5RFp?gTj5H3H&NI#MR^94W!haJbY(g97(_D,;)ok+no'G`?.CoNY:N#b"Rm^qq2^Y(T3n4ZZ)&X'*!ZP-A?<`TRYd>J@F2/hLLn`'b&)`DMgE&JIiY.VCef?odM$4fB!0N<qp(G1e(CtPsb0>5l],!`"!hKod$O)!/k?8H3VPt,$]Jf60j.pK]5[9m&f>eBOG)b5l+(!4d),Q^=tA]b^H@`4ll/1`>#-qH@"+p\79MId"Vi"9/PU5LZ#l;t_=A7lVrEZ'uR-";^M*cN&TX%2[mB?m#]]t7sO_P1o%[e]<pHhVF7$aQJJhuuO<dcHE2*B\ZAfk2*P=:gQa$B`Q_MS!qK'*k_GZ-dJc'Ou<0[\Zl$:g*41hKd.[#@cZ1`'P:j&Ik]dFa_(7`=Y+kG[g:,c,4]Dn]49m>08%dUmMGfXgGGl.>*rmG.'DdW5+UEr:.i+^;\Q?YK\Pi&e]ecJS,gV>:9TNYe.LdQZCutI;%Z<VC'eMTu;g'.iK<Ep_/cgo.7,2@D]hUoB1&FZ3;[7jcP-M9Jn[b7Yu-2_uaT0<1:)_,tjQVn_*CSfY$=3>Q!=o1(R_Sa,,bR":YrE;o&`rSt7!fJ7=D)Qa^D@"uS%E7^ob3?o8KLN8o9R]uLBW`-kYWr_VYFH%13R@n0$Z^oHu'r;6dAI*d^aHPqm7PA1>03oE8R-9I!L\:4C&c%u1DpY@cOlr_q`=u\6tmbDm0onuanrk'/oo++A<9E6i)]+XC4KAjn6,FB37*.1VN$Tm">G9\to*=)._@$uo:\6kVZn^<ZF55OK<C74aO'.9Ak`Ym\1f!iT,e)&s,[AaHK)JD[;^b,?G6RVT%0>IF*=XuTB<C,g"m0=f^qZ@0SWH@Xf6$C%B$?`IS,YhH,aLNOua!goo*Zlh7mFefnEVbE^OUYf]i])>\0^$j-l:OVl"Tg<HC-Q?r_fKj=XEQ#l,^SjcfDN?OrRTQN#!%a!8r,=/<LO+o<IaA"'Bk$5Q=k_3O=3;`d+tHY&fs%f#IUM/#Wq?Q%KT.sT]Yb?Bc*@E]5j;gL(,([Dr*Uk7uG#,-j[!(h,NB9[4lT"K=6UZ:;O8'I]BEJJug)_&g?jhC:-c).$RLgoELgc4]i>6T+Qq0Fn3J,#Q8h]"gqVVJn%>fR:GlekI7"QSV3i:Ps:+)idFg-<asH#:N#bSS=.Q9Bk`F.2CYZ=2bF/eKF(,!Ur/J:,ba+[C,.)t!]21Fo,I)9LU>oDE+$E;GiK7ZYLHCYCkPbbM0FNS<EE6</VuG=Yn%us^0DbP&*q062=U6W`]R>U$Nkc4*Wduc5U$B5\L++XZY#3imXbG"m`Su:ZDT+Ngd7CV'Z=V&MA:AX+YGGd\4P<qZtT<!'ks\O6a?,C+]Pg9Alp?#EgV;2?!U_Q9g<cBpYC%S*'$oEo"b=>8(ZJKWp`Z[#O_ghKGu#=E$u4UCFG#UQgQ0>dTWQ+eNdenY`Zjub+6F_L7r$b:Z=@KOs0/IV$&.Bf>%<mk?#<-jBl0FV.(Y(3@A(j;#G.04GNkl:dL?6H>h>I,()[U@SG;,ge=dp*nTO>'U7LreCq<GD39GmnE=c$kpDB[(M4GAlL>fXGo/#B^9rF0k*:]Ncug]OE:@fH`5GX3SKAO6\`Y%"h794/])=b&h7Ildn`X.[>21c1<eK!SXnBU$#k>Y,o#k$C\tArfB.<SA9c3EDcCqrj)B-i&3!&dbIbl*BC=8nLeg)PMe>Q5n`Mi!MhN9dWI.6&[e=*;=DFC<0pG>W5(`ksJFb<rm'j"Xk,u&Z@WF=5N\?RC"`PhiojRkW__hJVLo-fqV=^n;R-:4OF4ItGm*aNu62b_UeciL,AH5cP/$87P:FZbP>0>89'&9*,1Qr6-DPiG.p4[&-SSl<i@o(2:r%!d,Deg/3hDVVa/rplDI?\S%60O\Y$Pj.Cr<6@I%@m*0L#l?B$mbHd=LHk@N,=Vp<hSL0Q0Ap4g)Nrpp/Rn5;r1([6hKits`/1eK%PXPOEcZ:b+#40.$(#pZWX1r+.W.I#AY>r@&4Bug#hs:-i<Ic91JMdrUPabcNfKj.,$Fc&U\H!.Vh2*ac'i3<&st@]_X"D?meISQS8raR5Le<:j5^I&hbBrSp,$q["Z#jMHhQeL\45DcCtV]i>.S1^MPWt4ntE_/S?SQf:_%`;.!\ar>e"aH?pPRShSOlM+0Jkt)'B7S<jl;I\7"SdY2Fdnn)(mpZEho"cS]Lh&/58^Mua5Aaip//4lnu+(M"FX/Pg:7s+s^l52m6QUSi)Ue/S]AKDWS_6P_jE2)X>a,,-cF*Oq\`ldc[(n0]1*bW\u/[,Ulm4!:%IbAS",`)K[BGb3MnHYn4\^?e`tDdd2kA@6J`*]N;LP"c(tRJ"M`]RO1[rpff6.e`Fhr.;"#Y..r&Rj9i4b*=J?^T+<6nn_g*'"B-ujY/Q:#7hk$+A1*T8Ve$:LBq-q8P'4l)A1N?%N<(lUPV+6!`?*?)FBr^jTE[Y]',jr0>-e+$SKf0.?G/lo:Z'n;`g=$:r3FU8Yl?jKpUec,XJ78As7lX\`AoH4LHS0=ArY)#I:.>SWOQ+iUZ*RdkO!$P,bN->a4sUp>Bpt_"\0=!r%O_e5&IfAKqMOT8/'0'V@ZCC8Tm$l5*%15IRd:*r0B,DRnkp6#2XhZa5RJM`ng).k;::SLs?pi]pqP=V"B[i&S&E=Nsm^A0?YZCGX3kn.RoI`0GZm^l3#gQ#c&43.=_S5c@8.RN4NXOV=dso6\"W%1Rs=,b[B`cCO:s<G,rWOPrMb_K^/tbXWj(;XRfb)E]Ce+@XBm4*H8h4E8(F[@l(Y_sn,VVSnim\TZtD#Z>tmmeDSilDof"$9s%;`Z&h9KI1Em`//ppl&(@UA;eCbd5<jAbHAnAn0&4*3#eb^fP52;_ro62k.PaWM8Hb=Cm3(@]+YSKFp]ZajK&%CP4EbcmG6US(g51s^uFD5aKDG5!kj_[PN*N'&9OiBT07agKRdNmNkf"%K-ruT-*BY4d@sf(-BdmDoKW)+&=QX2pgrX\m1`GBV0D)-ZmC1,HTP;Lc8k%r.[)]0jN+6kIbOBD\<+"WP8cVOe>(qe"\ll>,:^Y_e"WBN(Lb!9m\NdGTI.XKZCO=D1CM2[<"/*gZ<htPe\P1(V]';qc=ePdPXS(/mHqPbg%B;1KLM?r=[4I9W$*0ENME%'&\MjAjZ&C:SO,s,oFa@q%`Aj'?540tb/tVJ-AgKI5C^E1=)^Ip;D`M@.A7YDi-"@0do/gq(QI2Y`K?2V7k&cm#97PKFP0B3j5RX'?AIE?dR+O.FP:H,#qi+4@FCrCLn&h(.L[(@F2I)\4*Cn4`2MXI+-khKNRLrm'V%ZQW&NLN_lR"Ic9M@,kF[61^G?\]d*U_(>M,l`5sO='&'VM!Js,#u%aKfZ#u9-fJ2*KND47BD2)[?"Z>G7?iq_`6`T1ndAYuAFE$!uqiq#.7''krAB*M3dmbYg4Z6.>E4$D*Z'9n+;gUGM4k4YO-/fO5^h8k^'4\I)0(@P!`#IPt4i(@P/!u%Z0-7,LrVm1itYP\1J^V4mYg)taBhSO$-OgskMB#:)[BHa..iqP1tn3%HR^]*o0#CNt20_"#:KC8->35:&O%?uJs(r_$6pbT5?JVm'Hp[1K,;?g0a5enW(pY=QZi.A(o@(:pMg,[E24$@g)r3RTZ`S,VR&u,d<G)n_&mBXnfoDD53i=fj+2XhWji<(QOq=<W&Gn[uX8!qIm0"L&P^\t:^;33Cp5<i[?"khiQ-VX^&US=J,c`b(V[BC$I*Xs2TgiM=&m]kZ*J-O0%$aMpq/k+Rb6*8hldErP7%A"V14MjSFFONt155VG/:FLFI=@k2C)i&0o-$UcLH<H=;O$'`XDnYhp!+%Epo&Roajoap7Qt(G#[HN\019.CU`>-RriIc16,,rCO"QG)3^q&G3$O[>,N+$E/lE_t(i,S;9SfSSY\EBH1Ie^f&)Z=P_9Vh73icY[=b.&4="4_.=VFU0X4;Vf$lKT:dAZOJ:l-lPWI^OImAq;c_BnGhBA_:NRC3RRN86SV0^^pa2+M_aV@AGV4Kb_'eC:;O8SNGB%Pc>6Djs,=:4;4=XKbn&T2[7%-?&<MJ(.,H.+Rml3mcFc-W!>i_&3R_EZQ5.1h9_i_J,J=K]=0#TJiHs,V&*A@&h*?Ue9"H0MH`b#,&:2;?!1=P-#("1^ZWM06iPW+-A$,$Tt=ZT%^1$(VG4?>+\:ZQ*Cc*iW[^<s#M%d9a,"@i+IDT8WUlAPrVQ<sgbXUR;!!MWMecHQ%3J9CKG(5^W)*Rl6,L!nHKN/&'6q&Y<*<@,n0K@P.;mA(3#.'G'ek4i(\iYCKUtn#n.H<ne$J^e?t$CJZT[t#>0&K5Y(7M('@<GKUdVXh8]p:K!NCb"_>:rYUZGd5gM<r*UC!DfY.:'CS1&VD"ZKu@R8j;Ni+gYr^ZFXH9UdqWJ@TjYc<YYMjke:X.juf"IGdM[mPtb+!J=pc@)2#X.B/!lV?WVcn(6(X7JQ[%9p:n$[<&W_""0re"V!(<,(bd&U,U\1[<S6hZI1u8_`nP`*_i.aES7X/md8*(WadabH;ZFcK#l$_n0nKYpu"XgAVOTtCdsR1IRNsVYb$TkW+$o@3sAFLJcnp`=,V9;F9ofFkHU;DP@nl"#+01mQ'LI!>H=m.2/N[GF6X;X=dmXCiIdUl\8]M@2H3r&.^&MHL+2X!$d*o@UT?a?4;+SS*'tn%cEEXg'-#798CJusOn6j[cgr[b@FNU_]EQ.(GC=nQTUHS:LOH%FYXBu"`VCgEJg8LP#n.J^=kQ_Vm@<b8"N=HTWSiaXj(N+>0R?ZHc%Qk7]C*7]`1q7#qqLQ+a,V23X6\,?ldi1i%YV+h#$=]-?#=nPF-9,uETlKQ$SM>Hke?r^)aAfL"W(F:59.(i:"d7/4-q4nAO<g/o3Q!hrUAd`q!Golf@V>;pu@DG(`nYR1#c9LqNZChre>-u5eS)bE=J=F<7:qDdmnEEfWer*MA>-fJ402&#[9k3P`eO39P(>2\P`ur._l3jh2]8[:p2jgq9q/:!ka*cdmu\N-c]/EOYkOoC0+K'+RC[50,KSOisU.`S-/l?&=,j]X9`/mV"*bS>$=hp8@`fA@Ro3KTt.^:O<]IoSoZg_^]uR9og,)u(ThiCl^V(13+,Vn`-S#T$qW7WQKM8:QH#nE<mqmMbk/]355L)&8GP'(eDQ&>;.<5;UIaZ%(*(IX$Zb/E2f:H8$HehJ!V=$][6;8C(sDVm$g4+.Y'[c9hkk&(P;/>>Ufu^+iJe,mYB+_V<+9;[4I*iIE[MX44E3"^%('Eb,W8r*qFlAE*dN'af3ECA^u3U'pY=fchVI")g)<MWF#8D8V?M)l9d`T><E</3`?ljqA3BG+cCsWNnq&."MNS+CGR1<tMMd9bT0H-.ZWQ=e5Q0gHi6h&Q_d@lgAbYolp3'AgcVlTi1FpXAa9oVN=@+6q5'TX1n4922`bUb1PRs':b$KWAG/dd5G4AbMI//F%'9#]:#Eb46j4RS<[^Ob/FK[\/UI,M55$V,hAorhR/Ne3'F@d$?M0#]iO8.Y1k?n2<?P.XVG1pY`d]^=S8pl!.E?_Z3-S)NYIAY>3hnFN98Y/;)%XCYbV]#Q7L'WtO4=/Iek7%k0SipmIOQ@dY=ED?D+acm3n[i(4?&0'Ob+=<@L&(Q?9:%82$]X]'cp%aG*n4G$^qj'VG:*bq9o%\f*^+71=>`1ao;h6Em!e?UEUe="H1((BesjBA^Hb[!7)a8N*tfuh07`Ns'MCY?_-_RAmL]O.*tb=Dfp#jaT4f:r=c4l!B(sb.W`\1AJuMjsj/*\YNJ.0pQA4sGFPPb8EVVIM3I^n9l*,ajaWOu,9hgV?:t_cQekII!+DCr^So15`53hCs_:3oN>9,B2dBr9'aH7^!H4nmBStM?-f4I&Lc@pNRI,B,%D>g"qGMI1nHTP\H3k!?"1HblO16iO%_/ok)K^!TJ30dH=@h.*i55=4W<5T^+>?FofLCH+H,"IqX5f-6FB`%MjV@&;M4>#po^]493cD)K[kXY(.4<N$I_C[>kVL:/ln)&'[/#[-Vi[tCD(.$spjJnlG!(l;sojXoBf-/[=9hcIK=m[2+P$i\=6&FXISNBQ4T#Z179f;DjSpACiSp@3JoB<aJSo\i5Od[&a+Ddq/M76kR.78&_1)&f?lp\I2p$.bZ4FOn%Q>"O327S@G*fP\K;NuoMT/rKKe'W+s&6"U1@@e^_Dnl8Ekg?/b:=Z6rB$;+<7JD$7VQjlIAYj+#guckN9p6!!>1:$23"iM\"pF9@LEO]X%?KN:*:t%SL8cohC/(fg<:t%nis2t9L=%0Eo9+G^8u>sn^2n=84S&lX-<"nQFdik[$i2jI(II\G^r^S*b-nOY:gIC".f&T_0d]e6B*a7*"KngcR:`h@l7-Li#g^k=\.BmMS""28W]gS=hD;+h`L0J]1F7`i]PmEUWYEqG&4],O,pA+d7J0XN]IJ,7!<k*SXd,"Mok7NWMEN_C:o:G6cg(%.qt4DN=]nn!K<<4dBg?,'8.d5uRJqsP+#_C-b,@fE<a/dtZr'1:pJ5JRC__'EL(pL&k*h_W;qm)(0J/1qGSGV1UL,[jm!%t;0_&h'di,dqqtI_A>7X"X?5Z@2\b2^qdc8cO\5auWBu7\>?*&T"s!D^InPl9(k&HCWDout?PUZ$[!fp!V%W$6C?c]2IJmk*O(Zb<#*BL"$HCe).HsA,@M6I\kKo:Q\>?b=$kolHd0&_J.HFC.mcgI\n;G6Jh\)Yl(VJ\FV4/5E!C*:T]$hAX+G3mT!\XQ32*X*EtodeYD5`gI/jKVon>>95MmX]*&[pP<l:]L&_1X)U;?\IU.Ul@rMid]7D3R`D*60*VJDVD_4WN""H65<Ccf"h]V$pbMe8Q8SM$<XPU.%h3K)NGk%C.^Wo8&7hTc,gWQH)@gK^%PVgO,W/TkVD-&HChtA(Yp#Ns)qU04[#[]Fh@e)aom98O_#,ap(&d\M,`J9N66SP"hdcE`\\6o0^P.*1*e7p1k)p>mHVXoM&dOQ\D`/f0">IP8Wk)I@j-IH1#:U?5<:'uJ;F)mK\3/m2?atK]"0q$QTu>:)XYka#;>n2;lQF_^o2G%Y?Y!.JO2&uHJ!PmO^c1-dqhKB7E&J":$rKX2r8eS-]\m)Vhmo8B1VjO^&Q%f?gKs.Z>)Eq9gE,jC'F'"l\GZI`hqa.l4-+V[;4AH?+SO!W)qoM$J%R$]luc5:NLT`k7gu,.P!$Q>kGbBUYT"cns(?k..Q&fh2Eu(r@:HDoUh>m0R)s?%p_H4Y#qsG]j1_NC%^cA7Ye347i<>a<@Q07*;TF+7f0An\'F3oYt*!'/V?P5)#U=4X&cq6rqf/$`f9Il7Y`O%^>*CODIMYLPt$PA(PC*Yr'[-W_^b]cr6PDu/YtaX'F'"31?HoR3HO!1AU^1a1C&J<-S%>8gAfg1A&7V>`C,@o8>+@`FF5%V8ID=R+rIu6Qs]#jO)DPn-4MhqW"d5O\^0NskkVh/*r4n89W&&*-I3g5CDDY4^cXuS7-[j4H92D<Lo*+Oiku/P.B])\1CtM>?0i.F\ap6T8Yb=3jCih75I6qLN]-?CR]dCc]c.n09iIp6n#!.E#r6"EKnUs+dh575S.tOE<"bEF$1cq$*7L&?N9.`u7.,Gn3:G\h(ud=].nH'8>QXPbl&&FA<tI%%FMPSeVFFpGP=-TB_,pi6')S%s#mt8mAF,;Cen1/4QM-G\fEgHfjMY#+nmjL0l6jX_q=RG15X/Vt9d8bY:01%;+a^*"l&\oo@0Jr(/:iSlK/3*2r!Lj7cCN^>H/r&.ScNb7:qSAn9dqL-d7ck!,a%,5>T,)kVI?@<OfXnBW<*ZrLuUOb2J;p6VbRtlhLBg8Q'LI1*!e&gCQ_Dk-`EKL6Sn,].d/;B`&+g4+P)TANn:uA;5p\"9sD^-TU2<ZR_PjZ0KLIG3U,/eO)f;_4ad`AAh;d0pggM?4uD^VjmKd]+d(e0)f@.%D!:-j=YE&Ap&$;E22KCniDTRGr1fdP*7(^H@)+o-`<M>Ns!C8o33alg-_mJ=:EmjZ7Zs^'LM<2'Fps/5'ZBUce#`rTb!kedqt7VmET>'PqsM)am=N.p6-WMbCDLU!NL5`C.3S>rGOJ9u,"J[Fi`%,;M%e>D4*U*Lm@'W7[6b#VomT8-8-19skYus;VjqeMOsNcVgBg_Ohjn0#AqXq8BHUMDh)Q?WX^/OsjU<KL>#mM*>_?FH03)n)HD"Y3;ScN[JnC^*=i>O@H"Y?g0h/)+;]%9#aA79U'DHZ9rO+u."h@c=dp7'gTTq6tk^s^MVQ'5NiaET:'WbNJ:9Z,TpFB@,6dWDIYZ?Q&)t-iuo_e=,pYTMP'B@J!^\LUuG!T^KV/89_-Q$np59lAh`W_.He,tQ>F''`U>@(X=0a`@l,&HG1i*p]-CjdTD^7\IBf4,^f$>N!`H)Am%?P`2#s8MKa4--PWnk/Y"UrZO)1:CcqDqoH7\.d%m"V9MG0bFK)V=*$Ca#!DOjq5)B+`,2b`E@+OV.7Q+nOQB>`fVK9"A9kKAuuWZ!o:WdMneKE4Rt$4MKVu0%0WX7ga(?8#U`XR(sn]F9.UWTUJ?(c3&=AdnP8+,ijg5P%1Nd5<aB"uc9*%CM;&`O-#[O519JC<fNKGI"hL%+G$2TBOV8[kob;j@cSWJ,"bMk_?A'G0Y*sL2S8FTJ43+NLgUMOq[W1=sN$H0[W`?+hhpbP5KJSFhAfrECQ(Y.Y,rdR'<&Fu^4p5YTBF8j&EcV"<O15A>geMI-VXXjb"#20(1Fs@U_?o0aC2.d@Upq'==h&o3h>?ZUc\LF][?OWWj<0TL3._gU8(/q"-U<S82[!oMq"59\JbSJ>#),pL7_S?3)t*+!2%*)V%C3frEU.sbmPi,)PXL?>fLJ)il=1B1$2.XYe>lY(Se*.br-A[P?+[OP(GdII:]L-,s44kH1M[acZ(Y1Hg'P_^dioRJhn'7`,"KQra.Gt?k:m<+3`Q;uRP$RGoVh#IXV9r&+\t8o<.B,W*<30-i`(QpHc2Zje/Rb5_=T-'Q39iY^EH2089s9@;+^-%3AD=:p*<?;ra]>g?]sBk?iKTri/sd/240E"'6K_0..D$VaWaaV.8\_nXDoX#<l!G"+;".cq')*6,a>`ORoooT78Q]o;k;QF2Ee(HZSTH%$i5!YmmQ6tjEQDG.;+CHJ]f<@LCq9f0\2;CDE7omGV%IGCf<k;3T55D,Z'?]"s+(CR%2e7QQTm.:C?6LE1NlBOl%]t-oh9Z,DFO?8&+`J>OLm1<.f5=9dP?419E6M:7<HW!*Ok'KL`(DXV*0>k!hl_3AE6m]m@)fOOZ@jm7l'cNmp53IkV=,rK7TTeu]kkaZ9U,l?C#??2&M!UgR^Q[:<BKU.Ru\:)^<*YagerZ?ECXZrF.,'+pBt>QAN7\@B&ATKlnOSX>WK+sU5&Cj1*4l,]"IT4D'2B[J9,S76fQ^54#<L61ijZ5&8Og=c\L7Bi5;F-;'Nj2LPUL`=:K.k`OlXMUK`0K_[KCtlBmd90M&Vq+f[A2!U+eG*HR$q?"#61WNhqR1PF%Tuq;ShHhL]%Su/i]Mh*!Q$).E_\/<0G4S6@\KWpKe914pI'g_FSP@aN>jfc;T1M<:.ti5i^=K:i3%?"VA\j*XtJ$Xj1&lp\q.dED?m)V^&?uP5;qm<k_L:f'?`;To"D]2J@<ZT4*U>\d7p)gD;W'5As`]`69.CT@XNAGPnB:k(S8(N2*H-L(_ekk:o5N(lg$\A"jm>KHMX3Pk_'0^Geh!uQ8_&lRW_#=@T<be)BgJ/5oO:"S3Fp:4VDTT,c8DKA'Q<1L6+%&O>%fB<2lQVAN@#!+@5)kLR??uFCHIbSo89#_M+n[I_+dsqD-t@R_b1@BRA4n;]_ClA:GsRa[haLd)N]HY;R>=S;:Om0]C7p$"n2uE>]%dV\r)n&1V[j162pi,:Li]@Y7CP[)MP1Q2I1shK]4FWDe=;T(<PuaF[SK@MZei$uVm*ilc=LbP[%9BWtK2*J2[D$+;:=2@./ECf",3(&"f<[5FTWl`&CbeqPP'9/be1Rk=m1`0?5FX>D:?IX5V=4$#D,9ZB.+J+Q6\o^e^Tgq?uO</8hh:>T(19aPRFSQP<_YcuJ;HW4%NJ:)AC<'p0G;=u15)BPUJGO=,'""Z#U`GmaMHTs"ML]i>i$3Z!5l%)TG$@qC1WtPkf4]bL.q;mr5N>cAS[_<8'm.oh:n+i6AF@7ut&p3h46=bp7kN&R<i`cdtp4KH@;.2Cr7O1ronYE(Fa<QLnVT".*hRo7DG][V/e'*1`gf.1\.<C$1R&aV`K6<u"I%&/df3a%+^iScTZEpl#T<OuQd>;ERA:p[[!Ps[p^_;VVl:>[Qi]o:2)Q58pMH67;hnfZ]kNDHq_q;8(.dr/E"J*Gkn1#\]8XWlSoANY(277f*DLm0'=+lMVRQ,;]i%k-4Yd:OGnqqe+Cj)0a*u"ja8>)X7D&g2M,Rp`2O@4QU,/q$*"@XVg/8V'FAB?gh2'`e[,ZWrYT^E)(2UP0Y0@quFhF/*`#?8])&_PbUDRdOS.pei^o4KH5;%)Ad-T9s,ZXjK26>V<WBq$;oI9dC,s!q-O&CcTUTp`p!a+4<t"OSj798oqq;1/2D$('I/:n9WNXK?,7Ld*+tn;d;[/.h0$Rtd]n3<C'a_eL&E^a%Vp<1.L.,)_CX:94*kY7GP>n1GUu)\^*i/<M.(Pb0KG3H9SnQ12]DZ"&:VX'`EHbN;th0p?.ZglDN.N1eQg@S?q!3J2.8dKo+"dIH8;O_!S!a_L;H[X%C27n8?M(o]o%U)oeMEZrU4hfs0.mL6psoHU"TB$[(9q%_%Kcj$MJVaj3Aa5":J-Pd143lJ5"4%`*qO!"qq:\7Kf<"aP".P_Y#U5qP<32nqbDN?-g^3X0+,DA^Q-@$*BnhBTu"=Jj1Z8pi4hOS"s:)/qKA+Lg6+-0AW8^AFf_5S^RkaY`uOMIK4@LX<?C,T%=2#2L%T04W!E5I'ZTgOV7c/8GYk>u5+AV+`Z\?OkIPlV"*LXN*1Z%cJkCdC4].9oIMO18d)R$bt`RKHHEo:SQ`ea.$sTO@7^ec!(g6`'%Vr3%nHp#DA5_1BkUb0'8pGXYF41KL#JEJQU%eDB&BDm'J3JrCB%T:f@"]Q>Fh,3KPIcT-4:g8.TmUneWYo=i/OQj]"`s$?g4<^&e6!RUBl36$t!qr3Me]!n_P)M2r3n\f&DhPQoh@5QWZcM/>Y<E7EbV?hI#Uu>:JbWW;0DWn(Lf[qS[Mjt@-p6GO6W<&;;>rmLk?emtWba:-&o24l1]=5A_>&[6\MThAH1&g01](:B&MM8QK6J4gcGT$mL\1hes?'s#1JKL0Nn)%JO<$]1J'UPJK`R0FX"/(^a.C-:d4_OJF'0)#oKKD-BH5;?dI[ID_cA%>=E7@3]kg.%SiMg:C";QcR(R5'AQ$s9?&(ICf;83412,J7b2m0ppHI&d*!t%f]$$UhpD6d.;/s=pKY(r@Ejt_U(d3.Q``hKT;:%d6W[%9oY,*hX(<=tA[<+2X/C5**4/6FUYN0-G-<gIBc.3@DjbhFQl!BEG4%NIG>@I5$9>[(FUBm8pr&MP\+Jq-Ah.*n2$`I3VYUf^Jc4WN/1'*[pu5Y_%]:*u+Ni8bJoIIk]BH[^Zu-"tDs&B;>'@^TOcQS00!M:McUKPA5i.4d#dC2,LR-4J0E-q!d)IKdD:)q317=+Q,OX(bNEHZW#!.]$K2h/@f?gV\aT'44ah#<KeAI8Y;8ZNt!P46=beG[0UEV#6)*]6A=?r/g1JL76Z9Q(CL9&FmcmTrX*0Mc'-j>rY&V9]HXR<eD4.UI4XG*'>;WH>1_E,6dN6o#i]\HoRSXQ4g3gK'BOs0p-MG"G=S-JV?Gi<JO%mMuWS]`DF*i9jCBiqA#(d',?(>`DPu&=');sntFos)W5+/Me75TEHb/YKBL083a%KgM+s-%e#QjQg=M&h*@a/<J,rNqRPekC^XCd)PgHd9n:Wm.JD/e_@70)cSgWG%7YI8mRUHjG&$8#X$!\qP!QnA@<+(#khTuuL:?BrW$]AY*'EhCP)\b5#Nr/YB)+OPMB.*DI&L"tN#8f-dZY%JQ*/7:0V/1fOeZ/gXN8$!ILED*d7,)?D>lBbPq+%%7`Z#j9iNM!32PLh=/?(bdkSdFW.<1(Ss7jg(X00$K0RInu^q',SV!iu+E9D,:i4#2imi3C5V@G0[kUdjT]"r7<[Y=(#(UE!e]U1ffd2i72_0>mf2+DSY:\+)I49[UdKKJ@Tm1_YpE1@3+K_#I]lpcS5iK:-M:DqF\=c4&2+tbrN/1."c71r=?,_'@]q:6B/@f6#k99q.!r(=W-[_gn7Hi;`?UVTt6"tK#q\MNh@?A<aD%:TBtSr=bV3#1tAC#Ag+_\8pQ-J>.#G<Rp6T[24G"^5KcUe-]P$`lU$m]Ha1<%QtjE%9E!7!p]jA<KHM+e72e>IPN14o%q]#$"Z'M)>gp0X2*G0g;&snC"Wic*54/NR=LkJ*/oNnbal4GK5'K,UJcNLFN*t^1&Du;eC7g2a[V01J)OaWP,tcO&#%4GYSd.kNf#&ErXbu2DXh'\n/a3$%=WCd_!D]'GV@^,^/t:3Ap[6_j&^QVDp?H,9AKZ'P8ae3[Kn\*??/R=5pRN)a7Z*&/Au>r4nMa11a(H]K7qhl;=ZQ'M7[3@Y5%f>$@B_r'OY5K\EW.W8PdN=eR8S7A\Sd<l%CUM+I4$&cjq(c'i38UrUQ=,O`DIIa>3^GA"KH73Z,QIXZ__1:dK40hgO6W\m<\O,b;H?;jdT^gfGMoMM<to&\'4YYsBJiJAqR(cQ?&puI&1b.I88RcK-kp7g>&A-Uj/D3[G8Jkq'=eVT*P7m)[?\iNU0F,2`sj7/l0Lp4f"7f%iMetWT_]m#gKSUr4%@j2U-Yu9X'ILsT/[Phr#=]q.r*&afQ8&unV3kRF?S_K4<f.jHU^8.+*%pjO,\_jI(UHA5*F"N6#A(7GSpYC%chm]%t$D)2a(/T=H2fD/5V^(B%A<gM<C2+*^&k!_uH%Z;Y2`DuBE1GiLo"4%;]6<SYcmL.U"B9,LB[Ci9GjM]U`f;&Yl9Y^nP]sTSh)`l#oi`jPIb?_VZ@2Unj=9^l3XSClU4nN"Q<'-mi):3YLl`)B@(t/@99G=i%I>"l@:a#HHd8f,Q1PM-p^-96$,@4tc->pNGNj"Ci/*[ID?>K5pD-5c$,&u(9":$)4*GSfV@Jk'O#T-(&Q?l$+dR(-X`p[h)J_gk!`DT3q=5T/7jl<4&L4HjmQ/,.#08/F8<Y>-3)5^+hSN$Hqa;"Z<NZZPhn!q\r'F8VUm7NA*0.,#@SY,h46'<RWF_a,<cKBrm@;ntm?4#3;]app$i^!^Zbt/coB2`op=YR6pY`san`(^;kTR]ZT`>/Yl'N=t[K`hTN"B5M(QYgdk1(AYC2OWd-Ft35E90n)#t2AoDu%2@CtuL<+%KbkfJu,cC!2eo*6#CT/5#[&C$^[8M]-7-F@FWB#PAgXJ:#mA1jf)`Vt&uF\`gj:'e'%$J,G)Z%d7>1S0Y"!<]cZ!hSOT;\ZSa5h;6l>9"9k#_/_gWY%m(@Q$hLc2V-L3F3>RE*AEC=H=^P"8jM:_fF@S>#IZUs)ojQi2E(CP\73DaFK+rs_F%0le+Npl6HnF%,qf'dCN&/ck`pE,m[9s[Wi'iXF0cI4PGUJ3O"Dj3K6$HC'iEg1DnHW5G`n7<:\JR&_csq&6*9Z#I-k1-H4,Kok'?#Jo2N-K&)Pbp&YA]p[^K48%Godk3GmJ,9;6*>lD^],Sitg]X2)@*(#tQJOtl09L+2^VEf9m]Mq3=oTXDKUP))]2oRE2Bj0JNP%G1.8X04_YbVR/mLP5t&Nui_i*I%9AGpp+9eLGdE,Y$ZG9UY(+gC<1MQm"0HMiQfs=^"MWUR;DZi.DQo,.dDtORoHLSoSaNmbE?q#HFi*Q%Kmpcc$>,JT.!r_BI;Cm*X@A]uS&c_'?pi_\1q:q2Ho<r:8$Sa>L*Xfg;O22.$u++r)USVB*MU"uS7qn^>l`P84:hkL'</lojP%Q(D^T0MmU[GYI0Y7/NJ2r5L)I1&sb>f3WeurTR'.n;cf"lc[JpUU;4hG;,9=g:)!-L9o-mj:Sjj<4HAS#$e@4SmLS?CaoN:#Zi/u4-r>]S)qp@'UA[h5Q=ZGSSMqRfsl$3jE#o4+i;$_&[m6LY?WsB`p!gJ$G"R5e&.Rm)B.BA/P`/:hgaOH.)Sl69#O>jll=t^RX,A5dT(Q'Ce[irCEh3O,7M&]1PA&&VFgVMe]qkY(AQ;?T7>_;7(iXj-*38ATC2.8p$:5-WOMBej2Y$$C2K3B:+]6`O0C]\9c<q+dsPJG:Lc>f7!?5N(QfC^Gp;(XKlR"EgY5@n9%6`fkt$t-c6Jp;>!uuOVG2F3mS-V0;Ua)S&]@)g'(n:"Q!Se$--\WAkq0!&m_\lj5$K0[*YD-ocJV6/(VZ+sN>6p>gY^_PW/j2@C%:3%HAeQ`P;CQi==r[3B$]Eh&YOh7Kjf5E:D8.AE5E]u:K(1j#+AZb"G5.L^[fMtQ:--.MFrBoQ[c!,nu6pC,>4Fr[:0%WDad)`5s`?Lc'o=-NfFUcUf:86iCA=gd7;,mAS#Gk53:nf3,`6:?j0'9T#NaUhu2te/W'<HGU$_<N0uJ7Ndf*G?Kj&#F:ln6Oq=MLoc`(I<a7*T3"diMO,jBO.n3POLIdMj@s;[&C>]TV1HEs=B8[MEQdb+O]=PSV\`Of'U'NL7M[6g=EF[E':I"gMS=H+69.aej[r<N*XY<a/RS-*9eT<p$+c(Xg_?`7kr$$60CMW7)2/E!&T55cnYHG%Jd&<qI!1eYZJY<V[jj74U'X4Jig1/jDBd6*+8D<M+IUutBfT;7[M'(LXqL(50_Lsl*HrL'o^")a]"4T=._BZp<.H30C2ad<5hKt:oMH5+Ii4oAr3<S;B!>2uPrlUKVrUS]\Jg>5Xbf*u:,3`fpH%87kiR3d:r8X%'E4p%S!hrcYnHD3t1W5lC(GFA:EgdfHs46`h%enH!Qn$G\h'^,jc'pXFjXM"f0]=ASF_1#aoM$C#Jr')OR%_hiqeZ90q'cQ*49Zk'(^qnhO_BQ;K4ji'7ZJHKFm;qXhirI#OqVrqT;859-7&F+O74WE<]nnTc\c[[euW"a`f*L"B0^fS\`3uZM*,u?4[5D)qqqF&OLc7)A(+;R)$YME8+A@j+L_1=cTcp=M'mo,.d2/BEoUOs&/'[u6l^7@fk4*Q4rn^.Ep*59!>K7:)N^D^0C[&)g.6@/om,_k2f@E\i9r2<@8#<fm?%T?;Sg%BR,:4h54m2h\EbSf<_`#pS%?2B5rc&1&VNB.NK(cP0s^i*IeGSHP.?O.JOOh%%?mZI=!A3Fk2p8D#i!jel1*Wi;0R6Yp?gVFrMHHhJ@2I92)V7CaJ,:n)5\MRi!2OVP7t8sWeENP@4%o@`K=RMW<muaAS$RLKc&p%;s?#($PtG&Q.pou6XiJP\[f7h]^\J\Q4&HY+"#-"5;tDU"QWr9a;BtaH?sc&go224#G;#%n!5S33b-/<CPE$@P[QW9S9%`6>T)>>TQl;-2K%<+F%FY@0]p8rFEEb6Q`jc2Ib1`.7MW$fLH0G<A7]=T"q>Sq!/SH;QWt.KS!Sq,55@UCYW.^uW^!WsMaBZJE.6dbe+k$7e^`8WGF`<,73WG8k09As>?blhm*VRuEJHGhg9b;+L:Xt-Y-+p@A#KZY`.d0@ig4+E#_*a3)[/+X/M/PuhKc#i$#\],"9\2(l`Rj1/KI%Tr:@UKpYm;-6P2nt[^IBeiEP/mj:O5"/DSX]D;2S)daD#G9K"a$n])_9nA#,c_aB1h[3W')!:`&9[*rF3r;#q7.k>0YJNF)I*c,S+Jl?DN">YoLKe"REPpqdR`52,`k\tcL=W+(A(5Q0L?t\rApKeoa)/#IJ).X<jC9VX)Ue,XjcMc"+IM9"##^5LKJHP[r>IJ?FMt'eI<?[bi8F>g3"=D&f)LhMP8?K(H)nCIuISNmM?]Pdm,#63nY[#`$Pq0&No#g=cChnYS`)*%3:/9(J:H[UFE/Z6=(#4@+c-=M;#u6bMPc.UX5]Q>o?\kDMU&o,/)N_+*[>GLmWKn8lg6q?HFI[+'^3tbH*K$ln!Y-hh]JqPtcXme@U&oq"5D)_Fp=a;K/mXp[>dlICG\%"Y3.]EcC:sTGqg?3IY`Z-]`[`;oo@gTfDn>0[kVH\d#g4?KF?l\q+OkuH$hEo\e!KAq6jCY>EW;]XrV,26H1GM6cI0`W"&RAYrZ7U+ZTn>nQX5!;USB&^5F4PT*B\T9p"*QkqJ\*F5*eJM]`J=To]X\d-;?Pi]^lmk>Zap''6sUbj?.0jB_]P"IPGK\*4Re:bSWtpMnT9];0=D+27iJ3>Q<elroJbC5)<`mD0R+MqWXo3Kn[i:qs;qLrq5(%>cr%uY[NhZ(4@&m]q9W9W>I&u5&u#Abr7lco[<sI"^PD>JeJK9FQCN*%3%2fo?9#"h0*"/?65F6_,!/[1i%CgqC.ZmSoVt&EEZXhbr#kE/9pg77pgN"Kk8GnQ'IWB[C'^hJ:9UAET0B5H[A1M7=K^bM_Dg>pu@EblW`6j?CN]]$9s3kJ]j?=('>2+P<(E0'.-D'=W!'uX=PWHg9bQq>]I`L^@W^\J"4F2Dnl5ihtVs&nC=^kQ&U06jcrnBT0Ag:3J7JpI,`)$\<M0JW.fqWIX8D5MM6b<KnY57KnY57KnY57KnY57KnY57KnY57KnY4LAroudi*!O^g!VquD.1i4i(4LSLEnA&)BfKH,R!(gkI6aI()CoRrAm*&HL%"O/G^7fp;k+f+pjQ*()Gj@KL[pCZEV]k9bTHs/;Yo//1`>'/1`>'/1`>'/1`>'/1`>'/1`>'q??j?12\#X~>endstream
 endobj
-28 0 obj
+29 0 obj
 <<
 /BitsPerComponent 8 /ColorSpace /DeviceGray /Decode [ 0 1 ] /Filter [ /ASCII85Decode /FlateDecode ] /Height 269 /Length 4291 
   /Subtype /Image /Type /XObject /Width 280
 >>
 stream
 Gb"/lHX'NM*l*9Cn.8PaM2\/o;c=iV[5'Zm2_3d6.^_J-lF,rT5$$CT/0d>AGI*CdF]U0(d^%FZ[ERukR[Rj^!$'i<THp7Qmu2e>1M3#F3u<R$_3s8PF+<phn+R>\L<motn*<!sSpR%/3]];_3]];_hO%8Angn%WHWr/i5h(LmF?jfrYh'Pccc;&6?&V>W84lJp3qZqJ8CYW&G6-j-MVGVR2g-J3@[?(d-$C!f6`rr3;5fPk,Q38$'!S--+]Al;-=b)hUSFTZUSFTZUVdL-@./mo"*PCDT_IB6mp#@+>#)V2&1sWo+^-FKq0;nA[Eng5:I?<Y6qKPEHfVLXJfpS`GBfpWdeR>)p*[k5@7R=74g&.ror)P<ngq^"RoTCRX$nu@`/^6C!S8qWnPP.4S>3-'1h+MNN6nPnc'DuAS=IJHHuZV2k6h&KF?lqqVNVe@M!5:WZ1FV\pjti;M[%`s)TC,N;:sPu_D(gBZ&XR'<]/c0gJV--#!4D'_B(mMV'e^/U%4VM8F49N\9t,L9A>=l^%gGLm+f1uO<#)U$S)j5bCPf.q/qbN/^u;444Z4ub=pg&/9\I**0+XSL.ecBoT-5C`SXg&Og%th6t#3C4$a6L;X(=Y6DO$T&+"[lAFaYOQ*MT2Hf@6UN-ujYF/>%#,cZ#W@qY1oM%tn)/FM-n`$3[jQ`Rid@9-_+[/fai-IWl`n`e6PIj]W-ie9gu.a:>C0cp0(?E,]IV?!Ehhos6$Tbdk1I)F=3p.AY3>sJ02FSV$l^N)D*@?Ig_n*(PVU5tgN(/*No8IaFmb);Ifbg?FX]PR"u3je;'n;X?MX@Q<=H]`Z^Z/=Bcl6RT"F>G^'7T3"g[!8Q5o_ga^A!4C8mGlU7)_n`k7:r8u]N[jbGBt^]?IoEiA]?=G]Dt@f8X-oA7)>hmE4=0U1@Fi4_PnjKjq+E'#u3/PMug,bA#MfX`Po,!M:Oms(uMF3Q6K2>3TOF9Y8o8PfDQ6*<I.\67mcG=BsNe5,7LO7g\+dg%uPPl\u%*l?b;DjjWt,hac0!-$pTuIqZ>Pq]MV4P)0oAQe([&)I+6IcIWj?og'p8+]mQ32rC%,n03pA:`4"&7l^s:rFMNukqKVF%jZ`jOSN$rNJ8k@;5%hS>_R9Nc9kU[fFJa5*M"euY'"D3n%jH5_I_Ztg$//C3XhZ_%l'QPjJNK9\iHCRMN)2>_`pG6-/J8KtYhGIp9e+`RCh*1s4I$<sW:3C.T%\*Zf$#D3`_P;.B3-6iR=[8)kmpdD;d@LGWd6&XMGr+UX<k.\4([;/EN,[9N!E?=Y],'XH&?cms/YE4FF3;^.C_M:5ue=sqF:/LMJ9UeAHORJVfJe(=s>H#;tUYeTlJ<$BTn>0_nJp/-AI9cSNGAC(!mS5!]s-V&JaNKCuMH28_EbnY=V['X$mZOo,)8"jKKCkLmPC>nem4j8A]h+Bhb&9AM'(DIZU7hi,\2V\rREj4hpFU,WDobSS<>$R?h/km,U^A>g1@6;T2[VZbX#@Od:p8(qT&Pb5aG,hVn)Eh+I9?9XM`@YS/8#3eE'PcW*%Cm5$s]d#uIuEH*s50j"k!#<O@QjA=G@chYIL`\NF[Qacd/>pR.[XJM71MMo@q;Vihu"N?Q-0PO.UWl;cqFL689_)/iaj(]q.I%6d"e'"*1l-SHlMH]jiUt(a7`7+=`Vu\t!HJ"O1cdu6UZ'1m'$#1^CYl])$1pQt0QBqcr)`m63S3kEB0A*8NV1b!IXh4bC6>Q#Z/sWX+p6Wchl$3"*3t^3E6:Hf0;bnVEOilOV5H8*94^H@g8]/_dlnmq4NJ<dpfNHSA9VKYa>BA&I_]eY"pS+4PQSrS,%)P-/N<*sA.,7qu%<`44a<^M#$p+\0O>jgUHT@6$i^gbAeQf:QU?6>k08m6jloH-d-M?peFp;d(+SDJNAs^0h%FAXllYLhCHI)P;7!$$u[;,o^]1%Kj[(KAo9'0]Zl4/lL6fT.A0+W$-J)"sK,kLSNm.a^L\G1CQG5SGo6fqr%G5SEi,kIb0)>j+I-hG4.ep?3ca?$sP*8Hf&gV+GrJ]7)L1&(:24i$0+$M#6n:J@W@'0oGedDV>,n:NROh0"%+-gr/'c$KNgmO[5Ja5^>!0dECdiF1#MQG3F;Z9nDS)W`dE6T&)/bcVPi`8%T4?%\G+$dY\lH'\H<gAhZDK-2TL+Dm'b#/1j#O(<noV4;23$h4'M755?PeC@^un]..Od7rj*X(DI8SLL1^hab:bY*+qhH8mD@i6#ftG?%q=V;Edj)Y/:A.=fs3QPo?iqf9>(q#&Xb(IH?hgpcEQ/RCOOPd\[/2,K*_ep?C$>eB+Zg`9ou+-GlO-O_)uOT(X>^%4mKZe[dmEjB5CAtMR[]IUgViJPK9WQo[2R7Ao?*SJlK0CR5RrfUMi1qD`2_:nQ+hl++N5AL<gI96?;J)ct6HG?UUZs-kX/e$k6(`_uU^,I+LNh7%$6sAM=m.a^\9]fn"G5SGo:Z`r,4+:4X7-<SsD(]I?3;u5+AZEcD#.2hN!1B19)XY=>:EoBCUX=@6Omjb9UINFb5^E^&7OLe2dOVa!?t[7Zii<GoBZ<eu$1F%'\WrqbhgMD_ps-UfRN0G68%jc+AA_'qliQOmc@H/p`*2(Fll9-s*k@Wl1t_<KcR/B!V87mf)!X8&Y@t0!'kppcVST*aKSp=ODV&+q;tj?3?:$LC8hEN[n=mT;%&Njhn#s]*KJ']D3aSO;<ft>:FM'j[Fs_;[VkaKZD:kgaAK<?UI,+,R/%0H)]E$"(P'!QZOIDNf['Vo1.lAntR>*3>moS!0U8?rm-R`_\l'g<)BjX-S9AiD.HtX\sU?MiIEdhXo.sB(%rBtFsjV8$Jo`A@&1SVcQb$&2+-<<*-hF?6-A7=XhK;8'WEP,EVkL`el93hq@60t\o.:dG_k6UKOi&W`HJJNd>G[CeFo;[Xjo]Q.7A0&e3$`rN<gb+SK(:]at:2eTHmhp;4<1`P-Tm_Vs42O!ajkL]jc3lbOm5U&qg?fiN0`8lTZau7TBX]@li3_aV-8O,gCJCfPghu0n5&1ek=sS)JLGd1GGT*GTbic,USUEp-/R\@9\!iQ-^(s;YE`SC*_\CK"E).d'Wr>inQpOsVQ>s9)[e<)-Zp;DZDJn[EAHXIF"aY31DJ&]5$>KTtj5eJ=_Rfd)&O*AtW?f2Z_J^31YWVpW;T6$DXB5@@kD!nXbSPOLkQdB6C,Y0M\W>*U6@W#.e(RhfG-k<El"O&cC*@pYSR!Jr+Zs,FYE3=k-W?*<=eO1U@kV=Pr9p1qP:G<(>;9`(Om&3>O"I%]9ndh/9.Q\@lEE-fUbN,?8^s?iN@Gn"4L5-fhpN+S;lY.FWdJ+*?ES[AIVN<bejtV#2jr7(S>G[bJr99_>@tE4=srG6r&rfAj3it(dRHDns7S]K8V),39<%5.I>J!$.X>@Tb$2<4gbdFs@Q;/5CH;XB!9l%_\8+It5NOq!haR"IB<d^me7P9kL2%#Ll)i7I;TEpG5&?i#n[4.d*s_@>qD&(%<&!`:]qK;idUhIho%[mh_,<`d90[^&!CEMg<-a7g:Ze<'^U#P-s*r[!?=*=B/5>33o^>!]-NA5W[2hFQE!UTTTVfeIbd,2\>d!6tkol[q5:JhNq)-k3""H>PTcUETZ,g$SFW^CF]F4jD\>>*kW?In1?W&L>oOd/qAPW!h4'.l4MG-`ALM_qkT56PPn'g(Ym?_r5XHE]KNDa;g99l"nl4sK.'JD5LLPKAPm/mA^6q+RhgFXkS0.\m+CG![LIr3jQMk.'?`-nf8jqI&uApo"a,jnal-+i`pp"4Qdce'5Wb@IW2-Xt;h&S&>GKV=g6he&&oreZ;:r'!"jE3gj=$Fa&@oRBB(IRdVUpbAf]!sK"#Rr=u\rFRKbaRJ:n;%hFdPb(X8il4jJg!IYsG0MbiDQmEJG^i%6Fsci!r*597mCB*?U$.b0/g&9N&2e+0./LVnk''ZbnB`K6YqsCeE<#b9_,iXVU3QInGp>:o0dOauCsMn]Jm^UnAacMlXMl_3hCs0KKqb@PA*e>^b^\[%T9#QTc"96Q/bPh\R*FX4Z<oh'n`ZO=Y>AiCK8MDWM]Xo(nX>SA%iH3+F2?VXdF$@hdF$@hd1WU9E7b"u9"uDiWMF2O]7k3OiE?Mr@kpa2$cB8:qNi+g/qi6jBq\/Q]l;k!OHei(D@F^BE',:h)1&Bs+q@Yu#$<sNiBfN,OM(L(#2HNm<_Hb2@)o#X,VQ&)?oZV=O*"Vt?4+]iKFCCj[_#%C>k+Wo>RTN1An:j&$6ZmdBJO`n3]];_3]];_>k3A86Ipk~>endstream
-endobj
-29 0 obj
-<<
-/Contents 48 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 41 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ] /XObject <<
-/FormXob.3827dca9b35ae292b52237d012917d19 27 0 R
->>
->> /Rotate 0 /Trans <<
-
->> 
-  /Type /Page
->>
 endobj
 30 0 obj
 <<
@@ -244,25 +242,9 @@ Gb"0WGu0b"*QR^=!YPVHDF$c\a(f*XZj%a1C:0U9NCU6_4/l2!Oug$cN6[MQCC`J[8X7DK<N63`R)ZtA
 endobj
 32 0 obj
 <<
-/BitsPerComponent 8 /ColorSpace /DeviceRGB /Filter [ /ASCII85Decode /FlateDecode ] /Height 269 /Length 21714 /SMask 33 0 R 
-  /Subtype /Image /Type /XObject /Width 280
->>
-stream
-Gb"/L$%*K<ffl-ZHklk-)B^1S,+o3t?sTuZ<H+pAq-&\L/T#@*Xk$ORLo@f`<^)2FHrWT4M[Qs^CEOQ&$"Vp0ZL8`8+X&!P#mgats)8JW_k#o7H"ZQiG+P<jIpqarB?n09]:J\d,=qq<!WiE)!WiE)!WiE)!WiE)!WiE)!Wnt/!!UmP'G(gpM#i@pma_[MoF<;F,'Y@U5_J!WJ:Md@H.9Op&J4/c&3LR:YR]X8#mf/b5p?=1!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%JK>(o*@)b8$mdt>%j!i^r-0;*T*Z/XG^4R[H[GYdqG*J9C%C?,=']q`4(m9SC&"U0"#psliKB$2-fY/-??rB?Rm;H''CS5>#(\"l!/N=EeuWH+Q9G')PO$f%qt/?5_ns92EcN';)o)@F>P7(_%j#gRK%#`%5G"4.GMp8f0>@5@STirdm;IK$pYC&>Sin%R@V!.2MCSh3"F;qm!<;eCs#21JPUTO[r8Sn!rU55384[E4Ds+g'RRbB]kibQ/8U:@7pK+Fu!COk?optQ!8'jl$kCZ@jW)9<4\+%EZIe_m(>IPq+-D!>Fdc-gCH/sY(cH`f(Zk#D!n?L"T]DCfndCc_o`sPQJoI)DE7%=>SI,KP\rq3IE2)dJKqZr*BE^Eu7gR^QT5kB!U`kbCZ*&pb+8t`f3iggAh-6VgXh=#e/'btlfoP$6Ib?c733-43jr6,s`GQD\0oDit1h!lKf!@L.\L("q$9g348S.-DqjQG]Qi1Y&JOV25:AXbVsSj.]gXQm#u_ZZY9g]?QMJNg;%ldi2=X/g=-j1bKc>8W:$Y-(^$:*I7W%hH]&pa6Pd-M2+B@q-_h20J1`Qs,VI(U+9`Hj<jO^AI>N?*Ht\_2FVFQMUISb0%l$U8"`jXH\s6R$a7nk7J:<!FIQB3nhm\r.0>e7RkNJi(.m/1+k+//3J=TnBn"$EC8O4QKI-`iUT^53:Y-AY@Qcen48'68C!SW@h:W$?+UjRDt.]c*?D@nn,ji+#7_^R.?]jW1,C^t(,Rs/GBS.u+$X4.`.b^k0bLbo\T%08q"VM7]UG:Xp@`Ybn^3q"P9r.E28/nT]08DB/B(,kPsG?P"9o(og2!nJ[;-R]_h0qV[C%c0?u*'SZ`C++>$G3VAXb26_Tgihg8_3SF)uE_io1fWn2I,-q>6tcV_;/Vi/&hQQofN[b*=Klr:8#MDR]`',1n1!&eG[(hV#5J_h0.<cH6R2*F'*6jQ,AeSdE>TJsAG#*Y%sr7%dFoCb4@1r,M)U0pbUdFh@:o9;)LXpTr10]4T;+r/mG:HHRnL#W<"QJU)6kYP7D:_^kFd?!Ts\*'&-)&<oDt%j;HG1`P1]A%iH8("<F._Sa9"EPO6@F?PS^YHKVV)d__kpY7"nKPP"tKr6;k"GC4%L_8M#hB.7F0c4?u6HE\+77CZp,3XYM#GK;.1M>Lj6?hM(Tdq$")W5AijtJi-AS#gKS^(BJE$7m@^]+)q0>-e+e)e2cmm[:7HLtmeVLB!\^sJcBiM@Z]2IF/8,S2FG&m.t,J9]l*\S-2J+.YB2U8Y!r^1^DB&e(i=3\XZlM6=JY\d':$TWtb!I3EF[qsV9a@DW-q,/L/UM*Zau_)$B,`>?dcn\>,>(DfH=;c6LY-$Rg.L'P_,-&6pL=hl&F=6KmsH.#&a>MEA#]nO`O4F")7>:@jn^lf!sQ7P=t@.KJHQBmJg%*15LA8ggE#+je9$s4CWGnCW#Bk_;%Nup<+eZiW)Q7lU*(fM9Krd`0F^Dr9hcCI$k>*JgZqY9j\\@=N:h&\@;:@Kru)"=hep^fL*`5J$mpH<lsN#t8j(a]b\?$W.s7+&)2+V^t21N`N]\(B-ZQoVp\W<r2g:/872I[_/0_BTr#XfX9NdF$?\A^-_U_t;;C%p@$:l,eRCYMZg_f3RZ:e%F%TB6'C`8.Ohc&qNZF0B<mj096t.fd8$m_E=79.Xlhq0MGPQE<Y<(C*%*g.X7bD!I$*cLs$3t4F-METgM[S;/g7E?c$+4#s;[IXaut.R[Vs]en4(*#9S>Tf.]45=hu>Hd-MN*O#2]*P!gCAr38mNFR%ATgtZ.*CfOJ8GJujokW(bg*-"n_?!Tid6tU&.R@N+mhg@4tgpfY&#+<-=-BDhI^E:=O4lYkBTgOT1T0Bs$]\N9=#Y%6O`IS*rb0%l^1luGaT&Gg8YOAPqZf]K"F2JGG\3(Y"G51Q8FBW[(YtMKGjN*I/oB)#P3RWlCF#$+O4;'>u*fos=0tu3%dA*$[>B]#E$0*hrgY:cKj5J272<2Imn/.42bM'S>]!AZKiTVM[1d87PZZF*C'eZiP"&s79M5tq##C<huMEPDo>.o6iZ#PoN&@A8CDdjC,.QC(WjUk`S1c-=K6R+rb6LY55*!_NH5E6E4iHZ&\`.1m>kp7W%`i[+]n%JIeaZ:X-7s@!<TS?YGQoSW'6R]Wts81]nVnicf,UB1`Vg"IF!lmSB\46;iq65TeN''T`2Du>%Hq$R0!YB&B\@=MJIt.BIJ)VT"_@_'r+"kLnH$O[S?^mLQXSAWU-;D)NqWm*jD;2LYpKI0C.5Wm29]gp"o`].4Jls0;+39_`3O3/`@5A#mLFIdo!>hK)U0)D4;,L25FZ&f:>?dR_M6*:ULO2?21c@8CeC5U9@3pE],C0?p*\XWtFU,L34Di$4@DZ5ESN?Gd/$C3\6GT]?i2G=`/i@7]ace)8Bnda*0KK@@"jt`FN&ZoBpeJItkDG<qT0<^0L+pfXK!bZXbe&J1^]+)LN>oE3-j/0G.kAf>@7%FS>-qtmW):FMoGfPlmZC!\0s5nVhM)ngpC\d8_b;2CJK'?a,pakR#+;[je:a)L"#sLb<<W`)0sFT$I8.TaZ#=>j@=R'[o?G+f_;lt9%`<t?)3;V-):(J?S>aKo+^cSl_]SkcXD]U>.hPLco\Q\MJcU^&:/6NL_0LZEjI4>(!*f#:?oLb&N!8X8R$\0B<]PdCp1q)=f3ECAgMaiDrGaOiYem65V8hD(rVH1r##i!`V<1g\>%R3.n5E(W%bs)=q/XjCOAF4.%mgh<HSWk&]Jl:7#3Y141CId.U72rq,Od;T#idUUoB+;L9&0bbM;EL;%>/`;*AAm#2qK(,@b_X%3F[R7pio4'mMj&de+aO/&#0Hc'GV>doAkr*it2P'd7)'Hm0=_\+K3dA(uQh;H0VB,$q=FZ`PImnY@[U[6-l:"+uZ"IXhH!3]>n@7gY6..nN&@%m[.8`[c/#1$m2"TeZ2c0=NSHgmbF:M^55X<YHLMD"M+<Lp4@/V.T!@N*l_]":S+Ou^oN`cPqb2M^/d8.&`,iqiZq'JT+JVOgU9gY-'*VfF,5\*5;fE>=]l&<`VP<<9$$Z9"U,(t>7t9VSubkU'h)hNWP+lEe4s7R>Y.MDnt8Z#p<P<p[Kn@.!1MS$-RqF9iK2eBl?H?HD(T#2m-JQ7:F_^BUYZqFT9kn"k<^EH(g;Ne#fkj9Z[Y#uLge2U%>%4?`lO8e++*?/op:rC"O@3CcUJO)2E$/PBk_:7IIukmGKlW@kib83(`=3*j(p:!\E)^]\;m"'@X-jc(I0:YSg`NM6%]BtE5N-2('.Cg[r3@!hQB]p\RnOZ/%;tn"DTV>.4I59=Ka7k>eBUQ4,47aB$93;P^oI"3,t[D@Y?rf*??.A*q"'OKGg..(%Vjh_'<WM\T?rjHgeX[:1gaSRUJid+tO=r#Ik3I]1:g):7F.9G^&k5Kgcjs)1!ZpQ^?aE5W0$+GU?k5FP1/C#ELc[g9b>.$BmS]Y[su'm*:0OE:=2B$h_eu@N7=ES=l$N?s2pR]6ES3J65pA=Kk+<6pkdQ\t3;aAD#0Po[o<Q945BBGU+`$QF)Ii.40ZHQC+''Peg9"-]=LI>sM3"o#`J/^V\Grn'+It&gRTt#!>7Wgd2oe$JX:gi)3TW=$moC'bs#?,ErH>#Uh)L^cru_Cn:fHV3N`Rq=<Vr.4L?V?61gT_j$FO`K_:l9J#*3\<Xm4q:;ZP`V?NW+P=?mY.O>?(M"S7d2XOnU(V,FETIoDMs0NoKG%Zd@Is%6,9tmS4>=@JX:/,3!X@\pDr3bVJUbObAb5no`oVJqp_sJ(lKV&DQ2CIU5P<N)P!e!QGU/h]47K(@%KmVZkMRXU6pqlNR'0c*Eob<(ZuudI%ZbN(o]^[A$Mkj:`h<?+;@+ZM1'r0D;HqD>V54?-Kb4R(.$tBci1R=oC#IV%6M(dj`aV!A0:3%*APb"kC=OfBc2-(tA$<E%MFSb:Pl*R"2)T%dRrDd9!tm?H(%h-ljS7(0(+c+1KdXYckk%pQJWL`G!t6f]eBlQm'At<BC9&MB',D_OGU'SN/,h:G+#-q>5($HmI7)?%>-URQR[]dd++m^%/kO!3J.#,[T!O<t]tM+5G=MX(ZubD*]jII^F)uEIgrFq;&8B'`DAlnolXRPs5\C;.49OdL'$8T/eSB9]_B[1]TZ5!k_To0HK1Q\1YW9@B)@"KhfXZqWK*DcgZ=JeuQU9RR-nqjQePsDnCh$qd#&TVjS-%"DnroZ:DIs,FQ`uj\A%QS56:(FW6Z7L]C^h/VmGfB&CF=E:nY"_FE'_IC%d#L]Z->#qVrk1BNK"3:Gq4B/<5SB%91sn+ZTYjYVr5j6?<LF!NO;?$jh7?ETRpR'Tg7Dlb/,Di^G49W9-OSe&5f%UBJ4a(iSBn,bkGbBIAZfR)[`L&O>8<E>JSk5bKI5Y7(=gX+,"J"ja-]L=NOFB!Da6OR-$#J<WM"cSU_5=+;"^W\Nrb*&eZD$4#;CWGK1_JBSn"W/QaGrJ_1)."Mge=cp26Z9nEh+(3Nui_G0]G:b:g+&B`iQ1KYrFZBb)nR[T[Q2"fAG@uic2FQcQlc2.U%4h?N.$KJPYN.LF!9*@31@c<CW`7LY-]Jt+R1$7%J<EK\9/NVIK\;@b;n<q*h/$UJ]35(IuiSD$I9_RYAJ$/S\^,"cA>hR)*,.M]W[DF*_DQGr)s7\b^Oh9qmfg6A'$_ik?;/'_n@O:TT2D0Z7dMnS]%1O%@%XNXq[rgk4"-:aM//Yh8YC(CA<:]t8qAu,-DP]U"SQLDp#7#cQ9]k0q1%FeS*uEe))Q]Z;c_E!D0=TrgQ'IW65:EW<Y?R=D\&'AGpOWPVfYVa6^%Ro<o4\k-oWiO7?NgT:HnAA!re$ed#?*L/r-2Y5S1nd30YLppk^Rt)EZ2K^T`Jn&doY_,P)%XG<l,3)5R7"7B_IEEh?Zd>ne,9HA<>f*22R6L1V"[4k2h_fOa?UI[r1"OVTgU,dL2MhYXOVUXfW%+0o2Js;MhMigg*"Sf](MV/$?YdHDgn/k;1$:ZKGMR'6SJAiWShB@XK:]mgbf&f@O)k,T3@HNI(',pG@B*imGSq6(>DY8%YR[#M(^iL.*0"^<E!$BCOiq0>@3*f7e$X@07UtjBsJp,YfR;&HhJscT0dgCY.4D@qiF>@t6c5naY#nA1/Eg36e4.MZB-Gimslf#M(^i"'b+(_Y1s,(\<ZX)6>F6<O#A%<u2ep92"1$.Qg8NWPD:cB$:f5#oGI1bbq(^Wqd<=f]DP(HH=FYLQcZUHo72E\u)_N/<GE)FnkH7"P44[Pa%EN`5I1V!'`\4r/mM>N3F<e5rl`uKTbL5bI)-;&iO:J>[*Rlp4JYMX:/Kqg=k8fZo$%"6:+!M'[UaPB)kX]D;$g@H!ok?RKd9Ve+:_sP"Ms>n-RpUVQgbMNWU[3pBclb=n$W4;%Yo^La\XB'@<>TYV8I(pa6QWR=.mDTG@;.YlfXmbgN!!"CeYc>3O:d$Q&[:qpV"VeeVjeJQ=jfk2?L:;R.pY72P1l=Z>2^@m;nDcm40nJXSg"Vl+;_A*XbH7IZSEeDN2@1a!o]dnWIG$.'Y[5U5=Lj.W:mU;jHjJR8YW$$g+dU1cQ##i[7t%p1`6mbI-2]C+BgY;P08^a3+FJc4Ium@9S0$,,t6I!KVS"leI8kTrfn;Ym^kJe"2-Dk<gAKb?;BYVHDna^F?AQ[g(Dh7M8Zdpk[A<g<e(V5C-0I,&?i5(Wh:pCYTQ8(]S._[3h;3X=f1Hj@*ZREO'>\"1+hXjCXK,<JY-(pF"$oWgr1h/uf62+ciJNJi^Qe,1XD.>b]]2Sl/P!JSX-4kNbe-TPXE2Hp2/"*-qG)fM;KO$N/">k'EP0^Y<=`S<IqNaC4R&o:I>bL?1JeG6fmn4mqoHj"nhhT%2r.-R9M$//n7S2m$&2)[@])(nn+MFT$SHmHWubal(HK-rYr`$h%;P@I&NaS@lq"h%bT*']?t;T;,K[3KTW@,AMBEHfF`<<:3Q(Mlo_C9!l?IHR/Fp-Y$#G3i>E-0\lK@qhFN_4rM4/Z#jF^#4MX.cG9T'ne.t2qNB$gg]+Z%O@c&]F/Nhbu1SU$c^@=\-+!_1YuE\a]#[_'E7rS&%$MMo7>ZMg0eGKhZ=Q8*Y,;8]bJg4hVR+X!<Rjj1HhfDPU$N*p?3(_ZYFG*BN.;k=;oGeNFQcB5D&mT4$j3uX"s=QF2lBP\:dHB/to(Ld].has-"lRJ[U6(X?I:L\bbTlqis_k3csT^p$4Jb!Z,+Ej.ln&M\7XQ0NdgqMb8#$R_:N;ComAcHc]86BTV4s\X\8>4.@,>=;R?_5j:Q53Vp'!<qBgLr:.i+VrE^gW22ML)1a%b19.=Q_)J3u#;&5DA<8r18L5-0\786CHfn+jY?H-1:1V#-JkNoD7JuB?[$.E!QG+.qs6]cEXli##fKmb_JRVql?N%efiAHrT?`s2<\3Tg;#'D.C_%qEKf55o(0pUDNU:-O7)=ElAjDo*GPCotK?(=B2EV"<[g""-H=rmD1kNCVkHk*ipUh?9Ek-E/_,;c:L@Jooj&39E'<Z"M,jp7T#EcMF;iEG_:O%Su3`pP?!1=%1)W/DHFShX`p2:l*>A]kkLPL8<?Jca3)Kt/ZKN$mBu"6SA!"Jr4*MW!=dV4UB`ktUKZh&p*YQLlfF(epSa=]=Ag$O[9o2M<@:q<#?/jD$/iAkce,4G&%jT1<pd=APDEc&?sGY:WErq_=IWB+4M0biHQ8GFa$Cs'i-XI:(7hZ]7OuFgYQ#mG,6nqn-]'FQcQG;FrPMhi9r,[OD<P-+)of8h.);8T%h_R"=DOh1,J'TqS/lc=C\uZ`-FTFls/[g_g2taCI_Z=afUp28P?%PQ5F6'@HWEM>,=\s1HZj)\<331c2.lj2:*roGW6?fS!*1HjKL'[-<.#8sP[,O>iMWPq=-J#k>NfO,nS&Ak=\dL#grJK*cbA^ph+S9np-L`L"KSgDO'>3Mlml((rtLo^+O(n7qRXce&)O[_aD^@G8Mt`<@?V6MKp(99V:9G^0F53H*ceYJ:(*lRJ"Ahr!>NEXK1s%@f7&J94$1OZ7b`:s%)uLlZ"T@l7'Zi=CFjLNt_$n6jLdYAfQq7Ka.8/3@:++0/$X0DN?Vm&R1fZ`s_\(gK1TNF'2<l)%1E\/rKA3Q+OCJQ`q-Yq/56i7"/+EpK/ic?UYqriIo2R(srkCr<D]]DD#_8J<FEcnliK%L@-#n&@9a+Z(E"1Qu(KbSGS6m[PjdGY15k?khO(TnUnAd0C]]F+F56as>>>GdO=QKf_Erpu?l!_]QC[X,Mm;*h0g4!aK<H(5*(KDM'93p<T[lGPASN6M-Q*B$F%E9msEc'm=cCPUW%c,pX`IU_/bZ#Z"QWNL$>?0DJquP*-Aa&-j2+!4/e_+cXVYQ>DW7Cnp"L@^[d5>6bo*6[g'J$2XJ/l`Q`;JDT'6-.IbTMp!Oln2/eQ9b4n3*ma1FS,./5C>%:Z?o:`1BA4e>]7C%h56(QPlJiFN66+8$V'e)%&kMUufQ9l2MOR9c7+SFV4"W#n9eu3Qo_Jeu#Pi"RRLjQS$JkB\F7<@C@Ua"<66MEIF;SM`Vl-$1r#BW:FlU(35M-Y^*YG5O`sC#":N#+rVbU1]CMR\lmMU\50LH^5:Te7d=R^m.8l,SgWMs^la\8)a;U9H-Fhu7T0hP&11;ANrEJb]IOdq;[<@-]md;gk30XBUb]Y!>kMq)(N"(!0>NjfH\*3c[-`f8HsDpUh>R;`84_)h]=ioB'54-d=G*b^^/0KQF%i%ipX0';OYg'OM\2S%Uag#Y2UQ/r]ne!X>?guNA#%'TM=9mS6rLVL952gOuT53CSXFWQ#,@J+V^?$LTRDhfRK<6oQ'#r%1t$C[J+k`SPWhUoUWn,)\P]b#WTaC(,Go<iWdM[e0dH6b%\!@,IHEGFf%]m/SRH*7H2[;)r7:Oi4>+61c$Z"*OpfqU_@fk,@X>_&Ck9T_SN`,#,bbV/aa7jVc%^gc#V,XVD7iCCq')CDVE"d@+YW.>IILm$+gGc+f5UfB6H?5;u%:5rrhE'O2dCZjg@V3tQ2c->?U'Sto$6$R'W3o1#^e5V#-#J#Nt,o<kMlb/]p;YDf<lj%'s/^OqJ&_%g@68$k"Gge;dJJ,gGVrNRXqU.2-]ZA<b1GsZ65Km>1#B,0tTjE1s5,"DZOq79Vk/!9]JenXqCN3gbQ$F#s9MipVT$hB:R!2%K^;?3\/GrUH:r)t):3N5#nOgTsY;MnogMOFm,p*$_k<E#iDf9RGX6VITTgOS@.hL,9(r1aIbY6XOWPGHc+:^HcqM*1>4Bf:9jlk*eYJ'X5j3+-^@8jJ<ZdC%%/JDZa0^k:XmENo#nCr5\oqO,9(V^ol55r\TYOi\R%2gp3a,V2*j7#!Pdfo*en;_;2'I0(gaQm?WaN;O1#RDOh"t61c,M5Tk5q[F.3E0$e?m$U,AH3N[P>_a)!;j^Ik&9(*P2P'ET5ad3p]Q"W+an9IDbVs@V"(<^S!ocO@;g1,11>hV^5usOM&@ESJgFk>/$'Ns)>J>cAS!K>`8!@RYsVhmTsV1kO<XpY2<Sco"$Q^'Y4"X<ffJW\/E\u&!nM!^%>a[6<>d'AG;;-A-#[K;.qdt'nZ>Iq4EBKg@Nss\fM[?7Kh':Q#[QDr[[;=olV,BN7n#l:?3SLC%KX%_S=9.l^tQI?"6Fr@gHN9eo]aiTa-lbc]c0'O?J1'4':_+.,6[ZiSY$Ok9Is;D&t)8T_ucAt?HWBSRP8:c2P$`AGTV%Z?\7b"U+md;l`IYi%3@\3puCZ"D/F.&9*<""6psH42?5#^/Z</n3a.[u/M0[K2AW8[j,mYk%b_se:Ir@/.#G0d#GD2]2E$l1s'P[\@e-OLk*+)*p>qWJmK5Qi4F$AhmG$13CMIU/'gBJDhDqpL]EE/HQOJ-3[]G,E"9OXC;r$l2BPU3Oar4udJ.Og2Nlk<RF!kJdhS!F=N8_?J%tqF$\)thR\[f8`UO/gIE*^oIgmjUn`-$pT=a2JbmEmqF5UG3Lm=0dReF`\':Oe8So<QOl6R_o\7j#jn?&fS\]fTDc4kRg0T@MKB]Le]p\t`2)?*pcKI&fGmC9TG7!:f3BHX9NFTXffZ!GH`bag!h!b7NMVQ13S+VC%*1`"coS7n<IRqtp3bZ&QcMC!]'R%1NNd1HF)[p?lT;.do&rCMPFR@GuA^fatOg*uZAej2R)EeZKo2n*B;?50dt-mmfcb`&k%#;;n)3#72["(P)"E'MCS=J\U]^n;]2qi$/@r^)Q\0n5!^=[^$[/^bi*=K<&G^pE<5LJiCuEnRM/4\LsSPTmll)aAo8C:S)UpQJT=gQeoS+*??05_[<ar"+dRW=]pDEAZd4Z23i+`P(oVpdk+P>8"H3A0XV-+]Aq!<H-:Y?>$;4),d\^WP=p0OJ[Y(YJq(!`"sHlLZ1Ea\n%S[F4-(G1n3Q_eL^ih*3^+YS-'0W`3M?nZ_bBPp[umZ.ehkD.#*f^FGm:]b%U3/)<]^O*b.C(P/T1XSnNJ?_4.B<F`M[<AH7@dU@F!!jhuE]M]q%[>4nkKC3;SDS-/l/81>^h:CMR^2T)oa%..0FG6<H2NEYTW:%S9,7NQ'<g?O*P_.Op$iVq''98g<UT5U^V'/hZ;BH61ofDlNh6=n6I_UYD=AX,S&Wp3%KohRm!>**p]kTE8Q^eP>lH]TY)V%AT=Fl24_L_83r?1O-q4hQTBk+X(e4BkoC88kG^5Gh8pIe&sfk%M+5Zj(R)O4(Dm:)LSRNU9=:^b:eV]+3o#0*eb1N7VH\NLTeK4X/;_in^bc-,UDk+)5(\hkP??$VlaHZJ/ueK9JYCR8$Y2]qNIDbCJ<,Z?E4O8l7M@t#IYi]f-TX9J+tB66qT[kOf1Oeo]jr8\$rhY4oq[?='VH1GmChc]2ohfKVSp+P9W)PD00m,]F0QNQ1T<sN/?3D)2)EOJh'JeVX_s+@]N+A?%P6KM2DP![RFN`<"p)`qY9i)h5WsGNRnSRnDSU>a75=E/\KF&#Zci)FbrM\*g7/s>Z"u\BspX)=F^H#eCN&=!VON<I0t>>gJPVUK3>n,)\;r=PDdR\d':911D_\t0?q=6a<#7b_:tdt-f19jc-=MG)-n0R&;B6.juOM>TT]-`#(*ck<nIU*GVdQH=]rDG0.A?,[k*Ep;;dU%mliRTD9/,$(L>[o[p[d&]E_+mZor>e>]">[>.fh\aMp#'W@><&<-%7VK+p6p-07i\A7oQH%`f:RDZj\oSgqREhjo-3Y$GB$7H4YmNI#NcDW8Tkl@T5#MsV"uFU;:=Qg57i#&e7IOP`-Cm$N@Se"i/4]3L@0_,Bb</e[_n<E3&3QZsjf"=L#+aDp_5;od`I11ne"eOt2+[baq)LI]CS\nPts,c!\N-d*(ljFmG;:/6hSS?&V7o>o-`.sT4k=+pJj+cfo+;8K;Si#_AgI7)m9o`!^YYhskKOe;-VmsWO"4;r/n1ljU:F?1WGF5"!8lMD5=(V&J;CDRd%(%G>'JeYk?Y_49SRDbj6Po,QU<\+dhW!K@,a=8k9i&VK7,&^3t;&J$\bc\;VDspcI<XT]r<:bo=cFKAe?`85T]dKfj9)?_JF`qs!(>%LYn5^kIN!h4qaE>4BM,dF[:Z3f#+VaRs11ORU&53r-(U#S^:lNbgD;/.KE8bRb?G+pI$YgQ&P%7/-=O<^29_EDu6O,S/&5h<u+ZAd]RtM28?="\V90eDM\^&7-RkOT$W>$Bpc;cr]pks?e,(`/>[<f(M]HbB$=*_+iWMukApO]slnE=6$(H?[&STei>8GT`aGiWrOQ[c'^^]+)qe[L76nr?WnT\qE0!q1C"L^41(]]-ut%Y76GTqQpaIU#7R":(3r+!U0c'C's;92!INb.'&q91s>BZM*\@2aX,9pBB:-IJ;Q0m#gj?Vpi/ETmhmJ&`^WsmP&;!S:`:V]*8B@W/hktZ4n8ub]O6;a&QB2TN+\WRtnbn5M,^>@:<F0%XYQqcQ;Q](Ri)g-n&d/rr$(2_i*GU>aOg5]9hi2]L$"6+P.q:*8nC2O'mD/rH1F#rU0oXq8!SjTU&J34L,#O'(PO+p?^Jtj#"N2G;0>S?UlV0i]=if^"rUuZ^;#,"U'Hn699K5hFS'e01$Mgn>'EH5AjdLp8<CGGhg`D9+@iY6mX>f8:=;,6-\R2n454Y^cO-h1O00k>q85=9]d4''!\?RXmJBp,4`H=='$4,'N`WA)%[amJue-OK%:*3LoJpM#3ieJ;+n4.4>OXW0o70n]JjcCNf`uf/1fjVRDO=6h.;P,)2jN8G$161,a!1TaA#Qh:oZq)HUHc]Nf8<9mu8r7lTFS3;SYL,?5TghkInJJ"*DOk#q8f)9)q,p]*CC5'ndC>45c]qQ"=3Rj$Y(_@4]W!$0UeY#nghuGjL@Xen-0S-A(9CNGW>"F\*BcRHMV!D1pai-bKd"4l_)j5=0N!%Qs2+`q,JF,a'd'\m/,>ZH'R8*FtFZ=Fm\/(;W@'8+Cm2X:ROiZ3`W#c+/q?SMOnRn)][<Z+:1QEC01R@;/>#&WX[A<)!usWpVX8&mI2O2`RP6--3,P#USJL*I/H646S()5EL?t4A%';^d4pkhTI,s0/(RP!+?%L9enBp#ZVQ-d!4/X-*/L@3Ae(R+BFOkP1I82;5pRqMQk2@@4ad^1k/P?^i]rd:;0K*"HU^j0@VfMlM3q65!GE!"t_XnmWj2eV7dB0Y:-5RH.@F5P)^#L;p"-QY*u#c,tO\8FEBA.*(.$hZ9>2j4?D>JmVuoTYF^7)mHq$DeKG@2H_B"V,3@\fW<UHV-)"t=oGWoadXMiV.`'$`bn<[>6WsoZH0+JFKQ=WE?\7mH^)SOc%UNhPSl\*je>R<"q*oe&0XsKK)'eKN!5FOQYf2OiNbpL9m*!Sq?'7`6<!Y7E&E(XJj?dj+1%2.,T%PWI0O?CC;8)U%`r*=?bJtb4;!D5ol;>(PP"W6$h5WZ!&=*"E&a!mBp+.?Ihe;nb9BTfcd*PUU1RO-O1985Y)[Mp\Z#We"$OIc8'(uYU//B^J&YIjH]PR1n\97Q6h'5CJi4;pL_LMXhrqtqDX,dqZ[g<[BaN`-Kh1Z=a/7f5_FMIpDBkh-!TejU(_o'@.#b/]hI0odj&=.2\lkMk.`liKmbPr1OdqomPk*@T'H>g)aEq&;55Q7qa3$C'^V9M*k7i6<&IYLPe)AbB']H2mqcG:u]\]Mt8#"Cn>7gRks-ZH>0/T#t`."&m0?"aae'M55<J]ZqproG]jm2HR"XdBXra$9R.\+Ag\Rr2+GLD97cT#^OU^_c1).P<aP=6@CZF\Dph5uS:95-11K;tC9uL.cJ*[S19r09t8GgX2k18u&5ZKs1`DBD)[p$ZtRE&b;sZL&Ct3Ie9Dlc6LT^+EG>SY\*uTWW?uMD]sepVuS[=bj-Pj&6;/hU0HR"J<J&6Q$J%3K,>C=']?@BbY30AR>X[^9u=3s77BYX2:ru).teZ$T'eZ"qbk4VTbj#'R6Q1MYNCu.(lHiXI_qOfKKT\K,PCgAKS2?iXP;iQ4."V\4<:^:2\2fT77G$P+rCUn$A/;t[Ltqe"#2\NLbVII:mJI73'J=cC*HW*&G?Hn$Zt]1FFZkC($c$KH[GL1*oRhjF$#sr1C[]Q2\;/m28b(j+ZLY?NWq@$Al@DVJ1P@u/D^=(qsfI;XI;d360(9ThJi\?nW(7^,*Id/P11W@'dBh-a<m2@4`i<b6AP=#@KqQq_hNU5fk9U1ZoneA;[p+MHLfMYTXinn)dX.+6*QEi<6BE8ck=uT_GIG@HI2j=aWRc5(gk\k*lSnco*n#R6[Nr1!s@oSDgq9sol8=E=Wf_Z<dAI.)#JQ9=<r=`c3fCR&s";d.cE@uOl4Wl,$<]D6#16dn"?dnD6K&:bSot!\)s3gII"#EHFm*'l)u!n:,VNi7sG`$H@oZ3Gd!8M8MDObCQV!tPt-uQQ,k#;jDZ8U4ioeT8+Rqc=hpXj(>V%"HnL5ej,Q4t!08DC<!2S[3eD8+&d@nZ+^)`u4pahcE\&2f#g6cGS/IE6,[F(i1^QdDGF;S<>RNjZX\G'#?^^Yg`l:Iu)]&?/X:RLW[hA#W.sif*mHq"n$FuZEWWl]T_ENqJ.gTY`E7&rdi0DogS]iup,`uVs8!8HrLi1!Q64&k:(uZ[WN6mcAGpR,ODfDMB"oS4glrgO\@t0,oI3:LY(d<?BY$JZh`sJ^Lk+_H>!Zo9a@3V7$8\>'Z"'PsO"U,&A[MVr\,*+")Qj!^"dgB6So@fcph(;L[A,$SI_5VImJnK8'/UI.ra:K+&ed%@\%'Za-5Q.tc3&DmhA/o?>\&*f`OqO9AHlBkF6IP\`\\uESZMmqB,*1(NW0+U"\FB!,JmFZ^;G)b(BLT.BD/Hp18(,?q(-K/kiPGOUQ^hElDVZV*>f(isSr!K."X2F:Bfd#1<E0Wi$Xkt-kr\ula,B&H#VQGg00)%\YR@cM<d4c7OcbdBkY/%n@s][;ZBrQmeEEUE!No(_+N\s#mO_;Nr8_,QXmr]>]ae@T?CDr[1Gb4R7)F?XGln<_6-Di[\:@3he;8mbZ8*EYc+PVnk#$2@F&Z*Q9IdRW:NEBV>+>j%6?m9n-Jj]*;cAm#ca`GG$[]^p+u.pm:0h5d&RG];L&1SlUITU]#*_Ya/NL*G[!XO@O\&cSQ^qo/D2jC/aj/2/)(#EGTU\:i`;&Ui.P<40?-q=/f<i6)*>IYLOJX;poCM'15s0/@lCdf9B0@#DJ6kBe:CZN@-_GcaI@QT^J9p9^#u,G>.1g6I,Y&$;R9=RM.;ldCU+HWWDf@)oo8&eX8=*XRBTbuhe<$?/,Y'EtU%/5NnBMT0*$[uEf/_5uFp5qt,0o<jeui;*q;mt7hQ8.-4G%1lj9r=XDtPP?NH_\CjH*nC(G4!gGA"SCXN>H+4<9._hCP"4Rcb9O!<Lb.6V]=&-+&lud6[@8MXr.7?kY21@JH'5Ih`E*=+L4XA&jn'1M?D-ViCd?d[Z?uMbL)B6Hhb5Q[p*t]D8`@fJ5U`iYlWE;hr/%ZimhZN&EB-,M8[]oQ8`tMM_b)!c1Q,Wi@On_R*huI!+;J?mUSkiLQ5\3PnR'C-DObfbGXIoBLiiPOV]5^]*Q6hL+ohol8\^*JB`&nid/i'VUgsEocY_USHAG7qi\GOAB*_.REXaUDf3g)t4-%^SIY.*LN4]#fi33m.I<1/g:_`0H_2X9Fm@-;ZM&t?R84pX5$,U$j)L<.N5d7h`bl/0]'G7I)*U*F3QS257pLXfV2&mPs$65[)AMWIT/l6eZ>,95ZXRU_/A$G,/MhIGNoV`O$F[u>$19IKEPP3Y(JXpc-.]3V@n5MRKG*$>Qrt(X@+)h;bn1`ST8lW89f?:(+nfu:*%6^ET8m&Qr(pR3O0+$5uLec_M;`R-RL?Y>AE>35VjN>@&nN,>2eUg(6"p$^H_]Wkh&ppjo+*pJ^2h:GSu`F@V1t^5I_G&9pM'3'ARqW&b<BOij2(RNQktRN[6NW<rdF;UQ7T:+/d?nA)i2p?ksAG=R]>q^)\I.;J.52oRKDo?]tkV8dM_1'6truaoJV2,!nVZ<B^uZNo8/CH0OXIEi6#LK')Uoo&@>eDZT4kil-g5J&:C/?2RiGGgqCk<cX-YctjR%9Hh+a=_[KEH@;>%5lLie!XQ1X1(:$7)Pb$\Se1:@GO!9Gcas_D\8M<kO$(ilSN6sW>@i1*"9&^;JTo$EKFNMZCX[6i4,6(UY[B<t*oIXc3N+^AcjD?[E]L7.&,:PA7L7nGYcpqE%Qq$[IbB&Q&OH&+*fV."ElX1\lJo7^QBK-2nS\*=!)J?Rd"aA'!r$[>g+Xfhgs)USNXeT8F6@3oGUAc&d6q8G*PiSt7$EfUM^ptQU\n23J(TOI3X08S=gM^SrWHe'=9be3Z]djDM;PpD-Ph^_4,0ZF4%aNDO$F]??g4<uW'p@C=CahH77WC[FfJ1seTL#79bFkK'>@"Q/(hRkn`.Z*%`kA#i@,@V#VOKdJ9-![HJ(;Z84JWac+n`i@Z*fmY2Nc[8n<uXEYJQer-?DhJ:geF`Wm)g1Ni_VaQPDnpP^hGi4r_"qU_0#,paiLZ9@9cI`YFk?tLD$35l>BR$*U6p#r8laW3K1Rj#S'M=fM<P"N4pe-N1FSP9V?%">Im?fdE=j6\X0%K>H:8Scq\rQ]W$6YK/s")KUF=3Z:t#V'9&MW?/q+X`^nC22\])[&cF`eiWG5d`rJgl]O]SOX6<gp<fP`&L3GP"N5(hhu</d/_nk?dJdJPn-Z=SoXKS6"NPjqS88TjtUo;aDK\?WK4C)1^N+IjGD1kpmQNc"kR-4:56NGSt9i'@Bu"c0HY86U!,C#VJ6rHWN`Ug()BIWVX6266`C)1$]`*!qcd0rT:]I4*e%)k)Ir'^WLCu6ZEc5A1QucRQkc&AP8sLS9<$56&LnQ,_ZXOdfANV[4@6sTJuiBc,6`BmWi`C_NK#7!,8:rfLdb3q_]>Ye(2l<ks6rN#=N?mI#R3/!p5p"J'$l4m2;!?n8jD3*famKT)i)V1(4*jo%-SK!.P)1*,#Qd_P0(43&*2u+lLaH#_p>Kk"d9)^gJ9R58jI;G>-pil-ea*&A9u+`*nW5N/:D/(m2Xi4O3?Z@=BVALbTds_Wi@PWhEGB43@0nhJksIFLhO9'1-Nuu\FB!m[cqRZ&00Zt'e<>W2e0eajlN<VAs*D/-3!!?S,bR#K[eW*gK6NB!RAs7`GK[:E_JqK:*B$3%n5C8Tl?Xj)C]8t@\#lUHbr%>*iL\uq;j!G1LCTo3Sk5n'9Q/lj:U6pfs51X5Jb)Y/BPk=`Oh<R[9e4SmNp)62?rL[9EUfQkih6)U*?aL6M!;@AJ"jFVa,1L`cMUh<rnjZX(c)eHZYE\.]%/Ch6>ZqGmaAnJ,]%*K*IHBe_:*FU:3?9GXSkD<kLNVcEVVam'jKP7!X&<h@:'*X+<R])U"C#O)RIB2iJc!F^//k<4t^::(K%UEp(ean>pkVcob,7E^uZ_e[=m"iHK*q37W-UHE#d?,6kgXJcuN=V9#Xn\A4D/i4W//'/9`Q0IU`YYY^F2[R)41L&^1O:^efi?5"5%\"E0rs+H8[F+pZ6>$bMVS&u!/Ni2u+FDK8T5)8LMd;&.rLIXkXd7K?I&k]jK.3p"T.'E@3OWXSlLB@bkUtrK*!)ZWb8;QD(:3N-8#0SH/6Ch5/g5LuL[,&RI"?6H-JsSoq_'Uu[ZoWFQE2D2/TM0*8.SLAC2s:SfVt(]-%?iS%$j8&r)^I(qm,[>rf!eCY*VA]bBC"m1=+.e4eI5iKB$?X93=Na`9%jOSX&h$d)7Npq%Xn]5+LJgp`)R>>R=D"=]Qdjn+o&,3PI[Up6`)K^2W"^Mh?j40Hq31tfClJ?=`1tLk5O_p.08U4F!5tRg4VQ\EXI,j)6Z+,&'COTbld/^*jN;mN/S1'lekoNn3L2NNj*2&?nORQ*RSMjNUZFV@>n_^TD89ZC'pu+$$Xh:b:.,Aj>[a!'&86rA(MK<$]eC1]?>05b[.Z\-KMI"AMJIHEW)VU%tI&$I?ef`lO6bJ[F\_8N0+aJ7uuN<FfXY#jIN[r.P!%BgiBR6<X9,4<*W\pGotAM4MhKC"E=$m*gL[p`%SdhhCC6ldfYZ?SH=#NT^TXB5i2;/X095M`lJJ5.c\R1[s_Uk"pF)RC2cMY!rO%nMCij8D@?Q;j:TTISCg2a%WRIkktq`q8l&51CE?SFZm7'+B)^Q^Vn="Z+XdkM*W$.,`oP7*KeZJ8q!d7WqUMc+J$S:oiB+n%.EhUjPl3:Cd?B=,1H^iFONHRB'@^!]WMtG=7s609dJYFPr)]L9_$o/s\#?C.Me;@iqWb,V7ZF.u\ShS]A^$MrH89!X]7VPhNK%L@D!SKMD"[l<P?S9ZA9`Vpk[&L1;#XMD.7u)?e^YhU,2]N'lcbj1%UAU?nFSS(gEMPOG?sjs1GU^..`*%e!Bi5Yi^>_NGApNS*nbF![a`SgCu>@@-76;cs56p!61(SIVP7_)m*I#1;5p:aK!5o\N8gT[mb;b?TCBqqq!nXPF=Xj]A&\pC,%D$%3qO6'pk@j+be)okS3dN9eDK0@$5q@o-"31B(K;?h9g%_)kfCohK##9If]](s;siDQQc@1ndqAY$??k#c^h_L(I$mg6fr?oFed.>^-(&nS3AjC62XQ4/F-%:'?@/^ej9\".(0<"p4-.`'H$O\F/c*<?-kG,A?&&]D0OU,o\7sXY8=6*CCtVldTj>\_4?E'fp?l0<Vk=?-9EYS2Z'+K)r'2C*WiBHrP*2!\k-0$bfg[#+TS"$c;9/"W^=G#&NP))(=1(D2a6>PVk"Jqnn@`sQs4A!epM&R59qOUTON9P=%3)`rj\!3n%@0r>KK?Bbe^]qHO8tj<Ngq&P<BRObW6!+V&2L?Y#SL6C=pcDXa6W'WD1??VYb\&tL0g9M0M/*nq+#>U&.UM'k*rHZXB^BX"]hg54`]USgD\lY^q@:`YV==/n^WedP>)r0^$H_VP+A-Q\[$XH%Kds`U(nCX`O8g@c/<(So*?KYkQCG$G$2,)e7ue%+ZrFk92j1425\g,f$<IXR19EQq;6hHA]K`GI)$t[7n3Q*bf@aoDr.=:3<`-e9Q;:BE;/)'&8$UPnaZ-_8PW"jg<AkZEUa;nLI$Tm`Hsm%_.C*i*F%"F?o1TA8iZX9[&WHL%)$Cui24kQNmh:ROY=GDnE@q111\IC\)!pjZ2s#"+35QtAoaE_1M[@k%dkQnJ6k[F+QS:f*<O!K-sY3CQq+Y+ZHA%b@K(4$]LkS,*[n+$*-#+Ck<u/h`jVN,8;%k,?u&GbmF`Wb[c+FH3'0[?I/3@%IeUJJ2SNO,o]X]K4S+NgYFkju;U[A\)Jh96PA)8gAi(RK!]&*q#\.q6i+bTfK*>pK-jC!2FMY`2+8@2n<``A_.bHVK/C.0c8P-`upskQsl$@+`CP#FJG]V&gkgGm&#33Ju(K9%1k,\lA*l,B,9JftgIQ]eSgY1I:_#gH/55@V8"R':43)33PX`i!lCC;)6c#j2$T\CtH.LHLi?sI*M5Sg^V0JF&fi1DurT:_0GY,eUUAE&biR2?)R@(`?k"2)%9,:<u^*<Ba&m`kaap:0p6"(?qUpc,OYl'rQ@p;8L!()H2k,Tn30\l<orf"n:qYj;Za$Y"9fk!$3>a/s+b><t3nj&:T4Bj=hFWhaT4>N_]t9m[@MD`pqhkM:oBnj2'Ulbb'O$34koIkX.22Fjq*&\m:_:q?LVV0\dSoX"Xn]RITaK"XEF:7*_$Dj_Mk"o()SC\Yenm@9Zs(:Jf9_BYH76Q)<LKLUZ,<UNJ\GUGK>l-E;srEIcoYO@\NK)auJ]moiB@fQ5,oZd7@rf^BN;VlZ*jau;f`_*eP\H^UBNK&plU>'irHKh94B$JcI.c=OHdstM39?*X&)5ci];0>fa89XCoW00$qA?GVLk/K=]VnRP003>7c>eKUbcZUSn=.Fn!o4qRa3aE7?0IgXGB#8-0,8"2$>Ah!JTBmQV@145Ar4rU[eE_BV/1;o;*@m9"Estukn`[/bKo@e=X9i.=55<5q&iTsT_%O^&eK7!+`j,_(^m@FH@k\MWWMc=#7<Ir"6I*'sH:r[V\T@H:p!@a'_6`6CZ=-'BCh7$`Ms)c7*H#O"9ZYo!0:[6#I08CkE9CVci3qkZd;IjU>n"9T($Jjua_B';APC$O-"YfH3l%D_U*=u,GLWFVJ`h<sC'>,/[Ze/I*4*S8*#!#rd=1c==!Brn!AH"jgprXI;k7%+2p0Im:JOZnf7H8X^ed.o]"6V5fk+%N#d8u]0JYBrY*ZhE6r60g'qDRN:/hj/DGPj]l(A"RVa5L/XK3s&.a%HF6+A(k!I':&ot>Y4D"2@%>ums+2::+1M)uLf'W=)fVUGJBqZVg=$oY&;=NM[ILN(@0CCB0tZgo0AeP0VX9":?\0\ibT&.Gj"9i;M'G0Zai!>""lAW)A$\cn$bYY#,_['d;16q"P!D.0q;:p=bS'XpghG9;lRGM&KBpqN<\o;^D!<WeXYN43sTS73d=\9i($\G\9B2=^5,Co\7o,fsod&c./t+qkV';d!8fVGsA-R`7rB-5)WCgVKi\iJ/KnSE$$FL"Y$_0RpOW<j7KP#Ubln38D(PT?B*O)8?+HCCq6Q&25SNfW`3Eiir8i&$.A,2Y1CakMS!:5dP,2XmcUW7e?_5,Q*,c.4Qh<^`o*.!AjE?++<dD+An1$UXDqene:%_/R)ErZK.EQ)pBDFS!oca*Zgo7O8r^lX/dHjPBhEV5O-=P,Db0=P*-CR,UXtWGpBME`<DH@)T/h-qWXm]M0^<677N4Q0miV1j"6J+ASkjH(F"0Y,RDlWog-#(XjC#Mi/hpKIXJX:Ck\!_`'GZ)S&=Z)AS$ES3:=n^/pOh/_XQZGF-oZr9t/u*X!!Oa(iV3'*`3u#]&Db;?gd=Km;f7=c`\q%"JZ]*'c;q-6L<BI4SV5c!osoOJ7f/&#eI^DU*:j."Fo@%3/GX=1G]]!L/!("TG(^Q^ebRIb+ZH(aQ/f0clSAu:ED9%Lsp@Wmn4=HrW\_];?!9';"(;:A&`od`>?OTm]K"I%0/6qI_d7\j^Q.W/M..Zp[-^j58^Nl;gj'Wg?aB1/!D[%[!lCjTO*(O9b?E+M-g\f/Y%.)8d>iFKM0WUs1HNq\F)4J-IG3C+/r]*%,oD>)`AQ1EX!W>pfG9V)=$'40NFS)X)A9EZt.8kQb-3N_ZVn)HJXZ`Yoc,m7o2L-ouresP:'-Y?bY=W+H`N$=;6C:"[*J-cuSWc3c4*-Tp$ft6La=39SDI43oHX?UG0\3H5_k&<MH\DX(M28iSKM21Id<?iUT[+p.0-m'?2<G4IPsCd"K16rU8"\]eCJmN^?GjkW(bgbB2"]mSg#YX]`!MI'%uTO'EamcS.^1l\Yt7I.t81SMFa`b`0f0h)B>(N1Rg0hJ"4&R@,jDc5\]VPkje0jKLWb'_]TJ"'e-?Ng46C2a6iW1N:rOT'W>2Cc$5eNtD:)()E@2`ea4nHgN]IOu\S[JUhmaL<3g<0-q`!V5:""+kWZ09TOB6O4r=AZEpn-qF*hA->QbjZEe`"O?bH&1JH+YqlC[Q,WTZS>J_CuTdQc,am_!FfS$u7Unm5<BGb<E;s@_Feui:/._#9i"uqKrI!g<*qs6-19.i%[2^?J"IP*#s0ZcUbi%Z9qG'4W;(UJgUc-LkBn,3+]VG<[3bY\<B1JCkWI<Aq*TQr$i`J[81.OkeN+bK-r0d!j,XtD^p3?fZAUni[EU)!V\HhM8/0/(/7ILZV``*hH7H"O@-8fU'ES>EH/+i:27\3DMY!ji!rO19pgIRe!^k&%T`-5\#$"CooD,ti9"F*Xs+D/Ftg'GD,n)&\j/Qe0a:A8_lf,EL2*Gc1%(@7Ln.'G_GsC;S0:arYlm+YaX85S"D7Lr[CD5>5;0iRFi*Q'IVRO:Xc&P,bIZJC%J,o$/G?5SK4_Dj6BHJVGHt-DFqUTs:@_O$<C#PAl6]%NHlf,[^V.a(:TC"u\&?^-!u!NHPtSVkKfXW2Kul@M9q._f2@.$5.$kb9NE7E4oY$E-Y>Z&kig<5[K<KG4pb?Sj9biEQ&ZE5lrCL#5cE$+$XD`S?K['b2Q#9YZ(5fp$hoX;Gu.ZI-Kn[OA%W)2)R5s9FtDGn4Sg4Cjuo(OgVU)\5e!,5)c-JE@ak;7B6Il")kd8VK(Y9#ob-T#4qK"]tN%!=eiHG$njjrE!He$/M.-q^o@,(Gd]+E&/Q,f\tu:$_A]]`8:uMGn-As7[M<jE)93?<iE"LZe]3[jZ`Ep(*8Ic,K<MJ^a<V&D"UGb=)<g.8$Q&[8q7/01btJPY1'CWs!^SbAA,lQ,p]G[E#P""_nZiGU3A`R7l-cE$c]B;;"G6j4!LD:=TiS6siU?7(^0J,[*Z0ZdqZluqiYT@s0OY%>:=)MH"(9Lir&o#aqqqGQLECtI='+S!a177$%1Nc=IekLp&)N#f7kdK,>6)JY5(*/#n`+9-S@Nh1g8qA,gC*Lek>=N2_)q+u1OJh3E+d+F&V<1J4U2Ne[TX8JUO2F>k:_>\bLrHSm?h0pSOY&&S;<2chR%"GrV,4<j5Yb-%N7/pE(?QKK;nT<0>/&h$47kq]560+p$:4bLPIfG2%a^si)*-?94VSo`f1r+]C.pj?XGVl"Ma</bCo*lkbV[]Hc[S#aL&POelu4W=KuVkWqYD#J'X]L8P)KR<E05`5Wp02F`l6ae>/t=qYU/.gU?L7='g1Ed74eP9q40T%t`10QN_@3qBV;h3aj/NN#;_0_,tr-GsV!K:S)soNAo^CqsB4<i>b&N^]XW.5QAY#\G+j,E=b@jFONr_VG+hJ\-*W-o!)]F_PIsq70Nf2N2K_bV?dG5#RC\A#RC\A#RC\A#RC\A#RC\A#RC\A#RC\AGQpnh$CZ)F#"Q8&d/jA4%%7;rs5??l;'R>/hukhudem,783fFpZ!V.fU[Dm'J3Zm4_&`mg#WP->83jsObj\.+6imDo:t%g,)*oGI!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%JR3p-%u?/[%0~>endstream
-endobj
-33 0 obj
-<<
-/BitsPerComponent 8 /ColorSpace /DeviceGray /Decode [ 0 1 ] /Filter [ /ASCII85Decode /FlateDecode ] /Height 269 /Length 4291 
-  /Subtype /Image /Type /XObject /Width 280
->>
-stream
-Gb"/lHX'NM*l*9Cn.8PaM2\/o;c=iV[5'Zm2_3d6.^_J-lF,rTek1:VA]1Kj>"J(mX-PoU['`RZ1OGgmVO9RILGoJeM<N_V_aEOR"1*(3JhSl<1RrOSn"/kDrdi/[q=si84m1UAcP&Q67n6'>7n:T5'+0VgKhHW.l[^(4\hFoo$d9IY7blM(fTE+j;(2JO$-@fI5E$V>\sWI\^oWeUqmQ7;N^R0sOM%[1N^A08oa!Vdp#1CrDdZ$SFqcE:dc'1RlkjhdFEDVHFEDVHQsoLQ)&?VqN^=cY*-h('Mr%1M.Q%U.7C:f<Ma]<AceZ"k\\J)S:tUIMWS;QVI""HpK^q19>O!^Y+-p_m@T3VVUl*ReqKZ;+MO(U:Kt(TuMSFYSi5Y3;0semgg1<]Z.WLSlFOc@?m+@^<4F+9ddc?m]F'+,Ln(-K'6(`oBLfI`&d`cD[Fac/j*`NH:QS3O1_"pNQ=M-$`3u^d/7Xcu@dZDnOk.<'Ho(,=ZVaX.t_agg#Ur_%e4;/<eSJVs*Y7PG^>EPit5Nn0!>Lsb"_d[+a7AA1M?oW=Y>pFY'oa9c;22/q'e,*uT,?laCH]r$Y-.mM>7``d4+0;S8fIY4`Y]KK/J9`NAoN&Vu6$TOOG.q9<nb4h3=coXCE?BADh@R-+6:i[?Prg4qZhDK81.<)s=)7qIOm2RT7aB12,H'd0JCloHBf3]Ye>9=_'=pd*_BMpHihjd6%t+U7Q'k=0!0U9!B'%"Y!s3q^@IR9D,qmrs++5'?Cf&kn\K.HLaOn`2FGP1X`ssa1V=+U7LMUG]`Bd&k8:WU)2Kqe8h"kaK`c<U\&s_?[j;Mn-pU@MSM+\34bfksl<1O0:?>9uK0ZMM-Ub?N^Gi\B!9J'/))=J4,Q4[UI?:m!)p&\?YFpg)Z!9&:aAM6=]0VUDRjg3X!Hi;et^8T9r_N_OFiMDU_Dt."c8n;75.!q(iq9t2jX\*CY&lkERc@toenIfp1s57.YB16>j"Rhs,qhR'q^Tu^uT8!6BBNM?XC,>ao$/&0^U&^e?aOJD[6^cU\^g4u"KG9f>PEA&:oqR(.I2q6Z7q5\ki<P.)O0UOUN+2(KF!cds2VMX=/!>X1(_TXecQ0"[QQNXL#CbtFVa'BdqO7J$.q%.S)I#R!C3Bi-NgqQtgK!eeEi&J"gd.?Y?.IR7gf'i&3S3`7PPH&5=(t877aki%Y0t`B;1ASHNUbc!@P*TuAe30cafo**:SP;II#G:B-Lhdnigr-9&ja\dU_-7,W;MG1>-:cR4&KXT?`1,on.P)P^#R&-MJ=je<6`4qq.\&M[,_%DWh7XTWS=<.o&p<Y0kfel<R31mjT^tZ\=B1KaU2_g/&P-42["iS0fPk%.X$fkI>Tj94ETdlWLBr>QEV%TC&3jg5VH^WB=1:)EBj&`1mtsZ,Z-FSZ'K>=CQX9p)-\bdF'+>G)@nO(8Q3.#71rT21=Qq=MOe)*&OJYDf2\F'k&mpRokuV7d_h$7*!qph=a=/EfICbSf[_e*EY0*TQ^qXNa2Z;LS3E]PB_n0SQ5C!Q@\d+]Z1.=<C?M>)k%=m%ijg]pG'c6%`UJ5YPG1>YFY0kg5E',(,A;FLQiGW*i[`/TH>'%_f^0mENM93F4@oO:ZcQ1S(c[qDp5D"nVO'#Bc(pnk;q#H,q$K2(HMg609.u:3\e:<2H<qB:@qS.>gG7+NH:oE)1,M!WD$2t)^s7W\Q9Wdf1(SXt-XE1(BR0Cg3u,=@;:;2(GCUHBbrsp[no`d&ddSY*04/096CV>]BJF8eBd=j"fphVH'l9\DbNV*&GZf`k#(<r-n8]4)$i65>FEr4JY'I;,KtcVSZnq@&8i;;gR&@>Hi9^l*)p>t7c@H/`jBdjTkJ./iL0&.D7l!C>WL)#$ld\R+hbEBITba,']DXsi?G=8$J.64g?8U@%OuL%&RV[-f%<$12\Y"pRY*Z#/N^.iukYR8)Qc`OS]SoqJiDF]1Qpp0!!D`?Lqojt/?=(U2T,!$;^GfQ@c\akr?M7gJc\d**0:J?7Dp*,U0:Zm]pE"me_lLVi>oBs8COR1(r9bVI+4&UB>eVR=kAg:HA1B;7,SUuPDa"7f5bm.@LDP7,rpf?F-_U4Z_O\BqSu!Md*-rYIiqR-=$SWhNW,Jq<4p+#OZh;E+*3kFJ%e8F6@-P#eCf70Dl#40C^ed&l&eY1B7`f<$CN8o97^u@=H,f^]cTb>>"]5GoSY[ETbg@'ZPR=X8-GZ)7neq59[-Qg'.I"[(,=2mCW,d8efu[Cn4jp,LcaTMJ==&6\-NCG3`uBZW:RukV`16IJX8h#B`>nt.$QNOPKkP/!7nuCY>@,V26+5hd\K8<!Y^X.Ta+PNS?fE'mmZHXq,ssNd4;)+o$!n$AjS)8i[(AueH5USGPcfH1E3Ai"`8ZB*bs)`gXr$n'ec!#rium@Y_XDmlf=]K-Fe,8_nj7M..&Y,DG_Y_$nHa=9X=,=A!^C,6c\b%E0:T3+B>o<T01jgdZf5IM0+Vf=3J6/e)OZr6)VZ4X_V#18]F<D*#Gu5;R?o=]cJ+818&6$">$_?[6b"s6;'M*.WO2sm"#^]t?2-`"Fp^ofT@D&d*$,"G4gi4Pp@["t8>\N79nXi4?K,Q5?nZ[5/BB-g!\\!F^k**<^"fL$L:;%I\X*R22S?n7cZsk*K+5"Tj5Mp*/j1IbF=;4Bjr0W@^XMZbUq'QA0nP,rmIaj8h04?u%<`q;YpIig&tuRf,S$X1"`gh'Th?g\/WaY`:5(1dd.5&oh4EJ$5),@>i:pK=NX5X6]Y(DDh-''CBn=Ga<0=7`e+9<1jW9'oO'J*QRI-V(s.nnus!2bOZk.T2oE%ZF^U'bj7`q(r6u&OZ'aN+Y!aDocU;K:>>%!^E<]F197b\;]@-9q1U\&JE]NG@"fN$a#>mnG6m&\:MB6!2!0^_`p.Nc\r$c(B,086*FeO1AQErJV8%VOf*eo<ijf9F-C$XCnuVq9Y[F,!sGRH&WdC`AaUJP_A.3Er61H%AJq*J^V#bYSZaIcg<+SPO12gDs@7g@SS/R;1]g-<1^s2t@BL22Q<)P.7%"RUd^,%FZiiE`\IM]V9ol0`8jn:!.$SM^5#WX%CkcMJ*%#VZJq[?`89E+Y<[e3SGc`o9!Kc^i(#J2tYeO!gN9Xh75O)Zh,FF[/e-ann)`Ih>_C(+4pNl&Do"s1\3V/*e.p]i`Z?5WIDC!rHBgTM`_U@UWQ(acXp%bO3hNkIoH$hg6P6PZrYfCDGp">TuKD[]10@uBWcYg+\P@%VB@$E:SfA7Z%V6.^Lol-Wbc0]Kp\]*U3gVq[Y0[2c,XU(=pR;gMli[9%9Ze/U:(2B<8#(LkoDb^QM)/e;UrBW`>ctnEojY"POgT>L-odJagAYT/:@c`<4"%11;b!X=tpuSeP+GP9A9\E)u2&`g\i9E$"E!JV9ZF>-2J@WjEYSmD;Hmcdr7g5T`C.UmLUoOUpK^PXplu_Pk-GS-U%3q_,_aWPC@BdW]A"N[lXde*TpT%Y^Ik:ef=Np%*3)GbP3Yj_72k_L=SX`ViAZlfo^0(V2TefIc=B1"@^+^dWRRAbX,ZcB3imXs00&H]^.OYR`K.+hg[=Jrp/EVgO7rI&F))<Fb.`'A[@_jD"kco6U".m6>iUZCSVR=Q$#&Qh/=HGOg-N^*Vbu6$il[0V3>;d+ePT<<%:''VWD?a:Nc7j=.55.9Q`Y5D2Y$V4F;J$BA&^-0C(Gs-1Q=#V8uc*-ojrM-2M7&?=[d\&&liJ$iCcsMJfn@Zm;WbYfK58Ypaho[:N8nG.ufHo7]N#:TV0rp$LED^L)PYm#"0^A*<)<UU(djPGp#OO"kQBN8]d@L1VobT1OM,-PD0=qq/9k9pX:#gfe^GpH=*(*GorY-`fcG'I744Y(c$1S#('f_j=k%M-DK,H9,&^)b4:K6PJMDe]14m_2VpWLZ8H@1SN.1kH`#YcSa5Z"g>jcq,m?FLfq>YdH>'sIu**8LG$E'SMA-oqq'p9hTBOD`P\=l)90dV+Ygt[ZTcSH"O!3.HT+Z3/8"GAL=npI'IBjuUT_:>m[KjIEqG#u2@G+MW=oHOC_fg4r:\,#8+.FCKehC'</e(XD#Zfkf*oE?;#f1H$f6VuNfK-[NfK-[Q>eI0]B3a)lLb,`70V`)/VN-lk<c[!'4K<q(m5K\\(JcD+WO!C$WU*mL&4&gKET>>UKB.%isEiNi+&Tp0sG[F^maKr(W(0GjQ4/*i1=5Y9(F_H4!(dPGr]F9_s*J5UuOl6OuF/rV*UWHh*"*bMD$R>>R38L/`W00!/\Yu'=$TFdF$@hdF$A#P5bXEgstu~>endstream
-endobj
-34 0 obj
-<<
-/Contents 49 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 41 0 R /Resources <<
+/Contents 50 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 42 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ] /XObject <<
-/FormXob.6eb705541a64dbadb339f045744660e8 30 0 R /FormXob.93f0fd694ba238d68e4756056ff229ff 32 0 R
+/FormXob.3827dca9b35ae292b52237d012917d19 28 0 R /FormXob.6eb705541a64dbadb339f045744660e8 30 0 R
 >>
 >> /Rotate 0 /Trans <<
 
@@ -270,45 +252,73 @@ endobj
   /Type /Page
 >>
 endobj
+33 0 obj
+<<
+/BitsPerComponent 8 /ColorSpace /DeviceRGB /Filter [ /ASCII85Decode /FlateDecode ] /Height 269 /Length 21714 /SMask 34 0 R 
+  /Subtype /Image /Type /XObject /Width 280
+>>
+stream
+Gb"/L$%*K<ffl-ZHklk-)B^1S,+o3t?sTuZ<H+pAq-&\L/T#@*Xk$ORLo@f`<^)2FHrWT4M[Qs^CEOQ&$"Vp0ZL8`8+X&!P#mgats)8JW_k#o7H"ZQiG+P<jIpqarB?n09]:J\d,=qq<!WiE)!WiE)!WiE)!WiE)!WiE)!Wnt/!!UmP'G(gpM#i@pma_[MoF<;F,'Y@U5_J!WJ:Md@H.9Op&J4/c&3LR:YR]X8#mf/b5p?=1!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%JK>(o*@)b8$mdt>%j!i^r-0;*T*Z/XG^4R[H[GYdqG*J9C%C?,=']q`4(m9SC&"U0"#psliKB$2-fY/-??rB?Rm;H''CS5>#(\"l!/N=EeuWH+Q9G')PO$f%qt/?5_ns92EcN';)o)@F>P7(_%j#gRK%#`%5G"4.GMp8f0>@5@STirdm;IK$pYC&>Sin%R@V!.2MCSh3"F;qm!<;eCs#21JPUTO[r8Sn!rU55384[E4Ds+g'RRbB]kibQ/8U:@7pK+Fu!COk?optQ!8'jl$kCZ@jW)9<4\+%EZIe_m(>IPq+-D!>Fdc-gCH/sY(cH`f(Zk#D!n?L"T]DCfndCc_o`sPQJoI)DE7%=>SI,KP\rq3IE2)dJKqZr*BE^Eu7gR^QT5kB!U`kbCZ*&pb+8t`f3iggAh-6VgXh=#e/'btlfoP$6Ib?c733-43jr6,s`GQD\0oDit1h!lKf!@L.\L("q$9g348S.-DqjQG]Qi1Y&JOV25:AXbVsSj.]gXQm#u_ZZY9g]?QMJNg;%ldi2=X/g=-j1bKc>8W:$Y-(^$:*I7W%hH]&pa6Pd-M2+B@q-_h20J1`Qs,VI(U+9`Hj<jO^AI>N?*Ht\_2FVFQMUISb0%l$U8"`jXH\s6R$a7nk7J:<!FIQB3nhm\r.0>e7RkNJi(.m/1+k+//3J=TnBn"$EC8O4QKI-`iUT^53:Y-AY@Qcen48'68C!SW@h:W$?+UjRDt.]c*?D@nn,ji+#7_^R.?]jW1,C^t(,Rs/GBS.u+$X4.`.b^k0bLbo\T%08q"VM7]UG:Xp@`Ybn^3q"P9r.E28/nT]08DB/B(,kPsG?P"9o(og2!nJ[;-R]_h0qV[C%c0?u*'SZ`C++>$G3VAXb26_Tgihg8_3SF)uE_io1fWn2I,-q>6tcV_;/Vi/&hQQofN[b*=Klr:8#MDR]`',1n1!&eG[(hV#5J_h0.<cH6R2*F'*6jQ,AeSdE>TJsAG#*Y%sr7%dFoCb4@1r,M)U0pbUdFh@:o9;)LXpTr10]4T;+r/mG:HHRnL#W<"QJU)6kYP7D:_^kFd?!Ts\*'&-)&<oDt%j;HG1`P1]A%iH8("<F._Sa9"EPO6@F?PS^YHKVV)d__kpY7"nKPP"tKr6;k"GC4%L_8M#hB.7F0c4?u6HE\+77CZp,3XYM#GK;.1M>Lj6?hM(Tdq$")W5AijtJi-AS#gKS^(BJE$7m@^]+)q0>-e+e)e2cmm[:7HLtmeVLB!\^sJcBiM@Z]2IF/8,S2FG&m.t,J9]l*\S-2J+.YB2U8Y!r^1^DB&e(i=3\XZlM6=JY\d':$TWtb!I3EF[qsV9a@DW-q,/L/UM*Zau_)$B,`>?dcn\>,>(DfH=;c6LY-$Rg.L'P_,-&6pL=hl&F=6KmsH.#&a>MEA#]nO`O4F")7>:@jn^lf!sQ7P=t@.KJHQBmJg%*15LA8ggE#+je9$s4CWGnCW#Bk_;%Nup<+eZiW)Q7lU*(fM9Krd`0F^Dr9hcCI$k>*JgZqY9j\\@=N:h&\@;:@Kru)"=hep^fL*`5J$mpH<lsN#t8j(a]b\?$W.s7+&)2+V^t21N`N]\(B-ZQoVp\W<r2g:/872I[_/0_BTr#XfX9NdF$?\A^-_U_t;;C%p@$:l,eRCYMZg_f3RZ:e%F%TB6'C`8.Ohc&qNZF0B<mj096t.fd8$m_E=79.Xlhq0MGPQE<Y<(C*%*g.X7bD!I$*cLs$3t4F-METgM[S;/g7E?c$+4#s;[IXaut.R[Vs]en4(*#9S>Tf.]45=hu>Hd-MN*O#2]*P!gCAr38mNFR%ATgtZ.*CfOJ8GJujokW(bg*-"n_?!Tid6tU&.R@N+mhg@4tgpfY&#+<-=-BDhI^E:=O4lYkBTgOT1T0Bs$]\N9=#Y%6O`IS*rb0%l^1luGaT&Gg8YOAPqZf]K"F2JGG\3(Y"G51Q8FBW[(YtMKGjN*I/oB)#P3RWlCF#$+O4;'>u*fos=0tu3%dA*$[>B]#E$0*hrgY:cKj5J272<2Imn/.42bM'S>]!AZKiTVM[1d87PZZF*C'eZiP"&s79M5tq##C<huMEPDo>.o6iZ#PoN&@A8CDdjC,.QC(WjUk`S1c-=K6R+rb6LY55*!_NH5E6E4iHZ&\`.1m>kp7W%`i[+]n%JIeaZ:X-7s@!<TS?YGQoSW'6R]Wts81]nVnicf,UB1`Vg"IF!lmSB\46;iq65TeN''T`2Du>%Hq$R0!YB&B\@=MJIt.BIJ)VT"_@_'r+"kLnH$O[S?^mLQXSAWU-;D)NqWm*jD;2LYpKI0C.5Wm29]gp"o`].4Jls0;+39_`3O3/`@5A#mLFIdo!>hK)U0)D4;,L25FZ&f:>?dR_M6*:ULO2?21c@8CeC5U9@3pE],C0?p*\XWtFU,L34Di$4@DZ5ESN?Gd/$C3\6GT]?i2G=`/i@7]ace)8Bnda*0KK@@"jt`FN&ZoBpeJItkDG<qT0<^0L+pfXK!bZXbe&J1^]+)LN>oE3-j/0G.kAf>@7%FS>-qtmW):FMoGfPlmZC!\0s5nVhM)ngpC\d8_b;2CJK'?a,pakR#+;[je:a)L"#sLb<<W`)0sFT$I8.TaZ#=>j@=R'[o?G+f_;lt9%`<t?)3;V-):(J?S>aKo+^cSl_]SkcXD]U>.hPLco\Q\MJcU^&:/6NL_0LZEjI4>(!*f#:?oLb&N!8X8R$\0B<]PdCp1q)=f3ECAgMaiDrGaOiYem65V8hD(rVH1r##i!`V<1g\>%R3.n5E(W%bs)=q/XjCOAF4.%mgh<HSWk&]Jl:7#3Y141CId.U72rq,Od;T#idUUoB+;L9&0bbM;EL;%>/`;*AAm#2qK(,@b_X%3F[R7pio4'mMj&de+aO/&#0Hc'GV>doAkr*it2P'd7)'Hm0=_\+K3dA(uQh;H0VB,$q=FZ`PImnY@[U[6-l:"+uZ"IXhH!3]>n@7gY6..nN&@%m[.8`[c/#1$m2"TeZ2c0=NSHgmbF:M^55X<YHLMD"M+<Lp4@/V.T!@N*l_]":S+Ou^oN`cPqb2M^/d8.&`,iqiZq'JT+JVOgU9gY-'*VfF,5\*5;fE>=]l&<`VP<<9$$Z9"U,(t>7t9VSubkU'h)hNWP+lEe4s7R>Y.MDnt8Z#p<P<p[Kn@.!1MS$-RqF9iK2eBl?H?HD(T#2m-JQ7:F_^BUYZqFT9kn"k<^EH(g;Ne#fkj9Z[Y#uLge2U%>%4?`lO8e++*?/op:rC"O@3CcUJO)2E$/PBk_:7IIukmGKlW@kib83(`=3*j(p:!\E)^]\;m"'@X-jc(I0:YSg`NM6%]BtE5N-2('.Cg[r3@!hQB]p\RnOZ/%;tn"DTV>.4I59=Ka7k>eBUQ4,47aB$93;P^oI"3,t[D@Y?rf*??.A*q"'OKGg..(%Vjh_'<WM\T?rjHgeX[:1gaSRUJid+tO=r#Ik3I]1:g):7F.9G^&k5Kgcjs)1!ZpQ^?aE5W0$+GU?k5FP1/C#ELc[g9b>.$BmS]Y[su'm*:0OE:=2B$h_eu@N7=ES=l$N?s2pR]6ES3J65pA=Kk+<6pkdQ\t3;aAD#0Po[o<Q945BBGU+`$QF)Ii.40ZHQC+''Peg9"-]=LI>sM3"o#`J/^V\Grn'+It&gRTt#!>7Wgd2oe$JX:gi)3TW=$moC'bs#?,ErH>#Uh)L^cru_Cn:fHV3N`Rq=<Vr.4L?V?61gT_j$FO`K_:l9J#*3\<Xm4q:;ZP`V?NW+P=?mY.O>?(M"S7d2XOnU(V,FETIoDMs0NoKG%Zd@Is%6,9tmS4>=@JX:/,3!X@\pDr3bVJUbObAb5no`oVJqp_sJ(lKV&DQ2CIU5P<N)P!e!QGU/h]47K(@%KmVZkMRXU6pqlNR'0c*Eob<(ZuudI%ZbN(o]^[A$Mkj:`h<?+;@+ZM1'r0D;HqD>V54?-Kb4R(.$tBci1R=oC#IV%6M(dj`aV!A0:3%*APb"kC=OfBc2-(tA$<E%MFSb:Pl*R"2)T%dRrDd9!tm?H(%h-ljS7(0(+c+1KdXYckk%pQJWL`G!t6f]eBlQm'At<BC9&MB',D_OGU'SN/,h:G+#-q>5($HmI7)?%>-URQR[]dd++m^%/kO!3J.#,[T!O<t]tM+5G=MX(ZubD*]jII^F)uEIgrFq;&8B'`DAlnolXRPs5\C;.49OdL'$8T/eSB9]_B[1]TZ5!k_To0HK1Q\1YW9@B)@"KhfXZqWK*DcgZ=JeuQU9RR-nqjQePsDnCh$qd#&TVjS-%"DnroZ:DIs,FQ`uj\A%QS56:(FW6Z7L]C^h/VmGfB&CF=E:nY"_FE'_IC%d#L]Z->#qVrk1BNK"3:Gq4B/<5SB%91sn+ZTYjYVr5j6?<LF!NO;?$jh7?ETRpR'Tg7Dlb/,Di^G49W9-OSe&5f%UBJ4a(iSBn,bkGbBIAZfR)[`L&O>8<E>JSk5bKI5Y7(=gX+,"J"ja-]L=NOFB!Da6OR-$#J<WM"cSU_5=+;"^W\Nrb*&eZD$4#;CWGK1_JBSn"W/QaGrJ_1)."Mge=cp26Z9nEh+(3Nui_G0]G:b:g+&B`iQ1KYrFZBb)nR[T[Q2"fAG@uic2FQcQlc2.U%4h?N.$KJPYN.LF!9*@31@c<CW`7LY-]Jt+R1$7%J<EK\9/NVIK\;@b;n<q*h/$UJ]35(IuiSD$I9_RYAJ$/S\^,"cA>hR)*,.M]W[DF*_DQGr)s7\b^Oh9qmfg6A'$_ik?;/'_n@O:TT2D0Z7dMnS]%1O%@%XNXq[rgk4"-:aM//Yh8YC(CA<:]t8qAu,-DP]U"SQLDp#7#cQ9]k0q1%FeS*uEe))Q]Z;c_E!D0=TrgQ'IW65:EW<Y?R=D\&'AGpOWPVfYVa6^%Ro<o4\k-oWiO7?NgT:HnAA!re$ed#?*L/r-2Y5S1nd30YLppk^Rt)EZ2K^T`Jn&doY_,P)%XG<l,3)5R7"7B_IEEh?Zd>ne,9HA<>f*22R6L1V"[4k2h_fOa?UI[r1"OVTgU,dL2MhYXOVUXfW%+0o2Js;MhMigg*"Sf](MV/$?YdHDgn/k;1$:ZKGMR'6SJAiWShB@XK:]mgbf&f@O)k,T3@HNI(',pG@B*imGSq6(>DY8%YR[#M(^iL.*0"^<E!$BCOiq0>@3*f7e$X@07UtjBsJp,YfR;&HhJscT0dgCY.4D@qiF>@t6c5naY#nA1/Eg36e4.MZB-Gimslf#M(^i"'b+(_Y1s,(\<ZX)6>F6<O#A%<u2ep92"1$.Qg8NWPD:cB$:f5#oGI1bbq(^Wqd<=f]DP(HH=FYLQcZUHo72E\u)_N/<GE)FnkH7"P44[Pa%EN`5I1V!'`\4r/mM>N3F<e5rl`uKTbL5bI)-;&iO:J>[*Rlp4JYMX:/Kqg=k8fZo$%"6:+!M'[UaPB)kX]D;$g@H!ok?RKd9Ve+:_sP"Ms>n-RpUVQgbMNWU[3pBclb=n$W4;%Yo^La\XB'@<>TYV8I(pa6QWR=.mDTG@;.YlfXmbgN!!"CeYc>3O:d$Q&[:qpV"VeeVjeJQ=jfk2?L:;R.pY72P1l=Z>2^@m;nDcm40nJXSg"Vl+;_A*XbH7IZSEeDN2@1a!o]dnWIG$.'Y[5U5=Lj.W:mU;jHjJR8YW$$g+dU1cQ##i[7t%p1`6mbI-2]C+BgY;P08^a3+FJc4Ium@9S0$,,t6I!KVS"leI8kTrfn;Ym^kJe"2-Dk<gAKb?;BYVHDna^F?AQ[g(Dh7M8Zdpk[A<g<e(V5C-0I,&?i5(Wh:pCYTQ8(]S._[3h;3X=f1Hj@*ZREO'>\"1+hXjCXK,<JY-(pF"$oWgr1h/uf62+ciJNJi^Qe,1XD.>b]]2Sl/P!JSX-4kNbe-TPXE2Hp2/"*-qG)fM;KO$N/">k'EP0^Y<=`S<IqNaC4R&o:I>bL?1JeG6fmn4mqoHj"nhhT%2r.-R9M$//n7S2m$&2)[@])(nn+MFT$SHmHWubal(HK-rYr`$h%;P@I&NaS@lq"h%bT*']?t;T;,K[3KTW@,AMBEHfF`<<:3Q(Mlo_C9!l?IHR/Fp-Y$#G3i>E-0\lK@qhFN_4rM4/Z#jF^#4MX.cG9T'ne.t2qNB$gg]+Z%O@c&]F/Nhbu1SU$c^@=\-+!_1YuE\a]#[_'E7rS&%$MMo7>ZMg0eGKhZ=Q8*Y,;8]bJg4hVR+X!<Rjj1HhfDPU$N*p?3(_ZYFG*BN.;k=;oGeNFQcB5D&mT4$j3uX"s=QF2lBP\:dHB/to(Ld].has-"lRJ[U6(X?I:L\bbTlqis_k3csT^p$4Jb!Z,+Ej.ln&M\7XQ0NdgqMb8#$R_:N;ComAcHc]86BTV4s\X\8>4.@,>=;R?_5j:Q53Vp'!<qBgLr:.i+VrE^gW22ML)1a%b19.=Q_)J3u#;&5DA<8r18L5-0\786CHfn+jY?H-1:1V#-JkNoD7JuB?[$.E!QG+.qs6]cEXli##fKmb_JRVql?N%efiAHrT?`s2<\3Tg;#'D.C_%qEKf55o(0pUDNU:-O7)=ElAjDo*GPCotK?(=B2EV"<[g""-H=rmD1kNCVkHk*ipUh?9Ek-E/_,;c:L@Jooj&39E'<Z"M,jp7T#EcMF;iEG_:O%Su3`pP?!1=%1)W/DHFShX`p2:l*>A]kkLPL8<?Jca3)Kt/ZKN$mBu"6SA!"Jr4*MW!=dV4UB`ktUKZh&p*YQLlfF(epSa=]=Ag$O[9o2M<@:q<#?/jD$/iAkce,4G&%jT1<pd=APDEc&?sGY:WErq_=IWB+4M0biHQ8GFa$Cs'i-XI:(7hZ]7OuFgYQ#mG,6nqn-]'FQcQG;FrPMhi9r,[OD<P-+)of8h.);8T%h_R"=DOh1,J'TqS/lc=C\uZ`-FTFls/[g_g2taCI_Z=afUp28P?%PQ5F6'@HWEM>,=\s1HZj)\<331c2.lj2:*roGW6?fS!*1HjKL'[-<.#8sP[,O>iMWPq=-J#k>NfO,nS&Ak=\dL#grJK*cbA^ph+S9np-L`L"KSgDO'>3Mlml((rtLo^+O(n7qRXce&)O[_aD^@G8Mt`<@?V6MKp(99V:9G^0F53H*ceYJ:(*lRJ"Ahr!>NEXK1s%@f7&J94$1OZ7b`:s%)uLlZ"T@l7'Zi=CFjLNt_$n6jLdYAfQq7Ka.8/3@:++0/$X0DN?Vm&R1fZ`s_\(gK1TNF'2<l)%1E\/rKA3Q+OCJQ`q-Yq/56i7"/+EpK/ic?UYqriIo2R(srkCr<D]]DD#_8J<FEcnliK%L@-#n&@9a+Z(E"1Qu(KbSGS6m[PjdGY15k?khO(TnUnAd0C]]F+F56as>>>GdO=QKf_Erpu?l!_]QC[X,Mm;*h0g4!aK<H(5*(KDM'93p<T[lGPASN6M-Q*B$F%E9msEc'm=cCPUW%c,pX`IU_/bZ#Z"QWNL$>?0DJquP*-Aa&-j2+!4/e_+cXVYQ>DW7Cnp"L@^[d5>6bo*6[g'J$2XJ/l`Q`;JDT'6-.IbTMp!Oln2/eQ9b4n3*ma1FS,./5C>%:Z?o:`1BA4e>]7C%h56(QPlJiFN66+8$V'e)%&kMUufQ9l2MOR9c7+SFV4"W#n9eu3Qo_Jeu#Pi"RRLjQS$JkB\F7<@C@Ua"<66MEIF;SM`Vl-$1r#BW:FlU(35M-Y^*YG5O`sC#":N#+rVbU1]CMR\lmMU\50LH^5:Te7d=R^m.8l,SgWMs^la\8)a;U9H-Fhu7T0hP&11;ANrEJb]IOdq;[<@-]md;gk30XBUb]Y!>kMq)(N"(!0>NjfH\*3c[-`f8HsDpUh>R;`84_)h]=ioB'54-d=G*b^^/0KQF%i%ipX0';OYg'OM\2S%Uag#Y2UQ/r]ne!X>?guNA#%'TM=9mS6rLVL952gOuT53CSXFWQ#,@J+V^?$LTRDhfRK<6oQ'#r%1t$C[J+k`SPWhUoUWn,)\P]b#WTaC(,Go<iWdM[e0dH6b%\!@,IHEGFf%]m/SRH*7H2[;)r7:Oi4>+61c$Z"*OpfqU_@fk,@X>_&Ck9T_SN`,#,bbV/aa7jVc%^gc#V,XVD7iCCq')CDVE"d@+YW.>IILm$+gGc+f5UfB6H?5;u%:5rrhE'O2dCZjg@V3tQ2c->?U'Sto$6$R'W3o1#^e5V#-#J#Nt,o<kMlb/]p;YDf<lj%'s/^OqJ&_%g@68$k"Gge;dJJ,gGVrNRXqU.2-]ZA<b1GsZ65Km>1#B,0tTjE1s5,"DZOq79Vk/!9]JenXqCN3gbQ$F#s9MipVT$hB:R!2%K^;?3\/GrUH:r)t):3N5#nOgTsY;MnogMOFm,p*$_k<E#iDf9RGX6VITTgOS@.hL,9(r1aIbY6XOWPGHc+:^HcqM*1>4Bf:9jlk*eYJ'X5j3+-^@8jJ<ZdC%%/JDZa0^k:XmENo#nCr5\oqO,9(V^ol55r\TYOi\R%2gp3a,V2*j7#!Pdfo*en;_;2'I0(gaQm?WaN;O1#RDOh"t61c,M5Tk5q[F.3E0$e?m$U,AH3N[P>_a)!;j^Ik&9(*P2P'ET5ad3p]Q"W+an9IDbVs@V"(<^S!ocO@;g1,11>hV^5usOM&@ESJgFk>/$'Ns)>J>cAS!K>`8!@RYsVhmTsV1kO<XpY2<Sco"$Q^'Y4"X<ffJW\/E\u&!nM!^%>a[6<>d'AG;;-A-#[K;.qdt'nZ>Iq4EBKg@Nss\fM[?7Kh':Q#[QDr[[;=olV,BN7n#l:?3SLC%KX%_S=9.l^tQI?"6Fr@gHN9eo]aiTa-lbc]c0'O?J1'4':_+.,6[ZiSY$Ok9Is;D&t)8T_ucAt?HWBSRP8:c2P$`AGTV%Z?\7b"U+md;l`IYi%3@\3puCZ"D/F.&9*<""6psH42?5#^/Z</n3a.[u/M0[K2AW8[j,mYk%b_se:Ir@/.#G0d#GD2]2E$l1s'P[\@e-OLk*+)*p>qWJmK5Qi4F$AhmG$13CMIU/'gBJDhDqpL]EE/HQOJ-3[]G,E"9OXC;r$l2BPU3Oar4udJ.Og2Nlk<RF!kJdhS!F=N8_?J%tqF$\)thR\[f8`UO/gIE*^oIgmjUn`-$pT=a2JbmEmqF5UG3Lm=0dReF`\':Oe8So<QOl6R_o\7j#jn?&fS\]fTDc4kRg0T@MKB]Le]p\t`2)?*pcKI&fGmC9TG7!:f3BHX9NFTXffZ!GH`bag!h!b7NMVQ13S+VC%*1`"coS7n<IRqtp3bZ&QcMC!]'R%1NNd1HF)[p?lT;.do&rCMPFR@GuA^fatOg*uZAej2R)EeZKo2n*B;?50dt-mmfcb`&k%#;;n)3#72["(P)"E'MCS=J\U]^n;]2qi$/@r^)Q\0n5!^=[^$[/^bi*=K<&G^pE<5LJiCuEnRM/4\LsSPTmll)aAo8C:S)UpQJT=gQeoS+*??05_[<ar"+dRW=]pDEAZd4Z23i+`P(oVpdk+P>8"H3A0XV-+]Aq!<H-:Y?>$;4),d\^WP=p0OJ[Y(YJq(!`"sHlLZ1Ea\n%S[F4-(G1n3Q_eL^ih*3^+YS-'0W`3M?nZ_bBPp[umZ.ehkD.#*f^FGm:]b%U3/)<]^O*b.C(P/T1XSnNJ?_4.B<F`M[<AH7@dU@F!!jhuE]M]q%[>4nkKC3;SDS-/l/81>^h:CMR^2T)oa%..0FG6<H2NEYTW:%S9,7NQ'<g?O*P_.Op$iVq''98g<UT5U^V'/hZ;BH61ofDlNh6=n6I_UYD=AX,S&Wp3%KohRm!>**p]kTE8Q^eP>lH]TY)V%AT=Fl24_L_83r?1O-q4hQTBk+X(e4BkoC88kG^5Gh8pIe&sfk%M+5Zj(R)O4(Dm:)LSRNU9=:^b:eV]+3o#0*eb1N7VH\NLTeK4X/;_in^bc-,UDk+)5(\hkP??$VlaHZJ/ueK9JYCR8$Y2]qNIDbCJ<,Z?E4O8l7M@t#IYi]f-TX9J+tB66qT[kOf1Oeo]jr8\$rhY4oq[?='VH1GmChc]2ohfKVSp+P9W)PD00m,]F0QNQ1T<sN/?3D)2)EOJh'JeVX_s+@]N+A?%P6KM2DP![RFN`<"p)`qY9i)h5WsGNRnSRnDSU>a75=E/\KF&#Zci)FbrM\*g7/s>Z"u\BspX)=F^H#eCN&=!VON<I0t>>gJPVUK3>n,)\;r=PDdR\d':911D_\t0?q=6a<#7b_:tdt-f19jc-=MG)-n0R&;B6.juOM>TT]-`#(*ck<nIU*GVdQH=]rDG0.A?,[k*Ep;;dU%mliRTD9/,$(L>[o[p[d&]E_+mZor>e>]">[>.fh\aMp#'W@><&<-%7VK+p6p-07i\A7oQH%`f:RDZj\oSgqREhjo-3Y$GB$7H4YmNI#NcDW8Tkl@T5#MsV"uFU;:=Qg57i#&e7IOP`-Cm$N@Se"i/4]3L@0_,Bb</e[_n<E3&3QZsjf"=L#+aDp_5;od`I11ne"eOt2+[baq)LI]CS\nPts,c!\N-d*(ljFmG;:/6hSS?&V7o>o-`.sT4k=+pJj+cfo+;8K;Si#_AgI7)m9o`!^YYhskKOe;-VmsWO"4;r/n1ljU:F?1WGF5"!8lMD5=(V&J;CDRd%(%G>'JeYk?Y_49SRDbj6Po,QU<\+dhW!K@,a=8k9i&VK7,&^3t;&J$\bc\;VDspcI<XT]r<:bo=cFKAe?`85T]dKfj9)?_JF`qs!(>%LYn5^kIN!h4qaE>4BM,dF[:Z3f#+VaRs11ORU&53r-(U#S^:lNbgD;/.KE8bRb?G+pI$YgQ&P%7/-=O<^29_EDu6O,S/&5h<u+ZAd]RtM28?="\V90eDM\^&7-RkOT$W>$Bpc;cr]pks?e,(`/>[<f(M]HbB$=*_+iWMukApO]slnE=6$(H?[&STei>8GT`aGiWrOQ[c'^^]+)qe[L76nr?WnT\qE0!q1C"L^41(]]-ut%Y76GTqQpaIU#7R":(3r+!U0c'C's;92!INb.'&q91s>BZM*\@2aX,9pBB:-IJ;Q0m#gj?Vpi/ETmhmJ&`^WsmP&;!S:`:V]*8B@W/hktZ4n8ub]O6;a&QB2TN+\WRtnbn5M,^>@:<F0%XYQqcQ;Q](Ri)g-n&d/rr$(2_i*GU>aOg5]9hi2]L$"6+P.q:*8nC2O'mD/rH1F#rU0oXq8!SjTU&J34L,#O'(PO+p?^Jtj#"N2G;0>S?UlV0i]=if^"rUuZ^;#,"U'Hn699K5hFS'e01$Mgn>'EH5AjdLp8<CGGhg`D9+@iY6mX>f8:=;,6-\R2n454Y^cO-h1O00k>q85=9]d4''!\?RXmJBp,4`H=='$4,'N`WA)%[amJue-OK%:*3LoJpM#3ieJ;+n4.4>OXW0o70n]JjcCNf`uf/1fjVRDO=6h.;P,)2jN8G$161,a!1TaA#Qh:oZq)HUHc]Nf8<9mu8r7lTFS3;SYL,?5TghkInJJ"*DOk#q8f)9)q,p]*CC5'ndC>45c]qQ"=3Rj$Y(_@4]W!$0UeY#nghuGjL@Xen-0S-A(9CNGW>"F\*BcRHMV!D1pai-bKd"4l_)j5=0N!%Qs2+`q,JF,a'd'\m/,>ZH'R8*FtFZ=Fm\/(;W@'8+Cm2X:ROiZ3`W#c+/q?SMOnRn)][<Z+:1QEC01R@;/>#&WX[A<)!usWpVX8&mI2O2`RP6--3,P#USJL*I/H646S()5EL?t4A%';^d4pkhTI,s0/(RP!+?%L9enBp#ZVQ-d!4/X-*/L@3Ae(R+BFOkP1I82;5pRqMQk2@@4ad^1k/P?^i]rd:;0K*"HU^j0@VfMlM3q65!GE!"t_XnmWj2eV7dB0Y:-5RH.@F5P)^#L;p"-QY*u#c,tO\8FEBA.*(.$hZ9>2j4?D>JmVuoTYF^7)mHq$DeKG@2H_B"V,3@\fW<UHV-)"t=oGWoadXMiV.`'$`bn<[>6WsoZH0+JFKQ=WE?\7mH^)SOc%UNhPSl\*je>R<"q*oe&0XsKK)'eKN!5FOQYf2OiNbpL9m*!Sq?'7`6<!Y7E&E(XJj?dj+1%2.,T%PWI0O?CC;8)U%`r*=?bJtb4;!D5ol;>(PP"W6$h5WZ!&=*"E&a!mBp+.?Ihe;nb9BTfcd*PUU1RO-O1985Y)[Mp\Z#We"$OIc8'(uYU//B^J&YIjH]PR1n\97Q6h'5CJi4;pL_LMXhrqtqDX,dqZ[g<[BaN`-Kh1Z=a/7f5_FMIpDBkh-!TejU(_o'@.#b/]hI0odj&=.2\lkMk.`liKmbPr1OdqomPk*@T'H>g)aEq&;55Q7qa3$C'^V9M*k7i6<&IYLPe)AbB']H2mqcG:u]\]Mt8#"Cn>7gRks-ZH>0/T#t`."&m0?"aae'M55<J]ZqproG]jm2HR"XdBXra$9R.\+Ag\Rr2+GLD97cT#^OU^_c1).P<aP=6@CZF\Dph5uS:95-11K;tC9uL.cJ*[S19r09t8GgX2k18u&5ZKs1`DBD)[p$ZtRE&b;sZL&Ct3Ie9Dlc6LT^+EG>SY\*uTWW?uMD]sepVuS[=bj-Pj&6;/hU0HR"J<J&6Q$J%3K,>C=']?@BbY30AR>X[^9u=3s77BYX2:ru).teZ$T'eZ"qbk4VTbj#'R6Q1MYNCu.(lHiXI_qOfKKT\K,PCgAKS2?iXP;iQ4."V\4<:^:2\2fT77G$P+rCUn$A/;t[Ltqe"#2\NLbVII:mJI73'J=cC*HW*&G?Hn$Zt]1FFZkC($c$KH[GL1*oRhjF$#sr1C[]Q2\;/m28b(j+ZLY?NWq@$Al@DVJ1P@u/D^=(qsfI;XI;d360(9ThJi\?nW(7^,*Id/P11W@'dBh-a<m2@4`i<b6AP=#@KqQq_hNU5fk9U1ZoneA;[p+MHLfMYTXinn)dX.+6*QEi<6BE8ck=uT_GIG@HI2j=aWRc5(gk\k*lSnco*n#R6[Nr1!s@oSDgq9sol8=E=Wf_Z<dAI.)#JQ9=<r=`c3fCR&s";d.cE@uOl4Wl,$<]D6#16dn"?dnD6K&:bSot!\)s3gII"#EHFm*'l)u!n:,VNi7sG`$H@oZ3Gd!8M8MDObCQV!tPt-uQQ,k#;jDZ8U4ioeT8+Rqc=hpXj(>V%"HnL5ej,Q4t!08DC<!2S[3eD8+&d@nZ+^)`u4pahcE\&2f#g6cGS/IE6,[F(i1^QdDGF;S<>RNjZX\G'#?^^Yg`l:Iu)]&?/X:RLW[hA#W.sif*mHq"n$FuZEWWl]T_ENqJ.gTY`E7&rdi0DogS]iup,`uVs8!8HrLi1!Q64&k:(uZ[WN6mcAGpR,ODfDMB"oS4glrgO\@t0,oI3:LY(d<?BY$JZh`sJ^Lk+_H>!Zo9a@3V7$8\>'Z"'PsO"U,&A[MVr\,*+")Qj!^"dgB6So@fcph(;L[A,$SI_5VImJnK8'/UI.ra:K+&ed%@\%'Za-5Q.tc3&DmhA/o?>\&*f`OqO9AHlBkF6IP\`\\uESZMmqB,*1(NW0+U"\FB!,JmFZ^;G)b(BLT.BD/Hp18(,?q(-K/kiPGOUQ^hElDVZV*>f(isSr!K."X2F:Bfd#1<E0Wi$Xkt-kr\ula,B&H#VQGg00)%\YR@cM<d4c7OcbdBkY/%n@s][;ZBrQmeEEUE!No(_+N\s#mO_;Nr8_,QXmr]>]ae@T?CDr[1Gb4R7)F?XGln<_6-Di[\:@3he;8mbZ8*EYc+PVnk#$2@F&Z*Q9IdRW:NEBV>+>j%6?m9n-Jj]*;cAm#ca`GG$[]^p+u.pm:0h5d&RG];L&1SlUITU]#*_Ya/NL*G[!XO@O\&cSQ^qo/D2jC/aj/2/)(#EGTU\:i`;&Ui.P<40?-q=/f<i6)*>IYLOJX;poCM'15s0/@lCdf9B0@#DJ6kBe:CZN@-_GcaI@QT^J9p9^#u,G>.1g6I,Y&$;R9=RM.;ldCU+HWWDf@)oo8&eX8=*XRBTbuhe<$?/,Y'EtU%/5NnBMT0*$[uEf/_5uFp5qt,0o<jeui;*q;mt7hQ8.-4G%1lj9r=XDtPP?NH_\CjH*nC(G4!gGA"SCXN>H+4<9._hCP"4Rcb9O!<Lb.6V]=&-+&lud6[@8MXr.7?kY21@JH'5Ih`E*=+L4XA&jn'1M?D-ViCd?d[Z?uMbL)B6Hhb5Q[p*t]D8`@fJ5U`iYlWE;hr/%ZimhZN&EB-,M8[]oQ8`tMM_b)!c1Q,Wi@On_R*huI!+;J?mUSkiLQ5\3PnR'C-DObfbGXIoBLiiPOV]5^]*Q6hL+ohol8\^*JB`&nid/i'VUgsEocY_USHAG7qi\GOAB*_.REXaUDf3g)t4-%^SIY.*LN4]#fi33m.I<1/g:_`0H_2X9Fm@-;ZM&t?R84pX5$,U$j)L<.N5d7h`bl/0]'G7I)*U*F3QS257pLXfV2&mPs$65[)AMWIT/l6eZ>,95ZXRU_/A$G,/MhIGNoV`O$F[u>$19IKEPP3Y(JXpc-.]3V@n5MRKG*$>Qrt(X@+)h;bn1`ST8lW89f?:(+nfu:*%6^ET8m&Qr(pR3O0+$5uLec_M;`R-RL?Y>AE>35VjN>@&nN,>2eUg(6"p$^H_]Wkh&ppjo+*pJ^2h:GSu`F@V1t^5I_G&9pM'3'ARqW&b<BOij2(RNQktRN[6NW<rdF;UQ7T:+/d?nA)i2p?ksAG=R]>q^)\I.;J.52oRKDo?]tkV8dM_1'6truaoJV2,!nVZ<B^uZNo8/CH0OXIEi6#LK')Uoo&@>eDZT4kil-g5J&:C/?2RiGGgqCk<cX-YctjR%9Hh+a=_[KEH@;>%5lLie!XQ1X1(:$7)Pb$\Se1:@GO!9Gcas_D\8M<kO$(ilSN6sW>@i1*"9&^;JTo$EKFNMZCX[6i4,6(UY[B<t*oIXc3N+^AcjD?[E]L7.&,:PA7L7nGYcpqE%Qq$[IbB&Q&OH&+*fV."ElX1\lJo7^QBK-2nS\*=!)J?Rd"aA'!r$[>g+Xfhgs)USNXeT8F6@3oGUAc&d6q8G*PiSt7$EfUM^ptQU\n23J(TOI3X08S=gM^SrWHe'=9be3Z]djDM;PpD-Ph^_4,0ZF4%aNDO$F]??g4<uW'p@C=CahH77WC[FfJ1seTL#79bFkK'>@"Q/(hRkn`.Z*%`kA#i@,@V#VOKdJ9-![HJ(;Z84JWac+n`i@Z*fmY2Nc[8n<uXEYJQer-?DhJ:geF`Wm)g1Ni_VaQPDnpP^hGi4r_"qU_0#,paiLZ9@9cI`YFk?tLD$35l>BR$*U6p#r8laW3K1Rj#S'M=fM<P"N4pe-N1FSP9V?%">Im?fdE=j6\X0%K>H:8Scq\rQ]W$6YK/s")KUF=3Z:t#V'9&MW?/q+X`^nC22\])[&cF`eiWG5d`rJgl]O]SOX6<gp<fP`&L3GP"N5(hhu</d/_nk?dJdJPn-Z=SoXKS6"NPjqS88TjtUo;aDK\?WK4C)1^N+IjGD1kpmQNc"kR-4:56NGSt9i'@Bu"c0HY86U!,C#VJ6rHWN`Ug()BIWVX6266`C)1$]`*!qcd0rT:]I4*e%)k)Ir'^WLCu6ZEc5A1QucRQkc&AP8sLS9<$56&LnQ,_ZXOdfANV[4@6sTJuiBc,6`BmWi`C_NK#7!,8:rfLdb3q_]>Ye(2l<ks6rN#=N?mI#R3/!p5p"J'$l4m2;!?n8jD3*famKT)i)V1(4*jo%-SK!.P)1*,#Qd_P0(43&*2u+lLaH#_p>Kk"d9)^gJ9R58jI;G>-pil-ea*&A9u+`*nW5N/:D/(m2Xi4O3?Z@=BVALbTds_Wi@PWhEGB43@0nhJksIFLhO9'1-Nuu\FB!m[cqRZ&00Zt'e<>W2e0eajlN<VAs*D/-3!!?S,bR#K[eW*gK6NB!RAs7`GK[:E_JqK:*B$3%n5C8Tl?Xj)C]8t@\#lUHbr%>*iL\uq;j!G1LCTo3Sk5n'9Q/lj:U6pfs51X5Jb)Y/BPk=`Oh<R[9e4SmNp)62?rL[9EUfQkih6)U*?aL6M!;@AJ"jFVa,1L`cMUh<rnjZX(c)eHZYE\.]%/Ch6>ZqGmaAnJ,]%*K*IHBe_:*FU:3?9GXSkD<kLNVcEVVam'jKP7!X&<h@:'*X+<R])U"C#O)RIB2iJc!F^//k<4t^::(K%UEp(ean>pkVcob,7E^uZ_e[=m"iHK*q37W-UHE#d?,6kgXJcuN=V9#Xn\A4D/i4W//'/9`Q0IU`YYY^F2[R)41L&^1O:^efi?5"5%\"E0rs+H8[F+pZ6>$bMVS&u!/Ni2u+FDK8T5)8LMd;&.rLIXkXd7K?I&k]jK.3p"T.'E@3OWXSlLB@bkUtrK*!)ZWb8;QD(:3N-8#0SH/6Ch5/g5LuL[,&RI"?6H-JsSoq_'Uu[ZoWFQE2D2/TM0*8.SLAC2s:SfVt(]-%?iS%$j8&r)^I(qm,[>rf!eCY*VA]bBC"m1=+.e4eI5iKB$?X93=Na`9%jOSX&h$d)7Npq%Xn]5+LJgp`)R>>R=D"=]Qdjn+o&,3PI[Up6`)K^2W"^Mh?j40Hq31tfClJ?=`1tLk5O_p.08U4F!5tRg4VQ\EXI,j)6Z+,&'COTbld/^*jN;mN/S1'lekoNn3L2NNj*2&?nORQ*RSMjNUZFV@>n_^TD89ZC'pu+$$Xh:b:.,Aj>[a!'&86rA(MK<$]eC1]?>05b[.Z\-KMI"AMJIHEW)VU%tI&$I?ef`lO6bJ[F\_8N0+aJ7uuN<FfXY#jIN[r.P!%BgiBR6<X9,4<*W\pGotAM4MhKC"E=$m*gL[p`%SdhhCC6ldfYZ?SH=#NT^TXB5i2;/X095M`lJJ5.c\R1[s_Uk"pF)RC2cMY!rO%nMCij8D@?Q;j:TTISCg2a%WRIkktq`q8l&51CE?SFZm7'+B)^Q^Vn="Z+XdkM*W$.,`oP7*KeZJ8q!d7WqUMc+J$S:oiB+n%.EhUjPl3:Cd?B=,1H^iFONHRB'@^!]WMtG=7s609dJYFPr)]L9_$o/s\#?C.Me;@iqWb,V7ZF.u\ShS]A^$MrH89!X]7VPhNK%L@D!SKMD"[l<P?S9ZA9`Vpk[&L1;#XMD.7u)?e^YhU,2]N'lcbj1%UAU?nFSS(gEMPOG?sjs1GU^..`*%e!Bi5Yi^>_NGApNS*nbF![a`SgCu>@@-76;cs56p!61(SIVP7_)m*I#1;5p:aK!5o\N8gT[mb;b?TCBqqq!nXPF=Xj]A&\pC,%D$%3qO6'pk@j+be)okS3dN9eDK0@$5q@o-"31B(K;?h9g%_)kfCohK##9If]](s;siDQQc@1ndqAY$??k#c^h_L(I$mg6fr?oFed.>^-(&nS3AjC62XQ4/F-%:'?@/^ej9\".(0<"p4-.`'H$O\F/c*<?-kG,A?&&]D0OU,o\7sXY8=6*CCtVldTj>\_4?E'fp?l0<Vk=?-9EYS2Z'+K)r'2C*WiBHrP*2!\k-0$bfg[#+TS"$c;9/"W^=G#&NP))(=1(D2a6>PVk"Jqnn@`sQs4A!epM&R59qOUTON9P=%3)`rj\!3n%@0r>KK?Bbe^]qHO8tj<Ngq&P<BRObW6!+V&2L?Y#SL6C=pcDXa6W'WD1??VYb\&tL0g9M0M/*nq+#>U&.UM'k*rHZXB^BX"]hg54`]USgD\lY^q@:`YV==/n^WedP>)r0^$H_VP+A-Q\[$XH%Kds`U(nCX`O8g@c/<(So*?KYkQCG$G$2,)e7ue%+ZrFk92j1425\g,f$<IXR19EQq;6hHA]K`GI)$t[7n3Q*bf@aoDr.=:3<`-e9Q;:BE;/)'&8$UPnaZ-_8PW"jg<AkZEUa;nLI$Tm`Hsm%_.C*i*F%"F?o1TA8iZX9[&WHL%)$Cui24kQNmh:ROY=GDnE@q111\IC\)!pjZ2s#"+35QtAoaE_1M[@k%dkQnJ6k[F+QS:f*<O!K-sY3CQq+Y+ZHA%b@K(4$]LkS,*[n+$*-#+Ck<u/h`jVN,8;%k,?u&GbmF`Wb[c+FH3'0[?I/3@%IeUJJ2SNO,o]X]K4S+NgYFkju;U[A\)Jh96PA)8gAi(RK!]&*q#\.q6i+bTfK*>pK-jC!2FMY`2+8@2n<``A_.bHVK/C.0c8P-`upskQsl$@+`CP#FJG]V&gkgGm&#33Ju(K9%1k,\lA*l,B,9JftgIQ]eSgY1I:_#gH/55@V8"R':43)33PX`i!lCC;)6c#j2$T\CtH.LHLi?sI*M5Sg^V0JF&fi1DurT:_0GY,eUUAE&biR2?)R@(`?k"2)%9,:<u^*<Ba&m`kaap:0p6"(?qUpc,OYl'rQ@p;8L!()H2k,Tn30\l<orf"n:qYj;Za$Y"9fk!$3>a/s+b><t3nj&:T4Bj=hFWhaT4>N_]t9m[@MD`pqhkM:oBnj2'Ulbb'O$34koIkX.22Fjq*&\m:_:q?LVV0\dSoX"Xn]RITaK"XEF:7*_$Dj_Mk"o()SC\Yenm@9Zs(:Jf9_BYH76Q)<LKLUZ,<UNJ\GUGK>l-E;srEIcoYO@\NK)auJ]moiB@fQ5,oZd7@rf^BN;VlZ*jau;f`_*eP\H^UBNK&plU>'irHKh94B$JcI.c=OHdstM39?*X&)5ci];0>fa89XCoW00$qA?GVLk/K=]VnRP003>7c>eKUbcZUSn=.Fn!o4qRa3aE7?0IgXGB#8-0,8"2$>Ah!JTBmQV@145Ar4rU[eE_BV/1;o;*@m9"Estukn`[/bKo@e=X9i.=55<5q&iTsT_%O^&eK7!+`j,_(^m@FH@k\MWWMc=#7<Ir"6I*'sH:r[V\T@H:p!@a'_6`6CZ=-'BCh7$`Ms)c7*H#O"9ZYo!0:[6#I08CkE9CVci3qkZd;IjU>n"9T($Jjua_B';APC$O-"YfH3l%D_U*=u,GLWFVJ`h<sC'>,/[Ze/I*4*S8*#!#rd=1c==!Brn!AH"jgprXI;k7%+2p0Im:JOZnf7H8X^ed.o]"6V5fk+%N#d8u]0JYBrY*ZhE6r60g'qDRN:/hj/DGPj]l(A"RVa5L/XK3s&.a%HF6+A(k!I':&ot>Y4D"2@%>ums+2::+1M)uLf'W=)fVUGJBqZVg=$oY&;=NM[ILN(@0CCB0tZgo0AeP0VX9":?\0\ibT&.Gj"9i;M'G0Zai!>""lAW)A$\cn$bYY#,_['d;16q"P!D.0q;:p=bS'XpghG9;lRGM&KBpqN<\o;^D!<WeXYN43sTS73d=\9i($\G\9B2=^5,Co\7o,fsod&c./t+qkV';d!8fVGsA-R`7rB-5)WCgVKi\iJ/KnSE$$FL"Y$_0RpOW<j7KP#Ubln38D(PT?B*O)8?+HCCq6Q&25SNfW`3Eiir8i&$.A,2Y1CakMS!:5dP,2XmcUW7e?_5,Q*,c.4Qh<^`o*.!AjE?++<dD+An1$UXDqene:%_/R)ErZK.EQ)pBDFS!oca*Zgo7O8r^lX/dHjPBhEV5O-=P,Db0=P*-CR,UXtWGpBME`<DH@)T/h-qWXm]M0^<677N4Q0miV1j"6J+ASkjH(F"0Y,RDlWog-#(XjC#Mi/hpKIXJX:Ck\!_`'GZ)S&=Z)AS$ES3:=n^/pOh/_XQZGF-oZr9t/u*X!!Oa(iV3'*`3u#]&Db;?gd=Km;f7=c`\q%"JZ]*'c;q-6L<BI4SV5c!osoOJ7f/&#eI^DU*:j."Fo@%3/GX=1G]]!L/!("TG(^Q^ebRIb+ZH(aQ/f0clSAu:ED9%Lsp@Wmn4=HrW\_];?!9';"(;:A&`od`>?OTm]K"I%0/6qI_d7\j^Q.W/M..Zp[-^j58^Nl;gj'Wg?aB1/!D[%[!lCjTO*(O9b?E+M-g\f/Y%.)8d>iFKM0WUs1HNq\F)4J-IG3C+/r]*%,oD>)`AQ1EX!W>pfG9V)=$'40NFS)X)A9EZt.8kQb-3N_ZVn)HJXZ`Yoc,m7o2L-ouresP:'-Y?bY=W+H`N$=;6C:"[*J-cuSWc3c4*-Tp$ft6La=39SDI43oHX?UG0\3H5_k&<MH\DX(M28iSKM21Id<?iUT[+p.0-m'?2<G4IPsCd"K16rU8"\]eCJmN^?GjkW(bgbB2"]mSg#YX]`!MI'%uTO'EamcS.^1l\Yt7I.t81SMFa`b`0f0h)B>(N1Rg0hJ"4&R@,jDc5\]VPkje0jKLWb'_]TJ"'e-?Ng46C2a6iW1N:rOT'W>2Cc$5eNtD:)()E@2`ea4nHgN]IOu\S[JUhmaL<3g<0-q`!V5:""+kWZ09TOB6O4r=AZEpn-qF*hA->QbjZEe`"O?bH&1JH+YqlC[Q,WTZS>J_CuTdQc,am_!FfS$u7Unm5<BGb<E;s@_Feui:/._#9i"uqKrI!g<*qs6-19.i%[2^?J"IP*#s0ZcUbi%Z9qG'4W;(UJgUc-LkBn,3+]VG<[3bY\<B1JCkWI<Aq*TQr$i`J[81.OkeN+bK-r0d!j,XtD^p3?fZAUni[EU)!V\HhM8/0/(/7ILZV``*hH7H"O@-8fU'ES>EH/+i:27\3DMY!ji!rO19pgIRe!^k&%T`-5\#$"CooD,ti9"F*Xs+D/Ftg'GD,n)&\j/Qe0a:A8_lf,EL2*Gc1%(@7Ln.'G_GsC;S0:arYlm+YaX85S"D7Lr[CD5>5;0iRFi*Q'IVRO:Xc&P,bIZJC%J,o$/G?5SK4_Dj6BHJVGHt-DFqUTs:@_O$<C#PAl6]%NHlf,[^V.a(:TC"u\&?^-!u!NHPtSVkKfXW2Kul@M9q._f2@.$5.$kb9NE7E4oY$E-Y>Z&kig<5[K<KG4pb?Sj9biEQ&ZE5lrCL#5cE$+$XD`S?K['b2Q#9YZ(5fp$hoX;Gu.ZI-Kn[OA%W)2)R5s9FtDGn4Sg4Cjuo(OgVU)\5e!,5)c-JE@ak;7B6Il")kd8VK(Y9#ob-T#4qK"]tN%!=eiHG$njjrE!He$/M.-q^o@,(Gd]+E&/Q,f\tu:$_A]]`8:uMGn-As7[M<jE)93?<iE"LZe]3[jZ`Ep(*8Ic,K<MJ^a<V&D"UGb=)<g.8$Q&[8q7/01btJPY1'CWs!^SbAA,lQ,p]G[E#P""_nZiGU3A`R7l-cE$c]B;;"G6j4!LD:=TiS6siU?7(^0J,[*Z0ZdqZluqiYT@s0OY%>:=)MH"(9Lir&o#aqqqGQLECtI='+S!a177$%1Nc=IekLp&)N#f7kdK,>6)JY5(*/#n`+9-S@Nh1g8qA,gC*Lek>=N2_)q+u1OJh3E+d+F&V<1J4U2Ne[TX8JUO2F>k:_>\bLrHSm?h0pSOY&&S;<2chR%"GrV,4<j5Yb-%N7/pE(?QKK;nT<0>/&h$47kq]560+p$:4bLPIfG2%a^si)*-?94VSo`f1r+]C.pj?XGVl"Ma</bCo*lkbV[]Hc[S#aL&POelu4W=KuVkWqYD#J'X]L8P)KR<E05`5Wp02F`l6ae>/t=qYU/.gU?L7='g1Ed74eP9q40T%t`10QN_@3qBV;h3aj/NN#;_0_,tr-GsV!K:S)soNAo^CqsB4<i>b&N^]XW.5QAY#\G+j,E=b@jFONr_VG+hJ\-*W-o!)]F_PIsq70Nf2N2K_bV?dG5#RC\A#RC\A#RC\A#RC\A#RC\A#RC\A#RC\AGQpnh$CZ)F#"Q8&d/jA4%%7;rs5??l;'R>/hukhudem,783fFpZ!V.fU[Dm'J3Zm4_&`mg#WP->83jsObj\.+6imDo:t%g,)*oGI!<E3%!<E3%!<E3%!<E3%!<E3%!<E3%JR3p-%u?/[%0~>endstream
+endobj
+34 0 obj
+<<
+/BitsPerComponent 8 /ColorSpace /DeviceGray /Decode [ 0 1 ] /Filter [ /ASCII85Decode /FlateDecode ] /Height 269 /Length 4291 
+  /Subtype /Image /Type /XObject /Width 280
+>>
+stream
+Gb"/lHX'NM*l*9Cn.8PaM2\/o;c=iV[5'Zm2_3d6.^_J-lF,rTek1:VA]1Kj>"J(mX-PoU['`RZ1OGgmVO9RILGoJeM<N_V_aEOR"1*(3JhSl<1RrOSn"/kDrdi/[q=si84m1UAcP&Q67n6'>7n:T5'+0VgKhHW.l[^(4\hFoo$d9IY7blM(fTE+j;(2JO$-@fI5E$V>\sWI\^oWeUqmQ7;N^R0sOM%[1N^A08oa!Vdp#1CrDdZ$SFqcE:dc'1RlkjhdFEDVHFEDVHQsoLQ)&?VqN^=cY*-h('Mr%1M.Q%U.7C:f<Ma]<AceZ"k\\J)S:tUIMWS;QVI""HpK^q19>O!^Y+-p_m@T3VVUl*ReqKZ;+MO(U:Kt(TuMSFYSi5Y3;0semgg1<]Z.WLSlFOc@?m+@^<4F+9ddc?m]F'+,Ln(-K'6(`oBLfI`&d`cD[Fac/j*`NH:QS3O1_"pNQ=M-$`3u^d/7Xcu@dZDnOk.<'Ho(,=ZVaX.t_agg#Ur_%e4;/<eSJVs*Y7PG^>EPit5Nn0!>Lsb"_d[+a7AA1M?oW=Y>pFY'oa9c;22/q'e,*uT,?laCH]r$Y-.mM>7``d4+0;S8fIY4`Y]KK/J9`NAoN&Vu6$TOOG.q9<nb4h3=coXCE?BADh@R-+6:i[?Prg4qZhDK81.<)s=)7qIOm2RT7aB12,H'd0JCloHBf3]Ye>9=_'=pd*_BMpHihjd6%t+U7Q'k=0!0U9!B'%"Y!s3q^@IR9D,qmrs++5'?Cf&kn\K.HLaOn`2FGP1X`ssa1V=+U7LMUG]`Bd&k8:WU)2Kqe8h"kaK`c<U\&s_?[j;Mn-pU@MSM+\34bfksl<1O0:?>9uK0ZMM-Ub?N^Gi\B!9J'/))=J4,Q4[UI?:m!)p&\?YFpg)Z!9&:aAM6=]0VUDRjg3X!Hi;et^8T9r_N_OFiMDU_Dt."c8n;75.!q(iq9t2jX\*CY&lkERc@toenIfp1s57.YB16>j"Rhs,qhR'q^Tu^uT8!6BBNM?XC,>ao$/&0^U&^e?aOJD[6^cU\^g4u"KG9f>PEA&:oqR(.I2q6Z7q5\ki<P.)O0UOUN+2(KF!cds2VMX=/!>X1(_TXecQ0"[QQNXL#CbtFVa'BdqO7J$.q%.S)I#R!C3Bi-NgqQtgK!eeEi&J"gd.?Y?.IR7gf'i&3S3`7PPH&5=(t877aki%Y0t`B;1ASHNUbc!@P*TuAe30cafo**:SP;II#G:B-Lhdnigr-9&ja\dU_-7,W;MG1>-:cR4&KXT?`1,on.P)P^#R&-MJ=je<6`4qq.\&M[,_%DWh7XTWS=<.o&p<Y0kfel<R31mjT^tZ\=B1KaU2_g/&P-42["iS0fPk%.X$fkI>Tj94ETdlWLBr>QEV%TC&3jg5VH^WB=1:)EBj&`1mtsZ,Z-FSZ'K>=CQX9p)-\bdF'+>G)@nO(8Q3.#71rT21=Qq=MOe)*&OJYDf2\F'k&mpRokuV7d_h$7*!qph=a=/EfICbSf[_e*EY0*TQ^qXNa2Z;LS3E]PB_n0SQ5C!Q@\d+]Z1.=<C?M>)k%=m%ijg]pG'c6%`UJ5YPG1>YFY0kg5E',(,A;FLQiGW*i[`/TH>'%_f^0mENM93F4@oO:ZcQ1S(c[qDp5D"nVO'#Bc(pnk;q#H,q$K2(HMg609.u:3\e:<2H<qB:@qS.>gG7+NH:oE)1,M!WD$2t)^s7W\Q9Wdf1(SXt-XE1(BR0Cg3u,=@;:;2(GCUHBbrsp[no`d&ddSY*04/096CV>]BJF8eBd=j"fphVH'l9\DbNV*&GZf`k#(<r-n8]4)$i65>FEr4JY'I;,KtcVSZnq@&8i;;gR&@>Hi9^l*)p>t7c@H/`jBdjTkJ./iL0&.D7l!C>WL)#$ld\R+hbEBITba,']DXsi?G=8$J.64g?8U@%OuL%&RV[-f%<$12\Y"pRY*Z#/N^.iukYR8)Qc`OS]SoqJiDF]1Qpp0!!D`?Lqojt/?=(U2T,!$;^GfQ@c\akr?M7gJc\d**0:J?7Dp*,U0:Zm]pE"me_lLVi>oBs8COR1(r9bVI+4&UB>eVR=kAg:HA1B;7,SUuPDa"7f5bm.@LDP7,rpf?F-_U4Z_O\BqSu!Md*-rYIiqR-=$SWhNW,Jq<4p+#OZh;E+*3kFJ%e8F6@-P#eCf70Dl#40C^ed&l&eY1B7`f<$CN8o97^u@=H,f^]cTb>>"]5GoSY[ETbg@'ZPR=X8-GZ)7neq59[-Qg'.I"[(,=2mCW,d8efu[Cn4jp,LcaTMJ==&6\-NCG3`uBZW:RukV`16IJX8h#B`>nt.$QNOPKkP/!7nuCY>@,V26+5hd\K8<!Y^X.Ta+PNS?fE'mmZHXq,ssNd4;)+o$!n$AjS)8i[(AueH5USGPcfH1E3Ai"`8ZB*bs)`gXr$n'ec!#rium@Y_XDmlf=]K-Fe,8_nj7M..&Y,DG_Y_$nHa=9X=,=A!^C,6c\b%E0:T3+B>o<T01jgdZf5IM0+Vf=3J6/e)OZr6)VZ4X_V#18]F<D*#Gu5;R?o=]cJ+818&6$">$_?[6b"s6;'M*.WO2sm"#^]t?2-`"Fp^ofT@D&d*$,"G4gi4Pp@["t8>\N79nXi4?K,Q5?nZ[5/BB-g!\\!F^k**<^"fL$L:;%I\X*R22S?n7cZsk*K+5"Tj5Mp*/j1IbF=;4Bjr0W@^XMZbUq'QA0nP,rmIaj8h04?u%<`q;YpIig&tuRf,S$X1"`gh'Th?g\/WaY`:5(1dd.5&oh4EJ$5),@>i:pK=NX5X6]Y(DDh-''CBn=Ga<0=7`e+9<1jW9'oO'J*QRI-V(s.nnus!2bOZk.T2oE%ZF^U'bj7`q(r6u&OZ'aN+Y!aDocU;K:>>%!^E<]F197b\;]@-9q1U\&JE]NG@"fN$a#>mnG6m&\:MB6!2!0^_`p.Nc\r$c(B,086*FeO1AQErJV8%VOf*eo<ijf9F-C$XCnuVq9Y[F,!sGRH&WdC`AaUJP_A.3Er61H%AJq*J^V#bYSZaIcg<+SPO12gDs@7g@SS/R;1]g-<1^s2t@BL22Q<)P.7%"RUd^,%FZiiE`\IM]V9ol0`8jn:!.$SM^5#WX%CkcMJ*%#VZJq[?`89E+Y<[e3SGc`o9!Kc^i(#J2tYeO!gN9Xh75O)Zh,FF[/e-ann)`Ih>_C(+4pNl&Do"s1\3V/*e.p]i`Z?5WIDC!rHBgTM`_U@UWQ(acXp%bO3hNkIoH$hg6P6PZrYfCDGp">TuKD[]10@uBWcYg+\P@%VB@$E:SfA7Z%V6.^Lol-Wbc0]Kp\]*U3gVq[Y0[2c,XU(=pR;gMli[9%9Ze/U:(2B<8#(LkoDb^QM)/e;UrBW`>ctnEojY"POgT>L-odJagAYT/:@c`<4"%11;b!X=tpuSeP+GP9A9\E)u2&`g\i9E$"E!JV9ZF>-2J@WjEYSmD;Hmcdr7g5T`C.UmLUoOUpK^PXplu_Pk-GS-U%3q_,_aWPC@BdW]A"N[lXde*TpT%Y^Ik:ef=Np%*3)GbP3Yj_72k_L=SX`ViAZlfo^0(V2TefIc=B1"@^+^dWRRAbX,ZcB3imXs00&H]^.OYR`K.+hg[=Jrp/EVgO7rI&F))<Fb.`'A[@_jD"kco6U".m6>iUZCSVR=Q$#&Qh/=HGOg-N^*Vbu6$il[0V3>;d+ePT<<%:''VWD?a:Nc7j=.55.9Q`Y5D2Y$V4F;J$BA&^-0C(Gs-1Q=#V8uc*-ojrM-2M7&?=[d\&&liJ$iCcsMJfn@Zm;WbYfK58Ypaho[:N8nG.ufHo7]N#:TV0rp$LED^L)PYm#"0^A*<)<UU(djPGp#OO"kQBN8]d@L1VobT1OM,-PD0=qq/9k9pX:#gfe^GpH=*(*GorY-`fcG'I744Y(c$1S#('f_j=k%M-DK,H9,&^)b4:K6PJMDe]14m_2VpWLZ8H@1SN.1kH`#YcSa5Z"g>jcq,m?FLfq>YdH>'sIu**8LG$E'SMA-oqq'p9hTBOD`P\=l)90dV+Ygt[ZTcSH"O!3.HT+Z3/8"GAL=npI'IBjuUT_:>m[KjIEqG#u2@G+MW=oHOC_fg4r:\,#8+.FCKehC'</e(XD#Zfkf*oE?;#f1H$f6VuNfK-[NfK-[Q>eI0]B3a)lLb,`70V`)/VN-lk<c[!'4K<q(m5K\\(JcD+WO!C$WU*mL&4&gKET>>UKB.%isEiNi+&Tp0sG[F^maKr(W(0GjQ4/*i1=5Y9(F_H4!(dPGr]F9_s*J5UuOl6OuF/rV*UWHh*"*bMD$R>>R38L/`W00!/\Yu'=$TFdF$@hdF$A#P5bXEgstu~>endstream
+endobj
 35 0 obj
 <<
-/Outlines 37 0 R /PageLabels 50 0 R /PageMode /UseNone /Pages 41 0 R /Type /Catalog
+/Contents 51 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 42 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ] /XObject <<
+/FormXob.93f0fd694ba238d68e4756056ff229ff 33 0 R
+>>
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
 >>
 endobj
 36 0 obj
 <<
-/Author () /CreationDate (D:20210331150841-01'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20210331150841-01'00') /Producer (ReportLab PDF Library - www.reportlab.com) 
-  /Subject (\(unspecified\)) /Title (hrosailing-Module Documentation) /Trapped /False
+/Outlines 38 0 R /PageLabels 52 0 R /PageMode /UseNone /Pages 42 0 R /Type /Catalog
 >>
 endobj
 37 0 obj
 <<
-/Count 3 /First 38 0 R /Last 40 0 R /Type /Outlines
+/Author () /CreationDate (D:20210406155029-01'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20210406155029-01'00') /Producer (ReportLab PDF Library - www.reportlab.com) 
+  /Subject (\(unspecified\)) /Title (hrosailing-Module Documentation) /Trapped /False
 >>
 endobj
 38 0 obj
 <<
-/Dest [ 6 0 R /XYZ 62.69291 729.0236 0 ] /Next 39 0 R /Parent 37 0 R /Title (Dependencies)
+/Count 3 /First 39 0 R /Last 41 0 R /Type /Outlines
 >>
 endobj
 39 0 obj
 <<
-/Dest [ 6 0 R /XYZ 62.69291 606.0236 0 ] /Next 40 0 R /Parent 37 0 R /Prev 38 0 R /Title (How To Use This Module)
+/Dest [ 6 0 R /XYZ 62.69291 729.0236 0 ] /Next 40 0 R /Parent 38 0 R /Title (Dependencies)
 >>
 endobj
 40 0 obj
 <<
-/Dest [ 6 0 R /XYZ 62.69291 474.6236 0 ] /Parent 37 0 R /Prev 39 0 R /Title (Contents Of This Module)
+/Dest [ 6 0 R /XYZ 62.69291 606.0236 0 ] /Next 41 0 R /Parent 38 0 R /Prev 39 0 R /Title (How To Use This Module)
 >>
 endobj
 41 0 obj
 <<
-/Count 8 /Kids [ 6 0 R 10 0 R 13 0 R 16 0 R 23 0 R 26 0 R 29 0 R 34 0 R ] /Type /Pages
+/Dest [ 6 0 R /XYZ 62.69291 474.6236 0 ] /Parent 38 0 R /Prev 40 0 R /Title (Contents Of This Module)
 >>
 endobj
 42 0 obj
 <<
-/Length 7958
+/Count 9 /Kids [ 6 0 R 10 0 R 13 0 R 14 0 R 20 0 R 25 0 R 27 0 R 32 0 R 35 0 R ] /Type /Pages
+>>
+endobj
+43 0 obj
+<<
+/Length 7829
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
@@ -543,28 +553,28 @@ q
 1 0 0 1 62.69291 429.6236 cm
 Q
 q
-1 0 0 1 62.69291 77.62362 cm
+1 0 0 1 62.69291 158.6236 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 340 cm
+1 0 0 1 20 259 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (to_csv) Tj /F1 10 Tf (\() Tj /F2 10 Tf (csv_path,) Tj ( ) Tj (obj) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 334 cm
+1 0 0 1 20 253 cm
 Q
 q
-1 0 0 1 20 271 cm
+1 0 0 1 20 162 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 51 cm
+1 0 0 1 20 79 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
@@ -575,17 +585,50 @@ q
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 20 Tm  T* ET
+BT 1 0 0 1 0 48 Tm  T* ET
 q
-1 0 0 1 20 18 cm
+1 0 0 1 20 46 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (csv_path) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (csv_path) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 31 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Path where a .csv-file is located or where a new .csv-file will be created) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 15 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (obj) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (PolarDiagram) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (obj) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (PolarDiagram) Tj T* ET
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (An ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (-object which will be written to the .csv-file) Tj T* ET
+Q
+Q
+q
+Q
 Q
 Q
 q
@@ -603,19 +646,19 @@ Q
 Q
 Q
 q
-1 0 0 1 20 271 cm
+1 0 0 1 20 162 cm
 Q
 q
-1 0 0 1 20 253 cm
+1 0 0 1 20 144 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (from_csv) Tj /F1 10 Tf (\() Tj /F2 10 Tf (csv_path) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 247 cm
+1 0 0 1 20 138 cm
 Q
 q
-1 0 0 1 20 133 cm
+1 0 0 1 20 24 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -677,44 +720,54 @@ Q
 Q
 Q
 q
-1 0 0 1 20 133 cm
+1 0 0 1 20 24 cm
 Q
 q
-1 0 0 1 20 115 cm
+1 0 0 1 20 6 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (pickling) Tj /F1 10 Tf (\() Tj /F2 10 Tf (pkl_path,) Tj ( ) Tj (obj) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 109 cm
+1 0 0 1 20 0 cm
 Q
 q
-1 0 0 1 20 18 cm
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 76.86614 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 79 cm
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 46 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 18 cm
+1 0 0 1 20 0 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 48 Tm  T* ET
+BT 1 0 0 1 0 33 Tm  T* ET
 q
-1 0 0 1 20 46 cm
+1 0 0 1 20 31 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (pkl_path) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 31 cm
+1 0 0 1 20 16 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -731,11 +784,50 @@ Q
 Q
 Q
 q
-1 0 0 1 20 15 cm
+1 0 0 1 20 0 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (obj) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (PolarDiagram) Tj T* ET
 Q
 Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+ 
+endstream
+endobj
+44 0 obj
+<<
+/Length 8798
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 377.0236 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 352 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 18 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 5 Tm  T* ET
 q
 1 0 0 1 20 0 cm
 q
@@ -745,7 +837,7 @@ BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (An ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (-object which is to be written to the .pkl file) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (An ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (-object which will be written to the .pkl file) Tj T* ET
 Q
 Q
 q
@@ -767,38 +859,19 @@ Q
 Q
 Q
 q
-1 0 0 1 20 18 cm
+1 0 0 1 20 352 cm
 Q
 q
-1 0 0 1 20 0 cm
+1 0 0 1 20 334 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (depickling) Tj /F1 10 Tf (\() Tj /F2 10 Tf (pkl_path) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-Q
-Q
-Q
- 
-endstream
-endobj
-43 0 obj
-<<
-/Length 8129
->>
-stream
-1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
-q
-1 0 0 1 62.69291 461.2661 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 309 cm
+1 0 0 1 20 328 cm
 Q
 q
-1 0 0 1 20 237 cm
+1 0 0 1 20 256 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -854,19 +927,19 @@ Q
 Q
 Q
 q
-1 0 0 1 20 237 cm
+1 0 0 1 20 256 cm
 Q
 q
-1 0 0 1 20 219 cm
+1 0 0 1 20 238 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (convex_hull_polar) Tj /F1 10 Tf (\() Tj /F2 10 Tf (points_radians,) Tj ( ) Tj (points_angles) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 213 cm
+1 0 0 1 20 232 cm
 Q
 q
-1 0 0 1 20 138 cm
+1 0 0 1 20 157 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -903,7 +976,7 @@ Q
 q
 1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 14 Tm .865433 Tw 12 TL /F1 10 Tf 0 0 0 rg (Computes the convex hull of the given point cloud via the ) Tj /F2 10 Tf (scipy.spatial) Tj /F1 10 Tf (.) Tj /F3 10 Tf (ConvexHull) Tj /F1 10 Tf (-class,) Tj T* 0 Tw (see ) Tj 0 0 .501961 rg (ConvexHull) Tj 0 0 0 rg (.) Tj T* ET
+BT 1 0 0 1 0 14 Tm 5.918443 Tw 12 TL /F1 10 Tf 0 0 0 rg (Computes the convex hull of the given point cloud with polar coordinates via the) Tj T* 0 Tw /F2 10 Tf (scipy.spatial) Tj /F1 10 Tf (.) Tj /F3 10 Tf (ConvexHull) Tj /F1 10 Tf (-class, see ) Tj 0 0 .501961 rg (ConvexHull) Tj 0 0 0 rg (.) Tj T* ET
 Q
 Q
 q
@@ -911,67 +984,16 @@ Q
 Q
 Q
 q
-1 0 0 1 20 138 cm
+1 0 0 1 20 157 cm
 Q
 q
-1 0 0 1 20 120 cm
+1 0 0 1 20 139 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (convert) Tj /F1 10 Tf (\() Tj /F2 10 Tf (obj,) Tj ( ) Tj (convert_type) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 114 cm
-Q
-q
-1 0 0 1 20 69 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 33 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 20 Tm  T* ET
-q
-1 0 0 1 20 18 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (obj) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (PolarDiagram) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (convert_type) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (PolarDiagram) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 69 cm
-Q
-q
-1 0 0 1 20 51 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing.utils) Tj /F1 10 Tf (.) Tj /F3 10 Tf (polar_to_kartesian) Tj /F1 10 Tf (\(radians, angles\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 45 cm
+1 0 0 1 20 133 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -980,10 +1002,44 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 33 cm
+1 0 0 1 20 121 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 48 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 60 Tm  T* ET
+q
+1 0 0 1 20 58 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (obj) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (PolarDiagram) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 31 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 14 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 14 Tm 8.51122 Tw 12 TL /F1 10 Tf 0 0 0 rg (An ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (-object that is to be converted to another) Tj T* 0 Tw /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (-type) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 15 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (convert_type) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (PolarDiagram) Tj T* ET
 Q
 Q
 q
@@ -991,21 +1047,31 @@ q
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 20 Tm  T* ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (A subclass of ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
 q
 1 0 0 1 20 18 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (radians) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (array_like) Tj T* ET
+BT 1 0 0 1 0 14 Tm 1.844524 Tw 12 TL /F1 10 Tf 0 0 0 rg (For a given instance a ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (-subclass, the function converts it into an) Tj T* 0 Tw (instance of a given ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (-subclass.) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (angles) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (array_like) Tj T* ET
-Q
-Q
-q
-Q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Currently only works for the subclasses ) Tj /F3 10 Tf (PolarDiagramTable) Tj /F1 10 Tf ( and ) Tj /F3 10 Tf (PolarDiagramPointcloud) Tj T* ET
 Q
 Q
 q
@@ -1020,16 +1086,16 @@ Q
 Q
 Q
 q
-1 0 0 1 62.69291 461.2661 cm
+1 0 0 1 62.69291 377.0236 cm
 Q
 q
-1 0 0 1 62.69291 443.2661 cm
+1 0 0 1 62.69291 359.0236 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (-module defines the following classes:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 62.69291 437.2661 cm
+1 0 0 1 62.69291 353.0236 cm
 Q
 q
 1 0 0 1 62.69291 76.86614 cm
@@ -1038,22 +1104,37 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 354.4 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagramException) Tj /F1 10 Tf (\() Tj /F2 10 Tf (exception_type,) Tj ( ) Tj (*args) Tj /F1 10 Tf (\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 336.4 cm
+1 0 0 1 20 264.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (\(\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 330.4 cm
+1 0 0 1 20 258.1575 cm
 Q
 q
-1 0 0 1 20 240.4 cm
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 240 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (An abstract base class for most classes in the ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (-module) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 222 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf ( class defines the following public methods:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 216 cm
+Q
+q
+1 0 0 1 20 126 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -1116,7 +1197,7 @@ Q
 q
 1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 14 Tm .179398 Tw 12 TL /F1 10 Tf 0 0 0 rg (Creates or overwrites a .pkl file via with the class data of the object which called the function) Tj T* 0 Tw (via the ) Tj /F2 10 Tf (pickle) Tj /F1 10 Tf (.) Tj /F3 10 Tf (dump) Tj /F1 10 Tf (-function, see ) Tj 0 0 .501961 rg (dump) Tj 0 0 0 rg (.) Tj T* ET
+BT 1 0 0 1 0 14 Tm 1.30311 Tw 12 TL /F1 10 Tf 0 0 0 rg (Creates or overwrites a .pkl file via with the class data of the object which called the) Tj T* 0 Tw (function via the ) Tj /F2 10 Tf (pickle) Tj /F1 10 Tf (.) Tj /F3 10 Tf (dump) Tj /F1 10 Tf (-function, see ) Tj 0 0 .501961 rg (dump) Tj 0 0 0 rg (.) Tj T* ET
 Q
 Q
 q
@@ -1131,16 +1212,16 @@ Q
 Q
 Q
 q
-1 0 0 1 20 240.4 cm
+1 0 0 1 20 126 cm
 Q
 q
-1 0 0 1 20 222.4 cm
+1 0 0 1 20 108 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagramTable) Tj /F1 10 Tf (\() Tj /F2 10 Tf (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf ( class also defines the following abstract methods:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 216.4 cm
+1 0 0 1 20 102 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -1149,23 +1230,145 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 204.4 cm
+1 0 0 1 20 90 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (__str__) Tj /F1 10 Tf (\(\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 72 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (__repr__) Tj /F1 10 Tf (\(\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 54 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (wind_speeds) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (wind_angles) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 18 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (boat_speeds) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (to_csv) Tj /F1 10 Tf (\() Tj /F2 10 Tf (csv_path) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+ 
+endstream
+endobj
+45 0 obj
+<<
+/Length 7553
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 76.86614 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 640.1575 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (polar_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 18 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (flat_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_convex_hull_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 640.1575 cm
+Q
+q
+1 0 0 1 20 622.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagramTable) Tj /F1 10 Tf (\() Tj /F2 10 Tf (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 616.1575 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 610.1575 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (A class to represent, visualize and work with a polar performance diagram in form of a table.) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 198.4 cm
+1 0 0 1 20 604.1575 cm
 Q
 q
-1 0 0 1 20 0 cm
+1 0 0 1 20 300.935 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 71.2 cm
+1 0 0 1 20 179.2 cm
 q
 q
 .732993 0 0 .732993 0 0 cm
@@ -1185,7 +1388,7 @@ Q
 Q
 Q
 q
-1 0 0 1 20 45.2 cm
+1 0 0 1 20 153.2 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Once initiated one can present the table in a nice way) Tj T* ET
@@ -1202,69 +1405,10 @@ q
 .662745 .662745 .662745 RG
 .5 w
 .960784 .960784 .862745 rg
-n -6 -6 390.6898 36 re B*
+n -6 -6 399.0143 144 re B*
 Q
 q
-BT 1 0 0 1 0 14 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( print\(polar_table\)) Tj T* (  TWA \\ TWS     6     8    10    12    14    16    20) Tj T* ET
-Q
-Q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
- 
-endstream
-endobj
-44 0 obj
-<<
-/Length 7598
->>
-stream
-1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
-q
-1 0 0 1 62.69291 76.86614 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 560.9575 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-q
-1 0 0 1 0 0 cm
-q
-1 0 0 1 6.6 6.6 cm
-q
-.662745 .662745 .662745 RG
-.5 w
-.960784 .960784 .862745 rg
-n -6 -6 390.6898 120 re B*
-Q
-q
-BT 1 0 0 1 0 98 Tm 12 TL /F2 10 Tf 0 0 0 rg (-----------  ----  ----  ----  ----  ----  ----  ----) Tj T* (         52  4.06  4.82  5.42  5.83  6.04  6.13  6.16) Tj T* (         60  4.31  5.11  5.69  6.01  6.2   6.31  6.36) Tj T* (         75  4.5   5.35  5.89  6.16  6.36  6.52  6.72) Tj T* (         90  4.45  5.31  5.91  6.21  6.44  6.66  6.99) Tj T* (        110  4.11  4.98  5.71  6.13  6.39  6.62  7.12) Tj T* (        120  3.85  4.72  5.49  6     6.29  6.53  7.03) Tj T* (        135  3.39  4.27  5     5.64  6.06  6.32  6.78) Tj T* (        150  2.91  3.78  4.5   5.15  5.72  6.09  6.55) Tj T* ET
+BT 1 0 0 1 0 122 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( print\(polar_table\)) Tj T* (  TWA \\ TWS     6     8    10    12    14    16    20) Tj T* (-----------  ----  ----  ----  ----  ----  ----  ----) Tj T* (         52  4.06  4.82  5.42  5.83  6.04  6.13  6.16) Tj T* (         60  4.31  5.11  5.69  6.01  6.2   6.31  6.36) Tj T* (         75  4.5   5.35  5.89  6.16  6.36  6.52  6.72) Tj T* (         90  4.45  5.31  5.91  6.21  6.44  6.66  6.99) Tj T* (        110  4.11  4.98  5.71  6.13  6.39  6.62  7.12) Tj T* (        120  3.85  4.72  5.49  6     6.29  6.53  7.03) Tj T* (        135  3.39  4.27  5     5.64  6.06  6.32  6.78) Tj T* (        150  2.91  3.78  4.5   5.15  5.72  6.09  6.55) Tj T* ET
 Q
 Q
 Q
@@ -1275,17 +1419,16 @@ Q
 Q
 Q
 q
-1 0 0 1 20 560.9575 cm
+1 0 0 1 20 300.935 cm
 Q
 q
-1 0 0 1 20 542.9575 cm
+1 0 0 1 20 282.935 cm
 q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (PolarDiagramTable objects have the following public methods:) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (PolarDiagramTable) Tj /F1 10 Tf ( class defines the following public methods:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 536.9575 cm
+1 0 0 1 20 276.935 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -1294,16 +1437,16 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 536.9575 cm
+1 0 0 1 20 282 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (__str__) Tj /F1 10 Tf (\(\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 530.9575 cm
+1 0 0 1 20 276 cm
 Q
 q
-1 0 0 1 20 476.9575 cm
+1 0 0 1 20 222 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -1326,38 +1469,122 @@ Q
 Q
 Q
 q
-1 0 0 1 20 476.9575 cm
+1 0 0 1 20 222 cm
 Q
 q
-1 0 0 1 20 458.9575 cm
+1 0 0 1 20 204 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (__repr__) Tj /F1 10 Tf (\(\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 440.9575 cm
+1 0 0 1 20 186 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (to_csv) Tj /F1 10 Tf (\() Tj /F2 10 Tf (csv_path) Tj /F1 10 Tf (\)) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (wind_speeds) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 434.9575 cm
+1 0 0 1 20 180 cm
 Q
 q
-1 0 0 1 20 230.9575 cm
+1 0 0 1 20 168 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 192 cm
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Returns a read only version of ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (._resolution_wind_speed) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 168 cm
+Q
+q
+1 0 0 1 20 150 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (wind_angles) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 144 cm
+Q
+q
+1 0 0 1 20 132 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Returns a read only version of ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (._resolution_wind_angle) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 132 cm
+Q
+q
+1 0 0 1 20 114 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (boat_speeds) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 108 cm
+Q
+q
+1 0 0 1 20 96 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Returns a read only version of ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (._data) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 96 cm
+Q
+q
+1 0 0 1 20 78 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (to_csv) Tj /F1 10 Tf (\() Tj /F2 10 Tf (csv_path) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 72 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 60 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 162 cm
+1 0 0 1 20 30 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -1390,11 +1617,60 @@ Q
 Q
 Q
 q
-1 0 0 1 20 132 cm
+1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 14 Tm .871318 Tw 12 TL /F1 10 Tf 0 0 0 rg (Creates or overwrites a .csv file with the class data of object which called the function) Tj T* 0 Tw (via the ) Tj /F2 10 Tf (csv) Tj /F1 10 Tf (.) Tj /F3 10 Tf (writer) Tj /F1 10 Tf (-class, see ) Tj 0 0 .501961 rg (writer) Tj 0 0 0 rg (.) Tj T* ET
+BT 1 0 0 1 0 14 Tm 2.34784 Tw 12 TL /F1 10 Tf 0 0 0 rg (Creates or overwrites a .csv file with the class data of object which called the) Tj T* 0 Tw (function via the ) Tj /F2 10 Tf (csv) Tj /F1 10 Tf (.) Tj /F3 10 Tf (writer) Tj /F1 10 Tf (-class, see ) Tj 0 0 .501961 rg (writer) Tj 0 0 0 rg (.) Tj T* ET
 Q
 Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+ 
+endstream
+endobj
+46 0 obj
+<<
+/Length 6877
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 76.86614 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 550.1575 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 114 cm
 q
@@ -1485,16 +1761,16 @@ Q
 Q
 Q
 q
-1 0 0 1 20 230.9575 cm
+1 0 0 1 20 550.1575 cm
 Q
 q
-1 0 0 1 20 212.9575 cm
+1 0 0 1 20 532.1575 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (change_entry) Tj /F1 10 Tf (\() Tj /F2 10 Tf (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (change_entry) Tj /F1 10 Tf (\() Tj /F2 10 Tf (data,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 206.9575 cm
+1 0 0 1 20 526.1575 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -1503,26 +1779,32 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 194.9575 cm
+1 0 0 1 20 520.1575 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 107.9575 cm
+1 0 0 1 20 397.1575 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 74 Tm  T* ET
+BT 1 0 0 1 0 110 Tm  T* ET
 q
-1 0 0 1 20 60 cm
+1 0 0 1 20 108 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (data) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (float) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (array_like) Tj /F1 10 Tf ( of matching shape) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 78 cm
 q
 BT 1 0 0 1 0 14 Tm .193555 Tw 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keywords containing the entries in the "table" that are to be changed and) Tj T* 0 Tw (the new data.) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 54 cm
+1 0 0 1 20 72 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -1531,7 +1813,32 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 48 cm
+1 0 0 1 20 66 cm
+Q
+q
+1 0 0 1 20 66 cm
+Q
+q
+1 0 0 1 20 54 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+q
+1 0 0 1 6 -3 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
+Q
+Q
+q
+1 0 0 1 23 -3 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (true_wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (float) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (Iterable) Tj T* ET
+Q
+Q
+q
+Q
+Q
 Q
 q
 1 0 0 1 20 48 cm
@@ -1551,7 +1858,7 @@ Q
 q
 1 0 0 1 23 -3 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (data) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (float) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (array_like) Tj /F1 10 Tf ( of matching shape) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (apparent_wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (float) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (Iterable) Tj T* ET
 Q
 Q
 q
@@ -1576,7 +1883,7 @@ Q
 q
 1 0 0 1 23 -3 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (true_wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (float) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (Iterable) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (true_wind_angle) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (float) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (Iterable) Tj T* ET
 Q
 Q
 q
@@ -1601,7 +1908,7 @@ Q
 q
 1 0 0 1 23 -3 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (true_wind_angle) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (float) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (Iterable) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (apparent_wind_angle) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (float) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (Iterable) Tj T* ET
 Q
 Q
 q
@@ -1623,16 +1930,16 @@ Q
 Q
 Q
 q
-1 0 0 1 20 89.95748 cm
+1 0 0 1 20 379.1575 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Updates ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F3 10 Tf (_data) Tj /F1 10 Tf ( on the specified entries with the given new data.) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Updates ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (._data on the specified entries with the given new data.) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 83.95748 cm
+1 0 0 1 20 373.1575 cm
 Q
 q
-1 0 0 1 20 0 cm
+1 0 0 1 20 191.9575 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -1648,89 +1955,10 @@ q
 .662745 .662745 .662745 RG
 .5 w
 .960784 .960784 .862745 rg
-n -6 -6 338.6898 72 re B*
+n -6 -6 344.6898 180 re B*
 Q
 q
-BT 1 0 0 1 0 50 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( polar_table.change_entry\(data=4,) Tj T* (...                          true_wind_angle=52,) Tj T* (...                          true_wind_speed=6\)) Tj T* (>) Tj (>) Tj (>) Tj ( print\(polar_table\)) Tj T* (  TWA \\ TWS     6     8    10    12    14    16    20) Tj T* ET
-Q
-Q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
- 
-endstream
-endobj
-45 0 obj
-<<
-/Length 6743
->>
-stream
-1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
-q
-1 0 0 1 62.69291 76.86614 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 325.7575 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 235.2 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-q
-1 0 0 1 0 0 cm
-q
-1 0 0 1 6.6 6.6 cm
-q
-.662745 .662745 .662745 RG
-.5 w
-.960784 .960784 .862745 rg
-n -6 -6 338.6898 120 re B*
-Q
-q
-BT 1 0 0 1 0 98 Tm 12 TL /F2 10 Tf 0 0 0 rg (-----------  ----  ----  ----  ----  ----  ----  ----) Tj T* (         52  4     4.82  5.42  5.83  6.04  6.13  6.16) Tj T* (         60  4.31  5.11  5.69  6.01  6.2   6.31  6.36) Tj T* (         75  4.5   5.35  5.89  6.16  6.36  6.52  6.72) Tj T* (         90  4.45  5.31  5.91  6.21  6.44  6.66  6.99) Tj T* (        110  4.11  4.98  5.71  6.13  6.39  6.62  7.12) Tj T* (        120  3.85  4.72  5.49  6     6.29  6.53  7.03) Tj T* (        135  3.39  4.27  5     5.64  6.06  6.32  6.78) Tj T* (        150  2.91  3.78  4.5   5.15  5.72  6.09  6.55) Tj T* ET
+BT 1 0 0 1 0 158 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( polar_table.change_entry\(data=4,) Tj T* (...                          true_wind_angle=52,) Tj T* (...                          true_wind_speed=6\)) Tj T* (>) Tj (>) Tj (>) Tj ( print\(polar_table\)) Tj T* (  TWA \\ TWS     6     8    10    12    14    16    20) Tj T* (-----------  ----  ----  ----  ----  ----  ----  ----) Tj T* (         52  4     4.82  5.42  5.83  6.04  6.13  6.16) Tj T* (         60  4.31  5.11  5.69  6.01  6.2   6.31  6.36) Tj T* (         75  4.5   5.35  5.89  6.16  6.36  6.52  6.72) Tj T* (         90  4.45  5.31  5.91  6.21  6.44  6.66  6.99) Tj T* (        110  4.11  4.98  5.71  6.13  6.39  6.62  7.12) Tj T* (        120  3.85  4.72  5.49  6     6.29  6.53  7.03) Tj T* (        135  3.39  4.27  5     5.64  6.06  6.32  6.78) Tj T* (        150  2.91  3.78  4.5   5.15  5.72  6.09  6.55) Tj T* ET
 Q
 Q
 Q
@@ -1741,20 +1969,20 @@ Q
 Q
 Q
 q
-1 0 0 1 20 235.2 cm
+1 0 0 1 20 191.9575 cm
 Q
 q
-1 0 0 1 20 217.2 cm
+1 0 0 1 20 173.9575 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Can be used to change a whole row/column in one go:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 211.2 cm
+1 0 0 1 20 167.9575 cm
 Q
 q
-1 0 0 1 20 30 cm
+1 0 0 1 20 0 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -1770,483 +1998,10 @@ q
 .662745 .662745 .662745 RG
 .5 w
 .960784 .960784 .862745 rg
-n -6 -6 350.6898 180 re B*
+n -6 -6 338.6898 156 re B*
 Q
 q
-BT 1 0 0 1 0 158 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( data = [6, 6.16,6.3,6.4,6.35,6.26,6.01,6.03]) Tj T* (>) Tj (>) Tj (>) Tj ( polar_table.change_entry\(data=data,) Tj T* (...                          true_wind_angle=14\)) Tj T* (>) Tj (>) Tj (>) Tj ( print\(polar_table\)) Tj T* (  TWA \\ TWS     6     8    10    12    14    16    20) Tj T* (-----------  ----  ----  ----  ----  ----  ----  ----) Tj T* (         52  4     4.82  5.42  5.83  6     6.13  6.16) Tj T* (         60  4.31  5.11  5.69  6.01  6.16  6.31  6.36) Tj T* (         75  4.5   5.35  5.89  6.16  6.3   6.52  6.72) Tj T* (         90  4.45  5.31  5.91  6.21  6.4   6.66  6.99) Tj T* (        110  4.11  4.98  5.71  6.13  6.35  6.62  7.12) Tj T* (        120  3.85  4.72  5.49  6     6.26  6.53  7.03) Tj T* (        135  3.39  4.27  5     5.64  6.01  6.32  6.78) Tj T* (        150  2.91  3.78  4.5   5.15  6.03  6.09  6.55) Tj T* ET
-Q
-Q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 30 cm
-Q
-q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 14 Tm 2.225433 Tw 12 TL /F1 10 Tf 0 0 0 rg (Note that if both ) Tj /F4 10 Tf (true_wind_speed) Tj /F1 10 Tf ( and ) Tj /F4 10 Tf (true_wind_angle) Tj /F1 10 Tf ( are of type ) Tj /F2 10 Tf (Iterable) Tj /F1 10 Tf (, the) Tj T* 0 Tw (function will throw an error to prevent ambiguity.) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 325.7575 cm
-Q
-q
-1 0 0 1 20 307.7575 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (get_slice_data) Tj /F1 10 Tf (\() Tj /F2 10 Tf (true_wind_speed) Tj /F1 10 Tf (\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 301.7575 cm
-Q
-q
-1 0 0 1 20 229.7575 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 60 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 30 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 17 Tm  T* ET
-q
-1 0 0 1 20 15 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (true_wind_speed) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F4 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Element in ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F3 10 Tf (_resolution_wind_speed) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 14 Tm 8.791085 Tw 12 TL /F1 10 Tf 0 0 0 rg (Retrieves the corresponding column of ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F3 10 Tf (_data) Tj /F1 10 Tf (. Throws an error if) Tj T* 0 Tw /F2 10 Tf (true_wind_speed) Tj /F1 10 Tf ( is not in ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F3 10 Tf (_resolution_wind_speed) Tj /F1 10 Tf (.) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 229.7575 cm
-Q
-q
-1 0 0 1 20 211.7575 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (polar_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (true_wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 205.7575 cm
-Q
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 141.5171 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 81.51713 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 47 Tm  T* ET
-q
-1 0 0 1 20 45 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (true_wind_speed) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F4 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 30 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Element in ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F3 10 Tf (_resolution_wind_speed) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 14 Tm 2.913615 Tw 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* 0 Tw (Supports the same keyword arguments as the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 27.51713 cm
-q
-BT 1 0 0 1 0 38 Tm 6.380888 Tw 12 TL /F1 10 Tf 0 0 0 rg (For a given column of ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F3 10 Tf (_data) Tj /F1 10 Tf ( corresponding to the input element of) Tj T* 0 Tw .071976 Tw /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F3 10 Tf (_resolution_wind_speed) Tj /F1 10 Tf (, the function returns a polar plot of the column together) Tj T* 0 Tw 8.522823 Tw (with the corresponding elements in ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F3 10 Tf (_resolution_wind_angle) Tj /F1 10 Tf ( via the) Tj T* 0 Tw /F2 10 Tf (matlibplot.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
-Q
-Q
-q
-1 0 0 1 20 21.51713 cm
-Q
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-q
-.853854 0 0 .853854 0 0 cm
-q
-1 0 0 1 6.6 7.729654 cm
-q
-.662745 .662745 .662745 RG
-.5 w
-.960784 .960784 .862745 rg
-n -6 -6 432 24 re B*
-Q
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( polar_table.polar_plot_slice\(6, ms=1, marker='o', lw=0.75, ls='-'\)) Tj T* ET
-Q
-Q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
- 
-endstream
-endobj
-46 0 obj
-<<
-/Length 5884
->>
-stream
-1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
-q
-1 0 0 1 62.69291 76.86614 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 658.1575 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-31.22677 0 0 30 -31.22677 -30 cm
-/FormXob.3d7462a5dd46e429b96f2541facc47bf Do
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 0 cm
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 658.1575 cm
-Q
-q
-1 0 0 1 20 640.1575 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (flat_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (true_wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 634.1575 cm
-Q
-q
-1 0 0 1 20 323.3381 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 298.8193 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 238.8193 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 47 Tm  T* ET
-q
-1 0 0 1 20 45 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (true_wind_speed) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F4 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 30 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Element in ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F3 10 Tf (_resolution_wind_speed) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 14 Tm 2.913615 Tw 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* 0 Tw (Supports the same keyword arguments as the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 172.8193 cm
-q
-BT 1 0 0 1 0 50 Tm 6.380888 Tw 12 TL /F1 10 Tf 0 0 0 rg (For a given column of ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F3 10 Tf (_data) Tj /F1 10 Tf ( corresponding to the input element of) Tj T* 0 Tw 1.906976 Tw /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F3 10 Tf (_resolution_wind_speed) Tj /F1 10 Tf (, the function returns a plot of the column entries as) Tj T* 0 Tw 22.18496 Tw (y-coordiantes together with the corresponding elements in) Tj T* 0 Tw 35.20244 Tw /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F3 10 Tf (_resolution_wind_angle) Tj /F1 10 Tf ( as x-coordinates via the) Tj T* 0 Tw /F2 10 Tf (matlibplot.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
-Q
-Q
-q
-1 0 0 1 20 166.8193 cm
-Q
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 145 cm
-q
-q
-.865847 0 0 .865847 0 0 cm
-q
-1 0 0 1 6.6 7.622595 cm
-q
-.662745 .662745 .662745 RG
-.5 w
-.960784 .960784 .862745 rg
-n -6 -6 426 24 re B*
-Q
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( polar_table.flat_plot_slice\(6, ms=1, marker='o', lw=0.75, ls='-'\)) Tj T* ET
-Q
-Q
-Q
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-193 0 0 131 0 0 cm
-/FormXob.8fc74ee10fc34398d78f25bcfea2942f Do
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 0 cm
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 323.3381 cm
-Q
-q
-1 0 0 1 20 305.3381 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_convex_hull_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (true_wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 299.3381 cm
-Q
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 151.8662 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 91.8662 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 47 Tm  T* ET
-q
-1 0 0 1 20 45 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (true_wind_speed) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F4 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 30 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Element in ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F3 10 Tf (_resolution_wind_speed) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 14 Tm 2.913615 Tw 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* 0 Tw (Supports the same keyword arguments as the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 25.8662 cm
-q
-BT 1 0 0 1 0 50 Tm 6.380888 Tw 12 TL /F1 10 Tf 0 0 0 rg (For a given column of ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F3 10 Tf (_data) Tj /F1 10 Tf ( corresponding to the input element of) Tj T* 0 Tw 1.192196 Tw /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F3 10 Tf (_resolution_wind_speed) Tj /F1 10 Tf (, the function computes the convex hull of the column) Tj T* 0 Tw .50997 Tw (entries together with the corresponding elements in ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F3 10 Tf (_resolution_wind_angle) Tj /F1 10 Tf ( via) Tj T* 0 Tw .463307 Tw (the ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (convex_hull_polar) Tj /F1 10 Tf (-function and returns a polar plot of the computed) Tj T* 0 Tw (convex hull via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
-Q
-Q
-q
-1 0 0 1 20 19.8662 cm
-Q
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-q
-.788341 0 0 .788341 0 0 cm
-q
-1 0 0 1 6.6 8.372008 cm
-q
-.662745 .662745 .662745 RG
-.5 w
-.960784 .960784 .862745 rg
-n -6 -6 468 24 re B*
-Q
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( polar_table.plot_convex_hull_slice\(6, ms=1, marker='o', lw=0.75, ls='-'\)) Tj T* ET
+BT 1 0 0 1 0 134 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( data = [6, 6.16,6.3,6.4,6.35,6.26,6.01,6.03]) Tj T* (>) Tj (>) Tj (>) Tj ( polar_table.change_entry\(data=data,) Tj T* (...                          true_wind_angle=14\)) Tj T* (>) Tj (>) Tj (>) Tj ( print\(polar_table\)) Tj T* (  TWA \\ TWS     6     8    10    12    14    16    20) Tj T* (-----------  ----  ----  ----  ----  ----  ----  ----) Tj T* (         52  4     4.82  5.42  5.83  6     6.13  6.16) Tj T* (         60  4.31  5.11  5.69  6.01  6.16  6.31  6.36) Tj T* (         75  4.5   5.35  5.89  6.16  6.3   6.52  6.72) Tj T* (         90  4.45  5.31  5.91  6.21  6.4   6.66  6.99) Tj T* (        110  4.11  4.98  5.71  6.13  6.35  6.62  7.12) Tj T* (        120  3.85  4.72  5.49  6     6.26  6.53  7.03) Tj T* ET
 Q
 Q
 Q
@@ -2277,7 +2032,7 @@ endstream
 endobj
 47 0 obj
 <<
-/Length 8188
+/Length 7011
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
@@ -2288,7 +2043,19 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 658.1575 cm
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 638.9575 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -2302,6 +2069,365 @@ BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 0 cm
 q
+q
+1 0 0 1 0 0 cm
+q
+1 0 0 1 6.6 6.6 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 338.6898 36 re B*
+Q
+q
+BT 1 0 0 1 0 14 Tm 12 TL /F2 10 Tf 0 0 0 rg (        135  3.39  4.27  5     5.64  6.01  6.32  6.78) Tj T* (        150  2.91  3.78  4.5   5.15  6.03  6.09  6.55) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 638.9575 cm
+Q
+q
+1 0 0 1 20 620.9575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (get_slice_data) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 614.9575 cm
+Q
+q
+1 0 0 1 20 554.9575 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 18 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 17 Tm  T* ET
+q
+1 0 0 1 20 15 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F4 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Element in ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F4 10 Tf (_resolution_wind_speed) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Retrieves the corresponding column of ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F4 10 Tf (_data) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 554.9575 cm
+Q
+q
+1 0 0 1 20 536.9575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (polar_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 530.9575 cm
+Q
+q
+1 0 0 1 20 228.9403 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 290.0171 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 230.0171 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 47 Tm  T* ET
+q
+1 0 0 1 20 45 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F4 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Element in ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F4 10 Tf (_resolution_wind_speed) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 14 Tm 2.913615 Tw 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* 0 Tw (Supports the same keyword arguments as the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 176.0171 cm
+q
+BT 1 0 0 1 0 38 Tm 6.480888 Tw 12 TL /F1 10 Tf 0 0 0 rg (For a given column of ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F4 10 Tf (_data) Tj /F1 10 Tf ( corresponding to the input element of) Tj T* 0 Tw .958976 Tw /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F4 10 Tf (_resolution_wind_speed) Tj /F1 10 Tf (, the function returns a polar plot of the column together) Tj T* 0 Tw 9.789966 Tw (with the corresponding elements in ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F4 10 Tf (_resolution_wind_angle) Tj /F1 10 Tf ( via the) Tj T* 0 Tw /F2 10 Tf (matlibplot.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 170.0171 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 148.5 cm
+q
+q
+.853854 0 0 .853854 0 0 cm
+q
+1 0 0 1 6.6 7.729654 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 432 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( polar_table.polar_plot_slice\(6, ms=1, marker='o', lw=0.75, ls='-'\)) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+140 0 0 134.5 0 0 cm
+/FormXob.3d7462a5dd46e429b96f2541facc47bf Do
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 228.9403 cm
+Q
+q
+1 0 0 1 20 210.9403 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (flat_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 204.9403 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 153.8193 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 93.81934 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 47 Tm  T* ET
+q
+1 0 0 1 20 45 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F4 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Element in ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F4 10 Tf (_resolution_wind_speed) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 14 Tm 2.913615 Tw 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* 0 Tw (Supports the same keyword arguments as the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 27.81934 cm
+q
+BT 1 0 0 1 0 50 Tm 6.480888 Tw 12 TL /F1 10 Tf 0 0 0 rg (For a given column of ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F4 10 Tf (_data) Tj /F1 10 Tf ( corresponding to the input element of) Tj T* 0 Tw 2.793976 Tw /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F4 10 Tf (_resolution_wind_speed) Tj /F1 10 Tf (, the function returns a plot of the column entries as) Tj T* 0 Tw 22.18496 Tw (y-coordiantes together with the corresponding elements in) Tj T* 0 Tw 37.41994 Tw /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F4 10 Tf (_resolution_wind_angle) Tj /F1 10 Tf ( as x-coordinates via the) Tj T* 0 Tw /F2 10 Tf (matlibplot.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 21.81934 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+q
+.865847 0 0 .865847 0 0 cm
+q
+1 0 0 1 6.6 7.622595 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 426 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( polar_table.flat_plot_slice\(6, ms=1, marker='o', lw=0.75, ls='-'\)) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+ 
+endstream
+endobj
+48 0 obj
+<<
+/Length 7271
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 76.86614 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 327.7913 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 336.3662 cm
+q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
@@ -2314,7 +2440,123 @@ BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 0 cm
 q
-31.22677 0 0 30 -31.22677 -30 cm
+44.19847 0 0 30 -44.19847 -30 cm
+/FormXob.8fc74ee10fc34398d78f25bcfea2942f Do
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 336.3662 cm
+Q
+q
+1 0 0 1 20 318.3662 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_convex_hull_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 312.3662 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 300.3662 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 240.3662 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 47 Tm  T* ET
+q
+1 0 0 1 20 45 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F4 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Element in ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F4 10 Tf (_resolution_wind_speed) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 14 Tm 2.913615 Tw 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* 0 Tw (Supports the same keyword arguments as the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 174.3662 cm
+q
+BT 1 0 0 1 0 50 Tm 6.480888 Tw 12 TL /F1 10 Tf 0 0 0 rg (For a given column of ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F4 10 Tf (_data) Tj /F1 10 Tf ( corresponding to the input element of) Tj T* 0 Tw 2.177752 Tw /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F4 10 Tf (_resolution_wind_speed) Tj /F1 10 Tf (, the function computes the convex hull of the column) Tj T* 0 Tw 1.61872 Tw (entries together with the corresponding elements in ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F4 10 Tf (_resolution_wind_angle) Tj /F1 10 Tf ( via) Tj T* 0 Tw .463307 Tw (the ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (convex_hull_polar) Tj /F1 10 Tf (-function and returns a polar plot of the computed) Tj T* 0 Tw (convex hull via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 168.3662 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 148.5 cm
+q
+q
+.788341 0 0 .788341 0 0 cm
+q
+1 0 0 1 6.6 8.372008 cm
+q
+.662745 .662745 .662745 RG
+.5 w
+.960784 .960784 .862745 rg
+n -6 -6 468 24 re B*
+Q
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( polar_table.plot_convex_hull_slice\(6, ms=1, marker='o', lw=0.75, ls='-'\)) Tj T* ET
+Q
+Q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+140 0 0 134.5 0 0 cm
 /FormXob.3d7462a5dd46e429b96f2541facc47bf Do
 Q
 Q
@@ -2344,39 +2586,16 @@ Q
 Q
 Q
 q
-1 0 0 1 20 658.1575 cm
+1 0 0 1 20 327.7913 cm
 Q
 q
-1 0 0 1 20 640.1575 cm
+1 0 0 1 20 309.7913 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagramCurve) Tj /F1 10 Tf (\() Tj /F2 10 Tf (f,) Tj ( ) Tj (*params) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 634.1575 cm
-Q
-q
-1 0 0 1 20 184.1575 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 426 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .156235 Tw (A class to represent, visualize and work with a polar performance diagram given as a fitted curve) Tj T* 0 Tw (with a list of optimal parameters) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 408 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (PolarDiagramCurve objects have the following public methods) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 402 cm
+1 0 0 1 20 303.7913 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -2385,35 +2604,119 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 390 cm
+1 0 0 1 20 279.7913 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (__str__) Tj /F1 10 Tf (\(\)) Tj T* ET
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .156235 Tw (A class to represent, visualize and work with a polar performance diagram given as a fitted curve) Tj T* 0 Tw (with a list of optimal parameters) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 372 cm
+1 0 0 1 20 261.7913 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (to_csv) Tj /F1 10 Tf (\() Tj /F2 10 Tf (csv_path) Tj /F1 10 Tf (\)) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (PolarDiagramCurve) Tj /F1 10 Tf ( class defines the following public methods:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 366 cm
+1 0 0 1 20 255.7913 cm
 Q
 q
-1 0 0 1 20 162 cm
+1 0 0 1 20 0 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 192 cm
+1 0 0 1 20 255.7913 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (__str__) Tj /F1 10 Tf (\(\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 237.7913 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (__repr__) Tj /F1 10 Tf (\(\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 219.7913 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (curve) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 213.7913 cm
+Q
+q
+1 0 0 1 20 201.7913 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Returns a read only version of ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F4 10 Tf (_f) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 201.7913 cm
+Q
+q
+1 0 0 1 20 183.7913 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (parameters) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 177.7913 cm
+Q
+q
+1 0 0 1 20 165.7913 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Returns a read only version of ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F4 10 Tf (_params) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 165.7913 cm
+Q
+q
+1 0 0 1 20 147.7913 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (to_csv) Tj /F1 10 Tf (\() Tj /F2 10 Tf (csv_path) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 141.7913 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 126 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 162 cm
+1 0 0 1 20 96 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -2446,65 +2749,110 @@ Q
 Q
 Q
 q
-1 0 0 1 20 132 cm
+1 0 0 1 20 66 cm
 q
 BT 1 0 0 1 0 14 Tm .871318 Tw 12 TL /F1 10 Tf 0 0 0 rg (Creates or overwrites a .csv file with the class data of object which called the function) Tj T* 0 Tw (via the ) Tj /F2 10 Tf (csv) Tj /F1 10 Tf (.) Tj /F3 10 Tf (writer) Tj /F1 10 Tf (-class, see ) Tj 0 0 .501961 rg (writer) Tj 0 0 0 rg (.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 114 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The format of the .csv file will be as follows:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 108 cm
-Q
-q
-1 0 0 1 20 18 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 84 cm
-Q
-q
-1 0 0 1 20 72 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (PolarDiagramCurve) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 60 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Wind speed resolution:) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 48 cm
 q
 0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (self._resolution_wind_speed) Tj T* ET
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The format of the .csv file will be as follows:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 36 cm
+1 0 0 1 20 42 cm
+Q
+q
+1 0 0 1 20 0 cm
 q
 0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Functions\(s\):) Tj T* ET
-Q
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 36 cm
 Q
 q
 1 0 0 1 20 24 cm
 q
 0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (PolarDiagramCurve) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Functions:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (self._f) Tj T* ET
 Q
 Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+ 
+endstream
+endobj
+49 0 obj
+<<
+/Length 8153
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 76.86614 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 367.1575 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 243 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 18 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 12 cm
 q
@@ -2541,12 +2889,63 @@ Q
 Q
 Q
 q
+1 0 0 1 20 243 cm
+Q
+q
+1 0 0 1 20 225 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (polar_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 219 cm
+Q
+q
+1 0 0 1 20 162 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 45 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 32 Tm  T* ET
+q
+1 0 0 1 20 30 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 14 Tm 2.913615 Tw 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* 0 Tw (Supports the same keyword arguments as the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
 1 0 0 1 20 162 cm
 Q
 q
 1 0 0 1 20 144 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (polar_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (true_wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (flat_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
@@ -2574,7 +2973,7 @@ BT 1 0 0 1 0 32 Tm  T* ET
 q
 1 0 0 1 20 30 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (true_wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
 Q
 Q
 q
@@ -2597,7 +2996,7 @@ Q
 q
 1 0 0 1 20 63 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (flat_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (true_wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_convex_hull_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
@@ -2625,7 +3024,7 @@ BT 1 0 0 1 0 32 Tm  T* ET
 q
 1 0 0 1 20 30 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (true_wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
 Q
 Q
 q
@@ -2657,16 +3056,16 @@ Q
 Q
 Q
 q
-1 0 0 1 20 184.1575 cm
+1 0 0 1 20 367.1575 cm
 Q
 q
-1 0 0 1 20 166.1575 cm
+1 0 0 1 20 349.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagramPointcloud) Tj /F1 10 Tf (\() Tj /F2 10 Tf (data) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 160.1575 cm
+1 0 0 1 20 343.1575 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -2675,21 +3074,20 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 136.1575 cm
+1 0 0 1 20 319.1575 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (A class to present, visualize and work with a polar performance diagram in form of a point cloud.) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 118.1575 cm
+1 0 0 1 20 301.1575 cm
 q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (PolarDiagramPointcloud objects have the following public methods:) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (PolarDiagramPointcloud) Tj /F1 10 Tf ( class defines the following public methods:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 112.1575 cm
+1 0 0 1 20 295.1575 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -2698,19 +3096,111 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 100.1575 cm
+1 0 0 1 20 288 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (__str__) Tj /F1 10 Tf (\(\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 82.15748 cm
+1 0 0 1 20 270 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (__repr__) Tj /F1 10 Tf (\(\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 252 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (wind_speeds) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 246 cm
+Q
+q
+1 0 0 1 20 234 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Returns a list of all occuring wind speeds) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 234 cm
+Q
+q
+1 0 0 1 20 216 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (wind_angles) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 210 cm
+Q
+q
+1 0 0 1 20 198 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Returns a list of all occuring wind angles) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 198 cm
+Q
+q
+1 0 0 1 20 180 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (points) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 174 cm
+Q
+q
+1 0 0 1 20 162 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Returns a read only version of ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F4 10 Tf (_data) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 162 cm
+Q
+q
+1 0 0 1 20 144 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (to_csv) Tj /F1 10 Tf (\() Tj /F2 10 Tf (csv_path) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 76.15748 cm
+1 0 0 1 20 138 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -2719,14 +3209,14 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 60 cm
+1 0 0 1 20 126 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 30 cm
+1 0 0 1 20 96 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -2759,72 +3249,23 @@ Q
 Q
 Q
 q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 14 Tm .871318 Tw 12 TL /F1 10 Tf 0 0 0 rg (Creates or overwrites a .csv file with the class data of object which called the function) Tj T* 0 Tw (via the ) Tj /F2 10 Tf (csv) Tj /F1 10 Tf (.) Tj /F3 10 Tf (writer) Tj /F1 10 Tf (-class, see ) Tj 0 0 .501961 rg (writer) Tj 0 0 0 rg (.) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
- 
-endstream
-endobj
-48 0 obj
-<<
-/Length 5279
->>
-stream
-1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
-q
-1 0 0 1 62.69291 76.86614 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 616.1575 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
 1 0 0 1 20 66 cm
+q
+BT 1 0 0 1 0 14 Tm 2.34784 Tw 12 TL /F1 10 Tf 0 0 0 rg (Creates or overwrites a .csv file with the class data of object which called the) Tj T* 0 Tw (function via the ) Tj /F2 10 Tf (csv) Tj /F1 10 Tf (.) Tj /F3 10 Tf (writer) Tj /F1 10 Tf (-class, see ) Tj 0 0 .501961 rg (writer) Tj 0 0 0 rg (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 48 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The format of the .csv file will be as follows:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 60 cm
+1 0 0 1 20 42 cm
 Q
 q
-1 0 0 1 20 18 cm
+1 0 0 1 20 0 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -2861,8 +3302,57 @@ Q
 Q
 Q
 q
-1 0 0 1 20 18 cm
+1 0 0 1 20 0 cm
 Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+ 
+endstream
+endobj
+50 0 obj
+<<
+/Length 5153
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 76.86614 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 680.9 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 0 cm
 q
@@ -2875,19 +3365,19 @@ Q
 Q
 Q
 q
-1 0 0 1 20 616.1575 cm
+1 0 0 1 20 680.9 cm
 Q
 q
-1 0 0 1 20 598.1575 cm
+1 0 0 1 20 662.9 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (add_points) Tj /F1 10 Tf (\() Tj /F2 10 Tf (points) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 592.1575 cm
+1 0 0 1 20 656.9 cm
 Q
 q
-1 0 0 1 20 565.1575 cm
+1 0 0 1 20 629.9 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -2920,19 +3410,19 @@ Q
 Q
 Q
 q
-1 0 0 1 20 565.1575 cm
+1 0 0 1 20 629.9 cm
 Q
 q
-1 0 0 1 20 547.1575 cm
+1 0 0 1 20 611.9 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (change_points) Tj /F1 10 Tf (\(\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 541.1575 cm
+1 0 0 1 20 605.9 cm
 Q
 q
-1 0 0 1 20 529.1575 cm
+1 0 0 1 20 593.9 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -2949,19 +3439,19 @@ Q
 Q
 Q
 q
-1 0 0 1 20 529.1575 cm
+1 0 0 1 20 593.9 cm
 Q
 q
-1 0 0 1 20 511.1575 cm
+1 0 0 1 20 575.9 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (polar_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (true_wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (polar_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 505.1575 cm
+1 0 0 1 20 569.9 cm
 Q
 q
-1 0 0 1 20 248.4575 cm
+1 0 0 1 20 313.2 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -2991,7 +3481,7 @@ BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 42 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (true_wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
 Q
 Q
 q
@@ -3043,25 +3533,25 @@ Q
 Q
 Q
 q
-1 0 0 1 20 248.4575 cm
+1 0 0 1 20 313.2 cm
 Q
 q
-1 0 0 1 20 230.4575 cm
+1 0 0 1 20 295.2 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (flat_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (true_wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (flat_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 224.4575 cm
+1 0 0 1 20 289.2 cm
 Q
 q
-1 0 0 1 20 0 cm
+1 0 0 1 20 36 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 96.2 cm
+1 0 0 1 20 241.2 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
@@ -3072,12 +3562,12 @@ q
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 83.2 Tm  T* ET
+BT 1 0 0 1 0 228.2 Tm  T* ET
 q
-1 0 0 1 20 87.2 cm
+1 0 0 1 20 232.2 cm
 Q
 q
-1 0 0 1 20 33.2 cm
+1 0 0 1 20 178.2 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -3085,13 +3575,13 @@ BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 42 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (true_wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 26 Tm .972976 Tw 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created) Tj T* 0 Tw 14.31854 Tw (plot. Supports the same keyword arguments as the) Tj T* 0 Tw /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
+BT 1 0 0 1 0 26 Tm 1.095433 Tw 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* 0 Tw 24.31829 Tw (Supports the same keyword arguments as the) Tj T* 0 Tw /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
 Q
 Q
 q
@@ -3099,10 +3589,10 @@ Q
 Q
 Q
 q
-1 0 0 1 20 33.2 cm
+1 0 0 1 20 178.2 cm
 Q
 q
-1 0 0 1 20 0 cm
+1 0 0 1 20 145 cm
 q
 q
 1 0 0 1 0 0 cm
@@ -3112,7 +3602,7 @@ q
 .662745 .662745 .662745 RG
 .5 w
 .960784 .960784 .862745 rg
-n -6 -6 338.6898 24 re B*
+n -6 -6 350.6898 24 re B*
 Q
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( polar_pointcloud.flat_plot_slice\(8\)) Tj T* ET
@@ -3122,7 +3612,43 @@ Q
 Q
 Q
 q
+1 0 0 1 20 0 cm
+q
+193 0 0 131 0 0 cm
+/FormXob.6eb705541a64dbadb339f045744660e8 Do
 Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 36 cm
+Q
+q
+1 0 0 1 20 18 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_convex_hull_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
 Q
 Q
 q
@@ -3144,14 +3670,14 @@ Q
  
 endstream
 endobj
-49 0 obj
+51 0 obj
 <<
-/Length 2273
+/Length 1603
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
 q
-1 0 0 1 62.69291 469.3236 cm
+1 0 0 1 62.69291 556.3236 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -3169,7 +3695,7 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 280.7 cm
+1 0 0 1 20 0 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -3179,53 +3705,7 @@ q
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 42 cm
-q
-44.19847 0 0 30 -44.19847 -30 cm
-/FormXob.6eb705541a64dbadb339f045744660e8 Do
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 280.7 cm
-Q
-q
-1 0 0 1 20 262.7 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_convex_hull_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (true_wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 256.7 cm
-Q
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 244.7 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 231.7 Tm  T* ET
+BT 1 0 0 1 0 195.7 Tm  T* ET
 q
 1 0 0 1 20 235.7 cm
 Q
@@ -3238,7 +3718,7 @@ BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 42 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (true_wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
 Q
 Q
 q
@@ -3265,7 +3745,7 @@ q
 .662745 .662745 .662745 RG
 .5 w
 .960784 .960784 .862745 rg
-n -6 -6 359.73 24 re B*
+n -6 -6 344.6898 24 re B*
 Q
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( polar_point_cloud.plot_convex_hull_slice\(8\)) Tj T* ET
@@ -3311,59 +3791,64 @@ Q
 Q
 Q
 q
-1 0 0 1 62.69291 469.3236 cm
+1 0 0 1 62.69291 556.3236 cm
 Q
  
 endstream
 endobj
-50 0 obj
-<<
-/Nums [ 0 51 0 R 1 52 0 R 2 53 0 R 3 54 0 R 4 55 0 R 
-  5 56 0 R 6 57 0 R 7 58 0 R ]
->>
-endobj
-51 0 obj
-<<
-/S /D /St 1
->>
-endobj
 52 0 obj
 <<
-/S /D /St 2
+/Nums [ 0 53 0 R 1 54 0 R 2 55 0 R 3 56 0 R 4 57 0 R 
+  5 58 0 R 6 59 0 R 7 60 0 R 8 61 0 R ]
 >>
 endobj
 53 0 obj
 <<
-/S /D /St 3
+/S /D /St 1
 >>
 endobj
 54 0 obj
 <<
-/S /D /St 4
+/S /D /St 2
 >>
 endobj
 55 0 obj
 <<
-/S /D /St 5
+/S /D /St 3
 >>
 endobj
 56 0 obj
 <<
-/S /D /St 6
+/S /D /St 4
 >>
 endobj
 57 0 obj
 <<
-/S /D /St 7
+/S /D /St 5
 >>
 endobj
 58 0 obj
 <<
+/S /D /St 6
+>>
+endobj
+59 0 obj
+<<
+/S /D /St 7
+>>
+endobj
+60 0 obj
+<<
 /S /D /St 8
 >>
 endobj
+61 0 obj
+<<
+/S /D /St 9
+>>
+endobj
 xref
-0 59
+0 62
 0000000000 65535 f 
 0000000073 00000 n 
 0000000135 00000 n 
@@ -3379,60 +3864,63 @@ xref
 0000001962 00000 n 
 0000002168 00000 n 
 0000002400 00000 n 
-0000002516 00000 n 
-0000002738 00000 n 
-0000002963 00000 n 
-0000021556 00000 n 
-0000026049 00000 n 
-0000026271 00000 n 
-0000032646 00000 n 
-0000036193 00000 n 
-0000036415 00000 n 
-0000036760 00000 n 
-0000036966 00000 n 
-0000037172 00000 n 
-0000037468 00000 n 
-0000057952 00000 n 
-0000062452 00000 n 
-0000062722 00000 n 
-0000065813 00000 n 
-0000069402 00000 n 
-0000091323 00000 n 
-0000095823 00000 n 
-0000096142 00000 n 
-0000096248 00000 n 
-0000096537 00000 n 
-0000096611 00000 n 
-0000096724 00000 n 
-0000096860 00000 n 
-0000096984 00000 n 
-0000097093 00000 n 
-0000105103 00000 n 
-0000113284 00000 n 
-0000120934 00000 n 
-0000127729 00000 n 
-0000133665 00000 n 
-0000141905 00000 n 
-0000147236 00000 n 
-0000149561 00000 n 
-0000149668 00000 n 
-0000149702 00000 n 
-0000149736 00000 n 
-0000149770 00000 n 
-0000149804 00000 n 
-0000149838 00000 n 
-0000149872 00000 n 
-0000149906 00000 n 
+0000002606 00000 n 
+0000002722 00000 n 
+0000002944 00000 n 
+0000021537 00000 n 
+0000026030 00000 n 
+0000026252 00000 n 
+0000026548 00000 n 
+0000032923 00000 n 
+0000036470 00000 n 
+0000036692 00000 n 
+0000036898 00000 n 
+0000037243 00000 n 
+0000037449 00000 n 
+0000037674 00000 n 
+0000058158 00000 n 
+0000062658 00000 n 
+0000065749 00000 n 
+0000069338 00000 n 
+0000069657 00000 n 
+0000091578 00000 n 
+0000096078 00000 n 
+0000096348 00000 n 
+0000096454 00000 n 
+0000096743 00000 n 
+0000096817 00000 n 
+0000096930 00000 n 
+0000097066 00000 n 
+0000097190 00000 n 
+0000097306 00000 n 
+0000105187 00000 n 
+0000114037 00000 n 
+0000121642 00000 n 
+0000128571 00000 n 
+0000135634 00000 n 
+0000142957 00000 n 
+0000151162 00000 n 
+0000156367 00000 n 
+0000158022 00000 n 
+0000158138 00000 n 
+0000158172 00000 n 
+0000158206 00000 n 
+0000158240 00000 n 
+0000158274 00000 n 
+0000158308 00000 n 
+0000158342 00000 n 
+0000158376 00000 n 
+0000158410 00000 n 
 trailer
 <<
 /ID 
-[<12ba9833bb51ede26b7268003f069deb><12ba9833bb51ede26b7268003f069deb>]
+[<ae2da468b9ae40e074662d5c457ebf38><ae2da468b9ae40e074662d5c457ebf38>]
 % ReportLab generated PDF document -- digest (http://www.reportlab.com)
 
-/Info 36 0 R
-/Root 35 0 R
-/Size 59
+/Info 37 0 R
+/Root 36 0 R
+/Size 62
 >>
 startxref
-149940
+158444
 %%EOF
