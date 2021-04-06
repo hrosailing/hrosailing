@@ -5,19 +5,10 @@ from sailing_units import apparent_wind_angle_to_true, apparent_wind_speed_to_tr
 
 
 def polar_to_kartesian(radians, angles):
-    # V: Wandelt die eindimensionalen Arrays der Polarkoordinaten der Punktmenge
-    #    in ein zweidimensionales Array mit den kartesischen Koordinaten der
-    #    Punktmenge um.
     return np.column_stack((radians * np.cos(angles), radians * np.sin(angles)))
 
 
 def convex_hull_polar(points_radians, points_angles):
-    """
-
-    :param points_radians:
-    :param points_angles:
-    :return:
-    """
     converted_points = polar_to_kartesian(points_radians, points_angles)
     return ConvexHull(converted_points)
 
