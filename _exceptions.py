@@ -10,8 +10,7 @@ class PolarDiagramException(Exception):
             "Wrong resolution": "Expecting resolution of type 'Iterable' or 'int/float'," +
                                 f"\n got resolution of type {args[0]} instead",
             "Wrong shape": f"Expecting array with shape {args[0]},\n got array with shape {args[1]} instead",
-            "Wind speed not in resolution": f"Expecting wind speed to be in {args[0]},\n got {args[1]} instead",
-            "Wind angle not in resolution": f"Expecting wind angle to be in {args[0]},\n got {args[1]} instead",
+            "Not in resolution": f"Expecting {args[0]} to be a subset of {args[1]}",
             "No points found": f"The given true wind speed {args[0]} yielded no points in the current point cloud",
         }
         if exception_type in message_dict:
