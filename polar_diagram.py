@@ -46,6 +46,7 @@ def convert(obj, convert_type):
                 row.append(point)
             data.append(row)
 
+
         return PolarDiagramTable(wind_speed_resolution=wind_speeds,
                                  wind_angle_resolution=wind_angles,
                                  data=data)
@@ -507,7 +508,6 @@ class PolarDiagramCurve(PolarDiagram):
             A fitted function of wind speed, wind angle and additional parameters
         :type f: ``function``
         :param params:
-
         """
         self._f = f
         self._params = params
@@ -546,7 +546,7 @@ class PolarDiagramCurve(PolarDiagram):
     @property
     def boat_speeds(self):
         return
-
+      
     # V: Noch nicht getestet
     def to_csv(self, csv_path):
         """Creates a .csv-file with the following format
@@ -665,7 +665,6 @@ class PolarDiagramPointcloud(PolarDiagram):
     change_points():
 
     polar_plot_slice(wind_speed, **kwargs):
-
     flat_plot_slice(wind_speed, **kwargs):
 
     plot_convex_hull_slice(wind_speed, **kwargs):
