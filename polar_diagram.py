@@ -46,7 +46,6 @@ def convert(obj, convert_type):
                 row.append(point)
             data.append(row)
 
-
         return PolarDiagramTable(wind_speed_resolution=wind_speeds,
                                  wind_angle_resolution=wind_angles,
                                  data=data)
@@ -61,26 +60,32 @@ def convert(obj, convert_type):
 
 # V: Soweit in Ordnung
 def to_csv(csv_path, obj):
-    """Writes a PolarDiagram object to a .csv-file
-
-    :param csv_path:
-        Path to a .csv-file
-    :type csv_path: ``str``
-    :param obj:
-        PolarDiagram object
-    :type obj: ``PolarDiagram``
-    """
+    """Writes a PolarDiagram object to a .csv-file"""
     obj.to_csv(csv_path)
 
 
-# V: Soweit in Ordnung
-def from_csv(csv_path):
+# V: In Arbeit
+def from_csv(csv_path, fmt='own', obj_type=None):
     """Creates a PolarDiagram object from a .csv-file
 
     :param csv_path:
         Path to a .csv-file
-    :type csv_path: ``str``
+    :type csv_path: ``str`
+    :param fmt:
+
+    :type fmt:
+    :param obj_type:
+
+    :type obj_type:
     """
+    format_dict = {
+        "own": "",
+        "orc": "",
+        "array": "",
+
+    }
+
+    # x = eval(format_dict[fmt])
     with open(csv_path, 'r', newline='') as file:
         csv_reader = csv.reader(file, delimiter=',', quotechar='"')
         first_row = next(csv_reader)[0]
@@ -96,40 +101,46 @@ def from_csv(csv_path):
 
 # V: Soweit in Ordnung
 def pickling(pkl_path, obj):
-    """Writes a PolarDiagram object to a .pkl-file
-
-    :param pkl_path:
-        Path to a .pkl-file
-    :type pkl_path: ``str``
-    :param obj:
-        PolarDiagram object
-    :type obj: ``PolarDiagram``
-    """
+    """Writes a PolarDiagram object to a .pkl-file"""
     obj.pickling(pkl_path)
 
 
 # V: Soweit in Ordnung
 def depickling(pkl_path):
-    """Creates a PolarDiagram object from a .pkl-file
-
-    :param pkl_path:
-        Path to a .pkl-file
-    :type pkl_path: ``str``
-    """
+    """Creates a PolarDiagram object from a .pkl-file"""
     with open(pkl_path, 'rb') as file:
         return pickle.load(file)
 
 
+# V: In Arbeit
+def symmetric_polar_diagram(obj):
+    if isinstance(obj, PolarDiagramTable):
+        wind_angles = np.concatenate([obj.wind_angles, 360-np.flip(obj.wind_angles)])
+        data = np.concatenate([obj.boat_speeds, np.flip(obj.boat_speeds, axis=0)])
+        return PolarDiagramTable(wind_speed_resolution=obj.wind_speeds,
+                                 wind_angle_resolution=wind_angles,
+                                 data=data)
+
+    elif isinstance(obj, PolarDiagramPointcloud):
+        points = obj.points
+        new_points = []
+        for point in points:
+            new_points.append(point)
+            sym_point = point
+            sym_point[1] = 360 - sym_point[1]
+            new_points.append(sym_point)
+        return PolarDiagramPointcloud(points=new_points)
+
+    else:
+        pass
+
+
 class PolarDiagram(ABC):
     """
-    An abstract base class
-
-    ...
-
     Methods
     ------
     pickling(pkl_path):
-
+        Writes a PolarDiagram object to a .pkl-file
     Abstract Methods
     ----------------
     __str__()
@@ -141,6 +152,7 @@ class PolarDiagram(ABC):
     polar_plot_slice(wind_speed, **kwargs)
     flat_plot_slice(wind_speed, **kwargs)
     plot_3d()
+    plot_heatmap()
     plot_convex_hull_slice(wind_speed, **kwargs)
     plot_convex_hull_3d()
     """
@@ -172,12 +184,7 @@ class PolarDiagram(ABC):
         pass
 
     def pickling(self, pkl_path):
-        """
-
-        :param pkl_path:
-
-        :type pkl_path: ``string``
-        """
+        """Writes a PolarDiagram object to a .pkl-file"""
         with open(pkl_path, 'wb') as file:
             pickle.dump(self, file)
 
@@ -191,6 +198,10 @@ class PolarDiagram(ABC):
 
     @abstractmethod
     def plot_3d(self):
+        pass
+
+    @abstractmethod
+    def plot_heatmap(self, ax=None, cbar_kw=None, **kwargs):
         pass
 
     @abstractmethod
@@ -220,8 +231,9 @@ class PolarDiagramTable(PolarDiagram):
     -------
     __init__(**kwargs):
         Initializes a PolarDiagramTable object
-    __str__()
-    __repr__()
+    __str__():
+    __repr__():
+    __getitem__(wind_tup):
     wind_angles:
         Returns a read only verion of self._wind_angle_resolution
     wind_speeds:
@@ -232,7 +244,7 @@ class PolarDiagramTable(PolarDiagram):
         Writes object to a .csv-file
     change_entry(data, **kwargs):
         Changes entries in table
-    get_slice_data(wind_speed):
+    _get_slice_data(wind_speed):
         Returns a given column of the table
     polar_plot_slice(wind_speed, **kwargs):
         Polar plot of a slice(column) of the table
@@ -240,6 +252,8 @@ class PolarDiagramTable(PolarDiagram):
         Kartesian plot of a slice(column) of the table
     plot_3d():
         3D-plot of the table
+    plot_heatmap():
+
     plot_convex_hull_slice(wind_speed, **kwargs):
         Polar plot of the convex hull of a slice(column) of the table
     plot_convex_hull_3d():
@@ -250,20 +264,21 @@ class PolarDiagramTable(PolarDiagram):
         """Initializes a PolarDiagramTable object
 
         :param true_wind_speed:
-
+            Is wind_speed_resolution true wind
         :type true_wind_speed: ``bool``
         :param true_wind_angle:
-
+            Is wind_angle_resolution true wind
         :type true_wind_angle: ``bool``
         :param kwargs:
             See below
 
         :Keyword arguments:
-            * *wind_speeds (``Iterable``, ``int`` or ``float``) --
-
-            * *wind_angles (``Iterable``, ``int`` or ``float``) --
-
+            * *wind_speed_resolution (``Iterable``, ``int`` or ``float``) --
+                     (Defaults to list(np.arange(2,42,2))
+            * *wind_angle_resolution (``Iterable``, ``int`` or ``float``) --
+                     (Defaults to list(np.arange(5,365,5))
             * *data (``array_like``) --
+                     (Defaults to np.zeros(rdim, cdim))
         """
         wind_dict = convert_wind(kwargs, true_wind_speed, true_wind_angle)
         self._resolution_wind_speed = speed_resolution(wind_dict["wind_speed"])
@@ -285,13 +300,21 @@ class PolarDiagramTable(PolarDiagram):
         """Returns a tabulate of the first and last 5 columns of the polar diagram table"""
         length = len(self.wind_angles)
         table = np.c_[self.wind_angles, self.boat_speeds[:, :5], np.array(["..."]*length), self.boat_speeds[:, -5:]]
-        return tabulate(table, headers=["TWA \\ TWS"] + self.wind_speeds[:5] + ['...'] + self.wind_speeds[-5:])
+        return tabulate(table, headers=["TWA \\ TWS"] + list(self.wind_speeds)[:5] +
+                                       ["..."] + list(self.wind_speeds)[-5:])
 
     # V: Soweit in Ordnung
     def __repr__(self):
         """Returns a string representation of the PolarDiagramTable instance"""
         return f"PolarDiagramTable(wind_speed_resolution={self.wind_speeds}, " \
                f"wind_angle_resolution={self.wind_angles}, data={self.boat_speeds}"
+
+    # V: In Arbeit
+    def __getitem__(self, wind_tup):
+        wind_speed, wind_angle = wind_tup
+        ind_c = get_indices(wind_speed, self.wind_speeds)
+        ind_r = get_indices(wind_angle, self.wind_angles)
+        return self.boat_speeds[ind_r, ind_c]
 
     @property
     def wind_angles(self):
@@ -318,6 +341,8 @@ class PolarDiagramTable(PolarDiagram):
             self.wind_angles
             Boat speeds:
             self.boat_speeds
+
+        and delimiter ','
 
         :param csv_path:
             Path to .csv-file
@@ -393,7 +418,7 @@ class PolarDiagramTable(PolarDiagram):
     # V: Soweit in Ordnung
     def _get_slice_data(self, wind_speed):
         try:
-            column = self.wind_speeds.index(wind_speed)
+            column = list(self.wind_speeds).index(wind_speed)
             return list(self.boat_speeds[:, column])
         except ValueError:
             raise PolarDiagramException("Not in resolution", wind_speed, self.wind_speeds)
@@ -438,6 +463,13 @@ class PolarDiagramTable(PolarDiagram):
     def plot_3d(self):
         pass
 
+    # V: In Arbeit
+    def plot_heatmap(self, ax=None, cbar_kw=None, **kwargs):
+        data = self.boat_speeds
+        col_labels = self.wind_speeds
+        row_labels = self.wind_angles
+        return heatmap(data, row_labels=row_labels, col_labels=col_labels, ax=ax, cbar_kw=cbar_kw, **kwargs)
+
     # V: Soweit in Ordnung
     def plot_convex_hull_slice(self, wind_speed, **kwargs):
         """
@@ -479,9 +511,8 @@ class PolarDiagramCurve(PolarDiagram):
     __init__(f, *params):
         Initializes a PolarDiagramCurve object
     __str__():
-
     __repr__():
-
+    __call__(wind_speed, wind_angle):
     curve:
         Returns a read only version of self._f
     parameters:
@@ -508,6 +539,7 @@ class PolarDiagramCurve(PolarDiagram):
             A fitted function of wind speed, wind angle and additional parameters
         :type f: ``function``
         :param params:
+
         """
         self._f = f
         self._params = params
@@ -521,6 +553,10 @@ class PolarDiagramCurve(PolarDiagram):
     def __repr__(self):
         """Returns a string representation of the PolarDiagramCurve instance"""
         return f"PolarDiagramCurve(f={self.curve}, params={self.parameters})"
+
+    # V: Noch nicht getestet
+    def __call__(self, wind_speed, wind_angle):
+        return self.curve(wind_speed, wind_angle, self.parameters)
 
     @property
     def curve(self):
@@ -546,7 +582,7 @@ class PolarDiagramCurve(PolarDiagram):
     @property
     def boat_speeds(self):
         return
-      
+
     # V: Noch nicht getestet
     def to_csv(self, csv_path):
         """Creates a .csv-file with the following format
@@ -583,8 +619,7 @@ class PolarDiagramCurve(PolarDiagram):
             matplotlib.pyplot.plot function
         """
         wind_angles = list(np.deg2rad(np.linspace(0, 360, 1000)))
-        boat_speeds = [self.curve(wind_speed, wind_angle, self.parameters)
-                       for wind_angle in wind_angles]
+        boat_speeds = [self(wind_speed, wind_angle) for wind_angle in wind_angles]
         return plot_polar(wind_angles, boat_speeds, **kwargs)
 
     # V: Noch nicht getestet
@@ -602,12 +637,15 @@ class PolarDiagramCurve(PolarDiagram):
             matplotlib.pyplot.plot function
         """
         wind_angles = list(np.linspace(0, 360, 1000))
-        boat_speeds = [self.curve(wind_speed, wind_angle, self.parameters)
-                       for wind_angle in wind_angles]
+        boat_speeds = [self(wind_speed, wind_angle) for wind_angle in wind_angles]
         return plot_polar(wind_angles, boat_speeds, **kwargs)
 
     # V: In Arbeit
     def plot_3d(self):
+        pass
+
+    # V: In Arbeit
+    def plot_heatmap(self, ax=None, cbar_kw=None, **kwargs):
         pass
 
     # V: Noch nicht getestet
@@ -625,8 +663,7 @@ class PolarDiagramCurve(PolarDiagram):
             matplotlib.pyplot.plot function
         """
         wind_angles = list(np.deg2rad(np.linspace(0, 360, 1000)))
-        boat_speeds = [self.curve(wind_speed, wind_angle, self.parameters)
-                       for wind_angle in wind_angles]
+        boat_speeds = [self(wind_speed, wind_angle) for wind_angle in wind_angles]
         return plot_convex_hull(wind_angles, boat_speeds, **kwargs)
 
     # V: In Arbeit
@@ -649,9 +686,8 @@ class PolarDiagramPointcloud(PolarDiagram):
     __init__(points):
         Initializes a PolarDiagramPointcloud object
     __str__():
-
     __repr__():
-
+    __getitem__(wind_tup):
     wind_speeds:
         Returns a list of all occuring wind speeds
     wind_angles:
@@ -663,10 +699,8 @@ class PolarDiagramPointcloud(PolarDiagram):
     add_points(new_points):
         Appends given points to self._data
     change_points():
-
     polar_plot_slice(wind_speed, **kwargs):
     flat_plot_slice(wind_speed, **kwargs):
-
     plot_convex_hull_slice(wind_speed, **kwargs):
     """
 
@@ -703,6 +737,11 @@ class PolarDiagramPointcloud(PolarDiagram):
     def __repr__(self):
         """Returns a string representation of the PolarDiagramPointcloud instance"""
         return f"PolarDiagramPointcloud(data={self.points})"
+
+    # V: In Arbeit
+    def __getitem__(self, wind_tup):
+        wind_speed, wind_angle = wind_tup
+        return self.points[self.points[:, :1] == [wind_speed, wind_angle]]
 
     @property
     def wind_speeds(self):
@@ -816,6 +855,10 @@ class PolarDiagramPointcloud(PolarDiagram):
     # V: In Arbeit
     def plot_3d(self):
         """"""
+        pass
+
+    # V: In Arbeit
+    def plot_heatmap(self, ax=None, cbar_kw=None, **kwargs):
         pass
 
     # V: Soweit in Ordnung

@@ -42,7 +42,7 @@ def read_pointcloud(csv_reader):
     for row in csv_reader:
         data.append([eval(entry) for entry in row])
 
-    return data
+    return np.array(data)
 
 
 # V: In Arbeit
@@ -91,30 +91,37 @@ def convert_wind(wind_dict, true_wind_speed, true_wind_angle):
 def speed_resolution(wind_speed_resolution):
     if wind_speed_resolution is not None:
         if isinstance(wind_speed_resolution, Iterable):
-            return list(wind_speed_resolution)
+            return np.array(list(wind_speed_resolution))
         elif isinstance(wind_speed_resolution, (int, float)):
-            return list(np.arange(wind_speed_resolution, 40, wind_speed_resolution))
+            return np.array(np.arange(wind_speed_resolution, 40, wind_speed_resolution))
         else:
             raise PolarDiagramException("Wrong resolution", type(wind_speed_resolution))
     else:
-        return list(np.arange(2, 42, 2))
+        return np.array(np.arange(2, 42, 2))
 
 
 # V: In Arbeit
 def angle_resolution(wind_angle_resolution):
     if wind_angle_resolution is not None:
         if isinstance(wind_angle_resolution, Iterable):
-            return list(wind_angle_resolution)
+            return np.array(list(wind_angle_resolution))
         elif isinstance(wind_angle_resolution, (int, float)):
-            return list(np.arange(wind_angle_resolution, 360, wind_angle_resolution))
+            return np.array(np.arange(wind_angle_resolution, 360, wind_angle_resolution))
         else:
             raise PolarDiagramException("Wrong resolution", type(wind_angle_resolution))
     else:
-        return list(np.arange(5, 365, 5))
+        return np.array(np.arange(5, 365, 5))
 
 
 # V: In Arbeit
 def get_indices(wind_list, resolution):
+    if not isinstance(wind_list, Iterable):
+        try:
+            ind = list(resolution).index(wind_list)
+            return ind
+        except ValueError:
+            raise PolarDiagramException("Not in resolution", wind_list, resolution)
+
     if not set(wind_list).issubset(set(resolution)):
         raise PolarDiagramException("Not in resolution", wind_list, resolution)
 
@@ -173,3 +180,34 @@ def plot_convex_hull(angles, speeds, **kwargs):
     convex_hull_plot.set_theta_zero_location('N')
     convex_hull_plot.set_theta_direction('clockwise')
     return convex_hull_plot.plot(wind_angles, boat_speeds, **kwargs)
+
+
+def heatmap(data, row_labels, col_labels, ax,
+            cbar_kw, cbarlabel="", **kwargs):
+    if ax is None:
+        ax = plt.gca()
+
+    im = ax.imshow(data, **kwargs)
+
+    if cbar_kw is None:
+        cbar_kw = {}
+    cbar = ax.figure.colorbar(im, ax=ax, **cbar_kw)
+    cbar.ax.set_ylabel(cbarlabel, rotation=-90, va="bottom")
+
+    ax.set_xticks(np.arange(data.shape[1]))
+    ax.set_yticks(np.arange(data.shape[0]))
+    ax.set_xticklabels(col_labels)
+    ax.set_yticklabels(row_labels)
+
+    ax.tick_params(top=True, bottom=False,
+                   labeltop=True, labelbottom=False)
+
+    plt.setp(ax.get_xticklabels(), rotation=-30, ha="right",
+             rotation_mode="anchor")
+
+    ax.set_xticks(np.arange(data.shape[1]+1)-.5, minor=True)
+    ax.set_yticks(np.arange(data.shape[0]+1)-.5, minor=True)
+    ax.grid(which="minor", color="w", linestyle='-', linewidth=3)
+    ax.tick_params(which="minor", bottom=False, left=False)
+
+    return im, cbar
