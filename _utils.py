@@ -46,6 +46,27 @@ def read_pointcloud(csv_reader):
 
 
 # V: In Arbeit
+def read_orc_csv(csv_path):
+    with open(csv_path, 'r', newline='') as file:
+        csv_reader = csv.reader(file, delimiter=';', quotechar='"')
+        wind_speed_resolution = [eval(s) for s in next(csv_reader)[1:]]
+        wind_angle_resolution = []
+        data = []
+        next(csv_reader)
+        for row in csv_reader:
+            wind_angle_resolution.append(eval(row[0]))
+            eval_data = [eval(d) for d in row[1:]]
+            data.append(eval_data)
+        return wind_speed_resolution, wind_angle_resolution, data
+
+
+# V: In Arbeit
+def read_array_csv(csv_path):
+    file_data = np.genfromtxt(csv_path, delimiter="\t")
+    return file_data[0, 1:], file_data[1:, 0], file_data[1:, 1:]
+
+
+# V: In Arbeit
 def create_wind_dict(points):
     wind_dict = {"wind_speed": points[:, 0],
                  "wind_angle": points[:, 1]}
@@ -75,13 +96,13 @@ def convert_dict(wind_dict):
 
 
 # V: In Arbeit
-def convert_wind(wind_dict, true_wind_speed, true_wind_angle):
+def convert_wind(wind_dict, tws, twa):
     wind_dict = convert_dict(wind_dict)
-    if true_wind_speed and true_wind_angle:
+    if tws and twa:
         return wind_dict
-    if not true_wind_speed:
+    if not twa:
         wind_dict["wind_speed"] = apparent_wind_speed_to_true(wind_dict["wind_speed"])
-    if not true_wind_angle:
+    if not tws:
         wind_dict["wind_angle"] = apparent_wind_angle_to_true(wind_dict["wind_angle"])
 
     return wind_dict
@@ -162,6 +183,16 @@ def plot_flat(wind_angles, boat_speeds, **kwargs):
     return flat_plot.plot(wind_angles, boat_speeds, **kwargs)
 
 
+# V: In Arbeit
+def plot_color_g(wind_speeds, wind_angles, boat_speeds, min_color, max_color):
+    z_max = max(boat_speeds)
+    z_min = min(boat_speeds)
+    coeffs = [(z_val - z_min)/(z_max - z_min) for z_val in boat_speeds]
+    color = [coeff * min_color + (1-coeff)*max_color for coeff in coeffs]
+    gradient_plot = plt.subplot(1, 1, 1)
+    return gradient_plot.scatter(wind_speeds, wind_angles, c=color)
+
+
 # V: Soweit in Ordnung
 def plot_convex_hull(angles, speeds, **kwargs):
     speeds = [x for _, x in sorted(zip(angles, speeds),
@@ -182,32 +213,3 @@ def plot_convex_hull(angles, speeds, **kwargs):
     return convex_hull_plot.plot(wind_angles, boat_speeds, **kwargs)
 
 
-def heatmap(data, row_labels, col_labels, ax,
-            cbar_kw, cbarlabel="", **kwargs):
-    if ax is None:
-        ax = plt.gca()
-
-    im = ax.imshow(data, **kwargs)
-
-    if cbar_kw is None:
-        cbar_kw = {}
-    cbar = ax.figure.colorbar(im, ax=ax, **cbar_kw)
-    cbar.ax.set_ylabel(cbarlabel, rotation=-90, va="bottom")
-
-    ax.set_xticks(np.arange(data.shape[1]))
-    ax.set_yticks(np.arange(data.shape[0]))
-    ax.set_xticklabels(col_labels)
-    ax.set_yticklabels(row_labels)
-
-    ax.tick_params(top=True, bottom=False,
-                   labeltop=True, labelbottom=False)
-
-    plt.setp(ax.get_xticklabels(), rotation=-30, ha="right",
-             rotation_mode="anchor")
-
-    ax.set_xticks(np.arange(data.shape[1]+1)-.5, minor=True)
-    ax.set_yticks(np.arange(data.shape[0]+1)-.5, minor=True)
-    ax.grid(which="minor", color="w", linestyle='-', linewidth=3)
-    ax.tick_params(which="minor", bottom=False, left=False)
-
-    return im, cbar

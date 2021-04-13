@@ -65,38 +65,49 @@ def to_csv(csv_path, obj):
 
 
 # V: In Arbeit
-def from_csv(csv_path, fmt='own', obj_type=None):
+def from_csv(csv_path, fmt='own', tws=True, twa=True):
     """Creates a PolarDiagram object from a .csv-file
 
     :param csv_path:
         Path to a .csv-file
-    :type csv_path: ``str`
+    :type csv_path: ``str``
     :param fmt:
 
-    :type fmt:
-    :param obj_type:
+    :type fmt: ``str``
+    :param tws:
 
-    :type obj_type:
+    :type tws: ``bool``
+    :param twa:
+
+    :type twa: ``bool``
     """
-    format_dict = {
-        "own": "",
-        "orc": "",
-        "array": "",
-
-    }
-
-    # x = eval(format_dict[fmt])
-    with open(csv_path, 'r', newline='') as file:
-        csv_reader = csv.reader(file, delimiter=',', quotechar='"')
-        first_row = next(csv_reader)[0]
-        if first_row == "PolarDiagramTable":
-            wind_speed_resolution, wind_angle_resolution, data = read_table(csv_reader)
-            return PolarDiagramTable(wind_speed_resolution=wind_speed_resolution,
-                                     wind_angle_resolution=wind_angle_resolution,
-                                     data=data)
-        elif first_row == "PolarDiagramPointcloud":
-            data = read_pointcloud(csv_reader)
-            return PolarDiagramPointcloud(points=data)
+    if fmt == "own":
+        with open(csv_path, 'r', newline='') as file:
+            csv_reader = csv.reader(file, delimiter=',', quotechar='"')
+            first_row = next(csv_reader)[0]
+            if first_row == "PolarDiagramTable":
+                wind_speed_resolution, wind_angle_resolution, data = read_table(csv_reader)
+                return PolarDiagramTable(tws=tws, twa=twa,
+                                         wind_speed_resolution=wind_speed_resolution,
+                                         wind_angle_resolution=wind_angle_resolution,
+                                         data=data)
+            elif first_row == "PolarDiagramPointcloud":
+                data = read_pointcloud(csv_reader)
+                return PolarDiagramPointcloud(points=data, tws=tws, twa=twa)
+    elif fmt == "orc":
+        wind_speed_resolution, wind_angle_resolution, data = read_orc_csv(csv_path)
+        return PolarDiagramTable(tws=tws, twa=twa,
+                                 wind_speed_resolution=wind_speed_resolution,
+                                 wind_angle_resolution=wind_angle_resolution,
+                                 data=data)
+    elif fmt == "array":
+        wind_speed_resolution, wind_angle_resolution, data = read_array_csv(csv_path)
+        return PolarDiagramTable(tws=tws, twa=twa,
+                                 wind_speed_resolution=wind_speed_resolution,
+                                 wind_angle_resolution=wind_angle_resolution,
+                                 data=data)
+    else:
+        raise PolarDiagramException("Not implemented", fmt)
 
 
 # V: Soweit in Ordnung
@@ -152,7 +163,7 @@ class PolarDiagram(ABC):
     polar_plot_slice(wind_speed, **kwargs)
     flat_plot_slice(wind_speed, **kwargs)
     plot_3d()
-    plot_heatmap()
+    plot_color_gradient()
     plot_convex_hull_slice(wind_speed, **kwargs)
     plot_convex_hull_3d()
     """
@@ -201,7 +212,7 @@ class PolarDiagram(ABC):
         pass
 
     @abstractmethod
-    def plot_heatmap(self, ax=None, cbar_kw=None, **kwargs):
+    def plot_color_gradient(self):
         pass
 
     @abstractmethod
@@ -252,7 +263,7 @@ class PolarDiagramTable(PolarDiagram):
         Kartesian plot of a slice(column) of the table
     plot_3d():
         3D-plot of the table
-    plot_heatmap():
+    plot_color_gradient():
 
     plot_convex_hull_slice(wind_speed, **kwargs):
         Polar plot of the convex hull of a slice(column) of the table
@@ -260,15 +271,15 @@ class PolarDiagramTable(PolarDiagram):
         3D-plot of the convex hull of the table
     """
     # V: In Arbeit
-    def __init__(self, true_wind_speed=True, true_wind_angle=True, **kwargs):
+    def __init__(self, tws=True, twa=True, **kwargs):
         """Initializes a PolarDiagramTable object
 
         :param true_wind_speed:
             Is wind_speed_resolution true wind
-        :type true_wind_speed: ``bool``
-        :param true_wind_angle:
+        :type tws: ``bool``
+        :param twa:
             Is wind_angle_resolution true wind
-        :type true_wind_angle: ``bool``
+        :type twa: ``bool``
         :param kwargs:
             See below
 
@@ -280,7 +291,7 @@ class PolarDiagramTable(PolarDiagram):
             * *data (``array_like``) --
                      (Defaults to np.zeros(rdim, cdim))
         """
-        wind_dict = convert_wind(kwargs, true_wind_speed, true_wind_angle)
+        wind_dict = convert_wind(kwargs, tws, twa)
         self._resolution_wind_speed = speed_resolution(wind_dict["wind_speed"])
         self._resolution_wind_angle = angle_resolution(wind_dict["wind_angle"])
         rows = len(self._resolution_wind_angle)
@@ -319,17 +330,17 @@ class PolarDiagramTable(PolarDiagram):
     @property
     def wind_angles(self):
         """Returns a read only version of self._resolution_wind_angle"""
-        return self._resolution_wind_angle
+        return self._resolution_wind_angle.copy()
 
     @property
     def wind_speeds(self):
         """Returns a read only version of self._resolution_wind_speed"""
-        return self._resolution_wind_speed
+        return self._resolution_wind_speed.copy()
 
     @property
     def boat_speeds(self):
         """Returns a read only version of self._data"""
-        return self._data
+        return self._data.copy()
 
     # V: Soweit in Ordnung
     def to_csv(self, csv_path):
@@ -359,18 +370,18 @@ class PolarDiagramTable(PolarDiagram):
             csv_writer.writerows(self.boat_speeds)
 
     # V: In Arbeit.
-    def change_entry(self, data, true_wind_speed=True, true_wind_angle=True, **kwargs):
+    def change_entry(self, data, tws=True, twa=True, **kwargs):
         r"""Changes specified entries in self._data
 
         :param data:
             New data that is to be added
         :type data: ``array_like``
-        :param true_wind_speed:
+        :param tws:
 
-        :type true_wind_speed: ``bool``
-        :param true_wind_angle:
+        :type tws: ``bool``
+        :param twa:
 
-        :type true_wind_angle: ``bool``
+        :type twa: ``bool``
         :param kwargs:
             See below
 
@@ -380,7 +391,7 @@ class PolarDiagramTable(PolarDiagram):
             * *wind_angle* (``Iterable``, ``int`` or ``float``) --
         """
         data = np.array(data)
-        wind_dict = convert_wind(kwargs, true_wind_speed, true_wind_angle)
+        wind_dict = convert_wind(kwargs, tws, twa)
         wind_speeds = wind_dict["wind_speed"]
         wind_angles = wind_dict["wind_angle"]
         if wind_speeds is not None:
@@ -464,11 +475,8 @@ class PolarDiagramTable(PolarDiagram):
         pass
 
     # V: In Arbeit
-    def plot_heatmap(self, ax=None, cbar_kw=None, **kwargs):
-        data = self.boat_speeds
-        col_labels = self.wind_speeds
-        row_labels = self.wind_angles
-        return heatmap(data, row_labels=row_labels, col_labels=col_labels, ax=ax, cbar_kw=cbar_kw, **kwargs)
+    def plot_color_gradient(self, min_color=np.array([1, 0, 0]), max_color=np.array([0, 1, 0])):
+        return plot_color_g(self.wind_speeds, self.wind_angles, self.boat_speeds.reshape(-1,), min_color, max_color)
 
     # V: Soweit in Ordnung
     def plot_convex_hull_slice(self, wind_speed, **kwargs):
@@ -524,6 +532,8 @@ class PolarDiagramCurve(PolarDiagram):
     flat_plot_slice(wind_speed, **kwargs):
 
     plot_3d():
+
+    plot_color_gradient():
 
     plot_convex_hull_slice(wind_speed, **kwargs):
 
@@ -645,7 +655,7 @@ class PolarDiagramCurve(PolarDiagram):
         pass
 
     # V: In Arbeit
-    def plot_heatmap(self, ax=None, cbar_kw=None, **kwargs):
+    def plot_color_gradient(self, **kwargs):
         pass
 
     # V: Noch nicht getestet
@@ -701,28 +711,31 @@ class PolarDiagramPointcloud(PolarDiagram):
     change_points():
     polar_plot_slice(wind_speed, **kwargs):
     flat_plot_slice(wind_speed, **kwargs):
+    plot_3d():
+    plot_color_gradient():
     plot_convex_hull_slice(wind_speed, **kwargs):
+    plot_convex_hull_3d():
     """
 
     # V: In Arbeit
-    def __init__(self, points=None, true_wind_speed=True, true_wind_angle=True):
+    def __init__(self, points=None, tws=True, twa=True):
         """Initializes a PolarDiagramPointcloud object
 
         :param points:
 
         :type points: ``array_like`` of shape (x, 3)
-        :param true_wind_speed:
+        :param tws:
 
-        :type true_wind_speed: ``bool``
-        :param true_wind_angle:
+        :type tws: ``bool``
+        :param twa:
 
-        :type true_wind_angle: ``bool``
+        :type twa: ``bool``
         """
         if points is not None:
             if len(points[0]) != 3:
                 raise PolarDiagramException("Wrong shape", (len(points[0]), "x"), (3, "x"))
             wind_dict = create_wind_dict(points)
-            wind_dict = convert_wind(wind_dict, true_wind_speed, true_wind_angle)
+            wind_dict = convert_wind(wind_dict, tws, twa)
             points = np.column_stack((wind_dict["wind_speed"], wind_dict["wind_angle"], points[:, 2]))
             self._data = points
         else:
@@ -757,12 +770,12 @@ class PolarDiagramPointcloud(PolarDiagram):
     # V: Noch in Arbeit
     @property
     def boat_speeds(self):
-        return self._data
+        return self._data.copy()
 
     @property
     def points(self):
         """Returns a read only version of self._data"""
-        return self._data
+        return self._data.copy()
 
     # V: Soweit in Ordnung
     def to_csv(self, csv_path):
@@ -782,24 +795,24 @@ class PolarDiagramPointcloud(PolarDiagram):
             csv_writer.writerows(self.points)
 
     # V: In Arbeit
-    def add_points(self, new_points, true_wind_speed=True, true_wind_angle=True):
+    def add_points(self, new_points, tws=True, twa=True):
         """Appends given points to self._data
 
         :param new_points:
             Points to be added to point cloud
         :type new_points: ``array like`` of shape (x, 3)
-        :param true_wind_speed:
+        :param tws:
 
-        :type true_wind_speed: ``bool``
-        :param true_wind_angle:
+        :type tws: ``bool``
+        :param twa:
 
-        :type true_wind_angle: ``bool
+        :type twa: ``bool
         """
         if len(new_points[0]) != 3:
             raise PolarDiagramException("Wrong shape", (len(new_points[0]), "x"), (3, "x"))
 
         wind_dict = create_wind_dict(new_points)
-        wind_dict = convert_wind(wind_dict, true_wind_speed, true_wind_angle)
+        wind_dict = convert_wind(wind_dict, tws, twa)
         new_points = np.column_stack(wind_dict["wind_speed"], wind_dict["wind_angle"], new_points[:, 2])
         self._data = np.row_stack((self.points, new_points))
 
@@ -858,8 +871,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         pass
 
     # V: In Arbeit
-    def plot_heatmap(self, ax=None, cbar_kw=None, **kwargs):
-        pass
+    def plot_color_gradient(self, min_color=np.array([1, 0, 0]), max_color=np.array([0, 1, 0])):
+        wind_speeds, wind_angles, boat_speeds = np.hsplit(self.points, 3)
+        return plot_color_g(wind_speeds, wind_angles, boat_speeds, min_color, max_color)
 
     # V: Soweit in Ordnung
     def plot_convex_hull_slice(self, wind_speed, **kwargs):
