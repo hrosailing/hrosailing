@@ -74,30 +74,7 @@ def create_wind_dict(points):
 
 
 # V: In Arbeit
-def convert_dict(wind_dict):
-    if "wind_speed" in wind_dict or "wind_angle" in wind_dict:
-        new_wind_dict = {"wind_speed": wind_dict["wind_speed"] if "wind_speed" in wind_dict
-                                                                  else None,
-                         "wind_angle": wind_dict["wind_angle"] if "wind_angle" in wind_dict
-                                                                  else None}
-        return new_wind_dict
-
-    elif "wind_speed_resolution" in wind_dict or "wind_angle_resolution" in wind_dict:
-        new_wind_dict = {"wind_speed": wind_dict["wind_speed_resolution"]
-                         if "wind_speed_resolution" in wind_dict
-                            else None,
-                         "wind_angle": wind_dict["wind_angle_resolution"]
-                         if "wind_angle_resolution" in wind_dict
-                            else None}
-
-        return new_wind_dict
-    else:
-        return {"wind_speed": None, "wind_angle": None}
-
-
-# V: In Arbeit
 def convert_wind(wind_dict, tws, twa):
-    wind_dict = convert_dict(wind_dict)
     if tws and twa:
         return wind_dict
     if not twa:
@@ -131,7 +108,7 @@ def angle_resolution(wind_angle_resolution):
         else:
             raise PolarDiagramException("Wrong resolution", type(wind_angle_resolution))
     else:
-        return np.array(np.arange(5, 365, 5))
+        return np.array(np.arange(0, 360, 5))
 
 
 # V: In Arbeit
@@ -152,64 +129,126 @@ def get_indices(wind_list, resolution):
 
 
 # V: Soweit in Ordnung
-def plot_polar(wind_angles, boat_speeds, **kwargs):
+def plot_polar(wind_angles, boat_speeds, ax, **kwargs):
     if "linestyle" not in kwargs and "ls" not in kwargs:
         kwargs["ls"] = ''
     if "marker" not in kwargs:
         kwargs["marker"] = 'o'
 
-    boat_speeds = [x for _, x in sorted(zip(wind_angles, boat_speeds),
-                                        key=lambda pair: pair[0])]
-    wind_angles.sort()
-    polar_plot = plt.subplot(1, 1, 1, projection='polar')
-    polar_plot.set_theta_zero_location('N')
-    polar_plot.set_theta_direction('clockwise')
-    return polar_plot.plot(wind_angles, boat_speeds, **kwargs)
+    if not ax:
+        ax = plt.gca(projection='polar')
+
+    wind_angles, boat_speeds = zip(*sorted(zip(wind_angles, boat_speeds),
+                                           key=lambda x: x[0]))
+
+    ax.set_theta_zero_location('N')
+    ax.set_theta_direction('clockwise')
+    return ax.plot(wind_angles, boat_speeds, **kwargs)
 
 
 # V: Soweit in Ordnung
-def plot_flat(wind_angles, boat_speeds, **kwargs):
+def plot_flat(wind_angles, boat_speeds, ax, **kwargs):
     if "linestyle" not in kwargs and "ls" not in kwargs:
         kwargs["ls"] = ''
     if "marker" not in kwargs:
         kwargs["marker"] = 'o'
 
-    boat_speeds = [x for _, x in sorted(zip(wind_angles, boat_speeds),
-                                        key=lambda pair: pair[0])]
-    wind_angles.sort()
-    flat_plot = plt.subplot(1, 1, 1)
-    plt.xlabel("True Wind Angle")
-    plt.ylabel("Boat Speed")
-    return flat_plot.plot(wind_angles, boat_speeds, **kwargs)
+    if not ax:
+        ax = plt.gca()
+
+    wind_angles, boat_speeds = zip(*sorted(zip(wind_angles, boat_speeds),
+                                           key=lambda x: x[0]))
+
+    ax.set_xlabel("True Wind Angle")
+    ax.set_ylabel("Boat Speed")
+    return ax.plot(wind_angles, boat_speeds, **kwargs)
 
 
 # V: In Arbeit
-def plot_color_g(wind_speeds, wind_angles, boat_speeds, min_color, max_color):
+def plot_polar_range(wind_speeds_list, wind_angles_list, boat_speeds_list,
+                     ax, min_color, max_color, **kwargs):
+    if "linestyle" not in kwargs and "ls" not in kwargs:
+        kwargs["ls"] = ''
+    if "marker" not in kwargs:
+        kwargs["marker"] = 'o'
+
+    if not ax:
+        ax = plt.gca(projection='polar')
+
+    wind_angles_list, boat_speeds_list = zip(*sorted(zip(wind_angles_list, boat_speeds_list),
+                                                     key=lambda x: x[0]))
+    wind_angles = np.column_stack(wind_angles_list)
+    boat_speeds = np.column_stack(boat_speeds_list)
+
+    ax.set_theta_zero_location('N')
+    ax.set_theta_direction('clockwise')
+
+    w_max = max(wind_speeds_list)
+    w_min = min(wind_speeds_list)
+    coeffs = [(w_val - w_min) / (w_max - w_min) for w_val in wind_speeds_list]
+    color_list = [coeff * min_color + (1 - coeff) * max_color for coeff in coeffs]
+    ax.set_prop_cycle('color', color_list)
+
+    return ax.plot(wind_angles, boat_speeds, **kwargs)
+
+
+# V: In Arbeit
+def flat_plot_range(wind_speeds_list, wind_angles_list, boat_speeds_list,
+                    ax, min_color, max_color, **kwargs):
+    if "linestyle" not in kwargs and "ls" not in kwargs:
+        kwargs["ls"] = ''
+    if "marker" not in kwargs:
+        kwargs["marker"] = 'o'
+
+    if not ax:
+        ax = plt.gca()
+
+    wind_angles_list, boat_speeds_list = zip(*sorted(zip(wind_angles_list, boat_speeds_list),
+                                                     key=lambda x: x[0]))
+    wind_angles = np.column_stack(wind_angles_list)
+    boat_speeds = np.column_stack(boat_speeds_list)
+
+    ax.set_xlabel("True Wind Angle")
+    ax.set_ylabel("Boat Speed")
+
+    w_max = max(wind_speeds_list)
+    w_min = min(wind_speeds_list)
+    coeffs = [(w_val - w_min) / (w_max - w_min) for w_val in wind_speeds_list]
+    color_list = [coeff * min_color + (1 - coeff) * max_color for coeff in coeffs]
+    ax.set_prop_cycle('color', color_list)
+
+    return ax.plot(wind_angles, boat_speeds, **kwargs)
+
+
+# V: In Arbeit
+def plot_color(wind_speeds, wind_angles, boat_speeds, ax, min_color, max_color):
+    if not ax:
+        ax = plt.gca()
+
     z_max = max(boat_speeds)
     z_min = min(boat_speeds)
     coeffs = [(z_val - z_min)/(z_max - z_min) for z_val in boat_speeds]
     color = [coeff * min_color + (1-coeff)*max_color for coeff in coeffs]
-    gradient_plot = plt.subplot(1, 1, 1)
-    return gradient_plot.scatter(wind_speeds, wind_angles, c=color)
+
+    return ax.scatter(wind_speeds, wind_angles, c=color)
 
 
 # V: Soweit in Ordnung
-def plot_convex_hull(angles, speeds, **kwargs):
-    speeds = [x for _, x in sorted(zip(angles, speeds),
-                                   key=lambda pair: pair[0])]
-    angles.sort()
+def plot_convex_hull(angles, speeds, ax, **kwargs):
+    if not ax:
+        ax = plt.gca(projection='polar')
+
+    angles, speeds = zip(*sorted(zip(angles, speeds),
+                                 key=lambda x: x[0]))
     vert = sorted(convex_hull_polar(speeds.copy(), angles.copy()).vertices)
     wind_angles = []
     boat_speeds = []
     for i in vert:
         wind_angles.append(angles[i])
         boat_speeds.append(speeds[i])
-
     wind_angles.append(wind_angles[0])
     boat_speeds.append(boat_speeds[0])
-    convex_hull_plot = plt.subplot(1, 1, 1, projection='polar')
-    convex_hull_plot.set_theta_zero_location('N')
-    convex_hull_plot.set_theta_direction('clockwise')
-    return convex_hull_plot.plot(wind_angles, boat_speeds, **kwargs)
 
-
+    ax.set_theta_zero_location('N')
+    ax.set_theta_direction('clockwise')
+    return ax.plot(wind_angles, boat_speeds, **kwargs)
