@@ -35,48 +35,75 @@ The ``hrosailing``-module defines the following functions:
 
             Parameters :
                         ``csv_path`` : ``string``
+
                                 Path where a .csv-file is located or where a new .csv-file will be created
 
                         ``obj`` : ``PolarDiagram``
-                                An ``hrosailing``.\ **PolarDiagram**\ -object which will be written to the .csv-file
 
-            Calls the .\ **to_csv**-function of the ``hrosailing``.\ **PolarDiagram**-object.
+                                An ``hrosailing``.\ **PolarDiagram** instance which will be written to the .csv-file
+
+            Calls the .\ **to_csv**-function of the ``hrosailing``.\ **PolarDiagram** instance.
 
 
-    ``hrosailing``.\ **from_csv**\(``csv_path``)
+    ``hrosailing``.\ **from_csv**\(``csv_path, fmt='hro', tws=True, twa=True``)
 
             Parameters :
                         ``csv_path`` : ``string``
+
                                 Path to an existing .csv file which you want to be read
 
-            Creates an ``hrosailing``.\ **PolarDiagram**\ -object from the data that
+                        ``fmt`` : ``string``
+
+                                | The format of the .csv file. Currently supported formats are:
+                                | ``'hro'``, ``'orc'``, ``'opencpn'``, ``'array'``
+
+                        ``tws`` : ``bool``
+
+                                | Specifies wether or not the occuring wind speeds are true wind.
+                                | Will be passed to the constructor of the ``hrosailing``.\ **PolarDiagram**
+                                | instance
+
+                        ``twa`` : ``bool``
+
+                                | Specifies wether or not the occuring wind angles are true wind
+                                | Will be passed to the constructor of the ``hrosailing``.\ **PolarDiagram**
+                                | instance
+
+            Creates an ``hrosailing``.\ **PolarDiagram** instance from the data that
             is written in the given .csv file via the ``csv``.\ **reader**-class,
             see `reader <https://docs.python.org/3/library/csv.html#csv.reader>`_.
 
-            The .csv file needs to be in the right format which is found in the documentation of the
-            corresponding .\ **to_csv**\-function or in the source code. Note that this function doesn't
-            work for the ``hrosailing``.\ **PolarDiagramCurve** class.
+            The .csv file needs to adhere to the format specified by the parameter ``fmt``.
+
+            | ``'hro'``: The format created by the ``hrosailing``.\ **to_csv** function
+            | ``'orc'``: The format found at `ORC <https://jieter.github.io/orc-data/site/>`_ (without beat and run angles)
+            | ``'opencpn'``: The format created by the `OpenCPN Polar Plugin <https://opencpn.org/OpenCPN/plugins/polar.html>`_
+            | ``'array'``:
 
 
     ``hrosailing``.\ **pickling**\(``pkl_path, obj``)
 
             Parameters :
                         ``pkl_path`` : ``string``
-                                Path to an existing .pkl file or where the created .pkl file will be located
-                        ``obj`` : ``PolarDiagram``
-                                An ``hrosailing``.\ **PolarDiagram**\ -object which will be written to the .pkl file
 
-            Calls the .\ **pickling**-function of the ``hrosailing``.\ **PolarDiagram**\ -object.
+                                Path to an existing .pkl file or where the created .pkl file will be located
+
+                        ``obj`` : ``PolarDiagram``
+
+                                An ``hrosailing``.\ **PolarDiagram** instance which will be written to the .pkl file
+
+            Calls the .\ **pickling**-function of the ``hrosailing``.\ **PolarDiagram** instance.
 
 
     ``hrosailing``.\ **depickling**\(``pkl_path``)
 
             Parameters :
                         ``pkl_path`` : ``string``
+
                                 Path to an existing .pkl file which is to be read
 
-            Creates an ``hrosailing``.\ **PolarDiagram**\ -object from the data that is written in the
-            given .pkl fil, via the ``pickle``.\ **load**-function,
+            Creates an ``hrosailing``.\ **PolarDiagram** instance from the data that is written in the
+            given .pkl file, via the ``pickle``.\ **load**-function,
             see `load <https://docs.python.org/3/library/pickle.html#pickle.load>`_.
 
 
@@ -84,19 +111,39 @@ The ``hrosailing``-module defines the following functions:
 
             Parameters :
                         ``obj`` : ``PolarDiagram``
-                                An ``hrosailing``.\ **PolarDiagram**\ -object that is to be converted to another
-                                ``hrosailing``.\ **PolarDiagram**\ -type
+
+                                An instance of a subclass of ``hrosailing``.\ **PolarDiagram**
 
                         ``convert_type`` : ``PolarDiagram``
-                                A subclass of ``hrosailing``.\ **PolarDiagram** \
 
-            For a given instance a ``hrosailing``.\ **PolarDiagram**\ -subclass, the function converts it into
-            an instance of a given ``hrosailing``.\ **PolarDiagram**\ -subclass.
+                                A subclass of ``hrosailing``.\ **PolarDiagram**
 
-            Currently only works for the classes **PolarDiagramTable** and **PolarDiagramPointcloud**
+            Converts ``obj`` to an instance of ``convert_type``. Currently only works with the subclasses
+            ``hrosailing``.\ **PolarDiagramTable** and ``hrosailing``.\ **PolarDiagramPointcloud**
 
 
-The ``hrosailing``-module defines the following classes:
+    ``hrosailing``.\ **symmetric_polar_diagram**\ (obj)
+
+            Parameters :
+                        ``obj`` : ``PolarDiagram``
+
+                                An instance of a subclass of ``hrosailing``.\ **PolarDiagram**
+
+            Symmetrizes a given instance of a subclass of ``hrosailing``.\ **PolarDiagram**.
+            I.E. for every tuple of (wind speed, wind angle, boat speed) that is contained in ``obj``
+            in some form, the function creates a new instance of the same subclass of
+            ``hrosailing``.\ **PolarDiagram**, such that the tuples (wind speed, wind angle, boat speed) and
+            (wind speed, 360 - wind angle, boat speed) are containted within it in some form.
+
+            Currently only works for the subclasses ``hrosailing``.\ **PolarDiagramTable** and
+            ``hrosailing``.\ **PolarDiagramPointcloud**
+
+            Should only be used for instances of ``hrosailing``.\ **PolarDiagramTable** if the wind speed resolution
+            ranges from 0 to 180 or 180 to 360 to avoid conflicting data
+
+
+
+The ``hrosailing``-module defines the following public classes:
 
 
     ``hrosailing``.\ **PolarDiagram**\ ()
@@ -111,115 +158,122 @@ The ``hrosailing``-module defines the following classes:
 
                             Parameters :
                                         ``pkl_path`` : ``string``
+
                                                 Path to an existing .pkl file or where the created .pkl file will be located
 
-                            Creates or overwrites a .pkl file via with the class data of the object which
-                            called the function via the ``pickle``.\ **dump**-function,
+                            Creates or overwrites a .pkl file, with the class data of the instance which
+                            called the function, via the ``pickle``.\ **dump**-function,
                             see `dump <https://docs.python.org/3/library/pickle.html#pickle.dump>`_.
 
 
             The **PolarDiagram** class also defines the following abstract methods:
 
 
-                    ``PolarDiagram``.\ **__str__**\ ()
-
-
-                    ``PolarDiagram``.\ **__repr__**\ ()
-
-
-                    ``PolarDiagram``.\ **wind_speeds**
-
-
-                    ``PolarDiagram``.\ **wind_angles**
-
-
-                    ``PolarDiagram``.\ **boat_speeds**
-
-
                     ``PolarDiagram``.\ **to_csv**\ (``csv_path``)
 
+                    ``PolarDiagram``.\ **polar_plot_slice**\ (``wind_speed, ax=None, **kwargs``)
 
-                    ``PolarDiagram``.\ **polar_plot_slice**\ (``wind_speed, **kwargs``)
+                    ``PolarDiagram``.\ **flat_plot_slice**\ (``wind_speed, ax=None, **kwargs``)
+
+                    ``PolarDiagram``.\ **polar_plot**\ (``wind_speed_range, ax=None, min_color='green',``
+
+                    ``max_color='red', **kwargs``)
+
+                    ``PolarDiagram``.\ **flat_plot**\ (``wind_speed_range, ax=None, min_color='green',``
+
+                    ``max_color='r', **kwargs``)
+
+                    ``PolarDiagram``.\ **plot_color_gradient**\ (``ax=None, min_color='green', max_color='red'``)
+
+                    ``PolarDiagram``.\ **plot_convex_hull_slice**\ (``wind_speed, ax=None, **kwargs``)
 
 
-                    ``PolarDiagram``.\ **flat_plot_slice**\ (``wind_speed, **kwargs``)
 
 
-                    ``PolarDiagram``.\ **plot_convex_hull_slice**\ (``wind_speed, **kwargs``)
+    ``hrosailing``.\ **PolarDiagramTable**\ (``wind_speed_resolution=None, wind_angle_resolution=None,``
 
-
-
-    ``hrosailing``.\ **PolarDiagramTable**\ (``true_wind_speed=True, true_wind_angle=True, **kwargs``)
+    ``data=None, tws=True, twa=True``)
 
             A class to represent, visualize and work with a polar performance diagram in form of a table.
 
+            The parameter ``wind_speed_resolution`` (resp. ``wind_angle_resolution``) can either be ``Iterable``
+            (of ``int`` and/or ``float`` values), ``int`` or ``float`` and determines the number of columns
+            (resp. rows) the Table will have.
 
-                >>> wind_angle_resolution = [52,60,75,90,110,120,135,150]
-                >>> wind_speed_resolution = [6,8,10,12,14,16,20]
-                >>> data = [[4.06,4.82,5.42,5.83,6.04,6.13,6.16],
-                ...         [4.31,5.11,5.69,6.01,6.2,6.31,6.36],
-                ...         [4.5,5.35,5.89,6.16,6.36,6.52,6.72],
-                ...         [4.45,5.31,5.91,6.21,6.44,6.66,6.99],
-                ...         [4.11,4.98,5.71,6.13,6.39,6.62,7.12],
-                ...         [3.85,4.72,5.49,6,6.29,6.53,7.03],
-                ...         [3.39,4.27,5,5.64,6.06,6.32,6.78],
-                ...         [2.91,3.78,4.5,5.15,5.72,6.09,6.55]]
-                >>> polar_table = hrosailing.PolarDiagramTable(data=data,
-                                                               wind_speed_resolution=wind_speed_resolution,
-                                                               wind_angle_resolution=wind_angle_resolution)
+            If an ``Iterable`` is passed, the number of columns (resp. rows) will be the same as the number of
+            elements in the ``Iterable``, if an ``int`` or ``float`` is passed, the number of columns (resp. rows)
+            will be the number of elements of numpy.arange(``wind_speed_resolution``, 40, ``wind_speed_resolution``)
+            (resp. numpy.arange(``wind_angle_resolution``, 360, ``wind_angle_resolution``))
 
-                Once initiated one can present the table in a nice way
+            If no custom ``wind_speed_resolution`` (resp. ``wind_angle_resolution``) is passed, it will default to
+            numpy.arange(2,42,2) (resp. numpy.arange(0, 360, 5))
 
-                >>> print(polar_table)
-                  TWA \ TWS     6     8    10    12    14  ...      10    12    14    16    20
-                -----------  ----  ----  ----  ----  ----  -----  ----  ----  ----  ----  ----
-                         52  4.06  4.82  5.42  5.83  6.04  ...    5.42  5.83  6.04  6.13  6.16
-                         60  4.31  5.11  5.69  6.01  6.2   ...    5.69  6.01  6.2   6.31  6.36
-                         75  4.5   5.35  5.89  6.16  6.36  ...    5.89  6.16  6.36  6.52  6.72
-                         90  4.45  5.31  5.91  6.21  6.44  ...    5.91  6.21  6.44  6.66  6.99
-                        110  4.11  4.98  5.71  6.13  6.39  ...    5.71  6.13  6.39  6.62  7.12
-                        120  3.85  4.72  5.49  6     6.29  ...    5.49  6     6.29  6.53  7.03
-                        135  3.39  4.27  5     5.64  6.06  ...    5     5.64  6.06  6.32  6.78
-                        150  2.91  3.78  4.5   5.15  5.72  ...    4.5   5.15  5.72  6.09  6.55
+            The parameter ``tws`` (resp. ``twa``) is a ``bool`` that specifies wether the wind speeds in
+            ``wind_speed_resolution`` (resp. the wind angles in ``wind_angle_resolution``) are
+            to be viewed as true wind.
+
+            If ``tws`` (resp. ``twa``) is set to *False*, the wind speeds (resp. wind angles) will be converted into
+            true wind.
+
+            The parameter ``data`` is a ``numpy.ndarray`` of matching shape that contains the boat speeds matching
+            the wind speeds and angles in the resolution. If no custom ``data`` is passed, it will default to
+            numpy.zeros((rdim, cdim)) where rdim and cdim are number of rows and columns respectively, determined by
+            ``wind_angle_resolution`` and ``wind_speed_resolution``
 
 
+            The **PolarDiagramTable** class has the following (private) attriubutes:
+
+                    *_resolution_wind_speed*
+
+                    *_resolution_wind_angle*
+
+                    *_data*
 
 
-            The **PolarDiagramTable** class defines the following public methods:
+            The **PolarDiagramTable** class defines the following dunder methods:
 
 
                     ``PolarDiagramTable``.\ **__str__**\ ()
-
-                            Returns a tabulate of the PolarDiagramTable object via the
-                            ``tabulate``.\ **tabulate**-function, see
-                            `tabulate <https://pypi.org/project/tabulate/>`_
-
-                            If self._resolution_wind_speed has more than 15 elements, only the first 15
-                            are used to create the table.
 
 
                     ``PolarDiagramTable``.\ **__repr__**\ ()
 
 
+                    ``PolarDiagramTable``.\ **__getitem__**\ (``wind_tup``)
+
+                            Parameters :
+                                        ``wind_tup`` : ``tuple`` of length 2
+
+                                                | Tuple to specify the row and column entry of the table, given as
+                                                | elements of the wind angle and wind speed resolution
+
+
+                            Returns specified entry of the table
+
+
+            The **PolarDiagramTable** class defines the following public methods:
+
+
                     ``PolarDiagramTable``.\ **wind_speeds**
 
-                            Returns a read only version of ``self``._resolution_wind_speed
+                            Returns a read only version of *_resolution_wind_speed*
 
 
                     ``PolarDiagramTable``.\ **wind_angles**
 
-                            Returns a read only version of ``self``._resolution_wind_angle
+                            Returns a read only version of *_resolution_wind_angle*
 
 
                     ``PolarDiagramTable``.\ **boat_speeds**
 
-                            Returns a read only version of ``self``._data
+                            Returns a read only version of *_data*
 
 
                     ``PolarDiagramTable``.\ **to_csv**\ (``csv_path``)
 
                             Parameters :
                                         ``csv_path`` : ``string``
+
                                                 Path to an existing .csv file or where the created .csv file will be located
 
                             Creates or overwrites a .csv file with the class data of object
@@ -236,115 +290,213 @@ The ``hrosailing``-module defines the following classes:
                                 | Boat speeds:
                                 | self.boat_speeds
 
-                            with the delimiter ','.
+                            with the delimiter being ','.
 
 
-                    ``PolarDiagramTable``.\ **change_entry**\ (``data, true_wind_speed=True, true_wind_angle=True, **kwargs``)
+                    ``PolarDiagramTable``.\ **change_entries**\ (``new_data, wind_speeds=None, wind_angles=None,``
+
+                    ``tws=True, twa=True``)
 
                             Parameters :
-                                        ``data`` : ``int``, ``float`` or ``array_like`` of matching shape
+                                        ``new_data`` : ``int``, ``float`` or ``array_like`` of matching shape
 
-                                        ``true_wind_speed`` : ``bool``
+                                                New data that will be written in the specified entries
 
-                                        ``true_wind_angle`` : ``bool``
+                                        ``wind_speeds`` : ``Iterable``, ``int`` or ``float``
 
-                                        ``kwargs`` : Keywords containing the entries in the "table" that are to be changed and the new data.
+                                                | Column entries where the data is to be changed, given by elements of
+                                                | the wind speed resolution
 
-                                                - ``wind_speed`` : ``int``, ``float`` or ``Iterable``
+                                        ``wind_angles`` : ``Iterable``, ``int`` or ``float``
 
-                                                - ``wind_angle`` : ``int``, ``float`` or ``Iterable``
+                                                | Row entries where the data is to be changed, given by elements of
+                                                | the wind angle resolution
 
+                                        ``tws`` : ``bool``
 
-                            Updates ``self``._data on the specified entries with the given new data.
+                                                | Specifies wether or not wind_speeds is to be viewed as true wind
+                                                | If set to *False*, ``wind_speeds`` will be converted to true wind
 
-                            >>> polar_table.change_entry(data=4,
-                            ...                          true_wind_angle=52,
-                            ...                          true_wind_speed=6)
-                            >>> print(polar_table)
-                              TWA \ TWS     6     8    10    12    14    16    20
-                            -----------  ----  ----  ----  ----  ----  ----  ----
-                                     52  4     4.82  5.42  5.83  6.04  6.13  6.16
-                                     60  4.31  5.11  5.69  6.01  6.2   6.31  6.36
-                                     75  4.5   5.35  5.89  6.16  6.36  6.52  6.72
-                                     90  4.45  5.31  5.91  6.21  6.44  6.66  6.99
-                                    110  4.11  4.98  5.71  6.13  6.39  6.62  7.12
-                                    120  3.85  4.72  5.49  6     6.29  6.53  7.03
-                                    135  3.39  4.27  5     5.64  6.06  6.32  6.78
-                                    150  2.91  3.78  4.5   5.15  5.72  6.09  6.55
+                                        ``twa`` : ``bool``
 
-                            Can be used to change a whole row/column in one go:
+                                                | Specifies wether or not wind_angles is to be viewed as true wind
+                                                | If set to *False*, ``wind_angles`` will be converted to true wind
 
-                            >>> data = [6, 6.16,6.3,6.4,6.35,6.26,6.01,6.03]
-                            >>> polar_table.change_entry(data=data,
-                            ...                          true_wind_angle=14)
-                            >>> print(polar_table)
-                              TWA \ TWS     6     8    10    12    14    16    20
-                            -----------  ----  ----  ----  ----  ----  ----  ----
-                                     52  4     4.82  5.42  5.83  6     6.13  6.16
-                                     60  4.31  5.11  5.69  6.01  6.16  6.31  6.36
-                                     75  4.5   5.35  5.89  6.16  6.3   6.52  6.72
-                                     90  4.45  5.31  5.91  6.21  6.4   6.66  6.99
-                                    110  4.11  4.98  5.71  6.13  6.35  6.62  7.12
-                                    120  3.85  4.72  5.49  6     6.26  6.53  7.03
-                                    135  3.39  4.27  5     5.64  6.01  6.32  6.78
-                                    150  2.91  3.78  4.5   5.15  6.03  6.09  6.55
+                            Changes the data in the specified entries in the table to the input new data.
+                            This function alters *_data*
 
 
-                    ``PolarDiagramTable``.\ **polar_plot_slice**\ (``wind_speed, **kwargs``)
+
+                    ``PolarDiagramTable``.\ **polar_plot_slice**\ (``wind_speed, ax=None, **kwargs``)
 
                             Parameters :
                                         ``wind_speed`` : ``int`` or ``float``
-                                                Element in ``self``.\ *_resolution_wind_speed*
 
-                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot. Supports the same keyword arguments as the ``matplotlib.pyplot``.\ **plot**-function
+                                                Slice of the polar diagram that is to be plotted, given as an element
+                                                of the wind speed resolution
 
-                            For a given column in the table corresponding to the input ``wind_speed`` ,
-                            the function returns a polar plot of the column entries together
-                            with corresponding wind angles via the ``matlibplot.pyplot``.\ **plot**-function,
-                            see `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+                                        ``ax`` : ``matplotlib.axes.Axes``
 
-                            The function supports the same appearance-keyword arguments as the
-                            ``matlibplot.pyplot``.\ **plot**-function. However, if no linestyle or marker was specified in the
-                            keywords, the function automatically adds the keywords *linestyle = ' '* and *marker = 'o'*.
+                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
+                                                | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
+                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
+                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
+                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
 
-                            >>> polar_table.polar_plot_slice(6)
+                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot.
 
+                                                | Supports the same keyword arguments as the
+                                                | ``matplotlib.pyplot``.\ **plot** function
+                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
+                                                | it will default to '' (resp. 'o')
 
-                    ``PolarDiagramTable``.\ **flat_plot_slice**\ (``wind_speed, **kwargs``)
-
-                            Parameters :
-                                        ``wind_speed`` : ``int`` or ``float``
-                                                Element in ``self``.\ *_resolution_wind_speed*
-
-                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot. Supports the same keyword arguments as the ``matplotlib.pyplot``.\ **plot**-function
-
-                            For a given column in the table corresponding to the input ``wind_speed`` ,
-                            the function returns a kartesian plot of column entries as y-coordinates together
-                            with corresponding wind angles as x-coordinates via the ``matlibplot.pyplot``.\ **plot**-function,
-                            see `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
-
-                            The function supports the same appearance-keyword arguments as the
-                            ``matlibplot.pyplot``.\ **plot**-function. However, if no linestyle or marker was specified in the
-                            keywords, the function automatically adds the keywords *linestyle = ' '* and *marker = 'o'*.
-
-                            >>> polar_table.flat_plot_slice(6)
+                            | Creates a polar plot of a given slice of the polar diagram, via the
+                            | ``matplotlib.pyplot``.\ **plot** function, see
+                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
 
 
-                    ``PolarDiagramTable``.\ **plot_convex_hull_slice**\ (``wind_speed, **kwargs``)
+
+                    ``PolarDiagramTable``.\ **flat_plot_slice**\ (``wind_speed, ax=None, **kwargs``)
 
                             Parameters :
                                         ``wind_speed`` : ``int`` or ``float``
-                                                Element in ``self``.\ *_resolution_wind_speed*
 
-                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot. Supports the same keyword arguments as the ``matplotlib.pyplot``.\ **plot**-function
+                                                Slice of the polar diagram that is to be plotted, given as an element
+                                                of the wind speed resolution
 
-                            For a given column in the table corresponding to the input ``wind_speed`` ,
-                            the function computes the convex hull of the column entries together
-                            with corresponding wind angles and returns a polar plot of
-                            the computed convex hull via the ``matplotlib.pyplot``.\ **plot**-function, see
-                            `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+                                        ``ax`` : ``matplotlib.axes.Axes``
 
-                            >>> polar_table.plot_convex_hull_slice(6)
+                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
+                                                | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
+                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
+                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
+                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+
+
+                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot.
+
+                                                | Supports the same keyword arguments as the
+                                                | ``matplotlib.pyplot``.\ **plot** function
+                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
+                                                | it will default to '' (resp. 'o')
+
+                            | Creates a cartesian plot of a given slice of the polar diagram, via the
+                            | ``matplotlib.pyplot``.\ **plot** function, see
+                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+
+
+                    ``PolarDiagramTable``.\ **polar_plot** \ (``wind_speed_range, ax=None, min_color='green',``
+
+                    ``max_color='red', **kwargs``)
+
+                            Parameters :
+                                        ``wind_speed_range`` : ``Iterable``
+
+                                                | The range of wind speeds to be plotted, given as an ``Iterable`` of
+                                                | elements of the wind speed resolution
+
+                                        ``ax`` : ``matplotlib.axes.Axes``
+
+                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
+                                                | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
+                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
+                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
+                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+
+                                        ``min_color`` :
+
+                                        ``max_color`` :
+
+                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot.
+
+                                                | Supports the same keyword arguments as the
+                                                | ``matplotlib.pyplot``.\ **plot**-function
+                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
+                                                | it will default to '' (resp. 'o')
+
+                            | Creates a color coded polar plot of multiple slices, given by ``wind_speed_range``,
+                            | of the polar diagram, via the ``matplotlib.pyplot``.\ **plot** function, see
+                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+
+
+                    ``PolarDiagramTable``.\ **flat_plot** (``wind_speed_range, ax=None,``
+
+                    ``min_color='green', max_color='red', **kwargs``)
+
+                            Parameters :
+                                        ``wind_speed_range`` : ``Iterable``
+
+                                                | The range of wind speeds to be plotted, given as an ``Iterable`` of
+                                                | elements of the wind speed resolution
+
+                                        ``ax`` : ``matplotlib.axes.Axes``
+
+                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
+                                                | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
+                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
+                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
+                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+
+                                        ``min_color`` :
+
+                                        ``max_color`` :
+
+                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot.
+
+                                                | Supports the same keyword arguments as the
+                                                | ``matplotlib.pyplot``.\ **plot**-function
+                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
+                                                | it will default to '' (resp. 'o')
+
+                            | Creates a color coded cartesian plot of multiple slices, given by ``wind_speed_range``,
+                            | of the polar diagram, via the ``matplotlib.pyplot``.\ **plot** function, see
+                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+
+
+                    ``PolarDiagramTable``.\ **plot_color_gradient**\ (``ax=None, min_color='green',``
+
+                    ``max_color='red'``)
+
+                            Parameters :
+                                        ``ax`` : ``matplotlib.axes.Axes``
+
+                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
+                                                | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
+                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
+                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
+                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+
+                                        ``min_color`` :
+
+                                        ``max_color`` :
+
+
+                    ``PolarDiagramTable``.\ **plot_convex_hull_slice**\ (``wind_speed, ax=None, **kwargs``)
+
+                            Parameters :
+                                        ``wind_speed`` : ``int`` or ``float``
+
+                                                | Slice of the polar diagram that is to be plotted, given as an element
+                                                | of the wind speed resolution
+
+                                        ``ax`` : ``matplotlib.axes.Axes``
+
+                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
+                                                | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
+                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
+                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
+                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+
+                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot.
+
+                                                | Supports the same keyword arguments as the
+                                                | ``matplotlib.pyplot``.\ **plot**-function
+
+                            | Computes the convex hull of a given slice of the polar diagram table, via the
+                            | ``scipy.spatial``.\ **ConvexHull** function, see
+                              `ConvexHull <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.ConvexHull.html>`_
+                            | and then creates a polar plot of the convex hull, via the ``matplotlib.pyplot``.\ **plot**
+                            | function, see `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
 
 
 
@@ -353,14 +505,38 @@ The ``hrosailing``-module defines the following classes:
             A class to represent, visualize and work with a polar performance diagram given as a fitted curve
             with a list of optimal parameters
 
+            The parameter ``f`` should be a function of the form ``f(x, *params)``, where ``x`` should be
+            ``array_like`` with dimension 2 (the rows should correspond to pairs of wind speeds and wind angles),
+            and determines the curve which describes the polar diagram.
 
-            The **PolarDiagramCurve** class defines the following public methods:
+            The parameter ``*params`` should contain the resulting parameters that are obtained via a fitting of ``f``.
 
 
-                    ``PolarDiagramCurve``.\ **__str__**\ ()
+            The **PolarDiagramCurve** class has the following (private) attributes:
+
+                    *_f*
+
+                    *_params*
+
+
+            The **PolarDiagramCurve** class defines the following dunder methods:
 
 
                     ``PolarDiagramCurve``.\ **__repr__**\ ()
+
+
+                    ``PolarDiagramCurve``.\ **__call__**\ (``wind_speed, wind_angle``)
+
+                            Parameters :
+                                        ``wind_speed`` : ``numpy.ndarray``, ``int`` or ``float``
+
+                                        ``wind_angle`` : ``numpy.ndarray``, ``int`` or ``float``
+
+                            Calls ``self``.\ **curve** with the specified values. ``wind_speed`` and ``wind_angle``
+                            should be of matching shape
+
+
+            The **PolarDiagramCurve** class defines the following public methods:
 
 
                     ``PolarDiagramCurve``.\ **curve**
@@ -377,6 +553,7 @@ The ``hrosailing``-module defines the following classes:
 
                             Parameters :
                                         ``csv_path`` : ``string``
+
                                                 Path to an existing .csv file or where the created .csv file will be located
 
                             Creates or overwrites a .csv file with the class data of object
@@ -386,51 +563,224 @@ The ``hrosailing``-module defines the following classes:
                             The format of the .csv file will be as follows:
 
                                 | PolarDiagramCurve
-                                | Function:
-                                | self.curve
-                                | Parameters:
-                                | self.parameters
+                                | Function: self.curve
+                                | Parameters: self.parameters
 
-                            with the delimiter ','
+                            with the delimiter ':'
 
 
-                    ``PolarDiagramCurve``.\ **polar_plot_slice**\ (``wind_speed, **kwargs``)
+                    ``PolarDiagramCurve``.\ **polar_plot_slice**\ (``wind_speed, ax=None, **kwargs``)
 
                             Parameters :
                                         ``wind_speed`` : ``int`` or ``float``
 
-                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot. Supports the same keyword arguments as the ``matplotlib.pyplot``.\ **plot**-function
+                                                | A slice of the polar diagram that is to be plotted, given as the
+                                                | true wind speed
+
+                                        ``ax`` : ``matplotlib.axes.Axes``
+
+                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
+                                                | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
+                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
+                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
+                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+
+                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot.
+
+                                                | Supports the same keyword arguments as the
+                                                | ``matplotlib.pyplot``.\ **plot**-function
+                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
+                                                | it will default to '' (resp. 'o')
+
+                            | Creates a polar plot of a given slice of the polar diagram, via the
+                            | ``matplotlib.pyplot``.\ **plot** function, see
+                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
 
 
-                    ``PolarDiagramCurve``.\ **flat_plot_slice**\ (``wind_speed, **kwargs``)
+                    ``PolarDiagramCurve``.\ **flat_plot_slice**\ (``wind_speed, ax=None, **kwargs``)
 
                             Parameters :
                                         ``wind_speed`` : ``int`` or ``float``
 
-                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot. Supports the same keyword arguments as the ``matplotlib.pyplot``.\ **plot**-function
+                                                | A slice of the polar diagram that is to be plotted, given as the
+                                                | true wind speed
+
+                                        ``ax`` : ``matplotlib.axes.Axes``
+
+                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
+                                                | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
+                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
+                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
+                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+
+                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot.
+
+                                                | Supports the same keyword arguments as the
+                                                | ``matplotlib.pyplot``.\ **plot**-function
+                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
+                                                | it will default to '' (resp. 'o')
+
+                            | Creates a cartesian plot of a given slice of the polar diagram, via the
+                            | ``matplotlib.pyplot``.\ **plot** function, see
+                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
 
 
-                    ``PolarDiagramCurve``.\ **plot_convex_hull_slice**\ (``wind_speed, **kwargs``)
+                    ``PolarDiagramCurve``.\ **polar_plot**\ (``wind_speed_range=(0,20), ax=None, min_color='green',``
+
+                    ``max_color='red', **kwargs``)
+
+                            Parameters :
+                                        ``wind_speed_range`` : ``tuple`` of length 2
+
+                                                | The range of wind speeds to be plotted, given as a lower and upper
+                                                | bound of the true wind speed
+
+                                        ``ax`` : ``matplotlib.axes.Axes``
+
+                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
+                                                | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
+                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
+                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
+                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+
+                                        ``min_color`` :
+
+                                        ``max_color`` :
+
+                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot.
+
+                                                | Supports the same keyword arguments as the
+                                                | ``matplotlib.pyplot``.\ **plot**-function
+                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
+                                                | it will default to '' (resp. 'o')
+
+                            | Creates a color coded polar plot of multiple slices, given by ``wind_speed_range``
+                            | of the polar diagram, vie the ``matplotlib.pyplot``.\ **plot** function, see
+                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+
+
+                    ``PolarDiagramCurve``.\ **flat_plot**\ (``wind_speed_range=(0,20), ax=None, min_color = 'green',``
+
+                    ``max_color='red', **kwargs``)
+
+                            Parameters :
+                                        ``wind_speed_range`` : ``tuple`` of length 2
+
+                                                | The range of wind speeds to be plotted, given as a lower and upper
+                                                | bound of the true wind speed
+
+                                        ``ax`` : ``matplotlib.axes.Axes``
+
+                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
+                                                | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
+                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
+                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
+                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+
+                                        ``min_color`` :
+
+                                        ``max_color`` :
+
+                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot.
+
+                                                | Supports the same keyword arguments as the
+                                                | ``matplotlib.pyplot``.\ **plot**-function
+                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
+                                                | it will default to '' (resp. 'o')
+
+                            | Creates a color coded cartesian plot of multiple slices, given by ``wind_speed_range``,
+                            | of the polar diagram, via the ``matplotlib.pyplot``.\ **plot** function, see
+                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+
+
+                    ``PolarDiagramCurve``.\ **plot_color_gradient**\ (``wind_speed_range=(0,20), ax=None,``
+
+                    ``min_color='green', max_color='red'``)
+
+                            Parameters :
+                                        ``wind_speed_range`` : ``tuple`` of length 2
+
+                                                | The range of wind speeds to be plotted, given as a lower and upper
+                                                | bound of the true wind speed
+
+                                        ``ax`` : ``matplotlib.axes.Axes``
+
+                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
+                                                | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
+                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
+                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
+                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+
+                                        ``min_color`` :
+
+                                        ``max_color`` :
+
+
+                    ``PolarDiagramCurve``.\ **plot_convex_hull_slice**\ (``wind_speed, ax=None **kwargs``)
 
                             Parameters :
                                         ``wind_speed`` : ``int`` or ``float``
 
-                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot. Supports the same keyword arguments as the ``matplotlib.pyplot``.\ **plot**-function
+                                                | A slice of the polar diagram that is to be plotted, given as the
+                                                | true wind speed
+
+                                        ``ax`` : ``matplotlib.axes.Axes``
+
+                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
+                                                | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
+                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
+                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
+                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+
+                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot.
+
+                                                | Supports the same keyword arguments as the
+                                                | ``matplotlib.pyplot``.\ **plot**-function
+
+                            | Computes the convex hull of a given slice of the polar diagram table, via the
+                            | ``scipy.spatial``.\ **ConvexHull** function, see
+                              `ConvexHull <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.ConvexHull.html>`_
+                            | and then creates a polar plot of the convex hull, via the ``matplotlib.pyplot``.\ **plot**
+                            | function, see `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
 
 
 
-    ``hrosailing``.\ **PolarDiagramPointcloud**\ (``points=None, true_wind_speed=True, true_wind_angle=True``)
+    ``hrosailing``.\ **PolarDiagramPointcloud**\ (``points=None, tws=True, twa=True``)
 
             A class to present, visualize and work with a polar performance diagram in form of a point cloud.
 
+            The parameter ``points`` should be ``array_like`` of shape (_, 3) and determines the points that are in
+            the point cloud at the beginning. A point should be of length 3 such that the first entry corresponds to
+            the wind speed, the second to the wind angle and the last to the boat speed.
 
-            The **PolarDiagramPointcloud** class defines the following public methods:
+            If no ``points`` are passed, it will default to an empty array numpy.array([])
 
+            The parameter ``tws`` (resp. ``twa``) specifies wether or not the wind speeds (resp. wind angles) given
+            in ``points`` should be viewed as true wind.
+
+            If ``tws`` (resp. ``twa``) is set to *False*, the wind speeds (resp. wind angles) will be converted into
+            true wind.
+
+
+            The **PolarDiagramPointcloud** class has to following (private) attributes:
+
+                    *_data*
+
+
+            The **PolarDiagramPointcloud** class defines the following dunder methods:
 
                     ``PolarDiagramPointcloud``.\ **__str__**\ ()
 
 
                     ``PolarDiagramPointcloud``.\ **__repr__**\ ()
+
+
+                    ``PolarDiagramPointcloud``\ **__getitem__**\ ()
+
+                            Returns
+
+
+            The **PolarDiagramPointcloud** class defines the following public methods:
 
 
                     ``PolarDiagramPointcloud``.\ **wind_speeds**
@@ -452,6 +802,7 @@ The ``hrosailing``-module defines the following classes:
 
                             Parameters :
                                         ``csv_path`` : ``string``
+
                                                 Path to an existing .csv file or where the created .csv file will be located
 
                             Creates or overwrites a .csv file with the class data of object
@@ -461,20 +812,30 @@ The ``hrosailing``-module defines the following classes:
                             The format of the .csv file will be as follows:
 
                                 | PolarDiagramPointcloud
-                                | True Wind Speed: ,True Wind Angle: ,Boat Speed:
+                                | True Wind Speed ,True Wind Angle ,Boat Speed
                                 | self.points
 
                             with the delimiter ','
 
 
-                    ``PolarDiagramPointcloud``.\ **add_points**\ (``new_points, true_wind_speed=True, true_wind_angle=True``)
+                    ``PolarDiagramPointcloud``.\ **add_points**\ (``new_points, tws=True, twa=True``)
 
                             Parameters :
-                                        ``new_points`` : ``array_like`` of shape (x, 3)
+                                        ``new_points`` : ``array_like`` of shape (_, 3)
 
-                                        ``true_wind_speed`` : ``bool``
+                                                | New points that are to be added to the point cloud. The point should
+                                                | be of length 3, with the first entry being the wind speed,
+                                                | the second being the wind angle and the last being the boat speed
 
-                                        ``true_wind_angle`` : ``bool``
+                                        ``tws`` : ``bool``
+
+                                                | Specifies wether or not the wind speeds are to be viewed as true wind
+                                                | If set to *False*, the given wind speeds will be converted to true wind
+
+                                        ``twa`` : ``bool``
+
+                                                | Specifies wether or not the wind angles are to be viewed as true wind
+                                                | If set to *False*, the given wind angles will be converted to true wind
 
 
                     ``PolarDiagramPointcloud``.\ **change_points**\ ()
@@ -482,35 +843,173 @@ The ``hrosailing``-module defines the following classes:
                             Parameters :
 
 
-                    ``PolarDiagramPointcloud``.\ **polar_plot_slice**\ (``wind_speed, **kwargs``)
+                    ``PolarDiagramPointcloud``.\ **polar_plot_slice**\ (``wind_speed, ax=None, **kwargs``)
 
                             Parameters :
                                         ``wind_speed`` : ``int`` or ``float``
 
-                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot. Supports the same keyword arguments as the ``matplotlib.pyplot``.\ **plot**-function
+                                                | A slice of the polar diagram that is to be plotted, given as the
+                                                | true wind speed
+
+                                        ``ax`` : ``matplotlib.axes.Axes``
+
+                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
+                                                | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
+                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
+                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
+                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+
+                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot.
+
+                                                | Supports the same keyword arguments as the
+                                                | ``matplotlib.pyplot``.\ **plot**-function
+                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
+                                                | it will default to '' (resp. 'o')
 
 
-                            >>> polar_pointcloud.polar_plot_slice(8)
-
-
-                    ``PolarDiagramPointcloud``.\ **flat_plot_slice**\ (``wind_speed, **kwargs``)
+                    ``PolarDiagramPointcloud``.\ **flat_plot_slice**\ (``wind_speed, ax=None, **kwargs``)
 
                             Parameters :
                                         ``wind_speed`` : ``int`` or ``float``
 
-                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot. Supports the same keyword arguments as the ``matplotlib.pyplot``.\ **plot**-function
+                                                | A slice of the polar diagram that is to be plotted, given as the
+                                                | true wind speed
+
+                                        ``ax`` : ``matplotlib.axes.Axes``
+
+                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
+                                                | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
+                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
+                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
+                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+
+                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot.
+
+                                                | Supports the same keyword arguments as the
+                                                | ``matplotlib.pyplot``.\ **plot**-function
+                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
+                                                | it will default to '' (resp. 'o')
+
+                            | Creates a cartesian plot of a given slice of the polar diagram, via the
+                            | ``matplotlib.pyplot``.\ **plot** function, see
+                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
 
 
-                            >>> polar_pointcloud.flat_plot_slice(8)
+                    ``PolarDiagramPointcloud``.\ **polar_plot**\ (``wind_speed_range=(0, numpy.inf),``
+
+                    ``ax=None, min_color='green', max_color='red', **kwargs``)
+
+                            Parameters :
+                                        ``wind_speed_range`` : ``tuple`` of length 2
+
+                                                | The range of wind speeds to be plotted, given as a lower and upper
+                                                | bound of the true wind speed
+
+                                        ``ax`` : ``matplotlib.axes.Axes``
+
+                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
+                                                | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
+                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
+                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
+                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+
+                                        ``min_color`` :
+
+                                        ``max_color`` :
+
+                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot.
+
+                                                | Supports the same keyword arguments as the
+                                                | ``matplotlib.pyplot``.\ **plot**-function
+                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
+                                                | it will default to '' (resp. 'o')
+
+                            | Creates a color coded polar plot of multiple slices, given by ``wind_speed_range``
+                            | of the polar diagram, vie the ``matplotlib.pyplot``.\ **plot** function, see
+                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
 
 
-                    ``PolarDiagramPointcloud``.\ **plot_convex_hull_slice**\ (``wind_speed, **kwargs``)
+                    ``PolarDiagramPointcloud``.\ **flat_plot**\ (``wind_speed_range=(0, numpy.inf),``
+
+                    ``ax=None, min_color='green', max_color='red', **kwargs``)
+
+                            Parameters :
+                                        ``wind_speed_range`` : ``tuple`` of length 2
+
+                                                | The range of wind speeds to be plotted, given as a lower and upper
+                                                | bound of the true wind speed
+
+                                        ``ax`` : ``matplotlib.axes.Axes``
+
+                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
+                                                | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
+                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
+                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
+                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+
+                                        ``min_color`` :
+
+                                        ``max_color`` :
+
+                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot.
+
+                                                | Supports the same keyword arguments as the
+                                                | ``matplotlib.pyplot``.\ **plot**-function
+                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
+                                                | it will default to '' (resp. 'o')
+
+                            | Creates a color coded cartesian plot of multiple slices, given by ``wind_speed_range``,
+                            | of the polar diagram, via the ``matplotlib.pyplot``.\ **plot** function, see
+                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+
+
+                    ``PolarDiagramPointcloud``.\ **plot_color_gradient**\ (``ax=None, min_color='green',``
+
+                    ``max_color='red'``):
+
+                            Parameters :
+                                        ``ax`` : ``matplotlib.axes.Axes``
+
+                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
+                                                | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
+                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
+                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
+                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+
+                                        ``min_color`` :
+
+                                        ``max_color`` :
+
+                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot.
+
+                                                | Supports the same keyword arguments as the
+                                                | ``matplotlib.pyplot``.\ **plot**-function
+
+
+
+                    ``PolarDiagramPointcloud``.\ **plot_convex_hull_slice**\ (``wind_speed, ax=None, **kwargs``)
 
                             Parameters :
                                         ``wind_speed`` : ``int`` or ``float``
 
-                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot. Supports the same keyword arguments as the ``matplotlib.pyplot``.\ **plot**-function
+                                                | A slice of the polar diagram that is to be plotted, given as the
+                                                | true wind speed
 
+                                        ``ax`` : ``matplotlib.axes.Axes``
 
-                            >>> polar_point_cloud.plot_convex_hull_slice(8)
+                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
+                                                | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
+                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
+                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
+                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
 
+                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot.
+
+                                                | Supports the same keyword arguments as the
+                                                | ``matplotlib.pyplot``.\ **plot**-function
+
+                            | Computes the convex hull of a given slice of the polar diagram table, via the
+                            | ``scipy.spatial``.\ **ConvexHull** function, see
+                              `ConvexHull <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.ConvexHull.html>`_
+                            | and then creates a polar plot of the convex hull, via the ``matplotlib.pyplot``.\ **plot**
+                            | function, see `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_

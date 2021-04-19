@@ -2,7 +2,7 @@
 %“Œ‹ž ReportLab Generated PDF document http://www.reportlab.com
 1 0 obj
 <<
-/F1 2 0 R /F2 3 0 R /F3 4 0 R /F4 18 0 R
+/F1 2 0 R /F2 3 0 R /F3 4 0 R /F4 17 0 R
 >>
 endobj
 2 0 obj
@@ -50,38 +50,45 @@ endobj
 endobj
 9 0 obj
 <<
-/A <<
-/S /URI /Type /Action /URI (https://docs.python.org/3/library/csv.html#csv.reader)
->> /Border [ 0 0 0 ] /Rect [ 236.8529 224.6236 265.7529 236.6236 ] /Subtype /Link /Type /Annot
->>
-endobj
-10 0 obj
-<<
-/Annots [ 5 0 R 6 0 R 7 0 R 8 0 R 9 0 R ] /Contents 35 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 34 0 R /Resources <<
+/Annots [ 5 0 R 6 0 R 7 0 R 8 0 R ] /Contents 74 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
 
 >> /Type /Page
+>>
+endobj
+10 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.python.org/3/library/csv.html#csv.reader)
+>> /Border [ 0 0 0 ] /Rect [ 252.4129 516.0236 281.3129 528.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
 11 0 obj
 <<
 /A <<
-/S /URI /Type /Action /URI (https://docs.python.org/3/library/pickle.html#pickle.load)
->> /Border [ 0 0 0 ] /Rect [ 257.0829 633.0236 275.9829 645.0236 ] /Subtype /Link /Type /Annot
+/S /URI /Type /Action /URI (https://jieter.github.io/orc-data/site/)
+>> /Border [ 0 0 0 ] /Rect [ 228.3029 468.0236 250.5229 480.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
 12 0 obj
 <<
 /A <<
-/S /URI /Type /Action /URI (https://docs.python.org/3/library/pickle.html#pickle.dump)
->> /Border [ 0 0 0 ] /Rect [ 292.3978 298.8661 317.4078 310.8661 ] /Subtype /Link /Type /Annot
+/S /URI /Type /Action /URI (https://opencpn.org/OpenCPN/plugins/polar.html)
+>> /Border [ 0 0 0 ] /Rect [ 279.5329 456.0236 381.7929 468.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
 13 0 obj
 <<
-/Annots [ 11 0 R 12 0 R ] /Contents 36 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 34 0 R /Resources <<
+/A <<
+/S /URI /Type /Action /URI (https://docs.python.org/3/library/pickle.html#pickle.load)
+>> /Border [ 0 0 0 ] /Rect [ 275.4229 222.0236 294.3229 234.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+14 0 obj
+<<
+/Annots [ 10 0 R 11 0 R 12 0 R 13 0 R ] /Contents 75 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -89,23 +96,16 @@ endobj
 >> /Type /Page
 >>
 endobj
-14 0 obj
-<<
-/A <<
-/S /URI /Type /Action /URI (https://pypi.org/project/tabulate/)
->> /Border [ 0 0 0 ] /Rect [ 294.6229 395.2884 330.2029 407.2884 ] /Subtype /Link /Type /Annot
->>
-endobj
 15 0 obj
 <<
 /A <<
-/S /URI /Type /Action /URI (https://docs.python.org/3/library/csv.html#csv.writer)
->> /Border [ 0 0 0 ] /Rect [ 273.5129 142.8661 297.9529 154.8661 ] /Subtype /Link /Type /Annot
+/S /URI /Type /Action /URI (https://docs.python.org/3/library/pickle.html#pickle.dump)
+>> /Border [ 0 0 0 ] /Rect [ 269.5028 399.0236 294.5128 411.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
 16 0 obj
 <<
-/Annots [ 14 0 R 15 0 R ] /Contents 37 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 34 0 R /Resources <<
+/Annots [ 15 0 R ] /Contents 76 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -115,43 +115,43 @@ endobj
 endobj
 17 0 obj
 <<
-/Contents 38 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 34 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 /Trans <<
-
->> 
-  /Type /Page
+/BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding /Name /F4 /Subtype /Type1 /Type /Font
 >>
 endobj
 18 0 obj
 <<
-/BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding /Name /F4 /Subtype /Type1 /Type /Font
+/A <<
+/S /URI /Type /Action /URI (https://docs.python.org/3/library/csv.html#csv.writer)
+>> /Border [ 0 0 0 ] /Rect [ 273.5129 142.8661 297.9529 154.8661 ] /Subtype /Link /Type /Annot
 >>
 endobj
 19 0 obj
 <<
-/A <<
-/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
->> /Border [ 0 0 0 ] /Rect [ 345.2929 651.0236 361.4129 663.0236 ] /Subtype /Link /Type /Annot
+/Annots [ 18 0 R ] /Contents 77 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
 >>
 endobj
 20 0 obj
 <<
 /A <<
-/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
->> /Border [ 0 0 0 ] /Rect [ 492.5729 425.8236 508.6929 437.8236 ] /Subtype /Link /Type /Annot
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html)
+>> /Border [ 0 0 0 ] /Rect [ 418.4328 184.8661 434.5528 196.8661 ] /Subtype /Link /Type /Annot
 >>
 endobj
 21 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
->> /Border [ 0 0 0 ] /Rect [ 328.6129 188.6236 344.7329 200.6236 ] /Subtype /Link /Type /Annot
+>> /Border [ 0 0 0 ] /Rect [ 307.2728 76.86614 323.3928 88.86614 ] /Subtype /Link /Type /Annot
 >>
 endobj
 22 0 obj
 <<
-/Annots [ 19 0 R 20 0 R 21 0 R ] /Contents 39 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 34 0 R /Resources <<
+/Annots [ 20 0 R 21 0 R ] /Contents 78 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -162,30 +162,34 @@ endobj
 23 0 obj
 <<
 /A <<
-/S /URI /Type /Action /URI (https://docs.python.org/3/library/csv.html#csv.writer)
->> /Border [ 0 0 0 ] /Rect [ 208.1528 519.0236 232.5928 531.0236 ] /Subtype /Link /Type /Annot
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html)
+>> /Border [ 0 0 0 ] /Rect [ 439.2229 612.0236 455.3429 624.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
 24 0 obj
 <<
-/Annots [ 23 0 R ] /Contents 40 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 34 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 
-  /Trans <<
-
->> /Type /Page
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
+>> /Border [ 0 0 0 ] /Rect [ 328.0629 504.0236 344.1829 516.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
 25 0 obj
 <<
 /A <<
-/S /URI /Type /Action /URI (https://docs.python.org/3/library/csv.html#csv.writer)
->> /Border [ 0 0 0 ] /Rect [ 107.1478 548.2661 131.5878 560.2661 ] /Subtype /Link /Type /Annot
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html)
+>> /Border [ 0 0 0 ] /Rect [ 439.2229 309.0236 455.3429 321.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
 26 0 obj
 <<
-/Annots [ 25 0 R ] /Contents 41 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 34 0 R /Resources <<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
+>> /Border [ 0 0 0 ] /Rect [ 454.7929 165.0236 470.9129 177.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+27 0 obj
+<<
+/Annots [ 23 0 R 24 0 R 25 0 R 26 0 R ] /Contents 79 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -193,55 +197,343 @@ endobj
 >> /Type /Page
 >>
 endobj
-27 0 obj
-<<
-/Contents 42 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 34 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 /Trans <<
-
->> 
-  /Type /Page
->>
-endobj
 28 0 obj
 <<
-/Outlines 30 0 R /PageLabels 43 0 R /PageMode /UseNone /Pages 34 0 R /Type /Catalog
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html)
+>> /Border [ 0 0 0 ] /Rect [ 439.2229 672.0236 455.3429 684.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
 29 0 obj
 <<
-/Author () /CreationDate (D:20210409131617-01'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20210409131617-01'00') /Producer (ReportLab PDF Library - www.reportlab.com) 
-  /Subject (\(unspecified\)) /Title (hrosailing-Module Documentation) /Trapped /False
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
+>> /Border [ 0 0 0 ] /Rect [ 454.7929 528.0236 470.9129 540.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
 30 0 obj
 <<
-/Count 3 /First 31 0 R /Last 33 0 R /Type /Outlines
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html)
+>> /Border [ 0 0 0 ] /Rect [ 439.2229 399.0236 455.3429 411.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
 31 0 obj
 <<
-/Dest [ 10 0 R /XYZ 62.69291 729.0236 0 ] /Next 32 0 R /Parent 30 0 R /Title (Dependencies)
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html)
+>> /Border [ 0 0 0 ] /Rect [ 439.2229 198.0236 455.3429 210.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
 32 0 obj
 <<
-/Dest [ 10 0 R /XYZ 62.69291 606.0236 0 ] /Next 33 0 R /Parent 30 0 R /Prev 31 0 R /Title (How To Use This Module)
+/A <<
+/S /URI /Type /Action /URI (https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.ConvexHull.html)
+>> /Border [ 0 0 0 ] /Rect [ 340.7429 114.0236 391.8629 126.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
 33 0 obj
 <<
-/Dest [ 10 0 R /XYZ 62.69291 474.6236 0 ] /Parent 30 0 R /Prev 32 0 R /Title (Contents Of This Module)
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
+>> /Border [ 0 0 0 ] /Rect [ 202.1729 90.02362 218.2929 102.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
 34 0 obj
 <<
-/Count 8 /Kids [ 10 0 R 13 0 R 16 0 R 17 0 R 22 0 R 24 0 R 26 0 R 27 0 R ] /Type /Pages
+/Annots [ 28 0 R 29 0 R 30 0 R 31 0 R 32 0 R 33 0 R ] /Contents 80 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
 >>
 endobj
 35 0 obj
 <<
-/Length 7789
+/A <<
+/S /URI /Type /Action /URI (https://docs.python.org/3/library/csv.html#csv.writer)
+>> /Border [ 0 0 0 ] /Rect [ 273.5129 303.0236 297.9529 315.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+36 0 obj
+<<
+/Annots [ 35 0 R ] /Contents 81 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
+>>
+endobj
+37 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html)
+>> /Border [ 0 0 0 ] /Rect [ 409.9428 720.0236 426.0628 732.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+38 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
+>> /Border [ 0 0 0 ] /Rect [ 298.7828 612.0236 314.9028 624.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+39 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html)
+>> /Border [ 0 0 0 ] /Rect [ 409.9428 447.0236 426.0628 459.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+40 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
+>> /Border [ 0 0 0 ] /Rect [ 298.7828 339.0236 314.9028 351.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+41 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html)
+>> /Border [ 0 0 0 ] /Rect [ 409.9428 150.0236 426.0628 162.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+42 0 obj
+<<
+/Annots [ 37 0 R 38 0 R 39 0 R 40 0 R 41 0 R ] /Contents 82 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
+>>
+endobj
+43 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
+>> /Border [ 0 0 0 ] /Rect [ 424.2378 646.8661 440.3578 658.8661 ] /Subtype /Link /Type /Annot
+>>
+endobj
+44 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html)
+>> /Border [ 0 0 0 ] /Rect [ 408.6678 463.8661 424.7878 475.8661 ] /Subtype /Link /Type /Annot
+>>
+endobj
+45 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
+>> /Border [ 0 0 0 ] /Rect [ 424.2378 319.8661 440.3578 331.8661 ] /Subtype /Link /Type /Annot
+>>
+endobj
+46 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html)
+>> /Border [ 0 0 0 ] /Rect [ 408.6678 136.8661 424.7878 148.8661 ] /Subtype /Link /Type /Annot
+>>
+endobj
+47 0 obj
+<<
+/Annots [ 43 0 R 44 0 R 45 0 R 46 0 R ] /Contents 83 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
+>>
+endobj
+48 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html)
+>> /Border [ 0 0 0 ] /Rect [ 439.2229 624.0236 455.3429 636.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+49 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.ConvexHull.html)
+>> /Border [ 0 0 0 ] /Rect [ 340.7429 540.0236 391.8629 552.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+50 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
+>> /Border [ 0 0 0 ] /Rect [ 202.1729 516.0236 218.2929 528.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+51 0 obj
+<<
+/Annots [ 48 0 R 49 0 R 50 0 R ] /Contents 84 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
+>>
+endobj
+52 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.python.org/3/library/csv.html#csv.writer)
+>> /Border [ 0 0 0 ] /Rect [ 273.5129 708.0236 297.9529 720.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+53 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html)
+>> /Border [ 0 0 0 ] /Rect [ 439.2229 216.0236 455.3429 228.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+54 0 obj
+<<
+/Annots [ 52 0 R 53 0 R ] /Contents 85 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
+>>
+endobj
+55 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html)
+>> /Border [ 0 0 0 ] /Rect [ 439.2229 688.8661 455.3429 700.8661 ] /Subtype /Link /Type /Annot
+>>
+endobj
+56 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
+>> /Border [ 0 0 0 ] /Rect [ 328.0629 580.8661 344.1829 592.8661 ] /Subtype /Link /Type /Annot
+>>
+endobj
+57 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html)
+>> /Border [ 0 0 0 ] /Rect [ 439.2229 397.8661 455.3429 409.8661 ] /Subtype /Link /Type /Annot
+>>
+endobj
+58 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
+>> /Border [ 0 0 0 ] /Rect [ 454.7929 253.8661 470.9129 265.8661 ] /Subtype /Link /Type /Annot
+>>
+endobj
+59 0 obj
+<<
+/Annots [ 55 0 R 56 0 R 57 0 R 58 0 R ] /Contents 86 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
+>>
+endobj
+60 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html)
+>> /Border [ 0 0 0 ] /Rect [ 439.2229 738.0236 455.3429 750.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+61 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
+>> /Border [ 0 0 0 ] /Rect [ 454.7929 594.0236 470.9129 606.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+62 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html)
+>> /Border [ 0 0 0 ] /Rect [ 439.2229 465.0236 455.3429 477.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+63 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html)
+>> /Border [ 0 0 0 ] /Rect [ 439.2229 210.0236 455.3429 222.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+64 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.ConvexHull.html)
+>> /Border [ 0 0 0 ] /Rect [ 340.7429 126.0236 391.8629 138.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+65 0 obj
+<<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html)
+>> /Border [ 0 0 0 ] /Rect [ 202.1729 102.0236 218.2929 114.0236 ] /Subtype /Link /Type /Annot
+>>
+endobj
+66 0 obj
+<<
+/Annots [ 60 0 R 61 0 R 62 0 R 63 0 R 64 0 R 65 0 R ] /Contents 87 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 
+  /Trans <<
+
+>> /Type /Page
+>>
+endobj
+67 0 obj
+<<
+/Outlines 69 0 R /PageLabels 88 0 R /PageMode /UseNone /Pages 73 0 R /Type /Catalog
+>>
+endobj
+68 0 obj
+<<
+/Author () /CreationDate (D:20210419163758-01'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20210419163758-01'00') /Producer (ReportLab PDF Library - www.reportlab.com) 
+  /Subject (\(unspecified\)) /Title (hrosailing-Module Documentation) /Trapped /False
+>>
+endobj
+69 0 obj
+<<
+/Count 3 /First 70 0 R /Last 72 0 R /Type /Outlines
+>>
+endobj
+70 0 obj
+<<
+/Dest [ 9 0 R /XYZ 62.69291 729.0236 0 ] /Next 71 0 R /Parent 69 0 R /Title (Dependencies)
+>>
+endobj
+71 0 obj
+<<
+/Dest [ 9 0 R /XYZ 62.69291 606.0236 0 ] /Next 72 0 R /Parent 69 0 R /Prev 70 0 R /Title (How To Use This Module)
+>>
+endobj
+72 0 obj
+<<
+/Dest [ 9 0 R /XYZ 62.69291 474.6236 0 ] /Parent 69 0 R /Prev 71 0 R /Title (Contents Of This Module)
+>>
+endobj
+73 0 obj
+<<
+/Count 14 /Kids [ 9 0 R 14 0 R 16 0 R 19 0 R 22 0 R 27 0 R 34 0 R 36 0 R 42 0 R 47 0 R 
+  51 0 R 54 0 R 59 0 R 66 0 R ] /Type /Pages
+>>
+endobj
+74 0 obj
+<<
+/Length 5557
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
@@ -476,28 +768,28 @@ q
 1 0 0 1 62.69291 429.6236 cm
 Q
 q
-1 0 0 1 62.69291 158.6236 cm
+1 0 0 1 62.69291 76.86614 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 259 cm
+1 0 0 1 20 141 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (to_csv) Tj /F1 10 Tf (\() Tj /F2 10 Tf (csv_path,) Tj ( ) Tj (obj) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 253 cm
+1 0 0 1 20 135 cm
 Q
 q
-1 0 0 1 20 162 cm
+1 0 0 1 20 36 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 79 cm
+1 0 0 1 20 87 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
@@ -508,15 +800,18 @@ q
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 48 Tm  T* ET
+BT 1 0 0 1 0 56 Tm  T* ET
 q
-1 0 0 1 20 46 cm
+1 0 0 1 20 54 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (csv_path) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (csv_path) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 31 cm
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -533,10 +828,16 @@ Q
 Q
 Q
 q
-1 0 0 1 20 15 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (obj) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (PolarDiagram) Tj T* ET
+1 0 0 1 20 36 cm
 Q
+q
+1 0 0 1 20 18 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (obj) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (PolarDiagram) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -547,11 +848,7 @@ BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (An ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (-object which will be written to the .csv-file) Tj T* ET
-Q
-Q
-q
-Q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (An ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf ( instance which will be written to the .csv-file) Tj T* ET
 Q
 Q
 q
@@ -560,28 +857,71 @@ Q
 Q
 q
 1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Calls the .) Tj /F3 10 Tf (to_csv) Tj /F1 10 Tf (-function of the ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (-object.) Tj T* ET
-Q
 Q
 q
 Q
 Q
 Q
 q
-1 0 0 1 20 162 cm
-Q
+1 0 0 1 20 0 cm
 q
-1 0 0 1 20 144 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (from_csv) Tj /F1 10 Tf (\() Tj /F2 10 Tf (csv_path) Tj /F1 10 Tf (\)) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Calls the .) Tj /F3 10 Tf (to_csv) Tj /F1 10 Tf (-function of the ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf ( instance.) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 138 cm
+Q
+Q
 Q
 q
-1 0 0 1 20 24 cm
+1 0 0 1 20 36 cm
+Q
+q
+1 0 0 1 20 18 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (from_csv) Tj /F1 10 Tf (\() Tj /F2 10 Tf (csv_path,) Tj ( ) Tj (fmt='hro',) Tj ( ) Tj (tws=True,) Tj ( ) Tj (twa=True) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+ 
+endstream
+endobj
+75 0 obj
+<<
+/Length 8857
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 87.02362 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 357 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -590,23 +930,19 @@ q
 1 0 0 1 20 102 cm
 q
 0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 72 cm
-q
-0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 17 Tm  T* ET
+BT 1 0 0 1 0 206 Tm  T* ET
 q
-1 0 0 1 20 15 cm
+1 0 0 1 20 204 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (csv_path) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (csv_path) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 0 cm
+1 0 0 1 20 198 cm
+Q
+q
+1 0 0 1 20 186 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -623,74 +959,237 @@ Q
 Q
 Q
 q
+1 0 0 1 20 186 cm
 Q
+q
+1 0 0 1 20 168 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (fmt) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 42 cm
+1 0 0 1 20 162 cm
+Q
 q
-BT 1 0 0 1 0 14 Tm .535366 Tw 12 TL /F1 10 Tf 0 0 0 rg (Creates an ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (-object from the data that is written in the given .csv file) Tj T* 0 Tw (via the ) Tj /F2 10 Tf (csv) Tj /F1 10 Tf (.) Tj /F3 10 Tf (reader) Tj /F1 10 Tf (-class, see ) Tj 0 0 .501961 rg (reader) Tj 0 0 0 rg (.) Tj T* ET
+1 0 0 1 20 132 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The format of the .csv file. Currently supported formats are:) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 26 Tm 3.021163 Tw 12 TL /F1 10 Tf 0 0 0 rg (The .csv file needs to be in the right format which is found in the documentation of the) Tj T* 0 Tw .19784 Tw (corresponding .) Tj /F3 10 Tf (to_csv) Tj /F1 10 Tf (-function or in the source code. Note that this function doesn't work for the) Tj T* 0 Tw /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagramCurve) Tj /F1 10 Tf ( class.) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg ('hro') Tj /F1 10 Tf (, ) Tj /F2 10 Tf ('orc') Tj /F1 10 Tf (, ) Tj /F2 10 Tf ('opencpn') Tj /F1 10 Tf (, ) Tj /F2 10 Tf ('array') Tj T* ET
 Q
 Q
 q
+1 0 0 1 20 0 cm
 Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 132 cm
+Q
+q
+1 0 0 1 20 114 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (tws) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (bool) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 108 cm
+Q
+q
+1 0 0 1 20 66 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 36 cm
+Q
+q
+1 0 0 1 20 24 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Specifies wether or not the occuring wind speeds are true wind.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Will be passed to the constructor of the ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (instance) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 66 cm
+Q
+q
+1 0 0 1 20 48 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (twa) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (bool) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 42 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 36 cm
+Q
+q
+1 0 0 1 20 24 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Specifies wether or not the occuring wind angles are true wind) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Will be passed to the constructor of the ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (instance) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 72 cm
+q
+BT 1 0 0 1 0 14 Tm .96229 Tw 12 TL /F1 10 Tf 0 0 0 rg (Creates an ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf ( instance from the data that is written in the given .csv) Tj T* 0 Tw (file via the ) Tj /F2 10 Tf (csv) Tj /F1 10 Tf (.) Tj /F3 10 Tf (reader) Tj /F1 10 Tf (-class, see ) Tj 0 0 .501961 rg (reader) Tj 0 0 0 rg (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 54 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The .csv file needs to adhere to the format specified by the parameter ) Tj /F2 10 Tf (fmt) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg ('hro') Tj /F1 10 Tf (: The format created by the ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (to_csv) Tj /F1 10 Tf ( function) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg ('orc') Tj /F1 10 Tf (: The format found at ) Tj 0 0 .501961 rg (ORC) Tj 0 0 0 rg ( \(without beat and run angles\)) Tj T* ET
+Q
 Q
 q
-1 0 0 1 20 6 cm
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg ('opencpn') Tj /F1 10 Tf (: The format created by the ) Tj 0 0 .501961 rg (OpenCPN Polar Plugin) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg ('array') Tj /F1 10 Tf (:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 357 cm
+Q
+q
+1 0 0 1 20 339 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (pickling) Tj /F1 10 Tf (\() Tj /F2 10 Tf (pkl_path,) Tj ( ) Tj (obj) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 0 cm
+1 0 0 1 20 333 cm
 Q
 q
-Q
-Q
-Q
-q
-1 0 0 1 62.69291 76.86614 cm
+1 0 0 1 20 234 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 46 cm
+1 0 0 1 20 87 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 0 cm
+1 0 0 1 20 18 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 33 Tm  T* ET
+BT 1 0 0 1 0 56 Tm  T* ET
 q
-1 0 0 1 20 31 cm
+1 0 0 1 20 54 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (pkl_path) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (pkl_path) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 16 cm
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -707,50 +1206,17 @@ Q
 Q
 Q
 q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (obj) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (PolarDiagram) Tj T* ET
+1 0 0 1 20 36 cm
 Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
- 
-endstream
-endobj
-36 0 obj
-<<
-/Length 8934
->>
-stream
-1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
-q
-1 0 0 1 62.69291 476.0236 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 253 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 18 cm
 q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 5 Tm  T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (obj) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (PolarDiagram) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+Q
 q
 1 0 0 1 20 0 cm
 q
@@ -760,11 +1226,7 @@ BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (An ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (-object which will be written to the .pkl file) Tj T* ET
-Q
-Q
-q
-Q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (An ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf ( instance which will be written to the .pkl file) Tj T* ET
 Q
 Q
 q
@@ -773,34 +1235,41 @@ Q
 Q
 q
 1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Calls the .) Tj /F3 10 Tf (pickling) Tj /F1 10 Tf (-function of the ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (-object.) Tj T* ET
-Q
 Q
 q
 Q
 Q
 Q
 q
-1 0 0 1 20 253 cm
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Calls the .) Tj /F3 10 Tf (pickling) Tj /F1 10 Tf (-function of the ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf ( instance.) Tj T* ET
+Q
 Q
 q
-1 0 0 1 20 235 cm
+Q
+Q
+Q
+q
+1 0 0 1 20 234 cm
+Q
+q
+1 0 0 1 20 216 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (depickling) Tj /F1 10 Tf (\() Tj /F2 10 Tf (pkl_path) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 229 cm
+1 0 0 1 20 210 cm
 Q
 q
-1 0 0 1 20 157 cm
+1 0 0 1 20 135 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 60 cm
+1 0 0 1 20 63 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
@@ -811,12 +1280,15 @@ q
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 17 Tm  T* ET
+BT 1 0 0 1 0 20 Tm  T* ET
 q
-1 0 0 1 20 15 cm
+1 0 0 1 20 18 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (pkl_path) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (pkl_path) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
 Q
+Q
+q
+1 0 0 1 20 12 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -836,13 +1308,16 @@ Q
 Q
 Q
 q
+1 0 0 1 20 0 cm
+Q
+q
 Q
 Q
 Q
 q
 1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 14 Tm .919982 Tw 12 TL /F1 10 Tf 0 0 0 rg (Creates an ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (-object from the data that is written in the given .pkl fil,) Tj T* 0 Tw (via the ) Tj /F2 10 Tf (pickle) Tj /F1 10 Tf (.) Tj /F3 10 Tf (load) Tj /F1 10 Tf (-function, see ) Tj 0 0 .501961 rg (load) Tj 0 0 0 rg (.) Tj T* ET
+BT 1 0 0 1 0 14 Tm 1.133059 Tw 12 TL /F1 10 Tf 0 0 0 rg (Creates an ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf ( instance from the data that is written in the given .pkl) Tj T* 0 Tw (file, via the ) Tj /F2 10 Tf (pickle) Tj /F1 10 Tf (.) Tj /F3 10 Tf (load) Tj /F1 10 Tf (-function, see ) Tj 0 0 .501961 rg (load) Tj 0 0 0 rg (.) Tj T* ET
 Q
 Q
 q
@@ -850,16 +1325,16 @@ Q
 Q
 Q
 q
-1 0 0 1 20 157 cm
+1 0 0 1 20 135 cm
 Q
 q
-1 0 0 1 20 139 cm
+1 0 0 1 20 117 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (convert) Tj /F1 10 Tf (\() Tj /F2 10 Tf (obj,) Tj ( ) Tj (convert_type) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 133 cm
+1 0 0 1 20 111 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -868,34 +1343,37 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 121 cm
+1 0 0 1 20 99 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
 Q
 Q
 q
+1 0 0 1 20 30 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 56 Tm  T* ET
+q
+1 0 0 1 20 54 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (obj) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (PolarDiagram) Tj T* ET
+Q
+Q
+q
 1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 60 Tm  T* ET
-q
-1 0 0 1 20 58 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (obj) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (PolarDiagram) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 31 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 14 Tm  T* ET
+BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 14 Tm 8.51122 Tw 12 TL /F1 10 Tf 0 0 0 rg (An ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (-object that is to be converted to another) Tj T* 0 Tw /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (-type) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (An instance of a subclass of ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj T* ET
 Q
 Q
 q
@@ -903,10 +1381,16 @@ Q
 Q
 Q
 q
-1 0 0 1 20 15 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (convert_type) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (PolarDiagram) Tj T* ET
+1 0 0 1 20 36 cm
 Q
+q
+1 0 0 1 20 18 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (convert_type) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (PolarDiagram) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -925,19 +1409,16 @@ Q
 Q
 Q
 q
-Q
-Q
+1 0 0 1 20 0 cm
 Q
 q
-1 0 0 1 20 18 cm
-q
-BT 1 0 0 1 0 14 Tm 1.844524 Tw 12 TL /F1 10 Tf 0 0 0 rg (For a given instance a ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (-subclass, the function converts it into an) Tj T* 0 Tw (instance of a given ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (-subclass.) Tj T* ET
+Q
 Q
 Q
 q
 1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Currently only works for the classes ) Tj /F3 10 Tf (PolarDiagramTable) Tj /F1 10 Tf ( and ) Tj /F3 10 Tf (PolarDiagramPointcloud) Tj T* ET
+BT 1 0 0 1 0 14 Tm 2.71248 Tw 12 TL /F1 10 Tf 0 0 0 rg (Converts ) Tj /F2 10 Tf (obj) Tj /F1 10 Tf ( to an instance of ) Tj /F2 10 Tf (convert_type) Tj /F1 10 Tf (. Currently only works with the subclasses) Tj T* 0 Tw /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagramTable) Tj /F1 10 Tf ( and ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagramPointcloud) Tj T* ET
 Q
 Q
 q
@@ -951,53 +1432,157 @@ q
 Q
 Q
 Q
+ 
+endstream
+endobj
+76 0 obj
+<<
+/Length 8892
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
 q
-1 0 0 1 62.69291 476.0236 cm
-Q
-q
-1 0 0 1 62.69291 458.0236 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (-module defines the following classes:) Tj T* ET
-Q
-Q
-q
-1 0 0 1 62.69291 452.0236 cm
-Q
-q
-1 0 0 1 51.3478 76.86614 cm
+1 0 0 1 62.69291 576.0236 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 354 cm
+1 0 0 1 20 177 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (symmetric_polar_diagram) Tj /F1 10 Tf (\(obj\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 171 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 159 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 126 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 20 Tm  T* ET
+q
+1 0 0 1 20 18 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (obj) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (PolarDiagram) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (An instance of a subclass of ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 60 cm
+q
+BT 1 0 0 1 0 50 Tm .626647 Tw 12 TL /F1 10 Tf 0 0 0 rg (Symmetrizes a given instance of a subclass of ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (. I.E. for every tuple) Tj T* 0 Tw 1.772485 Tw (of \(wind speed, wind angle, boat speed\) that is contained in ) Tj /F2 10 Tf (obj) Tj /F1 10 Tf ( in some form, the function) Tj T* 0 Tw 2.199147 Tw (creates a new instance of the same subclass of ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (, such that the) Tj T* 0 Tw .25686 Tw (tuples \(wind speed, wind angle, boat speed\) and \(wind speed, 360 - wind angle, boat speed\) are) Tj T* 0 Tw (containted within it in some form.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+q
+BT 1 0 0 1 0 14 Tm 11.39854 Tw 12 TL /F1 10 Tf 0 0 0 rg (Currently only works for the subclasses ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagramTable) Tj /F1 10 Tf ( and) Tj T* 0 Tw /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagramPointcloud) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 14 Tm 3.106342 Tw 12 TL /F1 10 Tf 0 0 0 rg (Should only be used for instances of ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagramTable) Tj /F1 10 Tf ( if the wind speed) Tj T* 0 Tw (resolution ranges from 0 to 180 or 180 to 360 to avoid conflicting data) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 576.0236 cm
+Q
+q
+1 0 0 1 62.69291 558.0236 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (-module defines the following public classes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 62.69291 552.0236 cm
+Q
+q
+1 0 0 1 44.0128 76.86614 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 457.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (\(\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 348 cm
+1 0 0 1 20 451.1575 cm
 Q
 q
-1 0 0 1 20 42 cm
+1 0 0 1 20 142.1575 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 294 cm
+1 0 0 1 20 297 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (An abstract base class for most classes in the ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (-module) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 276 cm
+1 0 0 1 20 279 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf ( class defines the following public methods:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 270 cm
+1 0 0 1 20 273 cm
 Q
 q
 1 0 0 1 20 180 cm
@@ -1006,13 +1591,13 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 78 cm
+1 0 0 1 20 81 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (pickling) Tj /F1 10 Tf (\() Tj /F2 10 Tf (self,) Tj ( ) Tj (pkl_path) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 72 cm
+1 0 0 1 20 75 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -1021,7 +1606,7 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 60 cm
+1 0 0 1 20 63 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
@@ -1032,12 +1617,15 @@ q
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 17 Tm  T* ET
+BT 1 0 0 1 0 20 Tm  T* ET
 q
-1 0 0 1 20 15 cm
+1 0 0 1 20 18 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (pkl_path) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (pkl_path) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
 Q
+Q
+q
+1 0 0 1 20 12 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -1057,13 +1645,16 @@ Q
 Q
 Q
 q
+1 0 0 1 20 0 cm
+Q
+q
 Q
 Q
 Q
 q
 1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 14 Tm .337647 Tw 12 TL /F1 10 Tf 0 0 0 rg (Creates or overwrites a .pkl file via with the class data of the object which called the function) Tj T* 0 Tw (via the ) Tj /F2 10 Tf (pickle) Tj /F1 10 Tf (.) Tj /F3 10 Tf (dump) Tj /F1 10 Tf (-function, see ) Tj 0 0 .501961 rg (dump) Tj 0 0 0 rg (.) Tj T* ET
+BT 1 0 0 1 0 14 Tm .252353 Tw 12 TL /F1 10 Tf 0 0 0 rg (Creates or overwrites a .pkl file, with the class data of the instance which called the function, via) Tj T* 0 Tw (the ) Tj /F2 10 Tf (pickle) Tj /F1 10 Tf (.) Tj /F3 10 Tf (dump) Tj /F1 10 Tf (-function, see ) Tj 0 0 .501961 rg (dump) Tj 0 0 0 rg (.) Tj T* ET
 Q
 Q
 q
@@ -1098,55 +1689,55 @@ BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 144 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (__str__) Tj /F1 10 Tf (\(\)) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (to_csv) Tj /F1 10 Tf (\() Tj /F2 10 Tf (csv_path) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 126 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (__repr__) Tj /F1 10 Tf (\(\)) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (polar_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (ax=None,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 108 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (wind_speeds) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (flat_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (ax=None,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 90 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (wind_angles) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (polar_plot) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed_range,) Tj ( ) Tj (ax=None,) Tj ( ) Tj (min_color='green',) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 72 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (boat_speeds) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (max_color='red',) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 54 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (to_csv) Tj /F1 10 Tf (\() Tj /F2 10 Tf (csv_path) Tj /F1 10 Tf (\)) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (flat_plot) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed_range,) Tj ( ) Tj (ax=None,) Tj ( ) Tj (min_color='green',) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 36 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (polar_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (max_color='r',) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 18 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (flat_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_color_gradient) Tj /F1 10 Tf (\() Tj /F2 10 Tf (ax=None,) Tj ( ) Tj (min_color='green',) Tj ( ) Tj (max_color='red') Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_convex_hull_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_convex_hull_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (ax=None,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
@@ -1161,16 +1752,22 @@ Q
 Q
 Q
 q
-1 0 0 1 20 42 cm
+1 0 0 1 20 142.1575 cm
 Q
 q
-1 0 0 1 20 24 cm
+1 0 0 1 20 124.1575 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagramTable) Tj /F1 10 Tf (\() Tj /F2 10 Tf (true_wind_speed=True,) Tj ( ) Tj (true_wind_angle=True,) Tj ( ) Tj (**k) Tj (wargs) Tj /F1 10 Tf (\)) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagramTable) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed_resolution=None,) Tj ( ) Tj (wind_angle_resoluti) Tj (on=None,) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 18 cm
+1 0 0 1 20 106.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (data=None,) Tj ( ) Tj (tws=True,) Tj ( ) Tj (twa=True) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 100.1575 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -1179,14 +1776,23 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 6 cm
+1 0 0 1 20 84 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (A class to represent, visualize and work with a polar performance diagram in form of a table.) Tj T* ET
 Q
 Q
 q
+1 0 0 1 20 42 cm
+q
+BT 1 0 0 1 0 26 Tm .13375 Tw 12 TL /F1 10 Tf 0 0 0 rg (The parameter ) Tj /F2 10 Tf (wind_speed_resolution) Tj /F1 10 Tf ( \(resp. ) Tj /F2 10 Tf (wind_angle_resolution) Tj /F1 10 Tf (\) can either be ) Tj /F2 10 Tf (Iterable) Tj /F1 10 Tf  T* 0 Tw 1.215 Tw (\(of ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( and/or ) Tj /F2 10 Tf (float) Tj /F1 10 Tf ( values\), ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj /F1 10 Tf ( and determines the number of columns \(resp. rows\) the) Tj T* 0 Tw (Table will have.) Tj T* ET
+Q
+Q
+q
 1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 26 Tm 2.048333 Tw 12 TL /F1 10 Tf 0 0 0 rg (If an ) Tj /F2 10 Tf (Iterable) Tj /F1 10 Tf ( is passed, the number of columns \(resp. rows\) will be the same as the number of) Tj T* 0 Tw .204211 Tw (elements in the ) Tj /F2 10 Tf (Iterable) Tj /F1 10 Tf (, if an ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj /F1 10 Tf ( is passed, the number of columns \(resp. rows\) will be the) Tj T* 0 Tw 30.454 Tw (number of elements of numpy.arange\() Tj /F2 10 Tf (wind_speed_resolution) Tj /F1 10 Tf (, 40,) Tj T* 0 Tw ET
+Q
 Q
 q
 Q
@@ -1199,9 +1805,9 @@ Q
  
 endstream
 endobj
-37 0 obj
+77 0 obj
 <<
-/Length 7133
+/Length 8142
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
@@ -1218,56 +1824,69 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 360.4222 cm
+1 0 0 1 20 670.1575 cm
+q
+BT 1 0 0 1 0 14 Tm 17.05659 Tw 12 TL /F2 10 Tf 0 0 0 rg (wind_speed_resolution) Tj /F1 10 Tf (\) \(resp. numpy.arange\() Tj /F2 10 Tf (wind_angle_resolution) Tj /F1 10 Tf (, 360,) Tj T* 0 Tw /F2 10 Tf (wind_angle_resolution) Tj /F1 10 Tf (\)\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 640.1575 cm
+q
+BT 1 0 0 1 0 14 Tm 1.549974 Tw 12 TL /F1 10 Tf 0 0 0 rg (If no custom ) Tj /F2 10 Tf (wind_speed_resolution) Tj /F1 10 Tf ( \(resp. ) Tj /F2 10 Tf (wind_angle_resolution) Tj /F1 10 Tf (\) is passed, it will) Tj T* 0 Tw (default to numpy.arange\(2,42,2\) \(resp. numpy.arange\(0, 360, 5\)\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 598.1575 cm
+q
+BT 1 0 0 1 0 26 Tm 4.744983 Tw 12 TL /F1 10 Tf 0 0 0 rg (The parameter ) Tj /F2 10 Tf (tws) Tj /F1 10 Tf ( \(resp. ) Tj /F2 10 Tf (twa) Tj /F1 10 Tf (\) is a ) Tj /F2 10 Tf (bool) Tj /F1 10 Tf ( that specifies wether the wind speeds in) Tj T* 0 Tw 2.041085 Tw /F2 10 Tf (wind_speed_resolution) Tj /F1 10 Tf ( \(resp. the wind angles in ) Tj /F2 10 Tf (wind_angle_resolution) Tj /F1 10 Tf (\) are to be) Tj T* 0 Tw (viewed as true wind.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 568.1575 cm
+q
+BT 1 0 0 1 0 14 Tm .299987 Tw 12 TL /F1 10 Tf 0 0 0 rg (If ) Tj /F2 10 Tf (tws) Tj /F1 10 Tf ( \(resp. ) Tj /F2 10 Tf (twa) Tj /F1 10 Tf (\) is set to ) Tj /F4 10 Tf (False) Tj /F1 10 Tf (, the wind speeds \(resp. wind angles\) will be converted into true) Tj T* 0 Tw (wind.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 514.1575 cm
+q
+BT 1 0 0 1 0 38 Tm 1.576905 Tw 12 TL /F1 10 Tf 0 0 0 rg (The parameter ) Tj /F2 10 Tf (data) Tj /F1 10 Tf ( is a ) Tj /F2 10 Tf (numpy.ndarray) Tj /F1 10 Tf ( of matching shape that contains the boat speeds) Tj T* 0 Tw 1.884985 Tw (matching the wind speeds and angles in the resolution. If no custom ) Tj /F2 10 Tf (data) Tj /F1 10 Tf ( is passed, it will) Tj T* 0 Tw 1.948443 Tw (default to numpy.zeros\(\(rdim, cdim\)\) where rdim and cdim are number of rows and columns) Tj T* 0 Tw (respectively, determined by ) Tj /F2 10 Tf (wind_angle_resolution) Tj /F1 10 Tf ( and ) Tj /F2 10 Tf (wind_speed_resolution) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 496.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (PolarDiagramTable) Tj /F1 10 Tf ( class has the following \(private\) attriubutes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 490.1575 cm
+Q
+q
+1 0 0 1 20 442.1575 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 177.6701 cm
-q
-q
-.851448 0 0 .851448 0 0 cm
-q
-1 0 0 1 6.6 7.751496 cm
-q
-.662745 .662745 .662745 RG
-.5 w
-.960784 .960784 .862745 rg
-n -6 -6 558 168 re B*
-Q
-q
-BT 1 0 0 1 0 146 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( wind_angle_resolution = [52,60,75,90,110,120,135,150]) Tj T* (>) Tj (>) Tj (>) Tj ( wind_speed_resolution = [6,8,10,12,14,16,20]) Tj T* (>) Tj (>) Tj (>) Tj ( data = [[4.06,4.82,5.42,5.83,6.04,6.13,6.16],) Tj T* (...         [4.31,5.11,5.69,6.01,6.2,6.31,6.36],) Tj T* (...         [4.5,5.35,5.89,6.16,6.36,6.52,6.72],) Tj T* (...         [4.45,5.31,5.91,6.21,6.44,6.66,6.99],) Tj T* (...         [4.11,4.98,5.71,6.13,6.39,6.62,7.12],) Tj T* (...         [3.85,4.72,5.49,6,6.29,6.53,7.03],) Tj T* (...         [3.39,4.27,5,5.64,6.06,6.32,6.78],) Tj T* (...         [2.91,3.78,4.5,5.15,5.72,6.09,6.55]]) Tj T* (>) Tj (>) Tj (>) Tj ( polar_table = hrosailing.PolarDiagramTable\(data=data,) Tj T* (                                               wind_speed_resolution=wind_speed_resolution,) Tj T* (                                               wind_angle_resolution=wind_angle_resolution\)) Tj T* ET
-Q
-Q
-Q
-Q
-Q
-q
-1 0 0 1 20 151.6701 cm
+1 0 0 1 20 36 cm
 q
 0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Once initiated one can present the table in a nice way) Tj T* ET
+BT 1 0 0 1 0 2 Tm /F4 10 Tf 12 TL (_resolution_wind_speed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 18 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F4 10 Tf 12 TL (_resolution_wind_angle) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 0 cm
 q
-q
-.989464 0 0 .989464 0 0 cm
-q
-1 0 0 1 6.6 6.670279 cm
-q
-.662745 .662745 .662745 RG
-.5 w
-.960784 .960784 .862745 rg
-n -6 -6 480 144 re B*
-Q
-q
-BT 1 0 0 1 0 122 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( print\(polar_table\)) Tj T* (  TWA \\ TWS     6     8    10    12    14  ...      10    12    14    16    20) Tj T* (-----------  ----  ----  ----  ----  ----  -----  ----  ----  ----  ----  ----) Tj T* (         52  4.06  4.82  5.42  5.83  6.04  ...    5.42  5.83  6.04  6.13  6.16) Tj T* (         60  4.31  5.11  5.69  6.01  6.2   ...    5.69  6.01  6.2   6.31  6.36) Tj T* (         75  4.5   5.35  5.89  6.16  6.36  ...    5.89  6.16  6.36  6.52  6.72) Tj T* (         90  4.45  5.31  5.91  6.21  6.44  ...    5.91  6.21  6.44  6.66  6.99) Tj T* (        110  4.11  4.98  5.71  6.13  6.39  ...    5.71  6.13  6.39  6.62  7.12) Tj T* (        120  3.85  4.72  5.49  6     6.29  ...    5.49  6     6.29  6.53  7.03) Tj T* (        135  3.39  4.27  5     5.64  6.06  ...    5     5.64  6.06  6.32  6.78) Tj T* (        150  2.91  3.78  4.5   5.15  5.72  ...    4.5   5.15  5.72  6.09  6.55) Tj T* ET
-Q
-Q
-Q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F4 10 Tf 12 TL (_data) Tj T* ET
 Q
 Q
 q
@@ -1275,75 +1894,156 @@ Q
 Q
 Q
 q
-1 0 0 1 20 360.4222 cm
+1 0 0 1 20 442.1575 cm
 Q
 q
-1 0 0 1 20 342.4222 cm
+1 0 0 1 20 424.1575 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (PolarDiagramTable) Tj /F1 10 Tf ( class defines the following public methods:) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (PolarDiagramTable) Tj /F1 10 Tf ( class defines the following dunder methods:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 336.4222 cm
+1 0 0 1 20 418.1575 cm
 Q
 q
-1 0 0 1 20 0 cm
+1 0 0 1 20 283.1575 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 348.4222 cm
+1 0 0 1 20 123 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (__str__) Tj /F1 10 Tf (\(\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 342.4222 cm
-Q
-q
-1 0 0 1 20 288.4222 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 30 cm
-q
-BT 1 0 0 1 0 14 Tm 16.22122 Tw 12 TL /F1 10 Tf 0 0 0 rg (Returns a tabulate of the PolarDiagramTable object via the) Tj T* 0 Tw /F2 10 Tf (tabulate) Tj /F1 10 Tf (.) Tj /F3 10 Tf (tabulate) Tj /F1 10 Tf (-function, see ) Tj 0 0 .501961 rg (tabulate) Tj  T* ET
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .403828 Tw (If self._resolution_wind_speed has more than 15 elements, only the first 15 are used to) Tj T* 0 Tw (create the table.) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 288.4222 cm
-Q
-q
-1 0 0 1 20 270.4222 cm
+1 0 0 1 20 105 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (__repr__) Tj /F1 10 Tf (\(\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 252.4222 cm
+1 0 0 1 20 87 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (__getitem__) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_tup) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 81 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 69 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 18 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 38 Tm  T* ET
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_tup) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (tuple) Tj /F1 10 Tf ( of length 2) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Tuple to specify the row and column entry of the table, given as) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (elements of the wind angle and wind speed resolution) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Returns specified entry of the table) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 283.1575 cm
+Q
+q
+1 0 0 1 20 265.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (PolarDiagramTable) Tj /F1 10 Tf ( class defines the following public methods:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 259.1575 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 265.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (wind_speeds) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 246.4222 cm
+1 0 0 1 20 259.1575 cm
 Q
 q
-1 0 0 1 20 234.4222 cm
+1 0 0 1 20 247.1575 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -1351,7 +2051,7 @@ BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Returns a read only version of ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (._resolution_wind_speed) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Returns a read only version of ) Tj /F4 10 Tf (_resolution_wind_speed) Tj T* ET
 Q
 Q
 q
@@ -1359,19 +2059,19 @@ Q
 Q
 Q
 q
-1 0 0 1 20 234.4222 cm
+1 0 0 1 20 247.1575 cm
 Q
 q
-1 0 0 1 20 216.4222 cm
+1 0 0 1 20 229.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (wind_angles) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 210.4222 cm
+1 0 0 1 20 223.1575 cm
 Q
 q
-1 0 0 1 20 198.4222 cm
+1 0 0 1 20 211.1575 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -1379,7 +2079,7 @@ BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Returns a read only version of ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (._resolution_wind_angle) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Returns a read only version of ) Tj /F4 10 Tf (_resolution_wind_angle) Tj T* ET
 Q
 Q
 q
@@ -1387,19 +2087,19 @@ Q
 Q
 Q
 q
-1 0 0 1 20 198.4222 cm
+1 0 0 1 20 211.1575 cm
 Q
 q
-1 0 0 1 20 180.4222 cm
+1 0 0 1 20 193.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (boat_speeds) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 174.4222 cm
+1 0 0 1 20 187.1575 cm
 Q
 q
-1 0 0 1 20 162.4222 cm
+1 0 0 1 20 175.1575 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -1407,7 +2107,7 @@ BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Returns a read only version of ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (._data) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Returns a read only version of ) Tj /F4 10 Tf (_data) Tj T* ET
 Q
 Q
 q
@@ -1415,16 +2115,16 @@ Q
 Q
 Q
 q
-1 0 0 1 20 162.4222 cm
+1 0 0 1 20 175.1575 cm
 Q
 q
-1 0 0 1 20 144.4222 cm
+1 0 0 1 20 157.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (to_csv) Tj /F1 10 Tf (\() Tj /F2 10 Tf (csv_path) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 138.4222 cm
+1 0 0 1 20 151.1575 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -1433,7 +2133,7 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 126 cm
+1 0 0 1 20 129 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
@@ -1444,12 +2144,15 @@ q
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 17 Tm  T* ET
+BT 1 0 0 1 0 20 Tm  T* ET
 q
-1 0 0 1 20 15 cm
+1 0 0 1 20 18 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (csv_path) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (csv_path) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
 Q
+Q
+q
+1 0 0 1 20 12 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -1467,6 +2170,9 @@ Q
 q
 Q
 Q
+Q
+q
+1 0 0 1 20 0 cm
 Q
 q
 Q
@@ -1541,14 +2247,14 @@ Q
  
 endstream
 endobj
-38 0 obj
+78 0 obj
 <<
-/Length 6005
+/Length 8313
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
 q
-1 0 0 1 5.407795 76.86614 cm
+1 0 0 1 41.9028 76.86614 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -1566,7 +2272,7 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 593.4 cm
+1 0 0 1 20 600 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -1619,7 +2325,7 @@ q
 1 0 0 1 20 0 cm
 q
 0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (with the delimiter ','.) Tj T* ET
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (with the delimiter being ','.) Tj T* ET
 Q
 Q
 q
@@ -1627,62 +2333,204 @@ Q
 Q
 Q
 q
-1 0 0 1 20 593.4 cm
+1 0 0 1 20 600 cm
 Q
 q
-1 0 0 1 20 575.4 cm
+1 0 0 1 20 582 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (change_entry) Tj /F1 10 Tf (\() Tj /F2 10 Tf (data,) Tj ( ) Tj (true_wind_speed=True,) Tj ( ) Tj (true_win) Tj (d_angle=True,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (change_entries) Tj /F1 10 Tf (\() Tj /F2 10 Tf (new_data,) Tj ( ) Tj (wind_speeds=None,) Tj ( ) Tj (wind_an) Tj (gles=None,) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 569.4 cm
+1 0 0 1 20 564 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (tws=True,) Tj ( ) Tj (twa=True) Tj /F1 10 Tf (\)) Tj T* ET
+Q
 Q
 q
-1 0 0 1 20 24 cm
+1 0 0 1 20 558 cm
+Q
+q
+1 0 0 1 20 267 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 533.4 cm
+1 0 0 1 20 279 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 422.4 cm
+1 0 0 1 20 30 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 98 Tm  T* ET
+BT 1 0 0 1 0 236 Tm  T* ET
 q
-1 0 0 1 20 96 cm
+1 0 0 1 20 234 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (data) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (float) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (array_like) Tj /F1 10 Tf ( of matching shape) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (new_data) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (float) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (array_like) Tj /F1 10 Tf ( of matching shape) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 78 cm
+1 0 0 1 20 228 cm
+Q
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (true_wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (bool) Tj T* ET
+1 0 0 1 20 216 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (New data that will be written in the specified entries) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 60 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (true_wind_angle) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (bool) Tj T* ET
+Q
 Q
 Q
 q
-1 0 0 1 20 42 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keywords containing the entries in the "table" that are to be changed and the new data.) Tj T* ET
+1 0 0 1 20 216 cm
 Q
+q
+1 0 0 1 20 198 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speeds) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (Iterable) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 192 cm
+Q
+q
+1 0 0 1 20 162 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Column entries where the data is to be changed, given by elements of) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (the wind speed resolution) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 162 cm
+Q
+q
+1 0 0 1 20 144 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_angles) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (Iterable) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 138 cm
+Q
+q
+1 0 0 1 20 108 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Row entries where the data is to be changed, given by elements of) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (the wind angle resolution) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 108 cm
+Q
+q
+1 0 0 1 20 90 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (tws) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (bool) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 84 cm
+Q
+q
+1 0 0 1 20 54 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Specifies wether or not wind_speeds is to be viewed as true wind) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If set to ) Tj /F4 10 Tf (False) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (wind_speeds) Tj /F1 10 Tf ( will be converted to true wind) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 54 cm
 Q
 q
 1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (twa) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (bool) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -1691,124 +2539,211 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 30 cm
+1 0 0 1 20 24 cm
 Q
 q
-1 0 0 1 20 30 cm
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Specifies wether or not wind_angles is to be viewed as true wind) Tj T* ET
+Q
 Q
 q
-1 0 0 1 20 18 cm
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If set to ) Tj /F4 10 Tf (False) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (wind_angles) Tj /F1 10 Tf ( will be converted to true wind) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 14 Tm .791765 Tw 12 TL /F1 10 Tf 0 0 0 rg (Changes the data in the specified entries in the table to the input new data. This function alters) Tj T* 0 Tw /F4 10 Tf (_data) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 267 cm
+Q
+q
+1 0 0 1 20 249 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (polar_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (ax=None,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 243 cm
+Q
+q
+1 0 0 1 20 0 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 6 -3 cm
+1 0 0 1 20 231 cm
 q
 0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
 Q
 Q
 q
-1 0 0 1 23 -3 cm
+1 0 0 1 20 30 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (float) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (Iterable) Tj T* ET
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 188 Tm  T* ET
+q
+1 0 0 1 20 186 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 180 cm
+Q
+q
+1 0 0 1 20 156 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .858824 Tw (Slice of the polar diagram that is to be plotted, given as an element of the wind speed) Tj T* 0 Tw (resolution) Tj T* ET
 Q
 Q
 q
 Q
+Q
+Q
+q
+1 0 0 1 20 156 cm
+Q
+q
+1 0 0 1 20 138 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 132 cm
+Q
+q
+1 0 0 1 20 78 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (A ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj /F1 10 Tf ( instance on which will be plotted on) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Needs to be a ) Tj /F2 10 Tf (matplotlib.axes_subplots.PolarAxesSubplot) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If nothing is passed, the function will create a ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (instance via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (gca) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (gca) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 78 cm
+Q
+q
+1 0 0 1 20 60 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 54 cm
 Q
 q
 1 0 0 1 20 0 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 6 -3 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL 10.5 0 Td (\177) Tj T* -10.5 0 Td ET
-Q
+1 0 0 1 20 48 cm
 Q
 q
-1 0 0 1 23 -3 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_angle) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (float) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (Iterable) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 0 cm
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 0 cm
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 404.4 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Updates ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (._data on the specified entries with the given new data.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 215.2 cm
-q
-q
-1 0 0 1 0 0 cm
-q
-1 0 0 1 6.6 6.6 cm
-q
-.662745 .662745 .662745 RG
-.5 w
-.960784 .960784 .862745 rg
-n -6 -6 424.06 180 re B*
-Q
-q
-BT 1 0 0 1 0 158 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( polar_table.change_entry\(data=4,) Tj T* (...                          true_wind_angle=52,) Tj T* (...                          true_wind_speed=6\)) Tj T* (>) Tj (>) Tj (>) Tj ( print\(polar_table\)) Tj T* (  TWA \\ TWS     6     8    10    12    14    16    20) Tj T* (-----------  ----  ----  ----  ----  ----  ----  ----) Tj T* (         52  4     4.82  5.42  5.83  6.04  6.13  6.16) Tj T* (         60  4.31  5.11  5.69  6.01  6.2   6.31  6.36) Tj T* (         75  4.5   5.35  5.89  6.16  6.36  6.52  6.72) Tj T* (         90  4.45  5.31  5.91  6.21  6.44  6.66  6.99) Tj T* (        110  4.11  4.98  5.71  6.13  6.39  6.62  7.12) Tj T* (        120  3.85  4.72  5.49  6     6.29  6.53  7.03) Tj T* (        135  3.39  4.27  5     5.64  6.06  6.32  6.78) Tj T* (        150  2.91  3.78  4.5   5.15  5.72  6.09  6.55) Tj T* ET
-Q
-Q
-Q
-Q
-Q
-q
-1 0 0 1 20 189.2 cm
+1 0 0 1 20 36 cm
 q
 0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Can be used to change a whole row/column in one go:) Tj T* ET
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Supports the same keyword arguments as the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf ( function) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (However if no 'linestyle' \(resp. 'markerstyle'\) is passed) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 0 cm
 q
-q
-1 0 0 1 0 0 cm
-q
-1 0 0 1 6.6 6.6 cm
-q
-.662745 .662745 .662745 RG
-.5 w
-.960784 .960784 .862745 rg
-n -6 -6 424.06 180 re B*
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (it will default to '' \(resp. 'o'\)) Tj T* ET
+Q
 Q
 q
-BT 1 0 0 1 0 158 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( data = [6, 6.16,6.3,6.4,6.35,6.26,6.01,6.03]) Tj T* (>) Tj (>) Tj (>) Tj ( polar_table.change_entry\(data=data,) Tj T* (...                          true_wind_angle=14\)) Tj T* (>) Tj (>) Tj (>) Tj ( print\(polar_table\)) Tj T* (  TWA \\ TWS     6     8    10    12    14    16    20) Tj T* (-----------  ----  ----  ----  ----  ----  ----  ----) Tj T* (         52  4     4.82  5.42  5.83  6     6.13  6.16) Tj T* (         60  4.31  5.11  5.69  6.01  6.16  6.31  6.36) Tj T* (         75  4.5   5.35  5.89  6.16  6.3   6.52  6.72) Tj T* (         90  4.45  5.31  5.91  6.21  6.4   6.66  6.99) Tj T* (        110  4.11  4.98  5.71  6.13  6.35  6.62  7.12) Tj T* (        120  3.85  4.72  5.49  6     6.26  6.53  7.03) Tj T* (        135  3.39  4.27  5     5.64  6.01  6.32  6.78) Tj T* (        150  2.91  3.78  4.5   5.15  6.03  6.09  6.55) Tj T* ET
+1 0 0 1 20 0 cm
+Q
+q
 Q
 Q
 Q
-Q
+q
+1 0 0 1 20 0 cm
 Q
 q
 Q
@@ -1818,9 +2753,23 @@ q
 1 0 0 1 20 24 cm
 Q
 q
-1 0 0 1 20 6 cm
+1 0 0 1 20 12 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (polar_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Creates a polar plot of a given slice of the polar diagram, via the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
 Q
 Q
 q
@@ -1841,339 +2790,12 @@ Q
  
 endstream
 endobj
-39 0 obj
+79 0 obj
 <<
-/Length 8207
+/Length 8375
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
-q
-1 0 0 1 62.69291 131.4236 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 24 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 408.4 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 189.2 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 129.2 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 47 Tm  T* ET
-q
-1 0 0 1 20 45 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F4 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 30 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Element in ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F4 10 Tf (_resolution_wind_speed) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 14 Tm 2.913615 Tw 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* 0 Tw (Supports the same keyword arguments as the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 87.2 cm
-q
-BT 1 0 0 1 0 26 Tm .85284 Tw 12 TL /F1 10 Tf 0 0 0 rg (For a given column in the table corresponding to the input ) Tj /F2 10 Tf (wind_speed) Tj /F1 10 Tf ( , the function) Tj T* 0 Tw 1.046905 Tw (returns a polar plot of the column entries together with corresponding wind angles via) Tj T* 0 Tw (the ) Tj /F2 10 Tf (matlibplot.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
-Q
-Q
-q
-1 0 0 1 20 33.2 cm
-q
-BT 1 0 0 1 0 38 Tm 9.20372 Tw 12 TL /F1 10 Tf 0 0 0 rg (The function supports the same appearance-keyword arguments as the) Tj T* 0 Tw .12664 Tw /F2 10 Tf (matlibplot.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function. However, if no linestyle or marker was specified in) Tj T* 0 Tw .540697 Tw (the keywords, the function automatically adds the keywords ) Tj /F4 10 Tf (linestyle = ' ') Tj /F1 10 Tf ( and ) Tj /F4 10 Tf (marker =) Tj T* 0 Tw ('o') Tj /F1 10 Tf (.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-q
-1 0 0 1 0 0 cm
-q
-1 0 0 1 6.6 6.6 cm
-q
-.662745 .662745 .662745 RG
-.5 w
-.960784 .960784 .862745 rg
-n -6 -6 370.6898 24 re B*
-Q
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( polar_table.polar_plot_slice\(6\)) Tj T* ET
-Q
-Q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 408.4 cm
-Q
-q
-1 0 0 1 20 390.4 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (flat_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 384.4 cm
-Q
-q
-1 0 0 1 20 183.2 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 189.2 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 129.2 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 47 Tm  T* ET
-q
-1 0 0 1 20 45 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F4 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 30 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Element in ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F4 10 Tf (_resolution_wind_speed) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 14 Tm 2.913615 Tw 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* 0 Tw (Supports the same keyword arguments as the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 87.2 cm
-q
-BT 1 0 0 1 0 26 Tm .85284 Tw 12 TL /F1 10 Tf 0 0 0 rg (For a given column in the table corresponding to the input ) Tj /F2 10 Tf (wind_speed) Tj /F1 10 Tf ( , the function) Tj T* 0 Tw .631797 Tw (returns a kartesian plot of column entries as y-coordinates together with corresponding) Tj T* 0 Tw (wind angles as x-coordinates via the ) Tj /F2 10 Tf (matlibplot.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
-Q
-Q
-q
-1 0 0 1 20 33.2 cm
-q
-BT 1 0 0 1 0 38 Tm 9.20372 Tw 12 TL /F1 10 Tf 0 0 0 rg (The function supports the same appearance-keyword arguments as the) Tj T* 0 Tw .12664 Tw /F2 10 Tf (matlibplot.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function. However, if no linestyle or marker was specified in) Tj T* 0 Tw .540697 Tw (the keywords, the function automatically adds the keywords ) Tj /F4 10 Tf (linestyle = ' ') Tj /F1 10 Tf ( and ) Tj /F4 10 Tf (marker =) Tj T* 0 Tw ('o') Tj /F1 10 Tf (.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-q
-1 0 0 1 0 0 cm
-q
-1 0 0 1 6.6 6.6 cm
-q
-.662745 .662745 .662745 RG
-.5 w
-.960784 .960784 .862745 rg
-n -6 -6 382.6898 24 re B*
-Q
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( polar_table.flat_plot_slice\(6\)) Tj T* ET
-Q
-Q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 183.2 cm
-Q
-q
-1 0 0 1 20 165.2 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_convex_hull_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 159.2 cm
-Q
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 147.2 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 87.2 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 47 Tm  T* ET
-q
-1 0 0 1 20 45 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F4 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 30 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Element in ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F4 10 Tf (_resolution_wind_speed) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 14 Tm 2.913615 Tw 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* 0 Tw (Supports the same keyword arguments as the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 33.2 cm
-q
-BT 1 0 0 1 0 38 Tm .85284 Tw 12 TL /F1 10 Tf 0 0 0 rg (For a given column in the table corresponding to the input ) Tj /F2 10 Tf (wind_speed) Tj /F1 10 Tf ( , the function) Tj T* 0 Tw -0.024186 Tw (computes the convex hull of the column entries together with corresponding wind angles) Tj T* 0 Tw 11.59361 Tw (and returns a polar plot of the computed convex hull via the) Tj T* 0 Tw /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-q
-1 0 0 1 0 0 cm
-q
-1 0 0 1 6.6 6.6 cm
-q
-.662745 .662745 .662745 RG
-.5 w
-.960784 .960784 .862745 rg
-n -6 -6 382.6898 24 re B*
-Q
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( polar_table.plot_convex_hull_slice\(6\)) Tj T* ET
-Q
-Q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 0 cm
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 0 cm
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 24 cm
-Q
-q
-1 0 0 1 20 6 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagramCurve) Tj /F1 10 Tf (\() Tj /F2 10 Tf (f,) Tj ( ) Tj (*params) Tj /F1 10 Tf (\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 0 cm
-Q
-q
-Q
-Q
-Q
 q
 1 0 0 1 62.69291 76.86614 cm
 q
@@ -2187,20 +2809,482 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 24 cm
+1 0 0 1 20 0 cm
 q
 0 0 0 rg
-BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL 1.581984 Tw (A class to represent, visualize and work with a polar performance diagram given as a fitted) Tj T* 0 Tw (curve with a list of optimal parameters) Tj T* ET
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 676.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (flat_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (ax=None,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 6 cm
+1 0 0 1 20 670.1575 cm
+Q
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (PolarDiagramCurve) Tj /F1 10 Tf ( class defines the following public methods:) Tj T* ET
+1 0 0 1 20 427.1575 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 231 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 188 Tm  T* ET
+q
+1 0 0 1 20 186 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 180 cm
+Q
+q
+1 0 0 1 20 156 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .189985 Tw (Slice of the polar diagram that is to be plotted, given as an element of the wind) Tj T* 0 Tw (speed resolution) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 156 cm
+Q
+q
+1 0 0 1 20 138 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 132 cm
+Q
+q
+1 0 0 1 20 78 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (A ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj /F1 10 Tf ( instance on which will be plotted on) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Needs to be a ) Tj /F2 10 Tf (matplotlib.axes._subplots.AxesSubplot) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If nothing is passed, the function will create a ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (instance via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (gca) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (gca) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 78 cm
+Q
+q
+1 0 0 1 20 60 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 54 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Supports the same keyword arguments as the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf ( function) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (However if no 'linestyle' \(resp. 'markerstyle'\) is passed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (it will default to '' \(resp. 'o'\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Creates a cartesian plot of a given slice of the polar diagram, via the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 427.1575 cm
+Q
+q
+1 0 0 1 20 397.1575 cm
+q
+BT 1 0 0 1 0 14 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (polar_plot) Tj /F1 10 Tf  T* (\() Tj /F2 10 Tf (wind_speed_range,) Tj ( ) Tj (ax=None,) Tj ( ) Tj (min_color='green',) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 379.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (max_color='red',) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 373.1575 cm
+Q
+q
+1 0 0 1 20 88.15748 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 273 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 230 Tm  T* ET
+q
+1 0 0 1 20 228 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed_range) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (Iterable) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 222 cm
+Q
+q
+1 0 0 1 20 192 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The range of wind speeds to be plotted, given as an ) Tj /F2 10 Tf (Iterable) Tj /F1 10 Tf ( of) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (elements of the wind speed resolution) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 192 cm
+Q
+q
+1 0 0 1 20 174 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 168 cm
+Q
+q
+1 0 0 1 20 114 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (A ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj /F1 10 Tf ( instance on which will be plotted on) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Needs to be a ) Tj /F2 10 Tf (matplotlib.axes_subplots.PolarAxesSubplot) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If nothing is passed, the function will create a ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (instance via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (gca) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (gca) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 114 cm
+Q
+q
+1 0 0 1 20 96 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (min_color) Tj /F1 10 Tf ( :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 78 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (max_color) Tj /F1 10 Tf ( :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 60 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 54 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Supports the same keyword arguments as the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (However if no 'linestyle' \(resp. 'markerstyle'\) is passed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (it will default to '' \(resp. 'o'\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Creates a color coded polar plot of multiple slices, given by ) Tj /F2 10 Tf (wind_speed_range) Tj /F1 10 Tf (,) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (of the polar diagram, via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 88.15748 cm
+Q
+q
+1 0 0 1 20 70.15748 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (flat_plot) Tj /F1 10 Tf ( \() Tj /F2 10 Tf (wind_speed_range,) Tj ( ) Tj (ax=None,) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 52.15748 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (min_color='green',) Tj ( ) Tj (max_color='red',) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 46.15748 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 21 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 8 Tm  T* ET
+q
+1 0 0 1 20 6 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed_range) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (Iterable) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
 Q
 q
 Q
@@ -2213,20 +3297,14 @@ Q
  
 endstream
 endobj
-40 0 obj
+80 0 obj
 <<
-/Length 7744
+/Length 8930
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
 q
-1 0 0 1 29.5728 76.86614 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 91.15748 cm
+1 0 0 1 62.69291 90.02362 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -2238,28 +3316,731 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 537 cm
+1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (__str__) Tj /F1 10 Tf (\(\)) Tj T* ET
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 438 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 30 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 194 Tm  T* ET
+q
+1 0 0 1 20 192 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The range of wind speeds to be plotted, given as an ) Tj /F2 10 Tf (Iterable) Tj /F1 10 Tf ( of) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 519 cm
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (elements of the wind speed resolution) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 192 cm
+Q
+q
+1 0 0 1 20 174 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 168 cm
+Q
+q
+1 0 0 1 20 114 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (A ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj /F1 10 Tf ( instance on which will be plotted on) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Needs to be a ) Tj /F2 10 Tf (matplotlib.axes._subplots.AxesSubplot) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If nothing is passed, the function will create a ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (instance via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (gca) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (gca) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 114 cm
+Q
+q
+1 0 0 1 20 96 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (min_color) Tj /F1 10 Tf ( :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 78 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (max_color) Tj /F1 10 Tf ( :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 60 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 54 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Supports the same keyword arguments as the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (However if no 'linestyle' \(resp. 'markerstyle'\) is passed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (it will default to '' \(resp. 'o'\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Creates a color coded cartesian plot of multiple slices, given by ) Tj /F2 10 Tf (wind_speed_range) Tj /F1 10 Tf (,) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (of the polar diagram, via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 438 cm
+Q
+q
+1 0 0 1 20 420 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_color_gradient) Tj /F1 10 Tf (\() Tj /F2 10 Tf (ax=None,) Tj ( ) Tj (min_color='green',) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 402 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (max_color='red') Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 396 cm
+Q
+q
+1 0 0 1 20 273 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 111 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 98 Tm  T* ET
+q
+1 0 0 1 20 96 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 90 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (A ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj /F1 10 Tf ( instance on which will be plotted on) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Needs to be a ) Tj /F2 10 Tf (matplotlib.axes._subplots.AxesSubplot) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If nothing is passed, the function will create a ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (instance via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (gca) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (gca) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 36 cm
+Q
+q
+1 0 0 1 20 18 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (min_color) Tj /F1 10 Tf ( :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (max_color) Tj /F1 10 Tf ( :) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 273 cm
+Q
+q
+1 0 0 1 20 255 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_convex_hull_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (ax=None,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 249 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 237 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 54 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 170 Tm  T* ET
+q
+1 0 0 1 20 168 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 162 cm
+Q
+q
+1 0 0 1 20 132 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Slice of the polar diagram that is to be plotted, given as an element) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (of the wind speed resolution) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 132 cm
+Q
+q
+1 0 0 1 20 114 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 108 cm
+Q
+q
+1 0 0 1 20 54 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (A ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj /F1 10 Tf ( instance on which will be plotted on) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Needs to be a ) Tj /F2 10 Tf (matplotlib.axes_subplots.PolarAxesSubplot) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If nothing is passed, the function will create a ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (instance via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (gca) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (gca) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 54 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Supports the same keyword arguments as the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Computes the convex hull of a given slice of the polar diagram table, via the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (scipy.spatial) Tj /F1 10 Tf (.) Tj /F3 10 Tf (ConvexHull) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (ConvexHull) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (and then creates a polar plot of the convex hull, via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+ 
+endstream
+endobj
+81 0 obj
+<<
+/Length 8698
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 76.86614 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 676.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagramCurve) Tj /F1 10 Tf (\() Tj /F2 10 Tf (f,) Tj ( ) Tj (*params) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 670.1575 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 658.1575 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 14 Tm /F1 10 Tf 12 TL .156235 Tw (A class to represent, visualize and work with a polar performance diagram given as a fitted curve) Tj T* 0 Tw (with a list of optimal parameters) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 616.1575 cm
+q
+BT 1 0 0 1 0 26 Tm 2.945318 Tw 12 TL /F1 10 Tf 0 0 0 rg (The parameter ) Tj /F2 10 Tf (f) Tj /F1 10 Tf ( should be a function of the form ) Tj /F2 10 Tf (f\(x,) Tj ( ) Tj (*params\)) Tj /F1 10 Tf (, where ) Tj /F2 10 Tf (x) Tj /F1 10 Tf ( should be) Tj T* 0 Tw 1.132126 Tw /F2 10 Tf (array_like) Tj /F1 10 Tf ( with dimension 2 \(the rows should correspond to pairs of wind speeds and wind) Tj T* 0 Tw (angles\), and determines the curve which describes the polar diagram.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 586.1575 cm
+q
+BT 1 0 0 1 0 14 Tm .15284 Tw 12 TL /F1 10 Tf 0 0 0 rg (The parameter ) Tj /F2 10 Tf (*params) Tj /F1 10 Tf ( should contain the resulting parameters that are obtained via a fitting of) Tj T* 0 Tw /F2 10 Tf (f) Tj /F1 10 Tf (.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 568.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (PolarDiagramCurve) Tj /F1 10 Tf ( class has the following \(private\) attributes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 562.1575 cm
+Q
+q
+1 0 0 1 20 532.1575 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 18 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F4 10 Tf 12 TL (_f) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F4 10 Tf 12 TL (_params) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 532.1575 cm
+Q
+q
+1 0 0 1 20 514.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (PolarDiagramCurve) Tj /F1 10 Tf ( class defines the following dunder methods:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 508.1575 cm
+Q
+q
+1 0 0 1 20 397.1575 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 99 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (__repr__) Tj /F1 10 Tf (\(\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 501 cm
+1 0 0 1 20 81 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (__call__) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (wind_angle) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 75 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 63 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 20 Tm  T* ET
+q
+1 0 0 1 20 18 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (numpy.ndarray) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_angle) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (numpy.ndarray) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 14 Tm .632976 Tw 12 TL /F1 10 Tf 0 0 0 rg (Calls ) Tj /F2 10 Tf (self) Tj /F1 10 Tf (.) Tj /F3 10 Tf (curve) Tj /F1 10 Tf ( with the specified values. ) Tj /F2 10 Tf (wind_speed) Tj /F1 10 Tf ( and ) Tj /F2 10 Tf (wind_angle) Tj /F1 10 Tf ( should be) Tj T* 0 Tw (of matching shape) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 397.1575 cm
+Q
+q
+1 0 0 1 20 379.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (PolarDiagramCurve) Tj /F1 10 Tf ( class defines the following public methods:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 373.1575 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 379.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (curve) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 495 cm
+1 0 0 1 20 373.1575 cm
 Q
 q
-1 0 0 1 20 483 cm
+1 0 0 1 20 361.1575 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -2275,19 +4056,19 @@ Q
 Q
 Q
 q
-1 0 0 1 20 483 cm
+1 0 0 1 20 361.1575 cm
 Q
 q
-1 0 0 1 20 465 cm
+1 0 0 1 20 343.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (parameters) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 459 cm
+1 0 0 1 20 337.1575 cm
 Q
 q
-1 0 0 1 20 447 cm
+1 0 0 1 20 325.1575 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -2303,41 +4084,44 @@ Q
 Q
 Q
 q
-1 0 0 1 20 447 cm
+1 0 0 1 20 325.1575 cm
 Q
 q
-1 0 0 1 20 429 cm
+1 0 0 1 20 307.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (to_csv) Tj /F1 10 Tf (\() Tj /F2 10 Tf (csv_path) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 423 cm
+1 0 0 1 20 301.1575 cm
 Q
 q
-1 0 0 1 20 243 cm
+1 0 0 1 20 142.1575 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 168 cm
+1 0 0 1 20 147 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 138 cm
+1 0 0 1 20 114 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 17 Tm  T* ET
+BT 1 0 0 1 0 20 Tm  T* ET
 q
-1 0 0 1 20 15 cm
+1 0 0 1 20 18 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (csv_path) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (csv_path) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
 Q
+Q
+q
+1 0 0 1 20 12 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -2357,24 +4141,27 @@ Q
 Q
 Q
 q
+1 0 0 1 20 0 cm
+Q
+q
 Q
 Q
 Q
 q
-1 0 0 1 20 108 cm
+1 0 0 1 20 84 cm
 q
-BT 1 0 0 1 0 14 Tm 2.768824 Tw 12 TL /F1 10 Tf 0 0 0 rg (Creates or overwrites a .csv file with the class data of object which called the function via the) Tj T* 0 Tw /F2 10 Tf (csv) Tj /F1 10 Tf (.) Tj /F3 10 Tf (writer) Tj /F1 10 Tf (-class, see ) Tj 0 0 .501961 rg (writer) Tj 0 0 0 rg (.) Tj T* ET
+BT 1 0 0 1 0 14 Tm .871318 Tw 12 TL /F1 10 Tf 0 0 0 rg (Creates or overwrites a .csv file with the class data of object which called the function) Tj T* 0 Tw (via the ) Tj /F2 10 Tf (csv) Tj /F1 10 Tf (.) Tj /F3 10 Tf (writer) Tj /F1 10 Tf (-class, see ) Tj 0 0 .501961 rg (writer) Tj 0 0 0 rg (.) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 90 cm
+1 0 0 1 20 66 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The format of the .csv file will be as follows:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 84 cm
+1 0 0 1 20 60 cm
 Q
 q
 1 0 0 1 20 18 cm
@@ -2383,41 +4170,111 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 60 cm
+1 0 0 1 20 36 cm
 Q
 q
-1 0 0 1 20 48 cm
+1 0 0 1 20 24 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (PolarDiagramCurve) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 36 cm
+1 0 0 1 20 12 cm
 q
 0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Function:) Tj T* ET
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Function: self.curve) Tj T* ET
 Q
 Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Parameters: self.parameters) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 18 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (with the delimiter ':') Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 142.1575 cm
+Q
+q
+1 0 0 1 20 124.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (polar_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (ax=None,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 118.1575 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 100.1575 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 87.15748 Tm  T* ET
+q
+1 0 0 1 20 85.15748 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 79.15748 cm
+Q
+q
+1 0 0 1 20 49.15748 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 24 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (self.curve) Tj T* ET
-Q
 Q
 q
 1 0 0 1 20 12 cm
 q
 0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Parameters:) Tj T* ET
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (A slice of the polar diagram that is to be plotted, given as the) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 0 cm
 q
 0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (self.parameters) Tj T* ET
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (true wind speed) Tj T* ET
 Q
 Q
 q
@@ -2428,230 +4285,48 @@ Q
 Q
 Q
 q
-1 0 0 1 20 18 cm
+1 0 0 1 20 49.15748 cm
 Q
 q
-1 0 0 1 20 0 cm
+1 0 0 1 20 31.15748 cm
 q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (with the delimiter ',') Tj T* ET
-Q
-Q
-q
-Q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 243 cm
+1 0 0 1 20 25.15748 cm
 Q
 q
-1 0 0 1 20 225 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (polar_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 219 cm
-Q
-q
-1 0 0 1 20 162 cm
+1 0 0 1 20 -4.84252 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 45 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 32 Tm  T* ET
-q
-1 0 0 1 20 30 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 14 Tm .827143 Tw 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot. Supports the same) Tj T* 0 Tw (keyword arguments as the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 162 cm
-Q
-q
-1 0 0 1 20 144 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (flat_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 138 cm
-Q
-q
-1 0 0 1 20 81 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 45 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 32 Tm  T* ET
-q
-1 0 0 1 20 30 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 14 Tm .827143 Tw 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot. Supports the same) Tj T* 0 Tw (keyword arguments as the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 81 cm
-Q
-q
-1 0 0 1 20 63 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_convex_hull_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 57 cm
-Q
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 45 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 32 Tm  T* ET
-q
-1 0 0 1 20 30 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 14 Tm .827143 Tw 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot. Supports the same) Tj T* 0 Tw (keyword arguments as the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 0 cm
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 0 cm
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 91.15748 cm
-Q
-q
-1 0 0 1 20 73.15748 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagramPointcloud) Tj /F1 10 Tf (\() Tj /F2 10 Tf (points=None,) Tj ( ) Tj (true_wind_speed=True,) Tj ( ) Tj (true_win) Tj (d_angle=True) Tj /F1 10 Tf (\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 67.15748 cm
-Q
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 36 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (A class to present, visualize and work with a polar performance diagram in form of a point cloud.) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 18 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (PolarDiagramPointcloud) Tj /F1 10 Tf ( class defines the following public methods:) Tj T* ET
-Q
+1 0 0 1 20 24 cm
 Q
 q
 1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (A ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj /F1 10 Tf ( instance on which will be plotted on) Tj T* ET
+Q
 Q
 q
 1 0 0 1 20 0 cm
 q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Needs to be a ) Tj /F2 10 Tf (matplotlib.axes_subplots.PolarAxesSubplot) Tj T* ET
+Q
+Q
 q
-1 0 0 1 20 0 cm
+Q
+Q
+Q
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (__str__) Tj /F1 10 Tf (\(\)) Tj T* ET
+Q
+Q
+Q
+q
+Q
 Q
 Q
 q
@@ -2669,14 +4344,14 @@ Q
  
 endstream
 endobj
-41 0 obj
+82 0 obj
 <<
-/Length 8174
+/Length 8577
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
 q
-1 0 0 1 8.247795 76.86614 cm
+1 0 0 1 33.4128 76.86614 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -2694,22 +4369,1427 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 675.4 cm
+1 0 0 1 20 535.1575 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 30 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 92 Tm  T* ET
+q
+1 0 0 1 20 78 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If nothing is passed, the function will create a ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (instance via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (gca) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (gca) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 78 cm
+Q
+q
+1 0 0 1 20 60 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 54 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Supports the same keyword arguments as the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (However if no 'linestyle' \(resp. 'markerstyle'\) is passed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (it will default to '' \(resp. 'o'\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Creates a polar plot of a given slice of the polar diagram, via the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 535.1575 cm
+Q
+q
+1 0 0 1 20 517.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (flat_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (ax=None,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 511.1575 cm
+Q
+q
+1 0 0 1 20 262.1575 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 237 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 194 Tm  T* ET
+q
+1 0 0 1 20 192 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 186 cm
+Q
+q
+1 0 0 1 20 156 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (A slice of the polar diagram that is to be plotted, given as the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (true wind speed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 156 cm
+Q
+q
+1 0 0 1 20 138 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 132 cm
+Q
+q
+1 0 0 1 20 78 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (A ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj /F1 10 Tf ( instance on which will be plotted on) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Needs to be a ) Tj /F2 10 Tf (matplotlib.axes._subplots.AxesSubplot) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If nothing is passed, the function will create a ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (instance via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (gca) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (gca) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 78 cm
+Q
+q
+1 0 0 1 20 60 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 54 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Supports the same keyword arguments as the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (However if no 'linestyle' \(resp. 'markerstyle'\) is passed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (it will default to '' \(resp. 'o'\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Creates a cartesian plot of a given slice of the polar diagram, via the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 262.1575 cm
+Q
+q
+1 0 0 1 20 244.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (polar_plot) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed_range=\(0,20\),) Tj ( ) Tj (ax=None,) Tj ( ) Tj (min_c) Tj (olor='green',) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 226.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (max_color='red',) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 220.1575 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 202.1575 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 189.1575 Tm  T* ET
+q
+1 0 0 1 20 187.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed_range) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (tuple) Tj /F1 10 Tf ( of length 2) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 181.1575 cm
+Q
+q
+1 0 0 1 20 151.1575 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The range of wind speeds to be plotted, given as a lower and upper) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (bound of the true wind speed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 151.1575 cm
+Q
+q
+1 0 0 1 20 133.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 127.1575 cm
+Q
+q
+1 0 0 1 20 73.15748 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (A ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj /F1 10 Tf ( instance on which will be plotted on) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Needs to be a ) Tj /F2 10 Tf (matplotlib.axes_subplots.PolarAxesSubplot) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If nothing is passed, the function will create a ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (instance via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (gca) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (gca) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 73.15748 cm
+Q
+q
+1 0 0 1 20 55.15748 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (min_color) Tj /F1 10 Tf ( :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 37.15748 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (max_color) Tj /F1 10 Tf ( :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 19.15748 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 13.15748 cm
+Q
+q
+1 0 0 1 20 1.15748 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+ 
+endstream
+endobj
+83 0 obj
+<<
+/Length 8270
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 32.1378 76.86614 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 570 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 30 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 38 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 36 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Supports the same keyword arguments as the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (However if no 'linestyle' \(resp. 'markerstyle'\) is passed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (it will default to '' \(resp. 'o'\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Creates a color coded polar plot of multiple slices, given by ) Tj /F2 10 Tf (wind_speed_range) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (of the polar diagram, vie the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 570 cm
+Q
+q
+1 0 0 1 20 552 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (flat_plot) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed_range=\(0,20\),) Tj ( ) Tj (ax=None,) Tj ( ) Tj (min_co) Tj (lor) Tj ( ) Tj (=) Tj ( ) Tj ('green',) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 534 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (max_color='red',) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 528 cm
+Q
+q
+1 0 0 1 20 243 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 273 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 230 Tm  T* ET
+q
+1 0 0 1 20 228 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed_range) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (tuple) Tj /F1 10 Tf ( of length 2) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 222 cm
+Q
+q
+1 0 0 1 20 192 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The range of wind speeds to be plotted, given as a lower and upper) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (bound of the true wind speed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 192 cm
+Q
+q
+1 0 0 1 20 174 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 168 cm
+Q
+q
+1 0 0 1 20 114 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (A ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj /F1 10 Tf ( instance on which will be plotted on) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Needs to be a ) Tj /F2 10 Tf (matplotlib.axes._subplots.AxesSubplot) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If nothing is passed, the function will create a ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (instance via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (gca) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (gca) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 114 cm
+Q
+q
+1 0 0 1 20 96 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (min_color) Tj /F1 10 Tf ( :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 78 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (max_color) Tj /F1 10 Tf ( :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 60 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 54 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Supports the same keyword arguments as the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (However if no 'linestyle' \(resp. 'markerstyle'\) is passed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (it will default to '' \(resp. 'o'\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Creates a color coded cartesian plot of multiple slices, given by ) Tj /F2 10 Tf (wind_speed_range) Tj /F1 10 Tf (,) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (of the polar diagram, via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 243 cm
+Q
+q
+1 0 0 1 20 225 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_color_gradient) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed_range=\(0,20\),) Tj ( ) Tj (ax=Non) Tj (e,) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 207 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (min_color='green',) Tj ( ) Tj (max_color='red') Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 201 cm
+Q
+q
+1 0 0 1 20 24 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 165 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 152 Tm  T* ET
+q
+1 0 0 1 20 150 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed_range) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (tuple) Tj /F1 10 Tf ( of length 2) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 144 cm
+Q
+q
+1 0 0 1 20 114 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The range of wind speeds to be plotted, given as a lower and upper) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (bound of the true wind speed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 114 cm
+Q
+q
+1 0 0 1 20 96 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 90 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (A ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj /F1 10 Tf ( instance on which will be plotted on) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Needs to be a ) Tj /F2 10 Tf (matplotlib.axes._subplots.AxesSubplot) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If nothing is passed, the function will create a ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (instance via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (gca) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (gca) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 36 cm
+Q
+q
+1 0 0 1 20 18 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (min_color) Tj /F1 10 Tf ( :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (max_color) Tj /F1 10 Tf ( :) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 6 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramCurve) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_convex_hull_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (ax=None) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+ 
+endstream
+endobj
+84 0 obj
+<<
+/Length 8829
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 76.86614 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 439.1575 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 237 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 54 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 170 Tm  T* ET
+q
+1 0 0 1 20 168 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 162 cm
+Q
+q
+1 0 0 1 20 132 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (A slice of the polar diagram that is to be plotted, given as the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (true wind speed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 132 cm
+Q
+q
+1 0 0 1 20 114 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 108 cm
+Q
+q
+1 0 0 1 20 54 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (A ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj /F1 10 Tf ( instance on which will be plotted on) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Needs to be a ) Tj /F2 10 Tf (matplotlib.axes_subplots.PolarAxesSubplot) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If nothing is passed, the function will create a ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (instance via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (gca) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (gca) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 54 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Supports the same keyword arguments as the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Computes the convex hull of a given slice of the polar diagram table, via the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (scipy.spatial) Tj /F1 10 Tf (.) Tj /F3 10 Tf (ConvexHull) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (ConvexHull) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (and then creates a polar plot of the convex hull, via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 439.1575 cm
+Q
+q
+1 0 0 1 20 421.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagramPointcloud) Tj /F1 10 Tf (\() Tj /F2 10 Tf (points=None,) Tj ( ) Tj (tws=True,) Tj ( ) Tj (twa=True) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 415.1575 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 403.1575 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (A class to present, visualize and work with a polar performance diagram in form of a point cloud.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 361.1575 cm
+q
+BT 1 0 0 1 0 26 Tm .860697 Tw 12 TL /F1 10 Tf 0 0 0 rg (The parameter ) Tj /F2 10 Tf (points) Tj /F1 10 Tf ( should be ) Tj /F2 10 Tf (array_like) Tj /F1 10 Tf ( of shape \(_, 3\) and determines the points that) Tj T* 0 Tw 1.414198 Tw (are in the point cloud at the beginning. A point should be of length 3 such that the first entry) Tj T* 0 Tw (corresponds to the wind speed, the second to the wind angle and the last to the boat speed.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 343.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If no ) Tj /F2 10 Tf (points) Tj /F1 10 Tf ( are passed, it will default to an empty array numpy.array\([]\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 313.1575 cm
+q
+BT 1 0 0 1 0 14 Tm -0.047349 Tw 12 TL /F1 10 Tf 0 0 0 rg (The parameter ) Tj /F2 10 Tf (tws) Tj /F1 10 Tf ( \(resp. ) Tj /F2 10 Tf (twa) Tj /F1 10 Tf (\) specifies wether or not the wind speeds \(resp. wind angles\) given) Tj T* 0 Tw (in ) Tj /F2 10 Tf (points) Tj /F1 10 Tf ( should be viewed as true wind.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 283.1575 cm
+q
+BT 1 0 0 1 0 14 Tm .299987 Tw 12 TL /F1 10 Tf 0 0 0 rg (If ) Tj /F2 10 Tf (tws) Tj /F1 10 Tf ( \(resp. ) Tj /F2 10 Tf (twa) Tj /F1 10 Tf (\) is set to ) Tj /F4 10 Tf (False) Tj /F1 10 Tf (, the wind speeds \(resp. wind angles\) will be converted into true) Tj T* 0 Tw (wind.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 265.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (PolarDiagramPointcloud) Tj /F1 10 Tf ( class has to following \(private\) attributes:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 259.1575 cm
+Q
+q
+1 0 0 1 20 247.1575 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F4 10 Tf 12 TL (_data) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 247.1575 cm
+Q
+q
+1 0 0 1 20 229.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (PolarDiagramPointcloud) Tj /F1 10 Tf ( class defines the following dunder methods:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 223.1575 cm
+Q
+q
+1 0 0 1 20 157.1575 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 54 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (__str__) Tj /F1 10 Tf (\(\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 36 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (__repr__) Tj /F1 10 Tf (\(\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 657.4 cm
+1 0 0 1 20 18 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F3 10 Tf (__getitem__) Tj /F1 10 Tf (\(\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Returns) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 157.1575 cm
+Q
+q
+1 0 0 1 20 139.1575 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F3 10 Tf (PolarDiagramPointcloud) Tj /F1 10 Tf ( class defines the following public methods:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 133.1575 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 126 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (wind_speeds) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 651.4 cm
+1 0 0 1 20 120 cm
 Q
 q
-1 0 0 1 20 639.4 cm
+1 0 0 1 20 108 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -2726,19 +5806,19 @@ Q
 Q
 Q
 q
-1 0 0 1 20 639.4 cm
+1 0 0 1 20 108 cm
 Q
 q
-1 0 0 1 20 621.4 cm
+1 0 0 1 20 90 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (wind_angles) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 615.4 cm
+1 0 0 1 20 84 cm
 Q
 q
-1 0 0 1 20 603.4 cm
+1 0 0 1 20 72 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -2755,19 +5835,19 @@ Q
 Q
 Q
 q
-1 0 0 1 20 603.4 cm
+1 0 0 1 20 72 cm
 Q
 q
-1 0 0 1 20 585.4 cm
+1 0 0 1 20 54 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (points) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 579.4 cm
+1 0 0 1 20 48 cm
 Q
 q
-1 0 0 1 20 567.4 cm
+1 0 0 1 20 36 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -2783,41 +5863,93 @@ Q
 Q
 Q
 q
-1 0 0 1 20 567.4 cm
+1 0 0 1 20 36 cm
 Q
 q
-1 0 0 1 20 549.4 cm
+1 0 0 1 20 18 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (to_csv) Tj /F1 10 Tf (\() Tj /F2 10 Tf (csv_path) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 543.4 cm
+1 0 0 1 20 12 cm
 Q
 q
-1 0 0 1 20 387.4 cm
+1 0 0 1 20 0 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 144 cm
+1 0 0 1 20 0 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
 Q
 Q
 q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+ 
+endstream
+endobj
+85 0 obj
+<<
+/Length 8727
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 76.86614 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 547.1575 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
 1 0 0 1 20 114 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 17 Tm  T* ET
+BT 1 0 0 1 0 20 Tm  T* ET
 q
-1 0 0 1 20 15 cm
+1 0 0 1 20 18 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (csv_path) Tj /F3 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (csv_path) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
 Q
+Q
+q
+1 0 0 1 20 12 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -2837,13 +5969,16 @@ Q
 Q
 Q
 q
+1 0 0 1 20 0 cm
+Q
+q
 Q
 Q
 Q
 q
 1 0 0 1 20 84 cm
 q
-BT 1 0 0 1 0 14 Tm .557778 Tw 12 TL /F1 10 Tf 0 0 0 rg (Creates or overwrites a .csv file with the class data of object which called the function via the ) Tj /F2 10 Tf (csv) Tj /F1 10 Tf (.) Tj /F3 10 Tf (writer) Tj /F1 10 Tf (-class,) Tj T* 0 Tw (see ) Tj 0 0 .501961 rg (writer) Tj 0 0 0 rg (.) Tj T* ET
+BT 1 0 0 1 0 14 Tm .871318 Tw 12 TL /F1 10 Tf 0 0 0 rg (Creates or overwrites a .csv file with the class data of object which called the function) Tj T* 0 Tw (via the ) Tj /F2 10 Tf (csv) Tj /F1 10 Tf (.) Tj /F3 10 Tf (writer) Tj /F1 10 Tf (-class, see ) Tj 0 0 .501961 rg (writer) Tj 0 0 0 rg (.) Tj T* ET
 Q
 Q
 q
@@ -2876,7 +6011,7 @@ q
 1 0 0 1 20 12 cm
 q
 0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (True Wind Speed: ,True Wind Angle: ,Boat Speed:) Tj T* ET
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (True Wind Speed ,True Wind Angle ,Boat Speed) Tj T* ET
 Q
 Q
 q
@@ -2908,25 +6043,25 @@ Q
 Q
 Q
 q
-1 0 0 1 20 387.4 cm
+1 0 0 1 20 547.1575 cm
 Q
 q
-1 0 0 1 20 369.4 cm
+1 0 0 1 20 529.1575 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (add_points) Tj /F1 10 Tf (\() Tj /F2 10 Tf (new_points,) Tj ( ) Tj (true_wind_speed=True,) Tj ( ) Tj (true_wind_angle=True) Tj /F1 10 Tf (\)) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (add_points) Tj /F1 10 Tf (\() Tj /F2 10 Tf (new_points,) Tj ( ) Tj (tws=True,) Tj ( ) Tj (twa=True) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 363.4 cm
+1 0 0 1 20 523.1575 cm
 Q
 q
-1 0 0 1 20 300.4 cm
+1 0 0 1 20 340.1575 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 51 cm
+1 0 0 1 20 171 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
@@ -2937,24 +6072,137 @@ q
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 38 Tm  T* ET
+BT 1 0 0 1 0 158 Tm  T* ET
+q
+1 0 0 1 20 156 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (new_points) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (array_like) Tj /F1 10 Tf ( of shape \(_, 3\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 150 cm
+Q
+q
+1 0 0 1 20 108 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 36 cm
+Q
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (new_points) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (array_like) Tj /F1 10 Tf ( of shape \(x, 3\)) Tj T* ET
+1 0 0 1 20 24 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (New points that are to be added to the point cloud. The point should) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 18 cm
+1 0 0 1 20 12 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (true_wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (bool) Tj T* ET
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (be of length 3, with the first entry being the wind speed,) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 0 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (true_wind_angle) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (bool) Tj T* ET
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (the second being the wind angle and the last being the boat speed) Tj T* ET
 Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 108 cm
+Q
+q
+1 0 0 1 20 90 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (tws) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (bool) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 84 cm
+Q
+q
+1 0 0 1 20 54 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Specifies wether or not the wind speeds are to be viewed as true wind) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If set to ) Tj /F4 10 Tf (False) Tj /F1 10 Tf (, the given wind speeds will be converted to true wind) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 54 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (twa) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (bool) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Specifies wether or not the wind angles are to be viewed as true wind) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If set to ) Tj /F4 10 Tf (False) Tj /F1 10 Tf (, the given wind angles will be converted to true wind) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
 Q
 q
 Q
@@ -2965,19 +6213,19 @@ Q
 Q
 Q
 q
-1 0 0 1 20 300.4 cm
+1 0 0 1 20 340.1575 cm
 Q
 q
-1 0 0 1 20 282.4 cm
+1 0 0 1 20 322.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (change_points) Tj /F1 10 Tf (\(\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 276.4 cm
+1 0 0 1 20 316.1575 cm
 Q
 q
-1 0 0 1 20 264.4 cm
+1 0 0 1 20 304.1575 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
@@ -2994,158 +6242,138 @@ Q
 Q
 Q
 q
-1 0 0 1 20 264.4 cm
+1 0 0 1 20 304.1575 cm
 Q
 q
-1 0 0 1 20 246.4 cm
+1 0 0 1 20 286.1575 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (polar_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (polar_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (ax=None,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 240.4 cm
+1 0 0 1 20 280.1575 cm
 Q
 q
-1 0 0 1 20 150.2 cm
+1 0 0 1 20 61.15748 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 78.2 cm
+1 0 0 1 20 207 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 33.2 cm
+1 0 0 1 20 0 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 32 Tm  T* ET
+BT 1 0 0 1 0 194 Tm  T* ET
 q
-1 0 0 1 20 30 cm
+1 0 0 1 20 192 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 14 Tm .948 Tw 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot. Supports the same keyword) Tj T* 0 Tw (arguments as the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
-Q
+1 0 0 1 20 186 cm
 Q
 q
-Q
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-q
-1 0 0 1 0 0 cm
-q
-1 0 0 1 6.6 6.6 cm
-q
-.662745 .662745 .662745 RG
-.5 w
-.960784 .960784 .862745 rg
-n -6 -6 370.6898 24 re B*
-Q
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( polar_pointcloud.polar_plot_slice\(8\)) Tj T* ET
-Q
-Q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 150.2 cm
-Q
-q
-1 0 0 1 20 132.2 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (flat_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 126.2 cm
-Q
-q
-1 0 0 1 20 36 cm
+1 0 0 1 20 156 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 78.2 cm
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
 q
 0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (A slice of the polar diagram that is to be plotted, given as the) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 33.2 cm
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (true wind speed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 156 cm
+Q
+q
+1 0 0 1 20 138 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 132 cm
+Q
+q
+1 0 0 1 20 78 cm
 q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 32 Tm  T* ET
+BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 30 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 14 Tm .948 Tw 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot. Supports the same keyword) Tj T* 0 Tw (arguments as the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-q
-1 0 0 1 0 0 cm
-q
-1 0 0 1 6.6 6.6 cm
-q
-.662745 .662745 .662745 RG
-.5 w
-.960784 .960784 .862745 rg
-n -6 -6 418.38 24 re B*
-Q
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( polar_pointcloud.flat_plot_slice\(8\)) Tj T* ET
-Q
-Q
-Q
-Q
-Q
-q
-Q
-Q
+1 0 0 1 20 48 cm
 Q
 q
 1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (A ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj /F1 10 Tf ( instance on which will be plotted on) Tj T* ET
+Q
 Q
 q
-1 0 0 1 20 18 cm
+1 0 0 1 20 24 cm
 q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_convex_hull_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Needs to be a ) Tj /F2 10 Tf (matplotlib.axes_subplots.PolarAxesSubplot) Tj T* ET
 Q
 Q
 q
 1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If nothing is passed, the function will create a ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (instance via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (gca) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (gca) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 78 cm
+Q
+q
+1 0 0 1 20 60 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 54 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -3154,44 +6382,79 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Supports the same keyword arguments as the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (However if no 'linestyle' \(resp. 'markerstyle'\) is passed) Tj T* ET
+Q
+Q
+q
 1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (it will default to '' \(resp. 'o'\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 61.15748 cm
+Q
+q
+1 0 0 1 20 43.15748 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (flat_plot_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (ax=None,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 37.15748 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 15 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
 Q
 Q
 q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
-q
-Q
-Q
-Q
- 
-endstream
-endobj
-42 0 obj
-<<
-/Length 1354
->>
-stream
-1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
-q
-1 0 0 1 62.69291 686.8236 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
 1 0 0 1 20 0 cm
 q
 0 0 0 rg
@@ -3199,55 +6462,11 @@ BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 33.2 cm
-q
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 32 Tm  T* ET
-q
-1 0 0 1 20 30 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 14 Tm 2.913615 Tw 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* 0 Tw (Supports the same keyword arguments as the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
-Q
-Q
-q
-Q
-Q
-Q
-q
-1 0 0 1 20 0 cm
-q
-q
-1 0 0 1 0 0 cm
-q
-1 0 0 1 6.6 6.6 cm
-q
-.662745 .662745 .662745 RG
-.5 w
-.960784 .960784 .862745 rg
-n -6 -6 370.6898 24 re B*
-Q
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (>) Tj (>) Tj (>) Tj ( polar_point_cloud.plot_convex_hull_slice\(8\)) Tj T* ET
-Q
-Q
 Q
 Q
 Q
@@ -3256,80 +6475,1204 @@ Q
 Q
 Q
 q
-1 0 0 1 20 0 cm
-Q
-q
 Q
 Q
-Q
-q
-1 0 0 1 20 0 cm
 Q
 q
 Q
 Q
 Q
 q
-1 0 0 1 20 0 cm
-Q
-q
 Q
 Q
-Q
-q
-1 0 0 1 62.69291 686.8236 cm
 Q
  
 endstream
 endobj
-43 0 obj
+86 0 obj
 <<
-/Nums [ 0 44 0 R 1 45 0 R 2 46 0 R 3 47 0 R 4 48 0 R 
-  5 49 0 R 6 50 0 R 7 51 0 R ]
+/Length 8910
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 76.86614 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 504 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 30 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 135.1575 Tm  T* ET
+q
+1 0 0 1 20 175.1575 cm
+Q
+q
+1 0 0 1 20 156 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (A slice of the polar diagram that is to be plotted, given as the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (true wind speed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 156 cm
+Q
+q
+1 0 0 1 20 138 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 132 cm
+Q
+q
+1 0 0 1 20 78 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (A ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj /F1 10 Tf ( instance on which will be plotted on) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Needs to be a ) Tj /F2 10 Tf (matplotlib.axes._subplots.AxesSubplot) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If nothing is passed, the function will create a ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (instance via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (gca) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (gca) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 78 cm
+Q
+q
+1 0 0 1 20 60 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 54 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Supports the same keyword arguments as the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (However if no 'linestyle' \(resp. 'markerstyle'\) is passed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (it will default to '' \(resp. 'o'\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Creates a cartesian plot of a given slice of the polar diagram, via the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 504 cm
+Q
+q
+1 0 0 1 20 486 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (polar_plot) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed_range=\(0,) Tj ( ) Tj (numpy.inf\),) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 468 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax=None,) Tj ( ) Tj (min_color='green',) Tj ( ) Tj (max_color='red',) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 462 cm
+Q
+q
+1 0 0 1 20 177 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 273 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 230 Tm  T* ET
+q
+1 0 0 1 20 228 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed_range) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (tuple) Tj /F1 10 Tf ( of length 2) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 222 cm
+Q
+q
+1 0 0 1 20 192 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The range of wind speeds to be plotted, given as a lower and upper) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (bound of the true wind speed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 192 cm
+Q
+q
+1 0 0 1 20 174 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 168 cm
+Q
+q
+1 0 0 1 20 114 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (A ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj /F1 10 Tf ( instance on which will be plotted on) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Needs to be a ) Tj /F2 10 Tf (matplotlib.axes_subplots.PolarAxesSubplot) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If nothing is passed, the function will create a ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (instance via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (gca) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (gca) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 114 cm
+Q
+q
+1 0 0 1 20 96 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (min_color) Tj /F1 10 Tf ( :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 78 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (max_color) Tj /F1 10 Tf ( :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 60 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 54 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Supports the same keyword arguments as the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (However if no 'linestyle' \(resp. 'markerstyle'\) is passed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (it will default to '' \(resp. 'o'\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Creates a color coded polar plot of multiple slices, given by ) Tj /F2 10 Tf (wind_speed_range) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (of the polar diagram, vie the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 177 cm
+Q
+q
+1 0 0 1 20 159 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (flat_plot) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed_range=\(0,) Tj ( ) Tj (numpy.inf\),) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 141 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax=None,) Tj ( ) Tj (min_color='green',) Tj ( ) Tj (max_color='red',) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 135 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 117 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 104 Tm  T* ET
+q
+1 0 0 1 20 102 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed_range) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (tuple) Tj /F1 10 Tf ( of length 2) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 96 cm
+Q
+q
+1 0 0 1 20 66 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The range of wind speeds to be plotted, given as a lower and upper) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (bound of the true wind speed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 66 cm
+Q
+q
+1 0 0 1 20 48 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 42 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (A ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj /F1 10 Tf ( instance on which will be plotted on) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Needs to be a ) Tj /F2 10 Tf (matplotlib.axes._subplots.AxesSubplot) Tj T* ET
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+ 
+endstream
+endobj
+87 0 obj
+<<
+/Length 8635
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 102.0236 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 492 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 30 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 128 Tm  T* ET
+q
+1 0 0 1 20 114 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If nothing is passed, the function will create a ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (instance via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (gca) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (gca) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 114 cm
+Q
+q
+1 0 0 1 20 96 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (min_color) Tj /F1 10 Tf ( :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 78 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (max_color) Tj /F1 10 Tf ( :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 60 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 54 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Supports the same keyword arguments as the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (However if no 'linestyle' \(resp. 'markerstyle'\) is passed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (it will default to '' \(resp. 'o'\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Creates a color coded cartesian plot of multiple slices, given by ) Tj /F2 10 Tf (wind_speed_range) Tj /F1 10 Tf (,) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (of the polar diagram, via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 492 cm
+Q
+q
+1 0 0 1 20 474 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_color_gradient) Tj /F1 10 Tf (\() Tj /F2 10 Tf (ax=None,) Tj ( ) Tj (min_color='green',) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 456 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (max_color='red') Tj /F1 10 Tf (\):) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 450 cm
+Q
+q
+1 0 0 1 20 273 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 165 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 152 Tm  T* ET
+q
+1 0 0 1 20 150 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 144 cm
+Q
+q
+1 0 0 1 20 90 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (A ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj /F1 10 Tf ( instance on which will be plotted on) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Needs to be a ) Tj /F2 10 Tf (matplotlib.axes._subplots.AxesSubplot) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If nothing is passed, the function will create a ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (instance via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (gca) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (gca) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 90 cm
+Q
+q
+1 0 0 1 20 72 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (min_color) Tj /F1 10 Tf ( :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 54 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (max_color) Tj /F1 10 Tf ( :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Supports the same keyword arguments as the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 273 cm
+Q
+q
+1 0 0 1 20 255 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramPointcloud) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_convex_hull_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_speed,) Tj ( ) Tj (ax=None,) Tj ( ) Tj (**kwargs) Tj /F1 10 Tf (\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 249 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 237 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 54 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 170 Tm  T* ET
+q
+1 0 0 1 20 168 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_speed) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 162 cm
+Q
+q
+1 0 0 1 20 132 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (A slice of the polar diagram that is to be plotted, given as the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (true wind speed) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 132 cm
+Q
+q
+1 0 0 1 20 114 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 108 cm
+Q
+q
+1 0 0 1 20 54 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (A ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj /F1 10 Tf ( instance on which will be plotted on) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Needs to be a ) Tj /F2 10 Tf (matplotlib.axes_subplots.PolarAxesSubplot) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (If nothing is passed, the function will create a ) Tj /F2 10 Tf (matplotlib.axes.Axes) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (instance via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (gca) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (gca) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 54 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (kwargs) Tj /F1 10 Tf ( : Keyword arguments to change the appearence of the created plot.) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Supports the same keyword arguments as the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj /F1 10 Tf (-function) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Computes the convex hull of a given slice of the polar diagram table, via the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (scipy.spatial) Tj /F1 10 Tf (.) Tj /F3 10 Tf (ConvexHull) Tj /F1 10 Tf ( function, see ) Tj 0 0 .501961 rg (ConvexHull) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (and then creates a polar plot of the convex hull, via the ) Tj /F2 10 Tf (matplotlib.pyplot) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (function, see ) Tj 0 0 .501961 rg (plot) Tj  T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+Q
+q
+1 0 0 1 62.69291 102.0236 cm
+Q
+ 
+endstream
+endobj
+88 0 obj
+<<
+/Nums [ 0 89 0 R 1 90 0 R 2 91 0 R 3 92 0 R 4 93 0 R 
+  5 94 0 R 6 95 0 R 7 96 0 R 8 97 0 R 9 98 0 R 
+  10 99 0 R 11 100 0 R 12 101 0 R 13 102 0 R ]
 >>
 endobj
-44 0 obj
+89 0 obj
 <<
 /S /D /St 1
 >>
 endobj
-45 0 obj
+90 0 obj
 <<
 /S /D /St 2
 >>
 endobj
-46 0 obj
+91 0 obj
 <<
 /S /D /St 3
 >>
 endobj
-47 0 obj
+92 0 obj
 <<
 /S /D /St 4
 >>
 endobj
-48 0 obj
+93 0 obj
 <<
 /S /D /St 5
 >>
 endobj
-49 0 obj
+94 0 obj
 <<
 /S /D /St 6
 >>
 endobj
-50 0 obj
+95 0 obj
 <<
 /S /D /St 7
 >>
 endobj
-51 0 obj
+96 0 obj
 <<
 /S /D /St 8
 >>
 endobj
+97 0 obj
+<<
+/S /D /St 9
+>>
+endobj
+98 0 obj
+<<
+/S /D /St 10
+>>
+endobj
+99 0 obj
+<<
+/S /D /St 11
+>>
+endobj
+100 0 obj
+<<
+/S /D /St 12
+>>
+endobj
+101 0 obj
+<<
+/S /D /St 13
+>>
+endobj
+102 0 obj
+<<
+/S /D /St 14
+>>
+endobj
 xref
-0 52
+0 103
 0000000000 65535 f 
 0000000073 00000 n 
 0000000135 00000 n 
@@ -3340,58 +7683,109 @@ xref
 0000000804 00000 n 
 0000000990 00000 n 
 0000001164 00000 n 
-0000001369 00000 n 
-0000001617 00000 n 
-0000001827 00000 n 
-0000002037 00000 n 
-0000002269 00000 n 
-0000002456 00000 n 
-0000002662 00000 n 
-0000002894 00000 n 
-0000003100 00000 n 
-0000003216 00000 n 
-0000003438 00000 n 
-0000003660 00000 n 
-0000003882 00000 n 
-0000004121 00000 n 
-0000004327 00000 n 
-0000004552 00000 n 
-0000004758 00000 n 
-0000004983 00000 n 
-0000005189 00000 n 
-0000005295 00000 n 
-0000005584 00000 n 
-0000005658 00000 n 
-0000005772 00000 n 
-0000005909 00000 n 
-0000006034 00000 n 
-0000006144 00000 n 
-0000013985 00000 n 
-0000022971 00000 n 
-0000030156 00000 n 
-0000036213 00000 n 
-0000044472 00000 n 
-0000052268 00000 n 
-0000060494 00000 n 
-0000061900 00000 n 
-0000062007 00000 n 
-0000062041 00000 n 
-0000062075 00000 n 
-0000062109 00000 n 
-0000062143 00000 n 
-0000062177 00000 n 
-0000062211 00000 n 
-0000062245 00000 n 
+0000001405 00000 n 
+0000001611 00000 n 
+0000001803 00000 n 
+0000002002 00000 n 
+0000002212 00000 n 
+0000002458 00000 n 
+0000002668 00000 n 
+0000002893 00000 n 
+0000003009 00000 n 
+0000003215 00000 n 
+0000003440 00000 n 
+0000003661 00000 n 
+0000003883 00000 n 
+0000004115 00000 n 
+0000004336 00000 n 
+0000004558 00000 n 
+0000004779 00000 n 
+0000005001 00000 n 
+0000005247 00000 n 
+0000005468 00000 n 
+0000005690 00000 n 
+0000005911 00000 n 
+0000006132 00000 n 
+0000006367 00000 n 
+0000006589 00000 n 
+0000006849 00000 n 
+0000007055 00000 n 
+0000007280 00000 n 
+0000007501 00000 n 
+0000007723 00000 n 
+0000007944 00000 n 
+0000008166 00000 n 
+0000008387 00000 n 
+0000008640 00000 n 
+0000008862 00000 n 
+0000009083 00000 n 
+0000009305 00000 n 
+0000009526 00000 n 
+0000009772 00000 n 
+0000009993 00000 n 
+0000010228 00000 n 
+0000010450 00000 n 
+0000010689 00000 n 
+0000010895 00000 n 
+0000011116 00000 n 
+0000011348 00000 n 
+0000011569 00000 n 
+0000011791 00000 n 
+0000012012 00000 n 
+0000012234 00000 n 
+0000012480 00000 n 
+0000012701 00000 n 
+0000012923 00000 n 
+0000013144 00000 n 
+0000013365 00000 n 
+0000013600 00000 n 
+0000013822 00000 n 
+0000014082 00000 n 
+0000014188 00000 n 
+0000014477 00000 n 
+0000014551 00000 n 
+0000014664 00000 n 
+0000014800 00000 n 
+0000014924 00000 n 
+0000015079 00000 n 
+0000020688 00000 n 
+0000029597 00000 n 
+0000038541 00000 n 
+0000046735 00000 n 
+0000055100 00000 n 
+0000063527 00000 n 
+0000072509 00000 n 
+0000081259 00000 n 
+0000089888 00000 n 
+0000098210 00000 n 
+0000107091 00000 n 
+0000115870 00000 n 
+0000124832 00000 n 
+0000133519 00000 n 
+0000133690 00000 n 
+0000133724 00000 n 
+0000133758 00000 n 
+0000133792 00000 n 
+0000133826 00000 n 
+0000133860 00000 n 
+0000133894 00000 n 
+0000133928 00000 n 
+0000133962 00000 n 
+0000133996 00000 n 
+0000134031 00000 n 
+0000134066 00000 n 
+0000134102 00000 n 
+0000134138 00000 n 
 trailer
 <<
 /ID 
-[<b3ae55d8c20d5ce7115f12f19d291c89><b3ae55d8c20d5ce7115f12f19d291c89>]
+[<74eb15539f09f8ecaddff3f8636b88cc><74eb15539f09f8ecaddff3f8636b88cc>]
 % ReportLab generated PDF document -- digest (http://www.reportlab.com)
 
-/Info 29 0 R
-/Root 28 0 R
-/Size 52
+/Info 68 0 R
+/Root 67 0 R
+/Size 103
 >>
 startxref
-62279
+134174
 %%EOF
