@@ -69,9 +69,9 @@ The ``hrosailing``-module defines the following functions:
                                 | Will be passed to the constructor of the ``hrosailing``.\ **PolarDiagram**
                                 | instance
 
-            Creates an ``hrosailing``.\ **PolarDiagram** instance from the data that
-            is written in the given .csv file via the ``csv``.\ **reader**-class,
-            see `reader <https://docs.python.org/3/library/csv.html#csv.reader>`_.
+            | Creates an ``hrosailing``.\ **PolarDiagram** instance from the data that
+            | is written in the given .csv file via the ``csv``.\ **reader**-class, see
+              `reader <https://docs.python.org/3/library/csv.html#csv.reader>`_.
 
             The .csv file needs to adhere to the format specified by the parameter ``fmt``.
 
@@ -102,9 +102,9 @@ The ``hrosailing``-module defines the following functions:
 
                                 Path to an existing .pkl file which is to be read
 
-            Creates an ``hrosailing``.\ **PolarDiagram** instance from the data that is written in the
-            given .pkl file, via the ``pickle``.\ **load**-function,
-            see `load <https://docs.python.org/3/library/pickle.html#pickle.load>`_.
+            | Creates an ``hrosailing``.\ **PolarDiagram** instance from the data that is
+            | written in the given .pkl file, via the ``pickle``.\ **load**-function, see
+              `load <https://docs.python.org/3/library/pickle.html#pickle.load>`_.
 
 
     ``hrosailing``.\ **convert**\ (``obj, convert_type``)
@@ -118,8 +118,9 @@ The ``hrosailing``-module defines the following functions:
 
                                 A subclass of ``hrosailing``.\ **PolarDiagram**
 
-            Converts ``obj`` to an instance of ``convert_type``. Currently only works with the subclasses
-            ``hrosailing``.\ **PolarDiagramTable** and ``hrosailing``.\ **PolarDiagramPointcloud**
+            | Converts ``obj`` to an instance of ``convert_type``
+            | Currently only works with the subclasses ``hrosailing``.\ **PolarDiagramTable**
+            | and ``hrosailing``.\ **PolarDiagramPointcloud**
 
 
     ``hrosailing``.\ **symmetric_polar_diagram**\ (obj)
@@ -129,17 +130,17 @@ The ``hrosailing``-module defines the following functions:
 
                                 An instance of a subclass of ``hrosailing``.\ **PolarDiagram**
 
-            Symmetrizes a given instance of a subclass of ``hrosailing``.\ **PolarDiagram**.
-            I.E. for every tuple of (wind speed, wind angle, boat speed) that is contained in ``obj``
-            in some form, the function creates a new instance of the same subclass of
-            ``hrosailing``.\ **PolarDiagram**, such that the tuples (wind speed, wind angle, boat speed) and
-            (wind speed, 360 - wind angle, boat speed) are containted within it in some form.
+            | Symmetrizes a given instance of a subclass of ``hrosailing``.\ **PolarDiagram**.
+            | I.E. for every tuple of (wind speed, wind angle, boat speed) that is contained in ``obj``
+            | in some form, the function creates a new instance of the same subclass of
+            | ``hrosailing``.\ **PolarDiagram**, such that the tuples (wind speed, wind angle, boat speed)
+            | and (wind speed, 360 - wind angle, boat speed) are containted within it in some form.
 
-            Currently only works for the subclasses ``hrosailing``.\ **PolarDiagramTable** and
-            ``hrosailing``.\ **PolarDiagramPointcloud**
+            | Currently only works for the subclasses ``hrosailing``.\ **PolarDiagramTable** and
+            | ``hrosailing``.\ **PolarDiagramPointcloud**
 
-            Should only be used for instances of ``hrosailing``.\ **PolarDiagramTable** if the wind speed resolution
-            ranges from 0 to 180 or 180 to 360 to avoid conflicting data
+            | Should only be used for instances of ``hrosailing``.\ **PolarDiagramTable** if the
+            | wind speed resolution ranges from 0 to 180 or 180 to 360 to avoid conflicting data
 
 
 
@@ -161,9 +162,9 @@ The ``hrosailing``-module defines the following public classes:
 
                                                 Path to an existing .pkl file or where the created .pkl file will be located
 
-                            Creates or overwrites a .pkl file, with the class data of the instance which
-                            called the function, via the ``pickle``.\ **dump**-function,
-                            see `dump <https://docs.python.org/3/library/pickle.html#pickle.dump>`_.
+                            | Creates or overwrites a .pkl file, with the class data of the instance which
+                            | called the function, via the ``pickle``.\ **dump**-function, see
+                              `dump <https://docs.python.org/3/library/pickle.html#pickle.dump>`_.
 
 
             The **PolarDiagram** class also defines the following abstract methods:
@@ -175,15 +176,16 @@ The ``hrosailing``-module defines the following public classes:
 
                     ``PolarDiagram``.\ **flat_plot_slice**\ (``wind_speed, ax=None, **kwargs``)
 
-                    ``PolarDiagram``.\ **polar_plot**\ (``wind_speed_range, ax=None, min_color='green',``
+                    ``PolarDiagram``.\ **polar_plot**\ (``wind_speed_range, ax=None, colors=('green', 'red'),``
 
-                    ``max_color='red', **kwargs``)
+                    ``**kwargs``)
 
-                    ``PolarDiagram``.\ **flat_plot**\ (``wind_speed_range, ax=None, min_color='green',``
+                    ``PolarDiagram``.\ **flat_plot**\ (``wind_speed_range, ax=None, colors=('green', 'red'),``
 
-                    ``max_color='r', **kwargs``)
+                    ``**kwargs``)
 
-                    ``PolarDiagram``.\ **plot_color_gradient**\ (``ax=None, min_color='green', max_color='red'``)
+                    ``PolarDiagram``.\ **plot_color_gradient**\ (``ax=None, min_color='green', max_color='red',``
+                    ``marker=None``)
 
                     ``PolarDiagram``.\ **plot_convex_hull_slice**\ (``wind_speed, ax=None, **kwargs``)
 
@@ -276,9 +278,9 @@ The ``hrosailing``-module defines the following public classes:
 
                                                 Path to an existing .csv file or where the created .csv file will be located
 
-                            Creates or overwrites a .csv file with the class data of object
-                            which called the function via the ``csv``.\ **writer**-class,
-                            see `writer <https://docs.python.org/3/library/csv.html#csv.writer>`_.
+                            | Creates or overwrites a .csv file with the class data of object
+                            | which called the function via the ``csv``.\ **writer**-class,
+                            | see `writer <https://docs.python.org/3/library/csv.html#csv.writer>`_.
 
                             The format of the .csv file will be as follows:
 
@@ -293,24 +295,34 @@ The ``hrosailing``-module defines the following public classes:
                             with the delimiter being ','.
 
 
-                    ``PolarDiagramTable``.\ **change_entries**\ (``new_data, wind_speeds=None, wind_angles=None,``
+                    ``PolarDiagramTable``.\ **change_entries**\ (``new_data, wind_speeds=None,``
 
-                    ``tws=True, twa=True``)
+                    ``wind_angles=None, tws=True, twa=True``)
 
                             Parameters :
                                         ``new_data`` : ``int``, ``float`` or ``array_like`` of matching shape
 
-                                                New data that will be written in the specified entries
+                                                | New data that will be written in the specified entries
+                                                | If no ``wind_speeds`` and no ``wind_angles`` is passed,
+                                                | the required shape is the shape of *_data*
 
                                         ``wind_speeds`` : ``Iterable``, ``int`` or ``float``
 
                                                 | Column entries where the data is to be changed, given by elements of
                                                 | the wind speed resolution
+                                                | If ``None`` is passed, the function changes all entries in the rows
+                                                | specified by ``wind_angles``.
+                                                | If ``wind_angles`` is also ``None``, the function changes all
+                                                | entries in the table
 
                                         ``wind_angles`` : ``Iterable``, ``int`` or ``float``
 
                                                 | Row entries where the data is to be changed, given by elements of
                                                 | the wind angle resolution
+                                                | If ``None`` is passed, the function changes all entries in the
+                                                | columns specified by ``wind_speeds``
+                                                | If ``wind_speeds`` is also ``None``, the function changes all
+                                                | entries in the table
 
                                         ``tws`` : ``bool``
 
@@ -322,8 +334,8 @@ The ``hrosailing``-module defines the following public classes:
                                                 | Specifies wether or not wind_angles is to be viewed as true wind
                                                 | If set to *False*, ``wind_angles`` will be converted to true wind
 
-                            Changes the data in the specified entries in the table to the input new data.
-                            This function alters *_data*
+                            | Changes the data in the specified entries in the table to the input new data.
+                            | This function alters *_data*
 
 
 
@@ -335,7 +347,7 @@ The ``hrosailing``-module defines the following public classes:
                                                 Slice of the polar diagram that is to be plotted, given as an element
                                                 of the wind speed resolution
 
-                                        ``ax`` : ``matplotlib.axes.Axes``
+                                        ``ax`` : ``matplotlib.axes.Axes``, optional
 
                                                 | A ``matplotlib.axes.Axes`` instance on which will be plotted on
                                                 | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
@@ -364,7 +376,7 @@ The ``hrosailing``-module defines the following public classes:
                                                 Slice of the polar diagram that is to be plotted, given as an element
                                                 of the wind speed resolution
 
-                                        ``ax`` : ``matplotlib.axes.Axes``
+                                        ``ax`` : ``matplotlib.axes.Axes``, optional
 
                                                 | A ``matplotlib.axes.Axes`` instance on which will be plotted on
                                                 | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
@@ -385,17 +397,17 @@ The ``hrosailing``-module defines the following public classes:
                               `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
 
 
-                    ``PolarDiagramTable``.\ **polar_plot** \ (``wind_speed_range, ax=None, min_color='green',``
+                    ``PolarDiagramTable``.\ **polar_plot** \ (``wind_speed_range=None, ax=None,``
 
-                    ``max_color='red', **kwargs``)
+                    ``colors=('green', 'red'), **kwargs``)
 
                             Parameters :
-                                        ``wind_speed_range`` : ``Iterable``
+                                        ``wind_speed_range`` : ``Iterable``, optional
 
                                                 | The range of wind speeds to be plotted, given as an ``Iterable`` of
                                                 | elements of the wind speed resolution
 
-                                        ``ax`` : ``matplotlib.axes.Axes``
+                                        ``ax`` : ``matplotlib.axes.Axes``, optional
 
                                                 | A ``matplotlib.axes.Axes`` instance on which will be plotted on
                                                 | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
@@ -403,9 +415,20 @@ The ``hrosailing``-module defines the following public classes:
                                                 | instance via the ``matplotlib.pyplot``.\ **gca** function,
                                                   see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
 
-                                        ``min_color`` :
+                                        ``colors`` : ``Iterable``, optional
 
-                                        ``max_color`` :
+                                                | Specifies the colors to be used for the different slices
+                                                | If there are at most as many slices as colors, each slice will be
+                                                | plotted with the specified color
+                                                | If there are more slices than colors the function will either cycle
+                                                | through the specified colors until all slices have been plotted
+                                                | or if there are exactly two colors specified, the function will
+                                                | plot the slices with a color gradient using those two colors
+                                                | Elements of the ``Iterable`` can be of any type accepted by the
+                                                | ``matplotlib.colors``.\ **to_rgb** function, see
+                                                  `to_rgb <https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.to_rgb.html#matplotlib.colors.to_rgb>`_
+                                                  and `colors <https://matplotlib.org/stable/api/colors_api.html>`_
+
 
                                         ``kwargs`` : Keyword arguments to change the appearence of the created plot.
 
@@ -413,23 +436,25 @@ The ``hrosailing``-module defines the following public classes:
                                                 | ``matplotlib.pyplot``.\ **plot**-function
                                                 | However if no 'linestyle' (resp. 'markerstyle') is passed
                                                 | it will default to '' (resp. 'o')
+                                                | If 'colors' (or 'c') is passed, it will be deleted. Use the
+                                                | parameters ``colors`` instead
 
                             | Creates a color coded polar plot of multiple slices, given by ``wind_speed_range``,
                             | of the polar diagram, via the ``matplotlib.pyplot``.\ **plot** function, see
                               `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
 
 
-                    ``PolarDiagramTable``.\ **flat_plot** (``wind_speed_range, ax=None,``
+                    ``PolarDiagramTable``.\ **flat_plot** (``wind_speed_range=None, ax=None,``
 
-                    ``min_color='green', max_color='red', **kwargs``)
+                    ``colors=('green', 'red'), **kwargs``)
 
                             Parameters :
-                                        ``wind_speed_range`` : ``Iterable``
+                                        ``wind_speed_range`` : ``Iterable``, optional
 
                                                 | The range of wind speeds to be plotted, given as an ``Iterable`` of
                                                 | elements of the wind speed resolution
 
-                                        ``ax`` : ``matplotlib.axes.Axes``
+                                        ``ax`` : ``matplotlib.axes.Axes``, optional
 
                                                 | A ``matplotlib.axes.Axes`` instance on which will be plotted on
                                                 | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
@@ -437,9 +462,19 @@ The ``hrosailing``-module defines the following public classes:
                                                 | instance via the ``matplotlib.pyplot``.\ **gca** function,
                                                   see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
 
-                                        ``min_color`` :
+                                        ``colors`` : ``Iterable``, optional
 
-                                        ``max_color`` :
+                                                | Specifies the colors to be used for the different slices
+                                                | If there are at most as many slices as colors, each slice will be
+                                                | plotted with the specified color
+                                                | If there are more slices than colors the function will either cycle
+                                                | through the specified colors until all slices have been plotted
+                                                | or if there are exactly two colors specified, the function will
+                                                | plot the slices with a color gradient using those two colors
+                                                | Elements of the ``Iterable`` can be of any type accepted by the
+                                                | ``matplotlib.colors``.\ **to_rgb** function, see
+                                                  `to_rgb <https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.to_rgb.html#matplotlib.colors.to_rgb>`_
+                                                  and `colors <https://matplotlib.org/stable/api/colors_api.html>`_
 
                                         ``kwargs`` : Keyword arguments to change the appearence of the created plot.
 
@@ -447,6 +482,8 @@ The ``hrosailing``-module defines the following public classes:
                                                 | ``matplotlib.pyplot``.\ **plot**-function
                                                 | However if no 'linestyle' (resp. 'markerstyle') is passed
                                                 | it will default to '' (resp. 'o')
+                                                | If 'colors' (or 'c') is passed, it will be deleted. Use the
+                                                | parameters ``colors`` instead
 
                             | Creates a color coded cartesian plot of multiple slices, given by ``wind_speed_range``,
                             | of the polar diagram, via the ``matplotlib.pyplot``.\ **plot** function, see
@@ -455,7 +492,7 @@ The ``hrosailing``-module defines the following public classes:
 
                     ``PolarDiagramTable``.\ **plot_color_gradient**\ (``ax=None, min_color='green',``
 
-                    ``max_color='red'``)
+                    ``max_color='red', marker=None``)
 
                             Parameters :
                                         ``ax`` : ``matplotlib.axes.Axes``
@@ -466,9 +503,27 @@ The ``hrosailing``-module defines the following public classes:
                                                 | instance via the ``matplotlib.pyplot``.\ **gca** function,
                                                   see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
 
-                                        ``min_color`` :
+                                        ``min_color`` : See below for type ,optional
 
-                                        ``max_color`` :
+                                                | Specifies the first/lower color of the color gradient
+                                                | Input can be of any type accepted by the
+                                                | ``matplotlib.colors``.\ **to_rgb** function, see
+                                                  `to_rgb <https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.to_rgb.html#matplotlib.colors.to_rgb>`_
+                                                  and `colors <https://matplotlib.org/stable/api/colors_api.html>`_
+
+                                        ``max_color`` : See below for type,optional
+
+                                                | Specifies the last/upper color of the color gradient
+                                                | Input can be of any type accepted by the
+                                                | ``matplotlib.colors``.\ **to_rgb** function, see
+                                                  `to_rgb <https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.to_rgb.html#matplotlib.colors.to_rgb>`_
+                                                  and `colors <https://matplotlib.org/stable/api/colors_api.html>`_
+
+                                        ``marker`` : ``matplotlib.markers.Markerstyle``, optional
+
+                                                | Specifies the style of the markers in the plot
+                                                | For all possible styles, see `marker <https://matplotlib.org/stable/api/markers_api.html#module-matplotlib.markers>`_
+                                                | Defaults to 'o'
 
 
                     ``PolarDiagramTable``.\ **plot_convex_hull_slice**\ (``wind_speed, ax=None, **kwargs``)
@@ -479,7 +534,7 @@ The ``hrosailing``-module defines the following public classes:
                                                 | Slice of the polar diagram that is to be plotted, given as an element
                                                 | of the wind speed resolution
 
-                                        ``ax`` : ``matplotlib.axes.Axes``
+                                        ``ax`` : ``matplotlib.axes.Axes``, optional
 
                                                 | A ``matplotlib.axes.Axes`` instance on which will be plotted on
                                                 | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
@@ -577,7 +632,7 @@ The ``hrosailing``-module defines the following public classes:
                                                 | A slice of the polar diagram that is to be plotted, given as the
                                                 | true wind speed
 
-                                        ``ax`` : ``matplotlib.axes.Axes``
+                                        ``ax`` : ``matplotlib.axes.Axes``, optional
 
                                                 | A ``matplotlib.axes.Axes`` instance on which will be plotted on
                                                 | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
@@ -605,7 +660,7 @@ The ``hrosailing``-module defines the following public classes:
                                                 | A slice of the polar diagram that is to be plotted, given as the
                                                 | true wind speed
 
-                                        ``ax`` : ``matplotlib.axes.Axes``
+                                        ``ax`` : ``matplotlib.axes.Axes``, optional
 
                                                 | A ``matplotlib.axes.Axes`` instance on which will be plotted on
                                                 | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
@@ -625,17 +680,17 @@ The ``hrosailing``-module defines the following public classes:
                               `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
 
 
-                    ``PolarDiagramCurve``.\ **polar_plot**\ (``wind_speed_range=(0,20), ax=None, min_color='green',``
+                    ``PolarDiagramCurve``.\ **polar_plot**\ (``wind_speed_range=(0,20), ax=None,``
 
-                    ``max_color='red', **kwargs``)
+                    ``colors=('green', 'red'), **kwargs``)
 
                             Parameters :
-                                        ``wind_speed_range`` : ``tuple`` of length 2
+                                        ``wind_speed_range`` : ``tuple`` of length 2, optional
 
                                                 | The range of wind speeds to be plotted, given as a lower and upper
                                                 | bound of the true wind speed
 
-                                        ``ax`` : ``matplotlib.axes.Axes``
+                                        ``ax`` : ``matplotlib.axes.Axes``, optional
 
                                                 | A ``matplotlib.axes.Axes`` instance on which will be plotted on
                                                 | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
@@ -643,9 +698,19 @@ The ``hrosailing``-module defines the following public classes:
                                                 | instance via the ``matplotlib.pyplot``.\ **gca** function,
                                                   see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
 
-                                        ``min_color`` :
+                                        ``colors`` : ``Iterable``, optional
 
-                                        ``max_color`` :
+                                                | Specifies the colors to be used for the different slices
+                                                | If there are at most as many slices as colors, each slice will be
+                                                | plotted with the specified color
+                                                | If there are more slices than colors the function will either cycle
+                                                | through the specified colors until all slices have been plotted
+                                                | or if there are exactly two colors specified, the function will
+                                                | plot the slices with a color gradient using those two colors
+                                                | Elements of the ``Iterable`` can be of any type accepted by the
+                                                | ``matplotlib.colors``.\ **to_rgb** function, see
+                                                  `to_rgb <https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.to_rgb.html#matplotlib.colors.to_rgb>`_
+                                                  and `colors <https://matplotlib.org/stable/api/colors_api.html>`_
 
                                         ``kwargs`` : Keyword arguments to change the appearence of the created plot.
 
@@ -653,23 +718,25 @@ The ``hrosailing``-module defines the following public classes:
                                                 | ``matplotlib.pyplot``.\ **plot**-function
                                                 | However if no 'linestyle' (resp. 'markerstyle') is passed
                                                 | it will default to '' (resp. 'o')
+                                                | If 'colors' (or 'c') is passed, it will be deleted. Use the
+                                                | parameters ``colors`` instead
 
                             | Creates a color coded polar plot of multiple slices, given by ``wind_speed_range``
                             | of the polar diagram, vie the ``matplotlib.pyplot``.\ **plot** function, see
                               `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
 
 
-                    ``PolarDiagramCurve``.\ **flat_plot**\ (``wind_speed_range=(0,20), ax=None, min_color = 'green',``
+                    ``PolarDiagramCurve``.\ **flat_plot**\ (``wind_speed_range=(0,20), ax=None,``
 
-                    ``max_color='red', **kwargs``)
+                    ``colors=('green', 'red'), **kwargs``)
 
                             Parameters :
-                                        ``wind_speed_range`` : ``tuple`` of length 2
+                                        ``wind_speed_range`` : ``tuple`` of length 2 , optional
 
                                                 | The range of wind speeds to be plotted, given as a lower and upper
                                                 | bound of the true wind speed
 
-                                        ``ax`` : ``matplotlib.axes.Axes``
+                                        ``ax`` : ``matplotlib.axes.Axes``, optional
 
                                                 | A ``matplotlib.axes.Axes`` instance on which will be plotted on
                                                 | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
@@ -677,9 +744,19 @@ The ``hrosailing``-module defines the following public classes:
                                                 | instance via the ``matplotlib.pyplot``.\ **gca** function,
                                                   see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
 
-                                        ``min_color`` :
+                                        ``colors`` : ``Iterable``, optional
 
-                                        ``max_color`` :
+                                                | Specifies the colors to be used for the different slices
+                                                | If there are at most as many slices as colors, each slice will be
+                                                | plotted with the specified color
+                                                | If there are more slices than colors the function will either cycle
+                                                | through the specified colors until all slices have been plotted
+                                                | or if there are exactly two colors specified, the function will
+                                                | plot the slices with a color gradient using those two colors
+                                                | Elements of the ``Iterable`` can be of any type accepted by the
+                                                | ``matplotlib.colors``.\ **to_rgb** function, see
+                                                  `to_rgb <https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.to_rgb.html#matplotlib.colors.to_rgb>`_
+                                                  and `colors <https://matplotlib.org/stable/api/colors_api.html>`_
 
                                         ``kwargs`` : Keyword arguments to change the appearence of the created plot.
 
@@ -687,6 +764,8 @@ The ``hrosailing``-module defines the following public classes:
                                                 | ``matplotlib.pyplot``.\ **plot**-function
                                                 | However if no 'linestyle' (resp. 'markerstyle') is passed
                                                 | it will default to '' (resp. 'o')
+                                                | If 'colors' (or 'c') is passed, it will be deleted. Use the
+                                                | parameters ``colors`` instead
 
                             | Creates a color coded cartesian plot of multiple slices, given by ``wind_speed_range``,
                             | of the polar diagram, via the ``matplotlib.pyplot``.\ **plot** function, see
@@ -695,15 +774,15 @@ The ``hrosailing``-module defines the following public classes:
 
                     ``PolarDiagramCurve``.\ **plot_color_gradient**\ (``wind_speed_range=(0,20), ax=None,``
 
-                    ``min_color='green', max_color='red'``)
+                    ``min_color='green', max_color='red', marker=None``)
 
                             Parameters :
-                                        ``wind_speed_range`` : ``tuple`` of length 2
+                                        ``wind_speed_range`` : ``tuple`` of length 2, optional
 
                                                 | The range of wind speeds to be plotted, given as a lower and upper
                                                 | bound of the true wind speed
 
-                                        ``ax`` : ``matplotlib.axes.Axes``
+                                        ``ax`` : ``matplotlib.axes.Axes``, optinal
 
                                                 | A ``matplotlib.axes.Axes`` instance on which will be plotted on
                                                 | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
@@ -711,9 +790,27 @@ The ``hrosailing``-module defines the following public classes:
                                                 | instance via the ``matplotlib.pyplot``.\ **gca** function,
                                                   see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
 
-                                        ``min_color`` :
+                                        ``min_color`` : See below for type,optional
 
-                                        ``max_color`` :
+                                                | Specifies the first/lower color of the color gradient
+                                                | Input can be of any type accepted by the
+                                                | ``matplotlib.colors``.\ **to_rgb** function, see
+                                                  `to_rgb <https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.to_rgb.html#matplotlib.colors.to_rgb>`_
+                                                  and `colors <https://matplotlib.org/stable/api/colors_api.html>`_
+
+                                        ``max_color`` : See below for type,optional
+
+                                                | Specifies the last/upper color of the color gradient
+                                                | Input can be of any type accepted by the
+                                                | ``matplotlib.colors``.\ **to_rgb** function, see
+                                                  `to_rgb <https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.to_rgb.html#matplotlib.colors.to_rgb>`_
+                                                  and `colors <https://matplotlib.org/stable/api/colors_api.html>`_
+
+                                        ``marker`` : ``matplotlib.markers.Markerstyle``, optional
+
+                                                | Specifies the style of the markers in the plot
+                                                | For all possible styles, see `marker <https://matplotlib.org/stable/api/markers_api.html#module-matplotlib.markers>`_
+                                                | Defaults to 'o'
 
 
                     ``PolarDiagramCurve``.\ **plot_convex_hull_slice**\ (``wind_speed, ax=None **kwargs``)
@@ -724,7 +821,7 @@ The ``hrosailing``-module defines the following public classes:
                                                 | A slice of the polar diagram that is to be plotted, given as the
                                                 | true wind speed
 
-                                        ``ax`` : ``matplotlib.axes.Axes``
+                                        ``ax`` : ``matplotlib.axes.Axes``, optional
 
                                                 | A ``matplotlib.axes.Axes`` instance on which will be plotted on
                                                 | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
@@ -851,7 +948,7 @@ The ``hrosailing``-module defines the following public classes:
                                                 | A slice of the polar diagram that is to be plotted, given as the
                                                 | true wind speed
 
-                                        ``ax`` : ``matplotlib.axes.Axes``
+                                        ``ax`` : ``matplotlib.axes.Axes``, optional
 
                                                 | A ``matplotlib.axes.Axes`` instance on which will be plotted on
                                                 | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
@@ -875,7 +972,7 @@ The ``hrosailing``-module defines the following public classes:
                                                 | A slice of the polar diagram that is to be plotted, given as the
                                                 | true wind speed
 
-                                        ``ax`` : ``matplotlib.axes.Axes``
+                                        ``ax`` : ``matplotlib.axes.Axes``, optional
 
                                                 | A ``matplotlib.axes.Axes`` instance on which will be plotted on
                                                 | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
@@ -897,15 +994,15 @@ The ``hrosailing``-module defines the following public classes:
 
                     ``PolarDiagramPointcloud``.\ **polar_plot**\ (``wind_speed_range=(0, numpy.inf),``
 
-                    ``ax=None, min_color='green', max_color='red', **kwargs``)
+                    ``ax=None, colors=('green', 'red'), **kwargs``)
 
                             Parameters :
-                                        ``wind_speed_range`` : ``tuple`` of length 2
+                                        ``wind_speed_range`` : ``tuple`` of length 2, optional
 
                                                 | The range of wind speeds to be plotted, given as a lower and upper
                                                 | bound of the true wind speed
 
-                                        ``ax`` : ``matplotlib.axes.Axes``
+                                        ``ax`` : ``matplotlib.axes.Axes``, optional
 
                                                 | A ``matplotlib.axes.Axes`` instance on which will be plotted on
                                                 | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
@@ -913,9 +1010,19 @@ The ``hrosailing``-module defines the following public classes:
                                                 | instance via the ``matplotlib.pyplot``.\ **gca** function,
                                                   see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
 
-                                        ``min_color`` :
+                                        ``colors`` : ``Iterable``, optional
 
-                                        ``max_color`` :
+                                                | Specifies the colors to be used for the different slices
+                                                | If there are at most as many slices as colors, each slice will be
+                                                | plotted with the specified color
+                                                | If there are more slices than colors the function will either cycle
+                                                | through the specified colors until all slices have been plotted
+                                                | or if there are exactly two colors specified, the function will
+                                                | plot the slices with a color gradient using those two colors
+                                                | Elements of the ``Iterable`` can be of any type accepted by the
+                                                | ``matplotlib.colors``.\ **to_rgb** function, see
+                                                  `to_rgb <https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.to_rgb.html#matplotlib.colors.to_rgb>`_
+                                                  and `colors <https://matplotlib.org/stable/api/colors_api.html>`_
 
                                         ``kwargs`` : Keyword arguments to change the appearence of the created plot.
 
@@ -923,6 +1030,8 @@ The ``hrosailing``-module defines the following public classes:
                                                 | ``matplotlib.pyplot``.\ **plot**-function
                                                 | However if no 'linestyle' (resp. 'markerstyle') is passed
                                                 | it will default to '' (resp. 'o')
+                                                | If 'colors' (or 'c') is passed, it will be deleted. Use the
+                                                | parameters ``colors`` instead
 
                             | Creates a color coded polar plot of multiple slices, given by ``wind_speed_range``
                             | of the polar diagram, vie the ``matplotlib.pyplot``.\ **plot** function, see
@@ -931,15 +1040,15 @@ The ``hrosailing``-module defines the following public classes:
 
                     ``PolarDiagramPointcloud``.\ **flat_plot**\ (``wind_speed_range=(0, numpy.inf),``
 
-                    ``ax=None, min_color='green', max_color='red', **kwargs``)
+                    ``ax=None, colors=('green', 'red'), **kwargs``)
 
                             Parameters :
-                                        ``wind_speed_range`` : ``tuple`` of length 2
+                                        ``wind_speed_range`` : ``tuple`` of length 2, optional
 
                                                 | The range of wind speeds to be plotted, given as a lower and upper
                                                 | bound of the true wind speed
 
-                                        ``ax`` : ``matplotlib.axes.Axes``
+                                        ``ax`` : ``matplotlib.axes.Axes``, optional
 
                                                 | A ``matplotlib.axes.Axes`` instance on which will be plotted on
                                                 | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
@@ -947,9 +1056,19 @@ The ``hrosailing``-module defines the following public classes:
                                                 | instance via the ``matplotlib.pyplot``.\ **gca** function,
                                                   see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
 
-                                        ``min_color`` :
+                                        ``colors`` : ``Iterable``, optional
 
-                                        ``max_color`` :
+                                                | Specifies the colors to be used for the different slices
+                                                | If there are at most as many slices as colors, each slice will be
+                                                | plotted with the specified color
+                                                | If there are more slices than colors the function will either cycle
+                                                | through the specified colors until all slices have been plotted
+                                                | or if there are exactly two colors specified, the function will
+                                                | plot the slices with a color gradient using those two colors
+                                                | Elements of the ``Iterable`` can be of any type accepted by the
+                                                | ``matplotlib.colors``.\ **to_rgb** function, see
+                                                  `to_rgb <https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.to_rgb.html#matplotlib.colors.to_rgb>`_
+                                                  and `colors <https://matplotlib.org/stable/api/colors_api.html>`_
 
                                         ``kwargs`` : Keyword arguments to change the appearence of the created plot.
 
@@ -957,6 +1076,8 @@ The ``hrosailing``-module defines the following public classes:
                                                 | ``matplotlib.pyplot``.\ **plot**-function
                                                 | However if no 'linestyle' (resp. 'markerstyle') is passed
                                                 | it will default to '' (resp. 'o')
+                                                | If 'colors' (or 'c') is passed, it will be deleted. Use the
+                                                | parameters ``colors`` instead
 
                             | Creates a color coded cartesian plot of multiple slices, given by ``wind_speed_range``,
                             | of the polar diagram, via the ``matplotlib.pyplot``.\ **plot** function, see
@@ -965,10 +1086,10 @@ The ``hrosailing``-module defines the following public classes:
 
                     ``PolarDiagramPointcloud``.\ **plot_color_gradient**\ (``ax=None, min_color='green',``
 
-                    ``max_color='red'``):
+                    ``max_color='red', marker=None``):
 
                             Parameters :
-                                        ``ax`` : ``matplotlib.axes.Axes``
+                                        ``ax`` : ``matplotlib.axes.Axes``, optional
 
                                                 | A ``matplotlib.axes.Axes`` instance on which will be plotted on
                                                 | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
@@ -976,15 +1097,27 @@ The ``hrosailing``-module defines the following public classes:
                                                 | instance via the ``matplotlib.pyplot``.\ **gca** function,
                                                   see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
 
-                                        ``min_color`` :
+                                        ``min_color`` : See below for type, optional
 
-                                        ``max_color`` :
+                                                | Specifies the first/lower color of the color gradient
+                                                | Input can be of any type accepted by the
+                                                | ``matplotlib.colors``.\ **to_rgb** function, see
+                                                  `to_rgb <https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.to_rgb.html#matplotlib.colors.to_rgb>`_
+                                                  and `colors <https://matplotlib.org/stable/api/colors_api.html>`_
 
-                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot.
+                                        ``max_color`` : See below for type, optional
 
-                                                | Supports the same keyword arguments as the
-                                                | ``matplotlib.pyplot``.\ **plot**-function
+                                                | Specifies the last/upper color of the color gradient
+                                                | Input can be of any type accepted by the
+                                                | ``matplotlib.colors``.\ **to_rgb** function, see
+                                                  `to_rgb <https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.to_rgb.html#matplotlib.colors.to_rgb>`_
+                                                  and `colors <https://matplotlib.org/stable/api/colors_api.html>`_
 
+                                        ``marker`` : ``matplotlib.markers.Markerstyle``, optional
+
+                                                | Specifies the style of the markers in the plot
+                                                | For all possible styles, see `marker <https://matplotlib.org/stable/api/markers_api.html#module-matplotlib.markers>`_
+                                                | Defaults to 'o'
 
 
                     ``PolarDiagramPointcloud``.\ **plot_convex_hull_slice**\ (``wind_speed, ax=None, **kwargs``)
@@ -995,7 +1128,7 @@ The ``hrosailing``-module defines the following public classes:
                                                 | A slice of the polar diagram that is to be plotted, given as the
                                                 | true wind speed
 
-                                        ``ax`` : ``matplotlib.axes.Axes``
+                                        ``ax`` : ``matplotlib.axes.Axes``, optional
 
                                                 | A ``matplotlib.axes.Axes`` instance on which will be plotted on
                                                 | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
