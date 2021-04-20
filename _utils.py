@@ -210,7 +210,7 @@ def plot_polar_range(wind_speeds_list, wind_angles_list, boat_speeds_list,
         min_color = np.array(to_rgb(colors[0]))
         max_color = np.array(to_rgb(colors[1]))
         coeffs = [(w_val - w_min) / (w_max - w_min) for w_val in wind_speeds_list]
-        color_list = [coeff * min_color + (1 - coeff) * max_color for coeff in coeffs]
+        color_list = [(1-coeff) * min_color + coeff * max_color for coeff in coeffs]
         ax.set_prop_cycle('color', color_list)
     elif len(colors) == 1:
         kwargs["c"] = to_rgb(colors[0])
@@ -251,7 +251,7 @@ def flat_plot_range(wind_speeds_list, wind_angles_list, boat_speeds_list,
         min_color = np.array(to_rgb(colors[0]))
         max_color = np.array(to_rgb(colors[1]))
         coeffs = [(w_val - w_min) / (w_max - w_min) for w_val in wind_speeds_list]
-        color_list = [coeff * min_color + (1 - coeff) * max_color for coeff in coeffs]
+        color_list = [(1-coeff) * min_color + coeff * max_color for coeff in coeffs]
         ax.set_prop_cycle('color', color_list)
     elif len(colors) == 1:
         kwargs["c"] = to_rgb(colors[0])
@@ -271,7 +271,7 @@ def plot_color(wind_speeds, wind_angles, boat_speeds, ax, min_color, max_color, 
     min_color = np.array(to_rgb(min_color))
     max_color = np.array(to_rgb(max_color))
     coeffs = [(z_val - z_min)/(z_max - z_min) for z_val in boat_speeds]
-    color = [coeff * min_color + (1-coeff)*max_color for coeff in coeffs]
+    color = [(1-coeff) * min_color + coeff*max_color for coeff in coeffs]
     ax.set_xlabel("True Wind Speed")
     ax.set_ylabel("True Wind Angle")
     return ax.scatter(wind_speeds, wind_angles, c=color, marker=marker)
