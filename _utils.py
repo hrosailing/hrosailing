@@ -1,6 +1,7 @@
 import csv
 import matplotlib.pyplot as plt
 from collections import Iterable
+from matplotlib.colors import to_rgb
 from scipy.spatial import ConvexHull
 from _exceptions import *
 from _sailing_units import *
@@ -55,8 +56,7 @@ def read_orc_csv(csv_path):
         next(csv_reader)
         for row in csv_reader:
             wind_angle_resolution.append(eval(row[0]))
-            eval_data = [eval(d) for d in row[1:]]
-            data.append(eval_data)
+            data.append([eval(d) for d in row[1:]])
         return wind_speed_resolution, wind_angle_resolution, data
 
 
@@ -64,6 +64,21 @@ def read_orc_csv(csv_path):
 def read_array_csv(csv_path):
     file_data = np.genfromtxt(csv_path, delimiter="\t")
     return file_data[0, 1:], file_data[1:, 0], file_data[1:, 1:]
+
+
+# V: In Arbeit
+def read_opencpn_csv(csv_path):
+    with open(csv_path, 'r', newline='') as file:
+        csv_reader = csv.reader(file, delimiter=',', quotechar='"')
+        wind_speed_resolution = [eval(s) for s in next(csv_reader)[1:]]
+        wind_angle_resolution = []
+        data = []
+        next(csv_reader)
+        for row in csv_reader:
+            wind_angle_resolution.append(eval(row[0]))
+            data.append([eval(d) if d != '' else 0 for d in row[1:]])
+
+        return wind_speed_resolution, wind_angle_resolution, data
 
 
 # V: In Arbeit
@@ -166,11 +181,16 @@ def plot_flat(wind_angles, boat_speeds, ax, **kwargs):
 
 # V: In Arbeit
 def plot_polar_range(wind_speeds_list, wind_angles_list, boat_speeds_list,
-                     ax, min_color, max_color, **kwargs):
+                     ax, colors, **kwargs):
     if "linestyle" not in kwargs and "ls" not in kwargs:
         kwargs["ls"] = ''
     if "marker" not in kwargs:
         kwargs["marker"] = 'o'
+    if "color" in kwargs or "c" in kwargs:
+        try:
+            del kwargs["color"]
+        except KeyError:
+            del kwargs["c"]
 
     if not ax:
         ax = plt.gca(projection='polar')
@@ -180,25 +200,38 @@ def plot_polar_range(wind_speeds_list, wind_angles_list, boat_speeds_list,
     wind_angles = np.column_stack(wind_angles_list)
     boat_speeds = np.column_stack(boat_speeds_list)
 
+    if len(wind_angles_list) == len(colors) or (len(wind_angles_list) > len(colors) > 2):
+        ax.set_prop_cycle('color', colors)
+    elif len(wind_angles_list) < len(colors):
+        ax.set_prob_cycle('color', colors[:len(wind_angles_list)])
+    elif len(colors) == 2:
+        w_max = max(wind_speeds_list)
+        w_min = min(wind_speeds_list)
+        min_color = np.array(to_rgb(colors[0]))
+        max_color = np.array(to_rgb(colors[1]))
+        coeffs = [(w_val - w_min) / (w_max - w_min) for w_val in wind_speeds_list]
+        color_list = [coeff * min_color + (1 - coeff) * max_color for coeff in coeffs]
+        ax.set_prop_cycle('color', color_list)
+    elif len(colors) == 1:
+        kwargs["c"] = to_rgb(colors[0])
+
     ax.set_theta_zero_location('N')
     ax.set_theta_direction('clockwise')
-
-    w_max = max(wind_speeds_list)
-    w_min = min(wind_speeds_list)
-    coeffs = [(w_val - w_min) / (w_max - w_min) for w_val in wind_speeds_list]
-    color_list = [coeff * min_color + (1 - coeff) * max_color for coeff in coeffs]
-    ax.set_prop_cycle('color', color_list)
-
     return ax.plot(wind_angles, boat_speeds, **kwargs)
 
 
 # V: In Arbeit
 def flat_plot_range(wind_speeds_list, wind_angles_list, boat_speeds_list,
-                    ax, min_color, max_color, **kwargs):
+                    ax, colors, **kwargs):
     if "linestyle" not in kwargs and "ls" not in kwargs:
         kwargs["ls"] = ''
     if "marker" not in kwargs:
         kwargs["marker"] = 'o'
+    if "color" in kwargs or "c" in kwargs:
+        try:
+            del kwargs["color"]
+        except KeyError:
+            del kwargs["c"]
 
     if not ax:
         ax = plt.gca()
@@ -208,29 +241,40 @@ def flat_plot_range(wind_speeds_list, wind_angles_list, boat_speeds_list,
     wind_angles = np.column_stack(wind_angles_list)
     boat_speeds = np.column_stack(boat_speeds_list)
 
+    if len(wind_angles_list) == len(colors) or (len(wind_angles_list) > len(colors) > 2):
+        ax.set_prop_cycle('color', colors)
+    elif len(wind_angles_list) < len(colors):
+        ax.set_prob_cycle('color', colors[:len(wind_angles_list)])
+    elif len(colors) == 2:
+        w_max = max(wind_speeds_list)
+        w_min = min(wind_speeds_list)
+        min_color = np.array(to_rgb(colors[0]))
+        max_color = np.array(to_rgb(colors[1]))
+        coeffs = [(w_val - w_min) / (w_max - w_min) for w_val in wind_speeds_list]
+        color_list = [coeff * min_color + (1 - coeff) * max_color for coeff in coeffs]
+        ax.set_prop_cycle('color', color_list)
+    elif len(colors) == 1:
+        kwargs["c"] = to_rgb(colors[0])
+
     ax.set_xlabel("True Wind Angle")
     ax.set_ylabel("Boat Speed")
-
-    w_max = max(wind_speeds_list)
-    w_min = min(wind_speeds_list)
-    coeffs = [(w_val - w_min) / (w_max - w_min) for w_val in wind_speeds_list]
-    color_list = [coeff * min_color + (1 - coeff) * max_color for coeff in coeffs]
-    ax.set_prop_cycle('color', color_list)
-
     return ax.plot(wind_angles, boat_speeds, **kwargs)
 
 
 # V: In Arbeit
-def plot_color(wind_speeds, wind_angles, boat_speeds, ax, min_color, max_color):
+def plot_color(wind_speeds, wind_angles, boat_speeds, ax, min_color, max_color, marker):
     if not ax:
         ax = plt.gca()
 
     z_max = max(boat_speeds)
     z_min = min(boat_speeds)
+    min_color = np.array(to_rgb(min_color))
+    max_color = np.array(to_rgb(max_color))
     coeffs = [(z_val - z_min)/(z_max - z_min) for z_val in boat_speeds]
     color = [coeff * min_color + (1-coeff)*max_color for coeff in coeffs]
-
-    return ax.scatter(wind_speeds, wind_angles, c=color)
+    ax.set_xlabel("True Wind Speed")
+    ax.set_ylabel("True Wind Angle")
+    return ax.scatter(wind_speeds, wind_angles, c=color, marker=marker)
 
 
 # V: Soweit in Ordnung

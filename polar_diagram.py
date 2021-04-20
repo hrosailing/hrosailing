@@ -4,7 +4,6 @@ import pickle
 # import sys
 from abc import ABC, abstractmethod
 from tabulate import tabulate
-from matplotlib.colors import to_rgb
 from _utils import *
 from _exceptions import *
 
@@ -370,8 +369,7 @@ class PolarDiagramTable(PolarDiagram):
         return plot_flat(wind_angles, boat_speeds, ax, **kwargs)
 
     # V: In Arbeit
-    def polar_plot(self, wind_speed_range=None, ax=None, min_color='green',
-                   max_color='red', **kwargs):
+    def polar_plot(self, wind_speed_range=None, ax=None, colors=('green', 'red'), **kwargs):
         """"""
         if wind_speed_range is None:
             wind_speed_range = self.wind_speeds
@@ -381,10 +379,9 @@ class PolarDiagramTable(PolarDiagram):
             boat_speeds_list.append(self._get_slice_data(wind_speed))
         wind_angles_list = [list(np.deg2rad(self.wind_angles))] * len(boat_speeds_list)
         return plot_polar_range(wind_speed_range, wind_angles_list, boat_speeds_list,
-                                ax, to_rgb(min_color), to_rgb(max_color), **kwargs)
+                                ax, colors, **kwargs)
 
-    def flat_plot(self, wind_speed_range=None, ax=None, min_color='green',
-                  max_color='red', **kwargs):
+    def flat_plot(self, wind_speed_range=None, ax=None, colors=('green', 'red'), **kwargs):
         """"""
         if wind_speed_range is None:
             wind_speed_range = self.wind_speeds
@@ -394,7 +391,7 @@ class PolarDiagramTable(PolarDiagram):
             boat_speeds_list.append(self._get_slice_data(wind_speed))
         wind_angles_list = [list(self.wind_angles)]*len(boat_speeds_list)
         return flat_plot_range(wind_speed_range, wind_angles_list, boat_speeds_list,
-                               ax, to_rgb(min_color), to_rgb(max_color), **kwargs)
+                               ax, colors, **kwargs)
 
     # V: In Arbeit
     def plot_3d(self):
@@ -402,14 +399,14 @@ class PolarDiagramTable(PolarDiagram):
         pass
 
     # V: In Arbeit
-    def plot_color_gradient(self, ax=None, min_color='green', max_color='red'):
+    def plot_color_gradient(self, ax=None, min_color='green', max_color='red', marker=None):
         """"""
         wind_speeds, wind_angles = np.meshgrid(self.wind_speeds, self.wind_angles)
         wind_speeds = wind_speeds.reshape(-1,)
         wind_angles = wind_angles.reshape(-1,)
         boat_speeds = self.boat_speeds.reshape(-1,)
         return plot_color(wind_speeds, wind_angles, boat_speeds, ax,
-                          to_rgb(min_color), to_rgb(max_color))
+                          min_color, max_color, marker)
 
     # V: Soweit in Ordnung
     def plot_convex_hull_slice(self, wind_speed, ax=None, **kwargs):
@@ -528,8 +525,7 @@ class PolarDiagramCurve(PolarDiagram):
         return plot_flat(wind_angles, boat_speeds, ax, **kwargs)
 
     # V: In Arbeit
-    def polar_plot(self, wind_speed_range=(0, 20), ax=None, min_color='green',
-                   max_color='red', **kwargs):
+    def polar_plot(self, wind_speed_range=(0, 20), ax=None, colors=('green', 'red'), **kwargs):
         """"""
         wind_speed_lower, wind_speed_upper = wind_speed_range
         wind_speed_list = list(np.linspace(wind_speed_lower, wind_speed_upper,
@@ -542,11 +538,10 @@ class PolarDiagramCurve(PolarDiagram):
         wind_angle_list = [list(np.deg2rad(wind_angles))] * len(wind_speed_list)
 
         return plot_polar_range(wind_speed_list, wind_angle_list, boat_speed_list, ax,
-                                to_rgb(min_color), to_rgb(max_color), **kwargs)
+                                colors, **kwargs)
 
     # V: In Arbeit
-    def flat_plot(self, wind_speed_range=(0, 20), ax=None, min_color='green',
-                  max_color='red', **kwargs):
+    def flat_plot(self, wind_speed_range=(0, 20), ax=None, colors=('green', 'red'), **kwargs):
         """"""
         wind_speed_lower, wind_speed_upper = wind_speed_range
         wind_speed_list = list(np.linspace(wind_speed_lower, wind_speed_upper, 50))
@@ -558,7 +553,7 @@ class PolarDiagramCurve(PolarDiagram):
         wind_angle_list = [list(wind_angles)] * len(wind_speed_list)
 
         return flat_plot_range(wind_speed_list, wind_angle_list, boat_speed_list, ax,
-                               to_rgb(min_color), to_rgb(max_color), **kwargs)
+                               colors, **kwargs)
 
     # V: In Arbeit
     def plot_3d(self):
@@ -567,7 +562,7 @@ class PolarDiagramCurve(PolarDiagram):
 
     # V: In Arbeit
     def plot_color_gradient(self, wind_speed_range=(0, 20), ax=None,
-                            min_color='green', max_color='red'):
+                            min_color='green', max_color='red', marker=None):
         """"""
         wind_speed_lower, wind_speed_upper = wind_speed_range
         wind_speeds, wind_angles = np.meshgrid(np.linspace(wind_speed_lower, wind_speed_upper, 100),
@@ -576,7 +571,7 @@ class PolarDiagramCurve(PolarDiagram):
         wind_angles.reshape(-1,)
         boat_speeds = self(wind_speeds, wind_angles).reshape(-1,)
         return plot_color(wind_speeds, wind_angles, boat_speeds, ax,
-                          to_rgb(min_color), to_rgb(max_color))
+                          min_color, max_color, marker)
 
     # V: Noch nicht getestet
     def plot_convex_hull_slice(self, wind_speed, ax=None, **kwargs):
@@ -727,7 +722,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     # V: In Arbeit
     def polar_plot(self, wind_speed_range=(0, np.inf), ax=None,
-                   min_color='green', max_color='red', **kwargs):
+                   colors=('green', 'red'), **kwargs):
         """"""
         wind_speed_list = []
         wind_angle_list = []
@@ -741,11 +736,11 @@ class PolarDiagramPointcloud(PolarDiagram):
                 boat_speed_list.append(points[:, 1])
 
         return plot_polar_range(wind_speed_list, wind_angle_list, boat_speed_list,
-                                ax, to_rgb(min_color), to_rgb(max_color), **kwargs)
+                                ax, colors, **kwargs)
 
     # V: In Arbeit
     def flat_plot(self, wind_speed_range=(0, np.inf), ax=None,
-                  min_color='green', max_color='red', **kwargs):
+                  colors=('green', 'red'), **kwargs):
         """"""
         wind_speed_list = []
         wind_angle_list = []
@@ -759,7 +754,7 @@ class PolarDiagramPointcloud(PolarDiagram):
                 boat_speed_list.append(points[:, 1])
 
         return flat_plot_range(wind_speed_list, wind_angle_list, boat_speed_list,
-                               ax, to_rgb(min_color), to_rgb(max_color), **kwargs)
+                               ax, colors, **kwargs)
 
     # V: In Arbeit
     def plot_3d(self):
@@ -767,11 +762,11 @@ class PolarDiagramPointcloud(PolarDiagram):
         pass
 
     # V: In Arbeit
-    def plot_color_gradient(self, ax=None, min_color='green', max_color='red'):
+    def plot_color_gradient(self, ax=None, min_color='green', max_color='red', marker=None):
         """"""
         wind_speeds, wind_angles, boat_speeds = np.hsplit(self.points, 3)
         return plot_color(wind_speeds, wind_angles, boat_speeds, ax,
-                          to_rgb(min_color), to_rgb(max_color))
+                          min_color, max_color, marker)
 
     # V: Soweit in Ordnung
     def plot_convex_hull_slice(self, wind_speed, ax=None, **kwargs):
