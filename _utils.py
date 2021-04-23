@@ -11,7 +11,8 @@ from _sailing_units import *
 
 # V: Soweit in Ordnung
 def polar_to_kartesian(radians, angles):
-    return np.column_stack((radians * np.cos(angles), radians * np.sin(angles)))
+    return np.column_stack((radians * np.cos(angles),
+                            radians * np.sin(angles)))
 
 
 # V: Soweit in Ordnung
@@ -118,7 +119,8 @@ def speed_resolution(wind_speed_resolution):
         elif isinstance(wind_speed_resolution, (int, float)):
             return np.array(np.arange(wind_speed_resolution, 40, wind_speed_resolution))
         else:
-            raise PolarDiagramException("Wrong resolution", type(wind_speed_resolution))
+            raise PolarDiagramException("Wrong resolution",
+                                        type(wind_speed_resolution))
     else:
         return np.array(np.arange(2, 42, 2))
 
@@ -131,7 +133,8 @@ def angle_resolution(wind_angle_resolution):
         elif isinstance(wind_angle_resolution, (int, float)):
             return np.array(np.arange(wind_angle_resolution, 360, wind_angle_resolution))
         else:
-            raise PolarDiagramException("Wrong resolution", type(wind_angle_resolution))
+            raise PolarDiagramException("Wrong resolution",
+                                        type(wind_angle_resolution))
     else:
         return np.array(np.arange(0, 360, 5))
 
@@ -143,10 +146,14 @@ def get_indices(wind_list, resolution):
             ind = list(resolution).index(wind_list)
             return ind
         except ValueError:
-            raise PolarDiagramException("Not in resolution", wind_list, resolution)
+            raise PolarDiagramException("Not in resolution",
+                                        wind_list,
+                                        resolution)
 
     if not set(wind_list).issubset(set(resolution)):
-        raise PolarDiagramException("Not in resolution", wind_list, resolution)
+        raise PolarDiagramException("Not in resolution",
+                                    wind_list,
+                                    resolution)
 
     ind_list = [i for i in range(len(resolution))
                 if resolution[i] in wind_list]
@@ -205,7 +212,8 @@ def plot_polar_range(wind_speeds_list, wind_angles_list, boat_speeds_list,
     if not ax:
         ax = plt.gca(projection='polar')
 
-    wind_angles_list, boat_speeds_list = zip(*sorted(zip(wind_angles_list, boat_speeds_list),
+    wind_angles_list, boat_speeds_list = zip(*sorted(zip(wind_angles_list,
+                                                         boat_speeds_list),
                                                      key=lambda x: x[0]))
     wind_angles = np.column_stack(wind_angles_list)
     boat_speeds = np.column_stack(boat_speeds_list)
@@ -234,7 +242,7 @@ def plot_polar_range(wind_speeds_list, wind_angles_list, boat_speeds_list,
 
                 ax.legend(handles=legend, **legend_kw)
 
-            ax.set_prop_cycle('color', colors + ['blue'] * (no_plots - no_colors))
+            ax.set_prop_cycle('color', colors + ['b'] * (no_plots - no_colors))
 
         if len(colors[0]) == 2:
             if show_legend:
@@ -246,7 +254,7 @@ def plot_polar_range(wind_speeds_list, wind_angles_list, boat_speeds_list,
 
                 ax.legend(handles=legend, **legend_kw)
 
-            color_list = ['blue'] * no_plots
+            color_list = ['b'] * no_plots
             for wind_speed, color in colors:
                 i = list(wind_speeds_list).index(wind_speed)
                 color_list[i] = color
@@ -258,16 +266,20 @@ def plot_polar_range(wind_speeds_list, wind_angles_list, boat_speeds_list,
         w_min = min(wind_speeds_list)
         min_color = np.array(to_rgb(colors[0]))
         max_color = np.array(to_rgb(colors[1]))
-        coeffs = [(w_val - w_min) / (w_max - w_min) for w_val in wind_speeds_list]
-        color_list = [(1-coeff) * min_color + coeff * max_color for coeff in coeffs]
+        coeffs = [(w_val - w_min) / (w_max - w_min)
+                  for w_val in wind_speeds_list]
+        color_list = [(1-coeff) * min_color + coeff * max_color
+                      for coeff in coeffs]
         ax.set_prop_cycle('color', color_list)
 
         if show_legend:
             if legend_kw is None:
                 legend_kw = {}
 
-            cmap = LinearSegmentedColormap.from_list("custom_map", [min_color, max_color])
-            plt.colorbar(ScalarMappable(norm=Normalize(vmin=w_min, vmax=w_max), cmap=cmap),
+            cmap = LinearSegmentedColormap.from_list("custom_map",
+                                                     [min_color, max_color])
+            plt.colorbar(ScalarMappable(norm=Normalize(vmin=w_min, vmax=w_max),
+                                        cmap=cmap),
                          ax=ax, **legend_kw).set_label("True Wind Speed")
 
     ax.set_theta_zero_location('N')
@@ -291,7 +303,8 @@ def flat_plot_range(wind_speeds_list, wind_angles_list, boat_speeds_list,
     if not ax:
         ax = plt.gca()
 
-    wind_angles_list, boat_speeds_list = zip(*sorted(zip(wind_angles_list, boat_speeds_list),
+    wind_angles_list, boat_speeds_list = zip(*sorted(zip(wind_angles_list,
+                                                         boat_speeds_list),
                                                      key=lambda x: x[0]))
     wind_angles = np.column_stack(wind_angles_list)
     boat_speeds = np.column_stack(boat_speeds_list)
@@ -321,7 +334,7 @@ def flat_plot_range(wind_speeds_list, wind_angles_list, boat_speeds_list,
 
                 ax.legend(handles=legend, **legend_kw)
 
-            ax.set_prop_cycle('color', colors + ['blue'] * (no_plots - no_colors))
+            ax.set_prop_cycle('color', colors + ['b'] * (no_plots - no_colors))
 
         if len(colors[0]) == 2:
             if show_legend:
@@ -333,7 +346,7 @@ def flat_plot_range(wind_speeds_list, wind_angles_list, boat_speeds_list,
 
                 ax.legend(handles=legend, **legend_kw)
 
-            color_list = ['blue'] * no_plots
+            color_list = ['b'] * no_plots
             for wind_speed, color in colors:
                 i = list(wind_speeds_list).index(wind_speed)
                 color_list[i] = color
@@ -344,16 +357,20 @@ def flat_plot_range(wind_speeds_list, wind_angles_list, boat_speeds_list,
         w_min = min(wind_speeds_list)
         min_color = np.array(to_rgb(colors[0]))
         max_color = np.array(to_rgb(colors[1]))
-        coeffs = [(w_val - w_min) / (w_max - w_min) for w_val in wind_speeds_list]
-        color_list = [(1 - coeff) * min_color + coeff * max_color for coeff in coeffs]
+        coeffs = [(w_val - w_min) / (w_max - w_min)
+                  for w_val in wind_speeds_list]
+        color_list = [(1 - coeff) * min_color + coeff * max_color
+                      for coeff in coeffs]
         ax.set_prop_cycle('color', color_list)
 
         if show_legend:
             if legend_kw is None:
                 legend_kw = {}
 
-            cmap = LinearSegmentedColormap.from_list("custom_cmap", [min_color, max_color])
-            plt.colorbar(ScalarMappable(norm=Normalize(vmin=w_min, vmax=w_max), cmap=cmap),
+            cmap = LinearSegmentedColormap.from_list("custom_cmap",
+                                                     [min_color, max_color])
+            plt.colorbar(ScalarMappable(norm=Normalize(vmin=w_min, vmax=w_max),
+                                        cmap=cmap),
                          ax=ax, **legend_kw).set_label("True Wind Speed")
 
     ax.set_xlabel("True Wind Angle")
@@ -377,8 +394,10 @@ def plot_color(wind_speeds, wind_angles, boat_speeds, ax, colors,
     ax.set_ylabel("True Wind Angle")
 
     if show_legend:
-        cmap = LinearSegmentedColormap.from_list("custom_cmap", [min_color, max_color])
-        plt.colorbar(ScalarMappable(norm=Normalize(vmin=b_min, vmax=b_max), cmap=cmap),
+        cmap = LinearSegmentedColormap.from_list("custom_cmap",
+                                                 [min_color, max_color])
+        plt.colorbar(ScalarMappable(norm=Normalize(vmin=b_min, vmax=b_max),
+                                    cmap=cmap),
                      ax=ax, **legend_kw).set_label("Boat Speed")
 
     return ax.scatter(wind_speeds, wind_angles, c=color, marker=marker)
@@ -410,7 +429,8 @@ def plot_surface(wind_speeds, wind_angles, boat_speeds, ax, colors):
     ax.set_zlabel("Boat Speed")
     cmap = LinearSegmentedColormap.from_list("custom_cmap", list(colors))
     color = cmap((wind_speeds - wind_speeds.min())/float((wind_speeds - wind_speeds.min()).max()))
-    return ax.plot_surface(wind_speeds, wind_angles, boat_speeds, facecolors=color)
+    return ax.plot_surface(wind_speeds, wind_angles, boat_speeds,
+                           facecolors=color)
 
 
 # V: Soweit in Ordnung
