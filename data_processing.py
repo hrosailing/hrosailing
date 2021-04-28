@@ -64,6 +64,6 @@ class WeightedPoints:
         return self._weights.copy()
 
     def weighing(self, w_func):
-        weights = np.array([w_func(point) for point in self._points])
+        weights = w_func(points)
         self._weights = weights
         return
