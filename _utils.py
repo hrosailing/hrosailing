@@ -4,7 +4,7 @@ from collections import Iterable
 from matplotlib.colors import to_rgb, Normalize, LinearSegmentedColormap
 from matplotlib.cm import ScalarMappable
 from matplotlib.lines import Line2D
-from scipy.interpolate import Rbf
+from scipy.interpolate import bisplrep, bisplev
 from scipy.spatial import ConvexHull
 from _exceptions import PolarDiagramException
 from _sailing_units import *
@@ -472,4 +472,10 @@ def percentile_filter(weights, per):
     return weights >= bound
 
 
-def rbf_interpolation(points, w_res):
+def spline_interpolation(points, w_res):
+    ws, wa, bsp = np.hsplit(points, 3)
+    ws_res, wa_res = np.hsplit(w_res, 2)
+    ws_res, wa_res = ws_res.reshape(-1,), wa_res.reshape(-1)
+    spline = bisplrep(ws, wa, bsp)
+    return bisplev(ws_res, wa_res, spline)
+
