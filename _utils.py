@@ -4,6 +4,7 @@ from collections import Iterable
 from matplotlib.colors import to_rgb, Normalize, LinearSegmentedColormap
 from matplotlib.cm import ScalarMappable
 from matplotlib.lines import Line2D
+from scipy.interpolate import Rbf
 from scipy.spatial import ConvexHull
 from _exceptions import PolarDiagramException
 from _sailing_units import *
@@ -447,3 +448,28 @@ def plot_convex_hull(wa, bsp, ax, **plot_kw):
     ax.set_theta_zero_location('N')
     ax.set_theta_direction('clockwise')
     return ax.plot(xs, ys, **plot_kw)
+
+
+def bound_filter(weights, upper, lower, strict):
+    if strict:
+        f_arr_l = weights > lower
+        f_arr_u = weights < upper
+    else:
+        f_arr_l = weights >= lower
+        f_arr_u = weights <= upper
+
+    return f_arr_l == f_arr_u
+
+
+def percentile_filter(weights, per):
+    per = 1 - per/100
+    num = len(weights) * per
+    if int(num) == num:
+        bound = (weights[num] + weights[num + 1]) / 2
+    else:
+        bound = weights[np.ceil(num)]
+
+    return weights >= bound
+
+
+def rbf_interpolation(points, w_res):

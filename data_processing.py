@@ -1,48 +1,63 @@
 import numpy as np
 from polar_diagram import PolarDiagramTable, PolarDiagramPointcloud
 from _exceptions import ProcessingException
-from _utils import convert_wind
+from _utils import convert_wind, speed_resolution, angle_resolution, \
+    bound_filter, percentile_filter, rbf_interpolation
 
 
-def create_interpolated_table(points, interpol_func, ws_res=None,
-                              wa_res=None):
-    pass
+def create_polardiagram(data, p_type=PolarDiagramTable, **kwargs):
+
+    w_func = kwargs.pop("w_func", None)
+    w_points = WeightedPoints(data, w_func=w_func)
+    f_func = kwargs.pop("f_func", None)
+    i_func = kwargs.pop("i_func", None)
+    w_res = kwargs.pop("w_res", None)
+    data = filter_points(w_points, f_func, **kwargs)
+    data = interpolate_points(data, i_func, w_res)
+
+    if p_type == PolarDiagramTable:
+        pass
+    elif p_type == PolarDiagramPointcloud:
+        pass
 
 
-def filter_points(w_points, f_mode='bound', **filter_kw):
-    if f_mode == 'bound':
-        strict = filter_kw.get("strict", False)
-        lower = filter_kw.get("l_b", np.NINF)
-        upper = filter_kw.get("u_b", np.inf)
-        weights = w_points.weights
-        if strict:
-            f_arr_l = weights > lower
-            f_arr_u = weights < upper
+def interpolate_points(points, i_func=None, w_res=None):
+    if i_func is not None:
+        if w_res is None:
+            return i_func(points)
         else:
-            f_arr_l = weights >= lower
-            f_arr_u = weights <= upper
-
-        f_arr = (f_arr_l == f_arr_u)
-
-    elif f_mode == 'percentage':
-        points = w_points.points
-        per = 1 - filter_kw.get("percent", 50)/100
-        num = len(points) * per
-        if int(num) == num:
-            bound = (points[num]+points[num+1]) / 2
-        else:
-            bound = points[np.ceil(num)]
-
-        f_arr = w_points.weights >= bound
+            return i_func(points, w_res)
     else:
-        raise ProcessingException
+        if w_res is None:
 
-    return w_points.points[f_arr]
+        else:
+            return rbf_interpolation(points, w_res)
+
+
+
+
+
+
+def filter_points(w_points, f_func=None, std_mode='bound', **filter_kw):
+    if f_func is not None:
+        return f_func(w_points)
+    else:
+        if std_mode == 'bound':
+            f_arr = bound_filter(
+                w_points.weights, filter_kw.get("u_b", np.inf),
+                filter_kw.get("l_b", np.NINF), filter_kw.get("strict", False))
+        elif std_mode == 'percentage':
+            f_arr = percentile_filter(
+                w_points.weights, filter_kw.get("percent", 50))
+        else:
+            raise ProcessingException
+        return w_points.points[f_arr]
+
 
 
 class WeightedPoints:
 
-    def __init__(self, points, weights=None, tws=True, twa=True):
+    def __init__(self, points, w_func=None, tws=True, twa=True):
 
         if len(points) != 3:
             raise ProcessingException
@@ -55,15 +70,10 @@ class WeightedPoints:
             (w_dict["wind_speed"], w_dict["wind_angle"], points[:, 2]))
 
         self._points = points
-        self._weights = weights
+        self._weights = w_func(points)
 
     def points(self):
         return self._points.copy()
 
     def weights(self):
         return self._weights.copy()
-
-    def weighing(self, w_func):
-        weights = w_func(points)
-        self._weights = weights
-        return
