@@ -465,7 +465,7 @@ def percentile_filter(weights, per):
     per = 1 - per/100
     num = len(weights) * per
     if int(num) == num:
-        bound = (weights[num] + weights[num + 1]) / 2
+        bound = (weights[int(num)] + weights[int(num) + 1]) / 2
     else:
         bound = weights[np.ceil(num)]
 
@@ -474,8 +474,6 @@ def percentile_filter(weights, per):
 
 def spline_interpolation(points, w_res):
     ws, wa, bsp = np.hsplit(points, 3)
-    ws_res, wa_res = np.hsplit(w_res, 2)
-    ws_res, wa_res = ws_res.reshape(-1,), wa_res.reshape(-1)
+    ws_res, wa_res = w_res
     spline = bisplrep(ws, wa, bsp)
-    return bisplev(ws_res, wa_res, spline)
-
+    return bisplev(ws_res, wa_res, spline).T

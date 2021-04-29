@@ -17,17 +17,16 @@ def create_polardiagram(data, p_type=PolarDiagramTable, tws=True, twa=True,
     points = filter_points(w_points, f_func, **kwargs)
     if p_type == PolarDiagramTable:
         if w_res is None:
-            w_res = np.column_stack(
-                (np.arange(2, 42, 2), np.arange(0, 360, 5)))
-        elif w_res is "dontknowyet":
+            w_res = (np.arange(2, 42, 2), np.arange(0, 360, 5))
+
+        elif w_res == "dontknowyet":
             ws_min = int(round(points[:, 0].min()))
             ws_max = int(round(points[:, 0].max()))
             wa_min = int(round(points[:, 1].min()))
             wa_max = int(round(points[:, 1].max()))
-            #Hier noch Intervalteilung
+            # Hier noch Intervalteilung
         data = interpolate_points(points, w_res, i_func)
-        ws_res, wa_res = np.hsplit(w_res, 2)
-        ws_res, wa_res = ws_res.reshape(-1,), wa_res.reshape(-1,)
+        ws_res, wa_res = w_res
         return PolarDiagramTable(
             wind_speed_resolution=ws_res,
             wind_angle_resolution=wa_res,
@@ -66,7 +65,7 @@ class WeightedPoints:
 
     def __init__(self, points, w_func=None, tws=True, twa=True):
 
-        if len(points) != 3:
+        if len(points[0]) != 3:
             raise ProcessingException
 
         points = np.array(points)
@@ -77,10 +76,15 @@ class WeightedPoints:
             (w_dict["wind_speed"], w_dict["wind_angle"], points[:, 2]))
 
         self._points = points
-        self._weights = w_func(points)
+        if w_func is None:
+            pass
+        else:
+            self._weights = w_func(points)
 
+    @property
     def points(self):
         return self._points.copy()
 
+    @property
     def weights(self):
         return self._weights.copy()
