@@ -6,26 +6,36 @@ from _utils import convert_wind, bound_filter, percentile_filter, \
 
 
 # V: Soweit in Ordnung
-def create_polardiagram(data, p_type=PolarDiagramTable,
-                        tws=True, twa=True, **kwargs):
+def create_polar_diagram(data, p_type=PolarDiagramTable,
+                         w_func=None, f_func=None, i_func=None,
+                         w_res=None, tws=True, twa=True,
+                         w_func_kw=None, **filter_kw):
     if p_type not in \
             (PolarDiagramTable, PolarDiagramPointcloud):
         raise ProcessingException(
             "functionality for p_type not yet implemented")
 
-    w_func = kwargs.pop("w_func", None)
-    f_func = kwargs.pop("f_func", None)
-    i_func = kwargs.pop("i_func", None)
-    w_res = kwargs.pop("w_res", None)
+    if w_func_kw is None:
+        w_func_kw = {}
 
     w_points = WeightedPoints(
-        data, w_func=w_func, tws=tws, twa=twa)
+        data, w_func=w_func, tws=tws, twa=twa, **w_func_kw)
 
-    points = filter_points(w_points, f_func, **kwargs)
+    points = filter_points(w_points, f_func, **filter_kw)
     if p_type is PolarDiagramPointcloud:
         return PolarDiagramPointcloud(
             points=points, tws=True, twa=True)
 
+    data = interpolate_points(points, w_res, i_func)
+    ws_res, wa_res = w_res
+    return PolarDiagramTable(
+        wind_speed_resolution=ws_res,
+        wind_angle_resolution=wa_res,
+        data=data, tws=True, twa=True)
+
+
+# V: Soweit in Ordnung
+def interpolate_points(points, w_res=None, i_func=None):
     if w_res is None:
         w_res = (np.arange(2, 42, 2), np.arange(0, 360, 5))
 
@@ -38,16 +48,6 @@ def create_polardiagram(data, p_type=PolarDiagramTable,
         wa_res = np.around(np.arange(wa_min, wa_max, 72))
         w_res = (ws_res, wa_res)
 
-    data = interpolate_points(points, w_res, i_func)
-    ws_res, wa_res = w_res
-    return PolarDiagramTable(
-        wind_speed_resolution=ws_res,
-        wind_angle_resolution=wa_res,
-        data=data, tws=True, twa=True)
-
-
-# V: Soweit in Ordnung
-def interpolate_points(points, w_res, i_func=None):
     if i_func is None:
         return spline_interpolation(points, w_res)
 
@@ -55,16 +55,16 @@ def interpolate_points(points, w_res, i_func=None):
 
 
 # V: Soweit in Ordnung
-def filter_points(w_points, f_func=None, std_mode='bound',
+def filter_points(w_points, f_func=None, f_mode='bound',
                   **filter_kw):
     if f_func is not None:
         return f_func(w_points, **filter_kw)
 
-    if std_mode not in ('bound', 'percentage'):
+    if f_mode not in ('bound', 'percentage'):
         raise ProcessingException(
             "functionality for std_mode not yet implemented")
 
-    if std_mode == 'bound':
+    if f_mode == 'bound':
         f_arr = bound_filter(
             w_points.weights,
             filter_kw.get("u_b", np.inf),
@@ -115,10 +115,13 @@ class WeightedPoints:
 
 
 # V: In Arbeit
-def default_w_func(points, outlier=5, st_points=13):
+def default_w_func(points, **w_func_kw):
     ws_std = []
     wa_std = []
     bsp_std = []
+
+    st_points = w_func_kw.get('st_points', 13)
+    outlier = w_func_kw.get('outlier', 5)
 
     for i in range(13, len(points)):
         ws_std.append(points[i-st_points:i, 0].std())
