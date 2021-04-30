@@ -47,11 +47,13 @@ def read_pointcloud(csv_reader):
 
 
 # V: In Arbeit
-def read_curve(csv_reader):
-    f = next(csv_reader)[1]
-    rad = next(csv_reader)[1]
-    params = next(csv_reader)[1:]
-    return f, rad, params
+def read_extern_format(csv_path, fmt):
+    if fmt == 'orc':
+        return read_orc_csv(csv_path)
+    if fmt == 'array':
+        return read_array_csv(csv_path)
+    if fmt == 'opencpn':
+        return read_opencpn_csv(csv_path)
 
 
 # V: In Arbeit
@@ -93,9 +95,11 @@ def read_opencpn_csv(csv_path):
 def convert_wind(w_dict, tws, twa):
     if tws and twa:
         return w_dict
+
     if not tws:
         w_dict["wind_speed"] = apparent_wind_speed_to_true(
             w_dict["wind_speed"])
+
     if not twa:
         w_dict["wind_angle"] = apparent_wind_angle_to_true(
             w_dict["wind_angle"])
@@ -105,28 +109,32 @@ def convert_wind(w_dict, tws, twa):
 
 # V: In Arbeit
 def speed_resolution(ws_res):
-    if ws_res is not None:
-        if isinstance(ws_res, Iterable):
-            return np.array(list(ws_res))
-        elif isinstance(ws_res, (int, float)):
-            return np.array(np.arange(ws_res, 40, ws_res))
-        else:
-            raise PolarDiagramException("Wrong resolution", type(ws_res))
-    else:
+    if ws_res is None:
         return np.array(np.arange(2, 42, 2))
+
+    if not isinstance(ws_res, (Iterable, int, float)):
+        raise PolarDiagramException(
+            "ws_res is neither Iterable, int or float")
+
+    if isinstance(ws_res, Iterable):
+        return np.array(list(ws_res))
+
+    return np.array(np.arange(ws_res, 40, ws_res))
 
 
 # V: In Arbeit
 def angle_resolution(wa_res):
-    if wa_res is not None:
-        if isinstance(wa_res, Iterable):
-            return np.array(list(wa_res))
-        elif isinstance(wa_res, (int, float)):
-            return np.array(np.arange(wa_res, 360, wa_res))
-        else:
-            raise PolarDiagramException("Wrong resolution", type(wa_res))
-    else:
+    if wa_res is None:
         return np.array(np.arange(0, 360, 5))
+
+    if not isinstance(wa_res, (Iterable, int, float)):
+        raise PolarDiagramException(
+            "wa_res is neither Iterable, int or float")
+
+    if isinstance(wa_res, Iterable):
+        return np.array(list(wa_res))
+
+    return np.array(np.arange(wa_res, 360, wa_res))
 
 
 # V: In Arbeit
@@ -137,15 +145,11 @@ def get_indices(w_list, res_list):
             return ind
         except ValueError:
             raise PolarDiagramException(
-                "Not in resolution",
-                w_list,
-                res_list)
+                f"{w_list} is not in resolution")
 
     if not set(w_list).issubset(set(res_list)):
         raise PolarDiagramException(
-            "Not in resolution",
-            w_list,
-            res_list)
+            f"{w_list} is not in resolution")
 
     ind_list = [i for i in range(len(res_list)) if res_list[i] in w_list]
     return ind_list
@@ -158,7 +162,7 @@ def plot_polar(wa, bsp, ax, **plot_kw):
     if "marker" not in plot_kw:
         plot_kw["marker"] = 'o'
 
-    if not ax:
+    if ax is None:
         ax = plt.gca(projection='polar')
 
     xs, ys = zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
@@ -175,7 +179,7 @@ def plot_flat(wa, bsp, ax, **plot_kw):
     if "marker" not in plot_kw:
         plot_kw["marker"] = 'o'
 
-    if not ax:
+    if ax is None:
         ax = plt.gca()
 
     xs, ys = zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
@@ -198,8 +202,11 @@ def plot_polar_range(ws_list, wa_list, bsp_list,
         except KeyError:
             del plot_kw["c"]
 
-    if not ax:
+    if ax is None:
         ax = plt.gca(projection='polar')
+        
+    if legend_kw is None:
+        legend_kw = {}
 
     wa_list, bsp_list = zip(*sorted(zip(wa_list, bsp_list),
                                     key=lambda x: x[0]))
@@ -208,50 +215,41 @@ def plot_polar_range(ws_list, wa_list, bsp_list,
 
     no_plots = len(ws_list)
     no_colors = len(colors)
-
     if no_plots == no_colors or no_plots < no_colors:
         ax.set_prop_cycle('color', colors)
+
         if show_legend:
             legend = [Line2D(
                 [0], [0], color=colors[i], lw=1,
                 label=f"TWS {ws_list[i]}")
                       for i in range(no_plots)]
-            if legend_kw is None:
-                legend_kw = {}
-
             ax.legend(handles=legend, **legend_kw)
     elif no_plots > no_colors != 2:
         if len(colors[0]) == 1:
+            color_list = list(colors) + ['blue'] * (no_plots - no_colors)
+            ax.set_prop_cycle('color', color_list)
+
             if show_legend:
                 legend = [Line2D(
                     [0], [0], color=colors[i], lw=1,
                     label=f"TWS {ws_list[i]}")
                           for i in range(no_colors)]
-                if legend_kw is None:
-                    legend_kw = {}
-
                 ax.legend(handles=legend, **legend_kw)
-
-            color_list = list(colors) + ['blue']*(no_plots - no_colors)
-            ax.set_prop_cycle('color', color_list)
 
         if len(colors[0]) == 2:
-            if show_legend:
-                legend = [Line2D(
-                    [0], [0], color=colors[i][1], lw=1,
-                    label=f"TWS {colors[i][0]}")
-                          for i in range(no_colors)]
-                if legend_kw is None:
-                    legend_kw = {}
-
-                ax.legend(handles=legend, **legend_kw)
-
             color_list = ['blue'] * no_plots
             for ws, c in colors:
                 i = list(ws_list).index(ws)
                 color_list[i] = c
 
             ax.set_prop_cycle('color', color_list)
+
+            if show_legend:
+                legend = [Line2D(
+                    [0], [0], color=colors[i][1], lw=1,
+                    label=f"TWS {colors[i][0]}")
+                          for i in range(no_colors)]
+                ax.legend(handles=legend, **legend_kw)
 
     elif no_colors == 2:
         ws_max = max(ws_list)
@@ -265,9 +263,6 @@ def plot_polar_range(ws_list, wa_list, bsp_list,
         ax.set_prop_cycle('color', color_list)
 
         if show_legend:
-            if legend_kw is None:
-                legend_kw = {}
-
             cmap = LinearSegmentedColormap.from_list(
                 "custom_map", [min_color, max_color])
             plt.colorbar(
@@ -293,8 +288,11 @@ def flat_plot_range(ws_list, wa_list, bsp_list,
         except KeyError:
             del plot_kw["c"]
 
-    if not ax:
+    if ax is None:
         ax = plt.gca()
+
+    if legend_kw is None:
+        legend_kw = {}
 
     wa_list, bsp_list = zip(*sorted(zip(wa_list, bsp_list),
                                     key=lambda x: x[0]))
@@ -303,51 +301,43 @@ def flat_plot_range(ws_list, wa_list, bsp_list,
 
     no_plots = len(ws_list)
     no_colors = len(colors)
-
     if no_plots == no_colors or no_plots < no_colors:
         ax.set_prop_cycle('color', colors)
+
         if show_legend:
             legend = [Line2D(
                 [0], [0], color=to_rgb(colors[i]), lw=1,
                 label=f"TWS {ws_list[i]}")
                       for i in range(len(ws_list))]
-
-            if legend_kw is None:
-                legend_kw = {}
-
             ax.legend(handles=legend, **legend_kw)
+
     elif no_plots > no_colors != 2:
+
         if len(colors[0]) == 1:
+            color_list = list(colors) + ['blue'] * (no_plots - no_colors)
+            ax.set_prop_cycle('color', color_list)
+
             if show_legend:
                 legend = [Line2D(
                     [0], [0], color=colors[i], lw=1,
                     label=f"TWS {ws_list[i]}")
-                          for i in range(no_colors)]
-                if legend_kw is None:
-                    legend_kw = {}
-
+                    for i in range(no_colors)]
                 ax.legend(handles=legend, **legend_kw)
 
-            color_list = list(colors) + ['blue']*(no_plots - no_colors)
-            ax.set_prop_cycle('color', color_list)
-
-        if len(colors[0]) == 2:
-            if show_legend:
-                legend = [Line2D(
-                    [0], [0], color=colors[i][1], lw=1,
-                    label=f"TWS {colors[i][0]}")
-                          for i in range(no_colors)]
-                if legend_kw is None:
-                    legend_kw = {}
-
-                ax.legend(handles=legend, **legend_kw)
-
+        elif len(colors[1]) == 2:
             color_list = ['blue'] * no_plots
             for ws, c in colors:
                 i = list(ws_list).index(ws)
                 color_list[i] = c
-
             ax.set_prop_cycle('color', color_list)
+
+            if show_legend:
+                legend = [Line2D(
+                    [0], [0], color=colors[i][1], lw=1,
+                    label=f"TWS {colors[i][0]}")
+                    for i in range(no_colors)]
+                ax.legend(handles=legend, **legend_kw)
+
     elif no_colors == 2:
         ws_max = max(ws_list)
         ws_min = min(ws_list)
@@ -360,9 +350,6 @@ def flat_plot_range(ws_list, wa_list, bsp_list,
         ax.set_prop_cycle('color', color_list)
 
         if show_legend:
-            if legend_kw is None:
-                legend_kw = {}
-
             cmap = LinearSegmentedColormap.from_list(
                 "custom_cmap", [min_color, max_color])
             plt.colorbar(
@@ -378,8 +365,11 @@ def flat_plot_range(ws_list, wa_list, bsp_list,
 # V: Soweit in Ordnung
 def plot_color(ws, wa, bsp, ax, colors,
                marker, show_legend, **legend_kw):
-    if not ax:
+    if ax is None:
         ax = plt.gca()
+
+    if legend_kw is None:
+        legend_kw = {}
 
     bsp_max = max(bsp)
     bsp_min = min(bsp)
@@ -408,7 +398,7 @@ def plot3d(ws, wa, bsp, ax, **plot_kw):
     if "marker" not in plot_kw:
         plot_kw["marker"] = 'o'
 
-    if not ax:
+    if ax is None:
         ax = plt.gca(projection='3d')
 
     ax.set_xlabel("True Wind Speed")
@@ -419,7 +409,7 @@ def plot3d(ws, wa, bsp, ax, **plot_kw):
 
 # V: In Arbeit
 def plot_surface(ws, wa, bsp, ax, colors):
-    if not ax:
+    if ax is None:
         ax = plt.gca(projection='3d')
 
     ax.set_xlabel("True Wind Speed")
@@ -432,7 +422,7 @@ def plot_surface(ws, wa, bsp, ax, colors):
 
 # V: Soweit in Ordnung
 def plot_convex_hull(wa, bsp, ax, **plot_kw):
-    if not ax:
+    if ax is None:
         ax = plt.gca(projection='polar')
 
     wa, bsp = zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
@@ -452,24 +442,18 @@ def plot_convex_hull(wa, bsp, ax, **plot_kw):
 
 def bound_filter(weights, upper, lower, strict):
     if strict:
-        f_arr_l = weights > lower
-        f_arr_u = weights < upper
-    else:
-        f_arr_l = weights >= lower
-        f_arr_u = weights <= upper
+        return (weights > lower) == (weights < upper)
 
-    return f_arr_l == f_arr_u
+    return (weights >= lower) == (weights <= upper)
 
 
 def percentile_filter(weights, per):
     per = 1 - per/100
     num = len(weights) * per
     if int(num) == num:
-        bound = (weights[int(num)] + weights[int(num) + 1]) / 2
-    else:
-        bound = weights[np.ceil(num)]
+        return weights >= (weights[int(num)] + weights[int(num) + 1]) / 2
 
-    return weights >= bound
+    return weights >= weights[np.ceil(num)]
 
 
 def spline_interpolation(points, w_res):
