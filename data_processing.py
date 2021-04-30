@@ -81,6 +81,7 @@ class WeightedPoints:
 
     def __init__(self, points, w_func=None, tws=True,
                  twa=True, **w_func_kw):
+        points = np.array(points)
         if len(points[0]) != 3:
             try:
                 points = points.reshape(-1, 3)
@@ -89,7 +90,6 @@ class WeightedPoints:
                     "points could not be broadcasted "
                     "to an array of shape (n,3)")
 
-        points = np.array(points)
         w_dict = convert_wind(
             {"wind_speed": points[:, 0],
              "wind_angle": points[:, 1]},
@@ -123,7 +123,7 @@ def default_w_func(points, **w_func_kw):
     st_points = w_func_kw.get('st_points', 13)
     outlier = w_func_kw.get('outlier', 5)
 
-    for i in range(13, len(points)):
+    for i in range(st_points, len(points)):
         ws_std.append(points[i-st_points:i, 0].std())
         wa_std.append(points[i-st_points:i, 1].std())
         bsp_std.append(points[i-st_points:i, 2].std())
