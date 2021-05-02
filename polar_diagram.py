@@ -367,62 +367,24 @@ class PolarDiagramTable(PolarDiagram):
             tws, twa)
         ws = w_dict["wind_speed"]
         wa = w_dict["wind_angle"]
-        if ws is not None:
-            ws_ind = get_indices(ws, self.wind_speeds)
-            if wa is not None:
-                wa_ind = get_indices(wa, self.wind_angles)
-                mask = np.zeros(self.boat_speeds.shape, dtype=bool)
-                for i in wa_ind:
-                    for j in ws_ind:
-                        mask[i, j] = True
-
-                if new_data.shape != mask.shape:
-                    try:
-                        new_data = new_data.reshape(mask.shape)
-                    except ValueError:
-                        raise PolarDiagramException(
-                            "new_data couldn't be broadcasted to an"
-                            f"array of shape {mask.shape}")
-                self._data[mask] = new_data.flat
-                return
-
-            try:
-                self._data[:, ws_ind] = new_data.reshape(-1, len(ws_ind))
-                return
-            except ValueError:
-                raise PolarDiagramException(
-                    "new_data couldn't be broadcasted to an"
-                    f"array of shape {(len(self.wind_angles), len(ws_ind))}")
-
-        elif wa is not None:
-            wa_ind = get_indices(wa, self.wind_angles)
-            try:
-                self._data[wa_ind, :] = new_data.reshape(len(wa_ind), -1)
-                return
-            except ValueError:
-                raise PolarDiagramException(
-                    "new_data couldn't be broadcasted to an"
-                    f"array of shape {(len(wa_ind), len(self.wind_speeds))}")
-
-        if new_data.shape != (len(self.wind_angles), len(self.wind_speeds)):
-            try:
-                new_data = new_data.reshape(
-                    len(self.wind_angles), len(self.wind_speeds))
-            except ValueError:
-                raise PolarDiagramException(
-                    "new_data couldn't be broadcasted to an"
-                    "array of shape "
-                    f"{(len(self.wind_angles), len(self.wind_speeds))}")
-        self._data = new_data
+        ws_ind = get_indices(ws, self.wind_speeds)
+        wa_ind = get_indices(wa, self.wind_angles)
+        mask = np.zeros(self.boat_speeds.shape, dtype=bool)
+        for i in wa_ind:
+            for j in ws_ind:
+                mask[i, j] = True
+        try:
+            new_data = new_data.reshape(len(wa_ind), len(ws_ind))
+        except ValueError:
+            raise PolarDiagramException(
+                "new_data couldn't be broadcasted to an"
+                f"array of shape {(len(wa_ind), len(ws_ind))}")
+        self._data[mask] = new_data.flat
 
     # V: Soweit in Ordnung
     def _get_slice_data(self, ws):
-        try:
-            col = list(self.wind_speeds).index(ws)
-            return self.boat_speeds[:, col]
-        except ValueError:
-            raise PolarDiagramException(
-                f"{ws} was no found in resolution")
+        ws_ind = get_indices(ws, self.wind_speeds)
+        return self.boat_speeds[:, ws_ind]
 
     # V: Soweit in Ordnung
     def polar_plot_slice(self, ws, ax=None, **plot_kw):

@@ -139,6 +139,9 @@ def angle_resolution(wa_res):
 
 # V: In Arbeit
 def get_indices(w_list, res_list):
+    if w_list is None:
+        return list(range(len(res_list)))
+
     if not isinstance(w_list, Iterable):
         try:
             ind = list(res_list).index(w_list)
@@ -157,9 +160,11 @@ def get_indices(w_list, res_list):
 
 # V: Soweit in Ordnung
 def plot_polar(wa, bsp, ax, **plot_kw):
-    if "linestyle" not in plot_kw and "ls" not in plot_kw:
+    ls = plot_kw.get('linestyle') or plot_kw.get('ls')
+    if ls is None:
         plot_kw["ls"] = ''
-    if "marker" not in plot_kw:
+    marker = plot_kw.get('marker')
+    if marker is None:
         plot_kw["marker"] = 'o'
 
     if ax is None:
@@ -174,9 +179,11 @@ def plot_polar(wa, bsp, ax, **plot_kw):
 
 # V: Soweit in Ordnung
 def plot_flat(wa, bsp, ax, **plot_kw):
-    if "linestyle" not in plot_kw and "ls" not in plot_kw:
+    ls = plot_kw.get('linestyle') or plot_kw.get('ls')
+    if ls is None:
         plot_kw["ls"] = ''
-    if "marker" not in plot_kw:
+    marker = plot_kw.get('marker')
+    if marker is None:
         plot_kw["marker"] = 'o'
 
     if ax is None:
@@ -192,19 +199,17 @@ def plot_flat(wa, bsp, ax, **plot_kw):
 # V: In Arbeit
 def plot_polar_range(ws_list, wa_list, bsp_list,
                      ax, colors, show_legend, legend_kw, **plot_kw):
-    if "linestyle" not in plot_kw and "ls" not in plot_kw:
+    ls = plot_kw.get('linestyle') or plot_kw.get('ls')
+    if ls is None:
         plot_kw["ls"] = ''
-    if "marker" not in plot_kw:
+    marker = plot_kw.get('marker')
+    if marker is None:
         plot_kw["marker"] = 'o'
-    if "color" in plot_kw or "c" in plot_kw:
-        try:
-            del plot_kw["color"]
-        except KeyError:
-            del plot_kw["c"]
+    _ = plot_kw.pop('color') or plot_kw.pop('c')
 
     if ax is None:
         ax = plt.gca(projection='polar')
-        
+
     if legend_kw is None:
         legend_kw = {}
 
@@ -222,7 +227,7 @@ def plot_polar_range(ws_list, wa_list, bsp_list,
             legend = [Line2D(
                 [0], [0], color=colors[i], lw=1,
                 label=f"TWS {ws_list[i]}")
-                      for i in range(no_plots)]
+                for i in range(no_plots)]
             ax.legend(handles=legend, **legend_kw)
     elif no_plots > no_colors != 2:
         if len(colors[0]) == 1:
@@ -233,7 +238,7 @@ def plot_polar_range(ws_list, wa_list, bsp_list,
                 legend = [Line2D(
                     [0], [0], color=colors[i], lw=1,
                     label=f"TWS {ws_list[i]}")
-                          for i in range(no_colors)]
+                    for i in range(no_colors)]
                 ax.legend(handles=legend, **legend_kw)
 
         if len(colors[0]) == 2:
@@ -248,7 +253,7 @@ def plot_polar_range(ws_list, wa_list, bsp_list,
                 legend = [Line2D(
                     [0], [0], color=colors[i][1], lw=1,
                     label=f"TWS {colors[i][0]}")
-                          for i in range(no_colors)]
+                    for i in range(no_colors)]
                 ax.legend(handles=legend, **legend_kw)
 
     elif no_colors == 2:
@@ -258,7 +263,7 @@ def plot_polar_range(ws_list, wa_list, bsp_list,
         max_color = np.array(to_rgb(colors[1]))
         coeffs = [(ws - ws_min) / (ws_max - ws_min)
                   for ws in ws_list]
-        color_list = [(1-coeff)*min_color + coeff*max_color
+        color_list = [(1 - coeff) * min_color + coeff * max_color
                       for coeff in coeffs]
         ax.set_prop_cycle('color', color_list)
 
@@ -278,15 +283,13 @@ def plot_polar_range(ws_list, wa_list, bsp_list,
 # V: In Arbeit
 def flat_plot_range(ws_list, wa_list, bsp_list,
                     ax, colors, show_legend, legend_kw, **plot_kw):
-    if "linestyle" not in plot_kw and "ls" not in plot_kw:
+    ls = plot_kw.get('linestyle') or plot_kw.get('ls')
+    if ls is None:
         plot_kw["ls"] = ''
-    if "marker" not in plot_kw:
+    marker = plot_kw.get('marker')
+    if marker is None:
         plot_kw["marker"] = 'o'
-    if "color" in plot_kw or "c" in plot_kw:
-        try:
-            del plot_kw["color"]
-        except KeyError:
-            del plot_kw["c"]
+    _ = plot_kw.pop('color') or plot_kw.pop('c')
 
     if ax is None:
         ax = plt.gca()
@@ -308,7 +311,7 @@ def flat_plot_range(ws_list, wa_list, bsp_list,
             legend = [Line2D(
                 [0], [0], color=to_rgb(colors[i]), lw=1,
                 label=f"TWS {ws_list[i]}")
-                      for i in range(len(ws_list))]
+                for i in range(len(ws_list))]
             ax.legend(handles=legend, **legend_kw)
 
     elif no_plots > no_colors != 2:
@@ -375,8 +378,8 @@ def plot_color(ws, wa, bsp, ax, colors,
     bsp_min = min(bsp)
     min_color = np.array(to_rgb(colors[0]))
     max_color = np.array(to_rgb(colors[1]))
-    coeffs = [(b - bsp_min)/(bsp_max - bsp_min) for b in bsp]
-    color = [(1-coeff)*min_color + coeff*max_color for coeff in coeffs]
+    coeffs = [(b - bsp_min) / (bsp_max - bsp_min) for b in bsp]
+    color = [(1 - coeff) * min_color + coeff * max_color for coeff in coeffs]
     ax.set_xlabel("True Wind Speed")
     ax.set_ylabel("True Wind Angle")
 
@@ -393,9 +396,11 @@ def plot_color(ws, wa, bsp, ax, colors,
 
 # V: In Arbeit
 def plot3d(ws, wa, bsp, ax, **plot_kw):
-    if "linestyle" not in plot_kw and "ls" not in plot_kw:
+    ls = plot_kw.get('linestyle') or plot_kw.get('ls')
+    if ls is None:
         plot_kw["ls"] = ''
-    if "marker" not in plot_kw:
+    marker = plot_kw.get('marker')
+    if marker is None:
         plot_kw["marker"] = 'o'
 
     if ax is None:
@@ -448,7 +453,7 @@ def bound_filter(weights, upper, lower, strict):
 
 
 def percentile_filter(weights, per):
-    per = 1 - per/100
+    per = 1 - per / 100
     num = len(weights) * per
     if int(num) == num:
         return weights >= (weights[int(num)] + weights[int(num) + 1]) / 2
