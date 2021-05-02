@@ -116,10 +116,6 @@ class WeightedPoints:
 
 # V: In Arbeit
 def default_w_func(points, **w_func_kw):
-    ws_std = []
-    wa_std = []
-    bsp_std = []
-
     st_points = w_func_kw.get('st_points', 13)
     out = w_func_kw.get('out', 5)
 
