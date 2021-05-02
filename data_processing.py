@@ -121,35 +121,25 @@ def default_w_func(points, **w_func_kw):
     bsp_std = []
 
     st_points = w_func_kw.get('st_points', 13)
-    outlier = w_func_kw.get('outlier', 5)
+    out = w_func_kw.get('out', 5)
+
+    std_list = [[], [], []]
+    weights = []
 
     for i in range(st_points, len(points)):
-        ws_std.append(points[i-st_points:i, 0].std())
-        wa_std.append(points[i-st_points:i, 1].std())
-        bsp_std.append(points[i-st_points:i, 2].std())
+        std_list[0].append(points[i-st_points:i, 0].std())
+        std_list[1].append(points[i-st_points:i, 1].std())
+        std_list[2].append(points[i-st_points:i, 2].std())
 
-    f_arr_ws_1 = percentile_filter(ws_std, outlier)
-    f_arr_ws_2 = percentile_filter(ws_std, 100 - outlier)
-    f_arr_ws = (f_arr_ws_1 == f_arr_ws_2)
-    ws_weight = [1 / ws_std[i] ** 2 if f_arr_ws else 0
-                 for i in range(len(ws_std))]
-
-    f_arr_wa_1 = percentile_filter(wa_std, outlier)
-    f_arr_wa_2 = percentile_filter(wa_std, 100 - outlier)
-    f_arr_wa = (f_arr_wa_1 == f_arr_wa_2)
-    wa_weight = [1 / wa_std[i] ** 2 if f_arr_wa else 0
-                 for i in range(len(wa_std))]
-
-    f_arr_bsp_1 = percentile_filter(bsp_std, outlier)
-    f_arr_bsp_2 = percentile_filter(bsp_std, 100 - outlier)
-    f_arr_bsp = (f_arr_bsp_1 == f_arr_bsp_2)
-    bsp_weight = [1/bsp_std[i]**2 if f_arr_bsp else 0
-                  for i in range(len(bsp_std))]
+    for i in range(3):
+        f_arr_1 = percentile_filter(std_list[i], out)
+        f_arr_2 = percentile_filter(std_list[i], 100 - out)
+        f_arr = (f_arr_1 == f_arr_2)
+        weights.append([1 / std_list[i][j]**2 if f_arr[j] else 0
+                        for j in range(len(std_list[i]))])
 
     sum_weights = np.array([
         (ws_w + wa_w + bsp_w)/3 for ws_w, wa_w, bsp_w
-        in zip(ws_weight, wa_weight, bsp_weight)])
-
+        in zip(weights[0], weights[1], weights[3])])
     normed_weights = sum_weights / sum(sum_weights)
-    weights = np.array([1] * st_points)
-    return np.concatenate([weights, normed_weights])
+    return np.concatenate([np.array([1] * st_points), normed_weights])
