@@ -145,7 +145,7 @@ def get_indices(w_list, res_list):
     if not isinstance(w_list, Iterable):
         try:
             ind = list(res_list).index(w_list)
-            return ind
+            return [ind]
         except ValueError:
             raise PolarDiagramException(
                 f"{w_list} is not in resolution")
@@ -205,7 +205,7 @@ def plot_polar_range(ws_list, wa_list, bsp_list,
     marker = plot_kw.get('marker')
     if marker is None:
         plot_kw["marker"] = 'o'
-    _ = plot_kw.pop('color') or plot_kw.pop('c')
+    _ = plot_kw.pop('color', None) or plot_kw.pop('c', None)
 
     if ax is None:
         ax = plt.gca(projection='polar')
@@ -289,7 +289,7 @@ def flat_plot_range(ws_list, wa_list, bsp_list,
     marker = plot_kw.get('marker')
     if marker is None:
         plot_kw["marker"] = 'o'
-    _ = plot_kw.pop('color') or plot_kw.pop('c')
+    _ = plot_kw.pop('color', None) or plot_kw.pop('c', None)
 
     if ax is None:
         ax = plt.gca()
@@ -458,7 +458,7 @@ def percentile_filter(weights, per):
     if int(num) == num:
         return weights >= (weights[int(num)] + weights[int(num) + 1]) / 2
 
-    return weights >= weights[np.ceil(num)]
+    return weights >= weights[int(np.ceil(num))]
 
 
 def spline_interpolation(points, w_res):

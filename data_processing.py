@@ -26,7 +26,7 @@ def create_polar_diagram(data, p_type=PolarDiagramTable,
         return PolarDiagramPointcloud(
             points=points, tws=True, twa=True)
 
-    data = interpolate_points(points, w_res, i_func)
+    data, w_res = interpolate_points(points, w_res, i_func)
     ws_res, wa_res = w_res
     return PolarDiagramTable(
         wind_speed_resolution=ws_res,
@@ -49,9 +49,9 @@ def interpolate_points(points, w_res=None, i_func=None):
         w_res = (ws_res, wa_res)
 
     if i_func is None:
-        return spline_interpolation(points, w_res)
+        return spline_interpolation(points, w_res), w_res
 
-    return i_func(points, w_res)
+    return i_func(points, w_res), w_res
 
 
 # V: Soweit in Ordnung
@@ -136,6 +136,6 @@ def default_w_func(points, **w_func_kw):
 
     sum_weights = np.array([
         (ws_w + wa_w + bsp_w)/3 for ws_w, wa_w, bsp_w
-        in zip(weights[0], weights[1], weights[3])])
+        in zip(weights[0], weights[1], weights[2])])
     normed_weights = sum_weights / sum(sum_weights)
     return np.concatenate([np.array([1] * st_points), normed_weights])

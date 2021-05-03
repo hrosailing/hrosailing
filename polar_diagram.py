@@ -294,7 +294,7 @@ class PolarDiagramTable(PolarDiagram):
              np.array(["..."]*length),
              self.boat_speeds[:, -5:]))
         headers = (["TWA \\ TWS"]
-                   + list(self.wind_speeds)[5:]
+                   + list(self.wind_speeds)[:5]
                    + ["..."]
                    + list(self.wind_speeds)[-5:])
         return tabulate(table, headers=headers)
@@ -407,9 +407,7 @@ class PolarDiagramTable(PolarDiagram):
         if ws_range is None:
             ws_range = self.wind_speeds
 
-        bsp_list = []
-        for ws in ws_range:
-            bsp_list.append(self._get_slice_data(ws))
+        bsp_list = list(self._get_slice_data(ws=ws_range).T)
         wa_list = [list(np.deg2rad(self.wind_angles))] * len(bsp_list)
 
         return plot_polar_range(
@@ -423,9 +421,7 @@ class PolarDiagramTable(PolarDiagram):
         if ws_range is None:
             ws_range = self.wind_speeds
 
-        bsp_list = []
-        for ws in ws_range:
-            bsp_list.append(self._get_slice_data(ws))
+        bsp_list = list(self._get_slice_data(ws=ws_range).T)
         wa_list = [list(self.wind_angles)]*len(bsp_list)
         return flat_plot_range(
             ws_range, wa_list, bsp_list,
@@ -567,7 +563,6 @@ class PolarDiagramCurve(PolarDiagram):
     # V: Soweit in Ordnung
     def polar_plot_slice(self, ws, ax=None, **plot_kw):
         """"""
-
         wa = np.linspace(0, 360, 1000)
         if self.radians:
             wa = np.deg2rad(wa)
@@ -654,14 +649,14 @@ class PolarDiagramCurve(PolarDiagram):
         return plot_surface(ws_arr, wa, bsp, ax, colors)
 
     # V: In Arbeit
-    def plot_color_gradient(self, ws_range=(0, 20), ax=None,
+    def plot_color_gradient(self, ws_range=(0, 20, 100), ax=None,
                             colors=('green', 'red'), marker=None,
                             show_legend=True, **legend_kw):
         """"""
-        ws_lower, ws_upper = ws_range
+        ws_lower, ws_upper, ws_step = ws_range
         ws, wa = np.meshgrid(
-            np.linspace(ws_lower, ws_upper, 100),
-            np.linspace(0, 360, 360))
+            np.linspace(ws_lower, ws_upper, ws_step),
+            np.linspace(0, 360, 1000))
         ws = ws.reshape(-1,)
         wa = wa.reshape(-1,)
 
