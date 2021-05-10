@@ -137,5 +137,5 @@ def default_w_func(points, **w_func_kw):
     sum_weights = np.array([
         (ws_w + wa_w + bsp_w)/3 for ws_w, wa_w, bsp_w
         in zip(weights[0], weights[1], weights[2])])
-    normed_weights = sum_weights / sum(sum_weights)
+    normed_weights = sum_weights / max(sum_weights)
     return np.concatenate([np.array([1] * st_points), normed_weights])
