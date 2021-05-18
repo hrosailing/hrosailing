@@ -1,16 +1,16 @@
-import numpy as np
+from numpy.ma import arccos, cos, sqrt
+from numpy import deg2rad, rad2deg
 
 
 # V: In Arbeit
-def apparent_wind_angle_to_true(apparent_wind_angle):
-    # true_wind_angle = arcsin(true_wind_speed * sin(apparent_wind_angle) / apparent_wind_speed)?
-    # true_wind_angle = arccos((true_wind_speed * cos(true_pointing_angle) + boat_speed)/apparent_wind_speed)?
-    pass
+def apparent_wind_to_true(aws, awa, bsp):
+    if aws is None or awa is None or bsp is None:
+        return None, None
 
+    awa_rad = deg2rad(awa)
+    tws = sqrt(pow(aws, 2) + pow(bsp, 2) + 2 * aws * bsp * cos(awa_rad))
+    twa = arccos((aws * cos(awa_rad) - bsp) / tws)
+    twa = rad2deg(twa)
 
-# V: In Arbeit
-def apparent_wind_speed_to_true(apparent_wind_speed):
-    # true_wind_speed = apparent_wind_speed - relative_wind_speed
-    # Woraus ergibt sich relative_wind_speed? -> Fahrtgeschwindigkeit?
-    # (wenn course_over_ground = apparent_wind_direction?)
-    pass
+    return tws, twa
+

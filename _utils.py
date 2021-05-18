@@ -1,5 +1,6 @@
 import csv
 import matplotlib.pyplot as plt
+import numpy as np
 from collections import Iterable
 from matplotlib.colors import to_rgb, Normalize, LinearSegmentedColormap
 from matplotlib.cm import ScalarMappable
@@ -11,14 +12,14 @@ from _sailing_units import *
 
 
 # V: Soweit in Ordnung
-def polar_to_kartesian(radians, angles):
-    return np.column_stack((radians * np.cos(angles),
-                            radians * np.sin(angles)))
+def polar_to_kartesian(rad, ang):
+    return np.column_stack((rad * np.cos(ang),
+                            rad * np.sin(ang)))
 
 
 # V: Soweit in Ordnung
-def convex_hull_polar(points_radians, points_angles):
-    converted_points = polar_to_kartesian(points_radians, points_angles)
+def convex_hull_polar(points_rad, points_ang):
+    converted_points = polar_to_kartesian(points_rad, points_ang)
     return ConvexHull(converted_points)
 
 
@@ -92,19 +93,15 @@ def read_opencpn_csv(csv_path):
 
 
 # V: In Arbeit
-def convert_wind(w_dict, tws, twa):
-    if tws and twa:
+def convert_wind(w_dict, tw):
+    if tw:
         return w_dict
 
-    if not tws:
-        w_dict["wind_speed"] = apparent_wind_speed_to_true(
-            w_dict["wind_speed"])
-
-    if not twa:
-        w_dict["wind_angle"] = apparent_wind_angle_to_true(
-            w_dict["wind_angle"])
-
-    return w_dict
+    aws = w_dict.get("wind_speed")
+    awa = w_dict.get("wind_angle")
+    bsp = w_dict.get("boat_speed")
+    tws, twa = apparent_wind_to_true(aws, awa, bsp)
+    return {"wind_speed": tws, "wind_angle": twa}
 
 
 # V: In Arbeit
@@ -170,10 +167,10 @@ def plot_polar(wa, bsp, ax, **plot_kw):
     if ax is None:
         ax = plt.gca(projection='polar')
 
-    xs, ys = zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
-
     ax.set_theta_zero_location('N')
     ax.set_theta_direction('clockwise')
+
+    xs, ys = zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
     return ax.plot(xs, ys, **plot_kw)
 
 
@@ -188,11 +185,10 @@ def plot_flat(wa, bsp, ax, **plot_kw):
 
     if ax is None:
         ax = plt.gca()
+    # ax.set_xlabel("True Wind Angle")
+    # ax.set_ylabel("Boat Speed")
 
     xs, ys = zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
-
-    ax.set_xlabel("True Wind Angle")
-    ax.set_ylabel("Boat Speed")
     return ax.plot(xs, ys, **plot_kw)
 
 
@@ -210,13 +206,11 @@ def plot_polar_range(ws_list, wa_list, bsp_list,
     if ax is None:
         ax = plt.gca(projection='polar')
 
+    ax.set_theta_zero_location('N')
+    ax.set_theta_direction('clockwise')
+
     if legend_kw is None:
         legend_kw = {}
-
-    wa_list, bsp_list = zip(*sorted(zip(wa_list, bsp_list),
-                                    key=lambda x: x[0]))
-    xs = np.column_stack(wa_list)
-    ys = np.column_stack(bsp_list)
 
     no_plots = len(ws_list)
     no_colors = len(colors)
@@ -275,8 +269,10 @@ def plot_polar_range(ws_list, wa_list, bsp_list,
                     vmin=ws_min, vmax=ws_max), cmap=cmap),
                 ax=ax, **legend_kw).set_label("True Wind Speed")
 
-    ax.set_theta_zero_location('N')
-    ax.set_theta_direction('clockwise')
+    wa_list, bsp_list = zip(*sorted(zip(wa_list, bsp_list),
+                                    key=lambda x: x[0]))
+    xs = np.column_stack(wa_list)
+    ys = np.column_stack(bsp_list)
     return ax.plot(xs, ys, **plot_kw)
 
 
@@ -293,14 +289,11 @@ def flat_plot_range(ws_list, wa_list, bsp_list,
 
     if ax is None:
         ax = plt.gca()
+    # ax.set_xlabel("True Wind Angle")
+    # ax.set_ylabel("Boat Speed")
 
     if legend_kw is None:
         legend_kw = {}
-
-    wa_list, bsp_list = zip(*sorted(zip(wa_list, bsp_list),
-                                    key=lambda x: x[0]))
-    xs = np.column_stack(wa_list)
-    ys = np.column_stack(bsp_list)
 
     no_plots = len(ws_list)
     no_colors = len(colors)
@@ -309,13 +302,11 @@ def flat_plot_range(ws_list, wa_list, bsp_list,
 
         if show_legend:
             legend = [Line2D(
-                [0], [0], color=to_rgb(colors[i]), lw=1,
+                [0], [0], color=colors[i], lw=1,
                 label=f"TWS {ws_list[i]}")
-                for i in range(len(ws_list))]
+                for i in range(no_plots)]
             ax.legend(handles=legend, **legend_kw)
-
     elif no_plots > no_colors != 2:
-
         if len(colors[0]) == 1:
             color_list = list(colors) + ['blue'] * (no_plots - no_colors)
             ax.set_prop_cycle('color', color_list)
@@ -327,11 +318,12 @@ def flat_plot_range(ws_list, wa_list, bsp_list,
                     for i in range(no_colors)]
                 ax.legend(handles=legend, **legend_kw)
 
-        elif len(colors[1]) == 2:
+        if len(colors[0]) == 2:
             color_list = ['blue'] * no_plots
             for ws, c in colors:
                 i = list(ws_list).index(ws)
                 color_list[i] = c
+
             ax.set_prop_cycle('color', color_list)
 
             if show_legend:
@@ -340,7 +332,6 @@ def flat_plot_range(ws_list, wa_list, bsp_list,
                     label=f"TWS {colors[i][0]}")
                     for i in range(no_colors)]
                 ax.legend(handles=legend, **legend_kw)
-
     elif no_colors == 2:
         ws_max = max(ws_list)
         ws_min = min(ws_list)
@@ -360,8 +351,10 @@ def flat_plot_range(ws_list, wa_list, bsp_list,
                     vmin=ws_min, vmax=ws_max), cmap=cmap),
                 ax=ax, **legend_kw).set_label("True Wind Speed")
 
-    ax.set_xlabel("True Wind Angle")
-    ax.set_ylabel("Boat Speed")
+    wa_list, bsp_list = zip(*sorted(zip(wa_list, bsp_list),
+                                    key=lambda x: x[0]))
+    xs = np.column_stack(wa_list)
+    ys = np.column_stack(bsp_list)
     return ax.plot(xs, ys, **plot_kw)
 
 
@@ -371,6 +364,9 @@ def plot_color(ws, wa, bsp, ax, colors,
     if ax is None:
         ax = plt.gca()
 
+    # ax.set_xlabel("True Wind Speed")
+    # ax.set_ylabel("True Wind Angle")
+
     if legend_kw is None:
         legend_kw = {}
 
@@ -378,11 +374,10 @@ def plot_color(ws, wa, bsp, ax, colors,
     bsp_min = min(bsp)
     min_color = np.array(to_rgb(colors[0]))
     max_color = np.array(to_rgb(colors[1]))
-    coeffs = [(b - bsp_min) / (bsp_max - bsp_min) for b in bsp]
-    color = [(1 - coeff) * min_color + coeff * max_color for coeff in coeffs]
-    ax.set_xlabel("True Wind Speed")
-    ax.set_ylabel("True Wind Angle")
-
+    coeffs = [(b-bsp_min) / (bsp_max-bsp_min)
+              for b in bsp]
+    color = [(1-coeff) * min_color + coeff*max_color
+             for coeff in coeffs]
     if show_legend:
         cmap = LinearSegmentedColormap.from_list(
             "custom_cmap", [min_color, max_color])
@@ -430,6 +425,9 @@ def plot_convex_hull(wa, bsp, ax, **plot_kw):
     if ax is None:
         ax = plt.gca(projection='polar')
 
+    ax.set_theta_zero_location('N')
+    ax.set_theta_direction('clockwise')
+
     wa, bsp = zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
     vert = sorted(convex_hull_polar(bsp.copy(), wa.copy()).vertices)
     xs = []
@@ -439,9 +437,6 @@ def plot_convex_hull(wa, bsp, ax, **plot_kw):
         ys.append(bsp[i])
     xs.append(xs[0])
     ys.append(ys[0])
-
-    ax.set_theta_zero_location('N')
-    ax.set_theta_direction('clockwise')
     return ax.plot(xs, ys, **plot_kw)
 
 

@@ -1,4 +1,5 @@
 import numpy as np
+from itertools import compress
 from polar_diagram import PolarDiagramTable, PolarDiagramPointcloud
 from _exceptions import ProcessingException
 from _utils import convert_wind, bound_filter, percentile_filter, \
@@ -8,7 +9,7 @@ from _utils import convert_wind, bound_filter, percentile_filter, \
 # V: Soweit in Ordnung
 def create_polar_diagram(data, p_type=PolarDiagramTable,
                          w_func=None, f_func=None, i_func=None,
-                         w_res=None, tws=True, twa=True,
+                         w_res=None, tw=True,
                          w_func_kw=None, **filter_kw):
     if p_type not in \
             (PolarDiagramTable, PolarDiagramPointcloud):
@@ -19,19 +20,19 @@ def create_polar_diagram(data, p_type=PolarDiagramTable,
         w_func_kw = {}
 
     w_points = WeightedPoints(
-        data, w_func=w_func, tws=tws, twa=twa, **w_func_kw)
+        data, w_func=w_func, tw=tw, **w_func_kw)
 
     points = filter_points(w_points, f_func, **filter_kw)
     if p_type is PolarDiagramPointcloud:
         return PolarDiagramPointcloud(
-            points=points, tws=True, twa=True)
+            points=points, tw=True)
 
     data, w_res = interpolate_points(points, w_res, i_func)
     ws_res, wa_res = w_res
     return PolarDiagramTable(
         wind_speed_resolution=ws_res,
         wind_angle_resolution=wa_res,
-        data=data, tws=True, twa=True)
+        data=data, tw=True)
 
 
 # V: Soweit in Ordnung
@@ -44,8 +45,8 @@ def interpolate_points(points, w_res=None, i_func=None):
         ws_max = int(round(points[:, 0].max()))
         wa_min = int(round(points[:, 1].min()))
         wa_max = int(round(points[:, 1].max()))
-        ws_res = np.around(np.arange(ws_min, ws_max, 20))
-        wa_res = np.around(np.arange(wa_min, wa_max, 72))
+        ws_res = np.around(np.arange(ws_min, ws_max, 20/(ws_max - ws_min)))
+        wa_res = np.around(np.arange(wa_min, wa_max, 72/(ws_max - ws_min)))
         w_res = (ws_res, wa_res)
 
     if i_func is None:
@@ -67,8 +68,8 @@ def filter_points(w_points, f_func=None, f_mode='bound',
     if f_mode == 'bound':
         f_arr = bound_filter(
             w_points.weights,
-            filter_kw.get("u_b", np.inf),
-            filter_kw.get("l_b", np.NINF),
+            filter_kw.get("u_b", 1),
+            filter_kw.get("l_b", 0.75),
             filter_kw.get("strict", False))
     else:
         f_arr = percentile_filter(
@@ -79,8 +80,7 @@ def filter_points(w_points, f_func=None, f_mode='bound',
 # V: In Arbeit
 class WeightedPoints:
 
-    def __init__(self, points, w_func=None, tws=True,
-                 twa=True, **w_func_kw):
+    def __init__(self, points, w_func=None, tw=True, **w_func_kw):
         points = np.array(points)
         if len(points[0]) != 3:
             try:
@@ -92,8 +92,9 @@ class WeightedPoints:
 
         w_dict = convert_wind(
             {"wind_speed": points[:, 0],
-             "wind_angle": points[:, 1]},
-            tws, twa)
+             "wind_angle": points[:, 1],
+             "boat_speed": points[:, 2]},
+            tw)
         points = np.column_stack(
             (w_dict["wind_speed"],
              w_dict["wind_angle"],
@@ -101,7 +102,7 @@ class WeightedPoints:
         self._points = points
 
         if w_func is None:
-            w_func = default_w_func
+            w_func = better_w_func
 
         self._weights = w_func(points, **w_func_kw)
 
@@ -139,3 +140,25 @@ def default_w_func(points, **w_func_kw):
         in zip(weights[0], weights[1], weights[2])])
     normed_weights = sum_weights / max(sum_weights)
     return np.concatenate([np.array([1] * st_points), normed_weights])
+
+
+# V: In Arbeit
+def better_w_func(points, **w_func_kw):
+    RADIUS = w_func_kw.get('radius', 0.5)
+    WS_WEIGHT = w_func_kw.get('ws_weight', 0.5)
+    LENGTH = len(points)
+    weights = []
+    mask = np.full(LENGTH, True)
+
+    for i, point in enumerate(points):
+        mask[i] = False
+        weights.append(0)
+        arr = np.array(list(compress(points, mask)))
+        arr = arr[np.abs(arr[:, 0] - point[0]) <= WS_WEIGHT]
+        arr = arr[np.linalg.norm(arr[:, 1:] - point[1:]) <= RADIUS]
+        weights[i] = len(arr)
+        mask[i] = True
+
+    weights = np.array(weights)
+    weights = weights / max(weights)
+    return weights

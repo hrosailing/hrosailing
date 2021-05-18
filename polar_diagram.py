@@ -27,7 +27,7 @@ def to_csv(csv_path, obj):
 
 
 # V: In Arbeit
-def from_csv(csv_path, fmt='hro', tws=True, twa=True):
+def from_csv(csv_path, fmt='hro', tw=True):
     """Creates a PolarDiagram instance from a .csv-file"""
 
     fmts = ('hro', 'orc', 'array', 'opencpn')
@@ -49,17 +49,17 @@ def from_csv(csv_path, fmt='hro', tws=True, twa=True):
                 return PolarDiagramTable(
                     wind_speed_resolution=ws_res,
                     wind_angle_resolution=wa_res,
-                    data=data, tws=tws, twa=twa)
+                    data=data, tw=tw)
 
             data = read_pointcloud(csv_reader)
             return PolarDiagramPointcloud(
-                points=data, tws=tws, twa=twa)
+                points=data, tw=tw)
 
     ws_res, wa_res, data = read_extern_format(csv_path, fmt)
     return PolarDiagramTable(
         wind_speed_resolution=ws_res,
         wind_angle_resolution=wa_res,
-        data=data, tws=tws, twa=twa)
+        data=data, tw=tw)
 
 
 # V: Soweit in Ordnung
@@ -144,7 +144,7 @@ def symmetric_polar_diagram(obj):
     return PolarDiagramTable(
         wind_speed_resolution=obj.wind_speeds,
         wind_angle_resolution=wa_res,
-        data=data, tws=True, twa=True)
+        data=data, tw=True)
 
 
 class PolarDiagram(ABC):
@@ -249,12 +249,13 @@ class PolarDiagramTable(PolarDiagram):
     """
     # V: In Arbeit
     def __init__(self, wind_speed_resolution=None, wind_angle_resolution=None,
-                 data=None, tws=True, twa=True):
+                 data=None, tw=True):
         """Initializes a PolarDiagramTable instance"""
         w_dict = convert_wind(
             {"wind_speed": wind_speed_resolution,
-             "wind_angle": wind_angle_resolution},
-            tws, twa)
+             "wind_angle": wind_angle_resolution,
+             "boat_speed": data},
+            tw)
         self._resolution_wind_speed = speed_resolution(w_dict["wind_speed"])
         self._resolution_wind_angle = angle_resolution(w_dict["wind_angle"])
         rows = len(self._resolution_wind_angle)
@@ -262,12 +263,11 @@ class PolarDiagramTable(PolarDiagram):
 
         if data is None:
             data = np.zeros(rows, cols)
-
         data = np.array(data)
         if data.ndim != 2:
             raise PolarDiagramException(
                 "Expecting 2 dimensional array to be viewed as "
-                "Polar Diagram Tableau,")
+                "a Polar Diagram Tableau,")
         if data.shape != (rows, cols):
             try:
                 data = data.reshape(rows, cols)
@@ -359,12 +359,14 @@ class PolarDiagramTable(PolarDiagram):
 
     # V: In Arbeit.
     def change_entries(self, new_data, ws=None, wa=None,
-                       tws=True, twa=True):
+                       tw=True):
         """Changes specified entries in self._data"""
         new_data = np.array(new_data)
         w_dict = convert_wind(
-            {"wind_speed": ws, "wind_angle": wa},
-            tws, twa)
+            {"wind_speed": ws,
+             "wind_angle": wa,
+             "boat_speed": new_data},
+            tw)
         ws = w_dict["wind_speed"]
         wa = w_dict["wind_angle"]
         ws_ind = get_indices(ws, self.wind_speeds)
@@ -422,7 +424,7 @@ class PolarDiagramTable(PolarDiagram):
             ws_range = self.wind_speeds
 
         bsp_list = list(self._get_slice_data(ws=ws_range).T)
-        wa_list = [list(self.wind_angles)]*len(bsp_list)
+        wa_list = [list(self.wind_angles)] * len(bsp_list)
         return flat_plot_range(
             ws_range, wa_list, bsp_list,
             ax, colors, show_legend, legend_kw, **plot_kw)
@@ -718,7 +720,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         Appends given points to self._data
     """
     # V: In Arbeit
-    def __init__(self, points=None, tws=True, twa=True):
+    def __init__(self, points=None, tw=True):
         """Initializes a PolarDiagramPointcloud object"""
         if points is not None:
             if len(points[0]) != 3:
@@ -731,8 +733,10 @@ class PolarDiagramPointcloud(PolarDiagram):
 
             points = np.array(points)
             w_dict = convert_wind(
-                {"wind_speed": points[:, 0], "wind_angle": points[:, 1]},
-                tws, twa)
+                {"wind_speed": points[:, 0],
+                 "wind_angle": points[:, 1],
+                 "boat_speed": points[:, 2]},
+                tw)
             points = np.column_stack(
                 (w_dict["wind_speed"], w_dict["wind_angle"], points[:, 2]))
             self._data = points
@@ -789,7 +793,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             csv_writer.writerows(self.points)
 
     # V: In Arbeit
-    def add_points(self, new_points, tws=True, twa=True):
+    def add_points(self, new_points, tw=True):
         """"""
         if len(new_points[0]) != 3:
             try:
@@ -801,8 +805,9 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         w_dict = convert_wind(
             {"wind_speed": new_points[:, 0],
-             "wind_angle": new_points[:, 1]},
-            tws, twa)
+             "wind_angle": new_points[:, 1],
+             "boat_speed": new_points[:, 2]},
+            tw)
         new_points = np.column_stack(
             (w_dict["wind_speed"],
              w_dict["wind_angle"],
