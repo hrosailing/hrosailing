@@ -1,5 +1,4 @@
 import numpy as np
-from itertools import compress
 from polar_diagram import PolarDiagramTable, PolarDiagramPointcloud
 from _exceptions import ProcessingException
 from _utils import convert_wind, bound_filter, percentile_filter, \
@@ -29,6 +28,7 @@ def create_polar_diagram(data, p_type=PolarDiagramTable,
 
     data, w_res = interpolate_points(points, w_res, i_func)
     ws_res, wa_res = w_res
+    data = data.reshape(len(wa_res), len(ws_res))
     return PolarDiagramTable(
         wind_speed_resolution=ws_res,
         wind_angle_resolution=wa_res,
@@ -144,21 +144,28 @@ def default_w_func(points, **w_func_kw):
 
 # V: In Arbeit
 def better_w_func(points, **w_func_kw):
-    RADIUS = w_func_kw.get('radius', 0.5)
-    WS_WEIGHT = w_func_kw.get('ws_weight', 0.5)
-    LENGTH = len(points)
-    weights = []
-    mask = np.full(LENGTH, True)
+    RADIUS = w_func_kw.get('radius', 1)
+    WS_WEIGHT = w_func_kw.get('ws_weight', 1)
+    weights = [0] * len(points)
 
     for i, point in enumerate(points):
-        mask[i] = False
-        weights.append(0)
-        arr = np.array(list(compress(points, mask)))
-        arr = arr[np.abs(arr[:, 0] - point[0]) <= WS_WEIGHT]
-        arr = arr[np.linalg.norm(arr[:, 1:] - point[1:]) <= RADIUS]
-        weights[i] = len(arr)
-        mask[i] = True
+        mask_WS = np.abs(points[:, 0] - point[0]) <= WS_WEIGHT
+        # Hier nicht Degree sondern Radians?
+        # Kartesische Koordinaten?
+        mask_R = np.linalg.norm(
+            pol_to_kart(points[:, 1:] - point[1:]),
+            axis=1) <= RADIUS
+        weights[i] = len(points[mask_R & mask_WS]) - 1
 
     weights = np.array(weights)
-    weights = weights / max(weights)
+    # Andere Normierungen?
+    # weights = weights / max(weights)
+    weights = len(points) * weights / sum(weights)
     return weights
+
+
+def pol_to_kart(arr):
+    return np.column_stack(
+        (arr[:, 1] * np.cos(np.deg2rad(arr[:, 0])),
+         arr[:, 1] * np.sin(np.deg2rad(arr[:, 0])))
+    )

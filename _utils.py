@@ -5,7 +5,8 @@ from collections import Iterable
 from matplotlib.colors import to_rgb, Normalize, LinearSegmentedColormap
 from matplotlib.cm import ScalarMappable
 from matplotlib.lines import Line2D
-from scipy.interpolate import bisplrep, bisplev
+from scipy.interpolate import bisplrep, bisplev, griddata, \
+    SmoothBivariateSpline
 from scipy.spatial import ConvexHull
 from _exceptions import PolarDiagramException
 from _sailing_units import *
@@ -459,5 +460,12 @@ def percentile_filter(weights, per):
 def spline_interpolation(points, w_res):
     ws, wa, bsp = np.hsplit(points, 3)
     ws_res, wa_res = w_res
-    spline = bisplrep(ws, wa, bsp)
-    return bisplev(ws_res, wa_res, spline).T
+    spl = SmoothBivariateSpline(ws, wa, bsp)
+    # spl = bisplrep(ws, wa, bsp)
+    # return bisplev(ws_res, wa_res, spl).T
+    # d_points, val = np.hsplit(points, [2])
+    ws_res, wa_res = np.meshgrid(ws_res, wa_res)
+    ws_res = ws_res.reshape(-1, )
+    wa_res = wa_res.reshape(-1, )
+    # return griddata(d_points, val, (ws_res, wa_res), 'nearest').T
+    return spl.ev(ws_res, wa_res)
