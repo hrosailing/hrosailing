@@ -1,8 +1,9 @@
 import numpy as np
 from polar_diagram import PolarDiagramTable, PolarDiagramPointcloud
 from _exceptions import ProcessingException
-from _utils import convert_wind, bound_filter, percentile_filter, \
+from _utils import bound_filter, percentile_filter, \
     spline_interpolation
+from _sailing_units import convert_wind
 
 
 # V: Soweit in Ordnung
@@ -21,12 +22,12 @@ def create_polar_diagram(data, p_type=PolarDiagramTable,
     w_points = WeightedPoints(
         data, w_func=w_func, tw=tw, **w_func_kw)
 
-    points = filter_points(w_points, f_func, **filter_kw)
+    w_points = filter_points(w_points, f_func, **filter_kw)
     if p_type is PolarDiagramPointcloud:
         return PolarDiagramPointcloud(
-            points=points, tw=True)
+            points=w_points.points, tw=True)
 
-    data, w_res = interpolate_points(points, w_res, i_func)
+    data, w_res = interpolate_points(w_points, w_res, i_func)
     ws_res, wa_res = w_res
     data = data.reshape(len(wa_res), len(ws_res))
     return PolarDiagramTable(
@@ -36,23 +37,23 @@ def create_polar_diagram(data, p_type=PolarDiagramTable,
 
 
 # V: Soweit in Ordnung
-def interpolate_points(points, w_res=None, i_func=None):
+def interpolate_points(w_points, w_res=None, i_func=None):
     if w_res is None:
         w_res = (np.arange(2, 42, 2), np.arange(0, 360, 5))
 
     elif w_res == "auto":
-        ws_min = int(round(points[:, 0].min()))
-        ws_max = int(round(points[:, 0].max()))
-        wa_min = int(round(points[:, 1].min()))
-        wa_max = int(round(points[:, 1].max()))
-        ws_res = np.around(np.arange(ws_min, ws_max, 20/(ws_max - ws_min)))
-        wa_res = np.around(np.arange(wa_min, wa_max, 72/(ws_max - ws_min)))
+        ws_min = round(w_points.points[:, 0].min())
+        ws_max = round(w_points.points[:, 0].max())
+        wa_min = round(w_points.points[:, 1].min())
+        wa_max = round(w_points.points[:, 1].max())
+        ws_res = np.around(np.arange(ws_min, ws_max, (ws_max - ws_min)/20))
+        wa_res = np.around(np.arange(wa_min, wa_max, (wa_max - wa_min)/72))
         w_res = (ws_res, wa_res)
 
     if i_func is None:
-        return spline_interpolation(points, w_res), w_res
+        return spline_interpolation(w_points, w_res), w_res
 
-    return i_func(points, w_res), w_res
+    return i_func(w_points, w_res), w_res
 
 
 # V: Soweit in Ordnung
@@ -69,18 +70,22 @@ def filter_points(w_points, f_func=None, f_mode='bound',
         f_arr = bound_filter(
             w_points.weights,
             filter_kw.get("u_b", 1),
-            filter_kw.get("l_b", 0.75),
-            filter_kw.get("strict", False))
+            filter_kw.get("l_b", 0.5),
+            filter_kw.get("strict", True))
     else:
         f_arr = percentile_filter(
             w_points.weights, filter_kw.get("percent", 50))
-    return w_points.points[f_arr]
+
+    return WeightedPoints(
+        w_points.points[f_arr],
+        weights=w_points.weights[f_arr])
 
 
 # V: In Arbeit
 class WeightedPoints:
 
-    def __init__(self, points, w_func=None, tw=True, **w_func_kw):
+    def __init__(self, points, weights=None, w_func=None, tw=True,
+                 **w_func_kw):
         points = np.array(points)
         if len(points[0]) != 3:
             try:
@@ -102,9 +107,12 @@ class WeightedPoints:
         self._points = points
 
         if w_func is None:
-            w_func = better_w_func
+            w_func = yet_another_w_func
 
-        self._weights = w_func(points, **w_func_kw)
+        if weights is None:
+            self._weights = w_func(points, **w_func_kw)
+        else:
+            self._weights = np.array(weights)
 
     @property
     def points(self):
@@ -144,17 +152,17 @@ def default_w_func(points, **w_func_kw):
 
 # V: In Arbeit
 def better_w_func(points, **w_func_kw):
-    RADIUS = w_func_kw.get('radius', 1)
-    WS_WEIGHT = w_func_kw.get('ws_weight', 1)
+    radius = w_func_kw.get('radius', 1)
+    ws_weight = w_func_kw.get('ws_weight', 1)
     weights = [0] * len(points)
 
     for i, point in enumerate(points):
-        mask_WS = np.abs(points[:, 0] - point[0]) <= WS_WEIGHT
+        mask_WS = np.abs(points[:, 0] - point[0]) <= ws_weight
         # Hier nicht Degree sondern Radians?
         # Kartesische Koordinaten?
         mask_R = np.linalg.norm(
             pol_to_kart(points[:, 1:] - point[1:]),
-            axis=1) <= RADIUS
+            axis=1) <= radius
         weights[i] = len(points[mask_R & mask_WS]) - 1
 
     weights = np.array(weights)
@@ -169,3 +177,22 @@ def pol_to_kart(arr):
         (arr[:, 1] * np.cos(np.deg2rad(arr[:, 0])),
          arr[:, 1] * np.sin(np.deg2rad(arr[:, 0])))
     )
+
+
+def yet_another_w_func(points, **w_func_kw):
+    weights = [0] * len(points)
+    ws_weight = w_func_kw.get('ws_weight', 1)
+    wa_weight = w_func_kw.get('wa_weight', 1)
+
+    for i, point in enumerate(points):
+        mask_WS = np.abs(points[:, 0] - point[0]) <= ws_weight
+        mask_WA = np.abs(points[:, 1] - point[1]) <= wa_weight
+        cylinder = points[mask_WS & mask_WA][:, 2]
+        std = np.std(cylinder) or 1
+        mean = np.mean(cylinder) or 0
+        weights[i] = np.abs(mean - point[2]) / std
+
+    weights = np.array(weights)
+    weights = weights / max(weights)
+    # weights = len(points) * weights / sum(weights)
+    return weights
