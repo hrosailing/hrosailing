@@ -1,5 +1,4 @@
-from numpy.ma import arccos, cos, sqrt
-from numpy import deg2rad, rad2deg
+from numpy import deg2rad, rad2deg, arccos, cos, sqrt
 
 
 # V: In Arbeit
