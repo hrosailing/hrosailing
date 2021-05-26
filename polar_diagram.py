@@ -853,9 +853,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         ws_list, wa_list, bsp_list = \
             self._get_slices(ws_range)
 
-        for wa in wa_list:
-            wa = np.deg2rad(wa)
-
+        wa_list = [np.deg2rad(wa) for wa in wa_list]
         return plot_polar_range(
             ws_list, wa_list, bsp_list,
             ax, colors, show_legend, legend_kw, **plot_kw)

@@ -14,49 +14,40 @@ def _check_keywords(plot_kw):
     if marker is None:
         plot_kw["marker"] = 'o'
 
-    return plot_kw
+
+def _set_3d_labels(ax):
+    ax.set_xlabel("True Wind Speed")
+    ax.set_ylabel("True Wind Angle")
+    ax.set_zlabel("Boat Speed")
 
 
-# V: Soweit in Ordnung
-def plot_polar(wa, bsp, ax, **plot_kw):
-    plot_kw = _check_keywords(plot_kw)
-    if ax is None:
-        ax = plt.gca(projection='polar')
-
+def _set_polar_directions(ax):
     ax.set_theta_zero_location('N')
     ax.set_theta_direction('clockwise')
-    xs, ys = zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
-    return ax.plot(xs, ys, **plot_kw)
 
 
-# V: Soweit in Ordnung
-def plot_flat(wa, bsp, ax, **plot_kw):
-    plot_kw = _check_keywords(plot_kw)
-    if ax is None:
-        ax = plt.gca()
-    # ax.set_xlabel("True Wind Angle")
-    # ax.set_ylabel("Boat Speed")
-
-    xs, ys = zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
-    return ax.plot(xs, ys, **plot_kw)
-
-
-def _get_color_cycle(ws_list, colors):
+def _set_color_cycle(ax, ws_list, colors):
     no_plots = len(ws_list)
     no_colors = len(colors)
     if no_plots == no_colors or no_plots < no_colors:
-        return colors
+        ax.set_prop_cycle('color', colors)
+        return
 
     if no_plots > no_colors != 2:
         if len(colors[0]) == 1:
-            return list(colors) + ['blue'] * (no_plots - no_colors)
+            ax.set_prop_cycle(
+                'color',
+                list(colors)
+                + ['blue'] * (no_plots - no_colors))
+            return
 
         if len(colors[0]) == 2:
             color_list = ['blue'] * no_plots
             for ws, c in colors:
                 i = list(ws_list).index(ws)
                 color_list[i] = c
-            return color_list
+            ax.set_prop_cycle('color', color_list)
+            return
 
     if no_colors == 2:
         ws_max = max(ws_list)
@@ -65,24 +56,12 @@ def _get_color_cycle(ws_list, colors):
         max_color = np.array(to_rgb(colors[1]))
         coeffs = [(ws - ws_min) / (ws_max - ws_min)
                   for ws in ws_list]
-        return [(1 - coeff) * min_color + coeff * max_color
-                for coeff in coeffs]
-
-
-def _get_legend(ws_list, colors):
-    no_colors = len(colors)
-    no_plots = len(ws_list)
-    print(len(colors[0]))
-    if isinstance(colors[0], tuple):
-        return [Line2D(
-            [0], [0], color=colors[i][1], lw=1,
-            label=f"TWS {colors[i][0]}")
-            for i in range(no_colors)]
-
-    return [Line2D(
-        [0], [0], color=colors[i], lw=1,
-        label=f"TWS {ws_list[i]}")
-        for i in range(min(no_colors, no_plots))]
+        ax.set_prop_cycle(
+            'color',
+            [(1 - coeff) * min_color
+             + coeff * max_color
+             for coeff in coeffs])
+        return
 
 
 def _set_colormap(ws_list, colors, ax, label, **legend_kw):
@@ -98,110 +77,154 @@ def _set_colormap(ws_list, colors, ax, label, **legend_kw):
         ax=ax, **legend_kw).set_label(label)
 
 
-# V: In Arbeit
-def plot_polar_range(ws_list, wa_list, bsp_list,
-                     ax, colors, show_legend, legend_kw, **plot_kw):
-    ls = plot_kw.get('linestyle') or plot_kw.get('ls')
-    if ls is None:
-        plot_kw["ls"] = ''
-    marker = plot_kw.get('marker')
-    if marker is None:
-        plot_kw["marker"] = 'o'
-    _ = plot_kw.pop('color', None) or plot_kw.pop('c', None)
+def _set_legend(ax, ws_list, colors, label,
+                **legend_kw):
+    no_colors = len(colors)
+    no_plots = len(ws_list)
+    if no_plots > no_colors == 2:
+        _set_colormap(ws_list, colors, ax,
+                      label, **legend_kw)
+        return
+
+    if isinstance(colors[0], tuple):
+        ax.legend([Line2D(
+            [0], [0], color=colors[i][1], lw=1,
+            label=f"TWS {colors[i][0]}")
+            for i in range(no_colors)])
+        return
+
+    ax.legend([Line2D(
+        [0], [0], color=colors[i], lw=1,
+        label=f"TWS {ws_list[i]}")
+        for i in range(min(no_colors, no_plots))])
+    return
+
+
+def _sort_data(wa_list, bsp_list):
+    sorted_lists = list(zip(
+        *[zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
+          for wa, bsp in zip(wa_list, bsp_list)]))
+
+    return sorted_lists[0], sorted_lists[1]
+
+
+def _plot_multiple(ax, xs, ys, **plot_kw):
+    for x, y in zip(xs, ys):
+        x, y = np.array(x), np.array(y)
+        ax.plot(x, y, **plot_kw)
+
+
+def _get_convex_hull(wa, bsp):
+    wa, bsp = np.array(wa), np.array(bsp)
+    vert = sorted(convex_hull_polar(bsp.copy(), wa.copy()).vertices)
+    xs = []
+    ys = []
+    for i in vert:
+        xs.append(wa[i])
+        ys.append(bsp[i])
+    xs.append(xs[0])
+    ys.append(ys[0])
+
+    return xs, ys
+
+
+# V: Soweit in Ordnung
+def plot_polar(wa, bsp, ax, **plot_kw):
+    _check_keywords(plot_kw)
 
     if ax is None:
         ax = plt.gca(projection='polar')
+    _set_polar_directions(ax)
 
-    ax.set_theta_zero_location('N')
-    ax.set_theta_direction('clockwise')
-
-    if legend_kw is None:
-        legend_kw = {}
-    if show_legend:
-        if len(ws_list) > len(colors) == 2:
-            _set_colormap(
-                ws_list, colors, ax,
-                label="True Wind Speed", **legend_kw)
-        else:
-            legend = _get_legend(ws_list, colors)
-            ax.legend(handles=legend, **legend_kw)
-
-    color_cycle = _get_color_cycle(ws_list, colors)
-    ax.set_prop_cycle('color', color_cycle)
-
-    wa_list, bsp_list = zip(*sorted(zip(wa_list, bsp_list),
-                                    key=lambda x: x[0]))
-    xs = np.column_stack(wa_list)
-    ys = np.column_stack(bsp_list)
-    return ax.plot(xs, ys, **plot_kw)
-
-
-# V: In Arbeit
-def plot_flat_range(ws_list, wa_list, bsp_list,
-                    ax, colors, show_legend, legend_kw, **plot_kw):
-    ls = plot_kw.get('linestyle') or plot_kw.get('ls')
-    if ls is None:
-        plot_kw["ls"] = ''
-    marker = plot_kw.get('marker')
-    if marker is None:
-        plot_kw["marker"] = 'o'
-    _ = plot_kw.pop('color', None) or plot_kw.pop('c', None)
-
-    if ax is None:
-        ax = plt.gca()
-    # ax.set_xlabel("True Wind Angle")
-    # ax.set_ylabel("Boat Speed")
-
-    if legend_kw is None:
-        legend_kw = {}
-    if show_legend:
-        if len(ws_list) > len(colors) == 2:
-            _set_colormap(
-                ws_list, colors, ax,
-                label="True Wind Speed", **legend_kw)
-        else:
-            legend = _get_legend(ws_list, colors)
-            ax.legend(handles=legend, **legend_kw)
-
-    color_cycle = _get_color_cycle(ws_list, colors)
-    ax.set_prop_cycle('color', color_cycle)
-
-    wa_list, bsp_list = zip(*sorted(zip(wa_list, bsp_list),
-                                    key=lambda x: x[0]))
-    xs = np.column_stack(wa_list)
-    ys = np.column_stack(bsp_list)
+    xs, ys = _sort_data([wa], [bsp])
     return ax.plot(xs, ys, **plot_kw)
 
 
 # V: Soweit in Ordnung
-def plot_color(ws, wa, bsp, ax, colors,
-               marker, show_legend, **legend_kw):
+def plot_flat(wa, bsp, ax, **plot_kw):
+    _check_keywords(plot_kw)
+
     if ax is None:
         ax = plt.gca()
 
-    # ax.set_xlabel("True Wind Speed")
-    # ax.set_ylabel("True Wind Angle")
+    xs, ys = _sort_data([wa], [bsp])
+    return ax.plot(xs, ys, **plot_kw)
 
-    color = _get_color_cycle(bsp, colors)
+
+# V: In Arbeit
+def plot_polar_range(ws_list, wa_list, bsp_list,
+                     ax, colors, show_legend,
+                     legend_kw, **plot_kw):
+    _check_keywords(plot_kw)
+    _ = (plot_kw.pop('color', None)
+         or plot_kw.pop('c', None))
+
+    if ax is None:
+        ax = plt.gca(projection='polar')
+    _set_polar_directions(ax)
 
     if legend_kw is None:
         legend_kw = {}
     if show_legend:
-        _set_colormap(bsp, colors, ax,
-                      label="Boat Speed", **legend_kw)
+        _set_legend(ax, ws_list, colors,
+                    label="True Wind Speed",
+                    **legend_kw)
 
-    return ax.scatter(ws, wa, c=color, marker=marker)
+    _set_color_cycle(ax, ws_list, colors)
+
+    xs, ys = _sort_data(wa_list, bsp_list)
+    return _plot_multiple(ax, xs, ys, **plot_kw)
+
+
+# V: In Arbeit
+def plot_flat_range(ws_list, wa_list, bsp_list,
+                    ax, colors, show_legend,
+                    legend_kw, **plot_kw):
+    _check_keywords(plot_kw)
+    _ = (plot_kw.pop('color', None)
+         or plot_kw.pop('c', None))
+
+    if ax is None:
+        ax = plt.gca()
+
+    if legend_kw is None:
+        legend_kw = {}
+    if show_legend:
+        _set_legend(ax, ws_list, colors,
+                    label="True Wind Speed",
+                    **legend_kw)
+
+    _set_color_cycle(ax, ws_list, colors)
+
+    xs, ys = _sort_data(wa_list, bsp_list)
+    return _plot_multiple(ax, xs, ys, **plot_kw)
+
+
+# V: Soweit in Ordnung
+def plot_color(ws, wa, bsp, ax, colors,
+               marker, show_legend,
+               **legend_kw):
+    if ax is None:
+        ax = plt.gca()
+
+    if legend_kw is None:
+        legend_kw = {}
+    if show_legend:
+        _set_legend(ax, bsp, colors,
+                    label="Boat Speed",
+                    **legend_kw)
+
+    _set_color_cycle(ax, bsp, colors)
+    return ax.scatter(ws, wa, marker=marker)
 
 
 # V: In Arbeit
 def plot3d(ws, wa, bsp, ax, **plot_kw):
-    plot_kw = _check_keywords(plot_kw)
+    _check_keywords(plot_kw)
     if ax is None:
         ax = plt.gca(projection='3d')
+    _set_3d_labels(ax)
 
-    ax.set_xlabel("True Wind Speed")
-    ax.set_ylabel("True Wind Angle")
-    ax.set_zlabel("Boat Speed")
     return ax.plot(ws, wa, bsp, **plot_kw)
 
 
@@ -209,10 +232,8 @@ def plot3d(ws, wa, bsp, ax, **plot_kw):
 def plot_surface(ws, wa, bsp, ax, colors):
     if ax is None:
         ax = plt.gca(projection='3d')
+    _set_3d_labels(ax)
 
-    ax.set_xlabel("True Wind Speed")
-    ax.set_ylabel("True Wind Angle")
-    ax.set_zlabel("Boat Speed")
     cmap = LinearSegmentedColormap.from_list("custom_cmap", list(colors))
     color = cmap((ws - ws.min()) / float((ws - ws.min()).max()))
     return ax.plot_surface(ws, wa, bsp, facecolors=color)
@@ -222,18 +243,8 @@ def plot_surface(ws, wa, bsp, ax, colors):
 def plot_convex_hull(wa, bsp, ax, **plot_kw):
     if ax is None:
         ax = plt.gca(projection='polar')
+    _set_polar_directions(ax)
 
-    ax.set_theta_zero_location('N')
-    ax.set_theta_direction('clockwise')
-
-    wa, bsp = zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
-    wa, bsp = np.array(wa), np.array(bsp).reshape(-1,)
-    vert = sorted(convex_hull_polar(bsp.copy(), wa.copy()).vertices)
-    xs = []
-    ys = []
-    for i in vert:
-        xs.append(wa[i])
-        ys.append(bsp[i])
-    xs.append(xs[0])
-    ys.append(ys[0])
+    wa, bsp = _sort_data([wa], [bsp])
+    xs, ys = _get_convex_hull(wa, bsp)
     return ax.plot(xs, ys, **plot_kw)
