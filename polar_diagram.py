@@ -1,16 +1,13 @@
 # import logging
 # import logging.handlers
-import csv
 import pickle
 # import sys
 from abc import ABC, abstractmethod
 from tabulate import tabulate
 from _utils import *
-from _filereading import read_extern_format, read_table, read_pointcloud
+from _filereading import *
 from _exceptions import *
-from _sailing_units import convert_wind
-from _plotting_functions import plot_polar, plot_flat, plot_polar_range, \
-    plot_flat_range, plot3d, plot_color, plot_surface, plot_convex_hull
+from _plotting_functions import *
 
 
 # logging.basicConfig(
@@ -25,13 +22,11 @@ from _plotting_functions import plot_polar, plot_flat, plot_polar_range, \
 # polardiagram_logger.setLevel(logging.DEBUG)
 
 
-# V: Soweit in Ordnung
 def to_csv(csv_path, obj):
     """Writes a PolarDiagram object to a .csv-file"""
     obj.to_csv(csv_path)
 
 
-# V: In Arbeit
 def from_csv(csv_path, fmt='hro', tw=True):
     """Creates a PolarDiagram instance from a .csv-file"""
 
@@ -67,13 +62,11 @@ def from_csv(csv_path, fmt='hro', tw=True):
         data=data, tw=tw)
 
 
-# V: Soweit in Ordnung
 def pickling(pkl_path, obj):
     """Writes a PolarDiagram object to a .pkl-file"""
     obj.pickling(pkl_path)
 
 
-# V: Soweit in Ordnung
 def depickling(pkl_path):
     """Creates a PolarDiagram object from a .pkl-file"""
     with open(pkl_path, 'rb') as file:
@@ -120,7 +113,6 @@ def convert(obj, convert_type):
         return PolarDiagramPointcloud(points=data)
 
 
-# V: In Arbeit
 def symmetric_polar_diagram(obj):
     """"""
     if not isinstance(obj, (PolarDiagramTable, PolarDiagramPointcloud)):
@@ -251,7 +243,6 @@ class PolarDiagramTable(PolarDiagram):
                    tws=True, twa=True):
         Changes entries in table
     """
-    # V: In Arbeit
     def __init__(self, wind_speed_resolution=None, wind_angle_resolution=None,
                  data=None, tw=True):
 
@@ -284,7 +275,6 @@ class PolarDiagramTable(PolarDiagram):
                     f"shape {(rows, cols)}")
         self._data = data
 
-    # V: In Arbeit
     def __str__(self):
         """Returns a tabulate of the polar diagram table"""
 
@@ -306,7 +296,6 @@ class PolarDiagramTable(PolarDiagram):
                    + list(self.wind_speeds)[-5:])
         return tabulate(table, headers=headers)
 
-    # V: Soweit in Ordnung
     def __repr__(self):
         """"""
         return f"PolarDiagramTable(" \
@@ -314,7 +303,6 @@ class PolarDiagramTable(PolarDiagram):
                f"wind_angle_resolution={self.wind_angles}, " \
                f"data={self.boat_speeds})"
 
-    # V: In Arbeit
     def __getitem__(self, key):
         """"""
         ws, wa = key
@@ -337,7 +325,6 @@ class PolarDiagramTable(PolarDiagram):
         """Returns a read only version of self._data"""
         return self._data.copy()
 
-    # V: Soweit in Ordnung
     def to_csv(self, csv_path):
         """Creates a .csv-file with the following format
             PolarDiagramTable
@@ -364,7 +351,6 @@ class PolarDiagramTable(PolarDiagram):
             csv_writer.writerow(["Boat speeds:"])
             csv_writer.writerows(self.boat_speeds)
 
-    # V: In Arbeit.
     def change_entries(self, new_data, ws=None, wa=None,
                        tw=True):
         """Changes specified entries in self._data"""
@@ -390,29 +376,24 @@ class PolarDiagramTable(PolarDiagram):
                 f"array of shape {(len(wa_ind), len(ws_ind))}")
         self._data[mask] = new_data.flat
 
-    # V: Soweit in Ordnung
     def _get_slice_data(self, ws):
         ws_ind = get_indices(ws, self.wind_speeds)
         return self.boat_speeds[:, ws_ind]
 
-    # V: Soweit in Ordnung
     def _get_radians(self):
         return np.deg2rad(self.wind_angles)
 
-    # V: Soweit in Ordnung
     def polar_plot_slice(self, ws, ax=None, **plot_kw):
         """"""
         wa = list(self._get_radians())
         bsp = self._get_slice_data(ws)
         return plot_polar(wa, bsp, ax, **plot_kw)
 
-    # V: Soweit in Ordnung
     def flat_plot_slice(self, ws, ax=None, **plot_kw):
         """"""
         bsp = self._get_slice_data(ws)
         return plot_flat(self.wind_angles, bsp, ax, **plot_kw)
 
-    # V: In Arbeit
     def polar_plot(self, ws_range=None, ax=None,
                    colors=('green', 'red'), show_legend=True,
                    legend_kw=None, **plot_kw):
@@ -440,7 +421,6 @@ class PolarDiagramTable(PolarDiagram):
             ws_range, wa_list, bsp_list,
             ax, colors, show_legend, legend_kw, **plot_kw)
 
-    # V: In Arbeit
     def plot_3d(self, ax=None, colors=('blue', 'blue')):
         """"""
         ws, wa = np.meshgrid(self.wind_speeds,
@@ -449,7 +429,6 @@ class PolarDiagramTable(PolarDiagram):
         bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
         return plot_surface(ws, wa, bsp, ax, colors)
 
-    # V: In Arbeit
     def plot_color_gradient(
             self, ax=None, colors=('green', 'red'),
             marker=None, show_legend=True, **legend_kw):
@@ -463,7 +442,6 @@ class PolarDiagramTable(PolarDiagram):
             ws, wa, bsp,
             ax, colors, marker, show_legend, **legend_kw)
 
-    # V: Soweit in Ordnung
     def plot_convex_hull_slice(self, ws, ax=None,
                                **plot_kw):
         """"""
@@ -471,7 +449,6 @@ class PolarDiagramTable(PolarDiagram):
         bsp = self._get_slice_data(ws)
         return plot_convex_hull(wa, bsp, ax, **plot_kw)
 
-    # V: In Arbeit
     def plot_convex_hull_3d(self):
         """"""
         pass
@@ -506,31 +483,26 @@ class PolarDiagramCurve(PolarDiagram):
         Writes object to a .csv-file
     """
 
-    # V: Soweit in Ordnung
     def __init__(self, f, radians=False, *params):
         self._f = f
         self._params = params
         self._rad = radians
 
-    # V: In Arbeit
     def __repr__(self):
         """"""
         return f"PolarDiagramCurve(f={self.curve.__name__}, " \
                f"                  radians={self.radians}, " \
                f"                  {self.parameters})"
 
-    # V: Soweit in Ordnung
     def __call__(self, ws, wa):
         """Returns self.curve([wind_speed,wind_angle] self.parameters)"""
         return self.curve(np.column_stack((ws, wa)), *self.parameters)
 
-    # V: In Arbeit
     @property
     def curve(self):
         """Returns a read only version of self._f"""
         return self._f
 
-    # V: Soweit in Ordnung
     @property
     def parameters(self):
         """Returns a read only version of self._params"""
@@ -566,7 +538,6 @@ class PolarDiagramCurve(PolarDiagram):
             wa = np.deg2rad(wa)
         return wa
 
-    # V: Soweit in Ordnung
     def polar_plot_slice(self, ws, ax=None, **plot_kw):
         """"""
         wa = self._get_wind_angles()
@@ -575,7 +546,6 @@ class PolarDiagramCurve(PolarDiagram):
             np.deg2rad(np.linspace(0, 360, 1000)), bsp,
             ax, **plot_kw)
 
-    # V: Soweit in Ordnung
     def flat_plot_slice(self, ws, ax=None, **plot_kw):
         """"""
         wa = self._get_wind_angles()
@@ -584,7 +554,6 @@ class PolarDiagramCurve(PolarDiagram):
             np.linspace(0, 360, 1000), bsp, ax,
             **plot_kw)
 
-    # V: In Arbeit
     def polar_plot(self, ws_range=(0, 20, 5), ax=None,
                    colors=('green', 'red'), show_legend=True,
                    legend_kw=None, **plot_kw):
@@ -604,7 +573,6 @@ class PolarDiagramCurve(PolarDiagram):
             ws_list, wa_list, bsp_list,
             ax, colors, show_legend, legend_kw, **plot_kw)
 
-    # V: In Arbeit
     def flat_plot(self, ws_range=(0, 20, 5), ax=None,
                   colors=('green', 'red'), show_legend=True,
                   legend_kw=None, **plot_kw):
@@ -624,7 +592,6 @@ class PolarDiagramCurve(PolarDiagram):
                     ws_list, wa_list, bsp_list,
                     ax, colors, show_legend, legend_kw, **plot_kw)
 
-    # V: In Arbeit
     def plot_3d(self, ws_range=(0, 20, 100), ax=None,
                 colors=('blue', 'blue')):
         """"""
@@ -646,7 +613,6 @@ class PolarDiagramCurve(PolarDiagram):
             bsp, wa = bsp_arr * np.cos(wa_arr), bsp_arr * np.sin(wa_arr)
         return plot_surface(ws_arr, wa, bsp, ax, colors)
 
-    # V: In Arbeit
     def plot_color_gradient(
             self, ws_range=(0, 20, 100), ax=None,
             colors=('green', 'red'), marker=None,
@@ -668,7 +634,6 @@ class PolarDiagramCurve(PolarDiagram):
             ws, wa, bsp,
             ax, colors, marker, show_legend, **legend_kw)
 
-    # V: Noch nicht getestet
     def plot_convex_hull_slice(self, ws, ax=None, **plot_kw):
         """"""
         wa = self._get_wind_angles()
@@ -677,7 +642,6 @@ class PolarDiagramCurve(PolarDiagram):
             np.deg2rad(np.linspace(0, 360, 1000)), bsp,
             ax, **plot_kw)
 
-    # V: In Arbeit
     def plot_convex_hull_3d(self):
         """"""
         pass
@@ -713,7 +677,7 @@ class PolarDiagramPointcloud(PolarDiagram):
     add_points(new_points):
         Appends given points to self._data
     """
-    # V: In Arbeit
+
     def __init__(self, points=None, tw=True):
         if points is not None:
             points = np.array(points)
@@ -738,11 +702,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         else:
             self._data = np.array([])
 
-    # V: In Arbeit
     def __str__(self):
         return tabulate(self.points, headers=["TWS", "TWA", "BSP"])
 
-    # V: Soweit in Ordnung
     def __repr__(self):
         return f"PolarDiagramPointcloud(data={self.points})"
 
@@ -758,7 +720,6 @@ class PolarDiagramPointcloud(PolarDiagram):
     def points(self):
         return self._data.copy()
 
-    # V: Soweit in Ordnung
     def to_csv(self, csv_path):
         """Creates a .csv-file with the following format
             PolarDiagramPointcloud
@@ -777,7 +738,6 @@ class PolarDiagramPointcloud(PolarDiagram):
                 "Boat speed "])
             csv_writer.writerows(self.points)
 
-    # V: In Arbeit
     def add_points(self, new_points, tw=True):
         """"""
         new_points = np.array(new_points)
@@ -805,7 +765,6 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         self._data = np.row_stack((self.points, new_points))
 
-    # V: In Arbeit
     def change_points(self):
         """"""
         pass
@@ -817,14 +776,12 @@ class PolarDiagramPointcloud(PolarDiagram):
                 f"No points with wind speed = {ws} found")
         return points[:, 0], points[:, 1]
 
-    # V: Soweit in Ordnung
     def polar_plot_slice(self, ws, ax=None, **plot_kw):
         """"""
         wa, bsp = self._get_slice_data(ws)
         wa = list(np.deg2rad(wa))
         return plot_polar(wa, bsp, ax, **plot_kw)
 
-    # V: Soweit in Ordnung
     def flat_plot_slice(self, ws, ax=None, **plot_kw):
         """"""
         wa, bsp = self._get_slice_data(ws)
@@ -845,7 +802,6 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         return ws_list, wa_list, bsp_list
 
-    # V: In Arbeit
     def polar_plot(self, ws_range=(0, np.inf), ax=None,
                    colors=('green', 'red'), show_legend=True,
                    legend_kw=None, **plot_kw):
@@ -858,7 +814,6 @@ class PolarDiagramPointcloud(PolarDiagram):
             ws_list, wa_list, bsp_list,
             ax, colors, show_legend, legend_kw, **plot_kw)
 
-    # V: In Arbeit
     def flat_plot(self, ws_range=(0, np.inf), ax=None,
                   colors=('green', 'red'), show_legend=True,
                   legend_kw=None, **plot_kw):
@@ -870,7 +825,6 @@ class PolarDiagramPointcloud(PolarDiagram):
             ws_list, wa_list, bsp_list,
             ax, colors, show_legend, legend_kw, **plot_kw)
 
-    # V: In Arbeit
     def plot_3d(self, ax=None, **plot_kw):
         """"""
         ws, wa, bsp = np.hsplit(self.points, 3)
@@ -878,7 +832,6 @@ class PolarDiagramPointcloud(PolarDiagram):
         bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
         return plot3d(ws, wa, bsp, ax, **plot_kw)
 
-    # V: In Arbeit
     def plot_color_gradient(self, ax=None, colors=('green', 'red'),
                             marker=None, show_legend=True, **legend_kw):
         """"""
@@ -887,14 +840,12 @@ class PolarDiagramPointcloud(PolarDiagram):
             ws, wa, bsp,
             ax, colors, marker, show_legend, **legend_kw)
 
-    # V: Soweit in Ordnung
     def plot_convex_hull_slice(self, ws, ax=None, **plot_kw):
         """"""
         wa, bsp = self._get_slice_data(ws)
         wa = list(np.deg2rad(wa))
         return plot_convex_hull(wa, bsp, ax, **plot_kw)
 
-    # V: In Arbeit
     def plot_convex_hull_3d(self):
         """"""
         pass

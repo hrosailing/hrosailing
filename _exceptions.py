@@ -6,3 +6,8 @@ class PolarDiagramException(Exception):
 
 class ProcessingException(Exception):
     pass
+
+
+class FileReadingException(Exception):
+    pass
+
