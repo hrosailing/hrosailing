@@ -68,8 +68,8 @@ def read_nmea_file(nmea_path, mode='interpolate'):
 
     with open(nmea_path, 'r') as nmea_file:
         nmea_sentences = filter(
-            lambda line: "$GPRMC" in line
-                         or "$WIMWV" in line,
+            lambda line: "RMC" in line
+                         or "MWV" in line,
             nmea_file
         )
 
