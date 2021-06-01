@@ -89,7 +89,7 @@ def read_nmea_file(nmea_path, mode='interpolate'):
                 break
             # check if nmea-file is in some
             # form sorted
-            if "GPRMC" in stc:
+            if "RMC" in stc:
                 raise FileReadingException(
                     """nmea-file has two GPRMC 
                     sentences with no wind data 
@@ -97,7 +97,7 @@ def read_nmea_file(nmea_path, mode='interpolate'):
                 )
 
             wind_data = []
-            while "$GPRMC" not in stc and stc is not None:
+            while "RMC" not in stc and stc is not None:
                 _get_wind_data(wind_data, stc)
                 stc = next(nmea_sentences, None)
 
