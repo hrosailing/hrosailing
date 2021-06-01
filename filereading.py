@@ -2,7 +2,7 @@ import numpy as np
 import csv
 import pynmea2
 
-from _exceptions import FileReadingException
+from exceptions import FileReadingException
 
 
 def read_table(csv_reader):
@@ -40,70 +40,79 @@ def read_extern_format(csv_path, fmt):
 
 
 def read_sail_csv(csv_path, delimiter):
-    with open(csv_path, 'r', newline='') as file:
-        csv_reader = csv.reader(file, delimiter=delimiter,
-                                quotechar='"')
-        ws_res = [eval(ws) for ws in next(csv_reader)[1:]]
-        wa_res, data = [], []
-        next(csv_reader)
-        for row in csv_reader:
-            wa_res.append(eval(row[0]))
-            data.append([eval(bsp) if bsp != '' else 0 for bsp in row[1:]])
+    try:
+        with open(csv_path, 'r', newline='') as file:
+            csv_reader = csv.reader(file, delimiter=delimiter,
+                                    quotechar='"')
+            ws_res = [eval(ws) for ws in next(csv_reader)[1:]]
+            wa_res, data = [], []
+            next(csv_reader)
+            for row in csv_reader:
+                wa_res.append(eval(row[0]))
+                data.append([eval(bsp) if bsp != '' else 0 for bsp in row[1:]])
 
-        return ws_res, wa_res, data
+            return ws_res, wa_res, data
+    except OSError:
+        raise FileReadingException(f"can't find or open {csv_path}")
 
 
 def read_array_csv(csv_path):
-    file_data = np.genfromtxt(csv_path, delimiter="\t")
-    return file_data[0, 1:], file_data[1:, 0], file_data[1:, 1:]
+    try:
+        file_data = np.genfromtxt(csv_path, delimiter="\t")
+        return file_data[0, 1:], file_data[1:, 0], file_data[1:, 1:]
+    except OSError:
+        raise FileReadingException(f"can't find or open {csv_path}")
 
 
 def read_nmea_file(nmea_path, mode='interpolate'):
-    nmea_data = []
-
     if mode not in ('mean', 'interpolate'):
         raise FileReadingException(
-            f"mode {mode} not implemented"
-        )
+            f"mode {mode} not implemented")
 
-    with open(nmea_path, 'r') as nmea_file:
-        nmea_sentences = filter(
-            lambda line: "RMC" in line
-                         or "MWV" in line,
-            nmea_file
-        )
+    try:
+        with open(nmea_path, 'r') as nmea_file:
+            nmea_data = []
+            nmea_sentences = filter(
+                lambda line: "RMC" in line
+                             or "MWV" in line,
+                nmea_file)
 
-        stc = next(nmea_sentences, None)
-        if stc is None:
-            raise FileReadingException(
-                """nmea-file didn't contain 
-                any necessary data"""
-            )
-
-        while True:
-            bsp = pynmea2.parse(stc).spd_over_grnd
             stc = next(nmea_sentences, None)
-
             if stc is None:
-                # eof
-                break
-            # check if nmea-file is in some
-            # form sorted
-            if "RMC" in stc:
                 raise FileReadingException(
-                    """nmea-file has two GPRMC 
-                    sentences with no wind data 
-                    in between them."""
-                )
+                    """nmea-file didn't contain
+                    any necessary data""")
 
-            wind_data = []
-            while "RMC" not in stc and stc is not None:
-                _get_wind_data(wind_data, stc)
+            while True:
+                bsp = pynmea2.parse(stc).spd_over_grnd
                 stc = next(nmea_sentences, None)
 
-            _process_data(
-                nmea_data, wind_data, stc,
-                bsp, mode)
+                if stc is None:
+                    # eof
+                    break
+                # check if nmea-file is in a
+                # way "sorted"
+                if "RMC" in stc:
+                    raise FileReadingException(
+                        """nmea-file has two GPRMC
+                        sentences with no wind data
+                        in between them.""")
+
+                wind_data = []
+                while "RMC" not in stc and stc is not None:
+                    _get_wind_data(wind_data, stc)
+                    stc = next(nmea_sentences, None)
+
+                _process_data(
+                    nmea_data, wind_data, stc,
+                    bsp, mode)
+    except OSError:
+        raise FileReadingException(f"can't find or open {nmea_path}")
+
+    except (pynmea2.ParseError, pynmea2.SentenceTypeError):
+        # TODO!
+        # logging
+        pass
 
     return nmea_data
 

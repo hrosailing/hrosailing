@@ -10,4 +10,3 @@ class ProcessingException(Exception):
 
 class FileReadingException(Exception):
     pass
-

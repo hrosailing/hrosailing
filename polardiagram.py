@@ -4,10 +4,10 @@ import pickle
 # import sys
 from abc import ABC, abstractmethod
 from tabulate import tabulate
-from _utils import *
-from _filereading import *
-from _exceptions import *
-from _plotting_functions import *
+from utils import *
+from filereading import *
+from exceptions import *
+from plotting import *
 
 
 # logging.basicConfig(
@@ -36,24 +36,27 @@ def from_csv(csv_path, fmt='hro', tw=True):
             f"csv-format {fmt} not yet implemented")
 
     if fmt == 'hro':
-        with open(csv_path, 'r', newline='') as file:
-            csv_reader = csv.reader(file, delimiter=',', quotechar='"')
-            first_row = next(csv_reader)[0]
-            if (first_row not in
-               ("PolarDiagramTable", "PolarDiagramPointcloud")):
-                raise PolarDiagramException(
-                    f"hro-format for {first_row} not yet implemented")
+        try:
+            with open(csv_path, 'r', newline='') as file:
+                csv_reader = csv.reader(file, delimiter=',', quotechar='"')
+                first_row = next(csv_reader)[0]
+                if (first_row not in
+                        ("PolarDiagramTable", "PolarDiagramPointcloud")):
+                    raise PolarDiagramException(
+                        f"hro-format for {first_row} not yet implemented")
 
-            if first_row == "PolarDiagramTable":
-                ws_res, wa_res, data = read_table(csv_reader)
-                return PolarDiagramTable(
-                    wind_speed_resolution=ws_res,
-                    wind_angle_resolution=wa_res,
-                    data=data, tw=tw)
+                if first_row == "PolarDiagramTable":
+                    ws_res, wa_res, data = read_table(csv_reader)
+                    return PolarDiagramTable(
+                        wind_speed_resolution=ws_res,
+                        wind_angle_resolution=wa_res,
+                        data=data, tw=tw)
 
-            data = read_pointcloud(csv_reader)
-            return PolarDiagramPointcloud(
-                points=data, tw=tw)
+                data = read_pointcloud(csv_reader)
+                return PolarDiagramPointcloud(
+                    points=data, tw=tw)
+        except OSError:
+            raise FileReadingException(f"can't find or open {csv_path}")
 
     ws_res, wa_res, data = read_extern_format(csv_path, fmt)
     return PolarDiagramTable(
@@ -76,41 +79,7 @@ def depickling(pkl_path):
 # V: In Arbeit
 # V: Noch nicht verwenden!
 def convert(obj, convert_type):
-    """Converts a PolarDiagram object to another type
-    of PolarDiagram object"""
-    if convert_type is type(obj):
-        return obj
-
-    wind_speeds = obj.wind_speeds
-    wind_angles = obj.wind_angles
-    boat_speeds = obj.boat_speeds
-    data = []
-    cols = len(wind_speeds)
-    rows = len(wind_angles)
-
-    if convert_type is PolarDiagramTable:
-        for i in range(rows):
-            row = []
-            for j in range(cols):
-                point = boat_speeds[
-                    boat_speeds[:1] == [wind_speeds[j], wind_angles[i]]][2]
-                row.append(point)
-            data.append(row)
-
-        return PolarDiagramTable(
-            wind_speed_resolution=wind_speeds,
-            wind_angle_resolution=wind_angles,
-            data=data)
-
-    if convert_type is PolarDiagramPointcloud:
-        for i in range(rows):
-            for j in range(cols):
-                data.append(
-                    [wind_speeds[j],
-                     wind_angles[i],
-                     boat_speeds[i][j]])
-
-        return PolarDiagramPointcloud(points=data)
+    pass
 
 
 def symmetric_polar_diagram(obj):
@@ -161,6 +130,7 @@ class PolarDiagram(ABC):
     plot_color_gradient(ax=None, min_color='g', max_color='r')
     plot_convex_hull_slice(wind_speed, ax=None, **kwargs)
     """
+
     def pickling(self, pkl_path):
         """Writes a PolarDiagram object to a .pkl-file"""
         with open(pkl_path, 'wb') as file:
@@ -243,6 +213,7 @@ class PolarDiagramTable(PolarDiagram):
                    tws=True, twa=True):
         Changes entries in table
     """
+
     def __init__(self, wind_speed_resolution=None, wind_angle_resolution=None,
                  data=None, tw=True):
 
@@ -589,8 +560,8 @@ class PolarDiagramCurve(PolarDiagram):
             bsp_list.append(self(np.array([ws] * 1000), wa))
 
         return plot_flat_range(
-                    ws_list, wa_list, bsp_list,
-                    ax, colors, show_legend, legend_kw, **plot_kw)
+            ws_list, wa_list, bsp_list,
+            ax, colors, show_legend, legend_kw, **plot_kw)
 
     def plot_3d(self, ws_range=(0, 20, 100), ax=None,
                 colors=('blue', 'blue')):
@@ -773,7 +744,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         points = self.points[self.points[:, 0] == ws][:, 1:]
         if points.size == 0:
             raise PolarDiagramException(
-                f"No points with wind speed = {ws} found")
+                f"No points with wind speed={ws} found")
         return points[:, 0], points[:, 1]
 
     def polar_plot_slice(self, ws, ax=None, **plot_kw):
@@ -796,9 +767,9 @@ class PolarDiagramPointcloud(PolarDiagram):
 
             if ws_lower <= ws:
                 ws_list.append(ws)
-                points = self.points[self.points[:, 0] == ws][:, 1:]
-                wa_list.append(points[:, 0])
-                bsp_list.append(points[:, 1])
+                points = self._get_slice_data(ws)
+                wa_list.append(points[0])
+                bsp_list.append(points[1])
 
         return ws_list, wa_list, bsp_list
 

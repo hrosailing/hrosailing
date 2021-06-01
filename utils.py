@@ -1,8 +1,8 @@
 import numpy as np
 from collections import Iterable
 from scipy.spatial import ConvexHull
-from _exceptions import PolarDiagramException
-from _sailing_units import apparent_wind_to_true
+from exceptions import PolarDiagramException
+from windconversion import apparent_wind_to_true
 
 
 def polar_to_kartesian(arr):

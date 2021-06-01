@@ -9,7 +9,7 @@ from matplotlib.colors import to_rgb, \
     Normalize, LinearSegmentedColormap
 from matplotlib.cm import ScalarMappable
 from matplotlib.lines import Line2D
-from _utils import convex_hull_polar
+from utils import convex_hull_polar
 
 
 def plot_polar(wa, bsp, ax, **plot_kw):
@@ -37,8 +37,8 @@ def plot_polar_range(ws_list, wa_list, bsp_list,
                      ax, colors, show_legend,
                      legend_kw, **plot_kw):
     _check_keywords(plot_kw)
-    _ = (plot_kw.pop('color', None)
-         or plot_kw.pop('c', None))
+    __ = (plot_kw.pop('color', None)
+          or plot_kw.pop('c', None))
 
     if ax is None:
         ax = plt.gca(projection='polar')
@@ -61,8 +61,8 @@ def plot_flat_range(ws_list, wa_list, bsp_list,
                     ax, colors, show_legend,
                     legend_kw, **plot_kw):
     _check_keywords(plot_kw)
-    _ = (plot_kw.pop('color', None)
-         or plot_kw.pop('c', None))
+    __ = (plot_kw.pop('color', None)
+          or plot_kw.pop('c', None))
 
     if ax is None:
         ax = plt.gca()
@@ -244,8 +244,8 @@ def _set_legend(ax, ws_list, colors, label,
 
 def _sort_data(wa_list, bsp_list):
     sorted_lists = list(zip(
-        *[zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
-          for wa, bsp in zip(wa_list, bsp_list)]))
+        *(zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
+          for wa, bsp in zip(wa_list, bsp_list))))
 
     return sorted_lists[0], sorted_lists[1]
 
