@@ -151,8 +151,8 @@ def read_nmea_file(nmea_path, mode='interpolate'):
 
 
 def _get_wind_data(wind_data, nmea_sentence):
-    logger.debug(f"Function _get_wind_data(wind_data={wind_data}, "
-                 f"nmea_sentence={nmea_sentence})' called")
+    logger.debug(f"""Function _get_wind_data(wind_data={wind_data},
+                 nmea_sentence={nmea_sentence})' called""")
 
     try:
         wind = pynmea2.parse(nmea_sentence)
