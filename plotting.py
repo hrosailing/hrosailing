@@ -1,91 +1,124 @@
 """
 Various functions to plot PolarDiagram objects
 """
-
-
+import logging
+import logging.handlers
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.colors import to_rgb, \
-    Normalize, LinearSegmentedColormap
+import sys
+
+from matplotlib.colors import to_rgb, Normalize, \
+    LinearSegmentedColormap
 from matplotlib.cm import ScalarMappable
 from matplotlib.lines import Line2D
+
 from utils import convex_hull_polar
 
 
-def plot_polar(wa, bsp, ax, **plot_kw):
-    _check_keywords(plot_kw)
+logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
+                    level=logging.INFO)
+LOG_FILE = "plotting.log"
 
+logger = logging.getLogger(__name__)
+console_handler = logging.StreamHandler(sys.stdout)
+file_handler = logging.handlers.TimedRotatingFileHandler(
+    LOG_FILE, when='midnight')
+logger.addHandler(console_handler)
+logger.setLevel(logging.DEBUG)
+
+
+def plot_polar(wa, bsp, ax, **plot_kw):
+    logger.debug(f"""Function 'plot_polar(wa, bsp,
+                 ax={ax}, **plot_kw={plot_kw})' called""")
+
+    _check_keywords(plot_kw)
     if ax is None:
         ax = plt.gca(projection='polar')
     _set_polar_directions(ax)
 
     xs, ys = _sort_data([wa], [bsp])
+
+    logger.debug("""Extern function 'matplotlib.axes.Axes.plot(
+                 xs, ys, **plot_kw)' called""")
     return ax.plot(xs, ys, **plot_kw)
 
 
 def plot_flat(wa, bsp, ax, **plot_kw):
-    _check_keywords(plot_kw)
+    logger.debug(f"""Function 'plot_flat(wa, bsp, ax={ax},
+                 **plot_kw={plot_kw})' called""")
 
+    _check_keywords(plot_kw)
     if ax is None:
         ax = plt.gca()
 
     xs, ys = _sort_data([wa], [bsp])
+
+    logger.debug("""Extern function 'matplotlib.axes.Axes.plot(
+                 xs, ys, **plot_kw)' called""")
     return ax.plot(xs, ys, **plot_kw)
 
 
 def plot_polar_range(ws_list, wa_list, bsp_list,
                      ax, colors, show_legend,
                      legend_kw, **plot_kw):
+    logger.debug(f"""Function 'plot_polar_range(ws_list, wa_list, bsp_list,
+                 ax={ax}, colors={colors}, show_legend={show_legend},
+                 legend_kw={legend_kw}, **plot_kw={plot_kw})' called""")
+
     _check_keywords(plot_kw)
     __ = (plot_kw.pop('color', None)
           or plot_kw.pop('c', None))
-
     if ax is None:
         ax = plt.gca(projection='polar')
     _set_polar_directions(ax)
-
     if legend_kw is None:
         legend_kw = {}
     if show_legend:
         _set_legend(ax, ws_list, colors,
                     label="True Wind Speed",
                     **legend_kw)
-
     _set_color_cycle(ax, ws_list, colors)
 
     xs, ys = _sort_data(wa_list, bsp_list)
+
     return _plot_multiple(ax, xs, ys, **plot_kw)
 
 
 def plot_flat_range(ws_list, wa_list, bsp_list,
                     ax, colors, show_legend,
                     legend_kw, **plot_kw):
+    logger.debug(f"""Function plot_flat_range(ws_list, wa_list, bsp_list,
+                 ax={ax}, colors={colors}, show_legend={show_legend},
+                 legend_kw={legend_kw}, **plot_kw={plot_kw})' called""")
+
     _check_keywords(plot_kw)
     __ = (plot_kw.pop('color', None)
           or plot_kw.pop('c', None))
-
     if ax is None:
         ax = plt.gca()
-
     if legend_kw is None:
         legend_kw = {}
     if show_legend:
         _set_legend(ax, ws_list, colors,
                     label="True Wind Speed",
                     **legend_kw)
-
     _set_color_cycle(ax, ws_list, colors)
 
     xs, ys = _sort_data(wa_list, bsp_list)
+
     return _plot_multiple(ax, xs, ys, **plot_kw)
 
 
 def plot_color(ws, wa, bsp, ax, colors,
                marker, show_legend,
                **legend_kw):
+    logger.debug(f"""Function 'plot_color(ws, wa, bsp, ax={ax},
+                 colors={colors}, marker={marker}, 
+                 show_legend={show_legend}, **legend_kw={legend_kw})'
+                 called""")
+
     if ax is None:
         ax = plt.gca()
-
     if legend_kw is None:
         legend_kw = {}
     if show_legend:
@@ -93,47 +126,69 @@ def plot_color(ws, wa, bsp, ax, colors,
             ax, bsp, colors,
             label="Boat Speed",
             **legend_kw)
-
     colors = _get_colors(colors, bsp)
 
+    logger.debug("""Extern function 'matplotlib.axes.Axes.scatter(ws, wa,
+                 marker, c=colors)' called""")
     return ax.scatter(ws, wa, marker=marker,
                       c=colors)
 
 
 def plot3d(ws, wa, bsp, ax, **plot_kw):
-    _check_keywords(plot_kw)
+    logger.debug(f"""Function 'plot3d(ws, wa, bsp, ax={ax},
+                 **plot_kw={plot_kw})' called""")
 
+    _check_keywords(plot_kw)
     if ax is None:
         ax = plt.gca(projection='3d')
     _set_3d_labels(ax)
 
+    logger.debug("""Extern function 'matplotlib.axes.Axes.plot(
+                 ws, wa, bsp, **plot_kw)' called""")
     return ax.plot(ws, wa, bsp, **plot_kw)
 
 
 def plot_surface(ws, wa, bsp, ax, colors):
+    logger.debug(f"""Function 'plot_surface(ws, wa, bsp,
+                  ax={ax}, colors={colors})' called""")
+
     if ax is None:
         ax = plt.gca(projection='3d')
     _set_3d_labels(ax)
 
+    logger.debug(f"""Extern function 
+                 'matplotlib.colors.LinearSegmentedColormap.from_list(
+                 'custom_map', {list(colors)})' called""")
     cmap = LinearSegmentedColormap.from_list(
         "custom_cmap", list(colors))
     color = cmap((ws - ws.min())
                  / float((ws - ws.min()).max()))
+
+    logger.debug("""Extern function 'matplotlib.axes.Axes.plot_surface(
+                  ws, wa, bsp, facecolors=color)' called""")
     return ax.plot_surface(ws, wa, bsp,
                            facecolors=color)
 
 
 def plot_convex_hull(wa, bsp, ax, **plot_kw):
+    logger.debug(f"""Function 'plot_convex_hull(wa, bsp,
+                  ax={ax}, **plot_kw={plot_kw})' called""")
+
     if ax is None:
         ax = plt.gca(projection='polar')
     _set_polar_directions(ax)
 
     wa, bsp = _sort_data([wa], [bsp])
     xs, ys = _get_convex_hull(wa, bsp)
+
+    logger.debug("""Extern function 'matplotlib.axes.Axes.plot(
+                 xs, ys, **plot_kw)' called""")
     return ax.plot(xs, ys, **plot_kw)
 
 
 def _check_keywords(plot_kw):
+    logger.debug(f"Function '_check_keywords(plot_kw={plot_kw})' called")
+
     # matplotlib.pyplot.plot default is
     # linestyle/ls = '-'
     # marker = ''
@@ -152,17 +207,24 @@ def _check_keywords(plot_kw):
 
 
 def _set_3d_labels(ax):
+    logger.debug(f"Function '_set_3d_labels(ax={ax})' called")
+
     ax.set_xlabel("True Wind Speed")
     ax.set_ylabel("True Wind Angle")
     ax.set_zlabel("Boat Speed")
 
 
 def _set_polar_directions(ax):
+    logger.debug(f"Function '_set_polar_directions(ax={ax})' called")
+
     ax.set_theta_zero_location('N')
     ax.set_theta_direction('clockwise')
 
 
 def _set_color_cycle(ax, ws_list, colors):
+    logger.debug(f"""Function '_set_color_cycle(ax={ax},
+                  ws_list, colors={colors})' called""")
+
     no_plots = len(ws_list)
     no_colors = len(colors)
     if no_plots == no_colors or no_plots < no_colors:
@@ -190,6 +252,9 @@ def _set_color_cycle(ax, ws_list, colors):
 
 
 def _get_colors(colors, scal_list):
+    logger.debug(f"""Function '_get_colors(colors={colors},
+                  scal_list)' called""")
+
     min_color = np.array(to_rgb(colors[0]))
     max_color = np.array(to_rgb(colors[1]))
     scal_max = max(scal_list)
@@ -205,13 +270,20 @@ def _get_colors(colors, scal_list):
 
 def _set_colormap(ws_list, colors, ax, label,
                   **legend_kw):
+    logger.debug(f"""Function '_set_colormap(ws_list, colors={colors},
+                 ax={ax}, label={label}, **legend_kw={legend_kw})' called""")
+
     min_color = colors[0]
     max_color = colors[1]
     ws_min = min(ws_list)
     ws_max = max(ws_list)
 
+    logger.debug(f"""Extern function
+                 'matplotlib.colors.LinearSegmentedColormap.from_list(
+                 'custom_map', {[min_color, max_color]})' called""")
     cmap = LinearSegmentedColormap.from_list(
         "custom_map", [min_color, max_color])
+    
     plt.colorbar(
         ScalarMappable(norm=Normalize(
             vmin=ws_min, vmax=ws_max), cmap=cmap),
@@ -220,21 +292,21 @@ def _set_colormap(ws_list, colors, ax, label,
 
 def _set_legend(ax, ws_list, colors, label,
                 **legend_kw):
+    logger.debug(f"""Function '_set_legend(ax={ax}, ws_list, colors={colors},
+                 label={label}, **legend_kw={legend_kw})' called""")
+
     no_colors = len(colors)
     no_plots = len(ws_list)
-
     if no_plots > no_colors == 2:
         _set_colormap(ws_list, colors, ax,
                       label, **legend_kw)
         return
-
     if isinstance(colors[0], tuple):
         ax.legend([Line2D(
             [0], [0], color=colors[i][1], lw=1,
             label=f"TWS {colors[i][0]}")
             for i in range(no_colors)])
         return
-
     ax.legend([Line2D(
         [0], [0], color=colors[i], lw=1,
         label=f"TWS {ws_list[i]}")
@@ -243,6 +315,8 @@ def _set_legend(ax, ws_list, colors, label,
 
 
 def _sort_data(wa_list, bsp_list):
+    logger.debug("Function 'sort_data(wa_list, bsp_list)' called")
+
     sorted_lists = list(zip(
         *(zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
           for wa, bsp in zip(wa_list, bsp_list))))
@@ -250,21 +324,33 @@ def _sort_data(wa_list, bsp_list):
     return sorted_lists[0], sorted_lists[1]
 
 
-def _plot_multiple(ax, xs: list, ys: list,
+def _plot_multiple(ax, xs, ys,
                    **plot_kw):
+    logger.debug(f"""Function '_plot_multiple(ax={ax},
+                 xs, ys, **plot_kw={plot_kw})' called""")
+
     # xs and ys are lists of datasets with
     # different amounts of datapoints.
     # function plots them one by one.
     # faster method?
     for x, y in zip(xs, ys):
-        x, y = np.array(x), np.array(y)
+        x, y = np.asarray(x), np.asarray(y)
+
+        logger.debug("""Extern function 'matplotlib.axes.Axes.plot(
+                     x, y, **plot_kw)' called""")
         ax.plot(x, y, **plot_kw)
 
 
 def _get_convex_hull(wa, bsp):
+    logger.debug("Function '_get_convex_hull(wa, bsp)' called")
+
     wa, bsp = np.array(wa), np.array(bsp)
+
+    logger.debug("""Internal function 'utils.convex_hull_polar(
+                 np.column_stack((bsp.copy(), wa.copy()))).vertices)'
+                 called""")
     vert = sorted(convex_hull_polar(
-        np.column_stack((bsp, wa))).vertices)
+        np.column_stack((bsp.copy(), wa.copy()))).vertices)
     xs = []
     ys = []
     for i in vert:
