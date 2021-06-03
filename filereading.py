@@ -1,11 +1,29 @@
-import numpy as np
 import csv
+import logging
+import logging.handlers
+import numpy as np
 import pynmea2
+import sys
 
 from exceptions import FileReadingException
 
 
+logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
+                    level=logging.INFO)
+LOG_FILE = "filereading.log"
+
+logger = logging.getLogger(__name__)
+console_handler = logging.StreamHandler(sys.stdout)
+file_handler = logging.handlers.TimedRotatingFileHandler(
+    LOG_FILE, when='midnight')
+logger.addHandler(console_handler)
+logger.setLevel(logging.DEBUG)
+
+
 def read_table(csv_reader):
+    logger.debug(f"""Function 'read_table(
+                 csv_reader={csv_reader.__name__})' called""")
+
     next(csv_reader)
     ws_res = [eval(ws) for ws in next(csv_reader)]
     next(csv_reader)
@@ -19,6 +37,8 @@ def read_table(csv_reader):
 
 
 def read_pointcloud(csv_reader):
+    logger.debug(f"""Function 'read_pointcloud(
+                 csv_reader={csv_reader.__name__})' called""")
     data = []
     next(csv_reader)
     for row in csv_reader:
@@ -28,6 +48,9 @@ def read_pointcloud(csv_reader):
 
 
 def read_extern_format(csv_path, fmt):
+    logger.debug(f"""Function 'read_extern_format(csv_path={csv_path}, 
+                 fmt={fmt})' called""")
+
     if fmt == 'array':
         return read_array_csv(csv_path)
 
@@ -40,6 +63,9 @@ def read_extern_format(csv_path, fmt):
 
 
 def read_sail_csv(csv_path, delimiter):
+    logger.debug(f"""Function 'read_sail_csv(csv_path={csv_path},
+                 delimiter={delimiter})' called""")
+
     try:
         with open(csv_path, 'r', newline='') as file:
             csv_reader = csv.reader(file, delimiter=delimiter,
@@ -53,72 +79,87 @@ def read_sail_csv(csv_path, delimiter):
 
             return ws_res, wa_res, data
     except OSError:
+        logger.info(f"Error occured when accessing file {csv_path}")
         raise FileReadingException(f"can't find or open {csv_path}")
 
 
 def read_array_csv(csv_path):
+    logger.debug(f"Function 'read_array_csv(csv_path={csv_path}' called")
+
     try:
         file_data = np.genfromtxt(csv_path, delimiter="\t")
         return file_data[0, 1:], file_data[1:, 0], file_data[1:, 1:]
     except OSError:
+        logger.info(f"Error occured when accessing file {csv_path}")
         raise FileReadingException(f"can't find or open {csv_path}")
 
 
 def read_nmea_file(nmea_path, mode='interpolate'):
+    logger.debug(f"""Function 'read_nmea_file(nmea_path={nmea_path},
+                 mode={mode})' called""")
+
     if mode not in ('mean', 'interpolate'):
+        logger.info(f"Error occured when requesting mode")
         raise FileReadingException(
             f"mode {mode} not implemented")
 
-    try:
-        with open(nmea_path, 'r') as nmea_file:
-            nmea_data = []
-            nmea_sentences = filter(
-                lambda line: "RMC" in line
-                             or "MWV" in line,
-                nmea_file)
+    with open(nmea_path, 'r') as nmea_file:
+        nmea_data = []
+        nmea_sentences = filter(
+            lambda line: "RMC" in line
+                         or "MWV" in line,
+            nmea_file)
+
+        stc = next(nmea_sentences, None)
+        if stc is None:
+            logger.info(f"Error occured when trying to read {stc}")
+            raise FileReadingException(
+                """nmea-file didn't contain
+                any necessary data""")
+
+        while True:
+            try:
+                bsp = pynmea2.parse(stc).spd_over_grnd
+            except pynmea2.ParseError:
+                logger.info(f"Error occured when parsing {stc}")
+                raise FileReadingException
 
             stc = next(nmea_sentences, None)
-            if stc is None:
-                raise FileReadingException(
-                    """nmea-file didn't contain
-                    any necessary data""")
 
-            while True:
-                bsp = pynmea2.parse(stc).spd_over_grnd
+            if stc is None:
+                # eof
+                break
+            # check if nmea-file is in a
+            # way "sorted"
+            if "RMC" in stc:
+                logger.info(f"Error occured when trying to read {stc}")
+                raise FileReadingException(
+                    """nmea-file has two GPRMC
+                    sentences with no wind data
+                    in between them.""")
+
+            wind_data = []
+            while "RMC" not in stc and stc is not None:
+                _get_wind_data(wind_data, stc)
                 stc = next(nmea_sentences, None)
 
-                if stc is None:
-                    # eof
-                    break
-                # check if nmea-file is in a
-                # way "sorted"
-                if "RMC" in stc:
-                    raise FileReadingException(
-                        """nmea-file has two GPRMC
-                        sentences with no wind data
-                        in between them.""")
-
-                wind_data = []
-                while "RMC" not in stc and stc is not None:
-                    _get_wind_data(wind_data, stc)
-                    stc = next(nmea_sentences, None)
-
-                _process_data(
-                    nmea_data, wind_data, stc,
-                    bsp, mode)
-    except OSError:
-        raise FileReadingException(f"can't find or open {nmea_path}")
-
-    except (pynmea2.ParseError, pynmea2.SentenceTypeError):
-        # TODO!
-        # logging
-        pass
+            _process_data(
+                nmea_data, wind_data, stc,
+                bsp, mode)
 
     return nmea_data
 
 
 def _get_wind_data(wind_data, nmea_sentence):
-    wind = pynmea2.parse(nmea_sentence)
+    logger.debug(f"Function _get_wind_data(wind_data={wind_data}, "
+                 f"nmea_sentence={nmea_sentence})' called")
+
+    try:
+        wind = pynmea2.parse(nmea_sentence)
+    except pynmea2.ParseError:
+        logger.info("Error occured when parsing nmea_sentence")
+        raise FileReadingException()
+
     wind_data.append(
         [float(wind.wind_speed),
          float(wind.wind_angle),
@@ -126,6 +167,10 @@ def _get_wind_data(wind_data, nmea_sentence):
 
 
 def _process_data(nmea_data, wind_data, nmea_sentence, bsp, mode):
+    logger.debug(f"""Function '_process_data(nmea_data={nmea_data},
+                 wind_data={wind_data}, nmea_sentence={nmea_sentence},
+                 bsp={bsp}, mode={mode})' called""")
+
     if mode == 'mean':
         wind_arr = np.array(
             [w[:2] for w in wind_data])
@@ -137,8 +182,12 @@ def _process_data(nmea_data, wind_data, nmea_sentence, bsp, mode):
              wind_data[2]])
 
     if mode == 'interpolate':
-        bsp2 = pynmea2.parse(
-            nmea_sentence).spd_over_grnd
+        try:
+            bsp2 = pynmea2.parse(nmea_sentence).spd_over_grnd
+        except pynmea2.ParseError:
+            logger.info("Error occured when parsing nmea_sentence")
+            raise FileReadingException()
+
         inter = len(wind_data)
         for i in range(inter):
             inter_bsp = ((inter - i) / inter * bsp
