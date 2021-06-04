@@ -17,15 +17,15 @@ from exceptions import *
 from plotting import *
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
-                    level=logging.INFO)
+                    level=logging.INFO,
+                    filename='polardiagram.log')
 LOG_FILE = "polardiagram.log"
 
 logger = logging.getLogger(__name__)
-console_handler = logging.StreamHandler(sys.stdout)
 file_handler = logging.handlers.TimedRotatingFileHandler(
     LOG_FILE, when='midnight')
-logger.addHandler(console_handler)
-logger.setLevel(logging.DEBUG)
+logger.addHandler(file_handler)
+logger.setLevel(logging.INFO)
 
 
 def to_csv(csv_path, obj):
@@ -45,7 +45,7 @@ def to_csv(csv_path, obj):
     Function raises an exception
     if file can't be written to
     """
-    logger.debug(f"Function 'to_csv({csv_path}, {obj.__name__})' called")
+    logger.info(f"Function 'to_csv({csv_path}, {obj.__name__})' called")
     obj.to_csv(csv_path)
 
 
@@ -72,9 +72,11 @@ def from_csv(csv_path, fmt='hro', tw=True):
                 <https://opencpn.org/OpenCPN/plugins/polar.html>`_
                 'array'
     tw : ``bool``
-        True if wind in file
-        should be viewed as
-        true wind, false otherwise
+        Specifies if wind
+        data in file should
+        be viewed as true wind
+
+        Defaults to True
 
     Returns
     -------
@@ -87,7 +89,7 @@ def from_csv(csv_path, fmt='hro', tw=True):
     specified, or file can't be
     read
     """
-    logger.debug(f"Function 'from_csv({csv_path}, {fmt}, {tw})' called")
+    logger.info(f"Function 'from_csv({csv_path}, {fmt}, {tw})' called")
     FMTS = ('hro', 'orc', 'array', 'opencpn')
     if fmt not in FMTS:
         logger.info(f"Error occured, when requesting fmt")
@@ -101,19 +103,19 @@ def from_csv(csv_path, fmt='hro', tw=True):
                 first_row = next(csv_reader)[0]
                 if (first_row not in
                         ("PolarDiagramTable", "PolarDiagramPointcloud")):
-                    logger.info(f"Error occured when reading {first_row}")
+                    logger.error(f"Error occured when reading {first_row}")
                     raise PolarDiagramException(
                         f"hro-format for {first_row} not yet implemented")
 
                 if first_row == "PolarDiagramTable":
-                    logger.debug("""Internal function
+                    logger.info("""Internal function
                                  'read_table(csv_reader)' called""")
                     ws_res, wa_res, data = read_table(csv_reader)
                     return PolarDiagramTable(
                         ws_res=ws_res, wa_res=wa_res,
                         data=data, tw=tw)
 
-                logger.debug("""Internal function 
+                logger.info("""Internal function 
                              'read_pointcloud(csv_reader)' called""")
                 data = read_pointcloud(csv_reader)
                 return PolarDiagramPointcloud(
@@ -122,7 +124,7 @@ def from_csv(csv_path, fmt='hro', tw=True):
             logger.info(f"Error occured when accessing file {csv_path}")
             raise FileReadingException(f"can't find/open/read {csv_path}")
 
-    logger.debug(f"""Internal function 
+    logger.info(f"""Internal function 
                  'read_extern_format({csv_path}, {fmt})' called""")
     ws_res, wa_res, data = read_extern_format(csv_path, fmt)
     return PolarDiagramTable(
@@ -148,7 +150,7 @@ def pickling(pkl_path, obj):
     Function raises an exception
     if file can't be written to
     """
-    logger.debug(f"Function 'pickling({pkl_path}, {obj.__name__})' called")
+    logger.info(f"Function 'pickling({pkl_path}, {obj.__name__})' called")
     obj.pickling(pkl_path)
 
 
@@ -172,7 +174,7 @@ def depickling(pkl_path):
     Function raises an exception
     if file can't be read
     """
-    logger.debug(f"Function 'depickling({pkl_path})' called")
+    logger.info(f"Function 'depickling({pkl_path})' called")
     try:
         with open(pkl_path, 'rb') as file:
             return pickle.load(file)
@@ -214,9 +216,9 @@ def symmetric_polar_diagram(obj):
     obj is a PolarDiagramCurve
     instance
     """
-    logger.debug(f"Function 'symmetric_polar_diagram({obj.__name__}' called")
+    logger.info(f"Function 'symmetric_polar_diagram({obj.__name__}' called")
     if not isinstance(obj, (PolarDiagramTable, PolarDiagramPointcloud)):
-        logger.info(f"Error occured when trying to symmetrize {obj.__name__}")
+        logger.error(f"Error occured when trying to symmetrize {obj.__name__}")
         raise PolarDiagramException(
             "functionality for obj not yet implemented")
 
@@ -302,12 +304,12 @@ class PolarDiagram(ABC):
         Function raises an exception
         if file can't be written to
         """
-        logger.debug(f"Method 'PolarDiagram.pickling({pkl_path})' called")
+        logger.info(f"Method 'PolarDiagram.pickling({pkl_path})' called")
 
         try:
             pickle.dump(self, pkl_path)
         except OSError:
-            logger.info(f"Error occured when writing to {pkl_path}")
+            logger.error(f"Error occured when writing to {pkl_path}")
             raise FileReadingException(f"Can't write to {pkl_path}")
 
     @abstractmethod
@@ -354,18 +356,63 @@ class PolarDiagram(ABC):
 
 class PolarDiagramTable(PolarDiagram):
     """
-    A class to represent, visualize and work with a polar
-    performance diagram in form of a table.
+    A class to represent,
+    visualize and work with
+    a polar diagram in the
+    form of a table.
 
     Parameters
     ----------
     ws_res : ``Iterable`` or ``int`` or ``float``, optional
+        Wind speeds that will
+        correspond to the
+        columns of the table.
+
+        Can either be a sequence
+        of length cdim or a
+        number
+
+        If a number num is passed,
+        numpy.arange(num, 40, num)
+        will be assigned to ws_res
+
+        If nothing is passed,
+        it will default to
+        numpy.arange(2, 42, 2)
 
     wa_res : ``Iterable`` or ``int`` or ``float``, optional
+        Wind angles that will
+        correspond to the
+        columns of the table.
 
-    data : ``array_like``
+        Can either be sequence
+        of legnth rdim or a
+        number
 
-    tw : ``bool``
+        If a number num is passed,
+        numpy.arange(num, 360, num)
+        will be assigned to wa_res
+
+        If nothing is passed,
+        it will default to
+        numpy.arange(0, 360, 5)
+
+    data : ``array_like``, optional
+        Sequence of corresponding
+        boat speeds, should be
+        broadcastable to the
+        shape (rdim, cdim)
+
+        If nothing is passed
+        it will default to
+        numpy.zeros((rdim, cdim))
+
+    tw : ``bool``, optional
+        Specifies if wind
+        data in file should
+        be viewed as true wind
+
+        Defaults to True
 
     Methods
     -------
@@ -401,10 +448,10 @@ class PolarDiagramTable(PolarDiagram):
 
     def __init__(self, ws_res=None, wa_res=None,
                  data=None, tw=True):
-        logger.debug(f"""Class 'PolarDiagramTable(ws_res,
+        logger.info(f"""Class 'PolarDiagramTable(ws_res,
                      wa_res, data, tw={tw})' called""")
 
-        logger.debug(f"""Internal function
+        logger.info(f"""Internal function
                      'utils.convert_wind(w_dict, tw={tw})' called""")
         w_dict = convert_wind(
             {"wind_speed": ws_res,
@@ -412,11 +459,11 @@ class PolarDiagramTable(PolarDiagram):
              "boat_speed": data},
             tw)
 
-        logger.debug("""Internal function 
+        logger.info("""Internal function 
                      'utils.speed_resolution(ws_res)' called""")
         self._resolution_wind_speed = speed_resolution(
             w_dict.get("wind_speed"))
-        logger.debug("""Internal function
+        logger.info("""Internal function
                      'utils.angle_resolution(wa_res)' called""")
         self._resolution_wind_angle = angle_resolution(
             w_dict.get("wind_angle"))
@@ -427,7 +474,7 @@ class PolarDiagramTable(PolarDiagram):
             data = np.zeros(rows, cols)
         data = np.asarray(data)
         if data.ndim != 2:
-            logger.info(f"Error occured when checking data.ndim ")
+            logger.error(f"Error occured when checking data.ndim ")
             raise PolarDiagramException(
                 "Expecting 2 dimensional array to be viewed as "
                 "a Polar Diagram Tableau,")
@@ -435,7 +482,7 @@ class PolarDiagramTable(PolarDiagram):
             try:
                 data = data.reshape(rows, cols)
             except ValueError:
-                logger.info(f"""Error occured when trying to broadcast
+                logger.error(f"""Error occured when trying to broadcast
                             data to shape {(rows, cols)} """)
                 raise PolarDiagramException(
                     "data couldn't be broadcasted to an array of" +
@@ -443,7 +490,7 @@ class PolarDiagramTable(PolarDiagram):
         self._data = data
 
     def __str__(self):
-        logger.debug("""Dunder-method
+        logger.info("""Dunder-method
                      'PolarDiagramTable.__str__()' called""")
         if len(self.wind_speeds) <= 15:
             table = np.column_stack(
@@ -464,7 +511,7 @@ class PolarDiagramTable(PolarDiagram):
         return tabulate(table, headers=headers)
 
     def __repr__(self):
-        logger.debug("""Dunder-method
+        logger.info("""Dunder-method
                      'PolarDiagramTable.__repr__()' called""")
         return f"PolarDiagramTable(" \
                f"wind_speed_resolution={self.wind_speeds}, " \
@@ -472,13 +519,13 @@ class PolarDiagramTable(PolarDiagram):
                f"data={self.boat_speeds})"
 
     def __getitem__(self, key):
-        logger.debug(f"""Dunder-method
+        logger.info(f"""Dunder-method
                      'PolarDiagramTable.__getitem__({key})' called""")
         ws, wa = key
-        logger.debug("""Internal function
+        logger.info("""Internal function
                      'utils.get_indices(ws, self.wind_speeds)' called""")
         col = get_indices(ws, self.wind_speeds)
-        logger.debug("""Internal function
+        logger.info("""Internal function
                      'utils.get_indices(wa, self.wind_angles)' called""")
         row = get_indices(wa, self.wind_angles)
         return self.boat_speeds[row, col]
@@ -486,19 +533,19 @@ class PolarDiagramTable(PolarDiagram):
     @property
     def wind_angles(self):
         """Returns a read only version of self._resolution_wind_angle"""
-        logger.debug("Property 'PolarDiagramTable.wind_angles' called")
+        # logger.info("Property 'PolarDiagramTable.wind_angles' called")
         return self._resolution_wind_angle.copy()
 
     @property
     def wind_speeds(self):
         """Returns a read only version of self._resolution_wind_speed"""
-        logger.debug("Property 'PolarDiagramTable.wind_speeds' called")
+        # logger.info("Property 'PolarDiagramTable.wind_speeds' called")
         return self._resolution_wind_speed.copy()
 
     @property
     def boat_speeds(self):
         """Returns a read only version of self._data"""
-        logger.debug("Property 'PolarDiagramTable.boat_speeds' called")
+        # logger.info("Property 'PolarDiagramTable.boat_speeds' called")
         return self._data.copy()
 
     def to_csv(self, csv_path):
@@ -523,7 +570,7 @@ class PolarDiagramTable(PolarDiagram):
         Function raises an exception
         if file can't be written to
         """
-        logger.debug(f"Method 'PolarDiagramTable.to_csv({csv_path}' called")
+        logger.info(f"Method 'PolarDiagramTable.to_csv({csv_path}' called")
         try:
             with open(csv_path, 'w', newline='') as file:
                 csv_writer = csv.writer(file, delimiter=',', quotechar='"')
@@ -535,44 +582,52 @@ class PolarDiagramTable(PolarDiagram):
                 csv_writer.writerow(["Boat speeds:"])
                 csv_writer.writerows(self.boat_speeds)
         except OSError:
-            logger.info(f"Error occured when accessing file {csv_path}")
+            logger.error(f"Error occured when accessing file {csv_path}")
             raise FileReadingException(f"Can't write to {csv_path}")
 
-    def change_entries(self, new_data, ws=None, wa=None,
-                       tw=True):
+    def change_entries(self, new_data, ws=None, wa=None):
         """Changes specified entries in the table
 
         Parameters
         ----------
         new_data: ``array_like``
+            Instance containing the
+            new data to be inserted
+            in the specified entries
 
         ws: ``Iterable`` or ``int`` or ``float``, optional
+            Element(s) of self.wind_speeds,
+            specifying the columns, where
+            new data will be inserted
+
+            Defaults to self.wind_speeeds
 
         wa: ``Iterable`` or ``int`` or ``float``, optional
+            Element(s) of self.wind_angles,
+            specifiying the rows, where
+            new data will be inserted
 
-        tw: ``bool``, optional
+            Defaults to self.wind_angles
 
-        Function raises an exception,
-        if new_data is not of a
-        fitting shape
+
+        Function raises an exception:
+            If ws is not contained
+            in self.wind_speeds
+
+            If wa is not contained
+            in self.wind_angles
+
+            If new_data is not of a
+            fitting shape
         """
-        logger.debug(f"""Method 'PolarDiagramTable.change_entries(new_data, 
-                     ws={ws}, wa={wa}, tw={tw}) called""")
+        logger.info(f"""Method 'PolarDiagramTable.change_entries(new_data, 
+                     ws, wa) called""")
         new_data = np.asarray(new_data)
 
-        logger.debug(f"""Internal function
-                     'utils.convert_wind(w_dict, tw={tw})' called""")
-        w_dict = convert_wind(
-            {"wind_speed": ws,
-             "wind_angle": wa,
-             "boat_speed": new_data},
-            tw)
-        ws = w_dict.get("wind_speed")
-        wa = w_dict.get("wind_angle")
-        logger.debug("""Internal function
+        logger.info("""Internal function
                      'utils.get_indices(ws, self.wind_speeds)' called""")
         ws_ind = get_indices(ws, self.wind_speeds)
-        logger.debug("""Internal function
+        logger.info("""Internal function
                      'utils.get_indices(wa, self.wind_angles)' called""")
         wa_ind = get_indices(wa, self.wind_angles)
         mask = np.zeros(self.boat_speeds.shape, dtype=bool)
@@ -582,7 +637,7 @@ class PolarDiagramTable(PolarDiagram):
         try:
             new_data = new_data.reshape(len(wa_ind), len(ws_ind))
         except ValueError:
-            logger.info(f"""Error occured when trying 
+            logger.error(f"""Error occured when trying 
                         to broadcast new_data to shape 
                         {(len(wa_ind), len(ws_ind))}""")
             raise PolarDiagramException(
@@ -591,62 +646,95 @@ class PolarDiagramTable(PolarDiagram):
         self._data[mask] = new_data.flat
 
     def _get_slice_data(self, ws):
-        logger.debug(f"""Method 'PolarDiagramTable._get_slice_data(
-                     ws={ws})' called""")
+        # logger.info(f"""Method 'PolarDiagramTable._get_slice_data(
+        #             ws={ws})' called""")
 
-        logger.debug("""Internal function 
-                     'utils.get_indices(ws, self.wind_speeds called""")
+        # logger.info("""Internal function
+        #              'utils.get_indices(ws, self.wind_speeds called""")
         ws_ind = get_indices(ws, self.wind_speeds)
 
         return self.boat_speeds[:, ws_ind]
 
     def _get_radians(self):
-        logger.debug("Method 'PolarDiagramTable._get_radians()' called")
+        # logger.info("Method 'PolarDiagramTable._get_radians()' called")
 
         return np.deg2rad(self.wind_angles)
 
     def polar_plot_slice(self, ws, ax=None, **plot_kw):
-        """
+        """Creates a polar plot of a
+        given slice (column) of the
+        polar diagram
 
         Parameters
         ----------
         ws : ``int`` or ``float``
+            Slice (column) of the polar
+            diagram, given as an element
+            of self.wind_speeds
 
         ax : ``matplotlib.projections.polar.PolarAxes``, optional
+            Axes instance where the plot
+            will be created. If nothing
+            is passed, the function will
+            create a suitable axes
 
-        plot_kw :
+        plot_kw : Keyword arguments
+            Keyword arguments that will
+            be passed to the
+            `matplotlib.axes.Axes.plot`
+            function, to change certain
+            appearences of the plot
 
 
+        Function raises an exception
+        if ws is not in the wind
+        speed resolution.
         """
-        logger.debug(f"""Method 'PolarDiagramTable.polar_plot_slice(
+        logger.info(f"""Method 'PolarDiagramTable.polar_plot_slice(
                      ws={ws}, ax={ax}, plot_kw={plot_kw}' called""")
 
         wa = list(self._get_radians())
         bsp = self._get_slice_data(ws)
 
-        logger.debug(f"""Internal function
+        logger.info(f"""Internal function
                      'plotting.plot_polar(wa, bsp, ax, **plot_kw)' called""")
         return plot_polar(wa, bsp, ax, **plot_kw)
 
     def flat_plot_slice(self, ws, ax=None, **plot_kw):
-        """
+        """Creates a cartesian plot
+        of a given slice (column)
+        of the polar diagram
 
         Parameters
         ----------
         ws : ``int`` or ``float``
+            Slice (column) of the polar
+            diagram, given as an element
+            of self.wind_speeds
 
         ax : ``matplotlib.axes.Axes``, optional
+            Axes instance where the plot
+            will be created. If nothing
+            is passed, the function will
+            create a suitable axes
 
-        plot_kw :
+        plot_kw : Keyword arguments
+            Keyword arguments that will
+            be passed to the
+            `matplotlib.axes.Axes.plot`
+            function, to change certain
+            appearences of the plot
 
-
+        Function raises an exception
+        if ws is not in the wind
+        speed resolution.
         """
-        logger.debug(f"""Method 'PolarDiagramTable.flat_plot_slice(
+        logger.info(f"""Method 'PolarDiagramTable.flat_plot_slice(
                      ws={ws}, ax={ax}, plot_kw={plot_kw}' called""")
 
         bsp = self._get_slice_data(ws)
 
-        logger.debug(f"""Internal function
+        logger.info(f"""Internal function
                      'plotting.plot_flat(self.wind_angles, 
                      bsp, ax, **plot_kw)' called""")
         return plot_flat(self.wind_angles, bsp, ax, **plot_kw)
@@ -654,25 +742,116 @@ class PolarDiagramTable(PolarDiagram):
     def polar_plot(self, ws_range=None, ax=None,
                    colors=('green', 'red'), show_legend=True,
                    legend_kw=None, **plot_kw):
-        """
+        """Creates a polar plot
+        of multiple slices (columns)
+        of the polar diagram
 
         Parameters
         ----------
         ws_range : ``Iterable``, optional
+            Slices (columns) of the
+            polar diagram table,
+            given as an Iterable
+            of elements of
+            self.wind_speeds.
+            If nothing it passed,
+            it will default to
+            self.Wind_speeds
 
         ax : ``matplotlib.projections.polar.PolarAxes``, optional
+            Axes instance where the plot
+            will be created. If nothing
+            is passed, the function will
+            create a suitable axes
 
         colors : ``tuple``, optional
+            Specifies the colors to
+            be used for the different
+            slices. There are four
+            options:
+                If as many or more
+                colors as slices
+                are passed,
+                each slice will
+                be plotted in the
+                specified color
+
+                Otherwise if
+                exactly 2 colors
+                are passed, the
+                slices will be
+                plotted with a
+                color gradient
+                consiting of the
+                two colors
+
+                If more than 2
+                colors are passed,
+                either the first
+                n_color slices will
+                be plotted in the
+                specified colors,
+                and the rest will
+                be plotted in the
+                default color 'blue',
+                or one can specify
+                certain slices to be
+                plotted in a certain
+                color by passing a
+                tuple of (ws, color)
+                pairs
+
+                Defaults to the tuple
+                ('green', 'red')
 
         show_legend : ``bool``, optional
+            Specifies wether or not
+            a legend will be shown
+            next to the plot
+
+            The type of legend depends
+            on the color options:
+            If the slices are plotted
+            with a color gradient,
+            a ``matplotlib.colorbar.Colorbar``
+            object will be created
+            and assigned to ax.
+
+            Otherwise a
+            ``matplotlib.legend.Legend``
+            will be created and
+            assigned to ax.
+
+            Default to 'True'
+
 
         legend_kw : ``dict``, optional
+            Keyword arguments to be
+            passed to either the
+            ``matplotlib.colorbar.Colorbar``
+            or ``matplotlib.legend.Legend``
+            classes to change position
+            and appearence of the legend.
 
-        plot_kw :
+            Will only be used if
+            'show_legend=True'
 
+            Defaults to an empty
+            dictionary
 
+        plot_kw : Keyword arguments
+            Keyword arguments that will
+            be passed to the
+            `matplotlib.axes.Axes.plot`
+            function, to change certain
+            appearences of the plot
+
+        Function raises an exception
+        if at least one element
+        of ws_range is not in
+        the wind speed resolution
         """
-        logger.debug(f"""Method 'PolarDiagramTablepolar_plot(
+        logger.info(f"""Method 'PolarDiagramTablepolar_plot(
                      ws_range={ws_range}, ax={ax}, colors={colors}, 
                      show_legend={show_legend},legend_kw={legend_kw}, 
                      plot_kw={plot_kw}' called""")
@@ -683,7 +862,7 @@ class PolarDiagramTable(PolarDiagram):
         bsp_list = list(self._get_slice_data(ws=ws_range).T)
         wa_list = [list(self._get_radians())] * len(bsp_list)
 
-        logger.debug(f"""Internal function 
+        logger.info(f"""Internal function 
                      'plotting.plot_polar_range(ws_range, 
                      wa_list, bsp_list, colors, show_legend, 
                      legend_kw, **plot_kw)' called""")
@@ -694,24 +873,116 @@ class PolarDiagramTable(PolarDiagram):
     def flat_plot(self, ws_range=None, ax=None,
                   colors=('green', 'red'), show_legend=True,
                   legend_kw=None, **plot_kw):
-        """
+        """Creates a cartesian plot
+        of multiple slices (columns)
+        of the polar diagram
 
         Parameters
         ----------
         ws_range : `Iterable``, optional
+            Slices (columns) of the
+            polar diagram table,
+            given as an Iterable
+            of elements of
+            self.wind_speeds.
+            If nothing it passed,
+            it will default to
+            self.Wind_speeds
 
         ax : ``matplotlib.axes.Axes``, optional
+            Axes instance where the plot
+            will be created. If nothing
+            is passed, the function will
+            create a suitable axes
 
         colors : ``tuple``, optional
+            Specifies the colors to
+            be used for the different
+            slices. There are four
+            options:
+                If as many or more
+                colors as slices
+                are passed,
+                each slice will
+                be plotted in the
+                specified color
+
+                Otherwise if
+                exactly 2 colors
+                are passed, the
+                slices will be
+                plotted with a
+                color gradient
+                consiting of the
+                two colors
+
+                If more than 2
+                colors are passed,
+                either the first
+                n_color slices will
+                be plotted in the
+                specified colors,
+                and the rest will
+                be plotted in the
+                default color 'blue',
+                or one can specify
+                certain slices to be
+                plotted in a certain
+                color by passing a
+                tuple of (ws, color)
+                pairs
+
+                Defaults to the tuple
+                ('green', 'red')
 
         show_legend : ``bool``, optional
+            Specifies wether or not
+            a legend will be shown
+            next to the plot
+
+            The type of legend depends
+            on the color options:
+            If the slices are plotted
+            with a color gradient,
+            a ``matplotlib.colorbar.Colorbar``
+            object will be created
+            and assigned to ax.
+
+            Otherwise a
+            ``matplotlib.legend.Legend``
+            will be created and
+            assigned to ax.
+
+            Default to 'True'
 
         legend_kw : ``dict``, optional
+            Keyword arguments to be
+            passed to either the
+            ``matplotlib.colorbar.Colorbar``
+            or ``matplotlib.legend.Legend``
+            classes to change position
+            and appearence of the legend.
 
-        plot_kw :
+            Will only be used if
+            'show_legend=True'
 
+            Defaults to an empty
+            dictionary
+
+
+        plot_kw : Keyword arguments
+            Keyword arguments that will
+            be passed to the
+            `matplotlib.axes.Axes.plot`
+            function, to change certain
+            appearences of the plot
+
+        Function raises an exception
+        if at least one element
+        of ws_range is not in
+        the wind speed resolution
         """
-        logger.debug(f"""Method 'PolarDiagramTable.flat_plot(
+        logger.info(f"""Method 'PolarDiagramTable.flat_plot(
                      ws_range={ws_range}, ax={ax}, colors={colors}, 
                      show_legend={show_legend}, legen_kw={legend_kw}, 
                      plot_kw={plot_kw})' called""")
@@ -722,7 +993,7 @@ class PolarDiagramTable(PolarDiagram):
         bsp_list = list(self._get_slice_data(ws=ws_range).T)
         wa_list = [list(self.wind_angles)] * len(bsp_list)
 
-        logger.debug(f"""Internal function 
+        logger.info(f"""Internal function 
                      'plotting.plot_flat_range(ws_range, 
                      wa_list, bsp_list, colors, show_legend, 
                      legend_kw, **plot_kw) called'""")
@@ -731,17 +1002,31 @@ class PolarDiagramTable(PolarDiagram):
             ax, colors, show_legend, legend_kw, **plot_kw)
 
     def plot_3d(self, ax=None, colors=('blue', 'blue')):
-        """
+        """Creates a 3d plot
+        of the polar diagram
 
         Parameters
         ----------
         ax : ``mpl_toolkits.mplot3d.axes3d.Axes3D``, optional
+            Axes instance where the plot
+            will be created. If nothing
+            is passed, the function will
+            create a suitable axes
 
         colors : ``tuple`` of length 2, optional
+            Colors which specify
+            the color gradient with
+            which the polar diagram
+            will be plotted.
 
+            If no color gradient is
+            desired, set both elements
+            as the same color
 
+            Defaults to
+            ('blue', 'blue')
         """
-        logger.debug(f"""Method 'PolarDiagramTable.plot_3d(ax={ax}, 
+        logger.info(f"""Method 'PolarDiagramTable.plot_3d(ax={ax}, 
                      colors={colors})' called""")
 
         ws, wa = np.meshgrid(self.wind_speeds,
@@ -749,29 +1034,65 @@ class PolarDiagramTable(PolarDiagram):
         bsp = self.boat_speeds
         bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
 
-        logger.debug("""Internal function 'plotting.plot_surface(
+        logger.info("""Internal function 'plotting.plot_surface(
                      ws, wa, bsp, ax, colors)' called""")
         return plot_surface(ws, wa, bsp, ax, colors)
 
     def plot_color_gradient(
             self, ax=None, colors=('green', 'red'),
             marker=None, show_legend=True, **legend_kw):
-        """
+        """Creates a 'wind speed
+        vs. wind angle' color gradient
+        plot with respect to the
+        respective boat speeds
 
         Parameters
         ----------
         ax : ``matplotlib.axes.Axes``, optional
+            Axes instance where the plot
+            will be created. If nothing
+            is passed, the function will
+            create a suitable axes
 
         colors : ``tuple`` of length 2, optional
+            Colors which specify
+            the color gradient with
+            which the polar diagram
+            will be plotted.
 
-        marker : ``string``, optional
+            Defaults to
+            ('green', 'red')
+
+        marker : ``matplotlib.markers.Markerstyle``or equivalent, optional
+            Markerstyle for the
+            created scatter plot
+
+            If nothing is passed,
+            function uses the
+            default 'o'
 
         show_legend : ``bool``, optional
+            Specifies wether or not
+            a legend will be shown
+            next to the plot
+
+            Legend will be a
+            ``matplotlib.colorbar.Colorbar``
+            object.
+
+            Defaults to true
 
         legend_kw :
+            Keyword arguments to be
+            passed to the
+            ``matplotlib.colorbar.Colorbar``
+            class to change position
+            and appearence of the legend.
 
+            Will only be used if
+            'show_legend=True'
         """
-        logger.debug(f"""Method 'PolarDiagramTable.plot_color_gradient(
+        logger.info(f"""Method 'PolarDiagramTable.plot_color_gradient(
                      ax={ax}, colors={colors}, marker={marker}, 
                      show_legend={show_legend}, legend_kw={legend_kw})' 
                      called""")
@@ -782,7 +1103,7 @@ class PolarDiagramTable(PolarDiagram):
         wa = wa.reshape(-1, )
         bsp = self.boat_speeds.reshape(-1, )
 
-        logger.debug("""Internal function
+        logger.info("""Internal function
                      'plotting.plot_color(ws, wa, bsp, 
                      ax, colors, marker, show_legend, 
                      **legend_kw)' called""")
@@ -792,25 +1113,45 @@ class PolarDiagramTable(PolarDiagram):
 
     def plot_convex_hull_slice(self, ws, ax=None,
                                **plot_kw):
-        """
+        """Computes the convex
+        hull of a slice (column)
+        of the polar diagram
+        and creates a polar plot
+        of it
 
         Parameters
         ----------
         ws : ``int`` or ``float``
+            Slice (column) of the polar
+            diagram, given as an element
+            of self.wind_speeds
 
         ax : ``matplotlib.projections.polar.PolarAxes``, optional
+            Axes instance where the plot
+            will be created. If nothing
+            is passed, the function will
+            create a suitable axes
 
-        plot_kw :
+        plot_kw : Keyword arguments
+            Keyword arguments that will
+            be passed to the
+            `matplotlib.axes.Axes.plot`
+            function, to change certain
+            appearences of the plot
 
+
+        Function raises an exception
+        if ws is not in the wind
+        speed resolution.
 
         """
-        logger.debug(f"""Method 'PolarDiagramTable.plot_convex_hull_slice(
+        logger.info(f"""Method 'PolarDiagramTable.plot_convex_hull_slice(
                      ws={ws}, ax={ax}, plot_kw={plot_kw})' called""")
 
         wa = list(self._get_radians())
         bsp = self._get_slice_data(ws)
 
-        logger.debug("""Internal function
+        logger.info("""Internal function
                      'plotting.plot_convex_hull(wa, bsp, 
                      ax, **plot_kw)' called""")
         return plot_convex_hull(wa, bsp, ax, **plot_kw)
@@ -863,40 +1204,41 @@ class PolarDiagramCurve(PolarDiagram):
     """
 
     def __init__(self, f, radians=False, *params):
-        logger.debug(f"""Class 'PolarDiagramCurve(
+        logger.info(f"""Class 'PolarDiagramCurve(
                      f={f.__name__}, radians={radians}, *params={params})'
                      called""")
+        # TODO Errorchecks
         self._f = f
         self._params = params
         self._rad = radians
 
     def __repr__(self):
-        logger.debug("Dunder-Method 'PolarDiagramCurve.__repr__()' called")
+        logger.info("Dunder-Method 'PolarDiagramCurve.__repr__()' called")
         return f"PolarDiagramCurve(f={self.curve.__name__}, " \
                f"                  radians={self.radians}, " \
                f"                  {self.parameters})"
 
     def __call__(self, ws, wa):
-        logger.debug(f"""Dunder-Method 'PolarDiagramCurve.__call__(
+        logger.info(f"""Dunder-Method 'PolarDiagramCurve.__call__(
                      ws, wa)' called""")
         return self.curve(np.column_stack((ws, wa)), *self.parameters)
 
     @property
     def curve(self):
         """Returns a read only version of self._f"""
-        logger.debug("""Property 'PolarDiagramCurve.curve' called""")
+        # logger.info("""Property 'PolarDiagramCurve.curve' called""")
         return self._f
 
     @property
     def parameters(self):
         """Returns a read only version of self._params"""
-        logger.debug("""Property 'PolarDiagramCurve.parameters' called""")
+        # logger.info("""Property 'PolarDiagramCurve.parameters' called""")
         return self._params
 
     @property
     def radians(self):
         """Returns a read only version of self._rad"""
-        logger.debug("""Property 'PolarDiagramCurve.radians' called""")
+        # logger.info("""Property 'PolarDiagramCurve.radians' called""")
         return self._rad
 
     # V: In Arbeit
@@ -919,7 +1261,7 @@ class PolarDiagramCurve(PolarDiagram):
         Function raises an exception
         if file can't be written to
         """
-        logger.debug(f"Method 'PolarDiagramCurve.to_csv({csv_path})' called")
+        logger.info(f"Method 'PolarDiagramCurve.to_csv({csv_path})' called")
 
         try:
             with open(csv_path, 'w', newline='') as file:
@@ -929,11 +1271,11 @@ class PolarDiagramCurve(PolarDiagram):
                 csv_writer.writerow(["Radians"] + [str(self.radians)])
                 csv_writer.writerow(["Parameters"] + list(self.parameters))
         except OSError:
-            logger.info(f"Error occured when accessing file {csv_path}")
+            logger.error(f"Error occured when accessing file {csv_path}")
             raise FileReadingException(f"Can't write to {csv_path}")
 
     def _get_wind_angles(self):
-        logger.debug("Method 'PolarDiagramCurve._get_wind_angles()' called")
+        # logger.info("Method 'PolarDiagramCurve._get_wind_angles()' called")
 
         wa = np.linspace(0, 360, 1000)
         if self.radians:
@@ -953,13 +1295,13 @@ class PolarDiagramCurve(PolarDiagram):
 
 
         """
-        logger.debug(f"Method 'PolarDiagramCurve.polar_plot_slice(ws={ws},"
-                     f"ax={ax}, **plot_kw={plot_kw})' called")
+        logger.info(f"""Method 'PolarDiagramCurve.polar_plot_slice(ws={ws},
+                    ax={ax}, **plot_kw={plot_kw})' called""")
 
         wa = self._get_wind_angles()
         bsp = self(np.array([ws] * 1000), wa)
 
-        logger.debug("""Internal function 'plotting.plot_polar(
+        logger.info("""Internal function 'plotting.plot_polar(
                      np.deg2rad(np.linspace(0, 360, 1000), bsp, ax, 
                      **plot_kw)' called""")
         return plot_polar(
@@ -979,13 +1321,13 @@ class PolarDiagramCurve(PolarDiagram):
 
 
         """
-        logger.debug(f"""Method 'PolarDiagramCurve.flat_plot_slice(ws={ws},
+        logger.info(f"""Method 'PolarDiagramCurve.flat_plot_slice(ws={ws},
                      ax={ax}, **plot_kw={plot_kw})' called""")
 
         wa = self._get_wind_angles()
         bsp = self(np.array([ws] * 1000), wa)
 
-        logger.debug("""Internal function 'plotting.plot_flat(
+        logger.info("""Internal function 'plotting.plot_flat(
                      np.linspace(0, 360, 1000), bsp, ax, **plot_kw)' 
                      called""")
         return plot_flat(
@@ -1012,7 +1354,7 @@ class PolarDiagramCurve(PolarDiagram):
         plot_kw :
 
         """
-        logger.debug(f"""Method PolarDiagramCurve.polar_plot(
+        logger.info(f"""Method PolarDiagramCurve.polar_plot(
                      ws_range={ws_range}, ax={ax}, colors={colors},
                      show_legend={show_legend}, legend_kw={legend_kw},
                      **plot_kw={plot_kw})' called""")
@@ -1028,7 +1370,7 @@ class PolarDiagramCurve(PolarDiagram):
         for ws in ws_list:
             bsp_list.append(self(np.array([ws] * 1000), wa))
 
-        logger.debug("""Internal function 'plotting.plot_polar_range(
+        logger.info("""Internal function 'plotting.plot_polar_range(
                      ws_list, wa_list, bsp_list, ax, colors, show_legend,
                      legend_kw, **plot_kw)' called""")
         return plot_polar_range(
@@ -1056,7 +1398,7 @@ class PolarDiagramCurve(PolarDiagram):
 
 
         """
-        logger.debug(f"""Method 'PolarDiagramCurve.flat_plot(
+        logger.info(f"""Method 'PolarDiagramCurve.flat_plot(
                      ws_range={ws_range}, ax={ax}, colors={colors},
                      show_legend={show_legend}, legend_kw={legend_kw},
                      **plot_kw={plot_kw})' called""")
@@ -1072,7 +1414,7 @@ class PolarDiagramCurve(PolarDiagram):
         for ws in ws_list:
             bsp_list.append(self(np.array([ws] * 1000), wa))
 
-        logger.debug("""Internal function 'plotting.plot_flat_range(
+        logger.info("""Internal function 'plotting.plot_flat_range(
                      ws_list, wa_list, bsp_list, ax, colors, show_legend,
                      legend_kw, **plot_kw)' called""")
         return plot_flat_range(
@@ -1092,7 +1434,7 @@ class PolarDiagramCurve(PolarDiagram):
         colors : ``tuple`` of length 2, optional
 
         """
-        logging.debug(f"""Method 'PolarDiagramCurve.plot_3d(
+        logging.info(f"""Method 'PolarDiagramCurve.plot_3d(
                       ws_range={ws_range}, ax={ax}, colors={colors})'
                       called""")
 
@@ -1113,7 +1455,7 @@ class PolarDiagramCurve(PolarDiagram):
             wa_arr = np.deg2rad(wa_arr)
             bsp, wa = bsp_arr * np.cos(wa_arr), bsp_arr * np.sin(wa_arr)
 
-        logging.debug("""Internal function 'plotting.plot_surface(
+        logging.info("""Internal function 'plotting.plot_surface(
                       ws_arr, wa, bsp, ax, colors)' called""")
         return plot_surface(ws_arr, wa, bsp, ax, colors)
 
@@ -1138,7 +1480,7 @@ class PolarDiagramCurve(PolarDiagram):
         legend_kw :
 
         """
-        logger.debug(f"""Method 'PolarDiagramCurve.plot_color_gradient(
+        logger.info(f"""Method 'PolarDiagramCurve.plot_color_gradient(
                      ws_range={ws_range}, ax={ax}, colors={colors}, 
                      marker={marker}, show_legend={show_legend},
                      **legend_kw={legend_kw})' called""")
@@ -1155,7 +1497,7 @@ class PolarDiagramCurve(PolarDiagram):
         else:
             bsp = self(ws, wa).reshape(-1, )
 
-        logger.debug("""Internal function 'plotting.plot_color(
+        logger.info("""Internal function 'plotting.plot_color(
                      ws, wa, bsp, ax, colors, marker, show_legend,
                      **legend_kw)' called""")
         return plot_color(
@@ -1174,13 +1516,13 @@ class PolarDiagramCurve(PolarDiagram):
 
 
         """
-        logger.debug(f"""Method 'PolarDiagramCurve.plot_convex_hull_slice(
+        logger.info(f"""Method 'PolarDiagramCurve.plot_convex_hull_slice(
                      ws={ws}, ax={ax}, **plot_kw={plot_kw})' called""")
 
         wa = self._get_wind_angles()
         bsp = self(np.array([ws] * 1000), wa)
 
-        logger.debug("""Internal function 'plotting.plot_convex_hull(
+        logger.info("""Internal function 'plotting.plot_convex_hull(
                      np.deg2rad(np.linspace(0, 360, 1000), bsp, ax
                      **plot_kw)' called""")
         return plot_convex_hull(
@@ -1231,7 +1573,7 @@ class PolarDiagramPointcloud(PolarDiagram):
     """
 
     def __init__(self, points=None, tw=True):
-        logger.debug(f"""Class 'PolarDiagramPointcloud(
+        logger.info(f"""Class 'PolarDiagramPointcloud(
                      points, tw={tw})' called""")
 
         if points is not None:
@@ -1240,13 +1582,13 @@ class PolarDiagramPointcloud(PolarDiagram):
                 try:
                     points = points.reshape(-1, 3)
                 except ValueError:
-                    logger.info("Error occured when trying to broadcast"
-                                "points to shape (_, 3)")
+                    logger.error("""Error occured when trying to broadcast
+                                 points to shape (_, 3)""")
                     raise PolarDiagramException(
                         "points could not be broadcasted "
                         "to an array of shape (n,3)")
 
-            logger.debug("""Internal function 'utils.convert_wind(
+            logger.info("""Internal function 'utils.convert_wind(
                          w_dict, tw)' called""")
             w_dict = convert_wind(
                 {"wind_speed": points[:, 0],
@@ -1262,32 +1604,32 @@ class PolarDiagramPointcloud(PolarDiagram):
             self._data = np.array([])
 
     def __str__(self):
-        logger.debug("""Dunder-Method 'PolarDiagramPointcloud.__str__()'
+        logger.info("""Dunder-Method 'PolarDiagramPointcloud.__str__()'
                      called""")
 
         return tabulate(self.points, headers=["TWS", "TWA", "BSP"])
 
     def __repr__(self):
-        logger.debug("""Dunder-Method 'PolarDiagramPointcloud.__repr__()'
+        logger.info("""Dunder-Method 'PolarDiagramPointcloud.__repr__()'
                      called""")
 
         return f"PolarDiagramPointcloud(data={self.points})"
 
     @property
     def wind_speeds(self):
-        logger.debug("Property 'PolarDiagramPointcloud.wind_speeds' called")
+        # logger.info("Property 'PolarDiagramPointcloud.wind_speeds' called")
 
         return list(dict.fromkeys(self.points[:, 0]))
 
     @property
     def wind_angles(self):
-        logger.debug("Property 'PolarDiagramPointcloud.wind_angles' called")
+        # logger.info("Property 'PolarDiagramPointcloud.wind_angles' called")
 
         return list(dict.fromkeys(self.points[:, 1]))
 
     @property
     def points(self):
-        logger.debug("Property 'PolarDiagramPointcloud.points' called")
+        # logger.info("Property 'PolarDiagramPointcloud.points' called")
 
         return self._data.copy()
 
@@ -1309,7 +1651,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         Function raises an exception
         if file can't be written to
         """
-        logger.debug(f"""Method 'PolarDiagramPointcloud.to_csv({csv_path})'
+        logger.info(f"""Method 'PolarDiagramPointcloud.to_csv({csv_path})'
                      called""")
         try:
             with open(csv_path, 'w', newline='') as file:
@@ -1321,7 +1663,7 @@ class PolarDiagramPointcloud(PolarDiagram):
                     "Boat speed "])
                 csv_writer.writerows(self.points)
         except OSError:
-            logger.info(f"Error occured when accessing file {csv_path}")
+            logger.error(f"Error occured when accessing file {csv_path}")
             raise FileReadingException(f"Can't write to {csv_path}")
 
     def add_points(self, new_points, tw=True):
@@ -1335,7 +1677,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
 
         """
-        logger.debug(f"""Method 'PolarDiagramPointcloud.add_points(
+        logger.info(f"""Method 'PolarDiagramPointcloud.add_points(
                      new_points, tw={tw})' called""")
 
         new_points = np.asarray(new_points)
@@ -1343,13 +1685,13 @@ class PolarDiagramPointcloud(PolarDiagram):
             try:
                 new_points = new_points.reshape(-1, 3)
             except ValueError:
-                logger.info("""Error occured when trying to broadcast 
+                logger.error("""Error occured when trying to broadcast 
                             new_points to shape (_, 3)""")
                 raise PolarDiagramException(
                     "new_points could not be broadcasted "
                     "to an array of shape (n,3)")
 
-        logger.debug(f"""Internal function 'utils.convert_wind(
+        logger.info(f"""Internal function 'utils.convert_wind(
                      w_dict, tw={tw})' called""")
         w_dict = convert_wind(
             {"wind_speed": new_points[:, 0],
@@ -1372,12 +1714,12 @@ class PolarDiagramPointcloud(PolarDiagram):
         pass
 
     def _get_slice_data(self, ws):
-        logger.debug(f"""Method 'PolarDiagramPointcloud._get_slice_data(
-                     ws={ws})' called""")
+        # logger.info(f"""Method 'PolarDiagramPointcloud._get_slice_data(
+        #              ws={ws})' called""")
 
         points = self.points[self.points[:, 0] == ws][:, 1:]
         if points.size == 0:
-            logger.info("Error occured, when trying to get slice data")
+            logger.error("Error occured, when trying to get slice data")
             raise PolarDiagramException(
                 f"No points with wind speed={ws} found")
 
@@ -1396,13 +1738,13 @@ class PolarDiagramPointcloud(PolarDiagram):
 
 
         """
-        logger.debug(f"""Method 'PolarDiagramPointcloud.polar_plot_slice(
+        logger.info(f"""Method 'PolarDiagramPointcloud.polar_plot_slice(
                      ws={ws}, ax={ax}, **plot_kw={plot_kw})' called""")
 
         wa, bsp = self._get_slice_data(ws)
         wa = list(np.deg2rad(wa))
 
-        logger.debug("""Internal function 'plotting.plot_polar(
+        logger.info("""Internal function 'plotting.plot_polar(
                      wa, bsp, ax, **plot_kw)' called""")
         return plot_polar(wa, bsp, ax, **plot_kw)
 
@@ -1417,18 +1759,18 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         plot_kw :
         """
-        logger.debug(f"""Method 'PolarDiagramPointcloud.flat_plot_slice(
+        logger.info(f"""Method 'PolarDiagramPointcloud.flat_plot_slice(
                      ws={ws}, ax={ax}, **plot_kw={plot_kw})' called""")
 
         wa, bsp = self._get_slice_data(ws)
 
-        logger.debug("""Internal function 'plotting.plot_flat(
+        logger.info("""Internal function 'plotting.plot_flat(
                      wa, bsp, ax, **plot_kw)' called""")
         return plot_flat(wa, bsp, ax, **plot_kw)
 
     def _get_slices(self, ws_range):
-        logger.debug(f"""Method 'PolarDiagramPointcloud._get_slices(
-                     ws_range={ws_range})' called""")
+        # logger.info(f"""Method 'PolarDiagramPointcloud._get_slices(
+        #              ws_range={ws_range})' called""")
 
         ws_list, wa_list, bsp_list = [], [], []
         ws_lower, ws_upper = ws_range
@@ -1465,7 +1807,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
 
         """
-        logger.debug(f"""Method 'PolarDiagramPointcloud.polar_plot(
+        logger.info(f"""Method 'PolarDiagramPointcloud.polar_plot(
                      ws_range={ws_range}, ax={ax}, colors={colors},
                      show_legend={show_legend}, legend_kw={legend_kw},
                      **plot_kw={plot_kw})' called""")
@@ -1474,7 +1816,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             self._get_slices(ws_range)
         wa_list = [np.deg2rad(wa) for wa in wa_list]
 
-        logger.debug("""Internal function 'plotting.plot_polar_range(
+        logger.info("""Internal function 'plotting.plot_polar_range(
                      ws_list, wa_list, bsp_list, ax, colors,
                      show_legend, legend_kw, **plot_kw)' called""")
         return plot_polar_range(
@@ -1501,7 +1843,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         plot_kw :
 
         """
-        logger.debug(f"""Method 'PolarDiagramPointcloud.flat_plot(
+        logger.info(f"""Method 'PolarDiagramPointcloud.flat_plot(
                      ws_range={ws_range}, ax={ax}, colors={colors},
                      show_legend={show_legend}, legend_kw={legend_kw},
                      **plot_kw={plot_kw})' called""")
@@ -1509,7 +1851,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         ws_list, wa_list, bsp_list = \
             self._get_slices(ws_range)
 
-        logger.debug("""Internal function 'plotting.plot_flat_range(
+        logger.info("""Internal function 'plotting.plot_flat_range(
                      ws_list, wa_list, bsp_list, ax, colors,
                      show_legend, legend_kw, **plot_kw)' called""")
         return plot_flat_range(
@@ -1526,14 +1868,14 @@ class PolarDiagramPointcloud(PolarDiagram):
         plot_kw :
 
         """
-        logger.debug(f"""Method 'PolarDiagramPointcloud.plot_3d(
+        logger.info(f"""Method 'PolarDiagramPointcloud.plot_3d(
                      ax={ax}, **plot_kw={plot_kw})' called""")
 
         ws, wa, bsp = np.hsplit(self.points, 3)
         wa = np.deg2rad(wa)
         bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
 
-        logger.debug("""Internal function 'plotting.plot3d(
+        logger.info("""Internal function 'plotting.plot3d(
                      ws, wa, bsp, ax, **plot_kw)' called""")
         return plot3d(ws, wa, bsp, ax, **plot_kw)
 
@@ -1554,14 +1896,14 @@ class PolarDiagramPointcloud(PolarDiagram):
         legend_kw :
 
         """
-        logger.debug(f"""Method 'PolarDiagramPointcloud.plot_color_gradient(
+        logger.info(f"""Method 'PolarDiagramPointcloud.plot_color_gradient(
                      ax={ax}, colors={colors}, marker={marker}, 
                      show_legend={show_legend}, **legend_kw={legend_kw})'
                      called""")
 
         ws, wa, bsp = np.hsplit(self.points, 3)
 
-        logger.debug("""Internal function 'plotting.plot_color(
+        logger.info("""Internal function 'plotting.plot_color(
                      ws, wa, bsp, ax, colors, marker, show_legend,
                      **legend_kw)' called""")
         return plot_color(
@@ -1581,13 +1923,13 @@ class PolarDiagramPointcloud(PolarDiagram):
 
 
         """
-        logger.debug(f"""Method 'PolarDiagramPointcloud.plot_convex_hull_slice(
+        logger.info(f"""Method 'PolarDiagramPointcloud.plot_convex_hull_slice(
                      ws={ws}, ax={ax}, **plot_kw={plot_kw})' called""")
 
         wa, bsp = self._get_slice_data(ws)
         wa = list(np.deg2rad(wa))
 
-        logger.debug("""Internal function 'plotting.plot_convex_hull(
+        logger.info("""Internal function 'plotting.plot_convex_hull(
                      wa, bsp, ax, **plot_kw)' called""")
         return plot_convex_hull(wa, bsp, ax, **plot_kw)
 
