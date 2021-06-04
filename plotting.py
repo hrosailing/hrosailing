@@ -1,11 +1,13 @@
 """
 Various functions to plot PolarDiagram objects
 """
+
+# Author: Valentin F. Dannenberg / Ente
+
 import logging
 import logging.handlers
 import matplotlib.pyplot as plt
 import numpy as np
-import sys
 
 from matplotlib.colors import to_rgb, Normalize, \
     LinearSegmentedColormap
@@ -16,19 +18,20 @@ from utils import convex_hull_polar
 
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
-                    level=logging.INFO)
+                    level=logging.INFO,
+                    filename='plotting.log')
 LOG_FILE = "plotting.log"
 
 logger = logging.getLogger(__name__)
-console_handler = logging.StreamHandler(sys.stdout)
 file_handler = logging.handlers.TimedRotatingFileHandler(
     LOG_FILE, when='midnight')
-logger.addHandler(console_handler)
-logger.setLevel(logging.DEBUG)
+file_handler.setLevel(logging.INFO)
+logger.addHandler(file_handler)
+logger.setLevel(logging.INFO)
 
 
 def plot_polar(wa, bsp, ax, **plot_kw):
-    logger.debug(f"""Function 'plot_polar(wa, bsp,
+    logger.info(f"""Function 'plot_polar(wa, bsp,
                  ax={ax}, **plot_kw={plot_kw})' called""")
 
     _check_keywords(plot_kw)
@@ -38,13 +41,13 @@ def plot_polar(wa, bsp, ax, **plot_kw):
 
     xs, ys = _sort_data([wa], [bsp])
 
-    logger.debug("""Extern function 'matplotlib.axes.Axes.plot(
+    logger.info("""Extern function 'matplotlib.axes.Axes.plot(
                  xs, ys, **plot_kw)' called""")
     return ax.plot(xs, ys, **plot_kw)
 
 
 def plot_flat(wa, bsp, ax, **plot_kw):
-    logger.debug(f"""Function 'plot_flat(wa, bsp, ax={ax},
+    logger.info(f"""Function 'plot_flat(wa, bsp, ax={ax},
                  **plot_kw={plot_kw})' called""")
 
     _check_keywords(plot_kw)
@@ -53,7 +56,7 @@ def plot_flat(wa, bsp, ax, **plot_kw):
 
     xs, ys = _sort_data([wa], [bsp])
 
-    logger.debug("""Extern function 'matplotlib.axes.Axes.plot(
+    logger.info("""Extern function 'matplotlib.axes.Axes.plot(
                  xs, ys, **plot_kw)' called""")
     return ax.plot(xs, ys, **plot_kw)
 
@@ -61,7 +64,7 @@ def plot_flat(wa, bsp, ax, **plot_kw):
 def plot_polar_range(ws_list, wa_list, bsp_list,
                      ax, colors, show_legend,
                      legend_kw, **plot_kw):
-    logger.debug(f"""Function 'plot_polar_range(ws_list, wa_list, bsp_list,
+    logger.info(f"""Function 'plot_polar_range(ws_list, wa_list, bsp_list,
                  ax={ax}, colors={colors}, show_legend={show_legend},
                  legend_kw={legend_kw}, **plot_kw={plot_kw})' called""")
 
@@ -87,7 +90,7 @@ def plot_polar_range(ws_list, wa_list, bsp_list,
 def plot_flat_range(ws_list, wa_list, bsp_list,
                     ax, colors, show_legend,
                     legend_kw, **plot_kw):
-    logger.debug(f"""Function plot_flat_range(ws_list, wa_list, bsp_list,
+    logger.info(f"""Function plot_flat_range(ws_list, wa_list, bsp_list,
                  ax={ax}, colors={colors}, show_legend={show_legend},
                  legend_kw={legend_kw}, **plot_kw={plot_kw})' called""")
 
@@ -112,7 +115,7 @@ def plot_flat_range(ws_list, wa_list, bsp_list,
 def plot_color(ws, wa, bsp, ax, colors,
                marker, show_legend,
                **legend_kw):
-    logger.debug(f"""Function 'plot_color(ws, wa, bsp, ax={ax},
+    logger.info(f"""Function 'plot_color(ws, wa, bsp, ax={ax},
                  colors={colors}, marker={marker}, 
                  show_legend={show_legend}, **legend_kw={legend_kw})'
                  called""")
@@ -128,14 +131,14 @@ def plot_color(ws, wa, bsp, ax, colors,
             **legend_kw)
     colors = _get_colors(colors, bsp)
 
-    logger.debug("""Extern function 'matplotlib.axes.Axes.scatter(ws, wa,
+    logger.info("""Extern function 'matplotlib.axes.Axes.scatter(ws, wa,
                  marker, c=colors)' called""")
     return ax.scatter(ws, wa, marker=marker,
                       c=colors)
 
 
 def plot3d(ws, wa, bsp, ax, **plot_kw):
-    logger.debug(f"""Function 'plot3d(ws, wa, bsp, ax={ax},
+    logger.info(f"""Function 'plot3d(ws, wa, bsp, ax={ax},
                  **plot_kw={plot_kw})' called""")
 
     _check_keywords(plot_kw)
@@ -143,20 +146,20 @@ def plot3d(ws, wa, bsp, ax, **plot_kw):
         ax = plt.gca(projection='3d')
     _set_3d_labels(ax)
 
-    logger.debug("""Extern function 'matplotlib.axes.Axes.plot(
+    logger.info("""Extern function 'matplotlib.axes.Axes.plot(
                  ws, wa, bsp, **plot_kw)' called""")
     return ax.plot(ws, wa, bsp, **plot_kw)
 
 
 def plot_surface(ws, wa, bsp, ax, colors):
-    logger.debug(f"""Function 'plot_surface(ws, wa, bsp,
+    logger.info(f"""Function 'plot_surface(ws, wa, bsp,
                   ax={ax}, colors={colors})' called""")
 
     if ax is None:
         ax = plt.gca(projection='3d')
     _set_3d_labels(ax)
 
-    logger.debug(f"""Extern function 
+    logger.info(f"""Extern function 
                  'matplotlib.colors.LinearSegmentedColormap.from_list(
                  'custom_map', {list(colors)})' called""")
     cmap = LinearSegmentedColormap.from_list(
@@ -164,14 +167,14 @@ def plot_surface(ws, wa, bsp, ax, colors):
     color = cmap((ws - ws.min())
                  / float((ws - ws.min()).max()))
 
-    logger.debug("""Extern function 'matplotlib.axes.Axes.plot_surface(
+    logger.info("""Extern function 'matplotlib.axes.Axes.plot_surface(
                   ws, wa, bsp, facecolors=color)' called""")
     return ax.plot_surface(ws, wa, bsp,
                            facecolors=color)
 
 
 def plot_convex_hull(wa, bsp, ax, **plot_kw):
-    logger.debug(f"""Function 'plot_convex_hull(wa, bsp,
+    logger.info(f"""Function 'plot_convex_hull(wa, bsp,
                   ax={ax}, **plot_kw={plot_kw})' called""")
 
     if ax is None:
@@ -181,13 +184,13 @@ def plot_convex_hull(wa, bsp, ax, **plot_kw):
     wa, bsp = _sort_data([wa], [bsp])
     xs, ys = _get_convex_hull(wa, bsp)
 
-    logger.debug("""Extern function 'matplotlib.axes.Axes.plot(
+    logger.info("""Extern function 'matplotlib.axes.Axes.plot(
                  xs, ys, **plot_kw)' called""")
     return ax.plot(xs, ys, **plot_kw)
 
 
 def _check_keywords(plot_kw):
-    logger.debug(f"Function '_check_keywords(plot_kw={plot_kw})' called")
+    # logger.info(f"Function '_check_keywords(plot_kw={plot_kw})' called")
 
     # matplotlib.pyplot.plot default is
     # linestyle/ls = '-'
@@ -207,7 +210,7 @@ def _check_keywords(plot_kw):
 
 
 def _set_3d_labels(ax):
-    logger.debug(f"Function '_set_3d_labels(ax={ax})' called")
+    # logger.info(f"Function '_set_3d_labels(ax={ax})' called")
 
     ax.set_xlabel("True Wind Speed")
     ax.set_ylabel("True Wind Angle")
@@ -215,15 +218,15 @@ def _set_3d_labels(ax):
 
 
 def _set_polar_directions(ax):
-    logger.debug(f"Function '_set_polar_directions(ax={ax})' called")
+    # logger.info(f"Function '_set_polar_directions(ax={ax})' called")
 
     ax.set_theta_zero_location('N')
     ax.set_theta_direction('clockwise')
 
 
 def _set_color_cycle(ax, ws_list, colors):
-    logger.debug(f"""Function '_set_color_cycle(ax={ax},
-                  ws_list, colors={colors})' called""")
+    # logger.info(f"""Function '_set_color_cycle(ax={ax},
+    #               ws_list, colors={colors})' called""")
 
     no_plots = len(ws_list)
     no_colors = len(colors)
@@ -252,8 +255,8 @@ def _set_color_cycle(ax, ws_list, colors):
 
 
 def _get_colors(colors, scal_list):
-    logger.debug(f"""Function '_get_colors(colors={colors},
-                  scal_list)' called""")
+    # logger.info(f"""Function '_get_colors(colors={colors},
+    #               scal_list)' called""")
 
     min_color = np.array(to_rgb(colors[0]))
     max_color = np.array(to_rgb(colors[1]))
@@ -270,20 +273,20 @@ def _get_colors(colors, scal_list):
 
 def _set_colormap(ws_list, colors, ax, label,
                   **legend_kw):
-    logger.debug(f"""Function '_set_colormap(ws_list, colors={colors},
-                 ax={ax}, label={label}, **legend_kw={legend_kw})' called""")
+    # logger.info(f"""Function '_set_colormap(ws_list, colors={colors},
+    #              ax={ax}, label={label}, **legend_kw={legend_kw})' called""")
 
     min_color = colors[0]
     max_color = colors[1]
     ws_min = min(ws_list)
     ws_max = max(ws_list)
 
-    logger.debug(f"""Extern function
-                 'matplotlib.colors.LinearSegmentedColormap.from_list(
-                 'custom_map', {[min_color, max_color]})' called""")
+    # logger.info(f"""Extern function
+    #              'matplotlib.colors.LinearSegmentedColormap.from_list(
+    #              'custom_map', {[min_color, max_color]})' called""")
     cmap = LinearSegmentedColormap.from_list(
         "custom_map", [min_color, max_color])
-    
+
     plt.colorbar(
         ScalarMappable(norm=Normalize(
             vmin=ws_min, vmax=ws_max), cmap=cmap),
@@ -292,8 +295,8 @@ def _set_colormap(ws_list, colors, ax, label,
 
 def _set_legend(ax, ws_list, colors, label,
                 **legend_kw):
-    logger.debug(f"""Function '_set_legend(ax={ax}, ws_list, colors={colors},
-                 label={label}, **legend_kw={legend_kw})' called""")
+    # logger.info(f"""Function '_set_legend(ax={ax}, ws_list, colors={colors},
+    #              label={label}, **legend_kw={legend_kw})' called""")
 
     no_colors = len(colors)
     no_plots = len(ws_list)
@@ -315,7 +318,7 @@ def _set_legend(ax, ws_list, colors, label,
 
 
 def _sort_data(wa_list, bsp_list):
-    logger.debug("Function 'sort_data(wa_list, bsp_list)' called")
+    # logger.info("Function 'sort_data(wa_list, bsp_list)' called")
 
     sorted_lists = list(zip(
         *(zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
@@ -326,8 +329,8 @@ def _sort_data(wa_list, bsp_list):
 
 def _plot_multiple(ax, xs, ys,
                    **plot_kw):
-    logger.debug(f"""Function '_plot_multiple(ax={ax},
-                 xs, ys, **plot_kw={plot_kw})' called""")
+    # logger.info(f"""Function '_plot_multiple(ax={ax},
+    #              xs, ys, **plot_kw={plot_kw})' called""")
 
     # xs and ys are lists of datasets with
     # different amounts of datapoints.
@@ -336,19 +339,19 @@ def _plot_multiple(ax, xs, ys,
     for x, y in zip(xs, ys):
         x, y = np.asarray(x), np.asarray(y)
 
-        logger.debug("""Extern function 'matplotlib.axes.Axes.plot(
-                     x, y, **plot_kw)' called""")
+        # logger.info("""Extern function 'matplotlib.axes.Axes.plot(
+        #              x, y, **plot_kw)' called""")
         ax.plot(x, y, **plot_kw)
 
 
 def _get_convex_hull(wa, bsp):
-    logger.debug("Function '_get_convex_hull(wa, bsp)' called")
+    # logger.info("Function '_get_convex_hull(wa, bsp)' called")
 
     wa, bsp = np.array(wa), np.array(bsp)
 
-    logger.debug("""Internal function 'utils.convex_hull_polar(
-                 np.column_stack((bsp.copy(), wa.copy()))).vertices)'
-                 called""")
+    # logger.info("""Internal function 'utils.convex_hull_polar(
+    #              np.column_stack((bsp.copy(), wa.copy()))).vertices)'
+    #              called""")
     vert = sorted(convex_hull_polar(
         np.column_stack((bsp.copy(), wa.copy()))).vertices)
     xs = []

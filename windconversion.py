@@ -1,23 +1,29 @@
+"""
+Functions to convert wind from apparent to true and vice versa
+"""
+
+# Author: Valentin F. Dannenberg / Ente
+
 import logging
 import logging.handlers
 import numpy as np
-import sys
 
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
-                    level=logging.INFO)
+                    level=logging.INFO,
+                    filename='windconversion.log')
 LOG_FILE = "windconversion.log"
 
 logger = logging.getLogger(__name__)
-console_handler = logging.StreamHandler(sys.stdout)
 file_handler = logging.handlers.TimedRotatingFileHandler(
     LOG_FILE, when='midnight')
-logger.addHandler(console_handler)
-logger.setLevel(logging.DEBUG)
+file_handler.setLevel(logging.INFO)
+logger.addHandler(file_handler)
+logger.setLevel(logging.INFO)
 
 
 def apparent_wind_to_true(aws, awa, bsp):
-    logger.debug("Function 'apparent_wind_to_true(aws, awa, bsp)' called")
+    logger.info("Function 'apparent_wind_to_true(aws, awa, bsp)' called")
 
     if any(x is None for x in (aws, awa, bsp)):
         return None, None
@@ -40,7 +46,7 @@ def apparent_wind_to_true(aws, awa, bsp):
 
 
 def true_wind_to_apparent(tws, twa, bsp):
-    logger.debug("Function 'true_wind_to_apparent(tws, twa, bsp)' called")
+    logger.info("Function 'true_wind_to_apparent(tws, twa, bsp)' called")
 
     if any(x is None for x in (tws, twa, bsp)):
         return None, None
