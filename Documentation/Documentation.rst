@@ -22,1479 +22,2048 @@ After installing/downloading one can easily use the ``hrosailing``-module via
 
 or
 
-                >>> from hrosailing import something
+                >>> from hrosailing import ...
 
 
 Contents Of This Module
 -----------------------
 
-The ``hrosailing``-module defines the following public functions:
+The ``hrosailing``-module has the following public submodules:
+
+    - ``hrosailing.polardiagram``
+    - ``hrosailing.data_analysis.processing``
+
+The ``hrosailing.polardiagram``-module defines the following public functions:
 
 
-    ``hrosailing.polar_diagram``.\ **to_csv**\(``csv_path, obj``)
+    ``polardiagram``.\ **to_csv**\(``csv_path, obj``)
+
+            | Calls the .\ **to_csv**-method of the
+            | ``hrosailing``.\ **PolarDiagram** instance.
 
             Parameters :
                         ``csv_path`` : ``string``
 
-                                | Path where a .csv-file is located or where a new .csv-file will be created
+                                | Path where a .csv-file is located or
+                                | where a new .csv-file will be created
 
                         ``obj`` : ``PolarDiagram``
 
-                                | An ``hrosailing``.\ **PolarDiagram** instance which will be written to the .csv-file
+                                | ``polardiagram``.\ **PolarDiagram** instance
+                                | which will be written to the .csv-file
 
-            | Calls the .\ **to_csv**-function of the ``hrosailing``.\ **PolarDiagram** instance.
+            | Raises an exception if file can't
+            | be written to
 
 
-    ``hrosailing.polar_diagram``.\ **from_csv**\(``csv_path, fmt='hro', tws=True, twa=True``)
+    ``polardiagram``.\ **from_csv**\(``csv_path, fmt='hro', tw=True``)
+
+            | Reads a .csv file and returns the
+            | ``polardiagram``.\ **PolarDiagram**
+            | instance contained in it
 
             Parameters :
                         ``csv_path`` : ``string``
 
-                                | Path to an existing .csv file which you want to be read
+                                | Path to a .csv file
+                                | which will be read
 
                         ``fmt`` : ``string``
 
-                                | The format of the .csv file. Currently supported formats are:
-                                | ``'hro'``, ``'orc'``, ``'opencpn'``, ``'array'``
+                                | The "format" of the .csv file.
+                                | Currently supported formats are:
 
-                        ``tws`` : ``bool``
+                                    | 'hro' -> format created by
+                                      the ``polardiagram``.\ **to_csv**
+                                      function
+                                    | 'orc' -> format found at
+                                      `ORC <https://jieter.github.io/orc-data/site/>`_
+                                    | 'opencpn' -> format created by the
+                                      `OpenCPN Polar Plugin <https://opencpn.org/OpenCPN/plugins/polar.html>`_
+                                    | 'array' ->
 
-                                | Specifies wether or not the occuring wind speeds are true wind.
-                                | Will be passed to the constructor of the ``hrosailing``.\ **PolarDiagram**
-                                | instance
+                        ``tw`` : ``bool``
 
-                        ``twa`` : ``bool``
+                                | Specifies if wind data
+                                | in file should be viewed
+                                | as true wind
 
-                                | Specifies wether or not the occuring wind angles are true wind
-                                | Will be passed to the constructor of the ``hrosailing``.\ **PolarDiagram**
-                                | instance
+                                | Defaults to ``True``
 
-            | Creates an ``hrosailing``.\ **PolarDiagram** instance from the data that
-            | is written in the given .csv file via the ``csv``.\ **reader**-class, see
-              `reader <https://docs.python.org/3/library/csv.html#csv.reader>`_.
+            | Raises an exception:
 
-            | The .csv file needs to adhere to the format specified by the parameter ``fmt``.
-
-            | ``'hro'``: The format created by the ``hrosailing``.\ **to_csv** function
-            | ``'orc'``: The format found at `ORC <https://jieter.github.io/orc-data/site/>`_ (without beat and run angles)
-            | ``'opencpn'``: The format created by the `OpenCPN Polar Plugin <https://opencpn.org/OpenCPN/plugins/polar.html>`_
-            | ``'array'``:
-
-
-    ``hrosailing.polar_diagram``.\ **pickling**\(``pkl_path, obj``)
-
-            Parameters :
-                        ``pkl_path`` : ``string``
-
-                                | Path to an existing .pkl file or where the created .pkl file will be located
-
-                        ``obj`` : ``PolarDiagram``
-
-                                | An ``hrosailing``.\ **PolarDiagram** instance which will be written to the .pkl file
-
-            Calls the .\ **pickling**-function of the ``hrosailing``.\ **PolarDiagram** instance.
+                | If unknown format
+                  was specified
+                | File can't be read
+                  or doesn't exist
 
 
-    ``hrosailing.polar_diagram``.\ **depickling**\(``pkl_path``)
+    ``polardiagram``.\ **pickling**\(``pkl_path, obj``)
+
+            | Calls the .\ **pickling**-method of
+            | the ``polardiagram``.\ **PolarDiagram**
+            | instance
 
             Parameters :
                         ``pkl_path`` : ``string``
 
-                                | Path to an existing .pkl file which is to be read
+                                | Path where a .pkl file is located or
+                                | where a new .pkl file will be created
 
-            | Creates an ``hrosailing``.\ **PolarDiagram** instance from the data that is
-            | written in the given .pkl file, via the ``pickle``.\ **load**-function, see
-              `load <https://docs.python.org/3/library/pickle.html#pickle.load>`_.
+                        ``obj`` : ``PolarDiagram``
+
+                                | ``polardiagram``.\ **PolarDiagram** instance
+                                | which will be written to the .csv-file
+
+            | Raises an exception if file can't
+            | be written to
 
 
-    ``hrosailing.polar_diagram``.\ **convert**\ (``obj, convert_type``)
+    ``polardiagram``.\ **depickling**\(``pkl_path``)
+
+            | Reads a .pkl file and returns the
+            | ``polardiagram``.\ **PolarDiagram**
+            | instance contained in it
+
+            Parameters :
+                        ``pkl_path`` : ``string``
+
+                                | Path to a .pkl file
+                                | which will be read
+
+            | Raises an exception
+            | if file can't be read
+            | or doesn't exist
+
+
+
+    ``polardiagram``.\ **symmetric_polar_diagram**\ (obj)
+
+            | Symmetrizeses an ``polardiagram``.\ **PolarDiagram**
+            | instance, meaning for every datapoint
+            | with:
+
+                | wind speed w
+                | wind angle phi
+                | boat speed s
+
+            | a new data point with:
+
+                | wind speed w
+                | wind angle 360 - phi
+                | boat speed s
+
+            | will be added
+
 
             Parameters :
                         ``obj`` : ``PolarDiagram``
 
-                                | An instance of a subclass of ``hrosailing``.\ **PolarDiagram**
+                                | ``polardiagram``.\ **PolarDiagram** instance
+                                | which will be symmetrized
 
-                        ``convert_type`` : ``PolarDiagram``
+            Returns :
+                        ``symmetric`` : ``PolarDiagram``
 
-                                | A subclass of ``hrosailing``.\ **PolarDiagram**
+                                | "symmetrized" version of ``obj``
 
-            | Converts ``obj`` to an instance of ``convert_type``
-            | Currently only works with the subclasses ``hrosailing``.\ **PolarDiagramTable**
-            | and ``hrosailing``.\ **PolarDiagramPointcloud**
+            | Raises an exception if
+            | ``obj`` is not of type
+            | ``PolarDiagramTable`` or
+            | ``PolarDiagramPointcloud``
 
 
-    ``hrosailing.polar_diagram``.\ **symmetric_polar_diagram**\ (obj)
 
-            Parameters :
-                        ``obj`` : ``PolarDiagram``
+The ``polardiagram``-module defines the following public classes:
 
-                                | An instance of a subclass of ``hrosailing``.\ **PolarDiagram**
 
-            | Symmetrizes a given instance of a subclass of ``hrosailing``.\ **PolarDiagram**.
-            | I.E. for every tuple of (wind speed, wind angle, boat speed) that is contained in ``obj``
-            | in some form, the function creates a new instance of the same subclass of
-            | ``hrosailing``.\ **PolarDiagram**, such that the tuples (wind speed, wind angle, boat speed)
-            | and (wind speed, 360 - wind angle, boat speed) are containted within it in some form.
+    ``polardiagram``.\ **PolarDiagram**\ ()
 
-            | Currently only works for the subclasses ``hrosailing``.\ **PolarDiagramTable** and
-            | ``hrosailing``.\ **PolarDiagramPointcloud**
+            | An abstract base class for the
+            | ``polardiagram`` classes
 
-            | Should only be used for instances of ``hrosailing``.\ **PolarDiagramTable** if the
-            | wind speed resolution ranges from 0 to 180 or 180 to 360 to avoid conflicting data
 
-
-    ``hrosailing.data_processing``.\ **filter_points**\ (``w_points, f_func=None,``
-
-    ``f_mode='bound', **filter_kw``)
-
-            Parameters :
-                        ``w_points`` : ``WeightedPoints``
-
-                                |
-                                |
-
-                        ``f_func`` : ``function``
-
-                                | Function, that will determine which
-                                | points will be filtered out, depending
-                                | on a given weight.
-
-                        ``f_mode`` : ``str``
-
-                                | Filtering-method if no ``f_func`` is passed
-                                | Currently the two available methods are
-                                | *bound* where the points are filtered by
-                                | a given upper and lower bound and
-                                | *percentage* where the points are filtered
-                                | according to an empirical percentile.
-
-
-                        ``filter_kw`` : Keyword arguments
-
-                                | Either possible keyword arguments of ``f_func``
-                                | or the following:
-
-                                    | ``l_b`` (``int/float``) - sets the lower bound for ``f_mode`` *bound*,
-                                    | defaults to ``numpy``.\ **NINF**, see `NINF <https://numpy.org/devdocs/reference/constants.html>`_
-
-                                    | ``u_b`` (``int/float``) - sets the upper bound for ``f_mode`` *bound*,
-                                    | defaults to ``numpy``.\ **inf**, see `inf <https://numpy.org/devdocs/reference/constants.html>`_
-
-                                    | ``percent`` (``int/float``) - determines empirical percentile for
-                                    | ``f_mode`` *percentage*, defaults to *50*
-
-            |
-            |
-            |
-
-
-    ``hrosailing.data_processing``.\ **interpolate_points**\ (``points, w_res=None,``
-
-    ``i_func=None``)
-
-            Parameters :
-                        ``points`` : ``array_like`` of shape (_, 3)
-
-                                |
-                                |
-
-                        ``w_res`` : ``tuple`` of length 2 or ``str`` *"auto"*
-
-                                |
-                                |
-
-                        ``i_func`` : ``function``
-
-                                | Function to interpolate ``points``
-                                | If no function is passed, the default method
-                                | of interpolation uses the
-                                | ``scipy.interpolate``.\ **bisplrep** and
-                                | ``scipy.interpolate``.\ **bisplev** functions, see
-                                | `bisplrep <https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.bisplrep.html>`_ and
-                                  `bisplev <https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.bisplev.html#scipy.interpolate.bisplev>`_
-
-            |
-            |
-            |
-
-
-
-    ``hrosailing.data_processing``.\ **create_polar_diagram**\ (``data,``
-
-    ``p_type=PolarDiagramTable, w_func=None, f_func=None, i_func=None, w_res=None``
-
-    ``tws=True, twa=True, w_func_kw=None, **filter_kw``)
-
-            Parameters :
-                        ``data`` : ``array_like`` of shape (_, 3)
-
-                                |
-                                |
-
-                        ``p_type`` : ``PolarDiagram``, optional
-
-                                | A ``hrosailing.polar_diagram``.\ **PolarDiagram** subclass
-
-                        ``tws`` : ``bool``, optional
-
-                                | Specifies wether or not the wind speeds in
-                                | ``data`` are to be viewed as true wind
-                                | If set to *False*, they will be converted to true wind
-
-                        ``twa`` : ``bool``, optional
-
-                                | Specifies wether or not the wind angles in
-                                | ``data`` are to be viewed as true wind
-                                | If set to *False*, they will be converted to true wind
-
-                        ``w_func`` : ``function``, optional
-
-                                | Weight-Function passed on to
-                                | ``hrosailing.data_processing``.\ **WeightedPoints**
-
-                        ``f_func`` : ``function``, optional
-
-                                | Filter-Function passed on to
-                                | ``hrosailing.data_processing``.\ **filter_points**
-
-                        ``i_func`` : ``function``, optional
-
-                                | Interpolating-Function passed on to
-                                | ``hrosailing.data_processing``.\ **interpolate_points**
-
-                        ``w_res`` : ``tuple`` of length 2 or ``str`` *"auto"* , optional
-
-                                | Only needed, if ``p_type`` is PolarDiagramTable
-                                | Tuple containing the wind speed resolution and
-                                | wind angle resolution for the created
-                                | PolarDiagramTable instance
-
-                        ``w_func_kw`` : ``dict``
-
-                                | Keyword arguments passed on to
-                                | ``hrosailing.data_processing``.\ **WeightedPoints**
-
-                        ``filter_kw`` : Keyword arguments
-
-                                | Keyword arguments passed on to
-                                | ``hrosailing.data_processing``.\ **filter_points**
-
-            |
-            |
-            |
-
-
-
-
-
-The ``hrosailing``-module defines the following public classes:
-
-
-    ``hrosailing.polar_diagram``.\ **PolarDiagram**\ ()
-
-            | An abstract base class for most classes in the ``hrosailing``-module
-
-
-            | The **PolarDiagram** class defines the following public methods:
-
-
+            Methods :
                     ``PolarDiagram``.\ **pickling**\ (``self, pkl_path``)
+
+                            | Writes ``self`` to
+                            | a .pkl file
 
                             Parameters :
                                         ``pkl_path`` : ``string``
 
-                                                | Path to an existing .pkl file or where the created .pkl file will be located
+                                                | Path where a .pkl file is
+                                                | located or where a new
+                                                | .pkl file will be created
 
-                            | Creates or overwrites a .pkl file, with the class data of the instance which
-                            | called the function, via the ``pickle``.\ **dump**-function, see
-                              `dump <https://docs.python.org/3/library/pickle.html#pickle.dump>`_.
-
-
-            The **PolarDiagram** class also defines the following abstract methods:
-
-
-                    ``PolarDiagram``.\ **to_csv**\ (``csv_path``)
-
-                    ``PolarDiagram``.\ **polar_plot_slice**\ (``ws, ax=None, **plot_kw``)
-
-                    ``PolarDiagram``.\ **flat_plot_slice**\ (``ws, ax=None, **plot_kw``)
-
-                    ``PolarDiagram``.\ **polar_plot**\ (``ws_range, ax=None, colors=('green', 'red'),``
-
-                    ``show_legend=True, legend_kw=None, **plot_kw``)
-
-                    ``PolarDiagram``.\ **flat_plot**\ (``ws_range, ax=None, colors=('green', 'red'),``
-
-                    ``show_legend=True, legend_kw=None, **plot_kw``)
-
-                    ``PolarDiagram``.\ **plot_color_gradient**\ (``ax=None, colors=('green', 'red'),``
-                    ``marker=None, show_legend=True, legend_kw=None``)
-
-                    ``PolarDiagram``.\ **plot_convex_hull_slice**\ (``ws, ax=None, **plot_kw``)
+                            | Raises an exception
+                            | if file can't be
+                            | written to
 
 
+            Abstract Methods :
+                    ``PolarDiagram``.\ **to_csv**\ (``self, csv_path``)
+
+                    ``PolarDiagram``.\ **polar_plot_slice**\ (``self, ws,``
+
+                    ``ax=None, **plot_kw``)
+
+                    ``PolarDiagram``.\ **flat_plot_slice**\ (``self, ws,``
+
+                    ``ax=None, **plot_kw``)
+
+                    ``PolarDiagram``.\ **polar_plot**\ (``self, ws_range,``
+
+                    ``ax=None, colors=('green', 'red'), show_legend=True,``
+
+                    ``legend_kw=None, **plot_kw``)
+
+                    ``PolarDiagram``.\ **flat_plot**\ (``self, ws_range,``
+
+                    ``ax=None, colors=('green', 'red'),show_legend=True,``
+
+                    ``legend_kw=None, **plot_kw``)
+
+                    ``PolarDiagram``.\ **plot_3d**\ (``self, ax=None,``
+
+                    ``**plot_kw``)
+
+                    ``PolarDiagram``.\ **plot_color_gradient**\ (``self,``
+
+                    ``ax=None, colors=('green', 'red'), marker=None,``
+
+                    ``show_legend=True, legend_kw=None``)
+
+                    ``PolarDiagram``.\ **plot_convex_hull_slice**\ (``self, ws,``
+
+                    ``ax=None, **plot_kw``)
 
 
-    ``hrosailing.polar_diagram``.\ **PolarDiagramTable**\ (``ws_res=None, wa_res=None,``
-
-    ``data=None, tws=True, twa=True``)
-
-            | A class to represent, visualize and work with a polar performance diagram in form of a table
-
-            | The parameter ``ws_res`` (resp. ``wa_res``)
-            | can either be an ``Iterable`` (of ``int`` and ``float`` values), ``int`` or ``float``
-            | It  determines the number of columns (resp. rows) the Table will have
-
-            | If an ``Iterable`` is passed, the number of columns (resp. rows) will be the same
-            | as the number of elements in the ``Iterable``
-            | If an ``int`` is passed, the number of columns (resp. rows) will be the number of
-            | elements in numpy.arange(``ws_res``, 40, ``ws_res``)
-            | (resp. numpy.arange(``wa_res``, 360, ``wa_res``))
-            | If a ``float`` is passed, the number of columns (resp. rows) will be the number of
-            | elements in numpy.linspace(``)
-            | (resp. numpy.linspace(``))
-
-            | If no custom ``ws_res`` (resp. ``wa_res``) is passed,
-            | it will default to numpy.arange(2,42,2) (resp. numpy.arange(0, 360, 5))
-
-            | The parameter ``tws`` (resp. ``twa``) is a ``bool`` that specifies wether the wind speeds
-            | in ``ws_res`` (resp. the wind angles in ``wa_res``)
-            | are to be viewed as true wind
-            | If ``tws`` (resp. ``twa``) is set to *False*, the wind speeds (resp. wind angles)
-            | will be converted to true wind
-
-            | The parameter ``data`` is a ``numpy.ndarray`` of matching shape that contains the
-            | boat speeds matching the wind speeds and angles in the resolution
-            | If no custom ``data`` is passed, it will default to numpy.zeros(``(rdim, cdim)``)
-            | where rdim and cdim are number of rows and columns respectively, determined by
-            | ``wa_res`` and ``ws_res``
 
 
-            |The **PolarDiagramTable** class has the following (private) attriubutes:
+    ``polardiagram``.\ **PolarDiagramTable**\ (``ws_res=None, wa_res=None,``
 
-                    | *_resolution_wind_speed*
+    ``data=None, tw=True``)
 
-                    | *_resolution_wind_angle*
-
-                    | *_data*
-
-
-            | The **PolarDiagramTable** class defines the following dunder methods:
+            | A class to represent, visualize
+            | and work with a polar diagram
+            | in form of a table
 
 
-                    ``PolarDiagramTable``.\ **__str__**\ ()
+            Parameters :
+                        ``ws_res`` : ``Iterable`` or ``int`` or ``float``, optional
+
+                                | Wind speeds that will
+                                | correspond to the
+                                | columns of the table.
+
+                                | Can either be a sequence
+                                | of length cdim or a number
+
+                                | If a number num is passed,
+                                | ``numpy.arange(num, 40, num)``
+                                | will be assigned to ws_res
+
+                                | If nothing is passed,
+                                | it will default to
+                                | ``numpy.arange(2, 42, 2)``
+
+                        ``wa_res`` : ``Iterable`` or ``int`` or ``float``, optional
+
+                                | Wind angles that will
+                                | correspond to the
+                                | columns of the table.
+
+                                | Can either be sequence
+                                | of length rdim or a number
+
+                                | If a number num is passed,
+                                | ``numpy.arange(num, 360, num)``
+                                | will be assigned to wa_res
+
+                                | If nothing is passed,
+                                | it will default to
+                                | ``numpy.arange(0, 360, 5)``
+
+                        ``data`` : ``array_like``, optional
+
+                                | Sequence of corresponding
+                                | boat speeds, should be
+                                | broadcastable to the
+                                | shape (rdim, cdim)
+
+                                | If nothing is passed
+                                | it will default to
+                                | ``numpy.zeros((rdim, cdim))``
+
+                        ``tw`` : ``bool``, optional
+
+                                | Specifies if the
+                                | given wind data should
+                                | be viewed as true wind
+
+                                | If ``False``, wind data
+                                | will be converted
+                                | to true wind
+
+                                | Defaults to ``True``
+
+            | Raises an exception if
+            | data can't be broadcasted
+            | to a fitting shape or is
+            | of a wrong dimension
 
 
-                    ``PolarDiagramTable``.\ **__repr__**\ ()
-
-
-                    ``PolarDiagramTable``.\ **__getitem__**\ (``wind_tup``)
-
-                            Parameters :
-                                        ``wind_tup`` : ``tuple`` of length 2
-
-                                                | Tuple to specify the row and column entry of the table, given as
-                                                | elements of the wind angle and wind speed resolution
-
-
-                            | Returns specified entry of the table
-
-
-            | The **PolarDiagramTable** class defines the following public methods:
-
-
+            Methods :
                     ``PolarDiagramTable``.\ **wind_speeds**
 
-                            | Returns a read only version of *_resolution_wind_speed*
+                            | Returns a read only version
+                            | of ``self``.\ *_resolution_wind_speed*
 
 
                     ``PolarDiagramTable``.\ **wind_angles**
 
-                            | Returns a read only version of *_resolution_wind_angle*
+                            | Returns a read only version
+                            | of ``self``.\ *_resolution_wind_angle*
 
 
                     ``PolarDiagramTable``.\ **boat_speeds**
 
-                            | Returns a read only version of *_data*
+                            | Returns a read only version
+                            | of ``self``.\ *_data*
 
 
-                    ``PolarDiagramTable``.\ **to_csv**\ (``csv_path``)
+                    ``PolarDiagramTable``.\ **to_csv**\ (``self, csv_path``)
+
+                            | Creates a .csv file with
+                            | delimiter ',' and the
+                            | following format:
+
+                                | PolarDiagramTable
+                                | Wind speed resolution:
+                                | ``self``.\ **wind_speeds**
+                                | Wind angle resolution:
+                                | ``self``.\ **wind_angles**
+                                | Boat speeds:
+                                | ``self``.\ **boat_speeds**
 
                             Parameters :
                                         ``csv_path`` : ``string``
 
-                                                | Path to an existing .csv file or where the created .csv file will be located
+                                                | Path where a .csv file is
+                                                | located or where a new
+                                                | .csv file will be created
 
-                            | Creates or overwrites a .csv file with the class data of object
-                            | which called the function via the ``csv``.\ **writer**-class,
-                            | see `writer <https://docs.python.org/3/library/csv.html#csv.writer>`_.
-
-                            | The format of the .csv file will be as follows:
-
-                                | PolarDiagramTable
-                                | Wind speed resolution:
-                                | self.wind_speeds
-                                | Wind angle resolution:
-                                | self.wind_angles
-                                | Boat speeds:
-                                | self.boat_speeds
-
-                            | with the delimiter being ','.
+                            | Raises an exception if
+                            | file can't be written to
 
 
-                    ``PolarDiagramTable``.\ **change_entries**\ (``new_data, ws=None,``
+                    ``PolarDiagramTable``.\ **change_entries**\ (``self,``
 
-                    ``wa=None, tws=True, twa=True``)
+                    ``new_data, ws=None, wa=None``)
+
+                            | Changes specified entries
+                            | in the table
 
                             Parameters :
-                                        ``new_data`` : ``int``, ``float`` or ``array_like`` of matching shape
+                                        ``new_data`` : ``array_like``
 
-                                                | New data that will be written in the specified entries
-                                                | If no ``ws`` and no ``wa`` is passed,
-                                                | the required shape is the shape of *_data*
+                                                | Sequence containing the
+                                                | new data to be inserted
+                                                | in the specified entries
 
-                                        ``ws`` : ``Iterable``, ``int`` or ``float``
+                                        ``ws`` : ``Iterable``, or ``int`` or ``float``, optional
 
-                                                | Column entries where the data is to be changed, given by elements of
-                                                | the wind speed resolution
-                                                | If ``None`` is passed, the function changes all entries in the rows
-                                                | specified by ``wa``.
-                                                | If ``wa`` is also ``None``, the function changes all
-                                                | entries in the table
+                                                | Element(s) of self.wind_speeds,
+                                                | specifying the columns, where
+                                                | new data will be inserted
 
-                                        ``wa`` : ``Iterable``, ``int`` or ``float``
+                                                | If nothing is passed
+                                                | it will default to
+                                                | ``self``.\ **wind_speeds**
 
-                                                | Row entries where the data is to be changed, given by elements of
-                                                | the wind angle resolution
-                                                | If ``None`` is passed, the function changes all entries in the
-                                                | columns specified by ``ws``
-                                                | If ``ws`` is also ``None``, the function changes all
-                                                | entries in the table
+                                        ``wa`` : ``Iterable``, or ``int`` or ``float``, optional
 
-                                        ``tws`` : ``bool``
+                                                | Element(s) of self.wind_angles,
+                                                | specifiying the rows, where
+                                                | new data will be inserted
 
-                                                | Specifies wether or not wind_speeds is to be viewed as true wind
-                                                | If set to *False*, ``ws`` will be converted to true wind
+                                                | If nothing is passed
+                                                | it will default to
+                                                | ``self``.\ **wind_angles**
 
-                                        ``twa`` : ``bool``
+                            | Raises an exception:
 
-                                                | Specifies wether or not wind_angles is to be viewed as true wind
-                                                | If set to *False*, ``wa`` will be converted to true wind
-
-                            | Changes the data in the specified entries in the table to the input new data.
-                            | This function alters *_data*
-
+                                | If ``ws`` is not contained
+                                  in ``self``.\ **wind_speeds**
+                                | If ``wa`` is not contained
+                                  in ``self``.\ **wind_angles**
+                                | If ``new_data`` can't be
+                                  broadcasted to a fitting
+                                  shape
 
 
-                    ``PolarDiagramTable``.\ **polar_plot_slice**\ (``ws, ax=None, **plot_kw``)
+                    ``PolarDiagramTable``.\ **polar_plot_slice**\ (``self,``
+
+                    ``ws, ax=None, **plot_kw``)
+
+                            | Creates a polar plot of a
+                            | given slice (column) of
+                            | the polar diagram
 
                             Parameters :
                                         ``ws`` : ``int`` or ``float``
 
-                                                | Slice of the polar diagram that is to be plotted,
-                                                | given as an element of the wind speed resolution
+                                                | Slice (column) of the polar
+                                                | diagram, given as an element
+                                                | of self.wind_speeds
 
-                                        ``ax`` : ``matplotlib.axes.Axes``, optional
+                                        ``ax`` : ``matplotlib.projections.polar.PolarAxes``, optional
 
-                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
-                                                | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
-                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
-                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
-                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+                                                | Axes instance where the plot
+                                                | will be created.
 
-                                        ``plot_kw`` : Keyword arguments to change the appearence of the created plot.
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
 
-                                                | Supports the same keyword arguments as the
-                                                | ``matplotlib.pyplot``.\ **plot** function
-                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
-                                                | it will default to '' (resp. 'o')
+                                        ``plot_kw`` : Keyword arguments
 
-                            | Creates a polar plot of a given slice of the polar diagram, via the
-                            | ``matplotlib.pyplot``.\ **plot** function, see
-                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+                                                | Keyword arguments that will
+                                                | be passed to the
+                                                | matplotlib.axes.Axes.plot
+                                                | function, to change certain
+                                                | appearences of the plot
+
+                            | Raises an exception
+                            | if ws is not an element
+                            | of ``self``.\ **wind_speeds**
 
 
 
-                    ``PolarDiagramTable``.\ **flat_plot_slice**\ (``ws, ax=None, **plot_kw``)
+                    ``PolarDiagramTable``.\ **flat_plot_slice**\ (``self,``
+
+                    ``ws, ax=None, **plot_kw``)
+
+                            | Creates a cartesian plot
+                            | of a given slice (column)
+                            | of the polar diagram
 
                             Parameters :
                                         ``ws`` : ``int`` or ``float``
 
-                                                | Slice of the polar diagram that is to be plotted,
-                                                | given as an element of the wind speed resolution
+                                                | Slice (column) of the polar
+                                                | diagram, given as an element
+                                                | of self.wind_speeds
 
                                         ``ax`` : ``matplotlib.axes.Axes``, optional
 
-                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
-                                                | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
-                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
-                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
-                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+                                                | Axes instance where the plot
+                                                | will be created.
+
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
+
+                                        ``plot_kw`` : Keyword arguments
+
+                                                | Keyword arguments that will
+                                                | be passed to the
+                                                | ``matplotlib.axes.Axes.plot``
+                                                | function, to change certain
+                                                | appearences of the plot
+
+                            | Raises an exception
+                            | if ws is not an element
+                            | of ``self``.\ **wind_speeds**
 
 
-                                        ``plot_kw`` : Keyword arguments to change the appearence of the created plot.
+                    ``PolarDiagramTable``.\ **polar_plot** \ (``self,``
 
-                                                | Supports the same keyword arguments as the
-                                                | ``matplotlib.pyplot``.\ **plot** function
-                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
-                                                | it will default to '' (resp. 'o')
+                    ``ws_range=None, ax=None, colors=('green', 'red'),``
 
-                            | Creates a cartesian plot of a given slice of the polar diagram, via the
-                            | ``matplotlib.pyplot``.\ **plot** function, see
-                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+                    ``show_legend=True, legend_kw=None, **plot_kw``)
 
-
-                    ``PolarDiagramTable``.\ **polar_plot** \ (``ws_range=None, ax=None,``
-
-                    ``colors=('green', 'red'), show_legend=True, legend_kw=None, **plot_kw``)
+                            | Creates a polar plot
+                            | of multiple slices (columns)
+                            | of the polar diagram
 
                             Parameters :
                                         ``ws_range`` : ``Iterable``, optional
 
-                                                | The range of wind speeds to be plotted, given as an ``Iterable`` of
-                                                | elements of the wind speed resolution
+                                                | Slices (columns) of the
+                                                | polar diagram table,
+                                                | given as an Iterable
+                                                | of elements of
+                                                | self.wind_speeds.
 
-                                        ``ax`` : ``matplotlib.axes.Axes``, optional
+                                                | If nothing it passed,
+                                                | it will default to
+                                                | self.Wind_speeds
 
-                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
-                                                | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
-                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
-                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
-                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+                                        ``ax`` : ``matplotlib.projections.polar.PolarAxes``, optional
 
-                                        ``colors`` : ``Iterable``, optional
+                                                | Axes instance where the plot
+                                                | will be created.
 
-                                                | Specifies the colors to be used for the different slices
-                                                | If there are at most as many slices as colors, each slice will be
-                                                | plotted with the specified color
-                                                | If there are more slices than colors the function will either cycle
-                                                | through the specified colors until all slices have been plotted
-                                                | or if there are exactly two colors specified, the function will
-                                                | plot the slices with a color gradient using those two colors
-                                                | Elements of the ``Iterable`` can be of any type accepted by the
-                                                | ``matplotlib.colors``.\ **to_rgb** function, see
-                                                  `to_rgb <https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.to_rgb.html#matplotlib.colors.to_rgb>`_
-                                                  and `colors <https://matplotlib.org/stable/api/colors_api.html>`_
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
+
+                                        ``colors`` : ``tuple``, optional
+
+                                                | Specifies the colors to
+                                                | be used for the different
+                                                | slices.
+
+                                                | Accepts all colors and
+                                                | representations as given
+                                                | in `colors <https://matplotlib.org/stable/gallery/color/named_colors.html>`_
+                                                  and `repr <https://matplotlib.org/stable/tutorials/colors/colors.html>`_
+
+                                                | There are four options
+                                                | for the tuple
+
+                                                    | If as many or more
+                                                    | colors as slices
+                                                    | are passed,
+                                                    | each slice will
+                                                    | be plotted in the
+                                                    | specified color
+
+                                                    | Otherwise if
+                                                    | exactly 2 colors
+                                                    | are passed, the
+                                                    | slices will be
+                                                    | plotted with a
+                                                    | color gradient
+                                                    | consiting of the
+                                                    | two colors
+
+                                                    | If more than 2
+                                                    | colors are passed,
+                                                    | either the first
+                                                    | n_color slices will
+                                                    | be plotted in the
+                                                    | specified colors,
+                                                    | and the rest will
+                                                    | be plotted in the
+                                                    | default color 'blue',
+                                                    | or one can specify
+                                                    | certain slices to be
+                                                    | plotted in a certain
+                                                    | color by passing a
+                                                    | tuple of (ws, color)
+                                                    | pairs
+
+                                                    | Defaults to the tuple
+                                                    | ('green', 'red')
+
                                         ``show_legend`` : ``bool``, optional
 
-                                                | Specifies wether or not a legend should be added to the plot.
-                                                | The type of legend depends on the amount of slices and colors.
-                                                | If ``colors`` is of length 2 and ``ws_range`` is of length
-                                                | greater 2, the legend will be a
-                                                | ``matplotlib.colorbar.``\ **Colorbar** instance, see
-                                                  `Colorbar <https://matplotlib.org/stable/api/colorbar_api.html#matplotlib.colorbar.Colorbar>`_
-                                                | If ``colors`` and ``ws_range`` are of the same length,
-                                                | the legend will be a ``matplotlib.legend.``\ **Legend** instance,
-                                                  see `Legend <https://matplotlib.org/stable/api/legend_api.html#matplotlib.legend.Legend>`_
+                                                | Specifies wether or not
+                                                | a legend will be shown
+                                                | next to the plot
+
+                                                | The type of legend depends
+                                                | on the color options:
+                                                | If the slices are plotted
+                                                | with a color gradient,
+                                                | a ``matplotlib.colorbar.Colorbar``
+                                                | object will be created
+                                                | and assigned to ``ax``
+
+                                                | Otherwise a
+                                                | ``matplotlib.legend.Legend``
+                                                | will be created and
+                                                | assigned to ``ax``
+
+                                                | Default to ``True``
 
                                         ``legend_kw`` : ``dict``, optional
 
-                                                | Keyword arguments to change the appearence and location of the
-                                                | legend
-                                                | Supports the same keyword arguments as either the
-                                                | ``matplotlib.axes.Axes.``\ **legend** function, see
-                                                  `legend <https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.legend.html#matplotlib-axes-axes-legend>`_
-                                                | or the ``matplotlib.pyplot``\ **colorbar** function, see
-                                                  `colorbar <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.colorbar.html>`_
+                                                | Keyword arguments to be
+                                                | passed to either the
+                                                | ``matplotlib.colorbar.Colorbar``
+                                                | or ``matplotlib.legend.Legend``
+                                                | classes to change position
+                                                | and appearence of the legend
 
-                                        ``plot_kw`` : Keyword arguments to change the appearence of the created plot.
+                                                | Will only be used if
+                                                | 'show_legend=True'
 
-                                                | Supports the same keyword arguments as the
-                                                | ``matplotlib.pyplot``.\ **plot**-function
-                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
-                                                | it will default to '' (resp. 'o')
-                                                | If 'colors' (or 'c') is passed, it will be deleted. Use the
-                                                | parameters ``colors`` instead
+                                                | If noting is passed,
+                                                | it will default to ``{}``
 
-                            | Creates a color coded polar plot of multiple slices, given by ``wind_speed_range``,
-                            | of the polar diagram, via the ``matplotlib.pyplot``.\ **plot** function, see
-                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+                                        ``plot_kw`` : Keyword arguments
+
+                                                | Keyword arguments that will
+                                                | be passed to the
+                                                | ``matplotlib.axes.Axes.plot``
+                                                | function, to change certain
+                                                | appearences of the plot
+
+                            | Raises an exception
+                            | if at least one element
+                            | of ws_range is not in
+                            | ``self``.\ **wind_speeds**
 
 
-                    ``PolarDiagramTable``.\ **flat_plot** (``ws_range=None, ax=None,``
+                    ``PolarDiagramTable``.\ **flat_plot** (``self,``
 
-                    ``colors=('green', 'red'), show_legend=True, legend_kw=None, **plot_kw``)
+                    ``ws_range=None, ax=None, colors=('green', 'red'),``
+
+                    ``show_legend=True, legend_kw=None, **plot_kw``)
+
+                            | Creates a cartesian plot
+                            | of multiple slices (columns)
+                            | of the polar diagram
 
                             Parameters :
                                         ``ws_range`` : ``Iterable``, optional
 
-                                                | The range of wind speeds to be plotted, given as an ``Iterable`` of
-                                                | elements of the wind speed resolution
+                                                | Slices (columns) of the
+                                                | polar diagram table,
+                                                | given as an Iterable
+                                                | of elements of
+                                                | self.wind_speeds.
+
+                                                | If nothing it passed,
+                                                | it will default to
+                                                | self.Wind_speeds
 
                                         ``ax`` : ``matplotlib.axes.Axes``, optional
 
-                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
-                                                | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
-                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
-                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
-                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+                                                | Axes instance where the plot
+                                                | will be created.
+
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
 
                                         ``colors`` : ``Iterable``, optional
 
-                                                | Specifies the colors to be used for the different slices
-                                                | If there are at most as many slices as colors, each slice will be
-                                                | plotted with the specified color
-                                                | If there are more slices than colors the function will either cycle
-                                                | through the specified colors until all slices have been plotted
-                                                | or if there are exactly two colors specified, the function will
-                                                | plot the slices with a color gradient using those two colors
-                                                | Elements of the ``Iterable`` can be of any type accepted by the
-                                                | ``matplotlib.colors``.\ **to_rgb** function, see
-                                                  `to_rgb <https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.to_rgb.html#matplotlib.colors.to_rgb>`_
-                                                  and `colors <https://matplotlib.org/stable/api/colors_api.html>`_
+                                                | Specifies the colors to
+                                                | be used for the different
+                                                | slices.
+
+                                                | Accepts all colors and
+                                                | representations as given
+                                                | in `colors <https://matplotlib.org/stable/gallery/color/named_colors.html>`_
+                                                  and `repr <https://matplotlib.org/stable/tutorials/colors/colors.html>`_
+
+                                                | There are four options
+                                                | for the tuple
+
+                                                    | If as many or more
+                                                    | colors as slices
+                                                    | are passed,
+                                                    | each slice will
+                                                    | be plotted in the
+                                                    | specified color
+
+                                                    | Otherwise if
+                                                    | exactly 2 colors
+                                                    | are passed, the
+                                                    | slices will be
+                                                    | plotted with a
+                                                    | color gradient
+                                                    | consiting of the
+                                                    | two colors
+
+                                                    | If more than 2
+                                                    | colors are passed,
+                                                    | either the first
+                                                    | n_color slices will
+                                                    | be plotted in the
+                                                    | specified colors,
+                                                    | and the rest will
+                                                    | be plotted in the
+                                                    | default color 'blue',
+                                                    | or one can specify
+                                                    | certain slices to be
+                                                    | plotted in a certain
+                                                    | color by passing a
+                                                    | tuple of (ws, color)
+                                                    | pairs
+
+                                                    | Defaults to the tuple
+                                                    | ('green', 'red')
 
                                         ``show_legend`` : ``bool``, optional
 
-                                                | Specifies wether or not a legend should be added to the plot.
-                                                | The type of legend depends on the amount of slices and colors.
-                                                | If ``colors`` is of length 2 and ``ws_range`` is of length
-                                                | greater 2, the legend will be a
-                                                | ``matplotlib.colorbar.``\ **Colorbar** instance, see
-                                                  `Colorbar <https://matplotlib.org/stable/api/colorbar_api.html#matplotlib.colorbar.Colorbar>`_
-                                                | If ``colors`` and ``ws_range`` are of the same length,
-                                                | the legend will be a ``matplotlib.legend.``\ **Legend** instance,
-                                                  see `Legend <https://matplotlib.org/stable/api/legend_api.html#matplotlib.legend.Legend>`_
+                                                | Specifies wether or not
+                                                | a legend will be shown
+                                                | next to the plot
+
+                                                | The type of legend depends
+                                                | on the color options:
+                                                | If the slices are plotted
+                                                | with a color gradient,
+                                                | a ``matplotlib.colorbar.Colorbar``
+                                                | object will be created
+                                                | and assigned to ``ax``
+
+                                                | Otherwise a
+                                                | ``matplotlib.legend.Legend``
+                                                | will be created and
+                                                | assigned to ``ax``
+
+                                                | Default to ``True``
 
                                         ``legend_kw`` : ``dict``, optional
 
-                                                | Keyword arguments to change the appearence and location of the
-                                                | legend
-                                                | Supports the same keyword arguments as either the
-                                                | ``matplotlib.axes.Axes.``\ **legend** function, see
-                                                  `legend <https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.legend.html#matplotlib-axes-axes-legend>`_
-                                                | or the ``matplotlib.pyplot``\ **colorbar** function, see
-                                                  `colorbar <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.colorbar.html>`_
+                                                | Keyword arguments to be
+                                                | passed to either the
+                                                | ``matplotlib.colorbar.Colorbar``
+                                                | or ``matplotlib.legend.Legend``
+                                                | classes to change position
+                                                | and appearence of the legend
 
-                                        ``plot_kw`` : Keyword arguments to change the appearence of the created plot.
+                                                | Will only be used if
+                                                | 'show_legend=True'
 
-                                                | Supports the same keyword arguments as the
-                                                | ``matplotlib.pyplot``.\ **plot**-function
-                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
-                                                | it will default to '' (resp. 'o')
-                                                | If 'colors' (or 'c') is passed, it will be deleted. Use the
-                                                | parameters ``colors`` instead
+                                                | If noting is passed,
+                                                | it will default to ``{}``
 
-                            | Creates a color coded cartesian plot of multiple slices, given by ``wind_speed_range``,
-                            | of the polar diagram, via the ``matplotlib.pyplot``.\ **plot** function, see
-                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+                                        ``plot_kw`` : Keyword arguments
+
+                                                | Keyword arguments that will
+                                                | be passed to the
+                                                | ``matplotlib.axes.Axes.plot``
+                                                | function, to change certain
+                                                | appearences of the plot
+
+                            | Raises an exception
+                            | if at least one element
+                            | of ws_range is not in
+                            | ``self``.\ **wind_speeds**
 
 
-                    ``PolarDiagramTable``.\ **plot_color_gradient**\ (``ax=None, colors=('green', 'red'),``
+                    ``PolarDiagramTable``.\ **plot_3d**\ (``self, ax=None,``
 
-                    ``marker=None, show_legend=True, *legend_kw``)
+                    ``colors=('blue', 'blue')``)
+
+                            | Creates a 3d plot of
+                            | the polar diagram
 
                             Parameters :
-                                        ``ax`` : ``matplotlib.axes.Axes``
+                                        ``ax``: ``mpl_toolkits.mplot3d.axes3d.Axes3D``, optional
 
-                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
-                                                | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
-                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
-                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
-                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+                                                | Axes instance where the plot
+                                                | will be created.
 
-                                        ``colors`` : ``tuple`` of length 2
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
 
-                                        ``marker`` : ``matplotlib.markers.Markerstyle``, optional
+                                        ``colors`` : ``tuple`` of length 2, optional
 
-                                                | Specifies the style of the markers in the plot
-                                                | For all possible styles, see `marker <https://matplotlib.org/stable/api/markers_api.html#module-matplotlib.markers>`_
-                                                | Defaults to 'o'
+                                                | Colors which specify
+                                                | the color gradient with
+                                                | which the polar diagram
+                                                | will be plotted.
+
+                                                | Accepts all colors and
+                                                | representations as given
+                                                | in `colors <https://matplotlib.org/stable/gallery/color/named_colors.html>`_
+                                                  and `repr <https://matplotlib.org/stable/tutorials/colors/colors.html>`_
+
+                                                | If no color gradient is
+                                                | desired, set both elements
+                                                | to the same color
+
+                                                | Defaults to
+                                                | ('blue', 'blue')
+
+
+                    ``PolarDiagramTable``.\ **plot_color_gradient**\ (``self,``
+
+                    ``ax=None, colors=('green', 'red'), marker=None,``
+
+                    ``show_legend=True, *legend_kw``)
+
+                            | Creates a 'wind speed
+                            | vs. wind angle' color gradient
+                            | plot of the polar diagram
+                            | with respect to the
+                            | respective boat speeds
+
+                            Parameters :
+                                        ``ax`` : ``matplotlib.axes.Axes``, optional
+
+                                                | Axes instance where the plot
+                                                | will be created.
+
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
+
+                                        ``colors`` : ``tuple`` of length 2, optional
+
+                                                | Colors which specify
+                                                | the color gradient with
+                                                | which the polar diagram
+                                                | will be plotted.
+
+                                                | Accepts all colors and
+                                                | representations as given
+                                                | in `colors <https://matplotlib.org/stable/gallery/color/named_colors.html>`_
+                                                  and `repr <https://matplotlib.org/stable/tutorials/colors/colors.html>`_
+
+                                                | Defaults to
+                                                | ('green', 'red')
+
+                                        ``marker`` : ``matplotlib.markers.Markerstyleor`` equivalent, optional
+
+                                                | Markerstyle for the
+                                                | created scatter plot
+
+                                                | If nothing is passed,
+                                                | it will default to 'o'
 
                                         ``show_legend`` : ``bool``, optional
 
-                                                | Specifies wether or not a legend should be added to the plot.
-                                                | Legend will be a ``matplotlib.colorbar.``\ **Colorbar** instance,
-                                                  see `Colorbar <https://matplotlib.org/stable/api/colorbar_api.html#matplotlib.colorbar.Colorbar>`_
+                                                | Specifies wether or not
+                                                | a legend will be shown
+                                                | next to the plot
+
+                                                | Legend will be a
+                                                | ``matplotlib.colorbar.Colorbar``
+                                                | object.
+
+                                                | Defaults to ``True``
 
 
-                                        ``legend_kw`` : Keyword arguments to change the appearence and position of the legend
+                                        ``legend_kw`` : Keyword arguments
 
-                                                | Supports the same keyword arguments as the
-                                                | ``matplotlib.pyplot``\ **colorbar** function, see
-                                                  `colorbar <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.colorbar.html>`_
+                                                | Keyword arguments to be
+                                                | passed to the
+                                                | ``matplotlib.colorbar.Colorbar``
+                                                | class to change position
+                                                | and appearence of the legend
 
+                                                | Will only be used if
+                                                | 'show_legend=True'
 
                     ``PolarDiagramTable``.\ **plot_convex_hull_slice**\ (``ws, ax=None, **plot_kw``)
 
+                            | Computes the convex hull
+                            | of a slice (column) of
+                            | the polar diagram and
+                            | creates a polar plot
+                            | of it
+
                             Parameters :
                                         ``ws`` : ``int`` or ``float``
 
-                                                | Slice of the polar diagram that is to be plotted, given as an element
-                                                | of the wind speed resolution
+                                                | Slice (column) of the polar
+                                                | diagram, given as an element
+                                                | of self.wind_speeds
 
                                         ``ax`` : ``matplotlib.axes.Axes``, optional
 
-                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
-                                                | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
-                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
-                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
-                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+                                                | Axes instance where the plot
+                                                | will be created.
 
-                                        ``plot_kw`` : Keyword arguments to change the appearence of the created plot.
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
 
-                                                | Supports the same keyword arguments as the
-                                                | ``matplotlib.pyplot``.\ **plot**-function
+                                        ``plot_kw`` : Keyword arguments
 
-                            | Computes the convex hull of a given slice of the polar diagram table, via the
-                            | ``scipy.spatial``.\ **ConvexHull** function, see
-                              `ConvexHull <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.ConvexHull.html>`_
-                            | and then creates a polar plot of the convex hull, via the ``matplotlib.pyplot``.\ **plot**
-                            | function, see `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+                                                | Keyword arguments that will
+                                                | be passed to the
+                                                | ``matplotlib.axes.Axes.plot``
+                                                | function, to change certain
+                                                | appearences of the plot
 
-
-
-    ``hrosailing.polar_diagram``.\ **PolarDiagramCurve**\ (``f,``
-
-    ``radians=False, *params``)
-
-            | A class to represent, visualize and work with a polar performance diagram given
-            | as a fitted curve with a list of optimal parameters
-
-            | The parameter ``f`` should be a function of the form ``f(x, *params)``, where ``x``
-            | should be ``array_like`` of shape(_, 2) (the rows should correspond to pairs of
-            | wind speeds and wind angles), and determines the curve which describes the polar diagram.
-
-            | The parameter ``radians`` is ``bool`` that specifies, wether ``f``
-            | takes the wind angles to be in radians or degrees
-
-            | The parameter ``*params`` should contain the resulting parameters
-            | that are obtained via a fitting of ``f``.
+                            | Raises an exception
+                            | if ws is not an element
+                            | of ``self``.\ **wind_speeds**
 
 
-            | The **PolarDiagramCurve** class has the following (private) attributes:
 
-                    | *_f*
+    ``polar_diagram``.\ **PolarDiagramCurve**\ (``f, radians=False, *params``)
 
-                    | *_radians*
-
-                    | *_params*
-
-
-            | The **PolarDiagramCurve** class defines the following dunder methods:
+            | A class to represent, visualize
+            | and work with a polar diagram
+            | given by a fitted curve/surface
 
 
-                    ``PolarDiagramCurve``.\ **__repr__**\ ()
+            Parameters :
+                        ``f`` : ``function``
+
+                                | Curve/surface that describes
+                                | the polar diagram, given as
+                                | a function, which takes
+                                | a ``numpy.ndarray`` with
+                                | two columns, corresponding
+                                | to (wind speed, wind angle) pairs
+                                | aswell as some additional
+                                | parameters
+
+                        ``radians`` : ``bool``, optional
+
+                                | Specifies if f takes the
+                                | wind angles to be in
+                                | radians or degrees
+
+                                | Defaults to ``False``
+
+                        ``*params`` : Arguments
+
+                                | Additional optimized
+                                | parameters that f takes
 
 
-                    ``PolarDiagramCurve``.\ **__call__**\ (``ws, wa``)
-
-                            Parameters :
-                                        ``ws`` : ``numpy.ndarray``, ``int`` or ``float``
-
-                                        ``wa`` : ``numpy.ndarray``, ``int`` or ``float``
-
-                            | Calls ``self``.\ **curve** with the specified values
-                            | ``ws`` and ``wa`` should be of matching shape and type
-
-
-            | The **PolarDiagramCurve** class defines the following public methods:
-
-
+            Methods :
                     ``PolarDiagramCurve``.\ **curve**
 
-                            | Returns a read only version of ``self``.\ *_f*
+                            | Returns a read only version of
+                            | ``self``.\ *_f*
 
 
                     ``PolarDiagramCurve``.\ **radians**
 
-                            | Returns a read only version of ``self``.\ *_radians*
+                            | Returns a read only version of
+                            | ``self``.\ *_radians*
 
 
                     ``PolarDiagramCurve``.\ **parameters**
 
-                            | Returns a read only version of ``self``.\ *_params*
+                            | Returns a read only version of
+                            | ``self``.\ *_params*
 
 
-                    ``PolarDiagramCurve``.\ **to_csv**\ (``csv_path``)
+                    ``PolarDiagramCurve``.\ **to_csv**\ (``self, csv_path``)
+
+                            | Creates a .csv file with
+                            | delimiter ':' and the
+                            | following format:
+
+                                | PolarDiagramCurve
+                                | Function: ``self``.\ **curve**\ .__name__
+                                | Radians: ``self``.\ **radians**
+                                | Parameters: ``self``.\ **parameters**
 
                             Parameters :
                                         ``csv_path`` : ``string``
 
-                                                | Path to an existing .csv file or where the created .csv file will be located
+                                                | Path where a .csv file is
+                                                | located or where a new
+                                                | .csv file will be created
 
-                            | Creates or overwrites a .csv file with the class data of object
-                            | which called the function via the ``csv``.\ **writer**-class,
-                            | see `writer <https://docs.python.org/3/library/csv.html#csv.writer>`_.
-
-                            | The format of the .csv file will be as follows:
-
-                                | PolarDiagramCurve
-                                | Function: self.curve
-                                | Radians: self.radians
-                                | Parameters: self.parameters
-
-                            | with the delimiter ':'
+                            | Raises an exception if
+                            | file can't be written to
 
 
-                    ``PolarDiagramCurve``.\ **polar_plot_slice**\ (``ws, ax=None, **plot_kw``)
+                    ``PolarDiagramCurve``.\ **polar_plot_slice**\ (``self,``
+
+                    ``ws, ax=None, **plot_kw``)
+
+                            | Creates a polar plot
+                            | of a given slice of
+                            | the polar diagram
 
                             Parameters :
                                         ``ws`` : ``int`` or ``float``
 
-                                                | A slice of the polar diagram that is to be plotted,
-                                                | given as the true wind speed
+                                                | Slice of the polar diagram,
+                                                | given as a single wind speed
 
-                                        ``ax`` : ``matplotlib.axes.Axes``, optional
+                                                | Slice then equals ``self(ws, wa)``
+                                                | where wa will go through
+                                                | several wind angles
 
-                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
-                                                | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
-                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
-                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
-                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+                                        ``ax`` : ``matplotlib.projections.polar.PolarAxes``, optional
 
-                                        ``plot_kw`` : Keyword arguments to change the appearence of the created plot.
+                                                | Axes instance where the plot
+                                                | will be created
 
-                                                | Supports the same keyword arguments as the
-                                                | ``matplotlib.pyplot``.\ **plot**-function
-                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
-                                                | it will default to '' (resp. 'o')
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
 
-                            | Creates a polar plot of a given slice of the polar diagram, via the
-                            | ``matplotlib.pyplot``.\ **plot** function, see
-                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+                                        ``plot_kw`` : Keyword arguments
+
+                                                | Keyword arguments that will
+                                                | be passed to the
+                                                | ``matplotlib.axes.Axes.plot``
+                                                | function, to change certain
+                                                | appearences of the plot
 
 
-                    ``PolarDiagramCurve``.\ **flat_plot_slice**\ (``ws, ax=None, **plot_kw``)
+                    ``PolarDiagramCurve``.\ **flat_plot_slice**\ (``self,``
+
+                    ``ws, ax=None, **plot_kw``)
+
+                            | Creates a cartesian plot
+                            | of a given slice of
+                            | the polar diagram
 
                             Parameters :
                                         ``ws`` : ``int`` or ``float``
 
-                                                | A slice of the polar diagram that is to be plotted,
-                                                | given as the true wind speed
+                                                | Slice of the polar diagram,
+                                                | given as a single wind speed
+
+                                                | Slice then equals ``self(ws, wa)``
+                                                | where wa will go through
+                                                | several wind angles
 
                                         ``ax`` : ``matplotlib.axes.Axes``, optional
 
-                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
-                                                | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
-                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
-                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
-                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+                                                | Axes instance where the plot
+                                                | will be created
 
-                                        ``plot_kw`` : Keyword arguments to change the appearence of the created plot.
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
 
-                                                | Supports the same keyword arguments as the
-                                                | ``matplotlib.pyplot``.\ **plot**-function
-                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
-                                                | it will default to '' (resp. 'o')
+                                        ``plot_kw`` : Keyword arguments
 
-                            | Creates a cartesian plot of a given slice of the polar diagram, via the
-                            | ``matplotlib.pyplot``.\ **plot** function, see
-                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+                                                | Keyword arguments that will
+                                                | be passed to the
+                                                | ``matplotlib.axes.Axes.plot``
+                                                | function, to change certain
+                                                | appearences of the plot
 
 
-                    ``PolarDiagramCurve``.\ **polar_plot**\ (``ws_range=(0,20,5), ax=None,``
+                    ``PolarDiagramCurve``.\ **polar_plot**\ (``self,``
 
-                    ``colors=('green', 'red'), show_legend=True, legend_kw=None, **plot_kw``)
+                    ``ws_range=(0, 20, 5), ax=None, colors=('green', 'red'),``
+
+                    ``show_legend=True, legend_kw=None, **plot_kw``)
+
+                            | Creates a polar plot
+                            | of multiple slices of
+                            | the polar diagram
+
+                            Parameters :
+                                        ``ws_range`` : ``tuple`` of length 3 or ``list``, optional
+
+                                                | Slices of the polar diagram
+                                                | given either as a
+                                                | tuple of three values,
+                                                | which will be interpreted
+                                                | as a start and end point
+                                                | of an interval aswell as
+                                                | a numbero of slices,
+                                                | which will be evenly
+                                                | spaces in the given
+                                                | interval, or a list of
+                                                | specific wind speed values
+
+                                                | Defaults to (0, 20, 5)
+
+                                        ``ax`` : ``matplotlib.projections.polar.PolarAxes``, optional
+
+                                                | Axes instance where the plot
+                                                | will be created
+
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
+
+                                        ``colors`` : ``Iterable``, optional
+
+                                                | Specifies the colors to
+                                                | be used for the different
+                                                | slices.
+
+                                                | Accepts all colors and
+                                                | representations as given
+                                                | in `colors <https://matplotlib.org/stable/gallery/color/named_colors.html>`_
+                                                  and `repr <https://matplotlib.org/stable/tutorials/colors/colors.html>`_
+
+                                                | There are four options
+                                                | for the tuple
+
+                                                    | If as many or more
+                                                    | colors as slices
+                                                    | are passed,
+                                                    | each slice will
+                                                    | be plotted in the
+                                                    | specified color
+
+                                                    | Otherwise if
+                                                    | exactly 2 colors
+                                                    | are passed, the
+                                                    | slices will be
+                                                    | plotted with a
+                                                    | color gradient
+                                                    | consiting of the
+                                                    | two colors
+
+                                                    | If more than 2
+                                                    | colors are passed,
+                                                    | either the first
+                                                    | n_color slices will
+                                                    | be plotted in the
+                                                    | specified colors,
+                                                    | and the rest will
+                                                    | be plotted in the
+                                                    | default color 'blue',
+                                                    | or one can specify
+                                                    | certain slices to be
+                                                    | plotted in a certain
+                                                    | color by passing a
+                                                    | tuple of (ws, color)
+                                                    | pairs
+
+                                                    | Defaults to the tuple
+                                                    | ('green', 'red')
+
+                                        ``show_legend`` : ``bool``, optional
+
+                                                | Specifies wether or not
+                                                | a legend will be shown
+                                                | next to the plot
+
+                                                | The type of legend depends
+                                                | on the color options:
+                                                | If the slices are plotted
+                                                | with a color gradient,
+                                                | a ``matplotlib.colorbar.Colorbar``
+                                                | object will be created
+                                                | and assigned to ``ax``
+
+                                                | Otherwise a
+                                                | ``matplotlib.legend.Legend``
+                                                | will be created and
+                                                | assigned to ``ax``
+
+                                                | Default to ``True``
+
+                                        ``legend_kw`` : ``dict``, optional
+
+                                                | Keyword arguments to be
+                                                | passed to either the
+                                                | ``matplotlib.colorbar.Colorbar``
+                                                | or ``matplotlib.legend.Legend``
+                                                | classes to change position
+                                                | and appearence of the legend
+
+                                                | Will only be used if
+                                                | 'show_legend=True'
+
+                                                | If noting is passed,
+                                                | it will default to ``{}``
+
+                                        ``plot_kw`` : Keyword arguments
+
+                                                | Keyword arguments that will
+                                                | be passed to the
+                                                | ``matplotlib.axes.Axes.plot``
+                                                | function, to change certain
+                                                | appearences of the plot
+
+
+                    ``PolarDiagramCurve``.\ **flat_plot**\ (``self,``
+
+                    ``ws_range=(0, 20, 5), ax=None,colors=('green', 'red'),``
+
+                    ``show_legend=True, legend_kw=None, **plot_kw``)
+
+                            | Creates a cartesian plot
+                            | of multiple slices of
+                            | the polar diagram
+
+                            Parameters :
+                                        ``ws_range`` : ``tuple`` of length 3 or ``list``, optional
+
+                                                | Slices of the polar diagram
+                                                | given either as a
+                                                | tuple of three values,
+                                                | which will be interpreted
+                                                | as a start and end point
+                                                | of an interval aswell as
+                                                | a numbero of slices,
+                                                | which will be evenly
+                                                | spaces in the given
+                                                | interval, or a list of
+                                                | specific wind speed values
+
+                                                | Defaults to (0, 20, 5)
+
+                                        ``ax`` : ``matplotlib.axes.Axes``, optional
+
+                                                | Axes instance where the plot
+                                                | will be created
+
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
+
+                                        ``colors`` : ``Iterable``, optional
+
+                                                | Specifies the colors to
+                                                | be used for the different
+                                                | slices.
+
+                                                | Accepts all colors and
+                                                | representations as given
+                                                | in `colors <https://matplotlib.org/stable/gallery/color/named_colors.html>`_
+                                                  and `repr <https://matplotlib.org/stable/tutorials/colors/colors.html>`_
+
+                                                | There are four options
+                                                | for the tuple
+
+                                                    | If as many or more
+                                                    | colors as slices
+                                                    | are passed,
+                                                    | each slice will
+                                                    | be plotted in the
+                                                    | specified color
+
+                                                    | Otherwise if
+                                                    | exactly 2 colors
+                                                    | are passed, the
+                                                    | slices will be
+                                                    | plotted with a
+                                                    | color gradient
+                                                    | consiting of the
+                                                    | two colors
+
+                                                    | If more than 2
+                                                    | colors are passed,
+                                                    | either the first
+                                                    | n_color slices will
+                                                    | be plotted in the
+                                                    | specified colors,
+                                                    | and the rest will
+                                                    | be plotted in the
+                                                    | default color 'blue',
+                                                    | or one can specify
+                                                    | certain slices to be
+                                                    | plotted in a certain
+                                                    | color by passing a
+                                                    | tuple of (ws, color)
+                                                    | pairs
+
+                                                    | Defaults to the tuple
+                                                    | ('green', 'red')
+
+                                        ``show_legend`` : ``bool``, optional
+
+                                                | Specifies wether or not
+                                                | a legend will be shown
+                                                | next to the plot
+
+                                                | The type of legend depends
+                                                | on the color options:
+                                                | If the slices are plotted
+                                                | with a color gradient,
+                                                | a ``matplotlib.colorbar.Colorbar``
+                                                | object will be created
+                                                | and assigned to ``ax``
+
+                                                | Otherwise a
+                                                | ``matplotlib.legend.Legend``
+                                                | will be created and
+                                                | assigned to ``ax``
+
+                                                | Default to ``True``
+
+                                        ``legend_kw`` : ``dict``, optional
+
+                                                | Keyword arguments to be
+                                                | passed to either the
+                                                | ``matplotlib.colorbar.Colorbar``
+                                                | or ``matplotlib.legend.Legend``
+                                                | classes to change position
+                                                | and appearence of the legend
+
+                                                | Will only be used if
+                                                | 'show_legend=True'
+
+                                                | If noting is passed,
+                                                | it will default to ``{}``
+
+                                        ``plot_kw`` : Keyword arguments
+
+                                                | Keyword arguments that will
+                                                | be passed to the
+                                                | ``matplotlib.axes.Axes.plot``
+                                                | function, to change certain
+                                                | appearences of the plot
+
+
+                    ``PolarDiagramCurve``.\ **plot_3d**\ (``self``
+
+                    ``ws_range=(0, 20, 100), ax=None,``
+
+                    ``colors=('blue', 'blue')``)
+
+                            | Creates a 3d plot
+                            | of a part of the
+                            | polar diagram
 
                             Parameters :
                                         ``ws_range`` : ``tuple`` of length 3, optional
 
-                                                | The range of wind speeds to be plotted,
-                                                | given as a lower and upper bound of the
-                                                | true wind speed  aswell as the amount of slices
+                                                | A region of the polar
+                                                | diagram given as a
+                                                | tuple of three values,
+                                                | which will be interpreted
+                                                | as a start and end point
+                                                | of an interval aswell as
+                                                | a number of samples in
+                                                | this interval. The more
+                                                | samples there are, the
+                                                | "smoother" the resulting
+                                                | plot will be
 
-                                        ``ax`` : ``matplotlib.axes.Axes``, optional
+                                                | Defaults to (0, 20, 100)
 
-                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
-                                                | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
-                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
-                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
-                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+                                        ``ax``: ``mpl_toolkits.mplot3d.axes3d.Axes3D``, optional
 
-                                        ``colors`` : ``Iterable``, optional
+                                                | Axes instance where the plot
+                                                | will be created.
 
-                                                | Specifies the colors to be used for the different slices
-                                                | If there are at most as many slices as colors, each slice will be
-                                                | plotted with the specified color
-                                                | If there are more slices than colors the function will either cycle
-                                                | through the specified colors until all slices have been plotted
-                                                | or if there are exactly two colors specified, the function will
-                                                | plot the slices with a color gradient using those two colors
-                                                | Elements of the ``Iterable`` can be of any type accepted by the
-                                                | ``matplotlib.colors``.\ **to_rgb** function, see
-                                                  `to_rgb <https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.to_rgb.html#matplotlib.colors.to_rgb>`_
-                                                  and `colors <https://matplotlib.org/stable/api/colors_api.html>`_
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
 
-                                        ``show_legend`` : ``bool``, optional
+                                        ``colors`` : ``tuple`` of length 2, optional
 
-                                                | Specifies wether or not a legend should be added to the plot.
-                                                | The type of legend depends on the amount of slices and colors.
-                                                | If ``colors`` is of length 2 and ``ws_range`` is of length
-                                                | greater 2, the legend will be a
-                                                | ``matplotlib.colorbar.``\ **Colorbar** instance, see
-                                                  `Colorbar <https://matplotlib.org/stable/api/colorbar_api.html#matplotlib.colorbar.Colorbar>`_
-                                                | If ``colors`` and ``ws_range`` are of the same length,
-                                                | the legend will be a ``matplotlib.legend.``\ **Legend** instance,
-                                                  see `Legend <https://matplotlib.org/stable/api/legend_api.html#matplotlib.legend.Legend>`_
+                                                | Colors which specify
+                                                | the color gradient with
+                                                | which the polar diagram
+                                                | will be plotted.
 
-                                        ``legend_kw`` : ``dict``, optional
+                                                | Accepts all colors and
+                                                | representations as given
+                                                | in `colors <https://matplotlib.org/stable/gallery/color/named_colors.html>`_
+                                                  and `repr <https://matplotlib.org/stable/tutorials/colors/colors.html>`_
 
-                                                | Keyword arguments to change the appearence and location of the
-                                                | legend
-                                                | Supports the same keyword arguments as either the
-                                                | ``matplotlib.axes.Axes.``\ **legend** function, see
-                                                  `legend <https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.legend.html#matplotlib-axes-axes-legend>`_
-                                                | or the ``matplotlib.pyplot``\ **colorbar** function, see
-                                                  `colorbar <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.colorbar.html>`_
+                                                | If no color gradient is
+                                                | desired, set both elements
+                                                | to the same color
 
-                                        ``plot_kw`` : Keyword arguments to change the appearence of the created plot.
-
-                                                | Supports the same keyword arguments as the
-                                                | ``matplotlib.pyplot``.\ **plot**-function
-                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
-                                                | it will default to '' (resp. 'o')
-                                                | If 'colors' (or 'c') is passed, it will be deleted. Use the
-                                                | parameters ``colors`` instead
-
-                            | Creates a color coded polar plot of multiple slices, given by ``wind_speed_range``
-                            | of the polar diagram, vie the ``matplotlib.pyplot``.\ **plot** function, see
-                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+                                                | Defaults to
+                                                | ('blue', 'blue')
 
 
-                    ``PolarDiagramCurve``.\ **flat_plot**\ (``ws_range=(0,20,5), ax=None,``
+                    ``PolarDiagramCurve``.\ **plot_color_gradient**\ (``self,``
 
-                    ``colors=('green', 'red'), show_legend=True, legend_kw=None, **plot_kw``)
+                    ``ws_range=(0, 20, 100), ax=None, colors=('green', 'red'),``
+
+                    ``marker=None, show_legend=True, **legend_kw``)
+
+                            | Creates a 'wind speed
+                            | vs. wind angle' color gradient
+                            | plot of a part of the
+                            | polar diagram with respect
+                            | to the respective boat speeds
 
                             Parameters :
-                                        ``ws_range`` : ``tuple`` of length 2 , optional
+                                        ``ws_range`` : ``tuple`` of length 3, optional
 
-                                                | The range of wind speeds to be plotted,
-                                                | given as a lower and upper bound of the
-                                                | true wind speed  aswell as the amount of slices
+                                                | A region of the polar
+                                                | diagram given as a
+                                                | tuple of three values,
+                                                | which will be interpreted
+                                                | as a start and end point
+                                                | of an interval aswell as
+                                                | a number of samples in
+                                                | this interval.
 
-                                        ``ax`` : ``matplotlib.axes.Axes``, optional
-
-                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
-                                                | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
-                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
-                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
-                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
-
-                                        ``colors`` : ``Iterable``, optional
-
-                                                | Specifies the colors to be used for the different slices
-                                                | If there are at most as many slices as colors, each slice will be
-                                                | plotted with the specified color
-                                                | If there are more slices than colors the function will either cycle
-                                                | through the specified colors until all slices have been plotted
-                                                | or if there are exactly two colors specified, the function will
-                                                | plot the slices with a color gradient using those two colors
-                                                | Elements of the ``Iterable`` can be of any type accepted by the
-                                                | ``matplotlib.colors``.\ **to_rgb** function, see
-                                                  `to_rgb <https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.to_rgb.html#matplotlib.colors.to_rgb>`_
-                                                  and `colors <https://matplotlib.org/stable/api/colors_api.html>`_
-
-                                        ``show_legend`` : ``bool``, optional
-
-                                                | Specifies wether or not a legend should be added to the plot.
-                                                | The type of legend depends on the amount of slices and colors.
-                                                | If ``colors`` is of length 2 and ``ws_range`` is of length
-                                                | greater 2, the legend will be a
-                                                | ``matplotlib.colorbar.``\ **Colorbar** instance, see
-                                                  `Colorbar <https://matplotlib.org/stable/api/colorbar_api.html#matplotlib.colorbar.Colorbar>`_
-                                                | If ``colors`` and ``ws_range`` are of the same length,
-                                                | the legend will be a ``matplotlib.legend.``\ **Legend** instance,
-                                                  see `Legend <https://matplotlib.org/stable/api/legend_api.html#matplotlib.legend.Legend>`_
-
-                                        ``legend_kw`` : ``dict``, optional
-
-                                                | Keyword arguments to change the appearence and location of the
-                                                | legend
-                                                | Supports the same keyword arguments as either the
-                                                | ``matplotlib.axes.Axes.``\ **legend** function, see
-                                                  `legend <https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.legend.html#matplotlib-axes-axes-legend>`_
-                                                | or the ``matplotlib.pyplot``\ **colorbar** function, see
-                                                  `colorbar <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.colorbar.html>`_
-
-                                        ``plot_kw`` : Keyword arguments to change the appearence of the created plot.
-
-                                                | Supports the same keyword arguments as the
-                                                | ``matplotlib.pyplot``.\ **plot**-function
-                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
-                                                | it will default to '' (resp. 'o')
-                                                | If 'colors' (or 'c') is passed, it will be deleted. Use the
-                                                | parameters ``colors`` instead
-
-                            | Creates a color coded cartesian plot of multiple slices, given by ``wind_speed_range``,
-                            | of the polar diagram, via the ``matplotlib.pyplot``.\ **plot** function, see
-                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
-
-
-                    ``PolarDiagramCurve``.\ **plot_color_gradient**\ (``ws_range=(0,20), ax=None,``
-
-                    ``colors=('green', 'red'), marker=None, show_legend=True, **legend_kw``)
-
-                            Parameters :
-                                        ``ws_range`` : ``tuple`` of length 2, optional
-
-                                                | The range of wind speeds to be plotted, given as a lower and upper
-                                                | bound of the true wind speed
+                                                | Defaults to (0, 20, 100)
 
                                         ``ax`` : ``matplotlib.axes.Axes``, optinal
 
-                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
-                                                | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
-                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
-                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
-                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+                                                | Axes instance where the plot
+                                                | will be created
 
-                                        ``colors`` : ``tuple`` of length 2
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
 
-                                        ``marker`` : ``matplotlib.markers.Markerstyle``, optional
+                                        ``colors`` : ``tuple`` of length 2, optional
 
-                                                | Specifies the style of the markers in the plot
-                                                | For all possible styles, see `marker <https://matplotlib.org/stable/api/markers_api.html#module-matplotlib.markers>`_
-                                                | Defaults to 'o'
+                                                | Colors which specify
+                                                | the color gradient with
+                                                | which the polar diagram
+                                                | will be plotted.
+
+                                                | Accepts all colors and
+                                                | representations as given
+                                                | in `colors <https://matplotlib.org/stable/gallery/color/named_colors.html>`_
+                                                  and `repr <https://matplotlib.org/stable/tutorials/colors/colors.html>`_
+
+                                                | Defaults to
+                                                | ('green', 'red')
+
+                                        ``marker`` : ``matplotlib.markers.Markerstyleor`` equivalent, optional
+
+                                                | Markerstyle for the
+                                                | created scatter plot
+
+                                                | If nothing is passed,
+                                                | it will default to 'o'
 
                                         ``show_legend`` : ``bool``, optional
 
-                                                | Specifies wether or not a legend should be added to the plot.
-                                                | Legend will be a ``matplotlib.colorbar.``\ **Colorbar** instance,
-                                                  see `Colorbar <https://matplotlib.org/stable/api/colorbar_api.html#matplotlib.colorbar.Colorbar>`_
+                                                | Specifies wether or not
+                                                | a legend will be shown
+                                                | next to the plot
+
+                                                | Legend will be a
+                                                | ``matplotlib.colorbar.Colorbar``
+                                                | object.
+
+                                                | Defaults to ``True``
 
 
-                                        ``legend_kw`` : Keyword arguments to change the appearence and position of the legend
+                                        ``legend_kw`` : Keyword arguments
 
-                                                | Supports the same keyword arguments as the
-                                                | ``matplotlib.pyplot``\ **colorbar** function, see
-                                                  `colorbar <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.colorbar.html>`_
+                                                | Keyword arguments to be
+                                                | passed to the
+                                                | ``matplotlib.colorbar.Colorbar``
+                                                | class to change position
+                                                | and appearence of the legend
+
+                                                | Will only be used if
+                                                | 'show_legend=True'
 
 
                     ``PolarDiagramCurve``.\ **plot_convex_hull_slice**\ (``ws, ax=None **plot_kw``)
 
+                            | Computes the convex hull
+                            | of a slice (column) of
+                            | the polar diagram and
+                            | creates a polar plot
+                            | of it
+
                             Parameters :
                                         ``ws`` : ``int`` or ``float``
 
-                                                | A slice of the polar diagram that is to be plotted, given as the
-                                                | true wind speed
+                                                | Slice of the polar diagram,
+                                                | given as a single wind speed
+
+                                                | Slice then equals ``self(ws, wa)``
+                                                | where wa will go through
+                                                | several wind angles
 
                                         ``ax`` : ``matplotlib.axes.Axes``, optional
 
-                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
-                                                | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
-                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
-                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
-                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+                                                | Axes instance where the plot
+                                                | will be created.
 
-                                        ``plot_kw`` : Keyword arguments to change the appearence of the created plot.
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
 
-                                                | Supports the same keyword arguments as the
-                                                | ``matplotlib.pyplot``.\ **plot**-function
+                                        ``plot_kw`` : Keyword arguments
 
-                            | Computes the convex hull of a given slice of the polar diagram table, via the
-                            | ``scipy.spatial``.\ **ConvexHull** function, see
-                              `ConvexHull <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.ConvexHull.html>`_
-                            | and then creates a polar plot of the convex hull, via the ``matplotlib.pyplot``.\ **plot**
-                            | function, see `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+                                                | Keyword arguments that will
+                                                | be passed to the
+                                                | ``matplotlib.axes.Axes.plot``
+                                                | function, to change certain
+                                                | appearences of the plot
 
 
 
-    ``hrosailing.polar_diagram``.\ **PolarDiagramPointcloud**\ (``points=None, tws=True, twa=True``)
+    ``polar_diagram``.\ **PolarDiagramPointcloud**\ (``points=None, tw=True``)
 
-            | A class to present, visualize and work with a polar performance diagram
-            | in form of a point cloud
+            | A class to represent, visualize
+            | and work with a polar diagram
+            | given by a point cloud
 
-            | The parameter ``points`` should be ``array_like`` of shape (_, 3) and determines
-            | the points that are in the point cloud at the beginning
-            | A point should be of length 3 such that the first entry corresponds to
-            | the wind speed, the second to the wind angle and the last to the boat speed
+            Parameters :
+                        ``points`` : array_like, optional
 
-            | If no ``points`` are passed, it will default to an empty array numpy.array([])
+                                | Initial points of the
+                                | point cloud, given
+                                | as a sequence of points
+                                | consisting of wind speed,
+                                | wind angle and boat speed
 
-            | The parameter ``tws`` (resp. ``twa``) specifies wether or not the wind speeds
-            | (resp. wind angles) given in ``points`` should be viewed as true wind
+                                | If nothing is passed,
+                                | point cloud will be
+                                | initialized with an
+                                | empty array
 
-            | If ``tws`` (resp. ``twa``) is set to *False*, the wind speeds (resp. wind angles)
-              will be converted into true wind
+                        ``tw`` : ``bool``, optional
+
+                                | Specifies if the
+                                | given wind data should
+                                | be viewed as true wind
+
+                                | If ``False``, wind data
+                                | will be converted
+                                | to true wind
+
+                                | Defaults to ``True``
+
+            | Raises an exception
+            | if ``points`` can't
+            | be broadcasted to a
+            | fitting shape
 
 
-            | The **PolarDiagramPointcloud** class has to following (private) attributes:
-
-                    | *_data*
-
-
-            | The **PolarDiagramPointcloud** class defines the following dunder methods:
-
-                    ``PolarDiagramPointcloud``.\ **__str__**\ ()
-
-
-                    ``PolarDiagramPointcloud``.\ **__repr__**\ ()
-
-
-            | The **PolarDiagramPointcloud** class defines the following public methods:
-
-
+            Methods :
                     ``PolarDiagramPointcloud``.\ **wind_speeds**
 
-                             | Returns a list of all occuring wind speeds
+                            | Returns a list of all the different
+                            | wind speeds in the point cloud
 
 
                     ``PolarDiagramPointcloud``.\ **wind_angles**
 
-                            | Returns a list of all occuring wind angles
+                            | Returns a list of all the different
+                            | wind angles in the point cloud
 
 
                     ``PolarDiagramPointcloud``.\ **points**
 
-                            | Returns a read only version of ``self``.\ *_data*
+                            | Returns a read only version of
+                            | ``self``.\ *_data*
 
 
-                    ``PolarDiagramPointcloud``.\ **to_csv**\ (``csv_path``)
+                    ``PolarDiagramPointcloud``.\ **to_csv**\ (``self, csv_path``)
+
+                            | Creates a .csv file with
+                            | delimiter ',' and the
+                            | following format
+
+                                | PolarDiagramPointcloud
+                                | True wind speed ,True wind angle ,Boat speed
+                                | ``self``.\ **points**
 
                             Parameters :
                                         ``csv_path`` : ``string``
 
-                                                | Path to an existing .csv file or where the created .csv file will be located
+                                                | Path where a .csv file is
+                                                | located or where a new
+                                                | .csv file will be created
 
-                            | Creates or overwrites a .csv file with the class data of object
-                            | which called the function via the ``csv``.\ **writer**-class,
-                            | see `writer <https://docs.python.org/3/library/csv.html#csv.writer>`_.
-
-                            | The format of the .csv file will be as follows:
-
-                                | PolarDiagramPointcloud
-                                | True Wind Speed ,True Wind Angle ,Boat Speed
-                                | self.points
-
-                            | with the delimiter ','
+                            | Raises an exception if
+                            | file can't be written to
 
 
-                    ``PolarDiagramPointcloud``.\ **add_points**\ (``new_points, tws=True, twa=True``)
+                    ``PolarDiagramPointcloud``.\ **add_points**\ (``self,``
+
+                    ``new_points, tw=True``)
+
+                            | Adds additional points
+                            | to the point cloud
 
                             Parameters :
-                                        ``new_points`` : ``array_like`` of shape (_, 3)
+                                        ``new_points`` : ``array_like``
 
-                                                | New points that are to be added to the point cloud. The point should
-                                                | be of length 3, with the first entry being the wind speed,
-                                                | the second being the wind angle and the last being the boat speed
+                                                | New points to be added to
+                                                | the point cloud given as
+                                                | a sequence of points
+                                                | consisting of wind speed,
+                                                | wind angel and boat speed
 
-                                        ``tws`` : ``bool``
+                                        ``tw`` : ``bool``, optional
 
-                                                | Specifies wether or not the wind speeds are to be viewed as true wind
-                                                | If set to *False*, the given wind speeds will be converted to true wind
+                                                | Specifies if the
+                                                | given wind data should
+                                                | be viewed as true wind
 
-                                        ``twa`` : ``bool``
+                                                | If ``False``, wind data
+                                                | will be converted
+                                                | to true wind
 
-                                                | Specifies wether or not the wind angles are to be viewed as true wind
-                                                | If set to *False*, the given wind angles will be converted to true wind
+                                                | Defaults to ``True``
+
+                            | Raises an exception
+                            | if ``new_points`` can't
+                            | be broadcasted to a
+                            | fitting shape
 
 
-                    ``PolarDiagramPointcloud``.\ **change_points**\ ()
+                    ``PolarDiagramPointcloud``.\ **polar_plot_slice**\ (``self,``
 
-                            Parameters :
+                    ``ws, ax=None, **plot_kw``)
 
-
-                    ``PolarDiagramPointcloud``.\ **polar_plot_slice**\ (``ws, ax=None, **plot_kw``)
+                            | Creates a polar plot
+                            | of a given slice of
+                            | the polar diagram
 
                             Parameters :
                                         ``ws`` : ``int`` or ``float``
 
-                                                | A slice of the polar diagram that is to be plotted, given as the
-                                                | true wind speed
+                                                | Slice of the polar diagram
+                                                | given by a single wind speed
 
-                                        ``ax`` : ``matplotlib.axes.Axes``, optional
+                                                | Slice then consists of all
+                                                | the points in the point
+                                                | cloud with wind speed ws
 
-                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
-                                                | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
-                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
-                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
-                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+                                        ``ax`` : ``matplotlib.projections.polar.PolarAxes``, optional
 
-                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot.
+                                                | Axes instance where the plot
+                                                | will be created.
 
-                                                | Supports the same keyword arguments as the
-                                                | ``matplotlib.pyplot``.\ **plot**-function
-                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
-                                                | it will default to '' (resp. 'o')
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
+
+                                        ``plot_kw`` : Keyword arguments
+
+                                                | Keyword arguments that will
+                                                | be passed to the
+                                                | matplotlib.axes.Axes.plot
+                                                | function, to change certain
+                                                | appearences of the plot
+
+                            | Raises an exception
+                            | if there are no points
+                            | in the given slice
+                            | in the point cloud
 
 
                     ``PolarDiagramPointcloud``.\ **flat_plot_slice**\ (``ws, ax=None, **plot_kw``)
 
+                            | Creates a cartesian plot
+                            | of a given slice of
+                            | the polar diagram
+
                             Parameters :
                                         ``ws`` : ``int`` or ``float``
 
-                                                | A slice of the polar diagram that is to be plotted, given as the
-                                                | true wind speed
+                                                | Slice of the polar diagram
+                                                | given by a single wind speed
+
+                                                | Slice then consists of all
+                                                | the points in the point
+                                                | cloud with wind speed ws
 
                                         ``ax`` : ``matplotlib.axes.Axes``, optional
 
-                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
-                                                | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
-                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
-                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
-                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+                                                | Axes instance where the plot
+                                                | will be created.
 
-                                        ``kwargs`` : Keyword arguments to change the appearence of the created plot.
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
 
-                                                | Supports the same keyword arguments as the
-                                                | ``matplotlib.pyplot``.\ **plot**-function
-                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
-                                                | it will default to '' (resp. 'o')
+                                        ``plot_kw`` : Keyword arguments
 
-                            | Creates a cartesian plot of a given slice of the polar diagram, via the
-                            | ``matplotlib.pyplot``.\ **plot** function, see
-                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+                                                | Keyword arguments that will
+                                                | be passed to the
+                                                | matplotlib.axes.Axes.plot
+                                                | function, to change certain
+                                                | appearences of the plot
+
+                            | Raises an exception
+                            | if there are no points
+                            | in the given slice
+                            | in the point cloud
 
 
-                    ``PolarDiagramPointcloud``.\ **polar_plot**\ (``ws_range=(0, numpy.inf),``
+                    ``PolarDiagramPointcloud``.\ **polar_plot**\ (``self,``
 
-                    ``ax=None, colors=('green', 'red'), show_legend=True, legend_kw=None, **plot_kw``)
+                    ``ws_range=(0, numpy.inf), ax=None, colors=('green', 'red'),``
+
+                    ``show_legend=True, legend_kw=None, **plot_kw``)
+
+                            | Creates a polar plot
+                            | of multiple slices of
+                            | the polar diagram
 
                             Parameters :
-                                        ``ws_range`` : ``tuple`` of length 2, optional
+                                        ``ws_range`` : ``tuple`` of length 2 or ``list``, optional
 
-                                                | The range of wind speeds to be plotted, given as a lower and upper
-                                                | bound of the true wind speed
+                                                | Slices of the polar diagram
+                                                | given as either a tuple of
+                                                | two values which will be
+                                                | interpreted as a lower
+                                                | and upper bound of the
+                                                | wind speed, such that all
+                                                | slices with a wind speed
+                                                | that fits within these
+                                                | bounds will be plotted,
+                                                | or a list of specific
+                                                | wind speed values / slices
+                                                | which will be plotted
 
-                                        ``ax`` : ``matplotlib.axes.Axes``, optional
+                                                | Defaults to (0, np.inf)
 
-                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
-                                                | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
-                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
-                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
-                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+                                        ``ax`` : ``matplotlib.projections.polar.PolarAxes``, optional
 
-                                        ``colors`` : ``Iterable``, optional
+                                                | Axes instance where the plot
+                                                | will be created.
 
-                                                | Specifies the colors to be used for the different slices
-                                                | If there are at most as many slices as colors, each slice will be
-                                                | plotted with the specified color
-                                                | If there are more slices than colors the function will either cycle
-                                                | through the specified colors until all slices have been plotted
-                                                | or if there are exactly two colors specified, the function will
-                                                | plot the slices with a color gradient using those two colors
-                                                | Elements of the ``Iterable`` can be of any type accepted by the
-                                                | ``matplotlib.colors``.\ **to_rgb** function, see
-                                                  `to_rgb <https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.to_rgb.html#matplotlib.colors.to_rgb>`_
-                                                  and `colors <https://matplotlib.org/stable/api/colors_api.html>`_
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
+
+                                        ``colors`` : ``tuple``, optional
+
+                                                | Specifies the colors to
+                                                | be used for the different
+                                                | slices.
+
+                                                | Accepts all colors and
+                                                | representations as given
+                                                | in `colors <https://matplotlib.org/stable/gallery/color/named_colors.html>`_
+                                                  and `repr <https://matplotlib.org/stable/tutorials/colors/colors.html>`_
+
+                                                | There are four options
+                                                | for the tuple
+
+                                                    | If as many or more
+                                                    | colors as slices
+                                                    | are passed,
+                                                    | each slice will
+                                                    | be plotted in the
+                                                    | specified color
+
+                                                    | Otherwise if
+                                                    | exactly 2 colors
+                                                    | are passed, the
+                                                    | slices will be
+                                                    | plotted with a
+                                                    | color gradient
+                                                    | consiting of the
+                                                    | two colors
+
+                                                    | If more than 2
+                                                    | colors are passed,
+                                                    | either the first
+                                                    | n_color slices will
+                                                    | be plotted in the
+                                                    | specified colors,
+                                                    | and the rest will
+                                                    | be plotted in the
+                                                    | default color 'blue',
+                                                    | or one can specify
+                                                    | certain slices to be
+                                                    | plotted in a certain
+                                                    | color by passing a
+                                                    | tuple of (ws, color)
+                                                    | pairs
+
+                                                    | Defaults to the tuple
+                                                    | ('green', 'red')
 
                                         ``show_legend`` : ``bool``, optional
 
-                                                | Specifies wether or not a legend should be added to the plot.
-                                                | The type of legend depends on the amount of slices and colors.
-                                                | If ``colors`` is of length 2 and ``ws_range`` is of length
-                                                | greater 2, the legend will be a
-                                                | ``matplotlib.colorbar.``\ **Colorbar** instance, see
-                                                  `Colorbar <https://matplotlib.org/stable/api/colorbar_api.html#matplotlib.colorbar.Colorbar>`_
-                                                | If ``colors`` and ``ws_range`` are of the same length,
-                                                | the legend will be a ``matplotlib.legend.``\ **Legend** instance,
-                                                  see `Legend <https://matplotlib.org/stable/api/legend_api.html#matplotlib.legend.Legend>`_
+                                                | Specifies wether or not
+                                                | a legend will be shown
+                                                | next to the plot
+
+                                                | The type of legend depends
+                                                | on the color options:
+                                                | If the slices are plotted
+                                                | with a color gradient,
+                                                | a ``matplotlib.colorbar.Colorbar``
+                                                | object will be created
+                                                | and assigned to ``ax``
+
+                                                | Otherwise a
+                                                | ``matplotlib.legend.Legend``
+                                                | will be created and
+                                                | assigned to ``ax``
+
+                                                | Default to ``True``
 
                                         ``legend_kw`` : ``dict``, optional
 
-                                                | Keyword arguments to change the appearence and location of the
-                                                | legend
-                                                | Supports the same keyword arguments as either the
-                                                | ``matplotlib.axes.Axes.``\ **legend** function, see
-                                                  `legend <https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.legend.html#matplotlib-axes-axes-legend>`_
-                                                | or the ``matplotlib.pyplot``\ **colorbar** function, see
-                                                  `colorbar <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.colorbar.html>`_
+                                                | Keyword arguments to be
+                                                | passed to either the
+                                                | ``matplotlib.colorbar.Colorbar``
+                                                | or ``matplotlib.legend.Legend``
+                                                | classes to change position
+                                                | and appearence of the legend
 
-                                        ``plot_kw`` : Keyword arguments to change the appearence of the created plot.
+                                                | Will only be used if
+                                                | 'show_legend=True'
 
-                                                | Supports the same keyword arguments as the
-                                                | ``matplotlib.pyplot``.\ **plot**-function
-                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
-                                                | it will default to '' (resp. 'o')
-                                                | If 'colors' (or 'c') is passed, it will be deleted. Use the
-                                                | parameters ``colors`` instead
+                                                | If noting is passed,
+                                                | it will default to ``{}``
 
-                            | Creates a color coded polar plot of multiple slices, given by ``wind_speed_range``
-                            | of the polar diagram, vie the ``matplotlib.pyplot``.\ **plot** function, see
-                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+                                        ``plot_kw`` : Keyword arguments
+
+                                                | Keyword arguments that will
+                                                | be passed to the
+                                                | ``matplotlib.axes.Axes.plot``
+                                                | function, to change certain
+                                                | appearences of the plot
+
+                            | Raises an exception
+                            | if ``ws_range`` is
+                            | a list and there is
+                            | a wind_speed in ``ws_range``
+                            | such that there are no
+                            | points in the given slice
+                            | in the point cloud
 
 
-                    ``PolarDiagramPointcloud``.\ **flat_plot**\ (``ws_range=(0, numpy.inf),``
+                    ``PolarDiagramPointcloud``.\ **flat_plot**\ (``self,``
 
-                    ``ax=None, colors=('green', 'red'), show_legend=True, legend_kw=None, **plot_kw``)
+                    ``ws_range=(0, numpy.inf), ax=None, colors=('green', 'red'),``
+
+                    ``show_legend=True, legend_kw=None, **plot_kw``)
 
                             Parameters :
-                                        ``ws_range`` : ``tuple`` of length 2, optional
+                                        ``ws_range`` : ``tuple`` of length 2 or ``list``, optional
 
-                                                | The range of wind speeds to be plotted, given as a lower and upper
-                                                | bound of the true wind speed
+                                                | Slices of the polar diagram
+                                                | given as either a tuple of
+                                                | two values which will be
+                                                | interpreted as a lower
+                                                | and upper bound of the
+                                                | wind speed, such that all
+                                                | slices with a wind speed
+                                                | that fits within these
+                                                | bounds will be plotted,
+                                                | or a list of specific
+                                                | wind speed values / slices
+                                                | which will be plotted
+
+                                                | Defaults to (0, np.inf)
 
                                         ``ax`` : ``matplotlib.axes.Axes``, optional
 
-                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
-                                                | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
-                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
-                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
-                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+                                                | Axes instance where the plot
+                                                | will be created.
 
-                                        ``colors`` : ``Iterable``, optional
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
 
-                                                | Specifies the colors to be used for the different slices
-                                                | If there are at most as many slices as colors, each slice will be
-                                                | plotted with the specified color
-                                                | If there are more slices than colors the function will either cycle
-                                                | through the specified colors until all slices have been plotted
-                                                | or if there are exactly two colors specified, the function will
-                                                | plot the slices with a color gradient using those two colors
-                                                | Elements of the ``Iterable`` can be of any type accepted by the
-                                                | ``matplotlib.colors``.\ **to_rgb** function, see
-                                                  `to_rgb <https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.to_rgb.html#matplotlib.colors.to_rgb>`_
-                                                  and `colors <https://matplotlib.org/stable/api/colors_api.html>`_
+                                        ``colors`` : ``tuple``, optional
+
+                                                | Specifies the colors to
+                                                | be used for the different
+                                                | slices.
+
+                                                | Accepts all colors and
+                                                | representations as given
+                                                | in `colors <https://matplotlib.org/stable/gallery/color/named_colors.html>`_
+                                                  and `repr <https://matplotlib.org/stable/tutorials/colors/colors.html>`_
+
+                                                | There are four options
+                                                | for the tuple
+
+                                                    | If as many or more
+                                                    | colors as slices
+                                                    | are passed,
+                                                    | each slice will
+                                                    | be plotted in the
+                                                    | specified color
+
+                                                    | Otherwise if
+                                                    | exactly 2 colors
+                                                    | are passed, the
+                                                    | slices will be
+                                                    | plotted with a
+                                                    | color gradient
+                                                    | consiting of the
+                                                    | two colors
+
+                                                    | If more than 2
+                                                    | colors are passed,
+                                                    | either the first
+                                                    | n_color slices will
+                                                    | be plotted in the
+                                                    | specified colors,
+                                                    | and the rest will
+                                                    | be plotted in the
+                                                    | default color 'blue',
+                                                    | or one can specify
+                                                    | certain slices to be
+                                                    | plotted in a certain
+                                                    | color by passing a
+                                                    | tuple of (ws, color)
+                                                    | pairs
+
+                                                    | Defaults to the tuple
+                                                    | ('green', 'red')
 
                                         ``show_legend`` : ``bool``, optional
 
-                                                | Specifies wether or not a legend should be added to the plot.
-                                                | The type of legend depends on the amount of slices and colors.
-                                                | If ``colors`` is of length 2 and ``ws_range`` is of length
-                                                | greater 2, the legend will be a
-                                                | ``matplotlib.colorbar.``\ **Colorbar** instance, see
-                                                  `Colorbar <https://matplotlib.org/stable/api/colorbar_api.html#matplotlib.colorbar.Colorbar>`_
-                                                | If ``colors`` and ``ws_range`` are of the same length,
-                                                | the legend will be a ``matplotlib.legend.``\ **Legend** instance,
-                                                  see `Legend <https://matplotlib.org/stable/api/legend_api.html#matplotlib.legend.Legend>`_
+                                                | Specifies wether or not
+                                                | a legend will be shown
+                                                | next to the plot
+
+                                                | The type of legend depends
+                                                | on the color options:
+                                                | If the slices are plotted
+                                                | with a color gradient,
+                                                | a ``matplotlib.colorbar.Colorbar``
+                                                | object will be created
+                                                | and assigned to ``ax``
+
+                                                | Otherwise a
+                                                | ``matplotlib.legend.Legend``
+                                                | will be created and
+                                                | assigned to ``ax``
+
+                                                | Default to ``True``
 
                                         ``legend_kw`` : ``dict``, optional
 
-                                                | Keyword arguments to change the appearence and location of the
-                                                | legend
-                                                | Supports the same keyword arguments as either the
-                                                | ``matplotlib.axes.Axes.``\ **legend** function, see
-                                                  `legend <https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.legend.html#matplotlib-axes-axes-legend>`_
-                                                | or the ``matplotlib.pyplot``\ **colorbar** function, see
-                                                  `colorbar <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.colorbar.html>`_
+                                                | Keyword arguments to be
+                                                | passed to either the
+                                                | ``matplotlib.colorbar.Colorbar``
+                                                | or ``matplotlib.legend.Legend``
+                                                | classes to change position
+                                                | and appearence of the legend
 
-                                        ``plot_kw`` : Keyword arguments to change the appearence of the created plot.
+                                                | Will only be used if
+                                                | 'show_legend=True'
 
-                                                | Supports the same keyword arguments as the
-                                                | ``matplotlib.pyplot``.\ **plot**-function
-                                                | However if no 'linestyle' (resp. 'markerstyle') is passed
-                                                | it will default to '' (resp. 'o')
-                                                | If 'colors' (or 'c') is passed, it will be deleted. Use the
-                                                | parameters ``colors`` instead
+                                                | If noting is passed,
+                                                | it will default to ``{}``
 
-                            | Creates a color coded cartesian plot of multiple slices, given by ``wind_speed_range``,
-                            | of the polar diagram, via the ``matplotlib.pyplot``.\ **plot** function, see
-                              `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+                                        ``plot_kw`` : Keyword arguments
+
+                                                | Keyword arguments that will
+                                                | be passed to the
+                                                | ``matplotlib.axes.Axes.plot``
+                                                | function, to change certain
+                                                | appearences of the plot
+
+                            | Raises an exception
+                            | if ``ws_range`` is
+                            | a list and there is
+                            | a wind_speed in ``ws_range``
+                            | such that there are no
+                            | points in the given slice
+                            | in the point cloud
 
 
-                    ``PolarDiagramPointcloud``.\ **plot_color_gradient**\ (``ax=None, colors=('green', 'red'),``
+                    ``PolarDiagramPointcloud``\. **plot_3d**\ (``self, ax=None,``
 
-                    ``marker=None, show_legend=True, **legend_kw``):
+                    ``**plot_kw``)
+
+                            | Creates a 3d plot
+                            | of the polar diagram
+
+                            Parameters :
+                                        ``ax`` : ``mpl_toolkits.mplot3d.axes3d.Axes3D``, optional
+
+                                                | Axes instance where the plot
+                                                | will be created.
+
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
+
+                                        ``plot_kw`` : Keyword arguments
+
+                                                | Keyword arguments that will
+                                                | be passed to the
+                                                | ``matplotlib.axes.Axes.plot``
+                                                | function, to change certain
+                                                | appearences of the plot
+
+
+                    ``PolarDiagramPointcloud``.\ **plot_color_gradient**\ (``self,``
+
+                    ``ax=None, colors=('green', 'red'), marker=None,``
+
+                    ``show_legend=True, **legend_kw``):
+
+                            | Creates a 'wind speed
+                            | vs. wind angle' color gradient
+                            | plot of the polar diagram
+                            | with respect to the
+                            | respective boat speeds
 
                             Parameters :
                                         ``ax`` : ``matplotlib.axes.Axes``, optional
 
-                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
-                                                | Needs to be a ``matplotlib.axes._subplots.AxesSubplot``
-                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
-                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
-                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+                                                | Axes instance where the plot
+                                                | will be created.
 
-                                        ``colors`` : ``tuple`` of length 2
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
 
-                                        ``marker`` : ``matplotlib.markers.Markerstyle``, optional
+                                        ``colors`` : ``tuple`` of length 2, optional
 
-                                                | Specifies the style of the markers in the plot
-                                                | For all possible styles, see `marker <https://matplotlib.org/stable/api/markers_api.html#module-matplotlib.markers>`_
-                                                | Defaults to 'o'
+                                                | Colors which specify
+                                                | the color gradient with
+                                                | which the polar diagram
+                                                | will be plotted.
+
+                                                | Accepts all colors and
+                                                | representations as given
+                                                | in `colors <https://matplotlib.org/stable/gallery/color/named_colors.html>`_
+                                                  and `repr <https://matplotlib.org/stable/tutorials/colors/colors.html>`_
+
+                                                | Defaults to
+                                                | ('green', 'red')
+
+                                        ``marker`` : ``matplotlib.markers.Markerstyleor`` equivalent, optional
+
+                                                | Markerstyle for the
+                                                | created scatter plot
+
+                                                | If nothing is passed,
+                                                | it will default to 'o'
 
                                         ``show_legend`` : ``bool``, optional
 
-                                                | Specifies wether or not a legend should be added to the plot.
-                                                | Legend will be a ``matplotlib.colorbar.``\ **Colorbar** instance,
-                                                  see `Colorbar <https://matplotlib.org/stable/api/colorbar_api.html#matplotlib.colorbar.Colorbar>`_
+                                                | Specifies wether or not
+                                                | a legend will be shown
+                                                | next to the plot
+
+                                                | Legend will be a
+                                                | ``matplotlib.colorbar.Colorbar``
+                                                | object.
+
+                                                | Defaults to ``True``
 
 
-                                        ``legend_kw`` : Keyword arguments to change the appearence and position of the legend
+                                        ``legend_kw`` : Keyword arguments
 
-                                                | Supports the same keyword arguments as the
-                                                | ``matplotlib.pyplot``\ **colorbar** function, see
-                                                  `colorbar <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.colorbar.html>`_
+                                                | Keyword arguments to be
+                                                | passed to the
+                                                | ``matplotlib.colorbar.Colorbar``
+                                                | class to change position
+                                                | and appearence of the legend
+
+                                                | Will only be used if
+                                                | 'show_legend=True'
 
 
                     ``PolarDiagramPointcloud``.\ **plot_convex_hull_slice**\ (``ws, ax=None, **plot_kw``)
 
+                            | Computes the convex
+                            | hull of a slice of
+                            | the polar diagram and
+                            | creates a polar plot
+                            | of it
+
                             Parameters :
                                         ``ws`` : ``int`` or ``float``
 
-                                                | A slice of the polar diagram that is to be plotted, given as the
-                                                | true wind speed
+                                                | Slice of the polar diagram
+                                                | given by a single wind speed
 
-                                        ``ax`` : ``matplotlib.axes.Axes``, optional
+                                                | Slice then consists of all
+                                                | the points in the point
+                                                | cloud with wind speed ws
 
-                                                | A ``matplotlib.axes.Axes`` instance on which will be plotted on
-                                                | Needs to be a ``matplotlib.axes_subplots.PolarAxesSubplot``
-                                                | If nothing is passed, the function will create a ``matplotlib.axes.Axes``
-                                                | instance via the ``matplotlib.pyplot``.\ **gca** function,
-                                                  see `gca <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.gca.html>`_
+                                        ``ax`` : ``matplotlib.projections.polar.PolarAxes``, optional
 
-                                        ``plot_kw`` : Keyword arguments to change the appearence of the created plot.
+                                                | Axes instance where the plot
+                                                | will be created.
 
-                                                | Supports the same keyword arguments as the
-                                                | ``matplotlib.pyplot``.\ **plot**-function
+                                                | If nothing is passed,
+                                                | the function will
+                                                | create a suitable axes
 
-                            | Computes the convex hull of a given slice of the polar diagram table, via the
-                            | ``scipy.spatial``.\ **ConvexHull** function, see
-                              `ConvexHull <https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.ConvexHull.html>`_
-                            | and then creates a polar plot of the convex hull, via the ``matplotlib.pyplot``.\ **plot**
-                            | function, see `plot <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html>`_
+                                        ``plot_kw`` : Keyword arguments
 
+                                                | Keyword arguments that will
+                                                | be passed to the
+                                                | matplotlib.axes.Axes.plot
+                                                | function, to change certain
+                                                | appearences of the plot
 
-
-    ``hrosailing.data_processing``.\ **WeightedPoints**\ (``points, w_func=None,``
-
-    ``tws=True, twa=True, **w_func_kw``)
-
-
-            | The **WeightedPoints** class has to following (private) attributes:
-
-                    | *_points*
-
-                    | *_weights*
-
-
-            | The **WeightedPoints** class defines the following public methods
-
-
-                    ``WeightedPoints``.\ **points**
-
-                            | Returns a read only version of *_points*
-
-
-                    ``WeightedPoints``.\ *_weights**
-
-                            | Returns a read only version of *_weights*
-
-
-
-
-    ``hrosailing.data_processing``.\ **default_w_func**\ (``points, **w_func_kw``)
-
-            Parameters :
-                        ``points`` : ``numpy.ndarray`` of shape (n,3)
-
-                                |
-
-                        ``w_func_kw`` : Keyword arguments
-
-                                | The possible keyword arguments are
-
-                                    | st_point (``int``)    -
-                                    | outlier (``float``)   -
-
-            | The default w_func for the **WeightedPoints** class will give the
-            | Weight 1 to the first ``st_point`` Points.
-
-            | Then it will through the remaining points, calculating the
-            | standard deviation of the wind speed, wind angle and boat speed of
-            | the ``st_point`` points that come before, using the
-            | ``numpy``.\ **std** function, see
-              `std <https://numpy.org/doc/stable/reference/generated/numpy.std.html>`_
-
-            | It will then filter the occuring standard deviations by excluding
-            | the outermost ``outlier`` percent, by computing the associated
-            | empirical percentile.
-
-            | After that, the function gives the wind speeds, wind angles and
-            | boat speeds the weight 1/standardvariation^2, or 0 if they were
-            | filtered out.
-
-            | The weight of the points will then be the arithmetic mean
-            | of their respective wind speed, wind angle and boat speed
-
-            | At last the function will normalize the weights and return them.
+                            | Raises an exception
+                            | if there are no points
+                            | in the given slice
+                            | in the point cloud
