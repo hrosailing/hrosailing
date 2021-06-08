@@ -30,15 +30,14 @@ logger.setLevel(logging.INFO)
 
 def to_csv(csv_path, obj):
     """Calls the to_csv-method of
-    the PolarDiagram instance to
-    save instance in a .csv file
+    the PolarDiagram instance
 
     Parameters
     ----------
-    csv_path : ``string``
+    csv_path : string
         Path where a .csv-file is located or
         where a new .csv file will be created
-    obj : ``PolarDiagram``
+    obj : PolarDiagram
         PolarDiagram instance which will be
         written to .csv file
 
@@ -52,15 +51,15 @@ def to_csv(csv_path, obj):
 def from_csv(csv_path, fmt='hro', tw=True):
     """Reads a .csv file and
     returns the PolarDiagram
-    instance saved within it
+    instance contained in it
 
     Parameters
     ----------
-    csv_path : ``string``
+    csv_path : string
         Path to a .csv file
         which will be read
-    fmt : ``string``
-        "format" of the .csv file.
+    fmt : string
+        The "format" of the .csv file.
         Supported inputs are:
                 'hro' -> format created by
                 the to_csv-method of the
@@ -71,7 +70,7 @@ def from_csv(csv_path, fmt='hro', tw=True):
                 `OpenCPN Polar Plugin
                 <https://opencpn.org/OpenCPN/plugins/polar.html>`_
                 'array'
-    tw : ``bool``
+    tw : bool
         Specifies if wind
         data in file should
         be viewed as true wind
@@ -80,7 +79,7 @@ def from_csv(csv_path, fmt='hro', tw=True):
 
     Returns
     -------
-    _ :``PolarDiagram``
+    _ :PolarDiagram
         PolarDiagram instance
         saved in .csv file
 
@@ -135,15 +134,14 @@ def from_csv(csv_path, fmt='hro', tw=True):
 def pickling(pkl_path, obj):
     """Calls the pickling-method
     of the PolarDiagram instance
-    to save instance in a .pkl file
 
     Parameters
     ----------
-    pkl_path : ``string``
+    pkl_path : string
         Path where a .pkl file is
         located or where a new
         .pkl file will be created
-    obj : ``PolarDiagram``
+    obj : PolarDiagram
         PolarDiagram instance which
         will be written to .csv file
 
@@ -157,17 +155,17 @@ def pickling(pkl_path, obj):
 def depickling(pkl_path):
     """Reads a .pkl file and
     returns the PolarDiagram
-    instance saved within it.
+    instance contained in it.
 
     Parameters
     ----------
-    pkl_path : ``string``
+    pkl_path : string
         Path a .pkl file
         which will be read
 
     Returns
     -------
-    _ : ``PolarDiagram``
+    _ : PolarDiagram
         PolarDiagram instance
         saved in .pkl file
 
@@ -184,7 +182,6 @@ def depickling(pkl_path):
 
 
 # V: In Arbeit
-# V: Noch nicht verwenden!
 def convert(obj, convert_type):
     pass
 
@@ -201,20 +198,21 @@ def symmetric_polar_diagram(obj):
 
     Parameters
     ----------
-    obj : ``PolarDiagram``
+    obj : PolarDiagram
         PolarDiagram instance
         which will be
         symmetrized
 
     Returns
     -------
-    _ : ``PolarDiagram``
+    _ : PolarDiagram
         "symmetrized" version
         of input
 
     Function raises an exception
-    obj is a PolarDiagramCurve
-    instance
+    if obj is not of type
+    PolarDiagramTable or
+    PolarDiagramPointcloud
     """
     logger.info(f"Function 'symmetric_polar_diagram({obj.__name__}' called")
     if not isinstance(obj, (PolarDiagramTable, PolarDiagramPointcloud)):
@@ -253,50 +251,50 @@ class PolarDiagram(ABC):
 
     Methods
     -------
-    pickling(pkl_path):
+    pickling(pkl_path)
+        Writes PolarDiagram
+        instance to a .pkl file
 
     Abstract Methods
     ----------------
-    to_csv(csv_path)
-    polar_plot_slice(ws,
+    to_csv(self, csv_path)
+    polar_plot_slice(self, ws,
                      ax=None,
                      **plot_kw)
-    flat_plot_slice(ws,
+    flat_plot_slice(self, ws,
                     ax=None,
                     **plot_kw)
-    polar_plot(ws_range,
+    polar_plot(self, ws_range,
                ax=None,
                colors=('green', 'red'),
                show_legend=True,
                legend_kw=None,
                **plot_kw)
-    flat_plot(ws_range,
+    flat_plot(self, ws_range,
               ax=None,
               colors=('green', 'red'),
               show_legend=True,
               legend_kw=None,
               **plot_kw)
-    plot_3d(ax=None,
+    plot_3d(self, ax=None,
             **plot_kw)
-    plot_color_gradient(
-        ax=None,
-        colors=('green', 'red'),
-        marker=None,
-        show_legend=True,
-        **legend_kw)
-    plot_convex_hull_slice(
-        ws,
-        ax=None,
-        **plot_kw)
+    plot_color_gradient(self, ax=None,
+                        colors=('green', 'red'),
+                        marker=None,
+                        show_legend=True,
+                        **legend_kw)
+    plot_convex_hull_slice(self, ws,
+                           ax=None,
+                           **plot_kw)
     """
 
     def pickling(self, pkl_path):
-        """Saves PolarDiagram
-        instance in a .pkl file
+        """Writes PolarDiagram
+        instance to a .pkl file
 
         Parameters
         ----------
-        pkl_path: ``string``
+        pkl_path: string
             Path where a .pkl file is
             located or where a new
             .pkl file will be created
@@ -363,7 +361,7 @@ class PolarDiagramTable(PolarDiagram):
 
     Parameters
     ----------
-    ws_res : ``Iterable`` or ``int`` or ``float``, optional
+    ws_res : Iterable or int or float, optional
         Wind speeds that will
         correspond to the
         columns of the table.
@@ -380,13 +378,13 @@ class PolarDiagramTable(PolarDiagram):
         it will default to
         numpy.arange(2, 42, 2)
 
-    wa_res : ``Iterable`` or ``int`` or ``float``, optional
+    wa_res : Iterable or int or float, optional
         Wind angles that will
         correspond to the
         columns of the table.
 
         Can either be sequence
-        of legnth rdim or a
+        of length rdim or a
         number
 
         If a number num is passed,
@@ -397,7 +395,7 @@ class PolarDiagramTable(PolarDiagram):
         it will default to
         numpy.arange(0, 360, 5)
 
-    data : ``array_like``, optional
+    data : array_like, optional
         Sequence of corresponding
         boat speeds, should be
         broadcastable to the
@@ -407,7 +405,7 @@ class PolarDiagramTable(PolarDiagram):
         it will default to
         numpy.zeros((rdim, cdim))
 
-    tw : ``bool``, optional
+    tw : bool, optional
         Specifies if the
         given wind data should
         be viewed as true wind
@@ -426,33 +424,76 @@ class PolarDiagramTable(PolarDiagram):
     Methods
     -------
     wind_speeds
+        Returns a read only version
+        of self._resolution_wind_speed
     wind_angles
+        Returns a read only version
+        of self._resolution_wind_angle
     boat_speeds
+        Returns a read only version
+        of self._data
     to_csv(csv_path)
+        Creates a .csv-file with
+        delimiter ',' and the
+        following format:
+            PolarDiagramTable
+            Wind speed resolution:
+            self.wind_speeds
+            Wind angle resolution:
+            self.wind_angles
+            Boat speeds:
+            self.boat_speeds
     change_entries(data, ws=None,
                    wa=None, tw=True)
+        Changes specified entries
+        in the table
     polar_plot_slice(ws, ax=None,
                      **plot_kw)
+        Creates a polar plot of a
+        given slice (column) of the
+        polar diagram
     flat_plot_slice(ws, ax=None,
                     **plot_kw)
+        Creates a cartesian plot
+        of a given slice (column)
+        of the polar diagram
     polar_plot(ws_range=None, ax=None,
                colors=('green', 'red'),
                show_legend=True,
                legend_kw=None,
                **plot_kw)
+        Creates a polar plot
+        of multiple slices (columns)
+        of the polar diagram
     flat_plot(ws_range=None, ax=None,
               colors=('green', 'red'),
               show_legend=True,
               legend_kw=None,
               **plot_kw)
+        Creates a cartesian plot
+        of multiple slices (columns)
+        of the polar diagram
     plot_3d(ax=None,
             colors=('blue', 'blue'))
-    plot_color_gradient(
-        ax=None, colors=('green', 'red'),
-        marker=None, show_legend=True,
-        **legend_kw)
+        Creates a 3d plot
+        of the polar diagram
+    plot_color_gradient(ax=None,
+                        colors=('green', 'red'),
+                        marker=None,
+                        show_legend=True,
+                        **legend_kw)
+        Creates a 'wind speed
+        vs. wind angle' color gradient
+        plot of the polar diagram
+        with respect to the
+        respective boat speeds
     plot_convex_hull_slice(ws, ax=None,
                            **plot_kw)
+        Computes the convex
+        hull of a slice (column)
+        of the polar diagram
+        and creates a polar plot
+        of it
     """
 
     def __init__(self, ws_res=None, wa_res=None,
@@ -542,23 +583,20 @@ class PolarDiagramTable(PolarDiagram):
     @property
     def wind_angles(self):
         """Returns a read only version of self._resolution_wind_angle"""
-        # logger.info("Property 'PolarDiagramTable.wind_angles' called")
         return self._resolution_wind_angle.copy()
 
     @property
     def wind_speeds(self):
         """Returns a read only version of self._resolution_wind_speed"""
-        # logger.info("Property 'PolarDiagramTable.wind_speeds' called")
         return self._resolution_wind_speed.copy()
 
     @property
     def boat_speeds(self):
         """Returns a read only version of self._data"""
-        # logger.info("Property 'PolarDiagramTable.boat_speeds' called")
         return self._data.copy()
 
     def to_csv(self, csv_path):
-        """Creates a .csv-file with
+        """Creates a .csv file with
         delimiter ',' and the
         following format:
             PolarDiagramTable
@@ -571,8 +609,8 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        csv_path : ``string``
-            Path where a .csv-file is
+        csv_path : string
+            Path where a .csv file is
             located or where a new
             .csv file will be created
 
@@ -599,24 +637,26 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        new_data: ``array_like``
-            Instance containing the
+        new_data: array_like
+            Sequence containing the
             new data to be inserted
             in the specified entries
 
-        ws: ``Iterable`` or ``int`` or ``float``, optional
+        ws: Iterable or int or float, optional
             Element(s) of self.wind_speeds,
             specifying the columns, where
             new data will be inserted
 
-            Defaults to self.wind_speeeds
+            If nothing is passed it will
+            default to self.wind_speeds
 
-        wa: ``Iterable`` or ``int`` or ``float``, optional
+        wa: Iterable or int or float, optional
             Element(s) of self.wind_angles,
             specifiying the rows, where
             new data will be inserted
 
-            Defaults to self.wind_angles
+            If nothing is passed it will
+            default to self.wind_angles
 
 
         Function raises an exception:
@@ -656,18 +696,11 @@ class PolarDiagramTable(PolarDiagram):
         self._data[mask] = new_data.flat
 
     def _get_slice_data(self, ws):
-        # logger.info(f"""Method 'PolarDiagramTable._get_slice_data(
-        #             ws={ws})' called""")
-
-        # logger.info("""Internal function
-        #              'utils.get_indices(ws, self.wind_speeds called""")
         ws_ind = get_indices(ws, self.wind_speeds)
 
         return self.boat_speeds[:, ws_ind]
 
     def _get_radians(self):
-        # logger.info("Method 'PolarDiagramTable._get_radians()' called")
-
         return np.deg2rad(self.wind_angles)
 
     def polar_plot_slice(self, ws, ax=None, **plot_kw):
@@ -677,12 +710,12 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        ws : ``int`` or ``float``
+        ws : int or float
             Slice (column) of the polar
             diagram, given as an element
             of self.wind_speeds
 
-        ax : ``matplotlib.projections.polar.PolarAxes``, optional
+        ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
@@ -691,14 +724,14 @@ class PolarDiagramTable(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments that will
             be passed to the
-            `matplotlib.axes.Axes.plot`
+            matplotlib.axes.Axes.plot
             function, to change certain
             appearences of the plot
 
 
         Function raises an exception
-        if ws is not in the wind
-        speed resolution.
+        if ws is not an element
+        of self.wind_speeds
         """
         logger.info(f"""Method 'PolarDiagramTable.polar_plot_slice(
                      ws={ws}, ax={ax}, plot_kw={plot_kw}' called""")
@@ -717,12 +750,12 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        ws : ``int`` or ``float``
+        ws : int or float
             Slice (column) of the polar
             diagram, given as an element
             of self.wind_speeds
 
-        ax : ``matplotlib.axes.Axes``, optional
+        ax : matplotlib.axes.Axes, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
@@ -731,7 +764,7 @@ class PolarDiagramTable(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments that will
             be passed to the
-            `matplotlib.axes.Axes.plot`
+            matplotlib.axes.Axes.plot
             function, to change certain
             appearences of the plot
 
@@ -758,27 +791,28 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        ws_range : ``Iterable``, optional
+        ws_range : Iterable, optional
             Slices (columns) of the
             polar diagram table,
             given as an Iterable
             of elements of
             self.wind_speeds.
+
             If nothing it passed,
             it will default to
             self.Wind_speeds
 
-        ax : ``matplotlib.projections.polar.PolarAxes``, optional
+        ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
             create a suitable axes
 
-        colors : ``tuple``, optional
+        colors : tuple, optional
             Specifies the colors to
             be used for the different
             slices. There are four
-            options:
+            options
                 If as many or more
                 colors as slices
                 are passed,
@@ -814,7 +848,7 @@ class PolarDiagramTable(PolarDiagram):
                 Defaults to the tuple
                 ('green', 'red')
 
-        show_legend : ``bool``, optional
+        show_legend : bool, optional
             Specifies wether or not
             a legend will be shown
             next to the plot
@@ -823,23 +857,23 @@ class PolarDiagramTable(PolarDiagram):
             on the color options:
             If the slices are plotted
             with a color gradient,
-            a ``matplotlib.colorbar.Colorbar``
+            a matplotlib.colorbar.Colorbar
             object will be created
-            and assigned to ax.
+            and assigned to ax
 
             Otherwise a
-            ``matplotlib.legend.Legend``
+            matplotlib.legend.Legend
             will be created and
-            assigned to ax.
+            assigned to ax
 
             Default to 'True'
 
 
-        legend_kw : ``dict``, optional
+        legend_kw : dict, optional
             Keyword arguments to be
             passed to either the
-            ``matplotlib.colorbar.Colorbar``
-            or ``matplotlib.legend.Legend``
+            matplotlib.colorbar.Colorbar
+            or matplotlib.legend.Legend
             classes to change position
             and appearence of the legend.
 
@@ -852,7 +886,7 @@ class PolarDiagramTable(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments that will
             be passed to the
-            `matplotlib.axes.Axes.plot`
+            matplotlib.axes.Axes.plot
             function, to change certain
             appearences of the plot
 
@@ -889,7 +923,7 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        ws_range : `Iterable``, optional
+        ws_range : Iterable, optional
             Slices (columns) of the
             polar diagram table,
             given as an Iterable
@@ -899,13 +933,13 @@ class PolarDiagramTable(PolarDiagram):
             it will default to
             self.Wind_speeds
 
-        ax : ``matplotlib.axes.Axes``, optional
+        ax : matplotlib.axes.Axes, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
             create a suitable axes
 
-        colors : ``tuple``, optional
+        colors : tuple, optional
             Specifies the colors to
             be used for the different
             slices. There are four
@@ -945,7 +979,7 @@ class PolarDiagramTable(PolarDiagram):
                 Defaults to the tuple
                 ('green', 'red')
 
-        show_legend : ``bool``, optional
+        show_legend : bool, optional
             Specifies wether or not
             a legend will be shown
             next to the plot
@@ -954,24 +988,24 @@ class PolarDiagramTable(PolarDiagram):
             on the color options:
             If the slices are plotted
             with a color gradient,
-            a ``matplotlib.colorbar.Colorbar``
+            a matplotlib.colorbar.Colorbar
             object will be created
-            and assigned to ax.
+            and assigned to ax
 
             Otherwise a
-            ``matplotlib.legend.Legend``
+            matplotlib.legend.Legend
             will be created and
-            assigned to ax.
+            assigned to ax
 
             Default to 'True'
 
-        legend_kw : ``dict``, optional
+        legend_kw : dict, optional
             Keyword arguments to be
             passed to either the
-            ``matplotlib.colorbar.Colorbar``
-            or ``matplotlib.legend.Legend``
+            matplotlib.colorbar.Colorbar
+            or matplotlib.legend.Legend
             classes to change position
-            and appearence of the legend.
+            and appearence of the legend
 
             Will only be used if
             'show_legend=True'
@@ -982,7 +1016,7 @@ class PolarDiagramTable(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments that will
             be passed to the
-            `matplotlib.axes.Axes.plot`
+            matplotlib.axes.Axes.plot
             function, to change certain
             appearences of the plot
 
@@ -1016,13 +1050,13 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        ax : ``mpl_toolkits.mplot3d.axes3d.Axes3D``, optional
+        ax : mpl_toolkits.mplot3d.axes3d.Axes3D, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
             create a suitable axes
 
-        colors : ``tuple`` of length 2, optional
+        colors : tuple of length 2, optional
             Colors which specify
             the color gradient with
             which the polar diagram
@@ -1030,7 +1064,7 @@ class PolarDiagramTable(PolarDiagram):
 
             If no color gradient is
             desired, set both elements
-            as the same color
+            to the same color
 
             Defaults to
             ('blue', 'blue')
@@ -1058,13 +1092,13 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        ax : ``matplotlib.axes.Axes``, optional
+        ax : matplotlib.axes.Axes, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
             create a suitable axes
 
-        colors : ``tuple`` of length 2, optional
+        colors : tuple of length 2, optional
             Colors which specify
             the color gradient with
             which the polar diagram
@@ -1073,29 +1107,28 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to
             ('green', 'red')
 
-        marker : ``matplotlib.markers.Markerstyle``or equivalent, optional
+        marker : matplotlib.markers.Markerstyleor equivalent, optional
             Markerstyle for the
             created scatter plot
 
             If nothing is passed,
-            function uses the
-            default 'o'
+            it will default to 'o'
 
-        show_legend : ``bool``, optional
+        show_legend : bool, optional
             Specifies wether or not
             a legend will be shown
             next to the plot
 
             Legend will be a
-            ``matplotlib.colorbar.Colorbar``
+            matplotlib.colorbar.Colorbar
             object.
 
-            Defaults to true
+            Defaults to 'True'
 
-        legend_kw :
+        legend_kw : Keyword arguments
             Keyword arguments to be
             passed to the
-            ``matplotlib.colorbar.Colorbar``
+            matplotlib.colorbar.Colorbar
             class to change position
             and appearence of the legend.
 
@@ -1131,12 +1164,12 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        ws : ``int`` or ``float``
+        ws : int or float
             Slice (column) of the polar
             diagram, given as an element
             of self.wind_speeds
 
-        ax : ``matplotlib.projections.polar.PolarAxes``, optional
+        ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
@@ -1145,7 +1178,7 @@ class PolarDiagramTable(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments that will
             be passed to the
-            `matplotlib.axes.Axes.plot`
+            matplotlib.axes.Axes.plot
             function, to change certain
             appearences of the plot
 
@@ -1176,43 +1209,99 @@ class PolarDiagramCurve(PolarDiagram):
     A class to represent,
     visualize and work
     with a polar diagram
-    given by a fitted curve.
+    given by a fitted curve/surface.
 
     Parameters
     ----------
-    f : ``function``
+    f : function
+        Curve/surface that describes
+        the polar diagram, given as
+        a function, which takes a
+        numpy.ndarray with two columns,
+        corresponding to (wind speed, wind angle)
+        pairs as well as some additional
+        parameters
 
-    radians : ``bool``, optional
+    radians : bool, optional
+        Specifies if f takes the
+        wind angles to be in
+        radians or degrees
 
-    *params :
+        Defaults to 'False'
+
+    *params : Arguments
+        Additional optimized
+        parameters that
+        f takes
+
 
     Methods
     -------
     curve
+        Returns a read only version
+        of self._f
     parameters
+        Returns a read only version
+        of self._params
+    radians
+        Returns a read only version
+        of self._rad
     to_csv(csv_path)
+        Creates a .csv-file with
+        delimiter ':' and the
+        following format:
+            PolarDiagramCurve
+            Function: self.curve
+            Radians: self.rad
+            Parameters: self.parameters
     polar_plot_slice(ws, ax=None,
                      **plot_kw)
+        Creates a polar plot
+        of a given slice of
+        the polar diagram
     flat_plot_slice(ws, ax=None,
                     **plot_kw)
+        Creates a cartesian
+        plot of a slice of the
+        polar diagram
     polar_plot(ws_range=(0, 20, 5), ax=None,
                colors=('green', 'red'),
                show_legend=True,
                legend_kw=None, **plot_kw)
+        Creates a polar plot
+        of multiple slices of
+        the polar diagram
     flat_plot(ws_range=(0, 20, 5), ax=None,
               colors=('green', 'red'),
               show_legend=True,
               legend_kw=None, **plot_kw)
+        Creates a cartesian
+        plot of multiple slices
+        of the polar diagram
     plot_3d(ws_range=(0, 20, 100), ax=None,
             colors=('blue', 'blue'))
+        Creates a 3d plot
+        of a part of the
+        polar diagram
     plot_color_gradient(ws_range=(0, 20, 100),
                         ax=None,
                         colors=('green', 'red'),
                         marker=None,
                         show_legend=True,
                         **legend_kw)
+        Creates a 'wind speed
+        vs. wind angle' color gradient
+        plot of a part of the
+        polar diagram with
+        respect to the
+        respective boat speeds
     plot_convex_hull_slice(ws, ax=None,
                            **plot_kw)
+        Computes the convex
+        hull of a slice (column)
+        of the polar diagram
+        and creates a polar plot
+        of it
     """
 
     def __init__(self, f, radians=False, *params):
@@ -1238,35 +1327,31 @@ class PolarDiagramCurve(PolarDiagram):
     @property
     def curve(self):
         """Returns a read only version of self._f"""
-        # logger.info("""Property 'PolarDiagramCurve.curve' called""")
         return self._f
 
     @property
     def parameters(self):
         """Returns a read only version of self._params"""
-        # logger.info("""Property 'PolarDiagramCurve.parameters' called""")
         return self._params
 
     @property
     def radians(self):
         """Returns a read only version of self._rad"""
-        # logger.info("""Property 'PolarDiagramCurve.radians' called""")
         return self._rad
 
-    # V: In Arbeit
     def to_csv(self, csv_path):
-        """Creates a .csv-file with
+        """Creates a .csv file with
         delimiter ':' and the
         following format:
             PolarDiagramCurve
-            Function: self.curve
+            Function: self.curve.__name__
             Radians: self.rad
             Parameters: self.parameters
 
         Parameters
         ----------
-        csv_path : ``string``
-            Path where a .csv-file is
+        csv_path : string
+            Path where a .csv file is
             located or where a new
             .csv file will be created
 
@@ -1287,8 +1372,6 @@ class PolarDiagramCurve(PolarDiagram):
             raise FileReadingException(f"Can't write to {csv_path}")
 
     def _get_wind_angles(self):
-        # logger.info("Method 'PolarDiagramCurve._get_wind_angles()' called")
-
         wa = np.linspace(0, 360, 1000)
         if self.radians:
             wa = np.deg2rad(wa)
@@ -1301,7 +1384,7 @@ class PolarDiagramCurve(PolarDiagram):
 
         Parameters
         ----------
-        ws : ``int`` or ``float``
+        ws : int or float
             Slice of the polar diagram,
             given as a single wind speed
 
@@ -1309,7 +1392,7 @@ class PolarDiagramCurve(PolarDiagram):
             self(ws, wa), where wa will
             go through several wind angles
 
-        ax : ``matplotlib.projections.polar.PolarAxes``, optional
+        ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
@@ -1318,7 +1401,7 @@ class PolarDiagramCurve(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments that will
             be passed to the
-            `matplotlib.axes.Axes.plot`
+            matplotlib.axes.Axes.plot
             function, to change certain
             appearences of the plot
 
@@ -1344,7 +1427,7 @@ class PolarDiagramCurve(PolarDiagram):
 
         Parameters
         ----------
-        ws : ``int`` or ``float``
+        ws : int or float
             Slice of the polar diagram,
             given as a single wind speed
 
@@ -1352,7 +1435,7 @@ class PolarDiagramCurve(PolarDiagram):
             self(ws, wa), where wa will
             go through several wind angles
 
-        ax : ``matplotlib.axes.Axes``, optional
+        ax : matplotlib.axes.Axes, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
@@ -1361,7 +1444,7 @@ class PolarDiagramCurve(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments that will
             be passed to the
-            `matplotlib.axes.Axes.plot`
+            matplotlib.axes.Axes.plot
             function, to change certain
             appearences of the plot
 
@@ -1389,15 +1472,27 @@ class PolarDiagramCurve(PolarDiagram):
 
         Parameters
         ----------
-        ws_range : ``tuple`` of length 3, optional
+        ws_range : tuple of length 3 or list, optional
+            Slices of the polar diagram
+            given either as a
+            tuple of three values, which
+            will be interpreted as a
+            start and end point of an
+            interval aswell as a number of
+            slices, which will be evenly
+            spaces in the given interval,
+            or a list of specific wind speed
+            values
 
-        ax : ``matplotlib.projections.polar.PolarAxes``, optional
+            Defaults to (0, 20, 5)
+
+        ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
             create a suitable axes
 
-        colors : ``tuple``, optional
+        colors : tuple, optional
             Specifies the colors to
             be used for the different
             slices. There are four
@@ -1437,7 +1532,7 @@ class PolarDiagramCurve(PolarDiagram):
                 Defaults to the tuple
                 ('green', 'red')
 
-        show_legend : ``bool``, optional
+        show_legend : bool, optional
             Specifies wether or not
             a legend will be shown
             next to the plot
@@ -1446,22 +1541,22 @@ class PolarDiagramCurve(PolarDiagram):
             on the color options:
             If the slices are plotted
             with a color gradient,
-            a ``matplotlib.colorbar.Colorbar``
+            a matplotlib.colorbar.Colorbar
             object will be created
             and assigned to ax.
 
             Otherwise a
-            ``matplotlib.legend.Legend``
+            matplotlib.legend.Legend
             will be created and
             assigned to ax.
 
             Default to 'True'
 
-        legend_kw : ``dict``, optional
+        legend_kw : dict, optional
             Keyword arguments to be
             passed to either the
-            ``matplotlib.colorbar.Colorbar``
-            or ``matplotlib.legend.Legend``
+            matplotlib.colorbar.Colorbar
+            or matplotlib.legend.Legend
             classes to change position
             and appearence of the legend.
 
@@ -1474,7 +1569,7 @@ class PolarDiagramCurve(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments that will
             be passed to the
-            `matplotlib.axes.Axes.plot`
+            matplotlib.axes.Axes.plot
             function, to change certain
             appearences of the plot
 
@@ -1484,22 +1579,24 @@ class PolarDiagramCurve(PolarDiagram):
                      show_legend={show_legend}, legend_kw={legend_kw},
                      **plot_kw={plot_kw})' called""")
 
-        ws_lower, ws_upper, ws_step = ws_range
-        ws_list = list(np.linspace(ws_lower, ws_upper, ws_step))
+        if isinstance(ws_range, tuple):
+            ws_lower, ws_upper, ws_step = ws_range
+            ws_range = list(np.linspace(ws_lower, ws_upper, ws_step))
+
         wa = np.linspace(0, 360, 1000)
-        wa_list = [np.deg2rad(wa)] * len(ws_list)
+        wa_list = [np.deg2rad(wa)] * len(ws_range)
         if self.radians:
             wa = wa_list[0]
 
         bsp_list = []
-        for ws in ws_list:
+        for ws in ws_range:
             bsp_list.append(self(np.array([ws] * 1000), wa))
 
         logger.info("""Internal function 'plotting.plot_polar_range(
                      ws_list, wa_list, bsp_list, ax, colors, show_legend,
                      legend_kw, **plot_kw)' called""")
         return plot_polar_range(
-            ws_list, wa_list, bsp_list,
+            ws_range, wa_list, bsp_list,
             ax, colors, show_legend, legend_kw, **plot_kw)
 
     def flat_plot(self, ws_range=(0, 20, 5), ax=None,
@@ -1511,15 +1608,27 @@ class PolarDiagramCurve(PolarDiagram):
 
         Parameters
         ----------
-        ws_range : ``tuple`` of length 3, optional
+        ws_range : tuple of length 3 or list, optional
+            Slices of the polar diagram
+            given either as a
+            tuple of three values, which
+            will be interpreted as a
+            start and end point of an
+            interval aswell as a number of
+            slices, which will be evenly
+            spaces in the given interval,
+            or a list of specific wind speed
+            values
 
-        ax : ``matplotlib.axes.Axes``, optional
+            Defaults to (0, 20, 5)
+
+        ax : matplotlib.axes.Axes, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
             create a suitable axes
 
-        colors : ``tuple``, optional
+        colors : tuple, optional
             Specifies the colors to
             be used for the different
             slices. There are four
@@ -1559,7 +1668,7 @@ class PolarDiagramCurve(PolarDiagram):
                 Defaults to the tuple
                 ('green', 'red')
 
-        show_legend : ``bool``, optional
+        show_legend : bool, optional
             Specifies wether or not
             a legend will be shown
             next to the plot
@@ -1568,22 +1677,22 @@ class PolarDiagramCurve(PolarDiagram):
             on the color options:
             If the slices are plotted
             with a color gradient,
-            a ``matplotlib.colorbar.Colorbar``
+            a matplotlib.colorbar.Colorbar
             object will be created
             and assigned to ax.
 
             Otherwise a
-            ``matplotlib.legend.Legend``
+            matplotlib.legend.Legend
             will be created and
             assigned to ax.
 
             Default to 'True'
 
-        legend_kw : ``dict``, optional
+        legend_kw : dict, optional
             Keyword arguments to be
             passed to either the
-            ``matplotlib.colorbar.Colorbar``
-            or ``matplotlib.legend.Legend``
+            matplotlib.colorbar.Colorbar
+            or matplotlib.legend.Legend
             classes to change position
             and appearence of the legend.
 
@@ -1596,7 +1705,7 @@ class PolarDiagramCurve(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments that will
             be passed to the
-            `matplotlib.axes.Axes.plot`
+            matplotlib.axes.Axes.plot
             function, to change certain
             appearences of the plot
 
@@ -1606,22 +1715,24 @@ class PolarDiagramCurve(PolarDiagram):
                      show_legend={show_legend}, legend_kw={legend_kw},
                      **plot_kw={plot_kw})' called""")
 
-        ws_lower, ws_upper, ws_step = ws_range
-        ws_list = list(np.linspace(ws_lower, ws_upper, ws_step))
+        if isinstance(ws_range, tuple):
+            ws_lower, ws_upper, ws_step = ws_range
+            ws_range = list(np.linspace(ws_lower, ws_upper, ws_step))
+
         wa = np.linspace(0, 360, 1000)
-        wa_list = [wa] * len(ws_list)
+        wa_list = [wa] * len(ws_range)
         if self.radians:
             wa = np.deg2rad(wa)
 
         bsp_list = []
-        for ws in ws_list:
+        for ws in ws_range:
             bsp_list.append(self(np.array([ws] * 1000), wa))
 
         logger.info("""Internal function 'plotting.plot_flat_range(
                      ws_list, wa_list, bsp_list, ax, colors, show_legend,
                      legend_kw, **plot_kw)' called""")
         return plot_flat_range(
-            ws_list, wa_list, bsp_list,
+            ws_range, wa_list, bsp_list,
             ax, colors, show_legend, legend_kw, **plot_kw)
 
     def plot_3d(self, ws_range=(0, 20, 100), ax=None,
@@ -1632,15 +1743,28 @@ class PolarDiagramCurve(PolarDiagram):
 
         Parameters
         ----------
-        ws_range : ``tuple`` of length 3, optional
+        ws_range : tuple of length 3, optional
+            A region of the polar
+            diagram given as a
+            tuple of three values,
+            which will be interpreted
+            as a start and end point
+            of an interval aswell as
+            a number of samples in
+            this interval. The more
+            samples there are, the
+            "smoother" the resulting
+            plot will be
 
-        ax : ``mpl_toolkits.mplot3d.axes3d.Axes3D``, optional
+            Defaults to (0, 20, 100)
+
+        ax : mpl_toolkits.mplot3d.axes3d.Axes3D, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
             create a suitable axes
 
-        colors : ``tuple`` of length 2, optional
+        colors : tuple of length 2, optional
             Colors which specify
             the color gradient with
             which the polar diagram
@@ -1691,15 +1815,25 @@ class PolarDiagramCurve(PolarDiagram):
 
         Parameters
         ----------
-        ws_range :  ``tuple`` of length 3, optional
+        ws_range :  tuple of length 3, optional
+            A region of the polar
+            diagram given as a
+            tuple of three values,
+            which will be interpreted
+            as a start and end point
+            of an interval aswell as
+            a number of samples in
+            this interval.
 
-        ax : ``matplotlib.axes.Axes``, optional
+            Defaults to (0, 20, 100)
+
+        ax : matplotlib.axes.Axes, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
             create a suitable axes
 
-        colors : ``tuple`` of length 2, optional
+        colors : tuple of length 2, optional
             Colors which specify
             the color gradient with
             which the polar diagram
@@ -1708,7 +1842,7 @@ class PolarDiagramCurve(PolarDiagram):
             Defaults to
             ('green', 'red')
 
-        marker : ``matplotlib.markers.Markerstyle``or equivalent, optional
+        marker : matplotlib.markers.Markerstyleor equivalent, optional
             Markerstyle for the
             created scatter plot
 
@@ -1716,13 +1850,13 @@ class PolarDiagramCurve(PolarDiagram):
             function uses the
             default 'o'
 
-        show_legend : ``bool``, optional
+        show_legend : bool, optional
             Specifies wether or not
             a legend will be shown
             next to the plot
 
             Legend will be a
-            ``matplotlib.colorbar.Colorbar``
+            matplotlib.colorbar.Colorbar
             object.
 
             Defaults to true
@@ -1730,7 +1864,7 @@ class PolarDiagramCurve(PolarDiagram):
         legend_kw :
             Keyword arguments to be
             passed to the
-            ``matplotlib.colorbar.Colorbar``
+            matplotlib.colorbar.Colorbar
             class to change position
             and appearence of the legend.
 
@@ -1771,9 +1905,15 @@ class PolarDiagramCurve(PolarDiagram):
 
         Parameters
         ----------
-        ws : ``int`` or ``float``
+        ws : int or float
+            Slice of the polar diagram,
+            given as a single wind speed
 
-        ax : ``matplotlib.projections.polar.PolarAxes``, optional
+            Slice then equals
+            self(ws, wa), where wa will
+            go through several wind angles
+
+        ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
@@ -1782,7 +1922,7 @@ class PolarDiagramCurve(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments that will
             be passed to the
-            `matplotlib.axes.Axes.plot`
+            matplotlib.axes.Axes.plot
             function, to change certain
             appearences of the plot
 
@@ -1815,19 +1955,19 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     Parameters
     ----------
-    points : ``array_like``, optional
+    points : array_like, optional
         Initial points of the
         point cloud, given
-        as sequences of
-        wind speed, wind angle
-        and boat speed
+        as a sequence of points
+        consisting of wind speed,
+        wind angle and boat speed
 
         If nothing is passed,
         point cloud will be
         initialized with an
         empty array
 
-    tw : ``bool``, optional
+    tw : bool, optional
         Specifies if the
         given wind data should
         be viewed as true wind
@@ -1846,30 +1986,70 @@ class PolarDiagramPointcloud(PolarDiagram):
     Methods
     -------
     wind_speeds
+        Returns a list of all the
+        different wind speeds
+        in the point cloud
     wind_angles
+        Returns a list of all the
+        different wind angles
+        in the point cloud
     points
+        Returns a read only version
+        of self._data
     to_csv(csv_path)
+        Creates a .csv-file with
+        delimiter ',' and the
+        following format:
+            PolarDiagramPointcloud
+            True wind speed: , True wind angle: , Boat speed:
+            self.get_points
     add_points(new_points)
+        Adds additional points
+        to the point cloud
     polar_plot_slice(ws, ax=None,
                      **plot_kw)
+        Creates a polar plot
+        of a slice of the
+        polar diagram
     flat_plot_slice(ws, ax=None,
                     **plot_kw)
+        Creates a cartesian
+        plot of a slice of
+        the polar diagram
     polar_plot(ws_range=(0, np.inf), ax=None,
                colors=('green', 'red'),
                show_legend=True,
                legend_kw=None, **plot_kw)
+        Creates a polar plot
+        of multiple slices of
+        the polar diagram
     flat_plot(ws_range=(0, np.inf), ax=None,
               colors=('green', 'red'),
               show_legend=True,
               legend_kw=None, **plot_kw)
+        Creates a cartesian
+        plot of multiple slices
+        of the polar diagram
     plot_3d(ax=None, **plot_kw)
+        Creates a 3d plot
+        of the polar diagram
     plot_color_gradient(ax=None,
                         colors=('green', 'red'),
                         marker=None,
                         show_legend=True,
                         **legend_kw)
+        Creates a 'wind speed
+        vs. wind angle' color gradient
+        plot of the polar diagram
+        with respect to the
+        respective boat speeds
     plot_convex_hull_slice(ws, ax=None,
                            **plot_kw)
+        Computes the convex
+        hull of a slice (column)
+        of the polar diagram
+        and creates a polar plot
+        of it
     """
 
     def __init__(self, points=None, tw=True):
@@ -1917,33 +2097,32 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     @property
     def wind_speeds(self):
-        # logger.info("Property 'PolarDiagramPointcloud.wind_speeds' called")
-
+        """Returns a list of all the different wind speeds
+        in the point cloud"""
         return list(dict.fromkeys(self.points[:, 0]))
 
     @property
     def wind_angles(self):
-        # logger.info("Property 'PolarDiagramPointcloud.wind_angles' called")
-
+        """Returns a list of all the different wind angles
+        in the point cloud"""
         return list(dict.fromkeys(self.points[:, 1]))
 
     @property
     def points(self):
-        # logger.info("Property 'PolarDiagramPointcloud.points' called")
-
+        """Returns a read only version of self._data"""
         return self._data.copy()
 
     def to_csv(self, csv_path):
-        """Creates a .csv-file with
+        """Creates a .csv file with
         delimiter ',' and the
         following format:
             PolarDiagramPointcloud
-            True wind speed: , True wind angle: , Boat speed:
+            True wind speed ,True wind angle ,Boat speed
             self.get_points
 
         Parameters
         ----------
-        csv_path : ``string``
+        csv_path : string
             Path where a .csv-file is
             located or where a new
             .csv file will be created
@@ -1967,18 +2146,19 @@ class PolarDiagramPointcloud(PolarDiagram):
             raise FileReadingException(f"Can't write to {csv_path}")
 
     def add_points(self, new_points, tw=True):
-        """Add additional
+        """Adds additional
         points to the point cloud
 
         Parameters
         ----------
-        new_points: ``array_like``
+        new_points: array_like
             New points to be added to
             the point cloud given as
-            sequences of wind speed,
+            a sequence of points
+            consisting of wind speed,
             wind angel and boat speed
 
-        tw : ``bool``, optional
+        tw : bool, optional
             Specifies if the
             given wind data should
             be viewed as true wind
@@ -2031,9 +2211,6 @@ class PolarDiagramPointcloud(PolarDiagram):
         pass
 
     def _get_slice_data(self, ws):
-        # logger.info(f"""Method 'PolarDiagramPointcloud._get_slice_data(
-        #              ws={ws})' called""")
-
         points = self.points[self.points[:, 0] == ws][:, 1:]
         if points.size == 0:
             logger.error("Error occured, when trying to get slice data")
@@ -2049,7 +2226,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Parameters
         ----------
-        ws : ``int`` or ``float``
+        ws : int or float
             Slice of the polar diagram
             given by a single wind speed
 
@@ -2057,7 +2234,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             the points in the point
             cloud with wind speed ws
 
-        ax : ``matplotlib.projections.polar.PolarAxes``, optional
+        ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
@@ -2066,14 +2243,14 @@ class PolarDiagramPointcloud(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments that will
             be passed to the
-            `matplotlib.axes.Axes.plot`
+            matplotlib.axes.Axes.plot
             function, to change certain
             appearences of the plot
 
         Function raises an
         exception if there
-        are no points with the
-        given wind speed in
+        are no points in
+        the given slice in
         the point cloud
         """
         logger.info(f"""Method 'PolarDiagramPointcloud.polar_plot_slice(
@@ -2093,7 +2270,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Parameters
         ----------
-        ws : ``int`` or ``float``
+        ws : int or float
             Slice of the polar diagram
             given by a single wind speed
 
@@ -2101,7 +2278,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             the points in the point
             cloud with wind speed ws
 
-        ax : ``matplotlib.axes.Axes``, optional
+        ax : matplotlib.axes.Axes, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
@@ -2110,14 +2287,14 @@ class PolarDiagramPointcloud(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments that will
             be passed to the
-            `matplotlib.axes.Axes.plot`
+            matplotlib.axes.Axes.plot
             function, to change certain
             appearences of the plot
 
         Function raises an
         exception if there
-        are no points with the
-        given wind speed in
+        are no points in
+        the given slice in
         the point cloud
         """
         logger.info(f"""Method 'PolarDiagramPointcloud.flat_plot_slice(
@@ -2130,22 +2307,18 @@ class PolarDiagramPointcloud(PolarDiagram):
         return plot_flat(wa, bsp, ax, **plot_kw)
 
     def _get_slices(self, ws_range):
-        # logger.info(f"""Method 'PolarDiagramPointcloud._get_slices(
-        #              ws_range={ws_range})' called""")
+        wa_list, bsp_list = [], []
+        if isinstance(ws_range, tuple):
+            ws_lower, ws_upper = ws_range
+            ws_range = [ws for ws in self.wind_speeds
+                        if ws_lower <= ws <= ws_upper]
 
-        ws_list, wa_list, bsp_list = [], [], []
-        ws_lower, ws_upper = ws_range
-        for ws in sorted(self.wind_speeds):
-            if ws > ws_upper:
-                break
+        for ws in ws_range:
+            points = self._get_slice_data(ws)
+            wa_list.append(points[0])
+            bsp_list.append(points[1])
 
-            if ws_lower <= ws:
-                ws_list.append(ws)
-                points = self._get_slice_data(ws)
-                wa_list.append(points[0])
-                bsp_list.append(points[1])
-
-        return ws_list, wa_list, bsp_list
+        return ws_range, wa_list, bsp_list
 
     def polar_plot(self, ws_range=(0, np.inf), ax=None,
                    colors=('green', 'red'), show_legend=True,
@@ -2156,23 +2329,29 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Parameters
         ----------
-        ws_range : ``tuple`` of length 2, optional
+        ws_range : tuple of length 2 or list, optional
             Slices of the polar diagram
-            given as the range between
-            two wind speeds
+            given as either a tuple of
+            two values which will be
+            interpreted as a lower
+            and upper bound of the
+            wind speed, such that all
+            slices with a wind speed
+            that fits within these
+            bounds will be plotted,
+            or a list of specific
+            wind speed values / slices
+            which will be plotted
 
-            The slices will then be
-            such that their wind speed
-            lies between the two given
-            wind speeds
+            Defaults to (0, np.inf)
 
-        ax : ``matplotlib.projections.polar.PolarAxes``, optional
+        ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
             create a suitable axes
 
-        colors : ``tuple``, optional
+        colors : tuple, optional
             Specifies the colors to
             be used for the different
             slices. There are four
@@ -2212,7 +2391,7 @@ class PolarDiagramPointcloud(PolarDiagram):
                 Defaults to the tuple
                 ('green', 'red')
 
-        show_legend : ``bool``, optional
+        show_legend : bool, optional
             Specifies wether or not
             a legend will be shown
             next to the plot
@@ -2221,22 +2400,22 @@ class PolarDiagramPointcloud(PolarDiagram):
             on the color options:
             If the slices are plotted
             with a color gradient,
-            a ``matplotlib.colorbar.Colorbar``
+            a matplotlib.colorbar.Colorbar
             object will be created
             and assigned to ax.
 
             Otherwise a
-            ``matplotlib.legend.Legend``
+            matplotlib.legend.Legend
             will be created and
             assigned to ax.
 
             Default to 'True'
 
-        legend_kw : ``dict``, optional
+        legend_kw : dict, optional
             Keyword arguments to be
             passed to either the
-            ``matplotlib.colorbar.Colorbar``
-            or ``matplotlib.legend.Legend``
+            matplotlib.colorbar.Colorbar
+            or matplotlib.legend.Legend
             classes to change position
             and appearence of the legend.
 
@@ -2249,10 +2428,17 @@ class PolarDiagramPointcloud(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments that will
             be passed to the
-            `matplotlib.axes.Axes.plot`
+            matplotlib.axes.Axes.plot
             function, to change certain
             appearences of the plot
 
+        Raises an exception
+        if ws_range is
+        a list and there is
+        a wind_speed in ws_range
+        such that there are no
+        points in the given slice
+        in the point cloud
         """
         logger.info(f"""Method 'PolarDiagramPointcloud.polar_plot(
                      ws_range={ws_range}, ax={ax}, colors={colors},
@@ -2279,23 +2465,29 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Parameters
         ----------
-        ws_range : ``tuple`` of length 2, optional
+        ws_range : tuple of length 2 or list, optional
             Slices of the polar diagram
-            given as the range between
-            two wind speeds
+            given as either a tuple of
+            two values which will be
+            interpreted as a lower
+            and upper bound of the
+            wind speed, such that all
+            slices with a wind speed
+            that fits within these
+            bounds will be plotted,
+            or a list of specific
+            wind speed values / slices
+            which will be plotted
 
-            The slices will then be
-            such that their wind speed
-            lies between the two given
-            wind speeds
+            Defaults to (0, np.inf)
 
-        ax : ``matplotlib.axes.Axes``, optional
+        ax : matplotlib.axes.Axes, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
             create a suitable axes
 
-        colors : ``tuple``, optional
+        colors : tuple, optional
             Specifies the colors to
             be used for the different
             slices. There are four
@@ -2335,7 +2527,7 @@ class PolarDiagramPointcloud(PolarDiagram):
                 Defaults to the tuple
                 ('green', 'red')
 
-        show_legend : ``bool``, optional
+        show_legend : bool, optional
             Specifies wether or not
             a legend will be shown
             next to the plot
@@ -2344,22 +2536,22 @@ class PolarDiagramPointcloud(PolarDiagram):
             on the color options:
             If the slices are plotted
             with a color gradient,
-            a ``matplotlib.colorbar.Colorbar``
+            a matplotlib.colorbar.Colorbar
             object will be created
             and assigned to ax.
 
             Otherwise a
-            ``matplotlib.legend.Legend``
+            matplotlib.legend.Legend
             will be created and
             assigned to ax.
 
             Default to 'True'
 
-        legend_kw : ``dict``, optional
+        legend_kw : dict, optional
             Keyword arguments to be
             passed to either the
-            ``matplotlib.colorbar.Colorbar``
-            or ``matplotlib.legend.Legend``
+            matplotlib.colorbar.Colorbar
+            or matplotlib.legend.Legend
             classes to change position
             and appearence of the legend.
 
@@ -2372,10 +2564,17 @@ class PolarDiagramPointcloud(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments that will
             be passed to the
-            `matplotlib.axes.Axes.plot`
+            matplotlib.axes.Axes.plot
             function, to change certain
             appearences of the plot
 
+        Raises an exception
+        if ws_range is
+        a list and there is
+        a wind_speed in ws_range
+        such that there are no
+        points in the given slice
+        in the point cloud
         """
         logger.info(f"""Method 'PolarDiagramPointcloud.flat_plot(
                      ws_range={ws_range}, ax={ax}, colors={colors},
@@ -2398,7 +2597,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Parameters
         ----------
-        ax : ``mpl_toolkits.mplot3d.axes3d.Axes3D``, optional
+        ax : mpl_toolkits.mplot3d.axes3d.Axes3D, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
@@ -2407,7 +2606,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments that will
             be passed to the
-            `matplotlib.axes.Axes.plot`
+            matplotlib.axes.Axes.plot
             function, to change certain
             appearences of the plot
 
@@ -2433,13 +2632,13 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Parameters
         ----------
-        ax : ``matplotlib.axes.Axes``, optional
+        ax : matplotlib.axes.Axes, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
             create a suitable axes
 
-        colors : ``tuple`` of length 2, optional
+        colors : tuple of length 2, optional
             Colors which specify
             the color gradient with
             which the polar diagram
@@ -2448,7 +2647,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to
             ('green', 'red')
 
-        marker : ``matplotlib.markers.Markerstyle``or equivalent, optional
+        marker : matplotlib.markers.Markerstyleor equivalent, optional
             Markerstyle for the
             created scatter plot
 
@@ -2456,13 +2655,13 @@ class PolarDiagramPointcloud(PolarDiagram):
             function uses the
             default 'o'
 
-        show_legend : ``bool``, optional
+        show_legend : bool, optional
             Specifies wether or not
             a legend will be shown
             next to the plot
 
             Legend will be a
-            ``matplotlib.colorbar.Colorbar``
+            matplotlib.colorbar.Colorbar
             object.
 
             Defaults to true
@@ -2470,7 +2669,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         legend_kw :
             Keyword arguments to be
             passed to the
-            ``matplotlib.colorbar.Colorbar``
+            matplotlib.colorbar.Colorbar
             class to change position
             and appearence of the legend.
 
@@ -2494,14 +2693,14 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     def plot_convex_hull_slice(self, ws, ax=None, **plot_kw):
         """Computes the convex
-        hull of a slice (column)
-        of the polar diagram
-        and creates a polar plot
+        hull of a slice of
+        the polar diagram and
+        creates a polar plot
         of it
 
         Parameters
         ----------
-        ws : ``int`` or ``float``
+        ws : int or float
             Slice of the polar diagram
             given by a single wind speed
 
@@ -2509,7 +2708,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             the points in the point
             cloud with wind speed ws
 
-        ax : ``matplotlib.projections.polar.PolarAxes``, optional
+        ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot
             will be created. If nothing
             is passed, the function will
@@ -2518,14 +2717,14 @@ class PolarDiagramPointcloud(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments that will
             be passed to the
-            `matplotlib.axes.Axes.plot`
+            matplotlib.axes.Axes.plot
             function, to change certain
             appearences of the plot
 
         Function raises an
         exception if there
-        are no points with the
-        given wind speed in
+        are no points in
+        the given slice in
         the point cloud
         """
         logger.info(f"""Method 'PolarDiagramPointcloud.plot_convex_hull_slice(
