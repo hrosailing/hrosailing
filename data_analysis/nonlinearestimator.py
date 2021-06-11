@@ -34,8 +34,8 @@ class NonLinearEstimator(BaseEstimator):
         self._popt, self._pcov = curve_fit(
             self.objective_func, X, y)
 
-        self._calculate_chi_squared(X, y, self.objective_func,
-                                    self.optimal_parameters, 0.3)
+        _calculate_chi_squared(X, y, self.objective_func,
+                               self.optimal_parameters, 0.3)
 
         self._X = X
         self._y = y
@@ -47,8 +47,9 @@ class NonLinearEstimator(BaseEstimator):
 
         return self.objective_func(X, *self.optimal_parameters)
 
-    def _calculate_chi_squared(self, X, y, func, popt, xerror):
-        chi_squared = np.sum(((func(X, *popt) - y) / xerror) ** 2)
-        reduced_chi_squared = chi_squared / (len(X) - len(popt))
-        print(chi_squared)
-        print(reduced_chi_squared)
+
+def _calculate_chi_squared(X, y, func, popt, xerror):
+    chi_squared = np.sum(((func(X, *popt) - y) / xerror) ** 2)
+    reduced_chi_squared = chi_squared / (len(X) - len(popt))
+    print(chi_squared)
+    print(reduced_chi_squared)

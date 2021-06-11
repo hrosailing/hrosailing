@@ -1,114 +1,63 @@
 """
-A Pipeline class to automate getting a polar diagram from "raw" dataa
+A Pipeline class to automate getting a
+polar diagram from "raw" dataa
 """
 
 # Author: Valentin F. Dannenberg / Ente
 
 
+import logging.handlers
+
+from data_analysis.filter import *
+from data_analysis.interpolater import *
+from data_analysis.neighbourhood import *
+from data_analysis.weigher import *
+from filereading import read_csv_file, read_nmea_file
 from polardiagram import PolarDiagram, PolarDiagramTable, \
     PolarDiagramPointcloud, PolarDiagramCurve
-from exceptions import ProcessingException
-from utils import convert_wind, polar_to_kartesian, \
-    speed_resolution, angle_resolution
-from data_analysis.defaultfunctions import *
+from utils import speed_resolution, angle_resolution
 
 
-class WeightedPoints:
-    def __init__(self, points, weights=None,
-                 w_func=None, tw=True, **w_func_kw):
-        points = np.asarray(points)
+logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
+                    level=logging.INFO,
+                    filename='logging/processing.log')
 
-        if len(points[0]) != 3:
-            try:
-                points = points.reshape(-1, 3)
-            except ValueError:
-                raise ProcessingException(
-                    "points could not be broadcasted "
-                    "to an array of shape (n,3)")
+LOG_FILE = 'logging/processing.log'
 
-        w_dict = convert_wind(
-            {"wind_speed": points[:, 0],
-             "wind_angle": points[:, 1],
-             "boat_speed": points[:, 2]},
-            tw)
-
-        points = np.column_stack(
-            (w_dict["wind_speed"],
-             w_dict["wind_angle"],
-             points[:, 2]))
-        self._points = points
-
-        if w_func is None:
-            w_func = default_w_func
-
-        if weights is None:
-            self._weights = w_func(points, **w_func_kw)
-        else:
-            weights = np.array(weights)
-            no_pts = len(points)
-
-            if len(weights) != no_pts:
-                try:
-                    weights = weights.reshape(no_pts, )
-                except ValueError:
-                    raise ProcessingException(
-                        f"weights could not be broadcasted"
-                        f"to an array of shape ({no_pts}, )")
-
-            self._weights = weights
-
-    @property
-    def points(self):
-        return self._points.copy()
-
-    @property
-    def weights(self):
-        return self._weights.copy()
-
-    def filter(self, f_func, **filter_kw):
-        if f_func is None:
-            f_func = percentile_filter
-
-        mask = f_func(self.weights, **filter_kw)
-
-        self._points = self._points[mask]
-        self._weights = self._weights[mask]
-
-    def __repr__(self):
-        return f"""WeightedPoints(points={self.points},
-        weights={self.weights})"""
-
-    def __iter__(self):
-        self.index = 0
-        return self
-
-    def __next__(self):
-        if self.index < len(self.points):
-            self.index += 1
-            return self.points[self.index], \
-                self.weights[self.index]
-
-        raise StopIteration
+logger = logging.getLogger(__name__)
+file_handler = logging.handlers.TimedRotatingFileHandler(
+    LOG_FILE, when='midnight')
+file_handler.setLevel(logging.INFO)
+logger.addHandler(file_handler)
+logger.setLevel(logging.INFO)
 
 
 class PolarPipeline:
-    def __init__(self, w_func=None, f_func=None,
-                 eval_func=None,
-                 i_func=None, s_fit_func=None):
+    """
 
-        self._w_func = w_func
-        self._f_func = f_func
+    """
+    def __init__(self, weigher=None, filter_=None,
+                 eval_func=None, i_func=None,
+                 s_fit_func=None):
+
+        if filter_ is None:
+            filter_ = ...
+        if not isinstance(filter_, Filter):
+            raise ProcessingException("")
+
+        self._weigher = weigher
+        self._filter = filter_
         self._eval_func = eval_func
         self._i_func = i_func
         self._s_fit_func = s_fit_func
 
     @property
-    def weight_function(self):
-        return self._w_func
+    def weigher(self):
+        return self._weigher
 
     @property
-    def filter_function(self):
-        return self._f_func
+    def filter(self):
+        return self._filter
 
     @property
     def evaluation_function(self):
@@ -123,55 +72,79 @@ class PolarPipeline:
         return self._s_fit_func
 
     def __repr__(self):
-        return f"""PolarPipeline(w_func={self.weight_function.__name__},
-        f_func={self.filter_function.__name__},
+        return f"""PolarPipeline(w_func={self.weigher.__name__},
+        f_func={self.filter.__name__},
         eval_func={self.evaluation_function.__name__},
         i_func={self.interpolating_function.__name__},
         s_fit_func={self.surface_fitting_function.__name__})"""
 
-    def __call__(self, data, p_type: PolarDiagram,
+    def __call__(self, p_type: PolarDiagram,
+                 data=None, data_file=None,
+                 file_format=None, tw=True,
                  w_res=None, neighbourhood=None,
-                 norm=None, filtering=True, tw=True,
-                 weight_kw=None, filter_kw=None,
+                 norm=None, filtering=True,
                  **kwargs):
 
-        if weight_kw is None:
-            weight_kw = {}
+        if data is None and data_file is None:
+            raise ProcessingException("")
+        if data is None:
+            data, tw = _read_file(data_file, file_format,
+                                  tw, kwargs.get('mode', 'mean'))
 
-        w_pts = WeightedPoints(data, w_func=self.weight_function,
-                               tw=tw, **weight_kw)
+        w_pts = WeightedPoints(data, weigher=self.weigher,
+                               tw=tw)
         if filtering:
-            if filter_kw is None:
-                filter_kw = {}
-
-            w_pts.filter(self.filter_function, **filter_kw)
+            mask = self.filter.filter(w_pts.weights)
+            w_pts = WeightedPoints(w_pts.points[mask],
+                                   weights=w_pts.weights[mask])
 
         if norm is None:
-            norm = np.linalg.norm
+            norm = euclidean_norm
 
         if p_type is PolarDiagramTable:
             return _create_polar_diagram_table(
                 w_pts, w_res, norm, neighbourhood,
-                self.evaluation_function, **kwargs
-            )
+                self.evaluation_function, **kwargs)
 
         if p_type is PolarDiagramCurve:
             return _create_polar_diagram_curve(
-                w_pts, self.surface_fitting_function, **kwargs
-            )
+                w_pts, self.surface_fitting_function,
+                **kwargs)
 
         if p_type is PolarDiagramPointcloud:
             return _create_polar_diagram_pointcloud(
                 w_pts, norm, neighbourhood,
-                self.interpolating_function, **kwargs
-            )
+                self.interpolating_function,
+                **kwargs)
+
+
+def _read_file(data_file, file_format, tw, mode):
+    if file_format is None:
+        raise ProcessingException("")
+
+    if file_format not in ('csv', 'nmea'):
+        raise ProcessingException("")
+
+    if file_format == 'csv':
+        data = read_csv_file(data_file)
+    if file_format == 'nmea':
+        data = read_nmea_file(
+            data_file, mode)
+        if data[0][3] == 'R':
+            tw = False
+        data = [d[:3] for d in data]
+
+    return data, tw
 
 
 def _create_polar_diagram_table(w_pts, w_res, norm,
                                 neighbourhood, eval_func,
                                 **kwargs):
     if neighbourhood is None:
-        neighbourhood = ball
+        neighbourhood = Ball()
+
+    if not isinstance(neighbourhood, Neighbourhood):
+        raise ProcessingException("")
 
     if eval_func is None:
         eval_func = weighted_arithm_mean
@@ -189,7 +162,7 @@ def _create_polar_diagram_table(w_pts, w_res, norm,
 
 
 def _create_polar_diagram_curve(w_pts, s_fit_function, **kwargs):
-
+    # Work with regression?
     if s_fit_function is None:
         # TODO
         pass
@@ -203,7 +176,10 @@ def _create_polar_diagram_pointcloud(w_pts, norm, neighbourhood,
         i_func = weighted_mean_interpolation
 
     if neighbourhood is None:
-        neighbourhood = ball
+        neighbourhood = Ball()
+
+    if not isinstance(neighbourhood, Neighbourhood):
+        raise ProcessingException()
 
     points = i_func(w_pts, norm, neighbourhood,
                     **kwargs)
@@ -241,14 +217,14 @@ def _interpolate_grid_points(w_res, w_points, norm,
     for i, ws in enumerate(ws_res):
         for j, wa in enumerate(wa_res):
             grid_point = np.array([ws, wa])
-            dist, mask = neighbourhood(
-                w_points.points[:, :2] - grid_point,
-                norm, **kwargs)
+            mask = neighbourhood.is_contained_in(
+                w_points.points[:, :2] - grid_point)
             if not any(mask):
                 continue
+            dist = norm(w_points.points[mask][:, :2] - grid_point)
             data[j, i] = eval_func(
                 w_points.points[mask][:, 2],
                 w_points.weights[mask],
-                dist[mask], **kwargs)
+                dist, **kwargs)
 
     return data

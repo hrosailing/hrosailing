@@ -36,12 +36,14 @@ class ODREstimator2d(BaseEstimator):
     def fit(self, X, y):
         X = np.asarray(X)
         y = np.asarray(y)
+        X, y = check_X_y(X, y)
 
         tws = X[:, 0]
 
-        custom_data = self._create_data(tws, y,
-                                        self._std_x,
-                                        self._std_y)
+        custom_data = odrpack.Data((tws, ), y)
+        # custom_data = odrpack.RealData((tws, twa), y,
+        #                                sx=self._std_x,
+        #                                sy=self._std_y)
         custom_odr = odrpack.ODR(custom_data, self._model,
                                  beta0=self._init_vals,
                                  maxit=self._max_iter)
@@ -77,9 +79,3 @@ class ODREstimator2d(BaseEstimator):
         tws = X[:, 0]
 
         return self._model.fcn(self._popt, (tws, ))
-
-    def _create_weighted_data(self, tws, twa, y, sx, sy):
-        return odrpack.RealData((tws, twa), y, sx=sx, sy=sy)
-
-    def _create_data(self, tws, y, sx, sy):
-        return odrpack.Data((tws, ), y)

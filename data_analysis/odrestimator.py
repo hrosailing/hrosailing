@@ -74,4 +74,4 @@ class ODREstimator(BaseEstimator):
         tws = X[:, 0]
         twa = X[:, 1]
 
-        return self._o_func(self._popt, (tws, twa))
+        return self._o_func(self._popt, np.row_stack((tws, twa)))

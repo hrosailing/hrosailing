@@ -13,6 +13,10 @@ def inverted_parabola(x, *args):
     return args[1] + args[2] * np.square(x - args[0])
 
 
+def inverted_shifted_parabola(x, *args):
+    return args[0] * x + args[2] * np.square(x - args[1])
+
+
 def concave_function(x, *args, downturn=True, sat_limit=False):
     if sat_limit and downturn:
         return args[2] - args[0] * np.exp(args[1] - x) \
@@ -28,7 +32,7 @@ def concave_function(x, *args, downturn=True, sat_limit=False):
 def s_shaped(x, *args, downturn=False):
     val = args[2] / (1 + np.exp(args[0] - args[1] * x))
     if downturn:
-        val -= args[3] * np.square(x, 2)
+        val -= args[3] * np.square(x)
 
     return val
 
