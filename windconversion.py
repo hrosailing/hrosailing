@@ -4,15 +4,15 @@ Functions to convert wind from apparent to true and vice versa
 
 # Author: Valentin F. Dannenberg / Ente
 
-import logging
+
 import logging.handlers
 import numpy as np
 
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                     level=logging.INFO,
-                    filename='windconversion.log')
-LOG_FILE = "windconversion.log"
+                    filename='logging/windconversion.log')
+LOG_FILE = "logging/windconversion.log"
 
 logger = logging.getLogger(__name__)
 file_handler = logging.handlers.TimedRotatingFileHandler(

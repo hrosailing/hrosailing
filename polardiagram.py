@@ -11,15 +11,15 @@ import pickle
 from abc import ABC, abstractmethod
 from tabulate import tabulate
 
-from utils import *
-from filereading import *
 from exceptions import *
+from filereading import *
 from plotting import *
+from utils import *
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                     level=logging.INFO,
-                    filename='polardiagram.log')
-LOG_FILE = "polardiagram.log"
+                    filename='logging/polardiagram.log')
+LOG_FILE = "logging/polardiagram.log"
 
 logger = logging.getLogger(__name__)
 file_handler = logging.handlers.TimedRotatingFileHandler(
@@ -79,7 +79,7 @@ def from_csv(csv_path, fmt='hro', tw=True):
 
     Returns
     -------
-    _ :PolarDiagram
+    polar_diagram : PolarDiagram
         PolarDiagram instance
         saved in .csv file
 
@@ -216,12 +216,18 @@ def symmetric_polar_diagram(obj):
     """
     logger.info(f"Function 'symmetric_polar_diagram({obj.__name__}' called")
     if not isinstance(obj, (PolarDiagramTable, PolarDiagramPointcloud)):
-        logger.error(f"Error occured when trying to symmetrize {obj.__name__}")
+        logger.error(f"Error occured when checking type of {obj.__name__}")
         raise PolarDiagramException(
             "functionality for obj not yet implemented")
 
     if isinstance(obj, PolarDiagramPointcloud):
         sym_points = obj.points
+        if not sym_points.size:
+            logger.error(f"Error occured when trying to"
+                         f"symmetrize {obj.__name__}")
+            raise PolarDiagramException(f"{obj.__name__} doesn't"
+                                        f"contain any points")
+
         sym_points[:, 1] = 360 - sym_points[:, 1]
         points = np.row_stack((obj.points, sym_points))
         return PolarDiagramPointcloud(points=points)
@@ -231,6 +237,8 @@ def symmetric_polar_diagram(obj):
     data = np.row_stack(
         (obj.boat_speeds, np.flip(obj.boat_speeds, axis=0)))
 
+    # deleting multiple 180° and 0°
+    # occurences in the table
     if 180 in obj.wind_angles:
         wa_res = list(wa_res)
         h = int(len(wa_res) / 2)
@@ -239,6 +247,7 @@ def symmetric_polar_diagram(obj):
     if 0 in obj.wind_angles:
         data = data[:-1, :]
         wa_res = wa_res[:-1]
+
     return PolarDiagramTable(
         ws_res=obj.wind_speeds,
         wa_res=wa_res,
@@ -246,7 +255,7 @@ def symmetric_polar_diagram(obj):
 
 
 class PolarDiagram(ABC):
-    """ Abstract Base Class
+    """Abstract Base Class
     for all polardiagram classes
 
     Methods
@@ -776,11 +785,12 @@ class PolarDiagramTable(PolarDiagram):
                      ws={ws}, ax={ax}, plot_kw={plot_kw}' called""")
 
         bsp = self._get_slice_data(ws)
+        wa = self.wind_angles
 
         logger.info(f"""Internal function
                      'plotting.plot_flat(self.wind_angles, 
                      bsp, ax, **plot_kw)' called""")
-        return plot_flat(self.wind_angles, bsp, ax, **plot_kw)
+        return plot_flat(wa, bsp, ax, **plot_kw)
 
     def polar_plot(self, ws_range=None, ax=None,
                    colors=('green', 'red'), show_legend=True,
@@ -902,6 +912,14 @@ class PolarDiagramTable(PolarDiagram):
 
         if ws_range is None:
             ws_range = self.wind_speeds
+
+        if isinstance(ws_range, np.ndarray):
+            if not ws_range.size:
+                logger.error("")
+                raise PolarDiagramException("")
+        elif not ws_range:
+            logger.error("")
+            raise PolarDiagramException("")
 
         bsp_list = list(self._get_slice_data(ws=ws_range).T)
         wa_list = [list(self._get_radians())] * len(bsp_list)
@@ -1032,6 +1050,14 @@ class PolarDiagramTable(PolarDiagram):
 
         if ws_range is None:
             ws_range = self.wind_speeds
+
+        if isinstance(ws_range, np.ndarray):
+            if not ws_range.size:
+                logger.error("")
+                raise PolarDiagramException("")
+        elif not ws_range:
+            logger.error("")
+            raise PolarDiagramException("")
 
         bsp_list = list(self._get_slice_data(ws=ws_range).T)
         wa_list = [list(self.wind_angles)] * len(bsp_list)
@@ -2308,6 +2334,11 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     def _get_slices(self, ws_range):
         wa_list, bsp_list = [], []
+
+        if not ws_range:
+            logger.error("")
+            raise PolarDiagramException("")
+
         if isinstance(ws_range, tuple):
             ws_lower, ws_upper = ws_range
             ws_range = [ws for ws in self.wind_speeds
@@ -2614,7 +2645,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         logger.info(f"""Method 'PolarDiagramPointcloud.plot_3d(
                      ax={ax}, **plot_kw={plot_kw})' called""")
 
-        ws, wa, bsp = np.hsplit(self.points, 3)
+        ws, wa, bsp = (self.points[:, 0],
+                       self.points[:, 1],
+                       self.points[:, 2])
         wa = np.deg2rad(wa)
         bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
 

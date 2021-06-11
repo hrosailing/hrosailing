@@ -4,19 +4,20 @@ Small utility functions used throughout the module
 
 # Author: Valentin F. Dannenberg / Ente
 
-import logging
+
 import logging.handlers
 import numpy as np
-import sys
-from collections import Iterable
+
+from collections.abc import Iterable
 from scipy.spatial import ConvexHull
+
 from exceptions import PolarDiagramException
 from windconversion import apparent_wind_to_true
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                     level=logging.INFO,
-                    filename='utils.log')
-LOG_FILE = "utils.log"
+                    filename='logging/utils.log')
+LOG_FILE = "logging/utils.log"
 
 logger = logging.getLogger(__name__)
 file_handler = logging.handlers.TimedRotatingFileHandler(
@@ -73,7 +74,20 @@ def speed_resolution(ws_res):
             "ws_res is neither Iterable, int or float")
 
     if isinstance(ws_res, Iterable):
+        if isinstance(ws_res, np.ndarray):
+            if not ws_res.size:
+                logger.error("")
+                raise PolarDiagramException("Empty ws_res was passed")
+        else:
+            if not ws_res:
+                logger.error("")
+                raise PolarDiagramException("Empty ws_res was passed")
+
         return np.asarray(ws_res)
+
+    if not ws_res:
+        logger.error("")
+        raise PolarDiagramException("")
 
     return np.array(np.arange(ws_res, 40, ws_res))
 
@@ -90,7 +104,20 @@ def angle_resolution(wa_res):
             "wa_res is neither Iterable, int or float")
 
     if isinstance(wa_res, Iterable):
+        if isinstance(wa_res, np.ndarray):
+            if not wa_res.size:
+                logger.error("")
+                raise PolarDiagramException("Empty ws_res was passed")
+        else:
+            if not wa_res:
+                logger.error("")
+                raise PolarDiagramException("Empty ws_res was passed")
+
         return np.asarray(wa_res)
+
+    if not wa_res:
+        logger.error("")
+        raise PolarDiagramException("")
 
     return np.array(np.arange(wa_res, 360, wa_res))
 
@@ -112,11 +139,20 @@ def get_indices(w_list, res_list):
             raise PolarDiagramException(
                 f"{w_list} is not in resolution")
 
+    if isinstance(w_list, np.ndarray):
+        if not w_list.size:
+            logger.error("")
+            raise PolarDiagramException("")
+    else:
+        if not w_list:
+            logger.error("")
+            raise PolarDiagramException("")
+
     if not set(w_list).issubset(set(res_list)):
         logger.error("""Error occured when checking if w_list is
                     contained in res_list""")
         raise PolarDiagramException(
             f"{w_list} is not in resolution")
 
-    ind_list = [i for i in range(len(res_list)) if res_list[i] in w_list]
+    ind_list = [i for i, w in enumerate(res_list) if w in w_list]
     return ind_list
