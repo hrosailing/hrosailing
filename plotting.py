@@ -68,6 +68,11 @@ def plot_polar_range(ws_list, wa_list, bsp_list,
                  ax={ax}, colors={colors}, show_legend={show_legend},
                  legend_kw={legend_kw}, **plot_kw={plot_kw})' called""")
 
+    print(ws_list)
+    print(wa_list)
+    print(bsp_list)
+    print(colors)
+
     _check_keywords(plot_kw)
     __ = (plot_kw.pop('color', None)
           or plot_kw.pop('c', None))
@@ -272,6 +277,7 @@ def _set_legend(ax, ws_list, colors, label,
                 **legend_kw):
     no_colors = len(colors)
     no_plots = len(ws_list)
+
     if no_plots > no_colors == 2:
         _set_colormap(ws_list, colors, ax,
                       label, **legend_kw)
@@ -282,7 +288,7 @@ def _set_legend(ax, ws_list, colors, label,
             label=f"TWS {colors[i][0]}")
             for i in range(no_colors)])
         return
-    ax.legend([Line2D(
+    ax.legend(handles=[Line2D(
         [0], [0], color=colors[i], lw=1,
         label=f"TWS {ws_list[i]}")
         for i in range(min(no_colors, no_plots))])
