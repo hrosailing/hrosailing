@@ -68,11 +68,6 @@ def plot_polar_range(ws_list, wa_list, bsp_list,
                  ax={ax}, colors={colors}, show_legend={show_legend},
                  legend_kw={legend_kw}, **plot_kw={plot_kw})' called""")
 
-    print(ws_list)
-    print(wa_list)
-    print(bsp_list)
-    print(colors)
-
     _check_keywords(plot_kw)
     __ = (plot_kw.pop('color', None)
           or plot_kw.pop('c', None))
