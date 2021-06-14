@@ -283,7 +283,7 @@ def _set_legend(ax, ws_list, colors, label,
                       label, **legend_kw)
         return
     if isinstance(colors[0], tuple):
-        ax.legend([Line2D(
+        ax.legend(handles=[Line2D(
             [0], [0], color=colors[i][1], lw=1,
             label=f"TWS {colors[i][0]}")
             for i in range(no_colors)])
