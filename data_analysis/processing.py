@@ -9,6 +9,7 @@ polar diagram from "raw" dataa
 import logging.handlers
 
 from data_analysis.filter import *
+from data_analysis.regressor import *
 from data_analysis.interpolater import *
 from data_analysis.neighbourhood import *
 from data_analysis.weigher import *
@@ -34,22 +35,33 @@ logger.setLevel(logging.INFO)
 
 class PolarPipeline:
     """
-
     """
-    def __init__(self, weigher=None, filter_=None,
-                 eval_func=None, i_func=None,
-                 s_fit_func=None):
 
+    def __init__(self, weigher=None, filter_=None,
+                 interpolater=None, regressor=None):
+
+        if weigher is None:
+            weigher = CylindricMeanWeigher
         if filter_ is None:
-            filter_ = ...
+            filter_ = QuantileFilter
+        if interpolater is None:
+            interpolater = ArithmeticMeanInterpolater
+        if regressor is None:
+            pass
+
+        if not isinstance(weigher, Weigher):
+            raise ProcessingException("")
         if not isinstance(filter_, Filter):
             raise ProcessingException("")
+        if not isinstance(interpolater, Interpolater):
+            raise ProcessingException("")
+        if not isinstance(regressor, Regressor):
+            raise ProcessingException
 
         self._weigher = weigher
         self._filter = filter_
-        self._eval_func = eval_func
-        self._i_func = i_func
-        self._s_fit_func = s_fit_func
+        self._interpolater = interpolater
+        self._regressor = regressor
 
     @property
     def weigher(self):
@@ -60,30 +72,24 @@ class PolarPipeline:
         return self._filter
 
     @property
-    def evaluation_function(self):
-        return self._eval_func
+    def interpolater(self):
+        return self._interpolater
 
     @property
-    def interpolating_function(self):
-        return self._i_func
-
-    @property
-    def surface_fitting_function(self):
-        return self._s_fit_func
+    def regressor(self):
+        return self._regressor
 
     def __repr__(self):
-        return f"""PolarPipeline(w_func={self.weigher.__name__},
-        f_func={self.filter.__name__},
-        eval_func={self.evaluation_function.__name__},
-        i_func={self.interpolating_function.__name__},
-        s_fit_func={self.surface_fitting_function.__name__})"""
+        return f"""PolarPipeline(weigher={self.weigher.__name__},
+        filter={self.filter.__name__}, 
+        interpolater={self.interpolater.__name__},
+        s_fit_func={self.regressor.__name__})"""
 
     def __call__(self, p_type: PolarDiagram,
                  data=None, data_file=None,
                  file_format=None, tw=True,
-                 w_res=None, neighbourhood=None,
-                 norm=None, filtering=True,
-                 **kwargs):
+                 filtering=True, w_res=None,
+                 neighbourhood=None, **kwargs):
 
         if data is None and data_file is None:
             raise ProcessingException("")
@@ -95,26 +101,21 @@ class PolarPipeline:
                                tw=tw)
         if filtering:
             mask = self.filter.filter(w_pts.weights)
-            w_pts = WeightedPoints(w_pts.points[mask],
-                                   weights=w_pts.weights[mask])
-
-        if norm is None:
-            norm = euclidean_norm
+            w_pts = w_pts[mask]
 
         if p_type is PolarDiagramTable:
             return _create_polar_diagram_table(
-                w_pts, w_res, norm, neighbourhood,
-                self.evaluation_function, **kwargs)
+                w_pts, w_res, neighbourhood,
+                self.interpolater)
 
         if p_type is PolarDiagramCurve:
             return _create_polar_diagram_curve(
-                w_pts, self.surface_fitting_function,
+                w_pts, self.regressor,
                 **kwargs)
 
         if p_type is PolarDiagramPointcloud:
             return _create_polar_diagram_pointcloud(
-                w_pts, norm, neighbourhood,
-                self.interpolating_function,
+                w_pts, neighbourhood, self.interpolater,
                 **kwargs)
 
 
@@ -137,58 +138,48 @@ def _read_file(data_file, file_format, tw, mode):
     return data, tw
 
 
-def _create_polar_diagram_table(w_pts, w_res, norm,
-                                neighbourhood, eval_func,
-                                **kwargs):
+def _create_polar_diagram_table(w_pts, w_res, neighbourhood,
+                                interpolater):
     if neighbourhood is None:
         neighbourhood = Ball()
-
     if not isinstance(neighbourhood, Neighbourhood):
         raise ProcessingException("")
 
-    if eval_func is None:
-        eval_func = weighted_arithm_mean
+    w_res = _set_wind_resolution(w_res, w_pts.points)
 
-    w_res = _set_wind_resolution(w_res, w_pts.points,
-                                 auto=kwargs.get("auto", False))
-
-    data = _interpolate_grid_points(w_res, w_pts, norm,
-                                    neighbourhood, eval_func,
-                                    **kwargs)
+    data = _interpolate_grid_points(w_res, w_pts, neighbourhood,
+                                    interpolater)
 
     return PolarDiagramTable(ws_res=w_res[0],
                              wa_res=w_res[1],
                              data=data)
 
 
-def _create_polar_diagram_curve(w_pts, s_fit_function, **kwargs):
+def _create_polar_diagram_curve(w_pts, regressor, **kwargs):
+    # TODO!
     # Work with regression?
-    if s_fit_function is None:
-        # TODO
-        pass
-
-    return s_fit_function(w_pts, **kwargs)
+    pass
 
 
-def _create_polar_diagram_pointcloud(w_pts, norm, neighbourhood,
-                                     i_func, **kwargs):
-    if i_func is None:
-        i_func = weighted_mean_interpolation
-
+def _create_polar_diagram_pointcloud(w_pts, neighbourhood,
+                                     interpolater, **kwargs):
     if neighbourhood is None:
         neighbourhood = Ball()
-
     if not isinstance(neighbourhood, Neighbourhood):
-        raise ProcessingException()
+        raise ProcessingException("")
 
-    points = i_func(w_pts, norm, neighbourhood,
-                    **kwargs)
+    center_pts = _create_interpolation_centers(w_pts.pts, **kwargs)
+    points = []
+
+    for c_pt in center_pts:
+        mask = neighbourhood.is_contained_in(w_pts.points[:, :2] - c_pt)
+        points.append(interpolater.interpolate(w_pts[mask]))
 
     return PolarDiagramPointcloud(points=points)
 
 
-def _set_wind_resolution(w_res, pts, auto=False):
-    if auto:
+def _set_wind_resolution(w_res, pts):
+    if w_res == 'auto':
         ws_min = round(pts[:, 0].min())
         ws_max = round(pts[:, 0].max())
         wa_min = round(pts[:, 1].min())
@@ -200,17 +191,15 @@ def _set_wind_resolution(w_res, pts, auto=False):
         return ws_res, wa_res
 
     if w_res is None:
-        ws_res = None
-        wa_res = None
-    else:
-        ws_res, wa_res = w_res
+        w_res = (None, None)
+
+    ws_res, wa_res = w_res
 
     return speed_resolution(ws_res), angle_resolution(wa_res)
 
 
-def _interpolate_grid_points(w_res, w_points, norm,
-                             neighbourhood, eval_func,
-                             **kwargs):
+def _interpolate_grid_points(w_res, w_pts, neighbourhood,
+                             interpolater):
     ws_res, wa_res = w_res
     data = np.zeros((len(wa_res), len(ws_res)))
 
@@ -218,13 +207,12 @@ def _interpolate_grid_points(w_res, w_points, norm,
         for j, wa in enumerate(wa_res):
             grid_point = np.array([ws, wa])
             mask = neighbourhood.is_contained_in(
-                w_points.points[:, :2] - grid_point)
+                w_pts.points[:, :2] - grid_point)
             if not any(mask):
                 continue
-            dist = norm(w_points.points[mask][:, :2] - grid_point)
-            data[j, i] = eval_func(
-                w_points.points[mask][:, 2],
-                w_points.weights[mask],
-                dist, **kwargs)
-
+            data[j, i] = interpolater.interpolate(w_pts[mask])
     return data
+
+
+def _create_interpolation_centers(pts, **kwargs):
+    return pts[:, :2]

@@ -1,14 +1,66 @@
 """
-
 """
 
 # Author Valentin F. Dannenberg / Ente
 
-
+from abc import ABC, abstractmethod
 import numpy as np
 
 from scipy.interpolate import bisplrep, bisplev, griddata, \
     SmoothBivariateSpline, Rbf, LSQBivariateSpline
+
+from exceptions import ProcessingException
+from utils import euclidean_norm
+
+
+class Interpolater(ABC):
+
+    @abstractmethod
+    def interpolate(self, w_pts):
+        pass
+
+
+class ArithmeticMeanInterpolater(Interpolater):
+
+    def __init__(self, s=1, norm=None,
+                 distribution=None, *params):
+        if not isinstance(s, (int, float)):
+            raise ProcessingException("")
+
+        if norm is None:
+            norm = euclidean_norm
+
+        if distribution is None:
+            distribution = gauss_potential
+
+        self._scal = s
+        self._norm = norm
+        self._distr = distribution
+        self._params = params
+
+    @property
+    def scaling_factor(self):
+        return self._scal
+
+    @property
+    def norm(self):
+        return self._norm
+
+    @property
+    def distribution(self):
+        return self._distr
+
+    @property
+    def parameters(self):
+        return self._params
+
+    def interpolate(self, w_pts):
+        distances = self.norm(w_pts.points)
+        updated_weights = self.distribution(
+            distances, w_pts.weights, *self.parameters)
+
+        return self.scaling_factor * np.average(
+            w_pts.points, axis=0, weights=updated_weights)
 
 
 def weighted_arithm_mean(points, weights, dist, **kwargs):
@@ -19,8 +71,10 @@ def weighted_arithm_mean(points, weights, dist, **kwargs):
     return scal_fac * np.average(points, axis=0, weights=weights)
 
 
-def gauss_potential(dist, weights, alpha, beta):
-    return beta * np.exp(-alpha * weights * dist)
+def gauss_potential(distances, weights, *params):
+    alpha = params[0]
+    beta = params[1]
+    return beta * np.exp(-alpha * weights * distances)
 
 
 def weighted_mean_interpolation(w_pts, norm, neighbourhood,

@@ -9,6 +9,7 @@ from abc import ABC, abstractmethod
 import numpy as np
 
 from exceptions import ProcessingException
+from utils import euclidean_norm
 
 
 class Neighbourhood(ABC):
@@ -155,5 +156,53 @@ class Cuboid(Neighbourhood):
         return mask
 
 
-def euclidean_norm(vec):
-    return np.linalg.norm(vec, axis=1)
+class Polytope(Neighbourhood):
+
+    def __init__(self, d=3, mat=None, b=None):
+        if mat is None:
+            mat = np.row_stack((np.eye(d), -np.eye(d)))
+        if b is None:
+            b = np.ones(2*d)
+
+        mat = np.asarray(mat)
+        b = np.asarray(b)
+
+        # Sanity checks
+        if not mat.size:
+            raise ProcessingException("")
+        if not b.size:
+            raise ProcessingException("")
+        if len(mat) != len(b):
+            raise ProcessingException("")
+        if len(mat[0]) != d:
+            raise ProcessingException("")
+
+        self._dim = d
+        self._mat = mat
+        self._b = b
+
+    @property
+    def dimension(self):
+        return self._dim
+
+    @property
+    def inequalities(self):
+        return self._mat
+
+    @property
+    def bounds(self):
+        return self._b
+
+    def is_contained_in(self, vec):
+        vec = np.asarray(vec)
+        d = self.dimension
+        if len(vec[0]) != d:
+            raise ProcessingException("")
+
+        mat = self.inequalities
+        b = self.bounds
+        mask = np.ones((len(vec),), dtype=bool)
+        for ineq, bound in zip(mat, b):
+            mask = mask & (ineq @ vec.T <= bound)
+
+        return mask
