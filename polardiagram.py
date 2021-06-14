@@ -510,25 +510,16 @@ class PolarDiagramTable(PolarDiagram):
         logger.info(f"""Class 'PolarDiagramTable(ws_res,
                      wa_res, data, tw={tw})' called""")
 
-        logger.info(f"""Internal function
-                     'utils.convert_wind(w_dict, tw={tw})' called""")
-        w_dict = convert_wind(
-            {"wind_speed": ws_res,
-             "wind_angle": wa_res,
-             "boat_speed": data},
-            tw)
+        logger.info(f"Internal function 'speed_resolution("
+                    f"ws_res={ws_res})' called")
+        ws_res = speed_resolution(ws_res)
+        logger.info(f"Internal function 'angle_resolution("
+                    f"wa_res={wa_res})' called")
+        wa_res = angle_resolution(wa_res)
 
-        logger.info("""Internal function 
-                     'utils.speed_resolution(ws_res)' called""")
-        self._resolution_wind_speed = speed_resolution(
-            w_dict.get("wind_speed"))
-        logger.info("""Internal function
-                     'utils.angle_resolution(wa_res)' called""")
-        self._resolution_wind_angle = angle_resolution(
-            w_dict.get("wind_angle"))
+        rows = len(wa_res)
+        cols = len(ws_res)
 
-        rows = len(self._resolution_wind_angle)
-        cols = len(self._resolution_wind_speed)
         if data is None:
             data = np.zeros(rows, cols)
         data = np.asarray(data)
@@ -546,7 +537,20 @@ class PolarDiagramTable(PolarDiagram):
                 raise PolarDiagramException(
                     "data couldn't be broadcasted to an array of" +
                     f"shape {(rows, cols)}")
-        self._data = data
+        ws, wa = np.meshgrid(ws_res, wa_res)
+        ws = ws.reshape(-1, )
+        wa = wa.reshape(-1, )
+        data = data.reshape(-1, )
+
+        logger.info(f"Internal function 'utils.convert_wind("
+                    f"np.column_stack((ws, wa, data)), tw={tw})'"
+                    f"called")
+        wind_arr = convert_wind(np.column_stack((ws, wa, data)), tw)
+        self._resolution_wind_speed = np.array(
+            list(dict.fromkeys(wind_arr[:, 0])))
+        self._resolution_wind_angle = np.array(
+            list(dict.fromkeys(wind_arr[:, 1])))
+        self._data = data.reshape(rows, cols)
 
     def __str__(self):
         logger.info("""Dunder-method
@@ -2094,18 +2098,9 @@ class PolarDiagramPointcloud(PolarDiagram):
                         "points could not be broadcasted "
                         "to an array of shape (n,3)")
 
-            logger.info("""Internal function 'utils.convert_wind(
-                         w_dict, tw)' called""")
-            w_dict = convert_wind(
-                {"wind_speed": points[:, 0],
-                 "wind_angle": points[:, 1],
-                 "boat_speed": points[:, 2]},
-                tw)
-            points = np.column_stack(
-                (w_dict.get("wind_speed"),
-                 w_dict.get("wind_angle"),
-                 points[:, 2]))
-            self._data = points
+            logger.info(f"""Internal function 'utils.convert_wind(
+                         points, tw={tw})' called""")
+            self._data = convert_wind(points, tw)
         else:
             self._data = np.array([])
 
@@ -2215,17 +2210,9 @@ class PolarDiagramPointcloud(PolarDiagram):
                     "to an array of shape (n,3)")
 
         logger.info(f"""Internal function 'utils.convert_wind(
-                     w_dict, tw={tw})' called""")
-        w_dict = convert_wind(
-            {"wind_speed": new_points[:, 0],
-             "wind_angle": new_points[:, 1],
-             "boat_speed": new_points[:, 2]},
-            tw)
+                     new_points, tw={tw})' called""")
+        new_points = convert_wind(new_points, tw)
 
-        new_points = np.column_stack(
-            (w_dict.get("wind_speed"),
-             w_dict.get("wind_angle"),
-             new_points[:, 2]))
         if self.points == np.array([]):
             self._data = new_points
             return

@@ -36,6 +36,10 @@ def polar_to_kartesian(arr):
     )
 
 
+def euclidean_norm(vec):
+    return np.linalg.norm(vec, axis=1)
+
+
 def convex_hull_polar(points):
     logger.info("Function 'convex_hull_polar(points)' called")
 
@@ -45,21 +49,15 @@ def convex_hull_polar(points):
     return ConvexHull(converted_points)
 
 
-def convert_wind(w_dict, tw):
-    logger.info(f"Function 'convert_wind(w_dict, tw={tw})' called")
+def convert_wind(wind_arr, tw):
+    logger.info(f"Function 'convert_wind(wind_arr, tw={tw})' called")
 
     if tw:
-        return w_dict
-
-    aws = w_dict.get("wind_speed")
-    awa = w_dict.get("wind_angle")
-    bsp = w_dict.get("boat_speed")
+        return wind_arr
 
     logger.info("""Internal function 'windconversion.apparent_wind_to_true(
-                 aws, awa, bsp)' called""")
-    tws, twa = apparent_wind_to_true(aws, awa, bsp)
-
-    return {"wind_speed": tws, "wind_angle": twa}
+                 wind_arr)' called""")
+    return apparent_wind_to_true(wind_arr)
 
 
 def speed_resolution(ws_res):

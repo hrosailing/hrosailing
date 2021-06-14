@@ -8,6 +8,8 @@ Functions to convert wind from apparent to true and vice versa
 import logging.handlers
 import numpy as np
 
+from exceptions import PolarDiagramException
+
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                     level=logging.INFO,
@@ -22,11 +24,15 @@ logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)
 
 
-def apparent_wind_to_true(aws, awa, bsp):
-    logger.info("Function 'apparent_wind_to_true(aws, awa, bsp)' called")
+def apparent_wind_to_true(wind_arr):
+    logger.info("Function 'apparent_wind_to_true(wind_arr)' called")
 
-    if any(x is None for x in (aws, awa, bsp)):
-        return None, None
+    wind_arr = np.asarray(wind_arr)
+    if not wind_arr.size:
+        raise PolarDiagramException("")
+
+    aws, awa, bsp = np.hsplit(wind_arr, 3)
+
     awa_above_180 = awa > 180
     awa = np.deg2rad(awa)
 
@@ -42,14 +48,17 @@ def apparent_wind_to_true(aws, awa, bsp):
     twa[np.logical_not(awa_above_180)] = np.rad2deg(
         twa[np.logical_not(awa_above_180)])
 
-    return tws, twa
+    return np.column_stack((tws, twa, bsp))
 
 
-def true_wind_to_apparent(tws, twa, bsp):
-    logger.info("Function 'true_wind_to_apparent(tws, twa, bsp)' called")
+def true_wind_to_apparent(wind_arr):
+    logger.info("Function 'true_wind_to_apparent(wind_arr)' called")
 
-    if any(x is None for x in (tws, twa, bsp)):
-        return None, None
+    wind_arr = np.asarray(wind_arr)
+    if not wind_arr.size:
+        raise PolarDiagramException("")
+
+    tws, twa, bsp = np.hsplit(wind_arr, 3)
 
     twa_above_180 = twa > 180
     twa_rad = np.deg2rad(twa)
@@ -66,4 +75,4 @@ def true_wind_to_apparent(tws, twa, bsp):
     awa[np.logical_not(twa_above_180)] = np.rad2deg(
         awa[np.logical_not(twa_above_180)])
 
-    return aws, awa
+    return np.column_stack((tws, twa, bsp))
