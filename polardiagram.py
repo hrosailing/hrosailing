@@ -11,7 +11,6 @@ import pickle
 from abc import ABC, abstractmethod
 from tabulate import tabulate
 
-from exceptions import *
 from filereading import *
 from plotting import *
 from utils import *
@@ -1334,7 +1333,7 @@ class PolarDiagramCurve(PolarDiagram):
         of it
     """
 
-    def __init__(self, f, radians=False, *params):
+    def __init__(self, f, *params, radians=False):
         logger.info(f"""Class 'PolarDiagramCurve(
                      f={f.__name__}, radians={radians}, *params={params})'
                      called""")
