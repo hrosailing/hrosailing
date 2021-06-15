@@ -22,8 +22,8 @@ class Interpolater(ABC):
 
 class ArithmeticMeanInterpolater(Interpolater):
 
-    def __init__(self, s=1, norm=None,
-                 distribution=None, *params):
+    def __init__(self, *params, s=1, norm=None,
+                 distribution=None,):
         if not isinstance(s, (int, float)):
             raise ProcessingException("")
 

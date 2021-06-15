@@ -26,7 +26,7 @@ class Filter(ABC):
 
 class QuantileFilter(Filter):
 
-    def __init__(self, percent=75):
+    def __init__(self, percent=25):
         if percent < 0 or percent > 100:
             raise ProcessingException("")
 

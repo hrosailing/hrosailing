@@ -21,7 +21,7 @@ class Neighbourhood(ABC):
 
 class Ball(Neighbourhood):
 
-    def __init__(self, d=3, norm=None, radius=1):
+    def __init__(self, d=2, norm=None, radius=1):
         if norm is None:
             norm = euclidean_norm
 
@@ -58,7 +58,7 @@ class Ball(Neighbourhood):
 
 class Ellipsoid(Neighbourhood):
 
-    def __init__(self, d=3, lin_trans=None,
+    def __init__(self, d=2, lin_trans=None,
                  norm=None, radius=1,):
         if lin_trans is None:
             lin_trans = np.eye(d)
@@ -118,7 +118,7 @@ class Ellipsoid(Neighbourhood):
 
 class Cuboid(Neighbourhood):
 
-    def __init__(self, d=3, norm=None, dimensions=(1, 1, 1)):
+    def __init__(self, d=2, norm=None, dimensions=(1, 1, 1)):
         if norm is None:
             norm = np.abs
 
@@ -158,7 +158,7 @@ class Cuboid(Neighbourhood):
 
 class Polytope(Neighbourhood):
 
-    def __init__(self, d=3, mat=None, b=None):
+    def __init__(self, d=2, mat=None, b=None):
         if mat is None:
             mat = np.row_stack((np.eye(d), -np.eye(d)))
         if b is None:

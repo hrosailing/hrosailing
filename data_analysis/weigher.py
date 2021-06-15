@@ -10,8 +10,9 @@ the corresponding data point
 # Author: Valentin F. Dannenberg / Ente
 
 
-from abc import ABC, abstractmethod
 import numpy as np
+
+from abc import ABC, abstractmethod
 
 from exceptions import ProcessingException
 from utils import convert_wind, euclidean_norm
@@ -35,10 +36,10 @@ class WeightedPoints:
         self._points = convert_wind(points, tw)
 
         if weigher is None:
-            weigher = CylindricMeanWeigher
+            weigher = CylindricMeanWeigher()
 
         if not isinstance(weigher, Weigher):
-            raise ProcessingException("")
+            raise ProcessingException("weigher is not a Weigher")
 
         if weights is None:
             self._weights = weigher.weigh(points)
@@ -100,7 +101,7 @@ class CylindricMeanWeigher(Weigher):
             raise ProcessingException("")
 
         if norm is None:
-            norm = np.abs
+            norm = euclidean_norm
 
         self._radius = radius
         self._norm = norm

@@ -33,7 +33,7 @@ class ODREstimator(BaseEstimator):
     def fit(self, X, y):
         X = np.asarray(X)
         y = np.asarray(y)
-
+        X, y = check_X_y(X, y)
         tws = X[:, 0]
         twa = X[:, 1]
 

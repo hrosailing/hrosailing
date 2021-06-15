@@ -8,10 +8,13 @@ polar diagram from "raw" dataa
 
 import logging.handlers
 
+
 from data_analysis.filter import *
 from data_analysis.regressor import *
 from data_analysis.interpolater import *
 from data_analysis.neighbourhood import *
+from data_analysis.models3d import *
+from data_analysis.sampler import *
 from data_analysis.weigher import *
 from filereading import read_csv_file, read_nmea_file
 from polardiagram import PolarDiagram, PolarDiagramTable, \
@@ -38,28 +41,38 @@ class PolarPipeline:
     """
 
     def __init__(self, weigher=None, filter_=None,
-                 interpolater=None, regressor=None):
+                 sampler=None, interpolater=None,
+                 regressor=None):
 
         if weigher is None:
-            weigher = CylindricMeanWeigher
+            weigher = CylindricMeanWeigher()
         if filter_ is None:
-            filter_ = QuantileFilter
+            filter_ = QuantileFilter()
+        if sampler is None:
+            sampler = RandomSampler(no_samples=500)
         if interpolater is None:
-            interpolater = ArithmeticMeanInterpolater
+            interpolater = ArithmeticMeanInterpolater(1, 1)
         if regressor is None:
-            pass
+            regressor = ODRegressor(model_func=odr_tws_s_dt_gauss_comb,
+                                    init_values=(0.25, 10, 1.7, 0,
+                                                 1.9, 30, 17.6, 0))
 
         if not isinstance(weigher, Weigher):
-            raise ProcessingException("")
+            raise ProcessingException("weigher is not a Weigher")
         if not isinstance(filter_, Filter):
-            raise ProcessingException("")
+            raise ProcessingException("filter_ is not a Filter")
+        if not isinstance(sampler, Sampler):
+            raise ProcessingException("sampler is not a Sampler")
         if not isinstance(interpolater, Interpolater):
-            raise ProcessingException("")
+            raise ProcessingException("interpolater is not an"
+                                      "Interpolater")
         if not isinstance(regressor, Regressor):
-            raise ProcessingException
+            raise ProcessingException("regressor is not a"
+                                      "Regressor")
 
         self._weigher = weigher
         self._filter = filter_
+        self._sampler = sampler
         self._interpolater = interpolater
         self._regressor = regressor
 
@@ -70,6 +83,10 @@ class PolarPipeline:
     @property
     def filter(self):
         return self._filter
+
+    @property
+    def sampler(self):
+        return self._sampler
 
     @property
     def interpolater(self):
@@ -87,15 +104,15 @@ class PolarPipeline:
 
     def __call__(self, p_type: PolarDiagram,
                  data=None, data_file=None,
-                 file_format=None, tw=True,
-                 filtering=True, w_res=None,
-                 neighbourhood=None, **kwargs):
+                 file_format=None, file_mode='mean',
+                 tw=True, filtering=True, w_res=None,
+                 neighbourhood=None):
 
         if data is None and data_file is None:
             raise ProcessingException("")
         if data is None:
             data, tw = _read_file(data_file, file_format,
-                                  tw, kwargs.get('mode', 'mean'))
+                                  tw, file_mode)
 
         w_pts = WeightedPoints(data, weigher=self.weigher,
                                tw=tw)
@@ -110,13 +127,12 @@ class PolarPipeline:
 
         if p_type is PolarDiagramCurve:
             return _create_polar_diagram_curve(
-                w_pts, self.regressor,
-                **kwargs)
+                w_pts, self.regressor)
 
         if p_type is PolarDiagramPointcloud:
             return _create_polar_diagram_pointcloud(
                 w_pts, neighbourhood, self.interpolater,
-                **kwargs)
+                self.sampler)
 
 
 def _read_file(data_file, file_format, tw, mode):
@@ -155,27 +171,30 @@ def _create_polar_diagram_table(w_pts, w_res, neighbourhood,
                              data=data)
 
 
-def _create_polar_diagram_curve(w_pts, regressor, **kwargs):
-    # TODO!
-    # Work with regression?
-    pass
+def _create_polar_diagram_curve(w_pts, regressor):
+    # regressor.set_weights(w_pts.weights)
+    regressor.fit(w_pts.points)
+
+    return PolarDiagramCurve(
+        regressor.model_func,
+        *regressor.optimal_params)
 
 
 def _create_polar_diagram_pointcloud(w_pts, neighbourhood,
-                                     interpolater, **kwargs):
+                                     interpolater, sampler):
     if neighbourhood is None:
         neighbourhood = Ball()
     if not isinstance(neighbourhood, Neighbourhood):
         raise ProcessingException("")
 
-    center_pts = _create_interpolation_centers(w_pts.pts, **kwargs)
-    points = []
+    sample_pts = sampler.sample(w_pts.points)
+    pts = []
 
-    for c_pt in center_pts:
-        mask = neighbourhood.is_contained_in(w_pts.points[:, :2] - c_pt)
-        points.append(interpolater.interpolate(w_pts[mask]))
+    for s_pt in sample_pts:
+        mask = neighbourhood.is_contained_in(w_pts.points[:, :2] - s_pt)
+        pts.append(interpolater.interpolate(w_pts[mask]))
 
-    return PolarDiagramPointcloud(points=points)
+    return PolarDiagramPointcloud(points=pts)
 
 
 def _set_wind_resolution(w_res, pts):
@@ -214,5 +233,5 @@ def _interpolate_grid_points(w_res, w_pts, neighbourhood,
     return data
 
 
-def _create_interpolation_centers(pts, **kwargs):
-    return pts[:, :2]
+def _create_interpolation_centers(pts, sampler):
+    return sampler.sample(pts)
