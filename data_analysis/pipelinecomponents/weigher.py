@@ -1,10 +1,12 @@
 """
-Collection of various function to
-determine weights of data points
+Defines a baseclass for weighers used in the
+data_analysis.processing.PolarPipeline class,
+that can be used to create custom weighers for use.
 
-Each function returns an array
-containing the weights of
-the corresponding data point
+Also contains various predefined and useable weighers,
+aswell as the WeightedPoints class, used to
+represent data points together with their
+respective weights
 """
 
 # Author: Valentin F. Dannenberg / Ente
@@ -19,43 +21,90 @@ from utils import convert_wind, euclidean_norm
 
 
 class WeightedPoints:
+    """A class to weigh data points
+    and represent them together with
+    their respective weights
+
+    Parameters
+    ----------
+    points : array_like of shape (n, d)
+        Points that will
+        be weight or paired
+        with given weights
+    weights : int, float or array_like of shape (n, ), optional
+        If the weights of the
+        points are known beforehand,
+        they can be given as an
+        argument. If weights are
+        passed, they will be
+        assigned to the points
+        and no further weighing
+        will take place
+
+        If a scalar is passed,
+        the points will all be
+        assigned the same weight
+
+        Defaults to None
+    weigher : Weigher, optional
+        Instance of a Weigher class,
+        which will weigh the points
+
+        Will only be used if
+        weights is None
+
+        If nothing is passed, it
+        will default to
+        CylindricMeanWeigher()
+    tw : bool, optional
+        Specifies if the
+        given wind data should
+        be viewed as true wind
+
+        If False, wind data
+        will be converted
+        to true wind
+
+        Defaults to True
+
+    Methods
+    -------
+    points
+    weights
     """
-    """
-    def __init__(self, points, weights=None,
+
+    def __init__(self, pts, wts=None,
                  weigher=None, tw=True):
-        points = np.asarray(points)
-
-        if len(points[0]) != 3:
-            try:
-                points = points.reshape(-1, 3)
-            except ValueError:
-                raise ProcessingException(
-                    "points could not be broadcasted "
-                    "to an array of shape (n,3)")
-
-        self._points = convert_wind(points, tw)
+        pts = np.asarray(pts)
+        shape = pts.shape
+        if not pts.size:
+            raise ProcessingException("")
+        self._points = convert_wind(pts, tw)
 
         if weigher is None:
             weigher = CylindricMeanWeigher()
-
         if not isinstance(weigher, Weigher):
             raise ProcessingException("weigher is not a Weigher")
+        if wts is None:
+            self._weights = weigher.weigh(pts)
+            return
 
-        if weights is None:
-            self._weights = weigher.weigh(points)
-        else:
-            weights = np.asarray(weights)
-            no_pts = len(points)
+        if isinstance(wts, (int, float)):
+            self._weights = np.array([wts] * shape[0])
+            return
+        wts = np.asarray(wts)
+        try:
+            wts = wts.reshape(shape[0], )
+        except ValueError:
+            raise ProcessingException(
+                f"weights could not be broadcasted"
+                f"to an array of shape ({shape[0]}, )")
+        self._weights = wts
 
-            if len(weights) != no_pts:
-                try:
-                    weights = weights.reshape(no_pts, )
-                except ValueError:
-                    raise ProcessingException(
-                        f"weights could not be broadcasted"
-                        f"to an array of shape ({no_pts}, )")
-
-            self._weights = weights
+    def __getitem__(self, mask):
+        return WeightedPoints(
+            pts=self.points[mask],
+            wts=self.weights[mask])
 
     @property
     def points(self):
@@ -65,115 +114,221 @@ class WeightedPoints:
     def weights(self):
         return self._weights.copy()
 
-    def __repr__(self):
-        return f"""WeightedPoints(points={self.points},
-        weights={self.weights})"""
-
-    def __iter__(self):
-        self.index = 0
-        return self
-
-    def __next__(self):
-        if self.index < len(self.points):
-            self.index += 1
-            return self.points[self.index], \
-                self.weights[self.index]
-
-        raise StopIteration
-
-    def __getitem__(self, mask):
-        return WeightedPoints(
-            points=self.points[mask],
-            weights=self.weights[mask])
-
 
 class Weigher(ABC):
+    """Base class for all
+    weigher classes
+
+    Abstract Methods
+    ----------------
+    weight(self, pts)
+    """
 
     @abstractmethod
-    def weigh(self, points):
+    def weigh(self, pts):
         pass
 
 
+# TODO: Describe method
 class CylindricMeanWeigher(Weigher):
+    """A weigher that
+    weighs given points
+    according to the
+    following procedure:
 
-    def __init__(self, radius=1, norm=None):
+    For a given point p
+    and points pts
+    we look at all the
+    points pt in pts such that
+    ||pt[:d-1] - p[:d-1]|| <= r.
+    Then we take the mean m_p
+    and standard deviation std_p of
+    the dth component of all those
+    points and set
+    w_p = | m_p - p[d-1] | / std_p
+
+    Parameters
+    ----------
+    radius : positive int or float, optional
+        The radius of the
+        considered cylinder,
+        with infinite height,
+        ie r
+
+        Defaults to 1
+    norm : function or callable, optional
+        Norm with which to
+        evaluate the distances,
+        ie ||.||
+
+        If nothing is passed, it
+        will default to ||.||_2
+
+    Methods
+    -------
+    weigh(self, pts)
+        Weigh given points
+        according to the method
+        described above
+    """
+    def __init__(self,  radius=1, norm=None):
+
+        # Sanity checks
         if not isinstance(radius, (int, float)):
             raise ProcessingException("")
-
+        if radius <= 0:
+            raise ProcessingException("")
         if norm is None:
             norm = euclidean_norm
+        if not callable(norm):
+            raise ProcessingException("")
 
         self._radius = radius
         self._norm = norm
 
-    @property
-    def radius(self):
-        return self._radius
+    def __repr__(self):
+        return (f"CylindricMeanWeigher("
+                f"radius={self._radius}, "
+                f"norm={self._norm.__name__})")
 
-    @property
-    def norm(self):
-        return self._norm
+    def weigh(self, pts):
+        """Weigh given points
+        according to the method
+        described above
 
-    def weigh(self, points):
-        points = np.asarray(points)
-        if not points.size:
+        Parameters
+        ----------
+        pts : array_like of shape (n, d)
+            Points to be weight
+
+        Returns
+        -------
+        wts : numpy.ndarray of shape (n, )
+            Normalized weights of
+            the input points
+        """
+        pts = np.asarray(pts)
+        shape = pts.shape
+        if not pts.size:
             raise ProcessingException("")
-        if len(points[0]) != 3:
-            raise ProcessingException("")
 
-        weights = np.zeros(len(points))
+        d = shape[1]
+        wts = np.zeros(shape[0])
 
-        for i, point in enumerate(points):
-            mask = self.norm(points[:, :2] - point[:2]) <= self.radius
-            cylinder = points[mask][:, 2]
+        for i, pt in enumerate(pts):
+            mask = (self._norm(pts[:, :d-1] - pt[:d-1])
+                    <= self._radius)
+            cylinder = pts[mask][:, d-1]
             std = np.std(cylinder)
             mean = np.mean(cylinder)
-            weights[i] = np.abs(mean - point[2]) / std
+            wts[i] = np.abs(mean - pt[d-1]) / std
 
-        return weights / max(weights)
+        return wts / max(wts)
 
 
+# TODO: Describe method
 class CylindricMemberWeigher(Weigher):
+    """A weigher that
+    weighs given points
+    according to the
+    following procedure:
 
+    For a given point p
+    and points pts
+    we look at all the
+    points pt in pts such that
+    |pt[0] - p[0]| <= l
+    ||pt[1:] - p[1:]|| <= r
+    Call the set of all such
+    points P, then
+    w_p = #P - 1, where #
+    is the cardinality of
+    a set
+
+    Parameters
+    ----------
+    radius : positive int or float, optional
+        The radius of the
+        considered cylinder,
+        ie r
+
+        Defaults to 1
+    length : nonnegative int of float, optional
+        The height of the
+        considered cylinder,
+        ie l
+
+        If length is 0,
+        the cylinder is a
+        d-1 dimensional ball
+
+        Defaults to 1
+    norm : function or callable, optional
+        Norm with which to
+        evaluate the distances,
+        ie ||.||
+
+        If nothing is passed, it
+        will default to ||.||_2
+
+    Methods
+    -------
+    weigh(self, pts)
+        Weigh given points
+        according to the method
+        described above
+    """
     def __init__(self, radius=1, length=1, norm=None):
         if not isinstance(radius, (int, float)):
             raise ProcessingException("")
-
+        if radius <= 0:
+            raise ProcessingException("")
         if not isinstance(length, (int, float)):
             raise ProcessingException("")
-
+        if length < 0:
+            raise ProcessingException("")
         if norm is None:
             norm = euclidean_norm
+        if not callable(norm):
+            raise ProcessingException("")
 
         self._radius = radius
         self._length = length
         self._norm = norm
 
-    @property
-    def radius(self):
-        return self._radius
+    def __repr__(self):
+        return (f"CylindricMemberWeigher("
+                f"radius={self._radius}, "
+                f"length={self._length}, "
+                f"norm={self._norm.__name__})")
 
-    @property
-    def length(self):
-        return self._length
+    def weigh(self, pts):
+        """Weigh given points
+        according to the method
+        described above
 
-    @property
-    def norm(self):
-        return self._norm
+        Parameters
+        ----------
+        pts : array_like of shape (n, d)
+            Points to be weight
 
-    def weigh(self, points):
-        points = np.asarray(points)
-        if not points.size:
+        Returns
+        -------
+        wts : numpy.ndarray of shape (n, )
+            Normalized weights of
+            the input points
+        """
+        pts = np.asarray(pts)
+        shape = pts.shape
+        if not pts.size:
             raise ProcessingException("")
-        if len(points) != 3:
-            raise ProcessingException("")
 
-        weights = np.zeros(len(points))
+        wts = np.zeros(shape[0])
 
-        for i, point in enumerate(points):
-            mask_l = np.abs(points[:, 0] - point[0]) <= self.length
-            mask_r = self.norm(points[:, 1:] - point[1:]) <= self.radius
+        for i, pt in enumerate(pts):
+            mask_l = np.abs(pts[:, 0] - pt[0]) <= self._length
+            mask_r = self._norm(pts[:, 1:] - pt[1:]) <= self._radius
 
-            weights[i] = len(points[mask_l & mask_r]) - 1
+            wts[i] = len(pts[mask_l & mask_r]) - 1
 
-        return weights / max(weights)
+        return wts / max(wts)

@@ -1,5 +1,9 @@
 """
+Defines a baseclass for neighbourhoods used in the
+data_analysis.processing.PolarPipeline class,
+taht can be used to create custom neighbourhoods for use.
 
+Also contains various predefined and usable neighbourhoods
 """
 
 # Author: Valentin F. Dannenberg / Ente
@@ -13,57 +17,179 @@ from utils import euclidean_norm
 
 
 class Neighbourhood(ABC):
+    """Base class for all
+    neighbourhood classes
+
+    Abstract Methods
+    ----------------
+    is_contained_in(self, pts)
+    """
 
     @abstractmethod
-    def is_contained_in(self, vec):
+    def is_contained_in(self, pts):
         pass
 
 
 class Ball(Neighbourhood):
+    """A class to describe
+    a closed d-dimensional
+    ball centered around the
+    origin, ie
 
+    { x in R^d : || x || <= r }
+
+    Parameters
+    ----------
+    d : positive int, optional
+        The dimension of
+        the ball
+
+        Defaults to 2
+    norm : function or callable, optional
+        The norm for which the
+        ball is described, ie
+        ||x||
+
+        If nothing is passed,
+        it will default to
+        ||.||_2
+    radius : positive int or float, optional
+        The radius of the ball,
+        ie r
+
+        Defaults to 1
+
+    Methods
+    -------
+    is_contained_in(self, pts)
+        Checks given points
+        for membership.
+    """
     def __init__(self, d=2, norm=None, radius=1):
         if norm is None:
             norm = euclidean_norm
 
-        if radius < 0:
+        # Sanity checks
+        if not isinstance(d, int):
+            raise ProcessingException("")
+        if d <= 0:
+            raise ProcessingException("")
+        if radius <= 0:
+            raise ProcessingException("")
+        if not callable(norm):
             raise ProcessingException("")
 
         self._dim = d
         self._norm = norm
-        self._r = radius
+        self._radius = radius
 
     def __repr__(self):
-        return f"Ball(d={self.dimension}, norm={self.norm.__name__}," \
-               f"radius={self.radius})"
+        return (f"Ball(d={self._dim}, "
+                f"norm={self._norm.__name__}, "
+                f"radius={self._radius})")
 
-    @property
-    def dimension(self):
-        return self._dim
+    def is_contained_in(self, pts):
+        """Checks given points
+        for membership.
 
-    @property
-    def norm(self):
-        return self._norm
+        Parameters
+        ----------
+        pts : array_like of shape (n, d)
+            Points that will be
+            checked for membership,
+            given as a sequence of
+            points consisting of
+            wind speed, wind angle
+            and boat speed
+        Returns
+        -------
 
-    @property
-    def radius(self):
-        return self._r
+        mask : numpy.ndarray of shape (n, )
+            Boolean array describing
+            which of the input points
+            is a member of the
+            neighbourhood
+        """
 
-    def is_contained_in(self, vec):
-        vec = np.asarray(vec)
-        if len(vec[0]) != self.dimension:
+        pts = np.asarray(pts)
+        shape = pts.shape
+        if not pts.size:
+            raise ProcessingException("")
+        if len(shape) != 2:
+            raise ProcessingException("")
+        if shape[1] != self._dim:
             raise ProcessingException("")
 
-        return self.norm(vec) <= self.radius
+        return self._norm(pts) <= self._radius
 
 
 class Ellipsoid(Neighbourhood):
+    """A class to represent
+    a closed d-dimensional
+    ellipsoid centered around
+    the origin, ie
+    T(B) where T is an invertible
+    linear transformation, and B
+    is a closed d-dimensional ball,
+    centered around the origin.
+
+    It will be represented using the
+    equivalent formulation:
+    { x in R^d : ||T^-1 x|| <= r }
+
+    Parameters
+    ----------
+    d : positive int, optional
+        The dimension of
+        the ellipsoid
+
+        Defaults to 2
+    lin_trans: numpy.ndarray with shape (d,d), optional
+        The invertible linear transformation
+        which transforms the ball into
+        the given ellipsoid, ie T
+
+        lin_trans needs to have a
+        non-zero determinant.
+
+        If nothins is passed, it will
+        default to I_d, the dxd unit matrix,
+        ie the ellipsoid will be a ball
+    norm : function or callable, optional
+        The norm for which the
+        ellipsoid is described, ie
+        ||x||
+
+        If nothing is passed,
+        it will default to
+        ||.||_2
+    radius : positive int or float, optional
+        The radius of the ellipsoid,
+        ie r
+
+        Defaults to 1
+
+    Methods
+    -------
+    is_contained_in(self, pts)
+        Checks given points
+        for membership.
+    """
 
     def __init__(self, d=2, lin_trans=None,
-                 norm=None, radius=1,):
+                 norm=None, radius=1):
+
+        if not isinstance(d, int):
+            raise ProcessingException("")
+        if d <= 0:
+            raise ProcessingException("")
+
         if lin_trans is None:
             lin_trans = np.eye(d)
         if norm is None:
             norm = euclidean_norm
+
+        lin_trans = np.asarray(lin_trans)
 
         # Sanity checks
         if not lin_trans.size:
@@ -72,93 +198,217 @@ class Ellipsoid(Neighbourhood):
             raise ProcessingException("")
         if not np.linalg.det(lin_trans):
             raise ProcessingException("")
-        if radius < 0:
+        if radius <= 0:
+            raise ProcessingException("")
+        if not callable(norm):
             raise ProcessingException("")
 
         # Transform the ellipsoid to a ball
         lin_trans = np.linalg.inv(lin_trans)
 
         self._dim = d
-        self._lin_trans = lin_trans
+        self._T = lin_trans
         self._norm = norm
-        self._r = radius
+        self._radius = radius
 
     def __repr__(self):
-        return f"Ellipsiod(d={self.dimension}, " \
-               f"lin_trans={self.linear_transformation}," \
-               f"norm={self.norm.__name__}," \
-               f"radius={self.radius})"
+        return (f"Ellipsoid(d={self._dim}, "
+                f"lin_trans={self._T}, "
+                f"norm={self._norm.__name__}, "
+                f"radius={self._radius})")
 
-    @property
-    def dimension(self):
-        return self._dim
+    def is_contained_in(self, pts):
+        """Checks given points
+        for membership.
 
-    @property
-    def linear_transformation(self):
-        return self._lin_trans
+        Parameters
+         ----------
+        pts : array_like of shape (n, d)
+            Points that will be
+            checked for membership
 
-    @property
-    def norm(self):
-        return self.norm
+        Returns
+        -------
+        mask : numpy.ndarray of shape (n, )
+            Boolean array describing
+            which of the input points
+            is a member of the
+            neighbourhood
+        """
 
-    @property
-    def radius(self):
-        return self._r
-
-    def is_contained_in(self, vec):
-        vec = np.asarray(vec)
-        if len(vec[0]) != self.dimension:
+        pts = np.asarray(pts)
+        shape = pts.shape
+        if not pts.size:
+            raise ProcessingException("")
+        if len(shape) != 2:
+            raise ProcessingException("")
+        if shape[1] != self._dim:
             raise ProcessingException("")
 
-        for i, v in enumerate(vec):
-            vec[i] = self.linear_transformation @ v.T
+        pts = self._T @ pts.T
 
-        return self.norm(vec) <= self.radius
+        return self._norm(pts) <= self._radius
 
 
 class Cuboid(Neighbourhood):
+    """A class to represent
+    a d-dimensional closed cuboid, ie
 
-    def __init__(self, d=2, norm=None, dimensions=(1, 1, 1)):
+    { x in R^d : |x_i| <= b_i, i=1,..,d }
+
+    Parameters
+    ----------
+    d : positive int, optional
+        The dimension of
+        the cuboid
+
+        Defaults to 2
+    norm : function or callable, optional
+        The 1-d norm used to
+        measure the length of
+        the x_i, ie |.|
+
+        If nothing is passed,
+        it will default to
+        the absolute value |.|
+    dimensions: tuple of length d, optional
+        The 'length' of the 'sides'
+        of the cuboid, ie the b_i
+
+        If nothing is passed,
+        it will default to (1,...,1)
+
+    Methods
+    -------
+    is_contained_in(self, pts)
+        Checks given points
+        for membership.
+    """
+
+    def __init__(self, d=2, norm=None, dimensions=None):
+        if not isinstance(d, int):
+            raise ProcessingException("")
+        if d <= 0:
+            raise ProcessingException("")
+
         if norm is None:
             norm = np.abs
+        if dimensions is None:
+            dimensions = tuple(1 for _ in range(d))
+
+        if not callable(norm):
+            raise ProcessingException("")
+        if len(dimensions) != d:
+            raise ProcessingException("")
 
         self._dim = d
         self._norm = norm
         self._size = dimensions
 
     def __repr__(self):
-        return f"Cuboid(d={self.dimension}, norm={self.norm.__name__}," \
-               f"radius={self.dimensions})"
+        return (f"Cuboid(d={self._dim}, "
+                f"norm={self._norm.__name__}, "
+                f"dimensions={self._size})")
 
-    @property
-    def dimension(self):
-        return self._dim
+    def is_contained_in(self, pts):
+        """
+        Checks given points
+        for membership.
 
-    @property
-    def norm(self):
-        return self._norm
+        Parameters
+         ----------
+        pts : array_like of shape (n, d)
+            Points that will be
+            checked for membership
 
-    @property
-    def dimensions(self):
-        return self._size
+        Returns
+        -------
+        mask : numpy.ndarray of shape (n, )
+            Boolean array describing
+            which of the input points
+            is a member of the
+            neighbourhood
+        """
 
-    def is_contained_in(self, vec):
-        vec = np.asarray(vec)
-        d = self.dimension
-        if len(vec[0]) != d:
+        pts = np.asarray(pts)
+        shape = pts.shape
+        d = self._dim
+        if not pts.size:
+            raise ProcessingException("")
+        if len(shape) != 2:
+            raise ProcessingException("")
+        if shape[1] != d:
             raise ProcessingException("")
 
-        dimensions = self.dimensions
-        mask = np.ones((len(vec),), dtype=bool)
+        dimensions = self._size
+        mask = np.ones((shape[0],), dtype=bool)
         for i in range(d):
-            mask = mask & (self.norm(vec) <= dimensions[i])
+            mask = mask & (self._norm(pts) <= dimensions[i])
 
         return mask
 
 
 class Polytope(Neighbourhood):
+    """A class to represent
+    a general d-dimensional
+    polytope, ie the convex
+    hull of some n points
+
+    P = conv(x_1, ..., x_n)
+
+    or equivalent as the (bounded)
+    intersection of m half spaces:
+
+    P = { x in R^d : Ax <= b }
+
+    Parameters
+    ----------
+    d : positive int, optional
+        The dimension of
+        the polytope
+
+        Defaults to 2
+    mat: array_like of shape (m, d), optional
+        matrix to represent the
+        normal vectors a_i of the half
+        spaces, ie A = (a_1, ... , a_m)^t
+
+        If nothing is passed,
+        it will default to
+        (I_d, -I_d)^t, where I_d
+        is the d-dimensional unit
+        matrix
+
+    b: array_like of shape (m, ), optional
+        vector to represent the ...
+        b_i of the half spaces, ie
+        b = (b_1, ... , b_m)^t
+
+        If nothing is passed,
+        it will default to
+        e, where e is the One-vector
+        of length 2 * d
+
+    Warning
+    -------
+    Does not check wether the
+    polytope given by mat
+    and b is a polytope, ie
+    if P is actually bounded
+
+    Methods
+    -------
+    is_contained_in(self, pts)
+        Checks given points
+        for membership.
+    """
 
     def __init__(self, d=2, mat=None, b=None):
+        if not isinstance(d, int):
+            raise ProcessingException("")
+        if d <= 0:
+            raise ProcessingException("")
+
         if mat is None:
             mat = np.row_stack((np.eye(d), -np.eye(d)))
         if b is None:
@@ -166,43 +416,64 @@ class Polytope(Neighbourhood):
 
         mat = np.asarray(mat)
         b = np.asarray(b)
-
+        shape_mat = mat.shape
+        shape_b = b.shape
         # Sanity checks
         if not mat.size:
             raise ProcessingException("")
+        if len(shape_mat) != 2:
+            raise ProcessingException("")
         if not b.size:
             raise ProcessingException("")
-        if len(mat) != len(b):
+        if len(shape_b) != 1:
             raise ProcessingException("")
-        if len(mat[0]) != d:
+        if shape_mat[0] != shape_b[0]:
+            raise ProcessingException("")
+        if shape_mat[1] != d:
             raise ProcessingException("")
 
         self._dim = d
         self._mat = mat
         self._b = b
 
-    @property
-    def dimension(self):
-        return self._dim
+    def __repr__(self):
+        return (f"Polytope(d={self._dim}, mat={self._mat}, "
+                f"b={self._b})")
 
-    @property
-    def inequalities(self):
-        return self._mat
+    def is_contained_in(self, pts):
+        """
+        Checks given points
+        for membership.
 
-    @property
-    def bounds(self):
-        return self._b
+        Parameters
+         ----------
+        pts : array_like of shape (n, d)
+            Points that will be
+            checked for membership
 
-    def is_contained_in(self, vec):
-        vec = np.asarray(vec)
-        d = self.dimension
-        if len(vec[0]) != d:
+        Returns
+        -------
+        mask : numpy.ndarray of shape (n, )
+            Boolean array describing
+            which of the input points
+            is a member of the
+            neighbourhood
+        """
+
+        pts = np.asarray(pts)
+        shape = pts.shape
+        d = self._dim
+        if not pts.size:
+            raise ProcessingException("")
+        if len(shape) != 2:
+            raise ProcessingException("")
+        if shape[1] != d:
             raise ProcessingException("")
 
-        mat = self.inequalities
-        b = self.bounds
-        mask = np.ones((len(vec),), dtype=bool)
+        mat = self._mat
+        b = self._b
+        mask = np.ones((shape[0], ), dtype=bool)
         for ineq, bound in zip(mat, b):
-            mask = mask & (ineq @ vec.T <= bound)
+            mask = mask & (ineq @ pts.T <= bound)
 
         return mask

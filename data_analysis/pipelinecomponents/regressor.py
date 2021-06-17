@@ -1,26 +1,35 @@
+"""
+Defines a baseclass for regressors used in the
+data_analysis.processing.PolarPipeline class,
+that can be used to create custom regressors for use.
+
+Also contains various predefined and usable regressors
+"""
+
+# Author: Valentin F. Dannenberg / Ente
 
 
 import numpy as np
-import scipy.odr.odrpack as odrpack
-
 
 from abc import ABC, abstractmethod
-from sklearn.utils.validation import check_array, check_X_y, check_is_fitted
+from scipy.odr.odrpack import Data, Model, ODR
+from scipy.optimize import curve_fit
+
+
+from exceptions import ProcessingException
 
 
 class Regressor(ABC):
+    """Base class for all
+    regressor classes
 
-    @abstractmethod
-    def fit(self, data):
-        pass
-
-    @abstractmethod
-    def predict(self, data):
-        pass
-
-    @abstractmethod
-    def set_weights(self, weights):
-        pass
+    Abstract Methods
+    ----------------
+    model_func
+    optimal_params
+    set_weights(self, X_weights, y_weights)
+    fit(self, data)
+    """
 
     @property
     @abstractmethod
@@ -32,29 +41,72 @@ class Regressor(ABC):
     def optimal_params(self):
         pass
 
+    @abstractmethod
+    def fit(self, data):
+        pass
+
+    @abstractmethod
+    def set_weights(self, X_weights, y_weights):
+        pass
+
 
 class ODRegressor(Regressor):
+    """An orthogonal distance
+    regressor based on the
+    scipy.odr.odrpack package
 
-    def __init__(self, model_func, init_values,
-                 X_weights=None, y_weights=None,
+    Parameters
+    ----------
+    model_func : function
+        The function which is to
+        describes the model and
+        is to be fitted.
+
+        The function signature
+        should be
+        f(ws, wa, *params) -> bsp,
+        where ws and wa are
+        numpy.ndarrays resp. and
+        params is a list of
+        parameters that will be
+        fitted.
+    init_values : array_like, optional
+        Inital guesses for the
+        optimal parameters of
+        model_func that are passed
+        to the scipy.odr.ODR class
+
+        Defaults to None
+    max_it : int, optional
+        Maximum number of iterations
+        done by scipy.odr.ODR.
+
+        Defaults to 1000
+
+    Methods
+    -------
+    model_func
+    optimal_params
+    set_weight(self, X_weights, y_weights)
+    fit(self, data)
+    """
+
+    def __init__(self, model_func, init_values=None,
                  max_it=1000):
 
         self._func = model_func
-        self._model = odrpack.Model(model_func)
+
+        def odr_model_func(params, x):
+            tws = x[0, :]
+            twa = x[1, :]
+            return model_func(tws, twa, *params)
+
+        self._model = Model(odr_model_func)
         self._init_vals = init_values
-        self._weights_X = X_weights
-        self._weights_y = y_weights
+        self._weights_X = None
+        self._weights_y = None
         self._maxit = max_it
-        self.X_ = None
-        self.y_ = None
         self._popt = None
-
-    def __call__(self, data):
-        return self._func(
-            self._popt, np.row_stack(data[:, 0], data[:, 1]))
-
-    def set_weights(self, weights):
-        self._weights_X = weights
 
     @property
     def model_func(self):
@@ -64,48 +116,133 @@ class ODRegressor(Regressor):
     def optimal_params(self):
         return self._popt
 
-    def fit(self, data):
-        data = np.asarray(data)
-        X, y = check_X_y(data[:, :2], data[:, 2])
+    def set_weights(self, X_weights, y_weights):
+        pass
 
-        odr_data = odrpack.Data((X[:, 0], X[:, 1]), y,
-                                wd=self._weights_X,
-                                we=self._weights_y)
-        odr = odrpack.ODR(odr_data, self._model,
-                          beta0=self._init_vals,
-                          maxit=self._maxit)
+    def fit(self, data):
+        """Fits the model
+        function to the given
+        data, ie calculates
+        the optimal parameters
+        to minimize an objective
+        function based on the data,
+        see also
+        `ODRPACK <https://docs.scipy.org/doc/external/odrpack_guide.pdf>`_
+
+        Parameters
+        ----------
+        data : array_like
+            Data to which the
+            model function will
+            be fitted, given as
+            a sequence of points
+            consisting of wind speed
+            wind angle and boat speed
+        """
+        X, y = _check_data(data)
+
+        odr_data = Data((X[:, 0], X[:, 1]), y,
+                        wd=self._weights_X,
+                        we=self._weights_y)
+        odr = ODR(odr_data, self._model,
+                  beta0=self._init_vals,
+                  maxit=self._maxit)
         odr.set_job(fit_type=2)
         out = odr.run()
 
         self._popt = out.beta
-        self.X_ = X
-        self.y_ = y
-
-    def predict(self, data):
-        data = np.asarray(data)
-        check_is_fitted(self, ['X_', 'y_'])
-        data = check_array(data)
-        return self(data)
 
 
 class LeastSquareRegressor(Regressor):
+    """A least square regressor
+    based on scipy.optimize.curve_fit
 
-    def __init__(self):
-        pass
+    Parameters
+    ----------
+    model_func : function or callable
+        The function which is to
+        describes the model and
+        is to be fitted.
 
-    def set_weights(self, weights):
-        pass
+        The function signature
+        should be
+        f(ws, wa, *params) -> bsp,
+        where ws and wa are
+        numpy.ndarrays resp. and
+        params is a list of
+        parameters that will be
+        fitted.
+
+    init_vals : array_like ,optional
+        Inital guesses for the
+        optimal parameters of
+        model_func that are passed
+        to scipy.optimize.curve_fit
+
+        Defaults to None
+    """
+
+    def __init__(self, model_func, init_vals=None):
+        self._func = model_func
+        self._init_vals = init_vals
+        self._popt = None
+        self._weights = None
 
     @property
     def model_func(self):
-        return
+        return self._func
 
     @property
     def optimal_params(self):
-        return
+        return self._popt
+
+    def set_weights(self, X_weights, y_weights):
+        pass
 
     def fit(self, data):
-        pass
+        """Fits the model
+        function to the given
+        data, ie calculates
+        the optimal parameters
+        to minimize the sum
+        of the squares of the
+        residuals, see also
+        `least squares <https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html>`_
 
-    def predict(self, data):
-        pass
+        Parameters
+        ----------
+        data : array_like
+            Data to which the
+            model function will
+            be fitted, given as
+            a sequence of points
+            consisting of wind speed
+            wind angle and boat speed
+        """
+
+        X, y = _check_data(data)
+        X = np.ravel(X).T
+        y = np.ravel(y).T
+
+        self._popt, _ = curve_fit(self.model_func, X, y,
+                                  p0=self._init_vals,
+                                  sigma=self._weights)
+
+
+def _check_data(data):
+    data = np.asarray(data)
+    shape = data.shape
+    if not data.size:
+        raise ProcessingException("")
+    if data.ndim != 2:
+        raise ProcessingException("")
+    if shape[1] != 3:
+        try:
+            data = data.reshape(-1, 3)
+        except ValueError:
+            raise ProcessingException("")
+
+    if not np.all(np.isfinite(data)):
+        raise ProcessingException("")
+
+    return data[:, :2], data[:, 2]
