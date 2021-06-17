@@ -32,8 +32,7 @@ def polar_to_kartesian(arr):
 
     return np.column_stack(
         (arr[:, 1] * np.cos(arr[:, 0]),
-         arr[:, 1] * np.sin(arr[:, 0]))
-    )
+         arr[:, 1] * np.sin(arr[:, 0])))
 
 
 def euclidean_norm(vec):
@@ -44,8 +43,6 @@ def convex_hull_polar(points):
     logger.info("Function 'convex_hull_polar(points)' called")
 
     converted_points = polar_to_kartesian(points)
-    logger.info("""Extern function 'scipy.spatial.ConvexHull(
-                 converted_points)' called""")
     return ConvexHull(converted_points)
 
 
@@ -60,6 +57,7 @@ def convert_wind(wind_arr, tw):
     return apparent_wind_to_true(wind_arr)
 
 
+# TODO: Make it cleaner!
 def speed_resolution(ws_res):
     logger.info(f"Function 'speed_resolution(ws_res={ws_res})' called")
 
@@ -67,7 +65,8 @@ def speed_resolution(ws_res):
         return np.array(np.arange(2, 42, 2))
 
     if not isinstance(ws_res, (Iterable, int, float)):
-        logger.error("Error occured when checking ws_res for 'Iterability'")
+        logger.error("Error occured when checking "
+                     "ws_res for 'Iterability'")
         raise PolarDiagramException(
             "ws_res is neither Iterable, int or float")
 
@@ -90,6 +89,7 @@ def speed_resolution(ws_res):
     return np.array(np.arange(ws_res, 40, ws_res))
 
 
+# TODO: Make it cleaner!
 def angle_resolution(wa_res):
     logger.info(f"Function 'angle_resolution(wa_res={wa_res})' called")
 
@@ -97,7 +97,8 @@ def angle_resolution(wa_res):
         return np.array(np.arange(0, 360, 5))
 
     if not isinstance(wa_res, (Iterable, int, float)):
-        logger.error("Error occured when checking wa_res for 'Iterability'")
+        logger.error("Error occured when checking "
+                     "wa_res for 'Iterability'")
         raise PolarDiagramException(
             "wa_res is neither Iterable, int or float")
 
@@ -120,6 +121,7 @@ def angle_resolution(wa_res):
     return np.array(np.arange(wa_res, 360, wa_res))
 
 
+# TODO: Make it cleaner!
 def get_indices(w_list, res_list):
     logger.info(f"""Function 'get_indices(w_list={w_list},
                  res_list={res_list})' called""")
@@ -132,8 +134,9 @@ def get_indices(w_list, res_list):
             ind = list(res_list).index(w_list)
             return [ind]
         except ValueError:
-            logger.error("""Error occured when checking if w_list is
-                        contained in res_list""")
+            logger.error("""Error occured when checking 
+                        if w_list is contained in 
+                        res_list""")
             raise PolarDiagramException(
                 f"{w_list} is not in resolution")
 

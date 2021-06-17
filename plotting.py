@@ -290,6 +290,7 @@ def _set_legend(ax, ws_list, colors, label,
     return
 
 
+# TODO Is there a better way?
 def _sort_data(wa_list, bsp_list):
     sorted_lists = list(zip(
         *(zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
@@ -298,12 +299,9 @@ def _sort_data(wa_list, bsp_list):
     return sorted_lists[0], sorted_lists[1]
 
 
+# TODO Is there a better way?
 def _plot_multiple(ax, xs, ys,
                    **plot_kw):
-    # xs and ys are lists of datasets with
-    # different amounts of datapoints.
-    # function plots them one by one.
-    # faster method?
     for x, y in zip(xs, ys):
         x, y = np.asarray(x), np.asarray(y)
         ax.plot(x, y, **plot_kw)

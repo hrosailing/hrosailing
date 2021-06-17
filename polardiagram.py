@@ -15,6 +15,8 @@ from filereading import *
 from plotting import *
 from utils import *
 
+
+# TODO: Remove logging?
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                     level=logging.INFO,
                     filename='logging/polardiagram.log')
@@ -47,6 +49,7 @@ def to_csv(csv_path, obj):
     obj.to_csv(csv_path)
 
 
+# TODO: Make it cleaner!
 def from_csv(csv_path, fmt='hro', tw=True):
     """Reads a .csv file and
     returns the PolarDiagram
@@ -108,26 +111,26 @@ def from_csv(csv_path, fmt='hro', tw=True):
                 if first_row == "PolarDiagramTable":
                     logger.info("""Internal function
                                  'read_table(csv_reader)' called""")
-                    ws_res, wa_res, data = read_table(csv_reader)
+                    ws_res, wa_res, bsps = read_table(csv_reader)
                     return PolarDiagramTable(
                         ws_res=ws_res, wa_res=wa_res,
-                        data=data, tw=tw)
+                        bsps=bsps, tw=tw)
 
                 logger.info("""Internal function 
                              'read_pointcloud(csv_reader)' called""")
-                data = read_pointcloud(csv_reader)
+                pts = read_pointcloud(csv_reader)
                 return PolarDiagramPointcloud(
-                    points=data, tw=tw)
+                    pts=pts, tw=tw)
         except OSError:
             logger.info(f"Error occured when accessing file {csv_path}")
             raise FileReadingException(f"can't find/open/read {csv_path}")
 
     logger.info(f"""Internal function 
                  'read_extern_format({csv_path}, {fmt})' called""")
-    ws_res, wa_res, data = read_extern_format(csv_path, fmt)
+    ws_res, wa_res, bsps = read_extern_format(csv_path, fmt)
     return PolarDiagramTable(
         ws_res=ws_res, wa_res=wa_res,
-        data=data, tw=tw)
+        bsps=bsps, tw=tw)
 
 
 def pickling(pkl_path, obj):
@@ -180,11 +183,7 @@ def depickling(pkl_path):
         raise FileReadingException(f"Can't find/open/read {pkl_path}")
 
 
-# V: In Arbeit
-def convert(obj, convert_type):
-    pass
-
-
+# TODO: Make it cleaner!
 def symmetric_polar_diagram(obj):
     """Symmetrize a PolarDiagram
     instance, meaning for a
@@ -220,20 +219,20 @@ def symmetric_polar_diagram(obj):
             "functionality for obj not yet implemented")
 
     if isinstance(obj, PolarDiagramPointcloud):
-        sym_points = obj.points
-        if not sym_points.size:
+        sym_pts = obj.points
+        if not sym_pts.size:
             logger.error(f"Error occured when trying to"
                          f"symmetrize {obj.__name__}")
             raise PolarDiagramException(f"{obj.__name__} doesn't"
                                         f"contain any points")
 
-        sym_points[:, 1] = 360 - sym_points[:, 1]
-        points = np.row_stack((obj.points, sym_points))
-        return PolarDiagramPointcloud(points=points)
+        sym_pts[:, 1] = 360 - sym_pts[:, 1]
+        pts = np.row_stack((obj.points, sym_pts))
+        return PolarDiagramPointcloud(pts=pts)
 
     wa_res = np.concatenate(
         [obj.wind_angles, 360 - np.flip(obj.wind_angles)])
-    data = np.row_stack(
+    bsps = np.row_stack(
         (obj.boat_speeds, np.flip(obj.boat_speeds, axis=0)))
 
     # deleting multiple 180° and 0°
@@ -242,20 +241,20 @@ def symmetric_polar_diagram(obj):
         wa_res = list(wa_res)
         h = int(len(wa_res) / 2)
         del wa_res[h]
-        data = np.row_stack((data[:h, :], data[h + 1:, :]))
+        bsps = np.row_stack((bsps[:h, :], bsps[h + 1:, :]))
     if 0 in obj.wind_angles:
-        data = data[:-1, :]
+        bsps = bsps[:-1, :]
         wa_res = wa_res[:-1]
 
     return PolarDiagramTable(
         ws_res=obj.wind_speeds,
         wa_res=wa_res,
-        data=data, tw=True)
+        bsps=bsps, tw=True)
 
 
 class PolarDiagram(ABC):
-    """Abstract Base Class
-    for all polardiagram classes
+    """Base class for all
+    polardiagram classes
 
     Methods
     -------
@@ -403,7 +402,7 @@ class PolarDiagramTable(PolarDiagram):
         it will default to
         numpy.arange(0, 360, 5)
 
-    data : array_like, optional
+    bsps : array_like, optional
         Sequence of corresponding
         boat speeds, should be
         broadcastable to the
@@ -503,9 +502,9 @@ class PolarDiagramTable(PolarDiagram):
         and creates a polar plot
         of it
     """
-
+    # TODO: Make it cleaner
     def __init__(self, ws_res=None, wa_res=None,
-                 data=None, tw=True):
+                 bsps=None, tw=True):
         logger.info(f"""Class 'PolarDiagramTable(ws_res,
                      wa_res, data, tw={tw})' called""")
 
@@ -519,41 +518,49 @@ class PolarDiagramTable(PolarDiagram):
         rows = len(wa_res)
         cols = len(ws_res)
 
-        if data is None:
-            data = np.zeros(rows, cols)
-        data = np.asarray(data)
-        if data.ndim != 2:
+        if bsps is None:
+            bsps = np.zeros(rows, cols)
+        bsps = np.asarray(bsps)
+        if not bsps.size:
+            logger.error("")
+            raise PolarDiagramException("")
+        if bsps.ndim != 2:
             logger.error(f"Error occured when checking data.ndim ")
             raise PolarDiagramException(
                 "Expecting 2 dimensional array to be viewed as "
                 "a Polar Diagram Tableau,")
-        if data.shape != (rows, cols):
-            try:
-                data = data.reshape(rows, cols)
-            except ValueError:
-                logger.error(f"""Error occured when trying to broadcast
-                            data to shape {(rows, cols)} """)
-                raise PolarDiagramException(
-                    "data couldn't be broadcasted to an array of" +
-                    f"shape {(rows, cols)}")
-        ws, wa = np.meshgrid(ws_res, wa_res)
-        ws = ws.reshape(-1, )
-        wa = wa.reshape(-1, )
-        data = data.reshape(-1, )
+        try:
+            bsps = bsps.reshape(rows, cols)
+        except ValueError:
+            logger.error(f"""Error occured when trying to broadcast
+                        data to shape {(rows, cols)} """)
+            raise PolarDiagramException(
+                "data couldn't be broadcasted to an array of" +
+                f"shape {(rows, cols)}")
+
+        ws_res, wa_res = np.meshgrid(ws_res, wa_res)
+        ws_res = ws_res.reshape(-1, )
+        wa_res = wa_res.reshape(-1, )
+        bsps = bsps.reshape(-1, )
 
         logger.info(f"Internal function 'utils.convert_wind("
                     f"np.column_stack((ws, wa, data)), tw={tw})'"
                     f"called")
-        wind_arr = convert_wind(np.column_stack((ws, wa, data)), tw)
-        self._resolution_wind_speed = np.array(
-            list(dict.fromkeys(wind_arr[:, 0])))
-        self._resolution_wind_angle = np.array(
-            list(dict.fromkeys(wind_arr[:, 1])))
-        self._data = data.reshape(rows, cols)
+        wind_arr = convert_wind(np.column_stack((ws_res,
+                                                 wa_res,
+                                                 bsps)), tw)
 
+        self._res_wind_speed = np.array(
+            list(dict.fromkeys(wind_arr[:, 0])))
+        self._res_wind_angle = np.array(
+            list(dict.fromkeys(wind_arr[:, 1])))
+        self._boat_speeds = bsps.reshape(rows, cols)
+
+    # TODO: Better way?
     def __str__(self):
         logger.info("""Dunder-method
                      'PolarDiagramTable.__str__()' called""")
+
         if len(self.wind_speeds) <= 15:
             table = np.column_stack(
                 (self.wind_angles, self.boat_speeds))
@@ -575,6 +582,7 @@ class PolarDiagramTable(PolarDiagram):
     def __repr__(self):
         logger.info("""Dunder-method
                      'PolarDiagramTable.__repr__()' called""")
+
         return f"PolarDiagramTable(" \
                f"wind_speed_resolution={self.wind_speeds}, " \
                f"wind_angle_resolution={self.wind_angles}, " \
@@ -583,6 +591,7 @@ class PolarDiagramTable(PolarDiagram):
     def __getitem__(self, key):
         logger.info(f"""Dunder-method
                      'PolarDiagramTable.__getitem__({key})' called""")
+
         ws, wa = key
         logger.info("""Internal function
                      'utils.get_indices(ws, self.wind_speeds)' called""")
@@ -594,18 +603,21 @@ class PolarDiagramTable(PolarDiagram):
 
     @property
     def wind_angles(self):
-        """Returns a read only version of self._resolution_wind_angle"""
-        return self._resolution_wind_angle.copy()
+        """Returns a read only version of
+        self._resolution_wind_angle"""
+        return self._res_wind_angle.copy()
 
     @property
     def wind_speeds(self):
-        """Returns a read only version of self._resolution_wind_speed"""
-        return self._resolution_wind_speed.copy()
+        """Returns a read only version of
+        self._resolution_wind_speed"""
+        return self._res_wind_speed.copy()
 
     @property
     def boat_speeds(self):
-        """Returns a read only version of self._data"""
-        return self._data.copy()
+        """Returns a read only version of
+        self._data"""
+        return self._boat_speeds.copy()
 
     def to_csv(self, csv_path):
         """Creates a .csv file with
@@ -644,14 +656,15 @@ class PolarDiagramTable(PolarDiagram):
             logger.error(f"Error occured when accessing file {csv_path}")
             raise FileReadingException(f"Can't write to {csv_path}")
 
-    def change_entries(self, new_data, ws=None, wa=None):
-        """Changes specified entries in the table
+    def change_entries(self, new_bsps, ws=None, wa=None):
+        """Changes specified entries
+         in the table
 
         Parameters
         ----------
-        new_data: array_like
+        new_bsps: array_like
             Sequence containing the
-            new data to be inserted
+            new boat speeds to be inserted
             in the specified entries
 
         ws: Iterable or int or float, optional
@@ -684,7 +697,13 @@ class PolarDiagramTable(PolarDiagram):
         """
         logger.info(f"""Method 'PolarDiagramTable.change_entries(new_data, 
                      ws, wa) called""")
-        new_data = np.asarray(new_data)
+
+        new_bsps = np.asarray(new_bsps)
+        if not new_bsps.size:
+            logger.error(f"Error occured, because"
+                         f"new_bsps={new_bsps}")
+            raise PolarDiagramException("No new data"
+                                        " was passed")
 
         logger.info("""Internal function
                      'utils.get_indices(ws, self.wind_speeds)' called""")
@@ -692,12 +711,13 @@ class PolarDiagramTable(PolarDiagram):
         logger.info("""Internal function
                      'utils.get_indices(wa, self.wind_angles)' called""")
         wa_ind = get_indices(wa, self.wind_angles)
+
         mask = np.zeros(self.boat_speeds.shape, dtype=bool)
         for i in wa_ind:
             for j in ws_ind:
                 mask[i, j] = True
         try:
-            new_data = new_data.reshape(len(wa_ind), len(ws_ind))
+            new_data = new_bsps.reshape(len(wa_ind), len(ws_ind))
         except ValueError:
             logger.error(f"""Error occured when trying 
                         to broadcast new_data to shape 
@@ -705,7 +725,7 @@ class PolarDiagramTable(PolarDiagram):
             raise PolarDiagramException(
                 f"""new_data couldn't be broadcasted to an
                 array of shape {(len(wa_ind), len(ws_ind))}""")
-        self._data[mask] = new_data.flat
+        self._boat_speeds[mask] = new_data.flat
 
     def _get_slice_data(self, ws):
         ws_ind = get_indices(ws, self.wind_speeds)
@@ -918,11 +938,15 @@ class PolarDiagramTable(PolarDiagram):
 
         if isinstance(ws_range, np.ndarray):
             if not ws_range.size:
-                logger.error("")
-                raise PolarDiagramException("")
+                logger.error(f"Error occured because"
+                             f"ws_range={ws_range}")
+                raise PolarDiagramException("ws_range doesn't"
+                                            "contain any slices")
         elif not ws_range:
-            logger.error("")
-            raise PolarDiagramException("")
+            logger.error(f"Error occured because"
+                         f"ws_range={ws_range}")
+            raise PolarDiagramException("ws_range doesn't"
+                                        "contain any slices")
 
         bsp_list = list(self._get_slice_data(ws=ws_range).T)
         wa_list = [list(self._get_radians())] * len(bsp_list)
@@ -1056,11 +1080,15 @@ class PolarDiagramTable(PolarDiagram):
 
         if isinstance(ws_range, np.ndarray):
             if not ws_range.size:
-                logger.error("")
-                raise PolarDiagramException("")
+                logger.error(f"Error occured because"
+                             f"ws_range={ws_range}")
+                raise PolarDiagramException("ws_range doesn't"
+                                            "contain any slices")
         elif not ws_range:
-            logger.error("")
-            raise PolarDiagramException("")
+            logger.error(f"Error occured because"
+                         f"ws_range={ws_range}")
+            raise PolarDiagramException("ws_range doesn't"
+                                        "contain any slices")
 
         bsp_list = list(self._get_slice_data(ws=ws_range).T)
         wa_list = [list(self.wind_angles)] * len(bsp_list)
@@ -1171,9 +1199,9 @@ class PolarDiagramTable(PolarDiagram):
 
         ws, wa = np.meshgrid(self.wind_speeds,
                              self.wind_angles)
-        ws = ws.reshape(-1, )
-        wa = wa.reshape(-1, )
-        bsp = self.boat_speeds.reshape(-1, )
+        ws = np.ravel(ws)
+        wa = np.ravel(wa)
+        bsp = np.ravel(self.boat_speeds)
 
         logger.info("""Internal function
                      'plotting.plot_color(ws, wa, bsp, 
@@ -1337,7 +1365,10 @@ class PolarDiagramCurve(PolarDiagram):
         logger.info(f"""Class 'PolarDiagramCurve(
                      f={f.__name__}, radians={radians}, *params={params})'
                      called""")
-        # TODO Errorchecks
+
+        if not callable(f):
+            logger.error("")
+            raise PolarDiagramException("")
         self._f = f
         self._params = params
         self._rad = radians
@@ -1764,6 +1795,7 @@ class PolarDiagramCurve(PolarDiagram):
             ws_range, wa_list, bsp_list,
             ax, colors, show_legend, legend_kw, **plot_kw)
 
+    # TODO: Better way?
     def plot_3d(self, ws_range=(0, 20, 100), ax=None,
                 colors=('blue', 'blue')):
         """Creates a 3d plot
@@ -1910,13 +1942,13 @@ class PolarDiagramCurve(PolarDiagram):
         ws, wa = np.meshgrid(
             np.linspace(ws_lower, ws_upper, ws_step),
             np.linspace(0, 360, 1000))
-        ws = ws.reshape(-1, )
-        wa = wa.reshape(-1, )
+        ws = np.ravel(ws)
+        wa = np.ravel(wa)
 
         if self.radians:
-            bsp = self(ws, np.deg2rad(wa)).reshape(-1, )
+            bsp = np.ravel(self(ws, np.deg2rad(wa)))
         else:
-            bsp = self(ws, wa).reshape(-1, )
+            bsp = np.ravel(self(ws, wa))
 
         logger.info("""Internal function 'plotting.plot_color(
                      ws, wa, bsp, ax, colors, marker, show_legend,
@@ -1984,7 +2016,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     Parameters
     ----------
-    points : array_like, optional
+    pts : array_like, optional
         Initial points of the
         point cloud, given
         as a sequence of points
@@ -2032,7 +2064,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             PolarDiagramPointcloud
             True wind speed: , True wind angle: , Boat speed:
             self.get_points
-    add_points(new_points)
+    add_points(new_pts)
         Adds additional points
         to the point cloud
     polar_plot_slice(ws, ax=None,
@@ -2081,27 +2113,32 @@ class PolarDiagramPointcloud(PolarDiagram):
         of it
     """
 
-    def __init__(self, points=None, tw=True):
+    def __init__(self, pts=None, tw=True):
         logger.info(f"""Class 'PolarDiagramPointcloud(
-                     points, tw={tw})' called""")
+                     pts, tw={tw})' called""")
 
-        if points is not None:
-            points = np.asarray(points)
-            if len(points[0]) != 3:
-                try:
-                    points = points.reshape(-1, 3)
-                except ValueError:
-                    logger.error("""Error occured when trying to broadcast
-                                 points to shape (_, 3)""")
-                    raise PolarDiagramException(
-                        "points could not be broadcasted "
-                        "to an array of shape (n,3)")
+        if pts is None:
+            self._pts = np.array([])
+            return
 
-            logger.info(f"""Internal function 'utils.convert_wind(
-                         points, tw={tw})' called""")
-            self._data = convert_wind(points, tw)
-        else:
-            self._data = np.array([])
+        pts = np.asarray(pts)
+        if not pts.size:
+            self._pts = np.array([])
+            return
+
+        try:
+            pts = pts.reshape(-1, 3)
+        except ValueError:
+            logger.error("Error occured when trying "
+                         "to broadcast pts to "
+                         "shape (n, 3)")
+            raise PolarDiagramException(
+                "pts could not be broadcasted "
+                "to an array of shape (n,3)")
+
+        logger.info(f"""Internal function 'utils.convert_wind(
+                        pts, tw={tw})' called""")
+        self._pts = convert_wind(pts, tw)
 
     def __str__(self):
         logger.info("""Dunder-Method 'PolarDiagramPointcloud.__str__()'
@@ -2130,7 +2167,7 @@ class PolarDiagramPointcloud(PolarDiagram):
     @property
     def points(self):
         """Returns a read only version of self._data"""
-        return self._data.copy()
+        return self._pts.copy()
 
     def to_csv(self, csv_path):
         """Creates a .csv file with
@@ -2138,7 +2175,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         following format:
             PolarDiagramPointcloud
             True wind speed ,True wind angle ,Boat speed
-            self.get_points
+            self.points
 
         Parameters
         ----------
@@ -2165,13 +2202,13 @@ class PolarDiagramPointcloud(PolarDiagram):
             logger.error(f"Error occured when accessing file {csv_path}")
             raise FileReadingException(f"Can't write to {csv_path}")
 
-    def add_points(self, new_points, tw=True):
+    def add_points(self, new_pts, tw=True):
         """Adds additional
         points to the point cloud
 
         Parameters
         ----------
-        new_points: array_like
+        new_pts: array_like
             New points to be added to
             the point cloud given as
             a sequence of points
@@ -2190,46 +2227,50 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to True
 
         Function raises an
-        exception if new_points
+        exception if new_pts
         can't be broadcasted
         to a fitting shape
         """
         logger.info(f"""Method 'PolarDiagramPointcloud.add_points(
-                     new_points, tw={tw})' called""")
+                     new_pts, tw={tw})' called""")
 
-        new_points = np.asarray(new_points)
-        if len(new_points[0]) != 3:
+        new_pts = np.asarray(new_pts)
+        if not new_pts.size:
+            logger.error(f"Error occured because"
+                         f"new_pts={new_pts}") 
+        if len(new_pts[0]) != 3:
             try:
-                new_points = new_points.reshape(-1, 3)
+                new_pts = new_pts.reshape(-1, 3)
             except ValueError:
                 logger.error("""Error occured when trying to broadcast 
-                            new_points to shape (_, 3)""")
+                            new_pts to shape (_, 3)""")
                 raise PolarDiagramException(
-                    "new_points could not be broadcasted "
+                    "new_pts could not be broadcasted "
                     "to an array of shape (n,3)")
 
         logger.info(f"""Internal function 'utils.convert_wind(
-                     new_points, tw={tw})' called""")
-        new_points = convert_wind(new_points, tw)
+                     new_pts, tw={tw})' called""")
+        new_pts = convert_wind(new_pts, tw)
 
         if self.points == np.array([]):
-            self._data = new_points
+            self._pts = new_pts
             return
 
-        self._data = np.row_stack((self.points, new_points))
+        self._pts = np.row_stack((self.points, new_pts))
 
     def change_points(self):
         """"""
         pass
 
     def _get_slice_data(self, ws):
-        points = self.points[self.points[:, 0] == ws][:, 1:]
-        if points.size == 0:
-            logger.error("Error occured, when trying to get slice data")
+        pts = self.points[self.points[:, 0] == ws][:, 1:]
+        if not pts.size:
+            logger.error("Error occured, when trying "
+                         "to get slice data")
             raise PolarDiagramException(
                 f"No points with wind speed={ws} found")
 
-        return points[:, 0], points[:, 1]
+        return pts[:, 0], pts[:, 1]
 
     def polar_plot_slice(self, ws, ax=None, **plot_kw):
         """Creates a polar plot
@@ -2331,9 +2372,9 @@ class PolarDiagramPointcloud(PolarDiagram):
                         if ws_lower <= ws <= ws_upper]
 
         for ws in ws_range:
-            points = self._get_slice_data(ws)
-            wa_list.append(points[0])
-            bsp_list.append(points[1])
+            pts = self._get_slice_data(ws)
+            wa_list.append(pts[0])
+            bsp_list.append(pts[1])
 
         return ws_range, wa_list, bsp_list
 
