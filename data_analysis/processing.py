@@ -8,16 +8,15 @@ polar diagram from "raw" dataa
 
 import logging.handlers
 
-
-from data_analysis.filter import *
-from data_analysis.regressor import *
-from data_analysis.interpolater import *
-from data_analysis.neighbourhood import *
-from data_analysis.models3d import *
-from data_analysis.sampler import *
-from data_analysis.weigher import *
+from processing.modelfunctions.models3d import *
+from processing.pipelinecomponents.filter import *
+from processing.pipelinecomponents.regressor import *
+from processing.pipelinecomponents.interpolater import *
+from processing.pipelinecomponents.neighbourhood import *
+from processing.pipelinecomponents.sampler import *
+from processing.pipelinecomponents.weigher import *
 from filereading import read_csv_file, read_nmea_file
-from polardiagram import PolarDiagram, PolarDiagramTable, \
+from polardiagram.polardiagram import PolarDiagram, PolarDiagramTable, \
     PolarDiagramPointcloud, PolarDiagramCurve
 from utils import speed_resolution, angle_resolution
 
@@ -37,9 +36,46 @@ logger.setLevel(logging.INFO)
 
 
 class PolarPipeline:
-    """
-    """
+    """A Pipeline class to create
+    polar diagrams from raw data,
+    similiar to sklearns Pipeline.
 
+    Parameters
+    ----------
+    weigher : Weigher, optional
+
+    filter_ : Filter, optional
+
+    sampler : Sampler, optional
+
+    interpolater : Interpolater, optional
+
+    regressor : Regressor, optional
+
+    Methods
+    -------
+    weigher
+        Returns a read only version
+        of self._weigher
+    filter
+        Returns a read only version
+        of self._filter
+    sampler
+        Returns a read only version
+        of self._sampler
+    interpolater
+        Returns a read only version
+        of self._interpolater
+    regressor
+        Returns a read only version
+        of self._regressor
+    __call__(p_type: PolarDiagram,
+             data=None, data_file=None,
+             file_format=None, file_mode='mean',
+             tw=True, filtering=True, w_res=None,
+             neighbourhood=None)
+
+    """
     def __init__(self, weigher=None, filter_=None,
                  sampler=None, interpolater=None,
                  regressor=None):
@@ -49,7 +85,7 @@ class PolarPipeline:
         if filter_ is None:
             filter_ = QuantileFilter()
         if sampler is None:
-            sampler = RandomSampler(no_samples=500)
+            sampler = UniformRandomSampler(no_samples=500)
         if interpolater is None:
             interpolater = ArithmeticMeanInterpolater(1, 1)
         if regressor is None:
@@ -78,22 +114,27 @@ class PolarPipeline:
 
     @property
     def weigher(self):
+        """Returns a read only version of self._weigher"""
         return self._weigher
 
     @property
     def filter(self):
+        """Returns a read only version of self._filter"""
         return self._filter
 
     @property
     def sampler(self):
+        """Returns a read only version of self._sampler"""
         return self._sampler
 
     @property
     def interpolater(self):
+        """Returns a read only version of self._interpolater"""
         return self._interpolater
 
     @property
     def regressor(self):
+        """Returns a read only version of self._regressor"""
         return self._regressor
 
     def __repr__(self):
@@ -107,6 +148,105 @@ class PolarPipeline:
                  file_format=None, file_mode='mean',
                  tw=True, filtering=True, w_res=None,
                  neighbourhood=None):
+        """
+
+        Parameters
+        ----------
+        p_type : PolarDiagram
+            Specifies the type of polar
+            diagram, that is to be created
+
+            Can either be PolarDiagramTable,
+            PolarDiagramCurve or
+            PolarDiagramPointcloud
+        data : array_like, optional
+            Data from which to create
+            the polar diagram, given
+            as a sequence of points
+            consisting of wind speed,
+            wind angle and boat speed
+        data_file : string, optional
+            file containing data from
+            which to create a polar
+            diagram. Can either be
+            a .csv file containing a
+            sequence of points consisting
+            of wind speed, wind angle and
+            boat speed,
+            or a file containing
+            nmea-sentences from which the
+            data will be extracted.
+        file_format : string, optional
+            Specifies wether data_file is
+            a .csv file or a file containing
+            nmea sentences
+        file_mode : string, optional
+            Reading mode to be passed to
+            filereading.read_nmea_file
+            in the case that data_file is
+            a file containing nmea_sentences
+
+            Defaults to 'mean'
+        tw : bool, optional
+            Specifies if the given
+            wind data should be
+            viewed as true wind
+
+            If False, wind data
+            will be converted to
+            true wind
+
+            Defaults to True
+        filtering : bool, optional
+            Specifies if the data
+            should be filtered using
+            self.filter after weighing
+
+            Defaults to True
+        w_res : tuple of length 2 or string, optional
+            Only used if p_type is
+            PolarDiagramTable
+
+            Specifies the wind speed
+            and wind angle resolution
+            for the PolarDiagramTable
+
+            Can either be a tuple of
+            length 2 containing the
+            wind speed and wind angle
+            resolution given in the
+            same manner as in
+            PolarDiagramTable,
+            or the string 'auto',
+            in which case the
+            function will try to extract
+            a good wind resolution based
+            on the given data.
+
+            If nothing is passed
+            w_res will default to
+            (numpy.arange(2, 42, 2),
+             numpy.aragen(0, 360, 5))
+        neighbourhood : Neighbourhood, optional
+            Only used if p_type is
+            PolarDiagramTable or
+            PolarDiagramPointcloud
+
+            Specifies the neighbourhood
+            of the grid and sample points
+            to be used for interpolation
+
+            If nothing is passed,
+            neighbourhood will default
+            to neighbourhood.Ball()
+
+        Returns
+        -------
+        polar_diagram : PolarDiagram
+            An instance of the given
+            p_type based on the input
+            data
+        """
 
         if data is None and data_file is None:
             raise ProcessingException("")
@@ -163,21 +303,20 @@ def _create_polar_diagram_table(w_pts, w_res, neighbourhood,
 
     w_res = _set_wind_resolution(w_res, w_pts.points)
 
-    data = _interpolate_grid_points(w_res, w_pts, neighbourhood,
+    bsps = _interpolate_grid_points(w_res, w_pts, neighbourhood,
                                     interpolater)
 
     return PolarDiagramTable(ws_res=w_res[0],
                              wa_res=w_res[1],
-                             data=data)
+                             bsps=bsps)
 
 
 def _create_polar_diagram_curve(w_pts, regressor):
     # regressor.set_weights(w_pts.weights)
     regressor.fit(w_pts.points)
 
-    return PolarDiagramCurve(
-        regressor.model_func,
-        *regressor.optimal_params)
+    return PolarDiagramCurve(regressor.model_func,
+                             *regressor.optimal_params)
 
 
 def _create_polar_diagram_pointcloud(w_pts, neighbourhood,
@@ -191,13 +330,17 @@ def _create_polar_diagram_pointcloud(w_pts, neighbourhood,
     pts = []
 
     for s_pt in sample_pts:
-        mask = neighbourhood.is_contained_in(w_pts.points[:, :2] - s_pt)
-        pts.append(interpolater.interpolate(w_pts[mask]))
+        mask = neighbourhood.is_contained_in(
+            w_pts.points[:, :2] - s_pt)
 
-    return PolarDiagramPointcloud(points=pts)
+        pts.append(interpolater.interpolate(w_pts[mask], s_pt))
+
+    return PolarDiagramPointcloud(pts=pts)
 
 
 def _set_wind_resolution(w_res, pts):
+    # TODO: Better extraction of a good
+    #       resolution based on the data
     if w_res == 'auto':
         ws_min = round(pts[:, 0].min())
         ws_max = round(pts[:, 0].max())
@@ -211,16 +354,14 @@ def _set_wind_resolution(w_res, pts):
 
     if w_res is None:
         w_res = (None, None)
-
     ws_res, wa_res = w_res
-
     return speed_resolution(ws_res), angle_resolution(wa_res)
 
 
 def _interpolate_grid_points(w_res, w_pts, neighbourhood,
                              interpolater):
     ws_res, wa_res = w_res
-    data = np.zeros((len(wa_res), len(ws_res)))
+    bsps = np.zeros((len(wa_res), len(ws_res)))
 
     for i, ws in enumerate(ws_res):
         for j, wa in enumerate(wa_res):
@@ -229,9 +370,6 @@ def _interpolate_grid_points(w_res, w_pts, neighbourhood,
                 w_pts.points[:, :2] - grid_point)
             if not any(mask):
                 continue
-            data[j, i] = interpolater.interpolate(w_pts[mask])
-    return data
-
-
-def _create_interpolation_centers(pts, sampler):
-    return sampler.sample(pts)
+            bsps[j, i] = interpolater.interpolate(w_pts[mask],
+                                                  grid_point)
+    return bsps
