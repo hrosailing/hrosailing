@@ -5,27 +5,12 @@ Functions to convert wind from apparent to true and vice versa
 # Author: Valentin F. Dannenberg / Ente
 
 
-import logging.handlers
 import numpy as np
 
 from exceptions import PolarDiagramException
 
 
-logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
-                    level=logging.INFO,
-                    filename='logging/windconversion.log')
-LOG_FILE = "logging/windconversion.log"
-
-logger = logging.getLogger(__name__)
-file_handler = logging.handlers.TimedRotatingFileHandler(
-    LOG_FILE, when='midnight')
-file_handler.setLevel(logging.INFO)
-logger.addHandler(file_handler)
-logger.setLevel(logging.INFO)
-
-
 def apparent_wind_to_true(wind_arr):
-    logger.info("Function 'apparent_wind_to_true(wind_arr)' called")
 
     wind_arr = np.asarray(wind_arr)
     if not wind_arr.size:
@@ -52,7 +37,6 @@ def apparent_wind_to_true(wind_arr):
 
 
 def true_wind_to_apparent(wind_arr):
-    logger.info("Function 'true_wind_to_apparent(wind_arr)' called")
 
     wind_arr = np.asarray(wind_arr)
     if not wind_arr.size:
