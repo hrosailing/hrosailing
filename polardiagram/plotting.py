@@ -8,8 +8,11 @@ Various functions to plot PolarDiagram objects
 import matplotlib.pyplot as plt
 import numpy as np
 
-from matplotlib.colors import to_rgb, Normalize, \
-    LinearSegmentedColormap
+from matplotlib.colors import (
+    to_rgb,
+    Normalize,
+    LinearSegmentedColormap,
+)
 from matplotlib.cm import ScalarMappable
 from matplotlib.lines import Line2D
 
