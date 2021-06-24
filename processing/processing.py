@@ -5,27 +5,29 @@ polar diagram from "raw" dataa
 
 # Author: Valentin F. Dannenberg / Ente
 
-
 import logging.handlers
+import numpy as np
 
-from processing.modelfunctions.models3d import *
-from processing.pipelinecomponents.filter import *
-from processing.pipelinecomponents.regressor import *
-from processing.pipelinecomponents.interpolater import *
-from processing.pipelinecomponents.neighbourhood import *
-from processing.pipelinecomponents.sampler import *
-from processing.pipelinecomponents.weigher import *
-from filereading import read_csv_file, read_nmea_file
-from polardiagram.polardiagram import PolarDiagram, PolarDiagramTable, \
-    PolarDiagramPointcloud, PolarDiagramCurve
-from utils import speed_resolution, angle_resolution
+import polardiagram as pol
+import processing.modelfunctions as mf
+import processing.pipelinecomponents as pc
+
+from exceptions import ProcessingException
+from filereading import (
+    read_csv_file,
+    read_nmea_file,
+)
+from utils import (
+    speed_resolution,
+    angle_resolution,
+)
 
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                     level=logging.INFO,
-                    filename='logging/processing.log')
+                    filename='../hrosailing/logging/processing.log')
 
-LOG_FILE = 'logging/processing.log'
+LOG_FILE = '../hrosailing/logging/processing.log'
 
 logger = logging.getLogger(__name__)
 file_handler = logging.handlers.TimedRotatingFileHandler(
@@ -48,7 +50,7 @@ class PolarPipeline:
 
     sampler : Sampler, optional
 
-    interpolater : Interpolater, optional
+    interpolater : Interpolator, optional
 
     regressor : Regressor, optional
 
@@ -76,33 +78,36 @@ class PolarPipeline:
              neighbourhood=None)
 
     """
+
     def __init__(self, weigher=None, filter_=None,
                  sampler=None, interpolater=None,
                  regressor=None):
 
         if weigher is None:
-            weigher = CylindricMeanWeigher()
+            weigher = pc.CylindricMeanWeigher()
         if filter_ is None:
-            filter_ = QuantileFilter()
+            filter_ = pc.QuantileFilter()
         if sampler is None:
-            sampler = UniformRandomSampler(no_samples=500)
+            sampler = pc.UniformRandomSampler(no_samples=500)
         if interpolater is None:
-            interpolater = ArithmeticMeanInterpolater(1, 1)
+            interpolater = pc.ArithmeticMeanInterpolator(1, 1)
         if regressor is None:
-            regressor = ODRegressor(model_func=odr_tws_s_dt_gauss_comb,
-                                    init_values=(0.25, 10, 1.7, 0,
-                                                 1.9, 30, 17.6, 0))
+            regressor = pc.ODRegressor(
+                model_func=mf.tws_s_s_dt_twa_gauss_comb,
+                init_values=(
+                    0.25, 10, 1.7, 0,
+                    1.9, 30, 17.6, 0))
 
-        if not isinstance(weigher, Weigher):
+        if not isinstance(weigher, pc.Weigher):
             raise ProcessingException("weigher is not a Weigher")
-        if not isinstance(filter_, Filter):
+        if not isinstance(filter_, pc.Filter):
             raise ProcessingException("filter_ is not a Filter")
-        if not isinstance(sampler, Sampler):
+        if not isinstance(sampler, pc.Sampler):
             raise ProcessingException("sampler is not a Sampler")
-        if not isinstance(interpolater, Interpolater):
+        if not isinstance(interpolater, pc.Interpolator):
             raise ProcessingException("interpolater is not an"
-                                      "Interpolater")
-        if not isinstance(regressor, Regressor):
+                                      "Interpolator")
+        if not isinstance(regressor, pc.Regressor):
             raise ProcessingException("regressor is not a"
                                       "Regressor")
 
@@ -139,11 +144,11 @@ class PolarPipeline:
 
     def __repr__(self):
         return f"""PolarPipeline(weigher={self.weigher.__name__},
-        filter={self.filter.__name__}, 
+        filter={self.filter.__name__},
         interpolater={self.interpolater.__name__},
         s_fit_func={self.regressor.__name__})"""
 
-    def __call__(self, p_type: PolarDiagram,
+    def __call__(self, p_type: pol.PolarDiagram,
                  data=None, data_file=None,
                  file_format=None, file_mode='mean',
                  tw=True, filtering=True, w_res=None,
@@ -254,22 +259,24 @@ class PolarPipeline:
             data, tw = _read_file(data_file, file_format,
                                   tw, file_mode)
 
-        w_pts = WeightedPoints(data, weigher=self.weigher,
-                               tw=tw)
+        w_pts = pc.WeightedPoints(
+            data,
+            weigher=self.weigher,
+            tw=tw)
         if filtering:
             mask = self.filter.filter(w_pts.weights)
             w_pts = w_pts[mask]
 
-        if p_type is PolarDiagramTable:
+        if p_type is pol.PolarDiagramTable:
             return _create_polar_diagram_table(
                 w_pts, w_res, neighbourhood,
                 self.interpolater)
 
-        if p_type is PolarDiagramCurve:
+        if p_type is pol.PolarDiagramCurve:
             return _create_polar_diagram_curve(
                 w_pts, self.regressor)
 
-        if p_type is PolarDiagramPointcloud:
+        if p_type is pol.PolarDiagramPointcloud:
             return _create_polar_diagram_pointcloud(
                 w_pts, neighbourhood, self.interpolater,
                 self.sampler)
@@ -297,8 +304,8 @@ def _read_file(data_file, file_format, tw, mode):
 def _create_polar_diagram_table(w_pts, w_res, neighbourhood,
                                 interpolater):
     if neighbourhood is None:
-        neighbourhood = Ball()
-    if not isinstance(neighbourhood, Neighbourhood):
+        neighbourhood = pc.Ball()
+    if not isinstance(neighbourhood, pc.Neighbourhood):
         raise ProcessingException("")
 
     w_res = _set_wind_resolution(w_res, w_pts.points)
@@ -306,24 +313,25 @@ def _create_polar_diagram_table(w_pts, w_res, neighbourhood,
     bsps = _interpolate_grid_points(w_res, w_pts, neighbourhood,
                                     interpolater)
 
-    return PolarDiagramTable(ws_res=w_res[0],
-                             wa_res=w_res[1],
-                             bsps=bsps)
+    return pol.PolarDiagramTable(ws_res=w_res[0],
+                                 wa_res=w_res[1],
+                                 bsps=bsps)
 
 
 def _create_polar_diagram_curve(w_pts, regressor):
     # regressor.set_weights(w_pts.weights)
     regressor.fit(w_pts.points)
 
-    return PolarDiagramCurve(regressor.model_func,
-                             *regressor.optimal_params)
+    return pol.PolarDiagramCurve(
+        regressor.model_func,
+        *regressor.optimal_params)
 
 
 def _create_polar_diagram_pointcloud(w_pts, neighbourhood,
                                      interpolater, sampler):
     if neighbourhood is None:
-        neighbourhood = Ball()
-    if not isinstance(neighbourhood, Neighbourhood):
+        neighbourhood = pc.Ball()
+    if not isinstance(neighbourhood, pc.Neighbourhood):
         raise ProcessingException("")
 
     sample_pts = sampler.sample(w_pts.points)
@@ -335,27 +343,40 @@ def _create_polar_diagram_pointcloud(w_pts, neighbourhood,
 
         pts.append(interpolater.interpolate(w_pts[mask], s_pt))
 
-    return PolarDiagramPointcloud(pts=pts)
+    return pol.PolarDiagramPointcloud(pts=pts)
 
 
 def _set_wind_resolution(w_res, pts):
-    # TODO: Better extraction of a good
-    #       resolution based on the data
     if w_res == 'auto':
-        ws_min = round(pts[:, 0].min())
-        ws_max = round(pts[:, 0].max())
-        wa_min = round(pts[:, 1].min())
-        wa_max = round(pts[:, 1].max())
-        ws_res = np.around(np.arange(ws_min, ws_max,
-                                     (ws_max - ws_min) / 20))
-        wa_res = np.around(np.arange(wa_min, wa_max,
-                                     (wa_max - wa_min) / 72))
+        ws_res = _extract_wind(pts[:, 0], 2, 100)
+        wa_res = _extract_wind(pts[:, 1], 5, 30)
         return ws_res, wa_res
 
     if w_res is None:
         w_res = (None, None)
+
     ws_res, wa_res = w_res
     return speed_resolution(ws_res), angle_resolution(wa_res)
+
+
+def _extract_wind(pts, n, threshhold):
+    w_max = round(pts.max())
+    w_min = round(pts.min())
+    w_start = (w_min // n + 1) * n
+    w_end = (w_max // n) * n
+    res = [w_max, w_min]
+    for w in range(w_start, w_end + n, n):
+        if w == w_start:
+            mask = pts >= w_min & pts <= w
+        elif w == w_end:
+            mask = pts >= w & pts <= w_max
+        else:
+            mask = pts >= w - n & pts <= w
+
+        if len(pts[mask]) >= threshhold:
+            res.append(w)
+
+    return res
 
 
 def _interpolate_grid_points(w_res, w_pts, neighbourhood,
