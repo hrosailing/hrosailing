@@ -8,12 +8,25 @@ Also contains various predefined and usable filter
 
 # Author: Valentin F. Dannenberg / Ente
 
-
+import logging.handlers
 import numpy as np
 
 from abc import ABC, abstractmethod
 
 from exceptions import ProcessingException
+
+logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
+                    level=logging.INFO,
+                    filename='../hrosailing/logging/processing.log')
+
+LOG_FILE = "../hrosailing/logging/processing.log"
+
+logger = logging.getLogger(__name__)
+file_handler = logging.handlers.TimedRotatingFileHandler(
+    LOG_FILE, when='midnight')
+file_handler.setLevel(logging.INFO)
+logger.addHandler(file_handler)
+logger.setLevel(logging.INFO)
 
 
 class Filter(ABC):
@@ -57,7 +70,7 @@ class QuantileFilter(Filter):
         their resp. weights
     """
 
-    def __init__(self, percent=25):
+    def __init__(self, percent=50):
         if percent < 0 or percent > 100:
             raise ProcessingException("")
 
@@ -81,7 +94,7 @@ class QuantileFilter(Filter):
 
         Returns
         -------
-        masks : numpy.ndarray of shape (n, )
+        mask : numpy.ndarray of shape (n, )
             Boolean array describing
             with points are filtered
             depending on their resp.
@@ -94,7 +107,14 @@ class QuantileFilter(Filter):
         if not all(np.isfinite(wts)):
             raise ProcessingException("")
 
-        return wts >= np.percentile(wts, self._percent)
+        mask = wts >= np.percentile(wts, self._percent)
+
+        logger.info(f"Total amount of filtered"
+                    f"points: {wts[mask].shape[0]}")
+        logger.info(f"Percentage of filtered"
+                    f"points: {wts[mask].shape[0]/ wts.shape[0]}")
+
+        return mask
 
 
 class BoundFilter(Filter):
@@ -153,7 +173,7 @@ class BoundFilter(Filter):
 
         Returns
         -------
-        masks : numpy.ndarray of shape (n, )
+        mask : numpy.ndarray of shape (n, )
             Boolean array describing
             with points are filtered
             depending on their resp.
@@ -168,5 +188,11 @@ class BoundFilter(Filter):
 
         mask_1 = wts >= self._l_b
         mask_2 = wts <= self._u_b
-        return mask_1 & mask_2
+        mask = mask_1 & mask_2
 
+        logger.info(f"Total amount of filtered"
+                    f"points: {wts[mask].shape[0]}")
+        logger.info(f"Percentage of filtered"
+                    f"points: {wts[mask].shape[0] / wts.shape[0]}")
+
+        return mask

@@ -119,6 +119,7 @@ class FibonacciSampler(Sampler):
     """
 
     """
+
     def __init__(self, no_samples):
         self._no_samples = no_samples
 
@@ -131,6 +132,7 @@ class ArchimedianSampler(Sampler):
     """
 
     """
+
     def __init__(self, no_samples):
         self._no_samples = no_samples
 

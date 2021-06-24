@@ -21,9 +21,9 @@ from exceptions import ProcessingException
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                     level=logging.INFO,
-                    filename='../logging/regressor.log')
+                    filename='../hrosailing/logging/processing.log')
 
-LOG_FILE = "../logging/regressor.log"
+LOG_FILE = "../hrosailing/logging/processing.log"
 
 logger = logging.getLogger(__name__)
 file_handler = logging.handlers.TimedRotatingFileHandler(

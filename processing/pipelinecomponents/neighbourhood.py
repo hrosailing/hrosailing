@@ -65,6 +65,7 @@ class Ball(Neighbourhood):
         Checks given points
         for membership.
     """
+
     def __init__(self, d=2, norm=None, radius=1):
         if norm is None:
             norm = euclidean_norm
@@ -121,6 +122,45 @@ class Ball(Neighbourhood):
             raise ProcessingException("")
 
         return self._norm(pts) <= self._radius
+
+
+class ScalingBall(Neighbourhood):
+
+    def __init__(self, min_pts, max_pts, norm=None):
+        if norm is None:
+            norm = euclidean_norm
+
+        self._min_pts = min_pts
+        self._max_pts = max_pts
+        self._norm = norm
+        self._no_data_pts = None
+        self._area_poly = None
+        self._scal = (min_pts + max_pts) / 2
+        self._radius = None
+
+    def __repr__(self):
+        return (f"ScalingBall("
+                f"min_pts={self._min_pts}, "
+                f"max_pts={self._max_pts})")
+
+    def is_contained_in(self, pts):
+        pts = np.asarray(pts)
+        shape = pts.shape
+        if not pts.size:
+            raise ProcessingException("")
+        if len(shape) != 2:
+            raise ProcessingException("")
+        if shape[1] != 3:
+            raise ProcessingException("")
+
+        if self._no_data_pts is None:
+            self._no_data_pts = shape[0]
+        if self._area_poly is None:
+            self._area_poly = ...
+        if self._radius is None:
+            self._radius = np.sqrt(
+                self._scal * self._area_poly
+                / (np.pi, * self._no_data_pts))
 
 
 class Ellipsoid(Neighbourhood):
@@ -412,7 +452,7 @@ class Polytope(Neighbourhood):
         if mat is None:
             mat = np.row_stack((np.eye(d), -np.eye(d)))
         if b is None:
-            b = np.ones(2*d)
+            b = np.ones(2 * d)
 
         mat = np.asarray(mat)
         b = np.asarray(b)

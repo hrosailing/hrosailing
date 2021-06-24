@@ -17,13 +17,16 @@ import numpy as np
 from abc import ABC, abstractmethod
 
 from exceptions import ProcessingException
-from utils import convert_wind, euclidean_norm
+from utils import (
+    convert_wind,
+    euclidean_norm,
+)
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                     level=logging.INFO,
-                    filename='../logging/weigher.log')
+                    filename='../hrosailing/logging/processing.log')
 
-LOG_FILE = "../logging/weigher.log"
+LOG_FILE = "../hrosailing/logging/processing.log"
 
 logger = logging.getLogger(__name__)
 file_handler = logging.handlers.TimedRotatingFileHandler(
@@ -183,7 +186,8 @@ class CylindricMeanWeigher(Weigher):
         according to the method
         described above
     """
-    def __init__(self,  radius=1, norm=None):
+
+    def __init__(self, radius=1, norm=None):
 
         # Sanity checks
         if not isinstance(radius, (int, float)):
@@ -228,16 +232,27 @@ class CylindricMeanWeigher(Weigher):
         wts = np.zeros(shape[0])
 
         for i, pt in enumerate(pts):
-            mask = (self._norm(pts[:, :d-1] - pt[:d-1])
+            mask = (self._norm(pts[:, :d - 1] - pt[:d - 1])
                     <= self._radius)
-            cylinder = pts[mask][:, d-1]
-            std = np.std(cylinder)
-            mean = np.mean(cylinder)
-            wts[i] = np.abs(mean - pt[d-1]) / std
+            cylinder = pts[mask][:, d - 1]
+            std = np.std(cylinder) or 1
+            mean = np.mean(cylinder) or 0
+            wts[i] = np.abs(mean - pt[d - 1]) / std
 
-        logger.info(f"Final weights calculated "
-                    f"for {pts}: {wts / max(wts)}")
-        return wts / max(wts)
+        logger.info(f"Mean (non-normalized) "
+                    f"weight: {np.mean(wts)}")
+        logger.info(f"Maximum (non-normalized) "
+                    f"weight: {np.max(wts)}")
+        logger.info(f"Minimum (non-normalized) "
+                    f"weight: {np.min(wts)}")
+
+        wts = wts / max(wts)
+
+        logger.info(f"Mean (normalized) weight: "
+                    f"{np.mean(wts)}")
+        logger.info(f"Final (normalized) weights "
+                    f"calculated for {pts}: {wts}")
+        return wts
 
 
 class CylindricMemberWeigher(Weigher):
@@ -291,6 +306,7 @@ class CylindricMemberWeigher(Weigher):
         according to the method
         described above
     """
+
     def __init__(self, radius=1, length=1, norm=None):
         if not isinstance(radius, (int, float)):
             raise ProcessingException("")
@@ -344,6 +360,17 @@ class CylindricMemberWeigher(Weigher):
 
             wts[i] = len(pts[mask_l & mask_r]) - 1
 
-        logger.info(f"Final weights calculated "
-                    f"for {pts}: {wts / max(wts)}")
-        return wts / max(wts)
+        logger.info(f"Mean (non-normalized) "
+                    f"weight: {np.mean(wts)}")
+        logger.info(f"Maximum (non-normalized) "
+                    f"weight: {np.max(wts)}")
+        logger.info(f"Minimum (non-normalized) "
+                    f"weight: {np.min(wts)}")
+
+        wts = wts / max(wts)
+
+        logger.info(f"Mean (normalized) weight: "
+                    f"{np.mean(wts)}")
+        logger.info(f"Final (normalized) weights "
+                    f"calculated for {pts}: {wts}")
+        return wts
