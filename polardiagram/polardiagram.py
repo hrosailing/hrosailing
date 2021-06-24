@@ -6,20 +6,33 @@ in different forms and functions to manipulate PolarDiagram-objects
 
 # Author: Valentin F. Dannenberg / Ente
 
+import csv
+import logging.handlers
 import pickle
 
 from abc import ABC, abstractmethod
-from tabulate import tabulate
 
-from filereading import *
-from plotting import *
-from utils import *
+from filereading import (
+    read_table,
+    read_pointcloud,
+    read_extern_format
+)
+from polardiagram.plotting import *
+from utils import (
+    convert_wind,
+    speed_resolution,
+    angle_resolution
+)
+from exceptions import (
+    PolarDiagramException,
+    FileReadingException
+)
 
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                     level=logging.INFO,
-                    filename='../logging/polardiagram.log')
-LOG_FILE = "../logging/polardiagram.log"
+                    filename='../hrosailing/logging/polardiagram.log')
+LOG_FILE = "../hrosailing/logging/polardiagram.log"
 
 logger = logging.getLogger(__name__)
 file_handler = logging.handlers.TimedRotatingFileHandler(
@@ -92,17 +105,17 @@ def from_csv(csv_path, fmt='hro', tw=True):
 
     FMTS = ('hro', 'orc', 'array', 'opencpn')
     if fmt not in FMTS:
-        raise PolarDiagramException(
+        raise FileReadingException(
             f"Format {fmt} not yet implemented")
     if fmt == 'hro':
         try:
             with open(csv_path, 'r', newline='') as file:
-                csv_reader = csv.reader(file, delimiter=',', quotechar='"')
+                csv_reader = csv.reader(file, delimiter=',')
                 first_row = next(csv_reader)[0]
                 if (first_row not in
                         ("PolarDiagramTable",
                          "PolarDiagramPointcloud")):
-                    raise PolarDiagramException(
+                    raise FileReadingException(
                         f"hro-format for {first_row} "
                         f"not yet implemented")
 
@@ -366,6 +379,32 @@ class PolarDiagram(ABC):
         pass
 
 
+def _get_indices(ws, res):
+    if ws is None:
+        return range(len(res))
+
+    if isinstance(ws, (int, float)):
+        try:
+            return [list(res).index(ws)]
+        except ValueError:
+            raise PolarDiagramException(
+                f"{ws} is not contained "
+                f"in {res}")
+
+    ws = set(ws)
+    if not ws:
+        raise PolarDiagramException(
+            "Empty slice-list was passed")
+
+    if not ws.issubset(set(res)):
+        raise PolarDiagramException(
+            f"{ws} is not a subset "
+            f"of {res}")
+
+    return [i for i, w in enumerate(res)
+            if w in ws]
+
+
 class PolarDiagramTable(PolarDiagram):
     """
     A class to represent,
@@ -515,7 +554,7 @@ class PolarDiagramTable(PolarDiagram):
         logger.info(f"Class 'PolarDiagramTable("
                     f"ws_res={ws_res}, "
                     f"wa_res={wa_res}, "
-                    f"bsps={bsps}, " 
+                    f"bsps={bsps}, "
                     f"tw={tw})' called")
 
         ws_res = speed_resolution(ws_res)
@@ -529,10 +568,7 @@ class PolarDiagramTable(PolarDiagram):
         if not bsps.size:
             raise PolarDiagramException("")
         if bsps.ndim != 2:
-            raise PolarDiagramException(
-                "Expecting 2 dimensional array "
-                "to be viewed as "
-                "a Polar Diagram Tableau,")
+            raise PolarDiagramException("")
         try:
             bsps = bsps.reshape(rows, cols)
         except ValueError:
@@ -549,30 +585,62 @@ class PolarDiagramTable(PolarDiagram):
             (ws_res, wa_res, bsps)), tw)
 
         self._res_wind_speed = np.array(
-            list(dict.fromkeys(wind_arr[:, 0])))
+            sorted(list(set(wind_arr[:, 0]))))
         self._res_wind_angle = np.array(
-            list(dict.fromkeys(wind_arr[:, 1])))
+            sorted(list(set(wind_arr[:, 1]))))
         self._boat_speeds = bsps.reshape(rows, cols)
 
-    # TODO: Better way?
     def __str__(self):
+        table = "  TWA \\ TWS"
         if len(self.wind_speeds) <= 15:
-            table = np.column_stack(
-                (self.wind_angles, self.boat_speeds))
-            headers = ["TWA \\ TWS"] + list(self.wind_speeds)
-            return tabulate(table, headers=headers)
+            for ws in self.wind_speeds:
+                table += f"    {float(ws):.1f}"
+            table += "\n-----------"
+            for ws in self.wind_speeds:
+                le = len(f"{float(ws):.1f}")
+                table += "  " + "-" * (le + 2)
+            table += "\n"
+            for i, wa in enumerate(self.wind_angles):
+                le = len(f"{float(wa):.1f}")
+                table += " " * (11 - le) + f"{float(wa):.1f}"
+                for j, ws in enumerate(self.wind_speeds):
+                    le = len(f"{self.boat_speeds[i][j]:.2f}")
+                    le2 = len(str(ws))
+                    table += " " * (4 + le2 - le)
+                    table += f"{self.boat_speeds[i][j]:.2f}"
+                table += "\n"
+            return table
 
-        length = len(self.wind_angles)
-        table = np.column_stack(
-            (self.wind_angles,
-             self.boat_speeds[:, :5],
-             np.array(["..."] * length),
-             self.boat_speeds[:, -5:]))
-        headers = (["TWA \\ TWS"]
-                   + list(self.wind_speeds)[:5]
-                   + ["..."]
-                   + list(self.wind_speeds)[-5:])
-        return tabulate(table, headers=headers)
+        for ws in self.wind_speeds[:5]:
+            table += f"    {float(ws):.1f}"
+        table += "  ..."
+        for ws in self.wind_speeds[-5:]:
+            table += f"    {float(ws):.1f}"
+        table += "\n-----------"
+        for ws in self.wind_speeds[:5]:
+            le = len(f"{float(ws):.1f}")
+            table += "  " + "-" * (le + 2)
+        table += "  ---"
+        for ws in self.wind_speeds[-5:]:
+            le = len(f"{float(ws):.1f}")
+            table += "  " + "-" * (le + 2)
+        table += "\n"
+        for i, wa in enumerate(self.wind_angles):
+            le = len(f"{float(wa):.1f}")
+            table += " " * (11 - le) + f"{float(wa):.1f}"
+            for j, ws in enumerate(self.wind_speeds[:5]):
+                le = len(f"{self.boat_speeds[i][j]:.2f}")
+                le2 = len(str(ws))
+                table += " " * (4 + le2 - le)
+                table += f"{self.boat_speeds[i][j]:.2f}"
+            table += "  ..."
+            for j, ws in enumerate(self.wind_speeds[-5:]):
+                le = len(f"{self.boat_speeds[i][j]:.2f}")
+                le2 = len(str(ws))
+                table += " " * (4 + le2 - le)
+                table += f"{self.boat_speeds[i][j]:.2f}"
+            table += "\n"
+        return table
 
     def __repr__(self):
         return f"PolarDiagramTable(" \
@@ -582,8 +650,8 @@ class PolarDiagramTable(PolarDiagram):
 
     def __getitem__(self, key):
         ws, wa = key
-        col = get_indices(ws, self.wind_speeds)
-        row = get_indices(wa, self.wind_angles)
+        col = _get_indices(ws, self.wind_speeds)
+        row = _get_indices(wa, self.wind_angles)
         return self.boat_speeds[row, col]
 
     @property
@@ -692,8 +760,8 @@ class PolarDiagramTable(PolarDiagram):
                 f"No new data was passed, "
                 f"since new_bsps={new_bsps}")
 
-        ws_ind = get_indices(ws, self.wind_speeds)
-        wa_ind = get_indices(wa, self.wind_angles)
+        ws_ind = _get_indices(ws, self.wind_speeds)
+        wa_ind = _get_indices(wa, self.wind_angles)
 
         mask = np.zeros(self.boat_speeds.shape, dtype=bool)
         for i in wa_ind:
@@ -710,9 +778,8 @@ class PolarDiagramTable(PolarDiagram):
         self._boat_speeds[mask] = new_data.flat
 
     def _get_slice_data(self, ws):
-        ws_ind = get_indices(ws, self.wind_speeds)
-
-        return self.boat_speeds[:, ws_ind]
+        ind = _get_indices(ws, self.wind_speeds)
+        return self.boat_speeds[:, ind]
 
     def _get_radians(self):
         return np.deg2rad(self.wind_angles)
@@ -1775,7 +1842,6 @@ class PolarDiagramCurve(PolarDiagram):
             ax, colors, show_legend,
             legend_kw, **plot_kw)
 
-    # TODO: Better way?
     def plot_3d(self, ws_range=(0, 20, 100), ax=None,
                 colors=('blue', 'blue')):
         """Creates a 3d plot
@@ -1832,11 +1898,10 @@ class PolarDiagramCurve(PolarDiagram):
         wa = self._get_wind_angles()
 
         ws_arr, wa_arr = np.meshgrid(ws, wa)
-        bsp_arr = self(np.array([ws[0] * 1000]), wa)
-        for wind_speed in ws[1:]:
-            np.column_stack(
-                (bsp_arr,
-                 self(np.array([wind_speed] * 1000), wa)))
+        bsp_arr = []
+        for w in ws:
+            bsp_arr.append(self(np.array([w] * 1000), wa))
+        bsp_arr = np.asarray(bsp_arr)
 
         if self.radians:
             bsp, wa = (bsp_arr * np.cos(wa_arr),
@@ -2122,11 +2187,24 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         self._pts = convert_wind(pts, tw)
 
+    # TODO: Remove tabulate dependency
+    #       and do it by hand?
     def __str__(self):
-        return tabulate(self.points,
-                        headers=["TWS",
-                                 "TWA",
-                                 "BSP"])
+        table = "  TWS      TWA    BSP\n"
+        table += "-----  -------  -----\n"
+        for point in self.points:
+            for i in range(3):
+                le = len(f"{float(point[i]):.2f}")
+                if i == 1:
+                    table += " " * (7 - le)
+                    table += f"{float(point[i]):.2f}"
+                    table += "  "
+                else:
+                    table += " " * (5 - le)
+                    table += f"{float(point[i]):.2f}"
+                    table += "  "
+            table += "\n"
+        return table
 
     def __repr__(self):
         return f"PolarDiagramPointcloud(data={self.points})"
@@ -2135,13 +2213,13 @@ class PolarDiagramPointcloud(PolarDiagram):
     def wind_speeds(self):
         """Returns a list of all the different
         wind speeds in the point cloud"""
-        return list(dict.fromkeys(self.points[:, 0]))
+        return list(set(self.points[:, 0]))
 
     @property
     def wind_angles(self):
         """Returns a list of all the different
         wind angles in the point cloud"""
-        return list(dict.fromkeys(self.points[:, 1]))
+        return list(set(self.points[:, 1]))
 
     @property
     def points(self):
@@ -2727,7 +2805,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             'show_legend=True'
 
         """
-        logger.info(f"Method 'plot_color_gradient(" 
+        logger.info(f"Method 'plot_color_gradient("
                     f"ax={ax}, colors={colors}, "
                     f"marker={marker}, "
                     f"show_legend={show_legend}, "

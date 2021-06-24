@@ -39,8 +39,7 @@ def plot_polar_range(ws_list, wa_list, bsp_list,
                      ax, colors, show_legend,
                      legend_kw, **plot_kw):
     _check_keywords(plot_kw)
-    __ = (plot_kw.pop('color', None)
-          or plot_kw.pop('c', None))
+    plot_kw.pop('color', None) or plot_kw.pop('c', None)
     if ax is None:
         ax = plt.gca(projection='polar')
     _set_polar_directions(ax)
@@ -60,8 +59,7 @@ def plot_flat_range(ws_list, wa_list, bsp_list,
                     ax, colors, show_legend,
                     legend_kw, **plot_kw):
     _check_keywords(plot_kw)
-    __ = (plot_kw.pop('color', None)
-          or plot_kw.pop('c', None))
+    plot_kw.pop('color', None) or plot_kw.pop('c', None)
     if ax is None:
         ax = plt.gca()
     if legend_kw is None:
@@ -80,7 +78,6 @@ def plot_flat_range(ws_list, wa_list, bsp_list,
 def plot_color(ws, wa, bsp, ax, colors,
                marker, show_legend,
                **legend_kw):
-
     if ax is None:
         ax = plt.gca()
 
