@@ -143,12 +143,12 @@ def read_nmea_file(nmea_path, mode='interpolate'):
 
     with open(nmea_path, 'r') as nmea_file:
         nmea_data = []
-        nmea_sentences = filter(
+        nmea_stcs = filter(
             lambda line: "RMC" in line
                          or "MWV" in line,
             nmea_file)
 
-        stc = next(nmea_sentences, None)
+        stc = next(nmea_stcs, None)
         if stc is None:
             raise FileReadingException(
                 "File didn't contain any "
@@ -162,7 +162,7 @@ def read_nmea_file(nmea_path, mode='interpolate'):
                     f"Invalid nmea-sentences "
                     f"encountered: {stc}")
 
-            stc = next(nmea_sentences, None)
+            stc = next(nmea_stcs, None)
 
             if stc is None:
                 # eof
@@ -175,7 +175,7 @@ def read_nmea_file(nmea_path, mode='interpolate'):
             wind_data = []
             while "RMC" not in stc and stc is not None:
                 _get_wind_data(wind_data, stc)
-                stc = next(nmea_sentences, None)
+                stc = next(nmea_stcs, None)
 
             _process_data(
                 nmea_data, wind_data, stc,
@@ -184,13 +184,13 @@ def read_nmea_file(nmea_path, mode='interpolate'):
     return nmea_data
 
 
-def _get_wind_data(wind_data, nmea_sentence):
+def _get_wind_data(wind_data, stc):
     try:
-        wind = pynmea2.parse(nmea_sentence)
+        wind = pynmea2.parse(stc)
     except pynmea2.ParseError:
         raise FileReadingException(
             f"Invalid nmea-sentences "
-            f"encountered: {nmea_sentence}")
+            f"encountered: {stc}")
 
     wind_data.append(
         [float(wind.wind_speed),
@@ -199,7 +199,7 @@ def _get_wind_data(wind_data, nmea_sentence):
 
 
 def _process_data(nmea_data, wind_data,
-                  nmea_sentence, bsp, mode):
+                  stc, bsp, mode):
     if mode == 'mean':
         wind_arr = np.array(
             [w[:2] for w in wind_data])
@@ -212,11 +212,11 @@ def _process_data(nmea_data, wind_data,
 
     if mode == 'interpolate':
         try:
-            bsp2 = pynmea2.parse(nmea_sentence).spd_over_grnd
+            bsp2 = pynmea2.parse(stc).spd_over_grnd
         except pynmea2.ParseError:
             raise FileReadingException(
                 f"Invalid nmea-sentences "
-                f"encountered: {nmea_sentence}")
+                f"encountered: {stc}")
 
         inter = len(wind_data)
         for i in range(inter):

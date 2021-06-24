@@ -7,14 +7,16 @@ Functions to convert wind from apparent to true and vice versa
 
 import numpy as np
 
-from exceptions import PolarDiagramException
+# TODO: Error checks?
 
 
 def apparent_wind_to_true(wind_arr):
 
     wind_arr = np.asarray(wind_arr)
     if not wind_arr.size:
-        raise PolarDiagramException("")
+        raise ValueError("")
+    if not np.isfinite(wind_arr):
+        raise ValueError("")
 
     aws, awa, bsp = np.hsplit(wind_arr, 3)
 
@@ -40,7 +42,9 @@ def true_wind_to_apparent(wind_arr):
 
     wind_arr = np.asarray(wind_arr)
     if not wind_arr.size:
-        raise PolarDiagramException("")
+        raise ValueError("")
+    if not np.isfinite(wind_arr):
+        raise ValueError("")
 
     tws, twa, bsp = np.hsplit(wind_arr, 3)
 
