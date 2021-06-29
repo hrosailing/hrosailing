@@ -175,7 +175,6 @@ def gauss_potential(distances, weights, *params):
 
 
 # Should be used together with ScalingBall
-
 class ImprovedIDWInterpolator(Interpolator):
 
     def __init__(self, norm=None):
