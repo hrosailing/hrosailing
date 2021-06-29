@@ -17,8 +17,8 @@ from windconversion import apparent_wind_to_true
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                     level=logging.INFO,
-                    filename='../logging/filereading.log')
-LOG_FILE = "../logging/filereading.log"
+                    filename='logging/filereading.log')
+LOG_FILE = "logging/filereading.log"
 
 logger = logging.getLogger(__name__)
 file_handler = logging.handlers.TimedRotatingFileHandler(
@@ -70,9 +70,21 @@ def read_nmea_file(nmea_path, mode='interpolate',
                    convert_wind=True):
     """Reads a text file
     containing nmea-sentences
-    and returns the data
-    points containe in it
+    and extracts data points
+    based on recorded wind speed,
+    wind angle, and either speed
+    over water or speed over
+    ground and returns
+    a list of said points
 
+    Function looks for
+    sentences of type:
+        MWV for wind data
+        either VHW for
+        speed over water or
+        if not present
+        RMC for speed over
+        ground
 
     Parameters
     ----------
@@ -82,40 +94,38 @@ def read_nmea_file(nmea_path, mode='interpolate',
         sentences, which will
         be read
     mode : string, optional
-        In the case there are more
-        MWV sentences than
-        RMC sentences, specifies
-        how to handle the
-        surplus of data
+        In the case where there is
+        more recorded wind data
+        than speed data,
+        specifies how to handle
+        the surplus:
             interpolate: handles the
             surplus by taking
             convex combinations of
-            the speed over ground of
-            two RMC sentences together
-            with the wind speed and
-            wind angle of the MWV
-            sentences "between" them
-            to create multiple
-            data points
+            two recorded speed datas
+            together with the recorded
+            wind data "between" those
+            two points to create
+            multiple data points
 
             mean: handles the
-            surplus by taking mean
-            of the wind angle and
-            wind speed of the MWV
-            sentences "belonging"
-            to an RMC sentence to
-            create a single data
-            point
+            surplus by taking the
+            mean of the wind data
+            "belonging" to a given
+            speed data to create a
+            singe data point
+
+        Defaults to 'interpolate'
     convert_wind : bool, optional
         Specifies if occuring
-        appearent wind should
+        apparent wind should
         be automatically converted
         to true wind.
 
         If False, each point will
         have an extra component,
-        specifiyng if it is true
-        or appearent wind
+        specifying if it is true
+        or apparent wind
 
         Defaults to True
 
@@ -140,20 +150,25 @@ def read_nmea_file(nmea_path, mode='interpolate',
 
 
     Function raises an exception:
-        If file can't be read or
-        doesnt exist
+        If file can't be found,
+        opened, or read
 
         If file isn't "sorted",
         meaning there has to be
-        at least one MWV sentence
-        between two RMC sentences
+        at least one recorded
+        wind data between two
+        recorded speed datas
 
-        If file is empty
+        If file is empty or
+        doesn't contain any
+        relevant sentences
 
         If file contains invalid
-        RMC or WMV sentences
+        speed or wind sentences
     """
 
+    # TODO: Also look for rmc sentences, if
+    #       there are no vhws
     if mode not in ('mean', 'interpolate'):
         raise FileReadingException(
             f"Mode {mode} not implemented")
@@ -161,7 +176,7 @@ def read_nmea_file(nmea_path, mode='interpolate',
     with open(nmea_path, 'r') as nmea_file:
         nmea_data = []
         nmea_stcs = filter(
-            lambda line: "RMC" in line
+            lambda line: "VHW" in line
                          or "MWV" in line,
             nmea_file)
 
@@ -173,7 +188,7 @@ def read_nmea_file(nmea_path, mode='interpolate',
 
         while True:
             try:
-                bsp = pynmea2.parse(stc).spd_over_grnd
+                bsp = pynmea2.parse(stc).spd_over_water
             except pynmea2.ParseError:
                 raise FileReadingException(
                     f"Invalid nmea-sentences "
@@ -186,11 +201,11 @@ def read_nmea_file(nmea_path, mode='interpolate',
                 break
             # check if nmea-file is in a
             # way "sorted"
-            if "RMC" in stc:
+            if "VHW" in stc:
                 raise FileReadingException("")
 
             wind_data = []
-            while "RMC" not in stc and stc is not None:
+            while "VHW" not in stc and stc is not None:
                 _get_wind_data(wind_data, stc)
                 stc = next(nmea_stcs, None)
 

@@ -1,11 +1,10 @@
-
 import polardiagram
 import processing
 
 
 from filereading import (
-    read_nmea_file,
     read_csv_file,
+    read_nmea_file,
 )
 
 from windconversion import (
