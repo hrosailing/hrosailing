@@ -9,7 +9,7 @@ The ``hrosailing``-module has the following third-party dependencies
 
 - `numpy <https://numpy.org/>`_
 - `matplotlib <https://matplotlib.org/>`_
-- `tabulate <https://pypi.org/project/tabulate/>`_
+- `pynmea2 <https://pypi.org/project/pynmea2/>`_
 - `scipy <https://www.scipy.org/>`_
 
 
@@ -28,10 +28,127 @@ or
 Contents Of This Module
 -----------------------
 
+The ``hrosailing``-module defines the following public functions:
+
+    ``hrosailing``.\ **read_csv_file**\(``csv_path, delimiter=None``)
+
+            | Reads a .csv file of data
+            | points and returns a
+            | numpy.ndarray containing
+            | said points
+
+            Parameters :
+                        ``csv_path`` : ``string``
+
+                                | Path to a .csv file
+                                | which will be read
+
+                        ``delimiter`` : ``string``, optional
+
+                                | The delimiter used in the
+                                | .csv file
+
+                                | If nothing is passed,
+                                | the python parsing engine
+                                | will try to autodetect the
+                                | used delimiter
+
+            | Raises an exception if
+            | file can't be found, opened
+            | or read.
+
+
+    ``hrosailing``.\ **read_nmea_file**\(``nmea_path, mode='interpolate',``
+
+    ``convert_wind=True``)
+
+            | Reads a text file containing
+            | nmea-sentences and extracts
+            | data points based on recorded
+            | wind speed, wind angle, and
+            | either speed over water or
+            | speed over ground and returns
+            | a list of said points
+
+            | Function looks for sentences of
+            | type: MWV for wind data and
+            | either VHW for speed over water
+            | or if not present RMC for speed
+            | over ground
+
+            Parameters :
+                        ``nmea_path`` : ``string``
+
+                                | Path to a text file,
+                                | containing nmea-0183
+                                | sentences, which will
+                                | be read
+
+                        ``mode`` : ``string``, optional
+
+                                | In the case where there
+                                | is more recorded wind
+                                | data than speed data,
+                                | specifies how to handle
+                                | the surplus:
+
+                                    | interpolate: handles the
+                                    | surplus by taking convex
+                                    | combinations of two recorded
+                                    | speed datas together with
+                                    | the recorded wind data
+                                    | "between" those two points
+                                    | to create multiple data points
+
+                                    | mean: handles the surplus
+                                    | by taking the mean of the
+                                    | wind data "belonging" to
+                                    | a given speed data to
+                                    | create a single data point
+
+                                | Defaults to 'interpolate'
+
+                        ``convert_wind`` : ``bool``, optional
+
+                                | Specifies if occuring apparent
+                                | wind should automatically be
+                                | converted to true wind.
+
+                                | If False, each data point will
+                                | have an extra component,
+                                | specifying if it is true
+                                | or apparent wind
+
+                                | Defaults to True
+
+            | Raises an exception if:
+
+                | file can't be found,
+                | opened, or read
+
+                | file isn't "sorted",
+                | meaning there has to
+                | be at least one recorded
+                | wind data between two
+                | recorded speed datas
+
+                | file is empty or doesn't
+                | contain any relevant sentences
+
+                | file contains invalid
+                | speed or wind sentences
+
+
+    ``hrosailing``.\ **apparent_wind_to_true**\(``wind_arr``)
+
+
+    ``hrosailing``.\ **true_wind_to_apparent**\(``wind_arr``)
+
+
 The ``hrosailing``-module has the following public submodules:
 
     - ``hrosailing.polardiagram``
-    - ``hrosailing.data_analysis.processing``
+    - ``hrosailing.processing``
 
 The ``hrosailing.polardiagram``-module defines the following public functions:
 
@@ -90,12 +207,13 @@ The ``hrosailing.polardiagram``-module defines the following public functions:
 
                                 | Defaults to ``True``
 
-            | Raises an exception:
+            | Raises an exception if:
 
-                | If unknown format
-                  was specified
-                | File can't be read
-                  or doesn't exist
+                | unknown format was
+                | specified
+
+                | file can't be found,
+                | opened or read
 
 
     ``polardiagram``.\ **pickling**\(``pkl_path, obj``)
@@ -131,10 +249,9 @@ The ``hrosailing.polardiagram``-module defines the following public functions:
                                 | Path to a .pkl file
                                 | which will be read
 
-            | Raises an exception
-            | if file can't be read
-            | or doesn't exist
-
+            | Raises an exception if
+            | file can't be found,
+            | opened, or read
 
 
     ``polardiagram``.\ **symmetric_polar_diagram**\ (obj)
@@ -243,7 +360,7 @@ The ``polardiagram``-module defines the following public classes:
 
     ``polardiagram``.\ **PolarDiagramTable**\ (``ws_res=None, wa_res=None,``
 
-    ``data=None, tw=True``)
+    ``bsps=None, tw=True``)
 
             | A class to represent, visualize
             | and work with a polar diagram
@@ -285,7 +402,7 @@ The ``polardiagram``-module defines the following public classes:
                                 | it will default to
                                 | ``numpy.arange(0, 360, 5)``
 
-                        ``data`` : ``array_like``, optional
+                        ``bsps`` : ``array_like``, optional
 
                                 | Sequence of corresponding
                                 | boat speeds, should be
@@ -330,7 +447,7 @@ The ``polardiagram``-module defines the following public classes:
                     ``PolarDiagramTable``.\ **boat_speeds**
 
                             | Returns a read only version
-                            | of ``self``.\ *_data*
+                            | of ``self``.\ *_bsps*
 
 
                     ``PolarDiagramTable``.\ **to_csv**\ (``self, csv_path``)
@@ -360,13 +477,13 @@ The ``polardiagram``-module defines the following public classes:
 
                     ``PolarDiagramTable``.\ **change_entries**\ (``self,``
 
-                    ``new_data, ws=None, wa=None``)
+                    ``new_bsps, ws=None, wa=None``)
 
                             | Changes specified entries
                             | in the table
 
                             Parameters :
-                                        ``new_data`` : ``array_like``
+                                        ``new_bsps`` : ``array_like``
 
                                                 | Sequence containing the
                                                 | new data to be inserted
@@ -884,7 +1001,7 @@ The ``polardiagram``-module defines the following public classes:
 
 
 
-    ``polar_diagram``.\ **PolarDiagramCurve**\ (``f, radians=False, *params``)
+    ``polar_diagram``.\ **PolarDiagramCurve**\ (``f, params, radians=False``)
 
             | A class to represent, visualize
             | and work with a polar diagram
@@ -903,6 +1020,11 @@ The ``polardiagram``-module defines the following public classes:
                                 | aswell as some additional
                                 | parameters
 
+                        ``params`` : Arguments
+
+                                | Additional optimal
+                                | parameters that f takes
+
                         ``radians`` : ``bool``, optional
 
                                 | Specifies if f takes the
@@ -911,10 +1033,6 @@ The ``polardiagram``-module defines the following public classes:
 
                                 | Defaults to ``False``
 
-                        ``*params`` : Arguments
-
-                                | Additional optimized
-                                | parameters that f takes
 
 
             Methods :
@@ -1466,14 +1584,14 @@ The ``polardiagram``-module defines the following public classes:
 
 
 
-    ``polar_diagram``.\ **PolarDiagramPointcloud**\ (``points=None, tw=True``)
+    ``polar_diagram``.\ **PolarDiagramPointcloud**\ (``pts=None, tw=True``)
 
             | A class to represent, visualize
             | and work with a polar diagram
             | given by a point cloud
 
             Parameters :
-                        ``points`` : array_like, optional
+                        ``pts`` : array_like, optional
 
                                 | Initial points of the
                                 | point cloud, given
@@ -1546,7 +1664,7 @@ The ``polardiagram``-module defines the following public classes:
 
                     ``PolarDiagramPointcloud``.\ **add_points**\ (``self,``
 
-                    ``new_points, tw=True``)
+                    ``new_pts, tw=True``)
 
                             | Adds additional points
                             | to the point cloud
@@ -1619,7 +1737,9 @@ The ``polardiagram``-module defines the following public classes:
                             | in the point cloud
 
 
-                    ``PolarDiagramPointcloud``.\ **flat_plot_slice**\ (``ws, ax=None, **plot_kw``)
+                    ``PolarDiagramPointcloud``.\ **flat_plot_slice**\ (``self,``
+
+                    ``ws, ax=None, **plot_kw``)
 
                             | Creates a cartesian plot
                             | of a given slice of
@@ -2028,7 +2148,9 @@ The ``polardiagram``-module defines the following public classes:
                                                 | 'show_legend=True'
 
 
-                    ``PolarDiagramPointcloud``.\ **plot_convex_hull_slice**\ (``ws, ax=None, **plot_kw``)
+                    ``PolarDiagramPointcloud``.\ **plot_convex_hull_slice**\ (``self,``
+
+                    ``ws, ax=None, **plot_kw``)
 
                             | Computes the convex
                             | hull of a slice of
