@@ -133,6 +133,22 @@ def plot_convex_hull(wa, bsp, ax, **plot_kw):
     return ax.plot(xs, ys, **plot_kw)
 
 
+def plot_convex_surface(ws, wa, bsp, ax, colors):
+    if ax is None:
+        ax = plt.gca(projection='3d')
+    _set_3d_labels(ax)
+
+    xs, ys, zs = _get_convex_hull_3d(ws, wa, bsp)
+
+    cmap = LinearSegmentedColormap.from_list(
+        "custom_cmap", list(colors))
+    color = cmap((ws - ws.min())
+                 / float((ws - ws.min()).max()))
+
+    return ax.plot_surface(xs, ys, zs,
+                           facecolors=color)
+
+
 def _check_keywords(dct):
     ls = (dct.get('linestyle')
           or dct.get('ls'))
@@ -234,6 +250,7 @@ def _set_legend(ax, ws_list, colors, label,
 
 
 # TODO Is there a better way?
+#      Write it for 2 and 3 dim
 def _sort_data(wa_list, bsp_list):
     sorted_lists = list(zip(
         *(zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
@@ -250,20 +267,31 @@ def _plot_multiple(ax, xs, ys,
         ax.plot(x, y, **plot_kw)
 
 
+# TODO Write it for 2 and 3 dim
 def _get_convex_hull(wa, bsp):
-    wa, bsp = np.array(wa), np.array(bsp)
+    wa, bsp = np.asarray(wa), np.asarray(bsp)
 
     vert = sorted(convex_hull_polar(
-        np.column_stack((bsp.copy(), wa.copy()))).vertices)
-    xs = []
-    ys = []
-    for i in vert:
-        xs.append(wa[i])
-        ys.append(bsp[i])
+        np.column_stack((bsp, wa))).vertices)
+    xs = [wa[i] for i in vert]
+    ys = [bsp[i] for i in vert]
     xs.append(xs[0])
     ys.append(ys[0])
 
     return xs, ys
+
+
+def _get_convex_hull_3d(ws, wa, bsp):
+    ws = np.ravel(ws)
+    wa = np.ravel(wa)
+    bsp = np.ravel(bsp)
+    vert = sorted(ConvexHull(
+        np.column_stack((ws, wa, bsp)).vertices))
+
+    xs = [ws[i] for i in vert]
+    ys = [wa[i] for i in vert]
+    zs = [bsp[i] for i in vert]
+
 
 
 def convex_hull_polar(points):
