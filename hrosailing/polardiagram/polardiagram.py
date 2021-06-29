@@ -31,8 +31,8 @@ from windconversion import apparent_wind_to_true
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                     level=logging.INFO,
-                    filename='../logging/polardiagram.log')
-LOG_FILE = "../logging/polardiagram.log"
+                    filename='../hrosailing/logging/polardiagram.log')
+LOG_FILE = "../hrosailing/logging/polardiagram.log"
 
 logger = logging.getLogger(__name__)
 file_handler = logging.handlers.TimedRotatingFileHandler(
@@ -93,14 +93,16 @@ def from_csv(csv_path, fmt='hro', tw=True):
 
     Returns
     -------
-    polar_diagram : PolarDiagram
+    out : PolarDiagram
         PolarDiagram instance
         saved in .csv file
 
-    Function raises an exception
-    if an unknown format was
-    specified, or file can't be
-    read
+    Function raises an exception:
+        if an unknown format was
+        specified
+
+        file can't be found,
+        opened, or read
     """
 
     FMTS = ('hro', 'orc', 'array', 'opencpn')
@@ -172,12 +174,13 @@ def depickling(pkl_path):
 
     Returns
     -------
-    _ : PolarDiagram
+    out : PolarDiagram
         PolarDiagram instance
         saved in .pkl file
 
     Function raises an exception
-    if file can't be read
+    if file can't be found,
+    opened, or read
     """
 
     try:
@@ -216,6 +219,7 @@ def symmetric_polar_diagram(obj):
     if obj is not of type
     PolarDiagramTable or
     PolarDiagramPointcloud
+
     """
     if not isinstance(obj, (PolarDiagramTable,
                             PolarDiagramPointcloud)):
@@ -570,7 +574,7 @@ class PolarDiagramTable(PolarDiagram):
         cols = len(ws_res)
 
         if bsps is None:
-            bsps = np.zeros(rows, cols)
+            bsps = np.zeros((rows, cols))
         bsps = np.asarray(bsps)
         if not bsps.size:
             raise PolarDiagramException("")
@@ -751,6 +755,7 @@ class PolarDiagramTable(PolarDiagram):
             If new_data can't be
             broadcasted to a
             fitting shape
+
         """
         logger.info(f"Method "
                     f"'PolarDiagramTable.change_entries("
@@ -760,8 +765,7 @@ class PolarDiagramTable(PolarDiagram):
         new_bsps = np.asarray(new_bsps)
         if not new_bsps.size:
             raise PolarDiagramException(
-                f"No new data was passed, "
-                f"since new_bsps={new_bsps}")
+                f"No new data was passed")
 
         ws_ind = _get_indices(ws, self.wind_speeds)
         wa_ind = _get_indices(wa, self.wind_angles)
@@ -771,14 +775,15 @@ class PolarDiagramTable(PolarDiagram):
             for j in ws_ind:
                 mask[i, j] = True
         try:
-            new_data = new_bsps.reshape(len(wa_ind), len(ws_ind))
+            new_bsps = new_bsps.reshape(len(wa_ind), len(ws_ind))
         except ValueError:
             raise PolarDiagramException(
                 f"{new_bsps} couldn't be "
                 f"broadcasted to an "
                 f"array of shape "
                 f"{(len(wa_ind), len(ws_ind))}")
-        self._boat_speeds[mask] = new_data.flat
+
+        self._boat_speeds[mask] = new_bsps.flat
 
     def _get_slice_data(self, ws):
         ind = _get_indices(ws, self.wind_speeds)
@@ -1288,9 +1293,21 @@ class PolarDiagramTable(PolarDiagram):
         bsp = self._get_slice_data(ws)
         return plot_convex_hull(wa, bsp, ax, **plot_kw)
 
-    def plot_convex_hull_3d(self):
+    def plot_convex_hull_3d(self, ax=None,
+                            colors=('blue', 'blue')):
         """"""
-        pass
+        logger.info(f"Method "
+                    f"'plot_convex_hull_3d("
+                    f"ax={ax}, "
+                    f"colors={colors})' "
+                    f"called")
+
+        ws, wa = np.meshgrid(self.wind_speeds,
+                             self._get_radians())
+        bsp = self.boat_speeds
+        bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
+        return plot_convex_surface(ws, wa, bsp, ax,
+                                   colors)
 
 
 class PolarDiagramCurve(PolarDiagram):
@@ -1393,14 +1410,14 @@ class PolarDiagramCurve(PolarDiagram):
         of it
     """
 
-    def __init__(self, f, *params, radians=False):
+    def __init__(self, f, params, radians=False):
+        if not callable(f):
+            raise PolarDiagramException("")
+
         logger.info(f"Class 'PolarDiagramCurve("
                     f"f={f.__name__}, {params}, "
                     f"radians = {radians})'"
                     f"called")
-
-        if not callable(f):
-            raise PolarDiagramException("")
 
         self._f = f
         self._params = params
@@ -2214,13 +2231,13 @@ class PolarDiagramPointcloud(PolarDiagram):
     def wind_speeds(self):
         """Returns a list of all the different
         wind speeds in the point cloud"""
-        return list(set(self.points[:, 0]))
+        return sorted(list(set(self.points[:, 0])))
 
     @property
     def wind_angles(self):
         """Returns a list of all the different
         wind angles in the point cloud"""
-        return list(set(self.points[:, 1]))
+        return sorted(list(set(self.points[:, 1])))
 
     @property
     def points(self):
@@ -2310,7 +2327,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         new_pts = _convert_wind(new_pts, tw)
 
-        if self.points == np.array([]):
+        if not self.points.size:
             self._pts = new_pts
             return
 
