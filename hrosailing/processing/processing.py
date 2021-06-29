@@ -14,10 +14,6 @@ import processing.modelfunctions as mf
 import processing.pipelinecomponents as pc
 
 from exceptions import ProcessingException
-from filereading import (
-    read_csv_file,
-    read_nmea_file,
-)
 from utils import (
     speed_resolution,
     angle_resolution,
@@ -308,9 +304,9 @@ def _read_file(data_file, file_format,
             f"{file_format} implemented")
 
     if file_format == 'csv':
-        data = read_csv_file(data_file)
+        data = pol.read_csv_file(data_file)
     if file_format == 'nmea':
-        data = read_nmea_file(
+        data = pol.read_nmea_file(
             data_file,
             mode=mode,
             convert_wind=True)
