@@ -14,7 +14,7 @@ import numpy as np
 from abc import ABC, abstractmethod
 from scipy.spatial import ConvexHull
 
-from exceptions import ProcessingException
+from hrosailing.exceptions import ProcessingException
 
 
 class Sampler(ABC):

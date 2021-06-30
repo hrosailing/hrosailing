@@ -1,6 +1,6 @@
-import processing.pipelinecomponents
-import processing.modelfunctions
+import hrosailing.processing.pipelinecomponents
+import hrosailing.processing.modelfunctions
 
-from processing.processing import (
+from hrosailing.processing.processing import (
     PolarPipeline,
 )

@@ -11,14 +11,14 @@ import logging.handlers
 import numpy as np
 import pynmea2
 
-from exceptions import FileReadingException
-from windconversion import apparent_wind_to_true
+from hrosailing.exceptions import FileReadingException
+from hrosailing.windconversion import apparent_wind_to_true
 
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                     level=logging.INFO,
-                    filename='logging/filereading.log')
-LOG_FILE = "logging/filereading.log"
+                    filename='hrosailing/logging/filereading.log')
+LOG_FILE = "hrosailing/logging/filereading.log"
 
 logger = logging.getLogger(__name__)
 file_handler = logging.handlers.TimedRotatingFileHandler(

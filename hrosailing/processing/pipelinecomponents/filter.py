@@ -13,13 +13,13 @@ import numpy as np
 
 from abc import ABC, abstractmethod
 
-from exceptions import ProcessingException
+from hrosailing.exceptions import ProcessingException
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                     level=logging.INFO,
-                    filename='../hrosailing/logging/processing.log')
+                    filename='hrosailing/logging/processing.log')
 
-LOG_FILE = "../hrosailing/logging/processing.log"
+LOG_FILE = "hrosailing/logging/processing.log"
 
 logger = logging.getLogger(__name__)
 file_handler = logging.handlers.TimedRotatingFileHandler(

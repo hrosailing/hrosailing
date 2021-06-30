@@ -14,8 +14,8 @@ import numpy as np
 from abc import ABC, abstractmethod
 from scipy.spatial import ConvexHull
 
-from exceptions import ProcessingException
-from utils import euclidean_norm
+from hrosailing.exceptions import ProcessingException
+from hrosailing.utils import euclidean_norm
 
 
 class Neighbourhood(ABC):
@@ -334,7 +334,8 @@ class Ellipsoid(Neighbourhood):
                 f"Points are not of "
                 f"dimension {self._dim}")
 
-        pts = self._T @ pts.T
+        pts = (self._T @ pts.T).T
+        print(pts)
 
         return self._norm(pts) <= self._radius
 
@@ -443,7 +444,7 @@ class Cuboid(Neighbourhood):
         dimensions = self._size
         mask = np.ones((shape[0],), dtype=bool)
         for i in range(d):
-            mask = mask & (self._norm(pts) <= dimensions[i])
+            mask = mask & (self._norm(pts[:, i]) <= dimensions[i])
         return mask
 
 

@@ -1,6 +1,6 @@
 
 
-from processing.modelfunctions.models2d import *
+from hrosailing.processing.modelfunctions.models2d import *
 
 
 def tws_times_twa(tws, twa, scal):

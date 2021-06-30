@@ -1,12 +1,4 @@
-
-
-__all__ = [
-    "models2d",
-    "models3d",
-]
-
-
-from processing.modelfunctions.models3d import (
+from hrosailing.processing.modelfunctions.models3d import (
     tws_concave_dt_twa,
     tws_twa_s_dt,
     tws_s_twa_gauss,

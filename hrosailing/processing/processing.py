@@ -9,12 +9,16 @@ polar diagram from "raw" dataa
 import logging.handlers
 import numpy as np
 
-import polardiagram as pol
-import processing.modelfunctions as mf
-import processing.pipelinecomponents as pc
+import hrosailing.polardiagram as pol
+import hrosailing.processing.modelfunctions as mf
+import hrosailing.processing.pipelinecomponents as pc
 
-from exceptions import ProcessingException
-from utils import (
+from hrosailing.exceptions import ProcessingException
+from hrosailing.filereading import (
+    read_csv_file,
+    read_nmea_file,
+)
+from hrosailing.utils import (
     speed_resolution,
     angle_resolution,
 )
@@ -22,9 +26,9 @@ from utils import (
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                     level=logging.INFO,
-                    filename='../hrosailing/logging/processing.log')
+                    filename='hrosailing/logging/processing.log')
 
-LOG_FILE = '../hrosailing/logging/processing.log'
+LOG_FILE = 'hrosailing/logging/processing.log'
 
 logger = logging.getLogger(__name__)
 file_handler = logging.handlers.TimedRotatingFileHandler(
@@ -84,7 +88,7 @@ class PolarPipeline:
         if filter_ is None:
             filter_ = pc.QuantileFilter()
         if sampler is None:
-            sampler = pc.UniformRandomSampler(no_samples=500)
+            sampler = pc.UniformRandomSampler(500)
         if interpolater is None:
             interpolater = pc.ArithmeticMeanInterpolator(1, 1)
         if regressor is None:
@@ -304,9 +308,9 @@ def _read_file(data_file, file_format,
             f"{file_format} implemented")
 
     if file_format == 'csv':
-        data = pol.read_csv_file(data_file)
+        data = read_csv_file(data_file)
     if file_format == 'nmea':
-        data = pol.read_nmea_file(
+        data = read_nmea_file(
             data_file,
             mode=mode,
             convert_wind=True)

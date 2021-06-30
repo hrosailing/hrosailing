@@ -1,6 +1,4 @@
-
-
-from polardiagram.polardiagram import (
+from hrosailing.polardiagram.polardiagram import (
     PolarDiagram,
     PolarDiagramTable,
     PolarDiagramPointcloud,

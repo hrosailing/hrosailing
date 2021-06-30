@@ -13,8 +13,8 @@ import numpy as np
 
 from abc import ABC, abstractmethod
 
-from exceptions import ProcessingException
-from utils import euclidean_norm
+from hrosailing.exceptions import ProcessingException
+from hrosailing.utils import euclidean_norm
 
 
 # TODO: Error checks

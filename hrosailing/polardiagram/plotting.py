@@ -17,7 +17,7 @@ from matplotlib.cm import ScalarMappable
 from matplotlib.lines import Line2D
 from scipy.spatial import ConvexHull
 
-from utils import polar_to_kartesian
+from hrosailing.utils import polar_to_kartesian
 
 
 def plot_polar(wa, bsp, ax, **plot_kw):
@@ -129,6 +129,7 @@ def plot_convex_hull(wa, bsp, ax, **plot_kw):
     _set_polar_directions(ax)
 
     wa, bsp = _sort_data([wa], [bsp])
+
     xs, ys = _get_convex_hull(wa, bsp)
     return ax.plot(xs, ys, **plot_kw)
 
@@ -269,10 +270,11 @@ def _plot_multiple(ax, xs, ys,
 
 # TODO Write it for 2 and 3 dim
 def _get_convex_hull(wa, bsp):
-    wa, bsp = np.asarray(wa), np.asarray(bsp)
-
+    wa, bsp = np.ravel(np.asarray(wa)), np.ravel(np.asarray(bsp))
+    print(wa)
+    print(bsp)
     vert = sorted(convex_hull_polar(
-        np.column_stack((bsp, wa))).vertices)
+        np.column_stack((wa, bsp))).vertices)
     xs = [wa[i] for i in vert]
     ys = [bsp[i] for i in vert]
     xs.append(xs[0])
@@ -291,7 +293,6 @@ def _get_convex_hull_3d(ws, wa, bsp):
     xs = [ws[i] for i in vert]
     ys = [wa[i] for i in vert]
     zs = [bsp[i] for i in vert]
-
 
 
 def convex_hull_polar(points):

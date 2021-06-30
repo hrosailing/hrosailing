@@ -13,26 +13,26 @@ import pickle
 
 from abc import ABC, abstractmethod
 
-from filereading import (
+from hrosailing.filereading import (
     read_table,
     read_pointcloud,
     read_extern_format
 )
-from exceptions import (
+from hrosailing.exceptions import (
     PolarDiagramException,
     FileReadingException
 )
-from polardiagram.plotting import *
-from utils import (
+from hrosailing.polardiagram.plotting import *
+from hrosailing.utils import (
     speed_resolution,
     angle_resolution
 )
-from windconversion import apparent_wind_to_true
+from hrosailing.windconversion import apparent_wind_to_true
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                     level=logging.INFO,
-                    filename='../hrosailing/logging/polardiagram.log')
-LOG_FILE = "../hrosailing/logging/polardiagram.log"
+                    filename='hrosailing/logging/polardiagram.log')
+LOG_FILE = "hrosailing/logging/polardiagram.log"
 
 logger = logging.getLogger(__name__)
 file_handler = logging.handlers.TimedRotatingFileHandler(
@@ -679,6 +679,7 @@ class PolarDiagramTable(PolarDiagram):
         self._data"""
         return self._boat_speeds.copy()
 
+    # TODO fmt -> andere csvs
     def to_csv(self, csv_path):
         """Creates a .csv file with
         delimiter ',' and the
