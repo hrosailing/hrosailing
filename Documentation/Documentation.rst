@@ -30,114 +30,6 @@ Contents Of This Module
 
 The ``hrosailing``-module defines the following public functions:
 
-    ``hrosailing``.\ **read_csv_file**\(``csv_path, delimiter=None``)
-
-            | Reads a .csv file of data
-            | points and returns a
-            | numpy.ndarray containing
-            | said points
-
-            Parameters :
-                        ``csv_path`` : ``string``
-
-                                | Path to a .csv file
-                                | which will be read
-
-                        ``delimiter`` : ``string``, optional
-
-                                | The delimiter used in the
-                                | .csv file
-
-                                | If nothing is passed,
-                                | the python parsing engine
-                                | will try to autodetect the
-                                | used delimiter
-
-            | Raises an exception if
-            | file can't be found, opened
-            | or read.
-
-
-    ``hrosailing``.\ **read_nmea_file**\(``nmea_path, mode='interpolate',``
-
-    ``convert_wind=True``)
-
-            | Reads a text file containing
-            | nmea-sentences and extracts
-            | data points based on recorded
-            | wind speed, wind angle, and
-            | either speed over water or
-            | speed over ground and returns
-            | a list of said points
-
-            | Function looks for sentences of
-            | type: MWV for wind data and
-            | either VHW for speed over water
-            | or if not present RMC for speed
-            | over ground
-
-            Parameters :
-                        ``nmea_path`` : ``string``
-
-                                | Path to a text file,
-                                | containing nmea-0183
-                                | sentences, which will
-                                | be read
-
-                        ``mode`` : ``string``, optional
-
-                                | In the case where there
-                                | is more recorded wind
-                                | data than speed data,
-                                | specifies how to handle
-                                | the surplus:
-
-                                    | interpolate: handles the
-                                    | surplus by taking convex
-                                    | combinations of two recorded
-                                    | speed datas together with
-                                    | the recorded wind data
-                                    | "between" those two points
-                                    | to create multiple data points
-
-                                    | mean: handles the surplus
-                                    | by taking the mean of the
-                                    | wind data "belonging" to
-                                    | a given speed data to
-                                    | create a single data point
-
-                                | Defaults to 'interpolate'
-
-                        ``convert_wind`` : ``bool``, optional
-
-                                | Specifies if occuring apparent
-                                | wind should automatically be
-                                | converted to true wind.
-
-                                | If False, each data point will
-                                | have an extra component,
-                                | specifying if it is true
-                                | or apparent wind
-
-                                | Defaults to True
-
-            | Raises an exception if:
-
-                | file can't be found,
-                | opened, or read
-
-                | file isn't "sorted",
-                | meaning there has to
-                | be at least one recorded
-                | wind data between two
-                | recorded speed datas
-
-                | file is empty or doesn't
-                | contain any relevant sentences
-
-                | file contains invalid
-                | speed or wind sentences
-
 
     ``hrosailing``.\ **apparent_wind_to_true**\(``wind_arr``)
 
@@ -147,8 +39,10 @@ The ``hrosailing``-module defines the following public functions:
 
 The ``hrosailing``-module has the following public submodules:
 
+
     - ``hrosailing.polardiagram``
     - ``hrosailing.processing``
+
 
 The ``hrosailing.polardiagram``-module defines the following public functions:
 

@@ -6,8 +6,3 @@ from hrosailing.windconversion import (
     apparent_wind_to_true,
 )
 
-from hrosailing.filereading import (
-    read_nmea_file,
-    read_csv_file,
-)
-

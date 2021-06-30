@@ -13,11 +13,6 @@ import pickle
 
 from abc import ABC, abstractmethod
 
-from hrosailing.filereading import (
-    read_table,
-    read_pointcloud,
-    read_extern_format
-)
 from hrosailing.exceptions import (
     PolarDiagramException,
     FileReadingException
@@ -138,6 +133,72 @@ def from_csv(csv_path, fmt='hro', tw=True):
     return PolarDiagramTable(
         ws_res=ws_res, wa_res=wa_res,
         bsps=bsps, tw=tw)
+
+
+def read_table(csv_reader):
+    next(csv_reader)
+    ws_res = [eval(ws) for ws in next(csv_reader)]
+    next(csv_reader)
+    wa_res = [eval(wa) for wa in next(csv_reader)]
+    next(csv_reader)
+    bsps = []
+    for row in csv_reader:
+        bsps.append([eval(bsp) for bsp in row])
+
+    return ws_res, wa_res, bsps
+
+
+def read_pointcloud(csv_reader):
+    points = []
+    next(csv_reader)
+    for row in csv_reader:
+        points.append([eval(entry) for entry in row])
+
+    return np.array(points)
+
+
+def read_extern_format(csv_path, fmt):
+    if fmt == 'array':
+        return read_array_csv(csv_path)
+
+    if fmt == 'orc':
+        delimiter = ';'
+    else:
+        delimiter = ','
+
+    return read_sail_csv(csv_path, delimiter)
+
+
+def read_sail_csv(csv_path, delimiter):
+    try:
+        with open(csv_path, 'r', newline='') as file:
+            csv_reader = csv.reader(
+                file, delimiter=delimiter)
+            ws_res = [eval(ws) for ws
+                      in next(csv_reader)[1:]]
+            wa_res, bsps = [], []
+            next(csv_reader)
+            for row in csv_reader:
+                wa_res.append(eval(row[0]))
+                bsps.append([eval(bsp) if bsp != ''
+                             else 0 for bsp in row[1:]])
+
+            return ws_res, wa_res, bsps
+    except OSError:
+        raise FileReadingException(
+            f"Can't find/open/read {csv_path}")
+
+
+def read_array_csv(csv_path):
+    try:
+        file_data = np.genfromtxt(
+            csv_path, delimiter="\t")
+        return (file_data[0, 1:],
+                file_data[1:, 0],
+                file_data[1:, 1:])
+    except OSError:
+        raise FileReadingException(
+            f"Can't find/open/read {csv_path}")
 
 
 def pickling(pkl_path, obj):
@@ -679,8 +740,7 @@ class PolarDiagramTable(PolarDiagram):
         self._data"""
         return self._boat_speeds.copy()
 
-    # TODO fmt -> andere csvs
-    def to_csv(self, csv_path):
+    def to_csv(self, csv_path, fmt='hro'):
         """Creates a .csv file with
         delimiter ',' and the
         following format:
@@ -699,6 +759,8 @@ class PolarDiagramTable(PolarDiagram):
             located or where a new
             .csv file will be created
 
+        fmt : string
+
         Function raises an exception
         if file can't be written to
         """
@@ -708,6 +770,12 @@ class PolarDiagramTable(PolarDiagram):
         try:
             with open(csv_path, 'w', newline='') as file:
                 csv_writer = csv.writer(file, delimiter=',')
+                if fmt == 'opencpn':
+                    csv_writer.writerow(["TWA\\TWS"] + self.wind_speeds)
+                    rows = np.column_stack((self.wind_angles,
+                                            self.boat_speeds))
+                    csv_writer.writerows(rows)
+
                 csv_writer.writerow(["PolarDiagramTable"])
                 csv_writer.writerow(["Wind speed resolution:"])
                 csv_writer.writerow(self.wind_speeds)
@@ -1309,6 +1377,68 @@ class PolarDiagramTable(PolarDiagram):
         bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
         return plot_convex_surface(ws, wa, bsp, ax,
                                    colors)
+
+
+class TwoSailsPolarTable(PolarDiagram):
+
+    def __init__(self, polar_table1=None, polar_table2=None):
+        if polar_table1 is None:
+            polar_table1 = PolarDiagramTable()
+        if polar_table2 is None:
+            polar_table2 = PolarDiagramTable()
+
+        if not np.all(polar_table1.wind_speeds == polar_table2.wind_speeds):
+            raise PolarDiagramException("")
+
+        self._sail_1 = polar_table1
+        self._sail_2 = polar_table2
+
+    def to_csv(self, csv_path):
+        pass
+
+    def polar_plot_slice(self, ws,
+                         ax=None,
+                         **plot_kw):
+        pass
+
+    def flat_plot_slice(self, ws,
+                        ax=None,
+                        **plot_kw):
+        pass
+
+    def polar_plot(self,
+                   ws_range, ax=None,
+                   colors=('green', 'red'),
+                   show_legend=True,
+                   legend_kw=None,
+                   **plot_kw):
+        pass
+
+    def flat_plot(self,
+                  ws_range, ax=None,
+                  colors=('green', 'red'),
+                  show_legend=True,
+                  legend_kw=None,
+                  **plot_kw):
+        pass
+
+    def plot_3d(self):
+        pass
+
+    def plot_color_gradient(self, ax=None,
+                            colors=('green', 'red'),
+                            marker=None,
+                            show_legend=True,
+                            **legend_kw):
+        pass
+
+    def plot_convex_hull_slice(self, ws,
+                               ax=None,
+                               **plot_kw):
+        pass
+
+    def plot_convex_hull_3d(self):
+        pass
 
 
 class PolarDiagramCurve(PolarDiagram):
