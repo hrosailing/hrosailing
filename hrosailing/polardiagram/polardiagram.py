@@ -1374,7 +1374,7 @@ class PolarDiagramTable(PolarDiagram):
                                    colors)
 
 
-class TwoSailsPolarTable(PolarDiagram):
+class PolarDiagramTwoSails(PolarDiagram):
 
     def __init__(self, polar_table1=None, polar_table2=None):
         if polar_table1 is None:
