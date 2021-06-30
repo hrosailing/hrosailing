@@ -16,7 +16,6 @@ from abc import ABC, abstractmethod
 from scipy.odr.odrpack import Data, Model, ODR
 from scipy.optimize import curve_fit
 
-from hrosailing.exceptions import ProcessingException
 
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
@@ -303,23 +302,23 @@ def _check_data(data):
     data = np.asarray(data)
     shape = data.shape
     if not data.size:
-        raise ProcessingException(
+        raise ValueError(
             "No data to fit was passed")
     if data.ndim != 2:
-        raise ProcessingException(
+        raise ValueError(
             f"{data} is not a "
             f"2-dimensional array")
     if shape[1] != 3:
         try:
             data = data.reshape(-1, 3)
         except ValueError:
-            raise ProcessingException(
+            raise ValueError(
                 f"{data} couldn't be "
                 f"broadcasted to an"
                 f"array of shape (n, 3)")
 
     if not np.all(np.isfinite(data)):
-        raise ProcessingException(
+        raise ValueError(
             "data can only contain "
             "finite and non-NaN-values")
 

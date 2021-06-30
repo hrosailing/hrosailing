@@ -13,7 +13,6 @@ import numpy as np
 
 from abc import ABC, abstractmethod
 
-from hrosailing.exceptions import ProcessingException
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                     level=logging.INFO,
@@ -72,7 +71,7 @@ class QuantileFilter(Filter):
 
     def __init__(self, percent=50):
         if percent < 0 or percent > 100:
-            raise ProcessingException(
+            raise ValueError(
                 f"The percentage needs to"
                 f"be between 0 and 100, but"
                 f"{percent} was passed")
@@ -106,10 +105,10 @@ class QuantileFilter(Filter):
 
         wts = np.asarray(wts)
         if not wts.size:
-            raise ProcessingException(
+            raise ValueError(
                 "No weights were passed")
         if not all(np.isfinite(wts)):
-            raise ProcessingException(
+            raise ValueError(
                 "Weights need to be "
                 "finite and can't "
                 "be NaNs")
@@ -155,7 +154,7 @@ class BoundFilter(Filter):
 
     def __init__(self, upper_bound=1, lower_bound=0.5):
         if upper_bound < lower_bound:
-            raise ProcessingException(
+            raise ValueError(
                 "The upper bound can't be"
                 "lower than the lower bound")
 
@@ -191,10 +190,10 @@ class BoundFilter(Filter):
 
         wts = np.asarray(wts)
         if not wts.size:
-            raise ProcessingException(
+            raise ValueError(
                 "No weights were passed")
         if not all(np.isfinite(wts)):
-            raise ProcessingException(
+            raise ValueError(
                 "Weights need to be "
                 "finite and can't "
                 "be NaNs")

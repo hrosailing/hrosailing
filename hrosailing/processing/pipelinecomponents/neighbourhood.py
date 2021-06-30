@@ -14,7 +14,6 @@ import numpy as np
 from abc import ABC, abstractmethod
 from scipy.spatial import ConvexHull
 
-from hrosailing.exceptions import ProcessingException
 from hrosailing.utils import euclidean_norm
 
 
@@ -74,17 +73,17 @@ class Ball(Neighbourhood):
 
         # Sanity checks
         if not isinstance(d, int) or d <= 0:
-            raise ProcessingException(
+            raise ValueError(
                 f"The dimension needs to "
                 f"be a positive integer, "
                 f"but {d} was passed")
         if not isinstance(radius, (int, float)) or radius <= 0:
-            raise ProcessingException(
+            raise ValueError(
                 f"The radius needs to be "
                 f"positive number, but "
                 f"{radius} was passed")
         if not callable(norm):
-            raise ProcessingException(
+            raise ValueError(
                 f"{norm.__name__} is not"
                 f"callable")
 
@@ -123,15 +122,15 @@ class Ball(Neighbourhood):
         pts = np.asarray(pts)
         shape = pts.shape
         if not pts.size:
-            raise ProcessingException(
+            raise ValueError(
                 "No points were passed")
         if len(shape) != 2:
-            raise ProcessingException(
+            raise ValueError(
                 f"pts needs to be a "
                 f"2-dimensional array, "
                 f"but {pts} was passed")
         if shape[1] != self._dim:
-            raise ProcessingException(
+            raise ValueError(
                 f"Points are not of "
                 f"dimension {self._dim}")
 
@@ -144,7 +143,7 @@ class ScalingBall(Neighbourhood):
         if norm is None:
             norm = euclidean_norm
         if not callable(norm):
-            raise ProcessingException(
+            raise ValueError(
                 f"{norm.__name__} is not "
                 f"callable")
 
@@ -164,15 +163,15 @@ class ScalingBall(Neighbourhood):
         pts = np.asarray(pts)
         shape = pts.shape
         if not pts.size:
-            raise ProcessingException(
+            raise ValueError(
                 "No points were passed")
         if len(shape) != 2:
-            raise ProcessingException(
+            raise ValueError(
                 f"pts needs to be a "
                 f"2-dimensional array, "
                 f"but {pts} was passed")
         if shape[1] != 2:
-            raise ProcessingException(
+            raise ValueError(
                 f"Points are not of "
                 f"dimension 2")
 
@@ -250,7 +249,7 @@ class Ellipsoid(Neighbourhood):
                  norm=None, radius=1):
 
         if not isinstance(d, int) or d <= 0:
-            raise ProcessingException(
+            raise ValueError(
                 f"The dimension needs to "
                 f"be a positive integer, "
                 f"but {d} was passed")
@@ -263,26 +262,26 @@ class Ellipsoid(Neighbourhood):
         lin_trans = np.asarray(lin_trans)
         # Sanity checks
         if not lin_trans.size:
-            raise ProcessingException(
+            raise ValueError(
                 "lin_trans is an empty"
                 "array")
         if lin_trans.shape != (d, d):
-            raise ProcessingException(
+            raise ValueError(
                 f"{lin_trans} is not "
                 f"a square matrix of"
                 f"size {d}")
         if not np.linalg.det(lin_trans):
-            raise ProcessingException(
+            raise ValueError(
                 f"{lin_trans} is not"
                 f"invertible")
 
         if not isinstance(radius, (int, float)) or radius <= 0:
-            raise ProcessingException(
+            raise ValueError(
                 f"The radius needs to be "
                 f"positive number, but "
                 f"{radius} was passed")
         if not callable(norm):
-            raise ProcessingException(
+            raise ValueError(
                 f"{norm.__name__} is not"
                 f"callable")
 
@@ -322,15 +321,15 @@ class Ellipsoid(Neighbourhood):
         pts = np.asarray(pts)
         shape = pts.shape
         if not pts.size:
-            raise ProcessingException(
+            raise ValueError(
                 "No points were passed")
         if len(shape) != 2:
-            raise ProcessingException(
+            raise ValueError(
                 f"pts needs to be a "
                 f"2-dimensional array, "
                 f"but {pts} was passed")
         if shape[1] != self._dim:
-            raise ProcessingException(
+            raise ValueError(
                 f"Points are not of "
                 f"dimension {self._dim}")
 
@@ -377,7 +376,7 @@ class Cuboid(Neighbourhood):
 
     def __init__(self, d=2, norm=None, dimensions=None):
         if not isinstance(d, int) or d <= 0:
-            raise ProcessingException(
+            raise ValueError(
                 f"The dimension needs to "
                 f"be a positive integer, "
                 f"but {d} was passed")
@@ -388,11 +387,11 @@ class Cuboid(Neighbourhood):
             dimensions = tuple(1 for _ in range(d))
 
         if not callable(norm):
-            raise ProcessingException(
+            raise ValueError(
                 f"{norm.__name__} is not"
                 f"callable")
         if len(dimensions) != d:
-            raise ProcessingException(
+            raise ValueError(
                 f"{dimensions} is not"
                 f"of length {d}")
 
@@ -429,15 +428,15 @@ class Cuboid(Neighbourhood):
         shape = pts.shape
         d = self._dim
         if not pts.size:
-            raise ProcessingException(
+            raise ValueError(
                 "No points were passed")
         if len(shape) != 2:
-            raise ProcessingException(
+            raise ValueError(
                 f"pts needs to be a "
                 f"2-dimensional array, "
                 f"but {pts} was passed")
         if shape[1] != d:
-            raise ProcessingException(
+            raise ValueError(
                 f"Points are not of "
                 f"dimension {d}")
 
@@ -505,7 +504,7 @@ class Polytope(Neighbourhood):
 
     def __init__(self, d=2, mat=None, b=None):
         if not isinstance(d, int) or d <= 0:
-            raise ProcessingException(
+            raise ValueError(
                 f"The dimension needs to "
                 f"be a positive integer, "
                 f"but {d} was passed")
@@ -524,25 +523,25 @@ class Polytope(Neighbourhood):
             # TODO: Revert to default
             #       value instead of
             #       raising exception?
-            raise ProcessingException(
+            raise ValueError(
                 "mat is an empty array")
         if len(shape_mat) != 2:
             # TODO: Try broadcast!
-            raise ProcessingException(
+            raise ValueError(
                 f"mat is not "
                 f"2-dimensional")
         if not b.size:
             # TODO: Revert to default
             #       value instead of
             #       raising exception?
-            raise ProcessingException(
+            raise ValueError(
                 "b is an empty vector")
         if len(shape_b) != 1:
             # TODO: Try broadcast!
-            raise ProcessingException(
+            raise ValueError(
                 "b is not 1-dimensional")
         if shape_mat[0] != shape_b[0]:
-            raise ProcessingException(
+            raise ValueError(
                 f"mat needs to be a matrix "
                 f"of shape (n, d) and "
                 f"b needs to be a vector "
@@ -551,7 +550,7 @@ class Polytope(Neighbourhood):
                 f"{shape_mat} and {shape_b}, "
                 f"respectively")
         if shape_mat[1] != d:
-            raise ProcessingException(
+            raise ValueError(
                 f"mat needs to be a matrix "
                 f"of shape (n, {d}), but "
                 f"is a matrix of shape "
@@ -589,15 +588,15 @@ class Polytope(Neighbourhood):
         shape = pts.shape
         d = self._dim
         if not pts.size:
-            raise ProcessingException(
+            raise ValueError(
                 "No points were passed")
         if len(shape) != 2:
-            raise ProcessingException(
+            raise ValueError(
                 f"pts needs to be a "
                 f"2-dimensional array, "
                 f"but {pts} was passed")
         if shape[1] != d:
-            raise ProcessingException(
+            raise ValueError(
                 f"Points are not of "
                 f"dimension {d}")
 

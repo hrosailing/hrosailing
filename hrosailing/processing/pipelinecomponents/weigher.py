@@ -17,7 +17,6 @@ import numpy as np
 
 from abc import ABC, abstractmethod
 
-from hrosailing.exceptions import ProcessingException
 from hrosailing.utils import (
     euclidean_norm,
 )
@@ -102,13 +101,13 @@ class WeightedPoints:
         pts = np.asarray(pts)
         shape = pts.shape
         if not pts.size:
-            raise ProcessingException("")
+            raise ValueError("")
         self._points = _convert_wind(pts, tw)
 
         if weigher is None:
             weigher = CylindricMeanWeigher()
         if not isinstance(weigher, Weigher):
-            raise ProcessingException(
+            raise ValueError(
                 f"{weigher.__name__} is "
                 f"not a Weigher")
         if wts is None:
@@ -122,7 +121,7 @@ class WeightedPoints:
         try:
             wts = wts.reshape(shape[0], )
         except ValueError:
-            raise ProcessingException(
+            raise ValueError(
                 f"weights could not be broadcasted "
                 f"to an array of shape ({shape[0]}, )")
         self._weights = wts
@@ -201,14 +200,14 @@ class CylindricMeanWeigher(Weigher):
 
         # Sanity checks
         if not isinstance(radius, (int, float)) or radius <= 0:
-            raise ProcessingException(
+            raise ValueError(
                 f"The radius needs to be "
                 f"positive number, but "
                 f"{radius} was passed")
         if norm is None:
             norm = euclidean_norm
         if not callable(norm):
-            raise ProcessingException(
+            raise ValueError(
                 f"{norm.__name__} is not "
                 f"callable")
 
@@ -239,7 +238,7 @@ class CylindricMeanWeigher(Weigher):
         pts = np.asarray(pts)
         shape = pts.shape
         if not pts.size:
-            raise ProcessingException(
+            raise ValueError(
                 "No points were passed")
 
         d = shape[1]
@@ -323,19 +322,19 @@ class CylindricMemberWeigher(Weigher):
 
     def __init__(self, radius=1, length=1, norm=None):
         if not isinstance(radius, (int, float)) or radius <= 0:
-            raise ProcessingException(
+            raise ValueError(
                 f"The radius needs to be "
                 f"positive number, but "
                 f"{radius} was passed")
         if not isinstance(length, (int, float)) or length < 0:
-            raise ProcessingException(
+            raise ValueError(
                 f"The length needs to be "
                 f"a nonnegative number, "
                 f"but {length} was passed")
         if norm is None:
             norm = euclidean_norm
         if not callable(norm):
-            raise ProcessingException(
+            raise ValueError(
                 f"{norm.__name__} is not "
                 f"callable")
 
@@ -368,7 +367,7 @@ class CylindricMemberWeigher(Weigher):
         pts = np.asarray(pts)
         shape = pts.shape
         if not pts.size:
-            raise ProcessingException(
+            raise ValueError(
                 "No points were passed")
 
         wts = np.zeros(shape[0])

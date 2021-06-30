@@ -13,7 +13,6 @@ import numpy as np
 
 from abc import ABC, abstractmethod
 
-from hrosailing.exceptions import ProcessingException
 from hrosailing.utils import euclidean_norm
 
 
@@ -135,7 +134,7 @@ class ArithmeticMeanInterpolator(Interpolator):
     def __init__(self, *params, s=1, norm=None,
                  distribution=None):
         if not isinstance(s, (int, float)) or s <= 0:
-            raise ProcessingException(
+            raise ValueError(
                 f"The scaling parameter "
                 f"needs to be a positive "
                 f"number, but {s} was "

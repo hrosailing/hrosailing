@@ -14,7 +14,6 @@ import numpy as np
 from abc import ABC, abstractmethod
 from scipy.spatial import ConvexHull
 
-from hrosailing.exceptions import ProcessingException
 
 
 class Sampler(ABC):
@@ -59,7 +58,7 @@ class UniformRandomSampler(Sampler):
     def __init__(self, n_samples):
 
         if not isinstance(n_samples, int) or n_samples <= 0:
-            raise ProcessingException(
+            raise ValueError(
                 f"The number of samples"
                 f"needs to be a positive"
                 f"number but {n_samples}"
