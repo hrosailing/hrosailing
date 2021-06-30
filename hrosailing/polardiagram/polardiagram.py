@@ -13,10 +13,7 @@ import pickle
 
 from abc import ABC, abstractmethod
 
-from hrosailing.exceptions import (
-    PolarDiagramException,
-    FileReadingException
-)
+
 from hrosailing.polardiagram.plotting import *
 from hrosailing.utils import (
     speed_resolution,
@@ -34,6 +31,14 @@ file_handler = logging.handlers.TimedRotatingFileHandler(
     LOG_FILE, when='midnight')
 logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)
+
+
+class PolarDiagramException(Exception):
+    pass
+
+
+class FileReadingException(Exception):
+    pass
 
 
 def to_csv(csv_path, obj):
@@ -104,9 +109,9 @@ def from_csv(csv_path, fmt='hro', tw=True):
     if fmt not in FMTS:
         raise FileReadingException(
             f"Format {fmt} not yet implemented")
-    if fmt == 'hro':
-        try:
-            with open(csv_path, 'r', newline='') as file:
+    try:
+        with open(csv_path, 'r', newline='') as file:
+            if fmt == 'hro':
                 csv_reader = csv.reader(file, delimiter=',')
                 first_row = next(csv_reader)[0]
                 if (first_row not in
@@ -115,27 +120,26 @@ def from_csv(csv_path, fmt='hro', tw=True):
                     raise FileReadingException(
                         f"hro-format for {first_row} "
                         f"not yet implemented")
-
                 if first_row == "PolarDiagramTable":
-                    ws_res, wa_res, bsps = read_table(csv_reader)
+                    ws_res, wa_res, bsps = _read_table(csv_reader)
                     return PolarDiagramTable(
                         ws_res=ws_res, wa_res=wa_res,
                         bsps=bsps, tw=tw)
 
-                pts = read_pointcloud(csv_reader)
+                pts = _read_pointcloud(csv_reader)
                 return PolarDiagramPointcloud(
                     pts=pts, tw=tw)
-        except OSError:
-            raise FileReadingException(
-                f"can't find/open/read {csv_path}")
 
-    ws_res, wa_res, bsps = read_extern_format(csv_path, fmt)
-    return PolarDiagramTable(
-        ws_res=ws_res, wa_res=wa_res,
-        bsps=bsps, tw=tw)
+            ws_res, wa_res, bsps = _read_extern_format(csv_path, fmt)
+            return PolarDiagramTable(
+                ws_res=ws_res, wa_res=wa_res,
+                bsps=bsps, tw=tw)
+    except OSError:
+        raise FileReadingException(
+            f"can't find/open/read {csv_path}")
 
 
-def read_table(csv_reader):
+def _read_table(csv_reader):
     next(csv_reader)
     ws_res = [eval(ws) for ws in next(csv_reader)]
     next(csv_reader)
@@ -148,7 +152,7 @@ def read_table(csv_reader):
     return ws_res, wa_res, bsps
 
 
-def read_pointcloud(csv_reader):
+def _read_pointcloud(csv_reader):
     points = []
     next(csv_reader)
     for row in csv_reader:
@@ -157,48 +161,39 @@ def read_pointcloud(csv_reader):
     return np.array(points)
 
 
-def read_extern_format(csv_path, fmt):
+def _read_extern_format(csv_path, fmt):
     if fmt == 'array':
-        return read_array_csv(csv_path)
-
+        return _read_array_csv(csv_path)
     if fmt == 'orc':
         delimiter = ';'
     else:
         delimiter = ','
 
-    return read_sail_csv(csv_path, delimiter)
+    return _read_sail_csv(csv_path, delimiter)
 
 
-def read_sail_csv(csv_path, delimiter):
-    try:
-        with open(csv_path, 'r', newline='') as file:
-            csv_reader = csv.reader(
-                file, delimiter=delimiter)
-            ws_res = [eval(ws) for ws
-                      in next(csv_reader)[1:]]
-            wa_res, bsps = [], []
-            next(csv_reader)
-            for row in csv_reader:
-                wa_res.append(eval(row[0]))
-                bsps.append([eval(bsp) if bsp != ''
-                             else 0 for bsp in row[1:]])
+def _read_sail_csv(csv_path, delimiter):
+    with open(csv_path, 'r', newline='') as file:
+        csv_reader = csv.reader(
+            file, delimiter=delimiter)
+        ws_res = [eval(ws) for ws
+                  in next(csv_reader)[1:]]
+        wa_res, bsps = [], []
+        next(csv_reader)
+        for row in csv_reader:
+            wa_res.append(eval(row[0]))
+            bsps.append([eval(bsp) if bsp != ''
+                         else 0 for bsp in row[1:]])
 
-            return ws_res, wa_res, bsps
-    except OSError:
-        raise FileReadingException(
-            f"Can't find/open/read {csv_path}")
+        return ws_res, wa_res, bsps
 
 
-def read_array_csv(csv_path):
-    try:
-        file_data = np.genfromtxt(
-            csv_path, delimiter="\t")
-        return (file_data[0, 1:],
-                file_data[1:, 0],
-                file_data[1:, 1:])
-    except OSError:
-        raise FileReadingException(
-            f"Can't find/open/read {csv_path}")
+def _read_array_csv(csv_path):
+    file_data = np.genfromtxt(
+        csv_path, delimiter="\t")
+    return (file_data[0, 1:],
+            file_data[1:, 0],
+            file_data[1:, 1:])
 
 
 def pickling(pkl_path, obj):

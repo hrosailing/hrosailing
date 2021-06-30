@@ -14,11 +14,11 @@ import hrosailing.polardiagram as pol
 import hrosailing.processing.modelfunctions as mf
 import hrosailing.processing.pipelinecomponents as pc
 
-from hrosailing.exceptions import (
-    ProcessingException,
-    FileReadingException
+
+from hrosailing.polardiagram.polardiagram import (
+    _read_pointcloud,
+    FileReadingException,
 )
-from hrosailing.polardiagram.polardiagram import read_pointcloud
 from hrosailing.utils import (
     speed_resolution,
     angle_resolution,
@@ -38,6 +38,10 @@ file_handler = logging.handlers.TimedRotatingFileHandler(
 file_handler.setLevel(logging.INFO)
 logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)
+
+
+class ProcessingException(Exception):
+    pass
 
 
 class PolarPipeline:
@@ -353,7 +357,7 @@ def read_csv_file(csv_path, delimiter=None):
         with open(csv_path, 'r', newline='') as file:
             csv_reader = csv.reader(
                 file, delimiter=delimiter)
-            return read_pointcloud(csv_reader)
+            return _read_pointcloud(csv_reader)
     except OSError:
         raise FileReadingException(
             f"Can't find/open/read {csv_path}")
