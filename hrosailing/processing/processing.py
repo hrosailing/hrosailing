@@ -19,11 +19,11 @@ from hrosailing.polardiagram.polardiagram import (
     _read_pointcloud,
     FileReadingException,
 )
-from hrosailing.utils import (
+from hrosailing.wind import (
+    apparent_wind_to_true,
     speed_resolution,
     angle_resolution,
 )
-from hrosailing.windconversion import apparent_wind_to_true
 
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',

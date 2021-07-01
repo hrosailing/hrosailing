@@ -20,7 +20,7 @@ from abc import ABC, abstractmethod
 from hrosailing.utils import (
     euclidean_norm,
 )
-from hrosailing.windconversion import apparent_wind_to_true
+from hrosailing.wind import apparent_wind_to_true
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                     level=logging.INFO,
