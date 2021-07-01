@@ -17,8 +17,6 @@ from matplotlib.cm import ScalarMappable
 from matplotlib.lines import Line2D
 from scipy.spatial import ConvexHull
 
-from hrosailing.utils import polar_to_kartesian
-
 
 def plot_polar(wa, bsp, ax, **plot_kw):
     _check_keywords(plot_kw)
@@ -26,8 +24,12 @@ def plot_polar(wa, bsp, ax, **plot_kw):
         ax = plt.gca(projection='polar')
     _set_polar_directions(ax)
 
-    xs, ys = _sort_data([wa], [bsp])
-    return ax.plot(xs, ys, **plot_kw)
+    colors = plot_kw.pop('color', None) \
+        or plot_kw.pop('c', None)
+    _set_color_cycle(ax, wa, colors)
+
+    xs, ys = _sort_data(wa, bsp)
+    return _plot(ax, xs, ys, **plot_kw)
 
 
 def plot_flat(wa, bsp, ax, **plot_kw):
@@ -35,8 +37,12 @@ def plot_flat(wa, bsp, ax, **plot_kw):
     if ax is None:
         ax = plt.gca()
 
-    xs, ys = _sort_data([wa], [bsp])
-    return ax.plot(xs, ys, **plot_kw)
+    colors = plot_kw.pop('color', None) \
+        or plot_kw.pop('c', None)
+    _set_color_cycle(ax, wa, colors)
+
+    xs, ys = _sort_data(wa, bsp)
+    return _plot(ax, xs, ys, **plot_kw)
 
 
 def plot_polar_range(ws_list, wa_list, bsp_list,
@@ -56,7 +62,7 @@ def plot_polar_range(ws_list, wa_list, bsp_list,
     _set_color_cycle(ax, ws_list, colors)
 
     xs, ys = _sort_data(wa_list, bsp_list)
-    return _plot_multiple(ax, xs, ys, **plot_kw)
+    return _plot(ax, xs, ys, **plot_kw)
 
 
 def plot_flat_range(ws_list, wa_list, bsp_list,
@@ -76,7 +82,7 @@ def plot_flat_range(ws_list, wa_list, bsp_list,
 
     xs, ys = _sort_data(wa_list, bsp_list)
 
-    return _plot_multiple(ax, xs, ys, **plot_kw)
+    return _plot(ax, xs, ys, **plot_kw)
 
 
 def plot_color(ws, wa, bsp, ax, colors,
@@ -128,36 +134,34 @@ def plot_convex_hull(wa, bsp, ax, **plot_kw):
         ax = plt.gca(projection='polar')
     _set_polar_directions(ax)
 
-    wa, bsp = _sort_data([wa], [bsp])
+    wa, bsp = _sort_data(wa, bsp)
 
     xs, ys = _get_convex_hull(wa, bsp)
     return ax.plot(xs, ys, **plot_kw)
 
 
-def plot_convex_surface(ws, wa, bsp, ax, colors):
+# TODO: Many problems!!
+def plot_convex_surface(ws, wa, bsp, ax, color):
     if ax is None:
         ax = plt.gca(projection='3d')
     _set_3d_labels(ax)
 
     xs, ys, zs = _get_convex_hull_3d(ws, wa, bsp)
 
-    cmap = LinearSegmentedColormap.from_list(
-        "custom_cmap", list(colors))
-    color = cmap((ws - ws.min())
-                 / float((ws - ws.min()).max()))
-
-    return ax.plot_surface(xs, ys, zs,
-                           facecolors=color)
+    return ax.plot_surface(xs, ys, zs, rstride=1,
+                           cstride=1)
 
 
 def _check_keywords(dct):
-    ls = (dct.get('linestyle')
-          or dct.get('ls'))
+    ls = dct.get('linestyle') or dct.get('ls')
     if ls is None:
         dct['ls'] = ''
     marker = dct.get('marker')
     if marker is None:
         dct['marker'] = 'o'
+    color = dct.get('color') or dct.get('c')
+    if color is None:
+        dct['color'] = 'blue'
 
 
 def _set_3d_labels(ax):
@@ -172,8 +176,13 @@ def _set_polar_directions(ax):
 
 
 def _set_color_cycle(ax, ws_list, colors):
+    if not isinstance(ws_list, list):
+        ws_list = [ws_list]
+    if not isinstance(colors, tuple):
+        colors = (colors,)
     no_plots = len(ws_list)
     no_colors = len(colors)
+
     if no_plots == no_colors or no_plots < no_colors:
         ax.set_prop_cycle('color', colors)
         return
@@ -181,7 +190,9 @@ def _set_color_cycle(ax, ws_list, colors):
     if no_plots > no_colors != 2:
         color_list = ['blue'] * no_plots
         if isinstance(colors[0], str):
-            for c, i in enumerate(colors):
+            for i, c in enumerate(colors):
+                print(i)
+                print(c)
                 color_list[i] = c
 
         if isinstance(colors[0], tuple):
@@ -189,7 +200,7 @@ def _set_color_cycle(ax, ws_list, colors):
                 i = list(ws_list).index(ws)
                 color_list[i] = c
 
-        ax.set_prob_cycle('color', color_list)
+        ax.set_prop_cycle('color', color_list)
         return
 
     ax.set_prop_cycle(
@@ -250,31 +261,36 @@ def _set_legend(ax, ws_list, colors, label,
         for i in range(min(no_colors, no_plots))])
 
 
-# TODO Is there a better way?
-#      Write it for 2 and 3 dim
+# TODO: Is there a better way?
+#       Write it for 2 and 3 dim?
 def _sort_data(wa_list, bsp_list):
-    sorted_lists = list(zip(
+    if not isinstance(wa_list, list):
+        wa_list = [wa_list]
+    if not isinstance(bsp_list, list):
+        bsp_list = [bsp_list]
+
+    sorted_ = list(zip(
         *(zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
           for wa, bsp in zip(wa_list, bsp_list))))
 
-    return sorted_lists[0], sorted_lists[1]
+    return sorted_[0], sorted_[1]
 
 
-# TODO Is there a better way?
-def _plot_multiple(ax, xs, ys,
-                   **plot_kw):
+# TODO: Is there a better way?
+def _plot(ax, xs, ys,
+          **plot_kw):
     for x, y in zip(xs, ys):
         x, y = np.asarray(x), np.asarray(y)
         ax.plot(x, y, **plot_kw)
 
 
-# TODO Write it for 2 and 3 dim
+# TODO: Write it for 2 and 3 dim?
 def _get_convex_hull(wa, bsp):
-    wa, bsp = np.ravel(np.asarray(wa)), np.ravel(np.asarray(bsp))
-    print(wa)
-    print(bsp)
+    wa, bsp = np.asarray(wa).ravel(), np.asarray(bsp).ravel()
     vert = sorted(convex_hull_polar(
         np.column_stack((wa, bsp))).vertices)
+
+    # maybe not list compr. but a for loop?
     xs = [wa[i] for i in vert]
     ys = [bsp[i] for i in vert]
     xs.append(xs[0])
@@ -283,18 +299,32 @@ def _get_convex_hull(wa, bsp):
     return xs, ys
 
 
+# TODO: Merge with _get_convex_hull()?
 def _get_convex_hull_3d(ws, wa, bsp):
-    ws = np.ravel(ws)
-    wa = np.ravel(wa)
-    bsp = np.ravel(bsp)
+    ws, wa, bsp = ws.ravel(), wa.ravel(), bsp.ravel()
     vert = sorted(ConvexHull(
-        np.column_stack((ws, wa, bsp)).vertices))
+        np.column_stack((ws, wa, bsp))).vertices)
 
+    # maybe not list compr. but a for loop?
     xs = [ws[i] for i in vert]
     ys = [wa[i] for i in vert]
     zs = [bsp[i] for i in vert]
+    xs.append(xs[0])
+    ys.append(ys[0])
+    zs.append(zs[0])
+
+    xs = np.asarray(xs).reshape(-1, 1)
+    ys = np.asarray(ys).reshape(-1, 1)
+    zs = np.asarray(zs).reshape(-1, 1)
+    return xs, ys, zs
 
 
 def convex_hull_polar(points):
     converted_points = polar_to_kartesian(points)
     return ConvexHull(converted_points)
+
+
+def polar_to_kartesian(arr):
+    return np.column_stack(
+        (arr[:, 1] * np.cos(arr[:, 0]),
+         arr[:, 1] * np.sin(arr[:, 0])))

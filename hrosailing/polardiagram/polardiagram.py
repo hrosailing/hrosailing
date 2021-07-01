@@ -436,7 +436,8 @@ class PolarDiagram(ABC):
         pass
 
     @abstractmethod
-    def plot_convex_hull_3d(self):
+    def plot_convex_hull_3d(self, ax=None,
+                            colors='blue'):
         pass
 
 
@@ -852,7 +853,7 @@ class PolarDiagramTable(PolarDiagram):
 
     def _get_slice_data(self, ws):
         ind = _get_indices(ws, self.wind_speeds)
-        return self.boat_speeds[:, ind]
+        return self.boat_speeds[:, ind].ravel()
 
     def _get_radians(self):
         return np.deg2rad(self.wind_angles)
@@ -891,7 +892,7 @@ class PolarDiagramTable(PolarDiagram):
                     f"ws={ws}, ax={ax}, "
                     f"plot_kw={plot_kw})' called")
 
-        wa = list(self._get_radians())
+        wa = self._get_radians()
         bsp = self._get_slice_data(ws)
         return plot_polar(wa, bsp, ax, **plot_kw)
 
@@ -1356,23 +1357,26 @@ class PolarDiagramTable(PolarDiagram):
 
         wa = list(self._get_radians())
         bsp = self._get_slice_data(ws)
-        return plot_convex_hull(wa, bsp, ax, **plot_kw)
+        return plot_convex_hull(wa, bsp, ax,
+                                **plot_kw)
 
+    # Still very much in development
     def plot_convex_hull_3d(self, ax=None,
-                            colors=('blue', 'blue')):
+                            color='blue'):
         """"""
         logger.info(f"Method "
                     f"'plot_convex_hull_3d("
                     f"ax={ax}, "
-                    f"colors={colors})' "
+                    f"color={color})' "
                     f"called")
 
         ws, wa = np.meshgrid(self.wind_speeds,
                              self._get_radians())
         bsp = self.boat_speeds
         bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
+
         return plot_convex_surface(ws, wa, bsp, ax,
-                                   colors)
+                                   color)
 
 
 class PolarDiagramTwoSails(PolarDiagram):
@@ -1383,25 +1387,65 @@ class PolarDiagramTwoSails(PolarDiagram):
         if polar_table2 is None:
             polar_table2 = PolarDiagramTable()
 
-        if not np.all(polar_table1.wind_speeds == polar_table2.wind_speeds):
+        if np.any(polar_table1.wind_speeds
+                  != polar_table2.wind_speeds):
             raise PolarDiagramException("")
 
         self._sail_1 = polar_table1
         self._sail_2 = polar_table2
+        self._res_wind_speed = polar_table1.wind_speeds
+        self._res_wind_angle = (polar_table1.wind_angles,
+                                polar_table2.wind_angles)
+
+    @property
+    def wind_speeds(self):
+        return self._res_wind_speed.copy()
+
+    @property
+    def wind_angles(self):
+        return [self._res_wind_angle[0].copy(),
+                self._res_wind_angle[1].copy()]
+
+    @property
+    def boat_speeds(self):
+        return [self._sail_1.boat_speeds,
+                self._sail_2.boat_speeds]
 
     def to_csv(self, csv_path):
         pass
 
+    def _get_radians(self):
+        wa = self.wind_angles
+        return [np.deg2rad(wa[0]),
+                np.deg2rad(wa[1])]
+
+    def _get_slice_data(self, ws):
+        ind = _get_indices(ws, self.wind_speeds)
+        bsp = self.boat_speeds
+        return [bsp[0][:, ind].ravel(),
+                bsp[1][:, ind].ravel()]
+
     def polar_plot_slice(self, ws,
                          ax=None,
                          **plot_kw):
-        pass
+        wa = self._get_radians()
+        bsp = self._get_slice_data(ws)
+
+        return plot_polar(wa, bsp, ax,
+                          **plot_kw)
 
     def flat_plot_slice(self, ws,
                         ax=None,
                         **plot_kw):
-        pass
+        wa = self.wind_angles
+        bsp = self._get_slice_data(ws)
 
+        return plot_flat(wa, bsp, ax,
+                         **plot_kw)
+
+    # TODO: Implementation
+    #       Problems: How to handle legend?
+    #                 Multiple legends?
     def polar_plot(self,
                    ws_range, ax=None,
                    colors=('green', 'red'),
@@ -1410,6 +1454,9 @@ class PolarDiagramTwoSails(PolarDiagram):
                    **plot_kw):
         pass
 
+    # TODO: Implementation
+    #       Problems: How to handle legend?
+    #                 Multiple legends?
     def flat_plot(self,
                   ws_range, ax=None,
                   colors=('green', 'red'),
@@ -1418,9 +1465,20 @@ class PolarDiagramTwoSails(PolarDiagram):
                   **plot_kw):
         pass
 
-    def plot_3d(self):
-        pass
+    def plot_3d(self, ax=None, colors=None):
+        if colors is None:
+            colors = [('blue', 'blue'),
+                      ('blue', 'blue')]
 
+        self._sail_1.plot_3d(ax, colors=colors[0])
+        self._sail_2.plot_3d(ax, colors=colors[1])
+
+    # TODO: Implementation
+    #       Problems: Can we make two color gradients
+    #                 for the two sails? How?
+    #                 How to handle legend?
+    #                 Multiple legends?
+    #                 Change helper function?
     def plot_color_gradient(self, ax=None,
                             colors=('green', 'red'),
                             marker=None,
@@ -1428,12 +1486,28 @@ class PolarDiagramTwoSails(PolarDiagram):
                             **legend_kw):
         pass
 
+    # TODO: Works but it would be nice,
+    #       to see which parts of the
+    #       convex hull belong to the
+    #       convex hull of one sail,
+    #       which belong to the convex
+    #       hull of the other, and
+    #       which are a combination
+    #       of those...
+    #       Mutliple colors and change
+    #       helper function, or create
+    #       seperate helper function?
     def plot_convex_hull_slice(self, ws,
                                ax=None,
                                **plot_kw):
-        pass
+        wa = np.concatenate(self._get_radians())
+        bsp = np.concatenate(self._get_slice_data(ws))
 
-    def plot_convex_hull_3d(self):
+        return plot_convex_hull(wa, bsp, ax,
+                                **plot_kw)
+
+    def plot_convex_hull_3d(self, ax=None,
+                            colors=('blue',)):
         pass
 
 
@@ -2200,7 +2274,8 @@ class PolarDiagramCurve(PolarDiagram):
         return plot_convex_hull(wa, bsp, ax,
                                 **plot_kw)
 
-    def plot_convex_hull_3d(self):
+    def plot_convex_hull_3d(self, ax=None,
+                            colors=None):
         """"""
         pass
 
@@ -3010,6 +3085,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         return plot_convex_hull(wa, bsp, ax,
                                 **plot_kw)
 
-    def plot_convex_hull_3d(self):
+    def plot_convex_hull_3d(self, ax=None,
+                            colors=None):
         """"""
         pass

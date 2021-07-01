@@ -1,6 +1,7 @@
 from hrosailing.polardiagram.polardiagram import (
     PolarDiagram,
     PolarDiagramTable,
+    PolarDiagramTwoSails,
     PolarDiagramPointcloud,
     PolarDiagramCurve,
     from_csv,
@@ -9,4 +10,3 @@ from hrosailing.polardiagram.polardiagram import (
     depickling,
     symmetric_polar_diagram,
 )
-
