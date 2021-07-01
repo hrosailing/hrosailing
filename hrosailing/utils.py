@@ -4,12 +4,9 @@ Small utility functions used throughout the module
 
 # Author: Valentin F. Dannenberg / Ente
 
+# TODO Should really be removed!
 
 import numpy as np
-
-from typing import Iterable
-
-# TODO: Error checks?
 
 
 def euclidean_norm(vec):
