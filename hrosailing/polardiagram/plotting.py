@@ -191,8 +191,6 @@ def _set_color_cycle(ax, ws_list, colors):
         color_list = ['blue'] * no_plots
         if isinstance(colors[0], str):
             for i, c in enumerate(colors):
-                print(i)
-                print(c)
                 color_list[i] = c
 
         if isinstance(colors[0], tuple):
