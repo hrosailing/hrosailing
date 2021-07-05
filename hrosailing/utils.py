@@ -4,7 +4,7 @@ Small utility functions used throughout the module
 
 # Author: Valentin F. Dannenberg / Ente
 
-# TODO Should really be removed!
+# TODO Move to Pipelinecomponents or Remove entirely
 
 import numpy as np
 
