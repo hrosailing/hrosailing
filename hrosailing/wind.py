@@ -82,30 +82,24 @@ def speed_resolution(ws_res):
     if ws_res is None:
         return np.arange(2, 42, 2)
 
+    # Iterable-test really necessary?
     if not isinstance(ws_res, (Iterable, int, float)):
         raise ValueError(
-            f"{ws_res} is neither Iterable, "
+            f"{ws_res} is neither array_like, "
             f"int or float")
 
-    # TODO: Maybe not all iterables valid?
     if isinstance(ws_res, Iterable):
-        # TODO: Check if elements of
-        #       iterable are of type
-        #       Number
-
-        # Edge case, if ws_res is a set or dict
-        # since numpy.ndarrays don't behave
-        # as desired, when constructed from
-        # a set or dict
-        if isinstance(ws_res, (set, dict)):
-            raise ValueError("")
-
+        # TODO: Check if contents of
+        #       np.array are numbers?
         ws_res = np.asarray(ws_res)
+
+        if ws_res.dtype == object:
+            raise ValueError(
+                f"{ws_res} is not array_like")
         if not ws_res.size:
-            # TODO: Also just return
-            #       default res?
             raise ValueError(
                 "Empty ws_res was passed")
+
         return ws_res
 
     if ws_res <= 0:
@@ -120,28 +114,21 @@ def angle_resolution(wa_res):
     if wa_res is None:
         return np.arange(0, 360, 5)
 
+    # Iterable-test really necessary?
     if not isinstance(wa_res, (Iterable, int, float)):
         raise ValueError(
-            f"{wa_res} is neither Iterable, "
+            f"{wa_res} is neither array_like, "
             f"int or float")
 
-    # TODO: Maybe not all Iterables valid?
     if isinstance(wa_res, Iterable):
-        # TODO: Check if elements of
-        #       iterable are of type
-        #       Number
-
-        # Edge case, if wa_res is a set or dict
-        # since numpy.ndarrays don't behave
-        # as desired, when constructed from
-        # a set or dict
-        if isinstance(wa_res, (set, dict)):
-            raise ValueError("")
-
+        # TODO: Check if contents of
+        #       np.array are numbers?
         wa_res = np.asarray(wa_res)
+
+        if wa_res.dtype == object:
+            raise ValueError(
+                f"{wa_res} is not array_like")
         if not wa_res.size:
-            # TODO: Also just return
-            #       default res?
             raise ValueError(
                 "Empty wa_res was passed")
         return wa_res

@@ -483,7 +483,7 @@ class PolarDiagramTable(PolarDiagram):
 
     Parameters
     ----------
-    ws_res : Iterable or int or float, optional
+    ws_res : array_like or int/float, optional
         Wind speeds that will
         correspond to the
         columns of the table.
@@ -500,7 +500,7 @@ class PolarDiagramTable(PolarDiagram):
         it will default to
         numpy.arange(2, 42, 2)
 
-    wa_res : Iterable or int or float, optional
+    wa_res : array_like or int/float, optional
         Wind angles that will
         correspond to the
         columns of the table.
@@ -853,7 +853,7 @@ class PolarDiagramTable(PolarDiagram):
 
     def _get_slice_data(self, ws):
         ind = _get_indices(ws, self.wind_speeds)
-        return self.boat_speeds[:, ind].ravel()
+        return self.boat_speeds[:, ind]
 
     def _get_radians(self):
         return np.deg2rad(self.wind_angles)
@@ -1064,7 +1064,7 @@ class PolarDiagramTable(PolarDiagram):
             raise PolarDiagramException("ws_range doesn't"
                                         "contain any slices")
 
-        bsp_list = list(self._get_slice_data(ws=ws_range).T)
+        bsp_list = list(self._get_slice_data(ws_range).T)
         wa_list = [list(self._get_radians())] * len(bsp_list)
         return plot_polar_range(
             ws_range, wa_list, bsp_list,
