@@ -14,15 +14,18 @@ import numpy as np
 from abc import ABC, abstractmethod
 
 
-logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
-                    level=logging.INFO,
-                    filename='hrosailing/logging/processing.log')
+logging.basicConfig(
+    format="%(asctime)s %(levelname)s: %(message)s",
+    level=logging.INFO,
+    filename="hrosailing/logging/processing.log",
+)
 
 LOG_FILE = "hrosailing/logging/processing.log"
 
 logger = logging.getLogger(__name__)
 file_handler = logging.handlers.TimedRotatingFileHandler(
-    LOG_FILE, when='midnight')
+    LOG_FILE, when="midnight"
+)
 file_handler.setLevel(logging.INFO)
 logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)
@@ -74,7 +77,8 @@ class QuantileFilter(Filter):
             raise ValueError(
                 f"The percentage needs to"
                 f"be between 0 and 100, but"
-                f"{percent} was passed")
+                f"{percent} was passed"
+            )
 
         self._percent = percent
 
@@ -105,20 +109,17 @@ class QuantileFilter(Filter):
 
         wts = np.asarray(wts)
         if not wts.size:
-            raise ValueError(
-                "No weights were passed")
+            raise ValueError("No weights were passed")
         if not all(np.isfinite(wts)):
-            raise ValueError(
-                "Weights need to be "
-                "finite and can't "
-                "be NaNs")
+            raise ValueError("Weights need to be finite and can't be NaNs")
 
         mask = wts >= np.percentile(wts, self._percent)
 
-        logger.info(f"Total amount of filtered"
-                    f"points: {wts[mask].shape[0]}")
-        logger.info(f"Percentage of filtered"
-                    f"points: {wts[mask].shape[0]/ wts.shape[0]}")
+        logger.info(f"Total amount of filtered points: {wts[mask].shape[0]}")
+        logger.info(
+            f"Percentage of filtered"
+            f"points: {wts[mask].shape[0]/ wts.shape[0]}"
+        )
 
         return mask
 
@@ -155,16 +156,18 @@ class BoundFilter(Filter):
     def __init__(self, upper_bound=1, lower_bound=0.5):
         if upper_bound < lower_bound:
             raise ValueError(
-                "The upper bound can't be"
-                "lower than the lower bound")
+                "The upper bound can't be lower than the lower bound"
+            )
 
         self._u_b = upper_bound
         self._l_b = lower_bound
 
     def __repr__(self):
-        return (f"BoundFilter("
-                f"upper_bound={self._u_b}, "
-                f"lower_bound={self._l_b})")
+        return (
+            f"BoundFilter("
+            f"upper_bound={self._u_b}, "
+            f"lower_bound={self._l_b})"
+        )
 
     def filter(self, wts):
         """Filters a set
@@ -190,21 +193,18 @@ class BoundFilter(Filter):
 
         wts = np.asarray(wts)
         if not wts.size:
-            raise ValueError(
-                "No weights were passed")
+            raise ValueError("No weights were passed")
         if not all(np.isfinite(wts)):
-            raise ValueError(
-                "Weights need to be "
-                "finite and can't "
-                "be NaNs")
+            raise ValueError("Weights need to be finite and can't be NaNs")
 
         mask_1 = wts >= self._l_b
         mask_2 = wts <= self._u_b
         mask = mask_1 & mask_2
 
-        logger.info(f"Total amount of filtered"
-                    f"points: {wts[mask].shape[0]}")
-        logger.info(f"Percentage of filtered"
-                    f"points: {wts[mask].shape[0] / wts.shape[0]}")
+        logger.info(f"Total amount of filtered points: {wts[mask].shape[0]}")
+        logger.info(
+            f"Percentage of filtered"
+            f"points: {wts[mask].shape[0] / wts.shape[0]}"
+        )
 
         return mask

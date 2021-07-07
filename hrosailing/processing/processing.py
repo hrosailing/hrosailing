@@ -26,15 +26,18 @@ from hrosailing.wind import (
 )
 
 
-logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
-                    level=logging.INFO,
-                    filename='hrosailing/logging/processing.log')
+logging.basicConfig(
+    format="%(asctime)s %(levelname)s: %(message)s",
+    level=logging.INFO,
+    filename="hrosailing/logging/processing.log",
+)
 
-LOG_FILE = 'hrosailing/logging/processing.log'
+LOG_FILE = "hrosailing/logging/processing.log"
 
 logger = logging.getLogger(__name__)
 file_handler = logging.handlers.TimedRotatingFileHandler(
-    LOG_FILE, when='midnight')
+    LOG_FILE, when="midnight"
+)
 file_handler.setLevel(logging.INFO)
 logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)
@@ -86,9 +89,14 @@ class PolarPipeline:
 
     """
 
-    def __init__(self, weigher=None, filter_=None,
-                 sampler=None, interpolater=None,
-                 regressor=None):
+    def __init__(
+        self,
+        weigher=None,
+        filter_=None,
+        sampler=None,
+        interpolater=None,
+        regressor=None,
+    ):
         if weigher is None:
             weigher = pc.CylindricMeanWeigher()
         if filter_ is None:
@@ -100,29 +108,23 @@ class PolarPipeline:
         if regressor is None:
             regressor = pc.ODRegressor(
                 model_func=mf.tws_s_s_dt_twa_gauss_comb,
-                init_values=(0.25, 10, 1.7, 0,
-                             1.9, 30, 17.6, 0))
+                init_values=(0.25, 10, 1.7, 0, 1.9, 30, 17.6, 0),
+            )
 
         if not isinstance(weigher, pc.Weigher):
-            raise ProcessingException(
-                f"{weigher.__name__} is "
-                f"not a Weigher")
+            raise ProcessingException(f"{weigher.__name__} is not a Weigher")
         if not isinstance(filter_, pc.Filter):
-            raise ProcessingException(
-                f"{filter_.__name__} is "
-                f"not a Filter")
+            raise ProcessingException(f"{filter_.__name__} is not a Filter")
         if not isinstance(sampler, pc.Sampler):
-            raise ProcessingException(
-                f"{sampler.__name__} is "
-                f"not a Sampler")
+            raise ProcessingException(f"{sampler.__name__} is not a Sampler")
         if not isinstance(interpolater, pc.Interpolator):
             raise ProcessingException(
-                f"{interpolater.__name__} is "
-                f"not an Interpolator")
+                f"{interpolater.__name__} is not an Interpolator"
+            )
         if not isinstance(regressor, pc.Regressor):
             raise ProcessingException(
-                f"{regressor.__name__} is "
-                f"not a Regressor")
+                f"{regressor.__name__} is not a Regressor"
+            )
 
         self._weigher = weigher
         self._filter = filter_
@@ -161,17 +163,26 @@ class PolarPipeline:
         return self._regressor
 
     def __repr__(self):
-        return (f"PolarPipeline("
-                f"weigher={self.weigher.__name__}, "
-                f"filter={self.filter.__name__}, "
-                f"interpolater={self.interpolater.__name__}, "
-                f"s_fit_func={self.regressor.__name__})")
+        return (
+            f"PolarPipeline("
+            f"weigher={self.weigher.__name__}, "
+            f"filter={self.filter.__name__}, "
+            f"interpolater={self.interpolater.__name__}, "
+            f"s_fit_func={self.regressor.__name__})"
+        )
 
-    def __call__(self, p_type: pol.PolarDiagram,
-                 data=None, data_file=None,
-                 file_format=None, file_mode='mean',
-                 tw=True, filtering=True, w_res=None,
-                 neighbourhood=None):
+    def __call__(
+        self,
+        p_type: pol.PolarDiagram,
+        data=None,
+        data_file=None,
+        file_format=None,
+        file_mode="mean",
+        tw=True,
+        filtering=True,
+        w_res=None,
+        neighbourhood=None,
+    ):
         """
 
         Parameters
@@ -273,53 +284,44 @@ class PolarPipeline:
         """
 
         if data is None and data_file is None:
-            raise ProcessingException("")
+            raise ProcessingException("No data was specified")
         if data is None:
-            data, tw = _read_file(data_file,
-                                  file_format,
-                                  file_mode, tw)
+            data, tw = _read_file(data_file, file_format, file_mode, tw)
 
-        w_pts = pc.WeightedPoints(data,
-                                  weigher=self.weigher,
-                                  tw=tw)
+        w_pts = pc.WeightedPoints(data, weigher=self.weigher, tw=tw)
         if filtering:
             mask = self.filter.filter(w_pts.weights)
             w_pts = w_pts[mask]
 
         if p_type is pol.PolarDiagramTable:
             return _create_polar_diagram_table(
-                w_pts, w_res, neighbourhood,
-                self.interpolater)
+                w_pts, w_res, neighbourhood, self.interpolater
+            )
 
         if p_type is pol.PolarDiagramCurve:
-            return _create_polar_diagram_curve(
-                w_pts, self.regressor)
+            return _create_polar_diagram_curve(w_pts, self.regressor)
 
         if p_type is pol.PolarDiagramPointcloud:
             return _create_polar_diagram_pointcloud(
-                w_pts, neighbourhood, self.interpolater,
-                self.sampler)
+                w_pts, neighbourhood, self.interpolater, self.sampler
+            )
 
 
-def _read_file(data_file, file_format,
-               mode, tw):
+def _read_file(data_file, file_format, mode, tw):
 
     if file_format is None:
-        raise ProcessingException(
-            "No file-format was specified")
-    if file_format not in ('csv', 'nmea'):
+        raise ProcessingException("No file-format was specified")
+    if file_format not in ("csv", "nmea"):
         raise ProcessingException(
             f"No functionality for the"
             f"specified file-format"
-            f"{file_format} implemented")
+            f"{file_format} implemented"
+        )
 
-    if file_format == 'csv':
+    if file_format == "csv":
         data = read_csv_file(data_file)
-    if file_format == 'nmea':
-        data = read_nmea_file(
-            data_file,
-            mode=mode,
-            convert_wind=True)
+    if file_format == "nmea":
+        data = read_nmea_file(data_file, mode=mode, convert_wind=True)
         tw = True
 
     return data, tw
@@ -354,17 +356,14 @@ def read_csv_file(csv_path, delimiter=None):
     """
 
     try:
-        with open(csv_path, 'r', newline='') as file:
-            csv_reader = csv.reader(
-                file, delimiter=delimiter)
+        with open(csv_path, "r", newline="") as file:
+            csv_reader = csv.reader(file, delimiter=delimiter)
             return _read_pointcloud(csv_reader)
     except OSError:
-        raise FileReadingException(
-            f"Can't find/open/read {csv_path}")
+        raise FileReadingException(f"Can't find/open/read {csv_path}")
 
 
-def read_nmea_file(nmea_path, mode='interpolate',
-                   convert_wind=True):
+def read_nmea_file(nmea_path, mode="interpolate", convert_wind=True):
     """Reads a text file
     containing nmea-sentences
     and extracts data points
@@ -466,30 +465,28 @@ def read_nmea_file(nmea_path, mode='interpolate',
 
     # TODO: Also look for rmc sentences, if
     #       there are no vhws
-    if mode not in ('mean', 'interpolate'):
-        raise FileReadingException(
-            f"Mode {mode} not implemented")
+    if mode not in ("mean", "interpolate"):
+        raise FileReadingException(f"Mode {mode} not implemented")
 
-    with open(nmea_path, 'r') as nmea_file:
+    with open(nmea_path, "r") as nmea_file:
         nmea_data = []
         nmea_stcs = filter(
-            lambda line: "VHW" in line
-                         or "MWV" in line,
-            nmea_file)
+            lambda line: "VHW" in line or "MWV" in line, nmea_file
+        )
 
         stc = next(nmea_stcs, None)
         if stc is None:
             raise FileReadingException(
-                "File didn't contain any "
-                "relevant nmea sentences")
+                "File didn't contain any relevant nmea sentences"
+            )
 
         while True:
             try:
                 bsp = pynmea2.parse(stc).spd_over_water
             except pynmea2.ParseError:
                 raise FileReadingException(
-                    f"Invalid nmea-sentences "
-                    f"encountered: {stc}")
+                    f"Invalid nmea-sentences encountered: {stc}"
+                )
 
             stc = next(nmea_stcs, None)
 
@@ -506,15 +503,11 @@ def read_nmea_file(nmea_path, mode='interpolate',
                 _get_wind_data(wind_data, stc)
                 stc = next(nmea_stcs, None)
 
-            _process_data(
-                nmea_data, wind_data, stc,
-                bsp, mode)
+            _process_data(nmea_data, wind_data, stc, bsp, mode)
 
         if convert_wind:
-            aw = [data[:3] for data in nmea_data
-                  if data[3] == 'R']
-            tw = [data[:3] for data in nmea_data
-                  if data[3] != 'R']
+            aw = [data[:3] for data in nmea_data if data[3] == "R"]
+            tw = [data[:3] for data in nmea_data if data[3] != "R"]
             if not aw:
                 return tw
 
@@ -529,65 +522,49 @@ def _get_wind_data(wind_data, stc):
         wind = pynmea2.parse(stc)
     except pynmea2.ParseError:
         raise FileReadingException(
-            f"Invalid nmea-sentences "
-            f"encountered: {stc}")
+            f"Invalid nmea-sentences encountered: {stc}"
+        )
 
     wind_data.append(
-        [float(wind.wind_speed),
-         float(wind.wind_angle),
-         wind.reference])
+        [float(wind.wind_speed), float(wind.wind_angle), wind.reference]
+    )
 
 
-def _process_data(nmea_data, wind_data,
-                  stc, bsp, mode):
-    if mode == 'mean':
-        wind_arr = np.array(
-            [w[:2] for w in wind_data])
+def _process_data(nmea_data, wind_data, stc, bsp, mode):
+    if mode == "mean":
+        wind_arr = np.array([w[:2] for w in wind_data])
         wind_arr = np.mean(wind_arr, axis=0)
-        nmea_data.append(
-            [wind_arr[0],
-             wind_arr[1],
-             bsp,
-             wind_data[0][2]])
+        nmea_data.append([wind_arr[0], wind_arr[1], bsp, wind_data[0][2]])
 
-    if mode == 'interpolate':
+    if mode == "interpolate":
         try:
             bsp2 = pynmea2.parse(stc).spd_over_grnd
         except pynmea2.ParseError:
             raise FileReadingException(
-                f"Invalid nmea-sentences "
-                f"encountered: {stc}")
+                f"Invalid nmea-sentences encountered: {stc}"
+            )
 
         inter = len(wind_data)
         for i in range(inter):
-            inter_bsp = ((inter - i) / inter * bsp
-                         + i / inter * bsp2)
+            inter_bsp = (inter - i) / inter * bsp + i / inter * bsp2
             nmea_data.append(
-                [wind_data[i][0],
-                 wind_data[i][1],
-                 inter_bsp,
-                 wind_data[i][2]])
+                [wind_data[i][0], wind_data[i][1], inter_bsp, wind_data[i][2]]
+            )
 
 
-def _create_polar_diagram_table(w_pts, w_res,
-                                neighbourhood,
-                                interpolater):
+def _create_polar_diagram_table(w_pts, w_res, neighbourhood, interpolater):
     if neighbourhood is None:
         neighbourhood = pc.Ball()
     if not isinstance(neighbourhood, pc.Neighbourhood):
         raise ProcessingException(
-            f"{neighbourhood.__name__} is "
-            f"not a Neighbourhood")
+            f"{neighbourhood.__name__} is not a Neighbourhood"
+        )
 
     w_res = _set_wind_resolution(w_res, w_pts.points)
 
-    bsps = _interpolate_grid_points(w_res, w_pts,
-                                    neighbourhood,
-                                    interpolater)
+    bsps = _interpolate_grid_points(w_res, w_pts, neighbourhood, interpolater)
 
-    return pol.PolarDiagramTable(ws_res=w_res[0],
-                                 wa_res=w_res[1],
-                                 bsps=bsps)
+    return pol.PolarDiagramTable(ws_res=w_res[0], wa_res=w_res[1], bsps=bsps)
 
 
 def _create_polar_diagram_curve(w_pts, regressor):
@@ -595,27 +572,25 @@ def _create_polar_diagram_curve(w_pts, regressor):
     regressor.fit(w_pts.points)
 
     return pol.PolarDiagramCurve(
-        regressor.model_func,
-        *regressor.optimal_params)
+        regressor.model_func, *regressor.optimal_params
+    )
 
 
-def _create_polar_diagram_pointcloud(w_pts,
-                                     neighbourhood,
-                                     interpolater,
-                                     sampler):
+def _create_polar_diagram_pointcloud(
+    w_pts, neighbourhood, interpolater, sampler
+):
     if neighbourhood is None:
         neighbourhood = pc.Ball()
     if not isinstance(neighbourhood, pc.Neighbourhood):
         raise ProcessingException(
-            f"{neighbourhood.__name__} is "
-            f"not a Neighbourhood")
+            f"{neighbourhood.__name__} is not a Neighbourhood"
+        )
 
     sample_pts = sampler.sample(w_pts.points)
     pts = []
 
     for s_pt in sample_pts:
-        mask = neighbourhood.is_contained_in(
-            w_pts.points[:, :2] - s_pt)
+        mask = neighbourhood.is_contained_in(w_pts.points[:, :2] - s_pt)
 
         pts.append(interpolater.interpolate(w_pts[mask], s_pt))
 
@@ -623,7 +598,7 @@ def _create_polar_diagram_pointcloud(w_pts,
 
 
 def _set_wind_resolution(w_res, pts):
-    if w_res == 'auto':
+    if w_res == "auto":
         ws_res = _extract_wind(pts[:, 0], 2, 100)
         wa_res = _extract_wind(pts[:, 1], 5, 30)
         return ws_res, wa_res
@@ -655,9 +630,7 @@ def _extract_wind(pts, n, threshhold):
     return res
 
 
-def _interpolate_grid_points(w_res, w_pts,
-                             neighbourhood,
-                             interpolater):
+def _interpolate_grid_points(w_res, w_pts, neighbourhood, interpolater):
     ws_res, wa_res = w_res
     bsps = np.zeros((len(wa_res), len(ws_res)))
 
@@ -665,9 +638,9 @@ def _interpolate_grid_points(w_res, w_pts,
         for j, wa in enumerate(wa_res):
             grid_point = np.array([ws, wa])
             mask = neighbourhood.is_contained_in(
-                w_pts.points[:, :2] - grid_point)
+                w_pts.points[:, :2] - grid_point
+            )
             if not any(mask):
                 continue
-            bsps[j, i] = interpolater.interpolate(w_pts[mask],
-                                                  grid_point)
+            bsps[j, i] = interpolater.interpolate(w_pts[mask], grid_point)
     return bsps

@@ -19,8 +19,7 @@ def inverted_shifted_parabola(x, *args):
 
 def concave_function(x, *args, downturn=True, sat_limit=False):
     if sat_limit and downturn:
-        return args[2] - args[0] * np.exp(args[1] - x) \
-            - args[3] * np.square(x)
+        return args[2] - args[0] * np.exp(args[1] - x) - args[3] * np.square(x)
 
     if sat_limit:
         return args[2] - args[0] * np.exp(args[1] - x)
@@ -46,14 +45,16 @@ def gompertz_model(x, *args, neg=False):
 
 def gaussian_model(x, *args, offset=False):
     if offset:
-        return args[0] \
-            * np.exp(-0.5 * np.square(x - args[1]) / args[2]) \
-            + args[3]
+        return (
+            args[0] * np.exp(-0.5 * np.square(x - args[1]) / args[2]) + args[3]
+        )
 
     return args[0] * np.exp(-0.5 * np.square(x - args[1]) / args[2])
 
 
 def gmm_model(x, *args):
-    return args[0] * np.exp(-0.5 * np.square(x - args[1]) / args[2]) \
-        + args[3] * np.exp(-0.5 * np.square(x - args[4]) / args[5]) \
+    return (
+        args[0] * np.exp(-0.5 * np.square(x - args[1]) / args[2])
+        + args[3] * np.exp(-0.5 * np.square(x - args[4]) / args[5])
         + args[6]
+    )

@@ -15,7 +15,6 @@ from abc import ABC, abstractmethod
 from scipy.spatial import ConvexHull
 
 
-
 class Sampler(ABC):
     """Base class for
     all sampler classes
@@ -62,13 +61,13 @@ class UniformRandomSampler(Sampler):
                 f"The number of samples"
                 f"needs to be a positive"
                 f"number but {n_samples}"
-                f"was passed")
+                f"was passed"
+            )
 
         self._n_samples = n_samples
 
     def __repr__(self):
-        return (f"UniformRandomSampler("
-                f"no_samples={self._n_samples}")
+        return f"UniformRandomSampler(no_samples={self._n_samples})"
 
     def sample(self, pts):
         """Produces samples
@@ -96,14 +95,14 @@ class UniformRandomSampler(Sampler):
         samples = []
         ws_bound, wa_bound = _create_bounds(pts)
         while len(samples) < self._n_samples:
-            ws = rng.uniform(ws_bound[0], ws_bound[1],
-                             self._n_samples - len(samples))
-            wa = rng.uniform(wa_bound[0], wa_bound[1],
-                             self._n_samples - len(samples))
+            ws = rng.uniform(
+                ws_bound[0], ws_bound[1], self._n_samples - len(samples)
+            )
+            wa = rng.uniform(
+                wa_bound[0], wa_bound[1], self._n_samples - len(samples)
+            )
             wind = np.column_stack((ws, wa))
-            mask = np.all(
-                (ineqs[:, :2] @ wind.T).T <= -ineqs[:, 2],
-                axis=1)
+            mask = np.all((ineqs[:, :2] @ wind.T).T <= -ineqs[:, 2], axis=1)
             samples.extend(wind[mask])
 
         return np.array(samples)
@@ -117,9 +116,7 @@ def _create_bounds(pts):
 
 # TODO
 class FibonacciSampler(Sampler):
-    """
-
-    """
+    """ """
 
     def __init__(self, no_samples):
         self._no_samples = no_samples
@@ -130,9 +127,7 @@ class FibonacciSampler(Sampler):
 
 # TODO
 class ArchimedianSampler(Sampler):
-    """
-
-    """
+    """ """
 
     def __init__(self, no_samples):
         self._no_samples = no_samples

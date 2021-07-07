@@ -1,7 +1,7 @@
 from hrosailing.polardiagram.polardiagram import (
     PolarDiagram,
     PolarDiagramTable,
-    PolarDiagramTwoSails,
+    PolarDiagramMultiSails,
     PolarDiagramPointcloud,
     PolarDiagramCurve,
     from_csv,

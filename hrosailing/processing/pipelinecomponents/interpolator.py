@@ -18,6 +18,7 @@ from hrosailing.utils import euclidean_norm
 
 # TODO: Error checks
 
+
 class Interpolator(ABC):
     """Base class for
     all Interpolator
@@ -34,7 +35,6 @@ class Interpolator(ABC):
 
 
 class IDWInterpolator(Interpolator):
-
     def __init__(self, p=2, norm=None):
         if norm is None:
             norm = euclidean_norm
@@ -42,9 +42,7 @@ class IDWInterpolator(Interpolator):
         self._norm = norm
 
     def __repr__(self):
-        return (f"IDWInterpolator("
-                f"p={self._p}, "
-                f"norm={self._norm.__name__})")
+        return f"IDWInterpolator(" f"p={self._p}, norm={self._norm.__name__})"
 
     def interpolate(self, w_pts, grid_pt):
         if self._p == 0:
@@ -131,14 +129,14 @@ class ArithmeticMeanInterpolator(Interpolator):
     interpolate(self, w_pts, grid_pt)
     """
 
-    def __init__(self, *params, s=1, norm=None,
-                 distribution=None):
+    def __init__(self, *params, s=1, norm=None, distribution=None):
         if not isinstance(s, (int, float)) or s <= 0:
             raise ValueError(
                 f"The scaling parameter "
                 f"needs to be a positive "
                 f"number, but {s} was "
-                f"passed")
+                f"passed"
+            )
 
         if norm is None:
             norm = euclidean_norm
@@ -152,19 +150,19 @@ class ArithmeticMeanInterpolator(Interpolator):
         self._params = params
 
     def __repr__(self):
-        return (f"ArithmeticMeanInterpolator("
-                f"*params={self._params}, "
-                f"s={self._s}, "
-                f"norm={self._norm.__name__},"
-                f"distribution={self._distr})")
+        return (
+            f"ArithmeticMeanInterpolator("
+            f"*params={self._params}, "
+            f"s={self._s}, "
+            f"norm={self._norm.__name__},"
+            f"distribution={self._distr})"
+        )
 
     def interpolate(self, w_pts, grid_pt):
         distances = self._norm(w_pts.points[:, :2] - grid_pt)
-        weights = self._distr(
-            distances, w_pts.weights, *self._params)
+        weights = self._distr(distances, w_pts.weights, *self._params)
 
-        return self._s * np.average(
-            w_pts.points, axis=0, weights=weights)
+        return self._s * np.average(w_pts.points, axis=0, weights=weights)
 
 
 def gauss_potential(distances, weights, *params):
@@ -175,7 +173,6 @@ def gauss_potential(distances, weights, *params):
 
 # Should be used together with ScalingBall
 class ImprovedIDWInterpolator(Interpolator):
-
     def __init__(self, norm=None):
         if norm is None:
             norm = euclidean_norm
@@ -204,9 +201,7 @@ class ImprovedIDWInterpolator(Interpolator):
 
 # Should be used together with ScalingBall
 class ShepardInterpolator(Interpolator):
-
-    def __init__(self, tol=np.finfo(float).eps,
-                 slope_scal=0.1, norm=None):
+    def __init__(self, tol=np.finfo(float).eps, slope_scal=0.1, norm=None):
         if norm is None:
             norm = euclidean_norm
 
@@ -215,14 +210,15 @@ class ShepardInterpolator(Interpolator):
         self._norm = norm
 
     def __repr__(self):
-        return (f"ShepardInterpolator("
-                f"tol={self._tol}, "
-                f"slope_scal={self._slope}, "
-                f"norm={self._norm.__name__})")
+        return (
+            f"ShepardInterpolator("
+            f"tol={self._tol}, "
+            f"slope_scal={self._slope}, "
+            f"norm={self._norm.__name__})"
+        )
 
     def interpolate(self, w_pts, grid_pt):
-        dist = self._norm(
-            w_pts.points[:, :2] - grid_pt)
+        dist = self._norm(w_pts.points[:, :2] - grid_pt)
 
         # If interpolated point is
         # a measured point, return
@@ -232,10 +228,7 @@ class ShepardInterpolator(Interpolator):
             return dist[mask][0, 2]
 
         wts = _set_weights(w_pts, dist)
-        wts = _include_direction(w_pts,
-                                 grid_pt,
-                                 dist,
-                                 wts)
+        wts = _include_direction(w_pts, grid_pt, dist, wts)
         wts /= np.sum(wts)
 
         mask = dist < self._tol
@@ -253,8 +246,7 @@ def _set_weights(pts, dist):
         if 0 < d <= r / 3:
             wts[i] = 1 / d
         elif r / 3 < d <= r:
-            wts[i] = (27 / (4 * r)
-                      * np.square(d / r - 1))
+            wts[i] = 27 / (4 * r) * np.square(d / r - 1)
 
     return wts
 
@@ -262,21 +254,17 @@ def _set_weights(pts, dist):
 def _include_direction(pts, grid_pt, dist, wts):
     t = np.zeros(pts.shape[0])
     for i, pt in enumerate(pts):
-        t[i] = _sum_cosines(wts, pt, i,
-                            pts, grid_pt,
-                            dist)
+        t[i] = _sum_cosines(wts, pt, i, pts, grid_pt, dist)
         t[i] /= np.sum(wts)
 
     return np.square(wts) * (1 + t)
 
 
-def _sum_cosines(wts, pt, i, pts,
-                 grid_pt, distances):
+def _sum_cosines(wts, pt, i, pts, grid_pt, distances):
 
-    cosine = (grid_pt[0] - pt[0])\
-              * (grid_pt[0] - np.delete(pts, i, axis=0)[:, 0])\
-              + (grid_pt[1] - pt[1])\
-              * (grid_pt[1] - np.delete(pts, i, axis=0)[:, 0])
-    cosine /= (distances[i] * np.delete(distances, i))
+    cosine = (grid_pt[0] - pt[0]) * (
+        grid_pt[0] - np.delete(pts, i, axis=0)[:, 0]
+    ) + (grid_pt[1] - pt[1]) * (grid_pt[1] - np.delete(pts, i, axis=0)[:, 0])
+    cosine /= distances[i] * np.delete(distances, i)
 
     return np.sum(np.delete(wts, i) * (1 - cosine))

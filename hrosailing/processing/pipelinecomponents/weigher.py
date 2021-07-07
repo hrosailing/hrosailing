@@ -22,15 +22,18 @@ from hrosailing.utils import (
 )
 from hrosailing.wind import apparent_wind_to_true
 
-logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
-                    level=logging.INFO,
-                    filename='hrosailing/logging/processing.log')
+logging.basicConfig(
+    format="%(asctime)s %(levelname)s: %(message)s",
+    level=logging.INFO,
+    filename="hrosailing/logging/processing.log",
+)
 
 LOG_FILE = "hrosailing/logging/processing.log"
 
 logger = logging.getLogger(__name__)
 file_handler = logging.handlers.TimedRotatingFileHandler(
-    LOG_FILE, when='midnight')
+    LOG_FILE, when="midnight"
+)
 file_handler.setLevel(logging.INFO)
 logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)
@@ -96,8 +99,7 @@ class WeightedPoints:
     weights
     """
 
-    def __init__(self, pts, wts=None,
-                 weigher=None, tw=True):
+    def __init__(self, pts, wts=None, weigher=None, tw=True):
         pts = np.asarray(pts)
         shape = pts.shape
         if not pts.size:
@@ -107,9 +109,7 @@ class WeightedPoints:
         if weigher is None:
             weigher = CylindricMeanWeigher()
         if not isinstance(weigher, Weigher):
-            raise ValueError(
-                f"{weigher.__name__} is "
-                f"not a Weigher")
+            raise ValueError(f"{weigher.__name__} is not a Weigher")
         if wts is None:
             self._weights = weigher.weigh(pts)
             return
@@ -119,17 +119,18 @@ class WeightedPoints:
             return
         wts = np.asarray(wts)
         try:
-            wts = wts.reshape(shape[0], )
+            wts = wts.reshape(
+                shape[0],
+            )
         except ValueError:
             raise ValueError(
                 f"weights could not be broadcasted "
-                f"to an array of shape ({shape[0]}, )")
+                f"to an array of shape ({shape[0]}, )"
+            )
         self._weights = wts
 
     def __getitem__(self, mask):
-        return WeightedPoints(
-            pts=self.points[mask],
-            wts=self.weights[mask])
+        return WeightedPoints(pts=self.points[mask], wts=self.weights[mask])
 
     @property
     def points(self):
@@ -203,21 +204,22 @@ class CylindricMeanWeigher(Weigher):
             raise ValueError(
                 f"The radius needs to be "
                 f"positive number, but "
-                f"{radius} was passed")
+                f"{radius} was passed"
+            )
         if norm is None:
             norm = euclidean_norm
         if not callable(norm):
-            raise ValueError(
-                f"{norm.__name__} is not "
-                f"callable")
+            raise ValueError(f"{norm.__name__} is not callable")
 
         self._radius = radius
         self._norm = norm
 
     def __repr__(self):
-        return (f"CylindricMeanWeigher("
-                f"radius={self._radius}, "
-                f"norm={self._norm.__name__})")
+        return (
+            f"CylindricMeanWeigher("
+            f"radius={self._radius}, "
+            f"norm={self._norm.__name__})"
+        )
 
     def weigh(self, pts):
         """Weigh given points
@@ -238,33 +240,26 @@ class CylindricMeanWeigher(Weigher):
         pts = np.asarray(pts)
         shape = pts.shape
         if not pts.size:
-            raise ValueError(
-                "No points were passed")
+            raise ValueError("No points were passed")
 
         d = shape[1]
         wts = np.zeros(shape[0])
 
         for i, pt in enumerate(pts):
-            mask = self._norm(pts[:, :d - 1] - pt[:d - 1])\
-                   <= self._radius
+            mask = self._norm(pts[:, : d - 1] - pt[: d - 1]) <= self._radius
             cylinder = pts[mask][:, d - 1]
             std = np.std(cylinder) or 1
             mean = np.mean(cylinder) or 0
             wts[i] = np.abs(mean - pt[d - 1]) / std
 
-        logger.info(f"Mean (non-normalized) "
-                    f"weight: {np.mean(wts)}")
-        logger.info(f"Maximum (non-normalized) "
-                    f"weight: {np.max(wts)}")
-        logger.info(f"Minimum (non-normalized) "
-                    f"weight: {np.min(wts)}")
+        logger.info(f"Mean (non-normalized) weight: {np.mean(wts)}")
+        logger.info(f"Maximum (non-normalized) weight: {np.max(wts)}")
+        logger.info(f"Minimum (non-normalized) weight: {np.min(wts)}")
 
         wts = wts / max(wts)
 
-        logger.info(f"Mean (normalized) weight: "
-                    f"{np.mean(wts)}")
-        logger.info(f"Final (normalized) weights "
-                    f"calculated for {pts}: {wts}")
+        logger.info(f"Mean (normalized) weight: {np.mean(wts)}")
+        logger.info(f"Final (normalized) weights calculated for {pts}: {wts}")
         return wts
 
 
@@ -325,28 +320,30 @@ class CylindricMemberWeigher(Weigher):
             raise ValueError(
                 f"The radius needs to be "
                 f"positive number, but "
-                f"{radius} was passed")
+                f"{radius} was passed"
+            )
         if not isinstance(length, (int, float)) or length < 0:
             raise ValueError(
                 f"The length needs to be "
                 f"a nonnegative number, "
-                f"but {length} was passed")
+                f"but {length} was passed"
+            )
         if norm is None:
             norm = euclidean_norm
         if not callable(norm):
-            raise ValueError(
-                f"{norm.__name__} is not "
-                f"callable")
+            raise ValueError(f"{norm.__name__} is not callable")
 
         self._radius = radius
         self._length = length
         self._norm = norm
 
     def __repr__(self):
-        return (f"CylindricMemberWeigher("
-                f"radius={self._radius}, "
-                f"length={self._length}, "
-                f"norm={self._norm.__name__})")
+        return (
+            f"CylindricMemberWeigher("
+            f"radius={self._radius}, "
+            f"length={self._length}, "
+            f"norm={self._norm.__name__})"
+        )
 
     def weigh(self, pts):
         """Weigh given points
@@ -367,28 +364,20 @@ class CylindricMemberWeigher(Weigher):
         pts = np.asarray(pts)
         shape = pts.shape
         if not pts.size:
-            raise ValueError(
-                "No points were passed")
+            raise ValueError("No points were passed")
 
         wts = np.zeros(shape[0])
         for i, pt in enumerate(pts):
-            mask_l = np.abs(pts[:, 0] - pt[0])\
-                     <= self._length
-            mask_r = self._norm(pts[:, 1:] - pt[1:])\
-                     <= self._radius
+            mask_l = np.abs(pts[:, 0] - pt[0]) <= self._length
+            mask_r = self._norm(pts[:, 1:] - pt[1:]) <= self._radius
             wts[i] = len(pts[mask_l & mask_r]) - 1
 
-        logger.info(f"Mean (non-normalized) "
-                    f"weight: {np.mean(wts)}")
-        logger.info(f"Maximum (non-normalized) "
-                    f"weight: {np.max(wts)}")
-        logger.info(f"Minimum (non-normalized) "
-                    f"weight: {np.min(wts)}")
+        logger.info(f"Mean (non-normalized) weight: {np.mean(wts)}")
+        logger.info(f"Maximum (non-normalized) weight: {np.max(wts)}")
+        logger.info(f"Minimum (non-normalized) weight: {np.min(wts)}")
 
         wts = wts / max(wts)
 
-        logger.info(f"Mean (normalized) weight: "
-                    f"{np.mean(wts)}")
-        logger.info(f"Final (normalized) weights "
-                    f"calculated for {pts}: {wts}")
+        logger.info(f"Mean (normalized) weight: {np.mean(wts)}")
+        logger.info(f"Final (normalized) weights calculated for {pts}: {wts}")
         return wts

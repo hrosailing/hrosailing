@@ -17,16 +17,18 @@ from scipy.odr.odrpack import Data, Model, ODR
 from scipy.optimize import curve_fit
 
 
-
-logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
-                    level=logging.INFO,
-                    filename='hrosailing/logging/processing.log')
+logging.basicConfig(
+    format="%(asctime)s %(levelname)s: %(message)s",
+    level=logging.INFO,
+    filename="hrosailing/logging/processing.log",
+)
 
 LOG_FILE = "hrosailing/logging/processing.log"
 
 logger = logging.getLogger(__name__)
 file_handler = logging.handlers.TimedRotatingFileHandler(
-    LOG_FILE, when='midnight')
+    LOG_FILE, when="midnight"
+)
 file_handler.setLevel(logging.INFO)
 logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)
@@ -57,6 +59,7 @@ class Regressor(ABC):
 
     @abstractmethod
     def fit(self, data):
+        # should really be X, y instead of data?
         pass
 
     @abstractmethod
@@ -105,8 +108,7 @@ class ODRegressor(Regressor):
     fit(self, data)
     """
 
-    def __init__(self, model_func, init_values=None,
-                 max_it=1000):
+    def __init__(self, model_func, init_values=None, max_it=1000):
 
         self._func = model_func
 
@@ -155,12 +157,12 @@ class ODRegressor(Regressor):
         """
         X, y = _check_data(data)
 
-        odr_data = Data((X[:, 0], X[:, 1]), y,
-                        wd=self._weights_X,
-                        we=self._weights_y)
-        odr = ODR(odr_data, self._model,
-                  beta0=self._init_vals,
-                  maxit=self._maxit)
+        odr_data = Data(
+            (X[:, 0], X[:, 1]), y, wd=self._weights_X, we=self._weights_y
+        )
+        odr = ODR(
+            odr_data, self._model, beta0=self._init_vals, maxit=self._maxit
+        )
         odr.set_job(fit_type=2)
         out = odr.run()
 
@@ -177,19 +179,16 @@ class ODRegressor(Regressor):
         ssr = out.sum_square
         sst = ssr + sse
 
-        logger.info(f"Sum of squared residuals: "
-                    f"{ssr}")
-        logger.info(f"Explained sum of squared residuals: "
-                    f"{sse}")
+        logger.info(f"Sum of squared residuals: {ssr}")
+        logger.info(f"Explained sum of squared residuals: {sse}")
         logger.info(f"Total sum of squared residuals: {sst}")
-        logger.info(f"Sum of squared errors delta: "
-                    f"{out.sum_square.delta}")
-        logger.info(f"Sum of squared error eps: "
-                    f"{out.sum_square_eps}")
+        logger.info(f"Sum of squared errors delta: {out.sum_square.delta}")
+        logger.info(f"Sum of squared error eps: {out.sum_square_eps}")
         logger.info(f"R^2: {sse / sst}")
         logger.info(f"Degrees of freedom: {dof}")
-        logger.info(f"R^2_corr: "
-                    f"{sse / sst - indep_vars * (1 - sse / sst) / dof}")
+        logger.info(
+            f"R^2_corr: {sse / sst - indep_vars * (1 - sse / sst) / dof}"
+        )
         logger.info(f"F_emp ={(sse / indep_vars) / (sst / dof)}")
         logger.info(f"Quasi-χ^2: {out.res_var}")
         logger.info(f"χ^2_min: {chi_squared}")
@@ -268,9 +267,9 @@ class LeastSquareRegressor(Regressor):
         X = np.ravel(X).T
         y = np.ravel(y).T
 
-        self._popt, _ = curve_fit(self.model_func, X, y,
-                                  p0=self._init_vals,
-                                  sigma=self._weights)
+        self._popt, _ = curve_fit(
+            self.model_func, X, y, p0=self._init_vals, sigma=self._weights
+        )
 
         logger.info(f"Model-function: {self._func}")
         logger.info(f"Optimal parameters: {self._popt}")
@@ -291,8 +290,9 @@ class LeastSquareRegressor(Regressor):
         logger.info(f"Total sum of squares: {sst}")
         logger.info(f"R^2: {sse / sst}")
         logger.info(f"Degrees of freedom: {dof}")
-        logger.info(f"R^2_corr: "
-                    f"{sse / sst - indep_vars * (1 - sse / sst) / dof}")
+        logger.info(
+            f"R^2_corr: {sse / sst - indep_vars * (1 - sse / sst) / dof}"
+        )
         logger.info(f"F_emp ={(sse / indep_vars) / (sst / dof)}")
         logger.info(f"χ^2: {chi_squared}")
         logger.info(f"χ^2_red: {chi_squared / dof}")
@@ -302,12 +302,9 @@ def _check_data(data):
     data = np.asarray(data)
     shape = data.shape
     if not data.size:
-        raise ValueError(
-            "No data to fit was passed")
+        raise ValueError("No data to fit was passed")
     if data.ndim != 2:
-        raise ValueError(
-            f"{data} is not a "
-            f"2-dimensional array")
+        raise ValueError(f"{data} is not a 2-dimensional array")
     if shape[1] != 3:
         try:
             data = data.reshape(-1, 3)
@@ -315,11 +312,10 @@ def _check_data(data):
             raise ValueError(
                 f"{data} couldn't be "
                 f"broadcasted to an"
-                f"array of shape (n, 3)")
+                f"array of shape (n, 3)"
+            )
 
     if not np.all(np.isfinite(data)):
-        raise ValueError(
-            "data can only contain "
-            "finite and non-NaN-values")
+        raise ValueError("data can only contain finite and non-NaN-values")
 
     return data[:, :2], data[:, 2]
