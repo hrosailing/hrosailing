@@ -880,7 +880,7 @@ class PolarDiagramTable(PolarDiagram):
 
         wa = self._get_radians()
         bsp = self._get_slice_data(ws)
-        plot_polar(wa, bsp, ax, **plot_kw)
+        plot_polar(ws, wa, bsp, ax, None, None, None, **plot_kw)
 
     def flat_plot_slice(self, ws, ax=None, **plot_kw):
         """Creates a cartesian plot
@@ -919,7 +919,7 @@ class PolarDiagramTable(PolarDiagram):
 
         bsp = self._get_slice_data(ws)
         wa = self.wind_angles
-        plot_flat(wa, bsp, ax, **plot_kw)
+        plot_flat(ws, wa, bsp, ax, None, None, None, **plot_kw)
 
     def polar_plot(
         self,
@@ -1063,7 +1063,7 @@ class PolarDiagramTable(PolarDiagram):
 
         bsp_list = list(self._get_slice_data(ws_range).T)
         wa_list = [list(self._get_radians())] * len(bsp_list)
-        plot_polar_range(
+        plot_polar(
             ws_range,
             wa_list,
             bsp_list,
@@ -1215,7 +1215,7 @@ class PolarDiagramTable(PolarDiagram):
         bsp_list = list(self._get_slice_data(ws=ws_range).T)
         wa_list = [list(self.wind_angles)] * len(bsp_list)
 
-        plot_flat_range(
+        plot_flat(
             ws_range,
             wa_list,
             bsp_list,
@@ -1432,13 +1432,13 @@ class PolarDiagramMultiSails(PolarDiagram):
         wa = self._get_radians()
         bsp = self._get_slice_data(ws)
 
-        plot_polar(wa, bsp, ax, **plot_kw)
+        plot_polar(ws, wa, bsp, ax, None, None, None, **plot_kw)
 
     def flat_plot_slice(self, ws, ax=None, **plot_kw):
         wa = self.wind_angles
         bsp = self._get_slice_data(ws)
 
-        plot_flat(wa, bsp, ax, **plot_kw)
+        plot_flat(ws, wa, bsp, ax, None, None, None, **plot_kw)
 
     # TODO: Implementation
     #       Problems: How to handle legend?
@@ -1735,7 +1735,7 @@ class PolarDiagramCurve(PolarDiagram):
         if not self.radians:
             wa = np.deg2rad(wa)
 
-        plot_polar(wa, bsp, ax, **plot_kw)
+        plot_polar(ws, wa, bsp, ax, None, None, None, **plot_kw)
 
     def flat_plot_slice(self, ws, ax=None, **plot_kw):
         """Creates a cartesian
@@ -1779,7 +1779,7 @@ class PolarDiagramCurve(PolarDiagram):
         if self.radians:
             wa = np.rad2deg(wa)
 
-        plot_flat(wa, bsp, ax, **plot_kw)
+        plot_flat(ws, wa, bsp, ax, None, None, None, **plot_kw)
 
     def polar_plot(
         self,
@@ -1920,7 +1920,7 @@ class PolarDiagramCurve(PolarDiagram):
         for ws in ws_range:
             bsp_list.append(self(np.array([ws] * 1000), wa))
 
-        plot_polar_range(
+        plot_polar(
             ws_range,
             wa_list,
             bsp_list,
@@ -2071,7 +2071,7 @@ class PolarDiagramCurve(PolarDiagram):
         for ws in ws_range:
             bsp_list.append(self(np.array([ws] * 1000), wa))
 
-        plot_flat_range(
+        plot_flat(
             ws_range,
             wa_list,
             bsp_list,
@@ -2601,7 +2601,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         wa, bsp = self._get_slice_data(ws)
         wa = list(np.deg2rad(wa))
 
-        plot_polar(wa, bsp, ax, **plot_kw)
+        plot_polar(ws, wa, bsp, ax, None, None, None, **plot_kw)
 
     def flat_plot_slice(self, ws, ax=None, **plot_kw):
         """Creates a cartesian
@@ -2645,7 +2645,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         wa, bsp = self._get_slice_data(ws)
 
-        plot_flat(wa, bsp, ax, **plot_kw)
+        plot_flat(ws, wa, bsp, ax, None, None, None, **plot_kw)
 
     def _get_slices(self, ws_range):
         wa_list, bsp_list = [], []
@@ -2805,7 +2805,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         ws_list, wa_list, bsp_list = self._get_slices(ws_range)
         wa_list = [np.deg2rad(wa) for wa in wa_list]
 
-        plot_polar_range(
+        plot_polar(
             ws_list,
             wa_list,
             bsp_list,
@@ -2954,7 +2954,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         ws_list, wa_list, bsp_list = self._get_slices(ws_range)
 
-        plot_flat_range(
+        plot_flat(
             ws_list,
             wa_list,
             bsp_list,

@@ -17,63 +17,71 @@ from matplotlib.lines import Line2D
 from scipy.spatial import ConvexHull
 
 
-def plot_polar(wa, bsp, ax, **plot_kw):
+# TODO Merge with plot_polar_range
+# def plot_polar(wa, bsp, ax, **plot_kw):
+#     _check_keywords(plot_kw)
+#     if ax is None:
+#         ax = plt.gca(projection="polar")
+#     _set_polar_directions(ax)
+#
+#     colors = plot_kw.pop("color", None) or plot_kw.pop("c", None)
+#     _set_color_cycle(ax, wa, colors)
+#
+#     xs, ys = _sort_data(wa, bsp)
+#     return _plot(ax, xs, ys, **plot_kw)
+#
+#
+# # TODO Merge with plot_flat_range
+# def plot_flat(wa, bsp, ax, **plot_kw):
+#     _check_keywords(plot_kw)
+#     if ax is None:
+#         ax = plt.gca()
+#
+#     colors = plot_kw.pop("color", None) or plot_kw.pop("c", None)
+#     _set_color_cycle(ax, wa, colors)
+#
+#     xs, ys = _sort_data(wa, bsp)
+#     return _plot(ax, xs, ys, **plot_kw)
+
+
+# TODO Merge with plot_polar
+def plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
     _check_keywords(plot_kw)
-    if ax is None:
-        ax = plt.gca(projection="polar")
-    _set_polar_directions(ax)
-
-    colors = plot_kw.pop("color", None) or plot_kw.pop("c", None)
-    _set_color_cycle(ax, wa, colors)
-
-    xs, ys = _sort_data(wa, bsp)
-    return _plot(ax, xs, ys, **plot_kw)
-
-
-def plot_flat(wa, bsp, ax, **plot_kw):
-    _check_keywords(plot_kw)
-    if ax is None:
-        ax = plt.gca()
-
-    colors = plot_kw.pop("color", None) or plot_kw.pop("c", None)
-    _set_color_cycle(ax, wa, colors)
-
-    xs, ys = _sort_data(wa, bsp)
-    return _plot(ax, xs, ys, **plot_kw)
-
-
-def plot_polar_range(
-    ws_list, wa_list, bsp_list, ax, colors, show_legend, legend_kw, **plot_kw
-):
-    _check_keywords(plot_kw)
-    plot_kw.pop("color", None) or plot_kw.pop("c", None)
+    if colors is None:
+        colors = plot_kw.pop("color", None) or plot_kw.pop("c", None)
     if ax is None:
         ax = plt.gca(projection="polar")
     _set_polar_directions(ax)
     if legend_kw is None:
         legend_kw = {}
     if show_legend:
-        _set_legend(ax, ws_list, colors, label="True Wind Speed", **legend_kw)
-    _set_color_cycle(ax, ws_list, colors)
+        _set_legend(ax, ws, colors, label="True Wind Speed", **legend_kw)
+    if isinstance(ws, list):
+        _set_color_cycle(ax, ws, colors)
+    else:
+        _set_color_cycle(ax, wa, colors)
 
-    xs, ys = _sort_data(wa_list, bsp_list)
+    xs, ys = _sort_data(wa, bsp)
     return _plot(ax, xs, ys, **plot_kw)
 
 
-def plot_flat_range(
-    ws_list, wa_list, bsp_list, ax, colors, show_legend, legend_kw, **plot_kw
-):
+# TODO Merge with plot_flat
+def plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
     _check_keywords(plot_kw)
-    plot_kw.pop("color", None) or plot_kw.pop("c", None)
+    if colors is None:
+        colors = plot_kw.pop("color", None) or plot_kw.pop("c", None)
     if ax is None:
         ax = plt.gca()
     if legend_kw is None:
         legend_kw = {}
     if show_legend:
-        _set_legend(ax, ws_list, colors, label="True Wind Speed", **legend_kw)
-    _set_color_cycle(ax, ws_list, colors)
+        _set_legend(ax, ws, colors, label="True Wind Speed", **legend_kw)
+    if isinstance(ws, list):
+        _set_color_cycle(ax, ws, colors)
+    else:
+        _set_color_cycle(ax, wa, colors)
 
-    xs, ys = _sort_data(wa_list, bsp_list)
+    xs, ys = _sort_data(wa, bsp)
 
     return _plot(ax, xs, ys, **plot_kw)
 
