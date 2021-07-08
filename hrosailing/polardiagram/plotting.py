@@ -9,6 +9,7 @@ import numpy as np
 
 from matplotlib.colors import (
     to_rgb,
+    is_color_like,
     Normalize,
     LinearSegmentedColormap,
 )
@@ -17,7 +18,6 @@ from matplotlib.lines import Line2D
 from scipy.spatial import ConvexHull
 
 
-# TODO Merge with plot_polar_range
 # def plot_polar(wa, bsp, ax, **plot_kw):
 #     _check_keywords(plot_kw)
 #     if ax is None:
@@ -31,7 +31,6 @@ from scipy.spatial import ConvexHull
 #     return _plot(ax, xs, ys, **plot_kw)
 #
 #
-# # TODO Merge with plot_flat_range
 # def plot_flat(wa, bsp, ax, **plot_kw):
 #     _check_keywords(plot_kw)
 #     if ax is None:
@@ -44,45 +43,65 @@ from scipy.spatial import ConvexHull
 #     return _plot(ax, xs, ys, **plot_kw)
 
 
-# TODO Merge with plot_polar
+# TODO: Cleaning up
 def plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
-    _check_keywords(plot_kw)
-    if colors is None:
-        colors = plot_kw.pop("color", None) or plot_kw.pop("c", None)
     if ax is None:
         ax = plt.gca(projection="polar")
     _set_polar_directions(ax)
+    _check_keywords(plot_kw)
+    if colors is None:
+        colors = plot_kw.pop("color", None) or plot_kw.pop("c", None)
+    if isinstance(ws, list):
+        c = _set_color_cycle(ax, ws, colors)
+    else:
+        c = _set_color_cycle(ax, wa, colors)
+    if c is not None:
+        plot_kw["c"] = c
+
     if legend_kw is None:
         legend_kw = {}
     if show_legend:
         _set_legend(ax, ws, colors, label="True Wind Speed", **legend_kw)
+
     if isinstance(ws, list):
-        _set_color_cycle(ax, ws, colors)
+        c = _set_color_cycle(ax, ws, colors)
     else:
-        _set_color_cycle(ax, wa, colors)
+        c = _set_color_cycle(ax, wa, colors)
+    if c is not None:
+        plot_kw["c"] = c
 
     xs, ys = _sort_data(wa, bsp)
     return _plot(ax, xs, ys, **plot_kw)
 
 
-# TODO Merge with plot_flat
+# TODO: Cleaning up
 def plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
+    if ax is None:
+        ax = plt.gca()
+    _set_polar_directions(ax)
     _check_keywords(plot_kw)
     if colors is None:
         colors = plot_kw.pop("color", None) or plot_kw.pop("c", None)
-    if ax is None:
-        ax = plt.gca()
+    if isinstance(ws, list):
+        c = _set_color_cycle(ax, ws, colors)
+    else:
+        c = _set_color_cycle(ax, wa, colors)
+    if c is not None:
+        plot_kw["c"] = c
+
     if legend_kw is None:
         legend_kw = {}
     if show_legend:
         _set_legend(ax, ws, colors, label="True Wind Speed", **legend_kw)
+
     if isinstance(ws, list):
-        _set_color_cycle(ax, ws, colors)
+        c = _set_color_cycle(ax, ws, colors)
     else:
-        _set_color_cycle(ax, wa, colors)
+        c = _set_color_cycle(ax, wa, colors)
+    if c is not None:
+        plot_kw["c"] = c
 
     xs, ys = _sort_data(wa, bsp)
-
     return _plot(ax, xs, ys, **plot_kw)
 
 
@@ -150,9 +169,6 @@ def _check_keywords(dct):
     marker = dct.get("marker")
     if marker is None:
         dct["marker"] = "o"
-    color = dct.get("color") or dct.get("c")
-    if color is None:
-        dct["color"] = "blue"
 
 
 def _set_3d_labels(ax):
@@ -167,26 +183,31 @@ def _set_polar_directions(ax):
 
 
 def _set_color_cycle(ax, ws_list, colors):
+    if is_color_like(colors):
+        return colors
+    if colors is None:
+        return "blue"
+
     if not isinstance(ws_list, list):
         ws_list = [ws_list]
-    if not isinstance(colors, tuple):
-        colors = (colors,)
-    no_plots = len(ws_list)
-    no_colors = len(colors)
 
-    if no_plots == no_colors or no_plots < no_colors:
+    n_plots = len(ws_list)
+    n_colors = len(colors)
+    if n_plots <= n_colors:
         ax.set_prop_cycle("color", colors)
         return
 
-    if no_plots > no_colors != 2:
-        color_list = ["blue"] * no_plots
-        if isinstance(colors[0], str):
-            for i, c in enumerate(colors):
-                color_list[i] = c
-
+    if n_plots > n_colors != 2:
+        color_list = ["blue"] * n_plots
         if isinstance(colors[0], tuple):
+            if is_color_like(colors[0]):
+                for i, c in enumerate(colors):
+                    color_list[i] = c
             for ws, c in colors:
                 i = list(ws_list).index(ws)
+                color_list[i] = c
+        else:
+            for i, c in enumerate(colors):
                 color_list[i] = c
 
         ax.set_prop_cycle("color", color_list)
@@ -224,14 +245,21 @@ def _set_colormap(ws_list, colors, ax, label, **legend_kw):
 
 
 def _set_legend(ax, ws_list, colors, label, **legend_kw):
-    no_colors = len(colors)
-    no_plots = len(ws_list)
+    n_colors = len(colors)
+    n_plots = len(ws_list)
 
-    if no_plots > no_colors == 2:
+    if n_plots == 1:
+        ax.legend(
+            handles=[
+                Line2D([0], [0], color=colors, lw=1, label=f"TWS {ws_list[0]}")
+            ]
+        )
+
+    if n_plots > n_colors == 2:
         _set_colormap(ws_list, colors, ax, label, **legend_kw)
         return
 
-    if isinstance(colors[0], tuple):
+    if isinstance(colors[0], tuple) and not is_color_like(colors[0]):
         ax.legend(
             handles=[
                 Line2D(
@@ -241,7 +269,7 @@ def _set_legend(ax, ws_list, colors, label, **legend_kw):
                     lw=1,
                     label=f"TWS {colors[i][0]}",
                 )
-                for i in range(no_colors)
+                for i in range(n_colors)
             ]
         )
         return
@@ -249,7 +277,7 @@ def _set_legend(ax, ws_list, colors, label, **legend_kw):
     ax.legend(
         handles=[
             Line2D([0], [0], color=colors[i], lw=1, label=f"TWS {ws_list[i]}")
-            for i in range(min(no_colors, no_plots))
+            for i in range(min(n_plots, n_colors))
         ]
     )
 
