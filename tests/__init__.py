@@ -17,5 +17,5 @@ from tests.windconversiontests import (
 )
 
 from tests.plottingtests import (
-    table_plot_suit,
+    table_plot_suite,
 )

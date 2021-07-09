@@ -118,8 +118,40 @@ class TablePlotTest(unittest.TestCase):
 
         self.assertTrue(True)
 
+    def test_plot_color_strings(self):
+        colors = [
+            ("green", "red"),
+            ("g", "r"),
+            ("#0f0f0f", "#0f0f0f80"),
+            ("0.5", "0.3"),
+            ("xkcd:sky blue", "xkcd:lime green"),
+            ("tab:blue", "tab:pink"),
+        ]
+        for i, c in enumerate(colors):
+            with self.subTest(i=i):
+                try:
+                    self.polar_diagram.plot_color_gradient(colors=c)
+                except ValueError:
+                    self.fail(f"String-Tuple {c} didn't work")
 
-def table_plot_suit():
+        self.assertTrue(True)
+
+    def test_plot_color_tuples(self):
+        colors = [
+            ((0.1, 0.2, 0.5), (0.5, 0.1, 0.2)),
+            ((0.1, 0.2, 0.5, 0.3), (0.5, 0.1, 0.2, 0.3)),
+        ]
+        for i, c in enumerate(colors):
+            with self.subTest(i=i):
+                try:
+                    self.polar_diagram.plot_color_gradient(colors=c)
+                except ValueError:
+                    self.fail(f"RGBA-Tuple {c} didn't work")
+
+        self.assertTrue(True)
+
+
+def table_plot_suite():
     suite = unittest.TestSuite()
     suite.addTests(
         [
@@ -129,6 +161,8 @@ def table_plot_suit():
             TablePlotTest("test_one_color_rbg_tuple"),
             TablePlotTest("test_multiple_colors_string"),
             TablePlotTest("test_multiple_colors_rbg_tuple"),
+            TablePlotTest("test_plot_color_strings"),
+            TablePlotTest("test_plot_color_tuples"),
         ]
     )
 
