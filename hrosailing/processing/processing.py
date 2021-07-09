@@ -16,7 +16,6 @@ import hrosailing.processing.pipelinecomponents as pc
 
 
 from hrosailing.polardiagram.polardiagram import (
-    _read_pointcloud,
     FileReadingException,
 )
 from hrosailing.wind import (
@@ -362,7 +361,7 @@ def read_csv_file(csv_path, delimiter=None):
     try:
         with open(csv_path, "r", newline="") as file:
             csv_reader = csv.reader(file, delimiter=delimiter)
-            return _read_pointcloud(csv_reader)
+            return np.array([[eval(pt) for pt in row] for row in csv_reader])
     except OSError:
         raise FileReadingException(f"Can't find/open/read {csv_path}")
 
@@ -565,7 +564,6 @@ def _create_polar_diagram_table(w_pts, w_res, neighbourhood, interpolater):
         )
 
     w_res = _set_wind_resolution(w_res, w_pts.points)
-
     bsps = _interpolate_grid_points(w_res, w_pts, neighbourhood, interpolater)
 
     return pol.PolarDiagramTable(ws_res=w_res[0], wa_res=w_res[1], bsps=bsps)
@@ -642,7 +640,5 @@ def _interpolate_grid_points(w_res, w_pts, neighbourhood, interpolater):
             mask = neighbourhood.is_contained_in(
                 w_pts.points[:, :2] - grid_point
             )
-            if not any(mask):
-                continue
             bsps[j, i] = interpolater.interpolate(w_pts[mask], grid_point)
     return bsps
