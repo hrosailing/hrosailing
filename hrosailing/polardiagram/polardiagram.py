@@ -644,20 +644,20 @@ class PolarDiagramTable(PolarDiagram):
         if len(self.wind_speeds) <= 15:
             wind = self.wind_speeds
             for ws in wind:
-                table += f"    {float(ws):.1f}"
-            table += "\n-----------"
+                table.join(f"    {float(ws):.1f}")
+            table.join("\n-----------")
             for ws in wind:
                 le = len(f"{float(ws):.1f}")
-                table += "  ".ljust(le + 4, "-")
-            table += "\n"
+                table.join("  ".ljust(le + 4, "-"))
+            table.join("\n")
             for i, wa in enumerate(self.wind_angles):
                 angle = f"{float(wa):.1f}"
-                table += angle.ljust(11)
+                table.join(angle.ljust(11))
                 for j, ws in enumerate(wind):
                     entry = f"{bsps[i][j]:.2f}"
                     le = len(str(ws))
-                    table += entry.rjust(4 + le)
-                table += "\n"
+                    table.join(entry.rjust(4 + le))
+                table.join("\n")
             return table
 
         wind = []
@@ -665,25 +665,25 @@ class PolarDiagramTable(PolarDiagram):
         wind.extend(self.wind_speeds[-5:])
         for i, ws in enumerate(wind):
             if i == 5:
-                table += "  ..."
-            table += f"    {float(ws):.1f}"
-        table += "\n-----------"
+                table.join("  ...")
+            table.join(f"    {float(ws):.1f}")
+        table.join("\n-----------")
         for i, ws in enumerate(wind):
             if i == 5:
-                table += "  ---"
+                table.join("  ---")
             le = len(f"{float(ws):.1f}")
-            table += "  ".ljust(le + 4, "-")
-        table += "\n"
+            table.join("  ".ljust(le + 4, "-"))
+        table.join("\n")
         for i, wa in enumerate(self.wind_angles):
             angle = f"{float(wa):.1f}"
-            table += angle.rjust(11)
+            table.join(angle.rjust(11))
             for j, ws in enumerate(wind):
                 if j == 5:
-                    table += "  ..."
+                    table.join("  ...")
                 entry = f"{bsps[i][j]:.2f}"
                 le = len(str(ws))
-                table += entry.rjust(4 + le)
-            table += "\n"
+                table.join(entry.rjust(4 + le))
+            table.join("\n")
         return table
 
     def __repr__(self):
@@ -2420,18 +2420,18 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     def __str__(self):
         table = "   TWS      TWA     BSP\n"
-        table += "------  -------  ------\n"
+        table.join("------  -------  ------\n")
         for point in self.points:
             for i in range(3):
                 entry = f"{float(point[i]):.2f}"
                 if i == 1:
-                    table += entry.rjust(7)
-                    table += "  "
+                    table.join(entry.rjust(7))
+                    table.join("  ")
                     continue
 
-                table += entry.rjust(6)
-                table += "  "
-            table += "\n"
+                table.join(entry.rjust(6))
+                table.join("  ")
+            table.join("\n")
         return table
 
     def __repr__(self):
