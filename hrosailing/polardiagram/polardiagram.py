@@ -107,18 +107,17 @@ def from_csv(csv_path, fmt="hro", tw=True):
         opened, or read
     """
 
-    FMTS = ("hro", "orc", "array", "opencpn")
-    if fmt not in FMTS:
+    if fmt not in {"hro", "orc", "array", "opencpn"}:
         raise FileReadingException(f"Format {fmt} not yet implemented")
     try:
         with open(csv_path, "r", newline="") as file:
             if fmt == "hro":
                 csv_reader = csv.reader(file, delimiter=",")
                 first_row = next(csv_reader)[0]
-                if first_row not in (
+                if first_row not in {
                     "PolarDiagramTable",
                     "PolarDiagramPointcloud",
-                ):
+                }:
                     raise FileReadingException(
                         f"hro-format for {first_row} not yet implemented"
                     )
@@ -164,10 +163,10 @@ def _read_pointcloud(csv_reader):
 def _read_extern_format(csv_path, fmt):
     if fmt == "array":
         return _read_array_csv(csv_path)
+
+    delimiter = ","
     if fmt == "orc":
         delimiter = ";"
-    else:
-        delimiter = ","
 
     return _read_sail_csv(csv_path, delimiter)
 
@@ -842,6 +841,7 @@ class PolarDiagramTable(PolarDiagram):
     def _get_radians(self):
         return np.deg2rad(self.wind_angles)
 
+    # TODO Merge with polar_plot?
     def polar_plot_slice(self, ws, ax=None, **plot_kw):
         """Creates a polar plot of a
         given slice (column) of the
@@ -882,6 +882,7 @@ class PolarDiagramTable(PolarDiagram):
         bsp = self._get_slice_data(ws)
         plot_polar(ws, wa, bsp, ax, None, None, None, **plot_kw)
 
+    # TODO: Merge with flat_plot?
     def flat_plot_slice(self, ws, ax=None, **plot_kw):
         """Creates a cartesian plot
         of a given slice (column)
@@ -1052,16 +1053,12 @@ class PolarDiagramTable(PolarDiagram):
         if ws_range is None:
             ws_range = self.wind_speeds
 
-        # TODO Better way?
-        if isinstance(ws_range, np.ndarray):
-            if not ws_range.size:
-                raise PolarDiagramException(
-                    "ws_range doesn't contain any slices"
-                )
-        elif not ws_range:
+        # better way?
+        ws_range = list(ws_range)
+        if not ws_range:
             raise PolarDiagramException("ws_range doesn't contain any slices")
 
-        bsp_list = list(self._get_slice_data(ws_range).T)
+        bsp_list = list(self._get_slice_data(ws_range).T)  # <- why?
         wa_list = [list(self._get_radians())] * len(bsp_list)
         plot_polar(
             ws_range,
@@ -1203,16 +1200,12 @@ class PolarDiagramTable(PolarDiagram):
         if ws_range is None:
             ws_range = self.wind_speeds
 
-        # TODO Better way
-        if isinstance(ws_range, np.ndarray):
-            if not ws_range.size:
-                raise PolarDiagramException(
-                    "ws_range doesn't contain any slices"
-                )
-        elif not ws_range:
+        # better way?
+        ws_range = list(ws_range)
+        if not ws_range:
             raise PolarDiagramException("ws_range doesn't contain any slices")
 
-        bsp_list = list(self._get_slice_data(ws=ws_range).T)
+        bsp_list = list(self._get_slice_data(ws=ws_range).T)  # <- why?
         wa_list = [list(self.wind_angles)] * len(bsp_list)
 
         plot_flat(
@@ -1327,9 +1320,9 @@ class PolarDiagramTable(PolarDiagram):
         )
 
         ws, wa = np.meshgrid(self.wind_speeds, self.wind_angles)
-        ws = np.ravel(ws)
-        wa = np.ravel(wa)
-        bsp = np.ravel(self.boat_speeds)
+        ws = ws.ravel()
+        wa = wa.ravel()
+        bsp = self.boat_speeds.ravel()
 
         plot_color(ws, wa, bsp, ax, colors, marker, show_legend, **legend_kw)
 
@@ -1916,9 +1909,8 @@ class PolarDiagramCurve(PolarDiagram):
             wa_list = [wa] * len(ws_range)
         else:
             wa_list = [np.deg2rad(wa)] * len(ws_range)
-        bsp_list = []
-        for ws in ws_range:
-            bsp_list.append(self(np.array([ws] * 1000), wa))
+
+        bsp_list = [self(np.array([ws] * 1000), wa) for ws in ws_range]
 
         plot_polar(
             ws_range,
@@ -2067,9 +2059,7 @@ class PolarDiagramCurve(PolarDiagram):
         else:
             wa_list = [wa] * len(ws_range)
 
-        bsp_list = []
-        for ws in ws_range:
-            bsp_list.append(self(np.array([ws] * 1000), wa))
+        bsp_list = [self(np.array([ws] * 1000), wa) for ws in ws_range]
 
         plot_flat(
             ws_range,
@@ -2137,19 +2127,17 @@ class PolarDiagramCurve(PolarDiagram):
         wa = self._get_wind_angles()
 
         ws_arr, wa_arr = np.meshgrid(ws, wa)
-        bsp_arr = []
-        for w in ws:
-            bsp_arr.append(self(np.array([w] * 1000), wa))
-        bsp_arr = np.asarray(bsp_arr)
+        bsp_arr = np.array([self(np.array([w] * 1000), wa) for w in ws])
 
         if self.radians:
-            bsp, wa = (bsp_arr * np.cos(wa_arr), bsp_arr * np.sin(wa_arr))
+            bsp, wa = bsp_arr * np.cos(wa_arr), bsp_arr * np.sin(wa_arr)
         else:
             wa_arr = np.deg2rad(wa_arr)
-            bsp, wa = (bsp_arr * np.cos(wa_arr), bsp_arr * np.sin(wa_arr))
+            bsp, wa = bsp_arr * np.cos(wa_arr), bsp_arr * np.sin(wa_arr)
 
         plot_surface(ws_arr, wa, bsp, ax, colors)
 
+    # TODO: Check that, seems weird
     def plot_color_gradient(
         self,
         ws_range=(0, 20, 100),
@@ -2238,13 +2226,13 @@ class PolarDiagramCurve(PolarDiagram):
         ws, wa = np.meshgrid(
             np.linspace(ws_lower, ws_upper, ws_step), np.linspace(0, 360, 1000)
         )
-        ws = np.ravel(ws)
-        wa = np.ravel(wa)
+        ws = ws.ravel()
+        wa = wa.ravel()
 
         if self.radians:
-            bsp = np.ravel(self(ws, np.deg2rad(wa)))
+            bsp = self(ws, np.deg2rad(wa)).ravel()
         else:
-            bsp = np.ravel(self(ws, wa))
+            bsp = self(ws, wa).ravel()
 
         plot_color(ws, wa, bsp, ax, colors, marker, show_legend, **legend_kw)
 
@@ -2536,9 +2524,9 @@ class PolarDiagramPointcloud(PolarDiagram):
             new_pts = new_pts.reshape(-1, 3)
         except ValueError:
             raise PolarDiagramException(
-                f"{new_pts} could not be "
-                f"broadcasted to an array "
-                f"of shape (n,3)"
+                f"new_pts of shape {new_pts.shape} "
+                f"could not be broadcasted to an "
+                f"array of shape (n,3)"
             )
 
         new_pts = _convert_wind(new_pts, tw)
@@ -2648,7 +2636,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         plot_flat(ws, wa, bsp, ax, None, None, None, **plot_kw)
 
     def _get_slices(self, ws_range):
-        wa_list, bsp_list = [], []
+        wa_list = bsp_list = []
 
         if not ws_range:
             raise PolarDiagramException(f"No slices given")
@@ -2965,6 +2953,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             **plot_kw,
         )
 
+    # TODO Error checks for empty point cloud
     def plot_3d(self, ax=None, **plot_kw):
         """Creates a 3d plot
         of the polar diagram
@@ -2992,11 +2981,12 @@ class PolarDiagramPointcloud(PolarDiagram):
             f"called"
         )
 
-        ws, wa, bsp = (self.points[:, 0], self.points[:, 1], self.points[:, 2])
+        ws, wa, bsp = self.points[:, 0], self.points[:, 1], self.points[:, 2]
         wa = np.deg2rad(wa)
-        bsp, wa = (bsp * np.cos(wa), bsp * np.sin(wa))
+        bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
         plot3d(ws, wa, bsp, ax, **plot_kw)
 
+    # TODO: Error checks for empty point cloud
     def plot_color_gradient(
         self,
         ax=None,
@@ -3067,8 +3057,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             f"called"
         )
 
-        ws, wa, bsp = np.hsplit(self.points, 3)
-
+        ws, wa, bsp = self.points[:, 0], self.points[:, 1], self.points[:, 2]
         plot_color(ws, wa, bsp, ax, colors, marker, show_legend, **legend_kw)
 
     def plot_convex_hull_slice(self, ws, ax=None, **plot_kw):
