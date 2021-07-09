@@ -2953,7 +2953,6 @@ class PolarDiagramPointcloud(PolarDiagram):
             **plot_kw,
         )
 
-    # TODO Error checks for empty point cloud
     def plot_3d(self, ax=None, **plot_kw):
         """Creates a 3d plot
         of the polar diagram
@@ -2980,13 +2979,19 @@ class PolarDiagramPointcloud(PolarDiagram):
             f"**plot_kw={plot_kw})' "
             f"called"
         )
+        try:
+            ws, wa, bsp = (
+                self.points[:, 0],
+                self.points[:, 1],
+                self.points[:, 2],
+            )
+        except IndexError:
+            raise PolarDiagramException("Point cloud contains no points")
 
-        ws, wa, bsp = self.points[:, 0], self.points[:, 1], self.points[:, 2]
         wa = np.deg2rad(wa)
         bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
         plot3d(ws, wa, bsp, ax, **plot_kw)
 
-    # TODO: Error checks for empty point cloud
     def plot_color_gradient(
         self,
         ax=None,
@@ -3057,7 +3062,14 @@ class PolarDiagramPointcloud(PolarDiagram):
             f"called"
         )
 
-        ws, wa, bsp = self.points[:, 0], self.points[:, 1], self.points[:, 2]
+        try:
+            ws, wa, bsp = (
+                self.points[:, 0],
+                self.points[:, 1],
+                self.points[:, 2],
+            )
+        except IndexError:
+            raise PolarDiagramException("Point cloud contains no points")
         plot_color(ws, wa, bsp, ax, colors, marker, show_legend, **legend_kw)
 
     def plot_convex_hull_slice(self, ws, ax=None, **plot_kw):
