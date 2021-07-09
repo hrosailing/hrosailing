@@ -89,6 +89,7 @@ class PolarPipeline:
 
     """
 
+    # TODO Make it better
     def __init__(
         self,
         weigher=None,
@@ -282,6 +283,12 @@ class PolarPipeline:
             p_type based on the input
             data
         """
+        if p_type not in {
+            pol.PolarDiagramTable,
+            pol.PolarDiagramCurve,
+            pol.PolarDiagramPointcloud,
+        }:
+            raise ProcessingException("")
 
         if data is None and data_file is None:
             raise ProcessingException("No data was specified")
@@ -301,17 +308,14 @@ class PolarPipeline:
         if p_type is pol.PolarDiagramCurve:
             return _create_polar_diagram_curve(w_pts, self.regressor)
 
-        if p_type is pol.PolarDiagramPointcloud:
-            return _create_polar_diagram_pointcloud(
-                w_pts, neighbourhood, self.interpolater, self.sampler
-            )
+        return _create_polar_diagram_pointcloud(
+            w_pts, neighbourhood, self.interpolater, self.sampler
+        )
 
 
 def _read_file(data_file, file_format, mode, tw):
-
-    if file_format is None:
-        raise ProcessingException("No file-format was specified")
-    if file_format not in ("csv", "nmea"):
+    data = []
+    if file_format not in {"csv", "nmea"}:
         raise ProcessingException(
             f"No functionality for the"
             f"specified file-format"
@@ -588,10 +592,8 @@ def _create_polar_diagram_pointcloud(
 
     sample_pts = sampler.sample(w_pts.points)
     pts = []
-
     for s_pt in sample_pts:
         mask = neighbourhood.is_contained_in(w_pts.points[:, :2] - s_pt)
-
         pts.append(interpolater.interpolate(w_pts[mask], s_pt))
 
     return pol.PolarDiagramPointcloud(pts=pts)
