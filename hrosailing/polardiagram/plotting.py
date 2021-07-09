@@ -140,15 +140,38 @@ def plot_surface(ws, wa, bsp, ax, colors):
     return ax.plot_surface(ws, wa, bsp, facecolors=color)
 
 
-def plot_convex_hull(wa, bsp, ax, **plot_kw):
+def plot_convex_hull(
+    ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw
+):
     if ax is None:
         ax = plt.gca(projection="polar")
     _set_polar_directions(ax)
+    _check_keywords(plot_kw)
+    if colors is None:
+        colors = plot_kw.pop("color", None) or plot_kw.pop("c", None)
+    if isinstance(ws, list):
+        c = _set_color_cycle(ax, ws, colors)
+    else:
+        c = _set_color_cycle(ax, wa, colors)
+    if c is not None:
+        plot_kw["c"] = c
+
+    if legend_kw is None:
+        legend_kw = {}
+    if show_legend:
+        _set_legend(ax, ws, colors, label="True Wind Speed", **legend_kw)
+
+    if isinstance(ws, list):
+        c = _set_color_cycle(ax, ws, colors)
+    else:
+        c = _set_color_cycle(ax, wa, colors)
+    if c is not None:
+        plot_kw["c"] = c
 
     wa, bsp = _sort_data(wa, bsp)
-
     xs, ys = _get_convex_hull(wa, bsp)
-    return ax.plot(xs, ys, **plot_kw)
+
+    return _plot(ax, xs, ys, **plot_kw)
 
 
 # TODO: Many problems!!
@@ -290,7 +313,7 @@ def _sort_data(wa_list, bsp_list):
     if not isinstance(bsp_list, list):
         bsp_list = [bsp_list]
 
-    sorted_ = list(
+    xs, ys = list(
         zip(
             *(
                 zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
@@ -299,7 +322,7 @@ def _sort_data(wa_list, bsp_list):
         )
     )
 
-    return sorted_[0], sorted_[1]
+    return xs, ys
 
 
 # TODO: Is there a better way?
@@ -310,15 +333,20 @@ def _plot(ax, xs, ys, **plot_kw):
 
 
 # TODO: Write it for 2 and 3 dim?
-def _get_convex_hull(wa, bsp):
-    wa, bsp = np.asarray(wa).ravel(), np.asarray(bsp).ravel()
-    vert = sorted(convex_hull_polar(np.column_stack((wa, bsp))).vertices)
-
-    # maybe not list compr. but a for loop?
-    xs = [wa[i] for i in vert]
-    ys = [bsp[i] for i in vert]
-    xs.append(xs[0])
-    ys.append(ys[0])
+def _get_convex_hull(wa_list, bsp_list):
+    if not isinstance(wa_list, list):
+        wa_list = [wa_list]
+    if not isinstance(bsp_list, list):
+        bsp_list = [bsp_list]
+    xs = ys = []
+    for wa, bsp in zip(wa_list, bsp_list):
+        wa, bsp = np.asarray(wa).ravel(), np.asarray(bsp).ravel()
+        vert = sorted(convex_hull_polar(np.column_stack((wa, bsp))).vertices)
+        x, y = list(zip(*([(wa[i], bsp[i]) for i in vert])))
+        x.append(x[0])
+        y.append(y[0])
+        xs.append(x)
+        ys.append(y)
 
     return xs, ys
 

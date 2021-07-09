@@ -144,20 +144,14 @@ def _read_table(csv_reader):
     next(csv_reader)
     wa_res = [eval(wa) for wa in next(csv_reader)]
     next(csv_reader)
-    bsps = []
-    for row in csv_reader:
-        bsps.append([eval(bsp) for bsp in row])
+    bsps = [[eval(bsp) for bsp in row] for row in csv_reader]
 
     return ws_res, wa_res, bsps
 
 
 def _read_pointcloud(csv_reader):
-    points = []
     next(csv_reader)
-    for row in csv_reader:
-        points.append([eval(entry) for entry in row])
-
-    return np.array(points)
+    return np.array([[eval(pt) for pt in row] for row in csv_reader])
 
 
 def _read_extern_format(csv_path, fmt):
@@ -175,12 +169,20 @@ def _read_sail_csv(csv_path, delimiter):
     with open(csv_path, "r", newline="") as file:
         csv_reader = csv.reader(file, delimiter=delimiter)
         ws_res = [eval(ws) for ws in next(csv_reader)[1:]]
-        wa_res, bsps = [], []
         next(csv_reader)
-        for row in csv_reader:
-            wa_res.append(eval(row[0]))
-            bsps.append([eval(bsp) if bsp != "" else 0 for bsp in row[1:]])
-
+        wa_res, bsps = list(
+            zip(
+                *(
+                    [
+                        (
+                            eval(row[0]),
+                            [eval(bsp) if bsp != "" else 0 for bsp in row[1:]],
+                        )
+                        for row in csv_reader
+                    ]
+                )
+            )
+        )
         return ws_res, wa_res, bsps
 
 
@@ -239,7 +241,7 @@ def depickling(pkl_path):
         raise FileReadingException(f"Can't find/open/read {pkl_path}")
 
 
-# TODO: Make it cleaner!
+# TODO Add functionality for PolarDiagramMultiSails
 def symmetric_polar_diagram(obj):
     """Symmetrize a PolarDiagram
     instance, meaning for a
@@ -316,34 +318,45 @@ class PolarDiagram(ABC):
     Abstract Methods
     ----------------
     to_csv(self, csv_path)
-    polar_plot_slice(self, ws,
-                     ax=None,
-                     **plot_kw)
-    flat_plot_slice(self, ws,
-                    ax=None,
-                    **plot_kw)
-    polar_plot(self, ws_range,
-               ax=None,
-               colors=('green', 'red'),
-               show_legend=True,
-               legend_kw=None,
-               **plot_kw)
-    flat_plot(self, ws_range,
-              ax=None,
-              colors=('green', 'red'),
-              show_legend=True,
-              legend_kw=None,
-              **plot_kw)
-    plot_3d(self, ax=None,
-            **plot_kw)
-    plot_color_gradient(self, ax=None,
-                        colors=('green', 'red'),
-                        marker=None,
-                        show_legend=True,
-                        **legend_kw)
-    plot_convex_hull_slice(self, ws,
-                           ax=None,
-                           **plot_kw)
+    polar_plot_slice(self, ws, ax=None, **plot_kw)
+    flat_plot_slice(self, ws, ax=None, **plot_kw)
+    polar_plot(
+        self,
+        ws_range,
+        ax=None,
+        colors=('green', 'red'),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw
+    )
+    flat_plot(
+        self,
+        ws_range,
+        ax=None,
+        colors=('green', 'red'),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw
+    )
+    plot_3d(self, ax=None, **plot_kw)
+    plot_color_gradient(
+        self,
+        ax=None,
+        colors=('green', 'red'),
+        marker=None,
+        show_legend=False,
+        **legend_kw,
+    )
+    plot_convex_hull_slice(self, ws, ax=None, **plot_kw)
+    plot_convex_hull(
+        self,
+        ws_range,
+        ax=None,
+        colors=('green', 'red'),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw,
+    )
     """
 
     def pickling(self, pkl_path):
@@ -384,7 +397,7 @@ class PolarDiagram(ABC):
         ws_range,
         ax=None,
         colors=("green", "red"),
-        show_legend=True,
+        show_legend=False,
         legend_kw=None,
         **plot_kw,
     ):
@@ -396,7 +409,7 @@ class PolarDiagram(ABC):
         ws_range,
         ax=None,
         colors=("green", "red"),
-        show_legend=True,
+        show_legend=False,
         legend_kw=None,
         **plot_kw,
     ):
@@ -412,13 +425,25 @@ class PolarDiagram(ABC):
         ax=None,
         colors=("green", "red"),
         marker=None,
-        show_legend=True,
+        show_legend=False,
         **legend_kw,
     ):
         pass
 
     @abstractmethod
     def plot_convex_hull_slice(self, ws, ax=None, **plot_kw):
+        pass
+
+    @abstractmethod
+    def plot_convex_hull(
+        self,
+        ws_range,
+        ax=None,
+        colors=("green", "red"),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw,
+    ):
         pass
 
     @abstractmethod
@@ -533,7 +558,7 @@ class PolarDiagramTable(PolarDiagram):
     boat_speeds
         Returns a read only version
         of self._data
-    to_csv(csv_path)
+    to_csv(csv_path, fmt='hro')
         Creates a .csv-file with
         delimiter ',' and the
         following format:
@@ -544,57 +569,68 @@ class PolarDiagramTable(PolarDiagram):
             self.wind_angles
             Boat speeds:
             self.boat_speeds
-    change_entries(data, ws=None,
-                   wa=None, tw=True)
+    change_entries(data, ws=None, wa=None, tw=True)
         Changes specified entries
         in the table
-    polar_plot_slice(ws, ax=None,
-                     **plot_kw)
+    polar_plot_slice(ws, ax=None, **plot_kw)
         Creates a polar plot of a
         given slice (column) of the
         polar diagram
-    flat_plot_slice(ws, ax=None,
-                    **plot_kw)
+    flat_plot_slice(ws, ax=None, **plot_kw)
         Creates a cartesian plot
         of a given slice (column)
         of the polar diagram
-    polar_plot(ws_range=None, ax=None,
-               colors=('green', 'red'),
-               show_legend=True,
-               legend_kw=None,
-               **plot_kw)
+    polar_plot(
+        ws_range=None,
+        ax=None,
+        colors=('green', 'red'),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw,
+    )
         Creates a polar plot
         of multiple slices (columns)
         of the polar diagram
-    flat_plot(ws_range=None, ax=None,
-              colors=('green', 'red'),
-              show_legend=True,
-              legend_kw=None,
-              **plot_kw)
+    flat_plot(
+        ws_range=None,
+        ax=None,
+        colors=('green', 'red'),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw,
+    )
         Creates a cartesian plot
         of multiple slices (columns)
         of the polar diagram
-    plot_3d(ax=None,
-            colors=('blue', 'blue'))
+    plot_3d(ax=None, colors=('blue', 'blue'))
         Creates a 3d plot
         of the polar diagram
-    plot_color_gradient(ax=None,
-                        colors=('green', 'red'),
-                        marker=None,
-                        show_legend=True,
-                        **legend_kw)
+    plot_color_gradient(
+        ax=None,
+        colors=('green', 'red'),
+        marker=None,
+        show_legend=False,
+        **legend_kw,
+    )
         Creates a 'wind speed
         vs. wind angle' color gradient
         plot of the polar diagram
         with respect to the
         respective boat speeds
-    plot_convex_hull_slice(ws, ax=None,
-                           **plot_kw)
+    plot_convex_hull_slice(ws, ax=None, **plot_kw)
         Computes the convex
         hull of a slice (column)
         of the polar diagram
         and creates a polar plot
         of it
+    plot_convex_hull(
+        ws_range=None,
+        ax=None,
+        colors=('green', 'red'),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw,
+    )
     """
 
     # TODO: Make it cleaner
@@ -639,52 +675,52 @@ class PolarDiagramTable(PolarDiagram):
         self._boat_speeds = bsps.reshape(rows, cols)
 
     def __str__(self):
-        table = "  TWA \\ TWS"
+        table = ["  TWA \\ TWS"]
         bsps = self.boat_speeds
         if len(self.wind_speeds) <= 15:
             wind = self.wind_speeds
             for ws in wind:
-                table.join(f"    {float(ws):.1f}")
-            table.join("\n-----------")
+                table.append(f"    {float(ws):.1f}")
+            table.append("\n-----------")
             for ws in wind:
                 le = len(f"{float(ws):.1f}")
-                table.join("  ".ljust(le + 4, "-"))
-            table.join("\n")
+                table.append("  ".ljust(le + 4, "-"))
+            table.append("\n")
             for i, wa in enumerate(self.wind_angles):
                 angle = f"{float(wa):.1f}"
-                table.join(angle.ljust(11))
+                table.append(angle.ljust(11))
                 for j, ws in enumerate(wind):
                     entry = f"{bsps[i][j]:.2f}"
                     le = len(str(ws))
-                    table.join(entry.rjust(4 + le))
-                table.join("\n")
-            return table
+                    table.append(entry.rjust(4 + le))
+                table.append("\n")
+            return "".join(table)
 
         wind = []
         wind.extend(self.wind_speeds[:5])
         wind.extend(self.wind_speeds[-5:])
         for i, ws in enumerate(wind):
             if i == 5:
-                table.join("  ...")
-            table.join(f"    {float(ws):.1f}")
-        table.join("\n-----------")
+                table.append("  ...")
+            table.append(f"    {float(ws):.1f}")
+        table.append("\n-----------")
         for i, ws in enumerate(wind):
             if i == 5:
-                table.join("  ---")
+                table.append("  ---")
             le = len(f"{float(ws):.1f}")
-            table.join("  ".ljust(le + 4, "-"))
-        table.join("\n")
+            table.append("  ".ljust(le + 4, "-"))
+        table.append("\n")
         for i, wa in enumerate(self.wind_angles):
             angle = f"{float(wa):.1f}"
-            table.join(angle.rjust(11))
+            table.append(angle.rjust(11))
             for j, ws in enumerate(wind):
                 if j == 5:
-                    table.join("  ...")
+                    table.append("  ...")
                 entry = f"{bsps[i][j]:.2f}"
                 le = len(str(ws))
-                table.join(entry.rjust(4 + le))
-            table.join("\n")
-        return table
+                table.append(entry.rjust(4 + le))
+            table.append("\n")
+        return "".join(table)
 
     def __repr__(self):
         return (
@@ -718,6 +754,7 @@ class PolarDiagramTable(PolarDiagram):
         self._data"""
         return self._boat_speeds.copy()
 
+    # TODO Add more formats
     def to_csv(self, csv_path, fmt="hro"):
         """Creates a .csv file with
         delimiter ',' and the
@@ -880,7 +917,7 @@ class PolarDiagramTable(PolarDiagram):
 
         wa = self._get_radians()
         bsp = self._get_slice_data(ws)
-        plot_polar(ws, wa, bsp, ax, None, None, None, **plot_kw)
+        plot_polar(ws, wa, bsp, ax, None, False, None, **plot_kw)
 
     # TODO: Merge with flat_plot?
     def flat_plot_slice(self, ws, ax=None, **plot_kw):
@@ -920,14 +957,14 @@ class PolarDiagramTable(PolarDiagram):
 
         bsp = self._get_slice_data(ws)
         wa = self.wind_angles
-        plot_flat(ws, wa, bsp, ax, None, None, None, **plot_kw)
+        plot_flat(ws, wa, bsp, ax, None, False, None, **plot_kw)
 
     def polar_plot(
         self,
         ws_range=None,
         ax=None,
         colors=("green", "red"),
-        show_legend=True,
+        show_legend=False,
         legend_kw=None,
         **plot_kw,
     ):
@@ -1012,8 +1049,7 @@ class PolarDiagramTable(PolarDiagram):
             will be created and
             assigned to ax
 
-            Default to 'True'
-
+            Default to 'False'
 
         legend_kw : dict, optional
             Keyword arguments to be
@@ -1076,7 +1112,7 @@ class PolarDiagramTable(PolarDiagram):
         ws_range=None,
         ax=None,
         colors=("green", "red"),
-        show_legend=True,
+        show_legend=False,
         legend_kw=None,
         **plot_kw,
     ):
@@ -1160,7 +1196,7 @@ class PolarDiagramTable(PolarDiagram):
             will be created and
             assigned to ax
 
-            Default to 'True'
+            Default to 'False'
 
         legend_kw : dict, optional
             Keyword arguments to be
@@ -1256,7 +1292,7 @@ class PolarDiagramTable(PolarDiagram):
         ax=None,
         colors=("green", "red"),
         marker=None,
-        show_legend=True,
+        show_legend=False,
         **legend_kw,
     ):
         """Creates a 'wind speed
@@ -1298,7 +1334,7 @@ class PolarDiagramTable(PolarDiagram):
             matplotlib.colorbar.Colorbar
             object.
 
-            Defaults to 'True'
+            Defaults to 'False'
 
         legend_kw : Keyword arguments
             Keyword arguments to be
@@ -1368,7 +1404,37 @@ class PolarDiagramTable(PolarDiagram):
 
         wa = list(self._get_radians())
         bsp = self._get_slice_data(ws)
-        plot_convex_hull(wa, bsp, ax, **plot_kw)
+        plot_convex_hull(ws, wa, bsp, ax, None, False, None, **plot_kw)
+
+    def plot_convex_hull(
+        self,
+        ws_range=None,
+        ax=None,
+        colors=("green", "red"),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw,
+    ):
+
+        if ws_range is None:
+            ws_range = self.wind_speeds
+
+        # better way?
+        ws_range = list(ws_range)
+        if not ws_range:
+            raise PolarDiagramException("ws_range doesn't contain any slices")
+
+        bsp_list = list(self._get_slice_data(ws_range).T)  # <- why?
+        wa_list = [list(self._get_radians())] * len(bsp_list)
+        plot_convex_hull(
+            ws_range,
+            wa_list,
+            bsp_list,
+            colors,
+            show_legend,
+            legend_kw,
+            **plot_kw,
+        )
 
     # Still very much in development
     # Don't use
@@ -1441,7 +1507,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         ws_range,
         ax=None,
         colors=("green", "red"),
-        show_legend=True,
+        show_legend=False,
         legend_kw=None,
         **plot_kw,
     ):
@@ -1455,18 +1521,14 @@ class PolarDiagramMultiSails(PolarDiagram):
         ws_range,
         ax=None,
         colors=("green", "red"),
-        show_legend=True,
+        show_legend=False,
         legend_kw=None,
         **plot_kw,
     ):
         pass
 
     def plot_3d(self, ax=None, colors=None):
-        if colors is None:
-            colors = [("blue", "blue"), ("blue", "blue")]
-
-        self._sail_1.plot_3d(ax, colors=colors[0])
-        self._sail_2.plot_3d(ax, colors=colors[1])
+        pass
 
     # TODO: Implementation
     #       Problems: Can we make two color gradients
@@ -1479,7 +1541,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         ax=None,
         colors=("green", "red"),
         marker=None,
-        show_legend=True,
+        show_legend=False,
         **legend_kw,
     ):
         pass
@@ -1500,6 +1562,17 @@ class PolarDiagramMultiSails(PolarDiagram):
         bsp = np.concatenate(self._get_slice_data(ws))
 
         plot_convex_hull(wa, bsp, ax, **plot_kw)
+
+    def plot_convex_hull(
+        self,
+        ws_range,
+        ax=None,
+        colors=("green", "red"),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw,
+    ):
+        pass
 
     def plot_convex_hull_3d(self, ax=None, colors=("blue",)):
         pass
@@ -1555,54 +1628,68 @@ class PolarDiagramCurve(PolarDiagram):
             Function: self.curve
             Radians: self.rad
             Parameters: self.parameters
-    polar_plot_slice(ws, ax=None,
-                     **plot_kw)
+    polar_plot_slice(ws, ax=None, **plot_kw)
         Creates a polar plot
         of a given slice of
         the polar diagram
-    flat_plot_slice(ws, ax=None,
-                    **plot_kw)
+    flat_plot_slice(ws, ax=None, **plot_kw)
         Creates a cartesian
         plot of a slice of the
         polar diagram
-    polar_plot(ws_range=(0, 20, 5), ax=None,
-               colors=('green', 'red'),
-               show_legend=True,
-               legend_kw=None, **plot_kw)
+    polar_plot(
+        ws_range=(0, 20, 5),
+        ax=None,
+        colors=('green', 'red'),
+        show_legend=True,
+        legend_kw=None,
+        **plot_kw,
+    )
         Creates a polar plot
         of multiple slices of
         the polar diagram
-    flat_plot(ws_range=(0, 20, 5), ax=None,
-              colors=('green', 'red'),
-              show_legend=True,
-              legend_kw=None, **plot_kw)
+    flat_plot(
+        ws_range=(0, 20, 5),
+        ax=None,
+        colors=('green', 'red'),
+        show_legend=True,
+        legend_kw=None,
+        **plot_kw,
+    )
         Creates a cartesian
         plot of multiple slices
         of the polar diagram
-    plot_3d(ws_range=(0, 20, 100), ax=None,
-            colors=('blue', 'blue'))
+    plot_3d(ws_range=(0, 20, 100), ax=None, colors=('blue', 'blue'))
         Creates a 3d plot
         of a part of the
         polar diagram
-    plot_color_gradient(ws_range=(0, 20, 100),
-                        ax=None,
-                        colors=('green', 'red'),
-                        marker=None,
-                        show_legend=True,
-                        **legend_kw)
+    plot_color_gradient(
+        ws_range=(0, 20, 100),
+        ax=None,
+        colors=('green', 'red'),
+        marker=None,
+        show_legend=True,
+        **legend_kw,
+    )
         Creates a 'wind speed
         vs. wind angle' color gradient
         plot of a part of the
         polar diagram with
         respect to the
         respective boat speeds
-    plot_convex_hull_slice(ws, ax=None,
-                           **plot_kw)
+    plot_convex_hull_slice(ws, ax=None, **plot_kw)
         Computes the convex
         hull of a slice (column)
         of the polar diagram
         and creates a polar plot
         of it
+    plot_convex_hull(
+        ws_range=(0, 20, 5),
+        ax=None,
+        colors=('green', 'red'),
+        show_legend=True,
+        legend_kw=None,
+        **plot_kw,
+    )
     """
 
     def __init__(self, f, params, radians=False):
@@ -1779,7 +1866,7 @@ class PolarDiagramCurve(PolarDiagram):
         ws_range=(0, 20, 5),
         ax=None,
         colors=("green", "red"),
-        show_legend=True,
+        show_legend=False,
         legend_kw=None,
         **plot_kw,
     ):
@@ -1928,7 +2015,7 @@ class PolarDiagramCurve(PolarDiagram):
         ws_range=(0, 20, 5),
         ax=None,
         colors=("green", "red"),
-        show_legend=True,
+        show_legend=False,
         legend_kw=None,
         **plot_kw,
     ):
@@ -2144,7 +2231,7 @@ class PolarDiagramCurve(PolarDiagram):
         ax=None,
         colors=("green", "red"),
         marker=None,
-        show_legend=True,
+        show_legend=False,
         **legend_kw,
     ):
         """Creates a 'wind speed
@@ -2280,7 +2367,38 @@ class PolarDiagramCurve(PolarDiagram):
         if not self.radians:
             wa = np.deg2rad(wa)
 
-        plot_convex_hull(wa, bsp, ax, **plot_kw)
+        plot_convex_hull(ws, wa, bsp, ax, None, False, None, **plot_kw)
+
+    def plot_convex_hull(
+        self,
+        ws_range=(0, 20, 5),
+        ax=None,
+        colors=("green", "red"),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw,
+    ):
+        if isinstance(ws_range, tuple):
+            ws_lower, ws_upper, ws_step = ws_range
+            ws_range = list(np.linspace(ws_lower, ws_upper, ws_step))
+
+        wa = self._get_wind_angles()
+        if self.radians:
+            wa_list = [wa] * len(ws_range)
+        else:
+            wa_list = [np.deg2rad(wa)] * len(ws_range)
+
+        bsp_list = [self(np.array([ws] * 1000), wa) for ws in ws_range]
+        plot_convex_hull(
+            ws_range,
+            wa_list,
+            bsp_list,
+            ax,
+            colors,
+            show_legend,
+            legend_kw,
+            **plot_kw,
+        )
 
     def plot_convex_hull_3d(self, ax=None, colors=None):
         """"""
@@ -2347,50 +2465,65 @@ class PolarDiagramPointcloud(PolarDiagram):
     add_points(new_pts)
         Adds additional points
         to the point cloud
-    polar_plot_slice(ws, ax=None,
-                     **plot_kw)
+    polar_plot_slice(ws, ax=None, **plot_kw)
         Creates a polar plot
         of a slice of the
         polar diagram
-    flat_plot_slice(ws, ax=None,
-                    **plot_kw)
+    flat_plot_slice(ws, ax=None, **plot_kw)
         Creates a cartesian
         plot of a slice of
         the polar diagram
-    polar_plot(ws_range=(0, np.inf), ax=None,
-               colors=('green', 'red'),
-               show_legend=True,
-               legend_kw=None, **plot_kw)
+    polar_plot(
+        ws_range=(0, np.inf),
+        ax=None,
+        colors=('green', 'red'),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw,
+    )
         Creates a polar plot
         of multiple slices of
         the polar diagram
-    flat_plot(ws_range=(0, np.inf), ax=None,
-              colors=('green', 'red'),
-              show_legend=True,
-              legend_kw=None, **plot_kw)
+    flat_plot(
+        ws_range=(0, np.inf),
+        ax=None,
+        colors=('green', 'red'),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw,
+    )
         Creates a cartesian
         plot of multiple slices
         of the polar diagram
     plot_3d(ax=None, **plot_kw)
         Creates a 3d plot
         of the polar diagram
-    plot_color_gradient(ax=None,
-                        colors=('green', 'red'),
-                        marker=None,
-                        show_legend=True,
-                        **legend_kw)
+    plot_color_gradient(
+        ax=None,
+        colors=('green', 'red'),
+        marker=None,
+        show_legend=True,
+        **legend_kw
+    )
         Creates a 'wind speed
         vs. wind angle' color gradient
         plot of the polar diagram
         with respect to the
         respective boat speeds
-    plot_convex_hull_slice(ws, ax=None,
-                           **plot_kw)
+    plot_convex_hull_slice(ws, ax=None, **plot_kw)
         Computes the convex
         hull of a slice (column)
         of the polar diagram
         and creates a polar plot
         of it
+    plot_convex_hull(
+        ws_range=(0, np.inf),
+        ax=None,
+        colors=('green', 'red'),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw,
+    )
     """
 
     def __init__(self, pts=None, tw=True):
@@ -2419,20 +2552,19 @@ class PolarDiagramPointcloud(PolarDiagram):
         self._pts = _convert_wind(pts, tw)
 
     def __str__(self):
-        table = "   TWS      TWA     BSP\n"
-        table.join("------  -------  ------\n")
+        table = ["   TWS      TWA     BSP\n", "------  -------  ------\n"]
         for point in self.points:
             for i in range(3):
                 entry = f"{float(point[i]):.2f}"
                 if i == 1:
-                    table.join(entry.rjust(7))
-                    table.join("  ")
+                    table.append(entry.rjust(7))
+                    table.append("  ")
                     continue
 
-                table.join(entry.rjust(6))
-                table.join("  ")
-            table.join("\n")
-        return table
+                table.append(entry.rjust(6))
+                table.append("  ")
+            table.append("\n")
+        return "".join(table)
 
     def __repr__(self):
         return f"PolarDiagramPointcloud(pts={self.points})"
@@ -2659,7 +2791,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         ws_range=(0, np.inf),
         ax=None,
         colors=("green", "red"),
-        show_legend=True,
+        show_legend=False,
         legend_kw=None,
         **plot_kw,
     ):
@@ -2809,7 +2941,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         ws_range=(0, np.inf),
         ax=None,
         colors=("green", "red"),
-        show_legend=True,
+        show_legend=False,
         legend_kw=None,
         **plot_kw,
     ):
@@ -2997,7 +3129,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         ax=None,
         colors=("green", "red"),
         marker=None,
-        show_legend=True,
+        show_legend=False,
         **legend_kw,
     ):
         """Creates a 'wind speed
@@ -3116,7 +3248,30 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         wa, bsp = self._get_slice_data(ws)
         wa = list(np.deg2rad(wa))
-        plot_convex_hull(wa, bsp, ax, **plot_kw)
+        plot_convex_hull(ws, wa, bsp, ax, None, False, None, **plot_kw)
+
+    def plot_convex_hull(
+        self,
+        ws_range=(0, np.inf),
+        ax=None,
+        colors=("green", "red"),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw,
+    ):
+        ws_list, wa_list, bsp_list = self._get_slices(ws_range)
+        wa_list = [np.deg2rad(wa) for wa in wa_list]
+
+        plot_convex_hull(
+            ws_list,
+            wa_list,
+            bsp_list,
+            ax,
+            colors,
+            show_legend,
+            legend_kw,
+            **plot_kw,
+        )
 
     def plot_convex_hull_3d(self, ax=None, colors=None):
         """"""
