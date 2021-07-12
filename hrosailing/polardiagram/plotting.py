@@ -18,31 +18,6 @@ from matplotlib.lines import Line2D
 from scipy.spatial import ConvexHull
 
 
-# def plot_polar(wa, bsp, ax, **plot_kw):
-#     _check_keywords(plot_kw)
-#     if ax is None:
-#         ax = plt.gca(projection="polar")
-#     _set_polar_directions(ax)
-#
-#     colors = plot_kw.pop("color", None) or plot_kw.pop("c", None)
-#     _set_color_cycle(ax, wa, colors)
-#
-#     xs, ys = _sort_data(wa, bsp)
-#     return _plot(ax, xs, ys, **plot_kw)
-#
-#
-# def plot_flat(wa, bsp, ax, **plot_kw):
-#     _check_keywords(plot_kw)
-#     if ax is None:
-#         ax = plt.gca()
-#
-#     colors = plot_kw.pop("color", None) or plot_kw.pop("c", None)
-#     _set_color_cycle(ax, wa, colors)
-#
-#     xs, ys = _sort_data(wa, bsp)
-#     return _plot(ax, xs, ys, **plot_kw)
-
-
 # TODO: Cleaning up
 def plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
     if ax is None:
@@ -105,7 +80,7 @@ def plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
     return _plot(ax, xs, ys, **plot_kw)
 
 
-def plot_color(ws, wa, bsp, ax, colors, marker, show_legend, **legend_kw):
+def plot_color_gradient(ws, wa, bsp, ax, colors, marker, show_legend, **legend_kw):
     if ax is None:
         ax = plt.gca()
 
@@ -205,16 +180,16 @@ def _set_polar_directions(ax):
     ax.set_theta_direction("clockwise")
 
 
-def _set_color_cycle(ax, ws_list, colors):
+def _set_color_cycle(ax, ws, colors):
     if is_color_like(colors):
         return colors
     if colors is None:
         return "blue"
 
-    if not isinstance(ws_list, list):
-        ws_list = [ws_list]
+    if not isinstance(ws, list):
+        ws = [ws]
 
-    n_plots = len(ws_list)
+    n_plots = len(ws)
     n_colors = len(colors)
     if n_plots <= n_colors:
         ax.set_prop_cycle("color", colors)
@@ -226,8 +201,8 @@ def _set_color_cycle(ax, ws_list, colors):
             if is_color_like(colors[0]):
                 for i, c in enumerate(colors):
                     color_list[i] = c
-            for ws, c in colors:
-                i = list(ws_list).index(ws)
+            for w, c in colors:
+                i = list(ws).index(w)
                 color_list[i] = c
         else:
             for i, c in enumerate(colors):
@@ -236,7 +211,7 @@ def _set_color_cycle(ax, ws_list, colors):
         ax.set_prop_cycle("color", color_list)
         return
 
-    ax.set_prop_cycle("color", _get_colors(colors, ws_list))
+    ax.set_prop_cycle("color", _get_colors(colors, ws))
 
 
 def _get_colors(colors, scal_list):
@@ -250,11 +225,11 @@ def _get_colors(colors, scal_list):
     return [(1 - coeff) * min_color + coeff * max_color for coeff in coeffs]
 
 
-def _set_colormap(ws_list, colors, ax, label, **legend_kw):
+def _set_colormap(ws, colors, ax, label, **legend_kw):
     min_color = colors[0]
     max_color = colors[1]
-    ws_min = min(ws_list)
-    ws_max = max(ws_list)
+    ws_min = min(ws)
+    ws_max = max(ws)
 
     cmap = LinearSegmentedColormap.from_list(
         "custom_map", [min_color, max_color]
@@ -267,19 +242,19 @@ def _set_colormap(ws_list, colors, ax, label, **legend_kw):
     ).set_label(label)
 
 
-def _set_legend(ax, ws_list, colors, label, **legend_kw):
+def _set_legend(ax, ws, colors, label, **legend_kw):
     n_colors = len(colors)
-    n_plots = len(ws_list)
+    n_plots = len(ws)
 
     if n_plots == 1:
         ax.legend(
             handles=[
-                Line2D([0], [0], color=colors, lw=1, label=f"TWS {ws_list[0]}")
+                Line2D([0], [0], color=colors, lw=1, label=f"TWS {ws[0]}")
             ]
         )
 
     if n_plots > n_colors == 2:
-        _set_colormap(ws_list, colors, ax, label, **legend_kw)
+        _set_colormap(ws, colors, ax, label, **legend_kw)
         return
 
     if isinstance(colors[0], tuple) and not is_color_like(colors[0]):
@@ -299,7 +274,7 @@ def _set_legend(ax, ws_list, colors, label, **legend_kw):
 
     ax.legend(
         handles=[
-            Line2D([0], [0], color=colors[i], lw=1, label=f"TWS {ws_list[i]}")
+            Line2D([0], [0], color=colors[i], lw=1, label=f"TWS {ws[i]}")
             for i in range(min(n_plots, n_colors))
         ]
     )
@@ -307,17 +282,17 @@ def _set_legend(ax, ws_list, colors, label, **legend_kw):
 
 # TODO: Is there a better way?
 #       Write it for 2 and 3 dim?
-def _sort_data(wa_list, bsp_list):
-    if not isinstance(wa_list, list):
-        wa_list = [wa_list]
-    if not isinstance(bsp_list, list):
-        bsp_list = [bsp_list]
+def _sort_data(wa, bsp):
+    if not isinstance(wa, list):
+        wa = [wa]
+    if not isinstance(bsp, list):
+        bsp = [bsp]
 
     xs, ys = list(
         zip(
             *(
                 zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
-                for wa, bsp in zip(wa_list, bsp_list)
+                for wa, bsp in zip(wa, bsp)
             )
         )
     )
@@ -333,16 +308,16 @@ def _plot(ax, xs, ys, **plot_kw):
 
 
 # TODO: Write it for 2 and 3 dim?
-def _get_convex_hull(wa_list, bsp_list):
-    if not isinstance(wa_list, list):
-        wa_list = [wa_list]
-    if not isinstance(bsp_list, list):
-        bsp_list = [bsp_list]
+def _get_convex_hull(wa, bsp):
+    if not isinstance(wa, list):
+        wa = [wa]
+    if not isinstance(bsp, list):
+        bsp = [bsp]
     xs = ys = []
-    for wa, bsp in zip(wa_list, bsp_list):
-        wa, bsp = np.asarray(wa).ravel(), np.asarray(bsp).ravel()
-        vert = sorted(convex_hull_polar(np.column_stack((wa, bsp))).vertices)
-        x, y = list(zip(*([(wa[i], bsp[i]) for i in vert])))
+    for w, b in zip(wa, bsp):
+        w, b = np.asarray(w).ravel(), np.asarray(b).ravel()
+        vert = sorted(convex_hull_polar(np.column_stack((w, b))).vertices)
+        x, y = list(zip(*([(w[i], b[i]) for i in vert])))
         x.append(x[0])
         y.append(y[0])
         xs.append(x)
@@ -370,12 +345,8 @@ def _get_convex_hull_3d(ws, wa, bsp):
     return xs, ys, zs
 
 
-def convex_hull_polar(points):
-    converted_points = polar_to_kartesian(points)
-    return ConvexHull(converted_points)
-
-
-def polar_to_kartesian(arr):
-    return np.column_stack(
-        (arr[:, 1] * np.cos(arr[:, 0]), arr[:, 1] * np.sin(arr[:, 0]))
+def convex_hull_polar(pts):
+    polar_pts = np.column_stack(
+        (pts[:, 1] * np.cos(pts[:, 0]), pts[:, 1] * np.sin(pts[:, 0]))
     )
+    return ConvexHull(polar_pts)
