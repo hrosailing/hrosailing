@@ -14,7 +14,7 @@ import numpy as np
 from abc import ABC, abstractmethod
 from scipy.spatial import ConvexHull
 
-from hrosailing.utils import euclidean_norm
+from hrosailing.processing.utils import euclidean_norm
 
 
 class NeighbourhoodException(Exception):

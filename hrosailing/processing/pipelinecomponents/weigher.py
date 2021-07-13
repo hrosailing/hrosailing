@@ -17,7 +17,7 @@ import numpy as np
 
 from abc import ABC, abstractmethod
 
-from hrosailing.utils import euclidean_norm
+from hrosailing.processing.utils import euclidean_norm
 from hrosailing.wind import apparent_wind_to_true
 
 logging.basicConfig(

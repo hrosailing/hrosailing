@@ -13,7 +13,7 @@ import numpy as np
 
 from abc import ABC, abstractmethod
 
-from hrosailing.utils import euclidean_norm
+from hrosailing.processing.utils import euclidean_norm
 
 
 # TODO: Error checks
