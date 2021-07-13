@@ -34,6 +34,10 @@ logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)
 
 
+class RegressorException(Exception):
+    pass
+
+
 # TODO: Error checks!
 class Regressor(ABC):
     """Base class for all
@@ -302,20 +306,20 @@ def _check_data(data):
     data = np.asarray(data)
     shape = data.shape
     if not data.size:
-        raise ValueError("No data to fit was passed")
+        raise RegressorException("No data to fit was passed")
     if data.ndim != 2:
-        raise ValueError(f"{data} is not a 2-dimensional array")
+        raise RegressorException("data is not a 2-dimensional array")
     if shape[1] != 3:
         try:
             data = data.reshape(-1, 3)
         except ValueError:
-            raise ValueError(
-                f"{data} couldn't be "
-                f"broadcasted to an"
-                f"array of shape (n, 3)"
+            raise RegressorException(
+                "data couldn't be broadcasted to an array of shape (n, 3)"
             )
 
     if not np.all(np.isfinite(data)):
-        raise ValueError("data can only contain finite and non-NaN-values")
+        raise RegressorException(
+            "data can only contain finite and non-NaN-values"
+        )
 
     return data[:, :2], data[:, 2]

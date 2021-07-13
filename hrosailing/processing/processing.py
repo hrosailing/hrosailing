@@ -15,9 +15,7 @@ import hrosailing.processing.modelfunctions as mf
 import hrosailing.processing.pipelinecomponents as pc
 
 
-from hrosailing.polardiagram.polardiagram import (
-    FileReadingException,
-)
+from hrosailing.polardiagram.polardiagram import FileReadingException
 from hrosailing.wind import (
     apparent_wind_to_true,
     speed_resolution,
@@ -42,7 +40,7 @@ logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)
 
 
-class ProcessingException(Exception):
+class PipelineException(Exception):
     pass
 
 
@@ -112,19 +110,17 @@ class PolarPipeline:
             )
 
         if not isinstance(weigher, pc.Weigher):
-            raise ProcessingException(f"{weigher.__name__} is not a Weigher")
+            raise PipelineException(f"{weigher.__name__} is not a Weigher")
         if not isinstance(filter_, pc.Filter):
-            raise ProcessingException(f"{filter_.__name__} is not a Filter")
+            raise PipelineException(f"{filter_.__name__} is not a Filter")
         if not isinstance(sampler, pc.Sampler):
-            raise ProcessingException(f"{sampler.__name__} is not a Sampler")
+            raise PipelineException(f"{sampler.__name__} is not a Sampler")
         if not isinstance(interpolater, pc.Interpolator):
-            raise ProcessingException(
+            raise PipelineException(
                 f"{interpolater.__name__} is not an Interpolator"
             )
         if not isinstance(regressor, pc.Regressor):
-            raise ProcessingException(
-                f"{regressor.__name__} is not a Regressor"
-            )
+            raise PipelineException(f"{regressor.__name__} is not a Regressor")
 
         self._weigher = weigher
         self._filter = filter_
@@ -287,10 +283,10 @@ class PolarPipeline:
             pol.PolarDiagramCurve,
             pol.PolarDiagramPointcloud,
         }:
-            raise ProcessingException("")
+            raise PipelineException("")
 
         if data is None and data_file is None:
-            raise ProcessingException("No data was specified")
+            raise PipelineException("No data was specified")
         if data is None:
             data, tw = _read_file(data_file, file_format, file_mode, tw)
 
@@ -315,7 +311,7 @@ class PolarPipeline:
 def _read_file(data_file, file_format, mode, tw):
     data = []
     if file_format not in {"csv", "nmea"}:
-        raise ProcessingException(
+        raise PipelineException(
             f"No functionality for the"
             f"specified file-format"
             f"{file_format} implemented"
@@ -559,7 +555,7 @@ def _create_polar_diagram_table(w_pts, w_res, neighbourhood, interpolater):
     if neighbourhood is None:
         neighbourhood = pc.Ball()
     if not isinstance(neighbourhood, pc.Neighbourhood):
-        raise ProcessingException(
+        raise PipelineException(
             f"{neighbourhood.__name__} is not a Neighbourhood"
         )
 
@@ -584,7 +580,7 @@ def _create_polar_diagram_pointcloud(
     if neighbourhood is None:
         neighbourhood = pc.Ball()
     if not isinstance(neighbourhood, pc.Neighbourhood):
-        raise ProcessingException(
+        raise PipelineException(
             f"{neighbourhood.__name__} is not a Neighbourhood"
         )
 

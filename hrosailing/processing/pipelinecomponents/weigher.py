@@ -17,9 +17,7 @@ import numpy as np
 
 from abc import ABC, abstractmethod
 
-from hrosailing.utils import (
-    euclidean_norm,
-)
+from hrosailing.utils import euclidean_norm
 from hrosailing.wind import apparent_wind_to_true
 
 logging.basicConfig(
@@ -44,6 +42,10 @@ def _convert_wind(wind_arr, tw):
         return wind_arr
 
     return apparent_wind_to_true(wind_arr)
+
+
+class WeightedPointsException(Exception):
+    pass
 
 
 class WeightedPoints:
@@ -103,13 +105,15 @@ class WeightedPoints:
         pts = np.asarray(pts)
         shape = pts.shape
         if not pts.size:
-            raise ValueError("")
+            raise WeightedPointsException("")
         self._points = _convert_wind(pts, tw)
 
         if weigher is None:
             weigher = CylindricMeanWeigher()
         if not isinstance(weigher, Weigher):
-            raise ValueError(f"{weigher.__name__} is not a Weigher")
+            raise WeightedPointsException(
+                f"{weigher.__name__} is not a Weigher"
+            )
         if wts is None:
             self._weights = weigher.weigh(pts)
             return
@@ -119,11 +123,9 @@ class WeightedPoints:
             return
         wts = np.asarray(wts)
         try:
-            wts = wts.reshape(
-                shape[0],
-            )
+            wts = wts.reshape(shape[0])
         except ValueError:
-            raise ValueError(
+            raise WeightedPointsException(
                 f"weights could not be broadcasted "
                 f"to an array of shape ({shape[0]}, )"
             )
@@ -139,6 +141,10 @@ class WeightedPoints:
     @property
     def weights(self):
         return self._weights.copy()
+
+
+class WeigherException(Exception):
+    pass
 
 
 class Weigher(ABC):
@@ -201,23 +207,21 @@ class CylindricMeanWeigher(Weigher):
 
         # Sanity checks
         if not isinstance(radius, (int, float)) or radius <= 0:
-            raise ValueError(
-                f"The radius needs to be "
-                f"positive number, but "
+            raise WeigherException(
+                f"The radius needs to be positive number, but "
                 f"{radius} was passed"
             )
         if norm is None:
             norm = euclidean_norm
         if not callable(norm):
-            raise ValueError(f"{norm.__name__} is not callable")
+            raise WeigherException(f"{norm.__name__} is not callable")
 
         self._radius = radius
         self._norm = norm
 
     def __repr__(self):
         return (
-            f"CylindricMeanWeigher("
-            f"radius={self._radius}, "
+            f"CylindricMeanWeigher(radius={self._radius}, "
             f"norm={self._norm.__name__})"
         )
 
@@ -240,7 +244,7 @@ class CylindricMeanWeigher(Weigher):
         pts = np.asarray(pts)
         shape = pts.shape
         if not pts.size:
-            raise ValueError("No points were passed")
+            raise WeigherException("No points were passed")
 
         d = shape[1]
         wts = np.zeros(shape[0])
@@ -317,21 +321,19 @@ class CylindricMemberWeigher(Weigher):
 
     def __init__(self, radius=1, length=1, norm=None):
         if not isinstance(radius, (int, float)) or radius <= 0:
-            raise ValueError(
-                f"The radius needs to be "
-                f"positive number, but "
+            raise WeigherException(
+                f"The radius needs to be positive number, but "
                 f"{radius} was passed"
             )
         if not isinstance(length, (int, float)) or length < 0:
-            raise ValueError(
-                f"The length needs to be "
-                f"a nonnegative number, "
+            raise WeigherException(
+                f"The length needs to be a nonnegative number, "
                 f"but {length} was passed"
             )
         if norm is None:
             norm = euclidean_norm
         if not callable(norm):
-            raise ValueError(f"{norm.__name__} is not callable")
+            raise WeigherException(f"{norm.__name__} is not callable")
 
         self._radius = radius
         self._length = length
@@ -339,10 +341,8 @@ class CylindricMemberWeigher(Weigher):
 
     def __repr__(self):
         return (
-            f"CylindricMemberWeigher("
-            f"radius={self._radius}, "
-            f"length={self._length}, "
-            f"norm={self._norm.__name__})"
+            f"CylindricMemberWeigher(radius={self._radius},"
+            f"length={self._length}, norm={self._norm.__name__})"
         )
 
     def weigh(self, pts):
@@ -364,7 +364,7 @@ class CylindricMemberWeigher(Weigher):
         pts = np.asarray(pts)
         shape = pts.shape
         if not pts.size:
-            raise ValueError("No points were passed")
+            raise WeigherException("No points were passed")
 
         wts = np.zeros(shape[0])
         for i, pt in enumerate(pts):

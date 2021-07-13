@@ -15,6 +15,10 @@ from abc import ABC, abstractmethod
 from scipy.spatial import ConvexHull
 
 
+class SamplerException(Exception):
+    pass
+
+
 class Sampler(ABC):
     """Base class for
     all sampler classes
@@ -57,11 +61,9 @@ class UniformRandomSampler(Sampler):
     def __init__(self, n_samples):
 
         if not isinstance(n_samples, int) or n_samples <= 0:
-            raise ValueError(
-                f"The number of samples"
-                f"needs to be a positive"
-                f"number but {n_samples}"
-                f"was passed"
+            raise SamplerException(
+                f"The number of samples needs to be a positive"
+                f"number but {n_samples} was passed"
             )
 
         self._n_samples = n_samples

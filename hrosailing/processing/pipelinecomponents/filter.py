@@ -31,6 +31,10 @@ logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)
 
 
+class FilterException(Exception):
+    pass
+
+
 class Filter(ABC):
     """Base class for
     all filter classes
@@ -74,9 +78,8 @@ class QuantileFilter(Filter):
 
     def __init__(self, percent=50):
         if percent < 0 or percent > 100:
-            raise ValueError(
-                f"The percentage needs to"
-                f"be between 0 and 100, but"
+            raise FilterException(
+                f"The percentage needs to be between 0 and 100, but"
                 f"{percent} was passed"
             )
 
@@ -109,15 +112,17 @@ class QuantileFilter(Filter):
 
         wts = np.asarray(wts)
         if not wts.size:
-            raise ValueError("No weights were passed")
+            raise FilterException("No weights were passed")
         if not all(np.isfinite(wts)):
-            raise ValueError("Weights need to be finite and can't be NaNs")
+            raise FilterException(
+                "Weights need to be finite and can't be NaNs"
+            )
 
         mask = wts >= np.percentile(wts, self._percent)
 
         logger.info(f"Total amount of filtered points: {wts[mask].shape[0]}")
         logger.info(
-            f"Percentage of filtered"
+            f"Percentage of filtered "
             f"points: {wts[mask].shape[0]/ wts.shape[0]}"
         )
 
@@ -155,7 +160,7 @@ class BoundFilter(Filter):
 
     def __init__(self, upper_bound=1, lower_bound=0.5):
         if upper_bound < lower_bound:
-            raise ValueError(
+            raise FilterException(
                 "The upper bound can't be lower than the lower bound"
             )
 
@@ -163,11 +168,7 @@ class BoundFilter(Filter):
         self._l_b = lower_bound
 
     def __repr__(self):
-        return (
-            f"BoundFilter("
-            f"upper_bound={self._u_b}, "
-            f"lower_bound={self._l_b})"
-        )
+        return f"BoundFilter(upper_bound={self._u_b}, lower_bound={self._l_b})"
 
     def filter(self, wts):
         """Filters a set
@@ -193,9 +194,11 @@ class BoundFilter(Filter):
 
         wts = np.asarray(wts)
         if not wts.size:
-            raise ValueError("No weights were passed")
+            raise FilterException("No weights were passed")
         if not all(np.isfinite(wts)):
-            raise ValueError("Weights need to be finite and can't be NaNs")
+            raise FilterException(
+                "Weights need to be finite and can't be NaNs"
+            )
 
         mask_1 = wts >= self._l_b
         mask_2 = wts <= self._u_b

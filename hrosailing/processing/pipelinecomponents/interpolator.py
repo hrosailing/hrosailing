@@ -19,6 +19,10 @@ from hrosailing.utils import euclidean_norm
 # TODO: Error checks
 
 
+class InterpolatorException(Exception):
+    pass
+
+
 class Interpolator(ABC):
     """Base class for
     all Interpolator
@@ -131,7 +135,7 @@ class ArithmeticMeanInterpolator(Interpolator):
 
     def __init__(self, *params, s=1, norm=None, distribution=None):
         if not isinstance(s, (int, float)) or s <= 0:
-            raise ValueError(
+            raise InterpolatorException(
                 f"The scaling parameter "
                 f"needs to be a positive "
                 f"number, but {s} was "
