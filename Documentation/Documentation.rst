@@ -62,7 +62,7 @@ The ``hrosailing.polardiagram``-module defines the following public functions:
                                 | ``polardiagram``.\ **PolarDiagram** instance  which will be
                                 | written to the .csv-file
 
-            | Raises an exception if the file can't be written to
+            | Raises a FileWritingException if the file can't be written to
 
 
     ``polardiagram``.\ **from_csv**\(``csv_path, fmt='hro', tw=True``)
@@ -79,11 +79,11 @@ The ``hrosailing.polardiagram``-module defines the following public functions:
 
                                 | The "format" of the .csv file. Currently supported formats are:
 
-                                    | 'hro' -> format created by the ``polardiagram``.\ **to_csv**
+                                    | 'hro': format created by the ``polardiagram``.\ **to_csv**
                                       function
-                                    | 'orc' -> format found at `ORC <https://jieter.github.io/orc-data/site/>`_
-                                    | 'opencpn' -> format created by the `OpenCPN Polar Plugin <https://opencpn.org/OpenCPN/plugins/polar.html>`_
-                                    | 'array' ->
+                                    | 'orc': format found at `ORC <https://jieter.github.io/orc-data/site/>`_
+                                    | 'opencpn': format created by the `OpenCPN Polar Plugin <https://opencpn.org/OpenCPN/plugins/polar.html>`_
+                                    | 'array':
 
                         ``tw`` : ``bool``
 
@@ -91,11 +91,11 @@ The ``hrosailing.polardiagram``-module defines the following public functions:
 
                                 | Defaults to ``True``
 
-            | Raises an exception if
+            | Raises a FileReadingException if
 
-                | an unknown format was specified
+                | - an unknown format was specified
 
-                | the file can't be found, opened or read
+                | - the file can't be found, opened or read
 
 
     ``polardiagram``.\ **pickling**\(``pkl_path, obj``)
@@ -113,7 +113,7 @@ The ``hrosailing.polardiagram``-module defines the following public functions:
                                 | ``polardiagram``.\ **PolarDiagram** instance which will be
                                 | written to the .csv-file
 
-            | Raises an exception if the file can't be written to
+            | Raises a FileWritingException if the file can't be written to
 
 
     ``polardiagram``.\ **depickling**\(``pkl_path``)
@@ -126,26 +126,15 @@ The ``hrosailing.polardiagram``-module defines the following public functions:
 
                                 | Path to a .pkl file which will be read
 
-            | Raises an exception if file can't be found, opened, or read
+            | Raises a FileReadingException if file can't be found, opened, or read
 
 
     ``polardiagram``.\ **symmetric_polar_diagram**\ (obj)
 
             | Symmetrizeses an ``polardiagram``.\ **PolarDiagram** instance, meaning for every
-            | datapoint with:
-
-                | wind speed w
-                | wind angle phi
-                | boat speed s
-
-            | a new data point with:
-
-                | wind speed w
-                | wind angle 360 - phi
-                | boat speed s
-
+            | datapoint with wind speed, wind angle and boat speed (w, phi, s)
+            | a new data point with wind speed, wind angle and boat speed (w, 360 - phi, s)
             | will be added
-
 
             Parameters :
                         ``obj`` : ``PolarDiagram``
@@ -158,7 +147,7 @@ The ``hrosailing.polardiagram``-module defines the following public functions:
 
                                 | "symmetrized" version of ``obj``
 
-            | Raises an exception if ``obj`` is not of type ``PolarDiagramTable`` or
+            | Raises a PolarDiagramException if ``obj`` is not of type ``PolarDiagramTable`` or
             | ``PolarDiagramPointcloud``
 
 
@@ -181,47 +170,181 @@ The ``polardiagram``-module defines the following public classes:
                                                 | Path where a .pkl file is located or where a new
                                                 | .pkl file will be created
 
-                            | Raises an exception if the file can't be written to
+                            | Raises a FileWritingException if the file can't be written to
+
+
+                    ``PolarDiagram``.\ **plot_polar_slice**\ (``self, ws, ax=None, **plot_kw``)
+
+                            | Creates a polar plot  of a given slice of the polar diagram
+
+                            Parameters :
+                                        ``ws`` : ``int`` or ``float``
+
+                                                | Slice of the polar diagram, given as either
+
+                                                    | - an element of self.wind_speeds for
+                                                    | PolarDiagramTable
+
+                                                    | Slice then equals the corresponding
+                                                    | column of self.boat_speeds together
+                                                    | with the wind angles in self.wind_angles
+
+                                                    | Same with PolarDiagramMultiSails
+
+                                                    | - as a single wind speed for PolarDiagramCurve
+
+                                                    | Slice then equals self(ws, wa), where wa will
+                                                    | go through a fixed number of angles between
+                                                    | 0° and 360°
+
+                                                    | - a single wind speed for PolarDiagramPointcloud
+
+                                                    | Slice then consists of all rows of self.points
+                                                    | with the first entry being equal to ws
+
+                                        ``ax`` : ``matplotlib.projections.polar.PolarAxes``, optional
+
+                                                    | Axes instance where the plot will be created
+
+                                                    | If nothing is passed, the function will create
+                                                    | a suitable axes
+
+                                        ``plot_kw`` : Keyword arguments
+
+                                                    | Keyword arguments that will be passed to the
+                                                    | matplotlib.axes.Axes.plot function, to change
+                                                    | certain appearences of the plot
+
+                            | Raises a PolarDiagramException if
+
+                                | - ws is not in self.wind_speed for PolarDiagramTable
+                                | and PolarDiagramMultiSails
+
+                                | - there are no rows in self.points with first entry ws
+                                | for PolarDiagramPointcloud
+
+
+                    ``PolarDiagram``.\ **plot_flat_slice**\ (``self, ws, ax=None, **plot_kw``)
+
+                            | Creates a cartesian plot of a given slice of the polar diagram
+
+                            Parameters :
+                                        ``ws`` : ``int`` or ``float``
+
+                                                | Slice of the polar diagram, given as either
+
+                                                    | - an element of self.wind_speeds for
+                                                    | PolarDiagramTable
+
+                                                    | Slice then equals the corresponding
+                                                    | column of self.boat_speeds together
+                                                    | with the wind angles in self.wind_angles
+
+                                                    | Same with PolarDiagramMultiSails
+
+                                                    | - as a single wind speed for PolarDiagramCurve
+
+                                                    | Slice then equals self(ws, wa), where wa will
+                                                    | go through a fixed number of angles between
+                                                    | 0° and 360°
+
+                                                    | - a single wind speed for PolarDiagramPointcloud
+
+                                                    | Slice then consists of all rows of self.points
+                                                    | with the first entry being equal to ws
+
+                                        ``ax`` : ``matplotlib.axes.Axes``, optional
+
+                                                    | Axes instance where the plot will be created
+
+                                                    | If nothing is passed, the function will create
+                                                    | a suitable axes
+
+                                        ``plot_kw`` : Keyword arguments
+
+                                                    | Keyword arguments that will be passed to the
+                                                    | matplotlib.axes.Axes.plot function, to change
+                                                    | certain appearences of the plot
+
+                            | Raises a PolarDiagramException if
+
+                                | - ws is not in self.wind_speed for PolarDiagramTable
+                                | and PolarDiagramMultiSails
+
+                                | - there are no rows in self.points with first entry ws
+                                | for PolarDiagramPointcloud
+
+
+                    ``PolarDiagram``.\ **plot_convex_hull_slice**\ (``self, ws, ax=None, **plot_kw``)
+
+                            | Computes the convex hull of a given slice of the polar diagram
+                            | and creates a polar plot of it
+
+                            Parameters :
+                                        ``ws`` : ``int`` or ``float``
+
+                                                | Slice of the polar diagram, given as either
+
+                                                    | - an element of self.wind_speeds for
+                                                    | PolarDiagramTable
+
+                                                    | Slice then equals the corresponding
+                                                    | column of self.boat_speeds together
+                                                    | with the wind angles in self.wind_angles
+
+                                                    | Same with PolarDiagramMultiSails
+
+                                                    | - as a single wind speed for PolarDiagramCurve
+
+                                                    | Slice then equals self(ws, wa), where wa will
+                                                    | go through a fixed number of angles between
+                                                    | 0° and 360°
+
+                                                    | - a single wind speed for PolarDiagramPointcloud
+
+                                                    | Slice then consists of all rows of self.points
+                                                    | with the first entry being equal to ws
+
+                                        ``ax`` : ``matplotlib.projections.polar.PolarAxes``, optional
+
+                                                    | Axes instance where the plot will be created
+
+                                                    | If nothing is passed, the function will create
+                                                    | a suitable axes
+
+                                        ``plot_kw`` : Keyword arguments
+
+                                                    | Keyword arguments that will be passed to the
+                                                    | matplotlib.axes.Axes.plot function, to change
+                                                    | certain appearences of the plot
+
+                            | Raises a PolarDiagramException if
+
+                                | - ws is not in self.wind_speed for PolarDiagramTable
+                                | and PolarDiagramMultiSails
+
+                                | - there are no rows in self.points with first entry ws
+                                | for PolarDiagramPointcloud
 
 
             Abstract Methods :
                     ``PolarDiagram``.\ **to_csv**\ (``self, csv_path``)
 
-                    ``PolarDiagram``.\ **polar_plot_slice**\ (``self, ws,``
+                    ``PolarDiagram``.\ **plot_polar**\ (``self, ws, ax=None,``
 
-                    ``ax=None, **plot_kw``)
+                    ``colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw``)
 
-                    ``PolarDiagram``.\ **flat_plot_slice**\ (``self, ws,``
+                    ``PolarDiagram``.\ **plot_flat**\ (``self, ws, ax=None,``
 
-                    ``ax=None, **plot_kw``)
+                    ``colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw``)
 
-                    ``PolarDiagram``.\ **polar_plot**\ (``self, ws_range,``
+                    ``PolarDiagram``.\ **plot_3d**\ (``self, ax=None, **plot_kw``)
 
-                    ``ax=None, colors=('green', 'red'), show_legend=True,``
+                    ``PolarDiagram``.\ **plot_color_gradient**\ (``self, ax=None,``
 
-                    ``legend_kw=None, **plot_kw``)
+                    ``colors=('green', 'red'), marker=None, show_legend=False, legend_kw=None``)
 
-                    ``PolarDiagram``.\ **flat_plot**\ (``self, ws_range,``
-
-                    ``ax=None, colors=('green', 'red'),show_legend=True,``
-
-                    ``legend_kw=None, **plot_kw``)
-
-                    ``PolarDiagram``.\ **plot_3d**\ (``self, ax=None,``
-
-                    ``**plot_kw``)
-
-                    ``PolarDiagram``.\ **plot_color_gradient**\ (``self,``
-
-                    ``ax=None, colors=('green', 'red'), marker=None,``
-
-                    ``show_legend=True, legend_kw=None``)
-
-                    ``PolarDiagram``.\ **plot_convex_hull_slice**\ (``self, ws,``
-
-                    ``ax=None, **plot_kw``)
-
-
+                    ``PolarDiagram``.\ **plot_convex_hull**\ ()
 
 
     ``polardiagram``.\ **PolarDiagramTable**\ (``ws_res=None, wa_res=None,``
@@ -351,74 +474,15 @@ The ``polardiagram``-module defines the following public classes:
                                 | ``new_bsps`` can't be broadcasted to a fitting shape
 
 
-                    ``PolarDiagramTable``.\ **polar_plot_slice**\ (``self, ws, ax=None,``
+                    ``PolarDiagramTable``.\ **plot_polar** \ (``self, ws=None, ax=None,``
 
-                    ``**plot_kw``)
-
-                            | Creates a polar plot of a given slice (column) of the polar diagram
-
-                            Parameters :
-                                        ``ws`` : ``int`` or ``float``
-
-                                                | Slice (column) of the polar diagram, given as
-                                                | an element of ``self``.\ **wind_speeds**
-
-                                        ``ax`` : ``matplotlib.projections.polar.PolarAxes``, optional
-
-                                                | Axes instance where the plot will be created.
-
-                                                | If nothing is passed, the function will create
-                                                | a suitable axes
-
-                                        ``plot_kw`` : Keyword arguments
-
-                                                | Keyword arguments that will be passed to the
-                                                | matplotlib.axes.Axes.plot function, to change
-                                                | certain appearences of the plot
-
-                            | Raises an exception if ``ws`` is not an element of
-                            | ``self``.\ **wind_speeds**
-
-
-                    ``PolarDiagramTable``.\ **flat_plot_slice**\ (``self, ws, ax=None,``
-
-                    ``**plot_kw``)
-
-                            | Creates a cartesian plot of a given slice (column) of the
-                            | polar diagram
-
-                            Parameters :
-                                        ``ws`` : ``int`` or ``float``
-
-                                                | Slice (column) of the polar diagram, given as
-                                                | an element of ``self``.\ **wind_speeds**
-
-                                        ``ax`` : ``matplotlib.axes.Axes``, optional
-
-                                                | Axes instance where the plot will be created.
-
-                                                | If nothing is passed, the function will create
-                                                | a suitable axes
-
-                                        ``plot_kw`` : Keyword arguments
-
-                                                | Keyword arguments that will be passed to the
-                                                | matplotlib.axes.Axes.plot function, to change
-                                                | certain appearences of the plot
-
-                            | Raises an exception if ``ws`` is not an element of
-                            | ``self``.\ **wind_speeds**
-
-
-                    ``PolarDiagramTable``.\ **polar_plot** \ (``self, ws_range=None, ax=None,``
-
-                    ``colors=('green', 'red'), show_legend=True, legend_kw=None, **plot_kw``)
+                    ``colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw``)
 
                             | Creates a polar plot of multiple slices (columns) of the
                             | polar diagram
 
                             Parameters :
-                                        ``ws_range`` : ``Iterable``, optional
+                                        ``ws`` : ``Iterable``, optional
 
                                                 | Slices (columns) of the polar diagram table, given
                                                 | as an Iterable of elements of ``self``.\ **wind_speeds**
@@ -476,7 +540,7 @@ The ``polardiagram``-module defines the following public classes:
                                                     | Otherwise a ``matplotlib.legend.Legend`` object
                                                     | will be created and assigned to ``ax``
 
-                                                | Default to ``True``
+                                                | Default to ``False``
 
                                         ``legend_kw`` : ``dict``, optional
 
@@ -499,15 +563,15 @@ The ``polardiagram``-module defines the following public classes:
                             | ``self``.\ **wind_speeds**
 
 
-                    ``PolarDiagramTable``.\ **flat_plot** (``self, ws_range=None, ax=None,``
+                    ``PolarDiagramTable``.\ **plot_flat** (``self, ws=None, ax=None,``
 
-                    ``colors=('green', 'red'), show_legend=True, legend_kw=None, **plot_kw``)
+                    ``colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw``)
 
                             | Creates a cartesian plot of multiple slices (columns) of the
                             | polar diagram
 
                             Parameters :
-                                        ``ws_range`` : ``Iterable``, optional
+                                        ``ws`` : ``Iterable``, optional
 
                                                 | Slices (columns) of the polar diagram table, given
                                                 | as an Iterable of elements of ``self``.\ **wind_speeds**
@@ -565,7 +629,7 @@ The ``polardiagram``-module defines the following public classes:
                                                     | Otherwise a ``matplotlib.legend.Legend`` object
                                                     | will be created and assigned to ``ax``
 
-                                                | Default to ``True``
+                                                | Default to ``False``
 
                                         ``legend_kw`` : ``dict``, optional
 
@@ -617,7 +681,7 @@ The ``polardiagram``-module defines the following public classes:
 
                     ``PolarDiagramTable``.\ **plot_color_gradient**\ (``self, ax=None,``
 
-                    ``colors=('green', 'red'), marker=None, show_legend=True, *legend_kw``)
+                    ``colors=('green', 'red'), marker=None, show_legend=False, *legend_kw``)
 
                             | Creates a 'wind speed  vs. wind angle' color gradient plot of the
                             | polar diagram with respect to the respective boat speeds
@@ -655,7 +719,7 @@ The ``polardiagram``-module defines the following public classes:
                                                 | Legend will be a  ``matplotlib.colorbar.Colorbar``
                                                 | object.
 
-                                                | Defaults to ``True``
+                                                | Defaults to ``False``
 
                                         ``legend_kw`` : Keyword arguments
 
@@ -666,32 +730,7 @@ The ``polardiagram``-module defines the following public classes:
                                                 | Will only be used if 'show_legend=True'
 
 
-                    ``PolarDiagramTable``.\ **plot_convex_hull_slice**\ (``ws, ax=None, **plot_kw``)
-
-                            | Computes the convex hull of a slice (column) of the polar diagram and
-                            | creates a polar plot of it
-
-                            Parameters :
-                                        ``ws`` : ``int`` or ``float``
-
-                                                | Slice (column) of the polar diagram, given as an
-                                                | element of ``self``.\ **wind_speeds**
-
-                                        ``ax`` : ``matplotlib.axes.Axes``, optional
-
-                                                | Axes instance where the plot will be created.
-
-                                                | If nothing is passed, the function will create
-                                                | a suitable axes
-
-                                        ``plot_kw`` : Keyword arguments
-
-                                                | Keyword arguments that will be passed to the
-                                                | ``matplotlib.axes.Axes.plot`` function, to change
-                                                | certain appearences of the plot
-
-                            | Raises an exception if ``ws`` is not an element of
-                            | ``self``.\ **wind_speeds**
+                    ``PolarDiagramTable``.\ **plot_convex_hull**\ ()
 
 
     ``polar_diagram``.\ **PolarDiagramCurve**\ (``f, params, radians=False``)
@@ -756,74 +795,14 @@ The ``polardiagram``-module defines the following public classes:
                             | Raises an exception if the file can't be written to
 
 
-                    ``PolarDiagramCurve``.\ **polar_plot_slice**\ (``self, ws, ax=None, **plot_kw``)
+                    ``PolarDiagramCurve``.\ **plot_polar**\ (``self, ws=(0, 20, 5), ax=None,``
 
-                            | Creates a polar plot of a given slice of the polar diagram
-
-                            Parameters :
-                                        ``ws`` : ``int`` or ``float``
-
-                                                | Slice of the polar diagram, given as a single wind speed
-
-                                                | Slice will then equal
-                                                | ``self(numpy.column_stack((numpy.array([ws] * 1000),``
-                                                | ``numpy.arange(0, 360, 1000))), self.params)`` or
-                                                | ``self(numpy.column_stack((numpy.array)[ws] * 1000),``
-                                                | ``numpy.deg2rad(numpy.arange(0, 360, 1000)))), self.params)``
-                                                | depending on the value of ``self``.\ **radians**
-
-                                        ``ax`` : ``matplotlib.projections.polar.PolarAxes``, optional
-
-                                                | Axes instance where the plot will be created.
-
-                                                | If nothing is passed, the function will create
-                                                | a suitable axes
-
-                                        ``plot_kw`` : Keyword arguments
-
-                                                | Keyword arguments that will be passed to the
-                                                | ``matplotlib.axes.Axes.plot`` function, to change
-                                                | certain appearences of the plot
-
-
-                    ``PolarDiagramCurve``.\ **flat_plot_slice**\ (``self, ws, ax=None, **plot_kw``)
-
-                            | Creates a cartesian plot of a given slice of the polar diagram
-
-                            Parameters :
-                                        ``ws`` : ``int`` or ``float``
-
-                                                | Slice of the polar diagram, given as a single wind speed
-
-                                                | Slice will then equal
-                                                | ``self(numpy.column_stack((numpy.array([ws] * 1000),``
-                                                | ``numpy.arange(0, 360, 1000))), self.params)`` or
-                                                | ``self(numpy.column_stack((numpy.array)[ws] * 1000),``
-                                                | ``numpy.deg2rad(numpy.arange(0, 360, 1000)))), self.params)``
-                                                | depending on the value of ``self``.\ **radians**
-
-                                        ``ax`` : ``matplotlib.axes.Axes``, optional
-
-                                                | Axes instance where the plot will be created.
-
-                                                | If nothing is passed, the function will create
-                                                | a suitable axes
-
-                                        ``plot_kw`` : Keyword arguments
-
-                                                | Keyword arguments that will be passed to the
-                                                | ``matplotlib.axes.Axes.plot`` function, to change
-                                                | certain appearences of the plot
-
-
-                    ``PolarDiagramCurve``.\ **polar_plot**\ (``self, ws_range=(0, 20, 5), ax=None,``
-
-                    ``colors=('green', 'red'), show_legend=True, legend_kw=None, **plot_kw``)
+                    ``colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw``)
 
                             | Creates a polar plot of multiple slices of the polar diagram
 
                             Parameters :
-                                        ``ws_range`` : ``tuple`` of length 3 or ``list``, optional
+                                        ``ws`` : ``tuple`` of length 3 or ``list``, optional
 
                                                 | Slices of the polar diagram given either as a
                                                 | tuple of three values, which will be interpreted
@@ -884,7 +863,7 @@ The ``polardiagram``-module defines the following public classes:
                                                     | Otherwise a ``matplotlib.legend.Legend`` object
                                                     | will be created and assigned to ``ax``
 
-                                                | Default to ``True``
+                                                | Default to ``False``
 
                                         ``legend_kw`` : ``dict``, optional
 
@@ -904,14 +883,14 @@ The ``polardiagram``-module defines the following public classes:
                                                 | certain appearences of the plot
 
 
-                    ``PolarDiagramCurve``.\ **flat_plot**\ (``self, ws_range=(0, 20, 5), ax=None,``
+                    ``PolarDiagramCurve``.\ **flat_plot**\ (``self, ws=(0, 20, 5), ax=None,``
 
-                    ``colors=('green', 'red'), show_legend=True, legend_kw=None, **plot_kw``)
+                    ``colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw``)
 
                             | Creates a cartesian plot of multiple slices of the polar diagram
 
                             Parameters :
-                                        ``ws_range`` : ``tuple`` of length 3 or ``list``, optional
+                                        ``ws`` : ``tuple`` of length 3 or ``list``, optional
 
                                                 | Slices of the polar diagram given either as a
                                                 | tuple of three values, which will be interpreted
@@ -972,7 +951,7 @@ The ``polardiagram``-module defines the following public classes:
                                                     | Otherwise a ``matplotlib.legend.Legend`` object
                                                     | will be created and assigned to ``ax``
 
-                                                | Default to ``True``
+                                                | Default to ``False``
 
                                         ``legend_kw`` : ``dict``, optional
 
@@ -992,7 +971,7 @@ The ``polardiagram``-module defines the following public classes:
                                                 | certain appearences of the plot
 
 
-                    ``PolarDiagramCurve``.\ **plot_3d**\ (``self, ws_range=(0, 20, 100), ax=None,``
+                    ``PolarDiagramCurve``.\ **plot_3d**\ (``self, ws=(0, 20, 100), ax=None,``
 
                     ``colors=('blue', 'blue')``)
 
@@ -1032,9 +1011,9 @@ The ``polardiagram``-module defines the following public classes:
                                                 | Defaults to ('blue', 'blue')
 
 
-                    ``PolarDiagramCurve``.\ **plot_color_gradient**\ (``self, ws_range=(0, 20, 100),``
+                    ``PolarDiagramCurve``.\ **plot_color_gradient**\ (``self, ws=(0, 20, 100),``
 
-                    ``ax=None, colors=('green', 'red'), marker=None, show_legend=True, **legend_kw``)
+                    ``ax=None, colors=('green', 'red'), marker=None, show_legend=False, **legend_kw``)
 
                             | Creates a 'wind speed vs. wind angle' color gradient plot of a part
                             | of the polar diagram with respect to the respective boat speeds
@@ -1081,7 +1060,7 @@ The ``polardiagram``-module defines the following public classes:
                                                 | Legend will be a  ``matplotlib.colorbar.Colorbar``
                                                 | object.
 
-                                                | Defaults to ``True``
+                                                | Defaults to ``False``
 
                                         ``legend_kw`` : Keyword arguments
 
@@ -1092,35 +1071,7 @@ The ``polardiagram``-module defines the following public classes:
                                                 | Will only be used if 'show_legend=True'
 
 
-                    ``PolarDiagramCurve``.\ **plot_convex_hull_slice**\ (``ws, ax=None **plot_kw``)
-
-                            | Computes the convex hull of a given slice of the polar diagram and
-                            | creates a polar plot of it
-
-                            Parameters :
-                                        ``ws`` : ``int`` or ``float``
-
-                                                | Slice of the polar diagram, given as a single wind speed
-
-                                                | Slice will then equal
-                                                | ``self(numpy.column_stack((numpy.array([ws] * 1000),``
-                                                | ``numpy.arange(0, 360, 1000))), self.params)`` or
-                                                | ``self(numpy.column_stack((numpy.array)[ws] * 1000),``
-                                                | ``numpy.deg2rad(numpy.arange(0, 360, 1000)))), self.params)``
-                                                | depending on the value of ``self``.\ **radians**
-
-                                        ``ax`` : ``matplotlib.projections.polar.PolarAxes``, optional
-
-                                                | Axes instance where the plot will be created.
-
-                                                | If nothing is passed, the function will create
-                                                | a suitable axes
-
-                                        ``plot_kw`` : Keyword arguments
-
-                                                | Keyword arguments that will be passed to the
-                                                | ``matplotlib.axes.Axes.plot`` function, to change
-                                                | certain appearences of the plot
+                    ``PolarDiagramCurve``.\ **plot_convex_hull**\ ()
 
 
     ``polar_diagram``.\ **PolarDiagramPointcloud**\ (``pts=None, tw=True``)
@@ -1206,78 +1157,14 @@ The ``polardiagram``-module defines the following public classes:
                                 | ``new_pts`` is an empty array
 
 
-                    ``PolarDiagramPointcloud``.\ **polar_plot_slice**\ (``self, ws, ax=None,``
+                    ``PolarDiagramPointcloud``.\ **plot_polar**\ (``self, ws=(0, numpy.inf), ax=None,``
 
-                    ``**plot_kw``)
-
-                            | Creates a polar plot of a given slice of the polar diagram
-
-                            Parameters :
-                                        ``ws`` : ``int`` or ``float``
-
-                                                | Slice of the polar diagram given by a single
-                                                | wind speed
-
-                                                | Slice then consists of all rows of ``self``.\ **points**
-                                                | with the first entry being equal to ``ws``
-
-                                        ``ax`` : ``matplotlib.projections.polar.PolarAxes``, optional
-
-                                                | Axes instance where the plot will be created.
-
-                                                | If nothing is passed, the function will create
-                                                | a suitable axes
-
-                                        ``plot_kw`` : Keyword arguments
-
-                                                | Keyword arguments that will be passed to the
-                                                | ``matplotlib.axes.Axes.plot`` function, to change
-                                                | certain appearences of the plot
-
-                            | Raises an exception if there are no rows in ``self``.\ **pts**
-                            | with first entry ``ws``
-
-
-                    ``PolarDiagramPointcloud``.\ **flat_plot_slice**\ (``self, ws, ax=None,``
-
-                    ``**plot_kw``)
-
-                            | Creates a cartesian plot of a given slice of the polar diagram
-
-                            Parameters :
-                                        ``ws`` : ``int`` or ``float``
-
-                                                | Slice of the polar diagram given by a single
-                                                | wind speed
-
-                                                | Slice then consists of all rows of ``self``.\ **points**
-                                                | with the first entry being equal to ``ws``
-
-                                        ``ax`` : ``matplotlib.axes.Axes``, optional
-
-                                                | Axes instance where the plot will be created.
-
-                                                | If nothing is passed, the function will create
-                                                | a suitable axes
-
-                                        ``plot_kw`` : Keyword arguments
-
-                                                | Keyword arguments that will be passed to the
-                                                | ``matplotlib.axes.Axes.plot`` function, to change
-                                                | certain appearences of the plot
-
-                            | Raises an exception if there are no rows in ``self``.\ **pts**
-                            | with first entry ``ws``
-
-
-                    ``PolarDiagramPointcloud``.\ **polar_plot**\ (``self, ws_range=(0, numpy.inf),``
-
-                    ``ax=None, colors=('green', 'red'), show_legend=True, legend_kw=None, **plot_kw``)
+                    ``colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw``)
 
                             | Creates a polar plot of multiple slices of the polar diagram
 
                             Parameters :
-                                        ``ws_range`` : ``tuple`` of length 2 or ``list``, optional
+                                        ``ws`` : ``tuple`` of length 2 or ``list``, optional
 
                                                 | Slices of the polar diagram given as either a tuple
                                                 | of two values which will be interpreted as
@@ -1339,7 +1226,7 @@ The ``polardiagram``-module defines the following public classes:
                                                     | Otherwise a ``matplotlib.legend.Legend`` object
                                                     | will be created and assigned to ``ax``
 
-                                                | Default to ``True``
+                                                | Default to ``False``
 
                                         ``legend_kw`` : ``dict``, optional
 
@@ -1363,12 +1250,12 @@ The ``polardiagram``-module defines the following public classes:
                             | ``self``.\ **pts** with first entry ``ws``
 
 
-                    ``PolarDiagramPointcloud``.\ **flat_plot**\ (``self, ws_range=(0, numpy.inf),``
+                    ``PolarDiagramPointcloud``.\ **plot_flat**\ (``self, ws=(0, numpy.inf),``
 
-                    ``ax=None, colors=('green', 'red'), show_legend=True, legend_kw=None, **plot_kw``)
+                    ``ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw``)
 
                             Parameters :
-                                        ``ws_range`` : ``tuple`` of length 2 or ``list``, optional
+                                        ``ws`` : ``tuple`` of length 2 or ``list``, optional
 
                                                 | Slices of the polar diagram given as either a tuple
                                                 | of two values which will be interpreted as
@@ -1429,7 +1316,7 @@ The ``polardiagram``-module defines the following public classes:
                                                     | Otherwise a ``matplotlib.legend.Legend`` object
                                                     | will be created and assigned to ``ax``
 
-                                                | Default to ``True``
+                                                | Default to ``False``
 
                                         ``legend_kw`` : ``dict``, optional
 
@@ -1473,7 +1360,7 @@ The ``polardiagram``-module defines the following public classes:
 
                     ``PolarDiagramPointcloud``.\ **plot_color_gradient**\ (``self, ax=None,``
 
-                    ``colors=('green', 'red'), marker=None, show_legend=True, **legend_kw``):
+                    ``colors=('green', 'red'), marker=None, show_legend=False, **legend_kw``):
 
                             | Creates a 'wind speed vs. wind angle' color gradient plot of the
                             | polar diagram with respect to the respective boat speeds
@@ -1510,7 +1397,7 @@ The ``polardiagram``-module defines the following public classes:
                                                 | Legend will be a  ``matplotlib.colorbar.Colorbar``
                                                 | object.
 
-                                                | Defaults to ``True``
+                                                | Defaults to ``False``
 
                                         ``legend_kw`` : Keyword arguments
 
@@ -1521,33 +1408,4 @@ The ``polardiagram``-module defines the following public classes:
                                                 | Will only be used if 'show_legend=True'
 
 
-                    ``PolarDiagramPointcloud``.\ **plot_convex_hull_slice**\ (``self,``
-
-                    ``ws, ax=None, **plot_kw``)
-
-                            | Computes the convex hull of a slice of the polar diagram and
-                            | creates a polar plot of it
-
-                            Parameters :
-                                        ``ws`` : ``int`` or ``float``
-
-                                                | Slice of the polar diagram given by a single
-                                                | wind speed
-
-                                                | Slice then consists of all rows of ``self``.\ **points**
-                                                | with the first entry being equal to ``ws``
-
-                                        ``ax`` : ``matplotlib.projections.polar.PolarAxes``, optional
-
-                                                | Keyword arguments that will be passed to the
-                                                | ``matplotlib.axes.Axes.plot`` function, to change
-                                                | certain appearences of the plot
-
-                                        ``plot_kw`` : Keyword arguments
-
-                                                | Keyword arguments that will be passed to the
-                                                | ``matplotlib.axes.Axes.plot`` function, to change
-                                                | certain appearences of the plot
-
-                            | Raises an exception if there are no rows in ``self``.\ **pts**
-                            | with first entry ``ws``
+                    ``PolarDiagramPointcloud``\ **plot_convex_hull**\ ()
