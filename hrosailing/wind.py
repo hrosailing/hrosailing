@@ -10,8 +10,31 @@ from typing import Iterable
 
 
 def apparent_wind_to_true(wind_arr):
+    """Converts apparent wind data to true wind data
+
+    Parameters
+    ----------
+    wind_arr : array_like
+        A sequence of points consisting of wind speed, wind angle
+        and boat speed, where the wind speed and wind angle are
+        measured as apparent wind
+
+    Returns
+    -------
+    out : numpy.ndarray of shape (n, 3)
+        Array containing the same points of wind_arr
+        but with converted wind data, ie the wind speed and wind
+        angle are now measured as true wind
+
+    Raises a ValueError
+        - if wind_arr is an empty sequence
+        - if some values in wind_arr are NaN or
+        not finite
+    """
 
     wind_arr = np.asarray(wind_arr)
+    if wind_arr.dtype == "object":
+        raise ValueError("wind_arr is not array_like")
     if not wind_arr.size:
         raise ValueError("Empty array was passed. Conversion not possible")
     if not np.isfinite(wind_arr):
@@ -43,8 +66,31 @@ def apparent_wind_to_true(wind_arr):
 
 
 def true_wind_to_apparent(wind_arr):
+    """Converts true wind data to apparent wind data
+
+        Parameters
+        ----------
+        wind_arr : array_like
+            A sequence of points consisting of wind speed, wind angle
+            and boat speed, where the wind speed and wind angle are
+            measured as true  wind
+
+        Returns
+        -------
+        out : numpy.ndarray of shape (n, 3)
+            Array containing the same points of wind_arr
+            but with converted wind data, ie the wind speed and wind
+            angle are now measured as apparent wind
+
+        Raises a ValueError
+            - if wind_arr is an empty sequence
+            - if some values in wind_arr are NaN or
+            not finite
+        """
 
     wind_arr = np.asarray(wind_arr)
+    if wind_arr.dtype == "object":
+        raise ValueError("wind_arr is not array_like")
     if not wind_arr.size:
         raise ValueError("Empty array passed. Conversion not possible")
     if not np.isfinite(wind_arr):
