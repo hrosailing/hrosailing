@@ -80,7 +80,9 @@ def plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
     return _plot(ax, xs, ys, **plot_kw)
 
 
-def plot_color_gradient(ws, wa, bsp, ax, colors, marker, show_legend, **legend_kw):
+def plot_color_gradient(
+    ws, wa, bsp, ax, colors, marker, show_legend, **legend_kw
+):
     if ax is None:
         ax = plt.gca()
 

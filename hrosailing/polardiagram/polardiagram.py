@@ -240,7 +240,7 @@ def symmetric_polar_diagram(obj):
     out : PolarDiagram
         "symmetrized" version of input
 
-    Function raises a PolarDiagramException, if obj is not of type
+    Raises a PolarDiagramException, if obj is not of type
     PolarDiagramTable or PolarDiagramPointcloud
     """
     if not isinstance(obj, (PolarDiagramTable, PolarDiagramPointcloud)):
@@ -267,7 +267,7 @@ def symmetric_polar_diagram(obj):
         wa_res = list(wa_res)
         h = int(len(wa_res) / 2)
         del wa_res[h]
-        bsps = np.row_stack((bsps[:h, :], bsps[h + 1:, :]))
+        bsps = np.row_stack((bsps[:h, :], bsps[h + 1 :, :]))
     if 0 in obj.wind_angles:
         bsps = bsps[:-1, :]
         wa_res = wa_res[:-1]
@@ -387,7 +387,7 @@ class PolarDiagram(ABC):
                 with the first entry being equal to ws
 
         ax : matplotlib.projections.polar.PolarAxes, optional
-            Axes instance where the plot will be created.
+            Axes instance where the plot will be created
 
             If nothing is passed, the function will create
             a suitable axes
@@ -652,6 +652,7 @@ class PolarDiagramTable(PolarDiagram):
         - if bsps can't be broadcasted
         to a fitting shape
         - if bsps is not of dimension 2
+        - if bsps is an empty array
 
 
     Methods
@@ -840,9 +841,8 @@ class PolarDiagramTable(PolarDiagram):
         Parameters
         ----------
         csv_path : string
-            Path where a .csv file is
-            located or where a new
-            .csv file will be created
+            Path where a .csv file is located or where a new .csv file
+            will be created
 
         fmt : string
 
@@ -894,7 +894,7 @@ class PolarDiagramTable(PolarDiagram):
 
         wa: Iterable or int or float, optional
             Element(s) of self.wind_angles, specifiying the rows,
-            where new boatspeeds will be inserted
+            where new boat speeds will be inserted
 
             If nothing is passed it will default to self.wind_angles
 
@@ -970,7 +970,7 @@ class PolarDiagramTable(PolarDiagram):
 
         colors : tuple, optional
             Specifies the colors to be used for the different
-            slices. There are four options
+            slices. There are four options for the tuple
                 - If as many or more colors
                 as slices are passed, each
                 slice will be plotted in the
@@ -1044,16 +1044,7 @@ class PolarDiagramTable(PolarDiagram):
 
         bsps = list(self._get_slice_data(ws).T)  # <- why?
         wa = [list(self._get_radians())] * len(bsps)
-        plot_polar(
-            ws,
-            wa,
-            bsps,
-            ax,
-            colors,
-            show_legend,
-            legend_kw,
-            **plot_kw,
-        )
+        plot_polar(ws, wa, bsps, ax, colors, show_legend, legend_kw, **plot_kw)
 
     def plot_flat(
         self,
@@ -1163,16 +1154,7 @@ class PolarDiagramTable(PolarDiagram):
         bsps = list(self._get_slice_data(ws=ws).T)  # <- why?
         wa = [list(self.wind_angles)] * len(bsps)
 
-        plot_flat(
-            ws,
-            wa,
-            bsps,
-            ax,
-            colors,
-            show_legend,
-            legend_kw,
-            **plot_kw,
-        )
+        plot_flat(ws, wa, bsps, ax, colors, show_legend, legend_kw, **plot_kw)
 
     def plot_3d(self, ax=None, colors=("blue", "blue")):
         """Creates a 3d plot of the polar diagram
@@ -1259,7 +1241,9 @@ class PolarDiagramTable(PolarDiagram):
         wa = wa.ravel()
         bsp = self.boat_speeds.ravel()
 
-        plot_color_gradient(ws, wa, bsp, ax, colors, marker, show_legend, **legend_kw)
+        plot_color_gradient(
+            ws, wa, bsp, ax, colors, marker, show_legend, **legend_kw
+        )
 
     def plot_convex_hull(
         self,
@@ -1369,13 +1353,7 @@ class PolarDiagramTable(PolarDiagram):
         bsps = list(self._get_slice_data(ws).T)  # <- why?
         wa = [list(self._get_radians())] * len(bsps)
         plot_convex_hull(
-            ws,
-            wa,
-            bsps,
-            colors,
-            show_legend,
-            legend_kw,
-            **plot_kw,
+            ws, wa, bsps, colors, show_legend, legend_kw, **plot_kw
         )
 
     # Still very much in development
@@ -1678,7 +1656,7 @@ class PolarDiagramCurve(PolarDiagram):
                 - a tuple of three values, which will be
                 interpreted as a start and end point of an
                 interval aswell as a number of slices,
-                which will be evenly spaces in the given
+                which will be evenly spaced in the given
                 interval
 
                 - a list of specific wind speeds
@@ -1767,14 +1745,7 @@ class PolarDiagramCurve(PolarDiagram):
         bsp = [self(np.array([w] * 1000), wa) for w in ws]
 
         plot_polar(
-            ws,
-            wa_list,
-            bsp,
-            ax,
-            colors,
-            show_legend,
-            legend_kw,
-            **plot_kw,
+            ws, wa_list, bsp, ax, colors, show_legend, legend_kw, **plot_kw
         )
 
     def plot_flat(
@@ -1796,7 +1767,7 @@ class PolarDiagramCurve(PolarDiagram):
                 - a tuple of three values, which will be
                 interpreted as a start and end point of an
                 interval aswell as a number of slices,
-                which will be evenly spaces in the given
+                which will be evenly spaced in the given
                 interval
 
                 - a list of specific wind speeds
@@ -1888,14 +1859,7 @@ class PolarDiagramCurve(PolarDiagram):
         bsp = [self(np.array([w] * 1000), wa) for w in ws]
 
         plot_flat(
-            ws,
-            wa_list,
-            bsp,
-            ax,
-            colors,
-            show_legend,
-            legend_kw,
-            **plot_kw,
+            ws, wa_list, bsp, ax, colors, show_legend, legend_kw, **plot_kw
         )
 
     # TODO Probably easier way to do it?
@@ -1908,7 +1872,7 @@ class PolarDiagramCurve(PolarDiagram):
             A region of the polar diagram given as a tuple
             of three values, which will be interpreted as a
             start and end point of an interval aswell as a
-            number of slices, which will be evenly spaces
+            number of slices, which will be evenly spaced
             in the given interval
 
             Slices will then equal self(w, wa) where w
@@ -1969,7 +1933,7 @@ class PolarDiagramCurve(PolarDiagram):
             A region of the polar diagram given as a tuple
             of three values, which will be interpreted as a
             start and end point of an interval aswell as a
-            number of slices, which will be evenly spaces
+            number of slices, which will be evenly spaced
             in the given interval
 
             Slices will then equal self(w, wa) where w
@@ -2030,7 +1994,9 @@ class PolarDiagramCurve(PolarDiagram):
         else:
             bsp = self(ws, wa).ravel()
 
-        plot_color_gradient(ws, wa, bsp, ax, colors, marker, show_legend, **legend_kw)
+        plot_color_gradient(
+            ws, wa, bsp, ax, colors, marker, show_legend, **legend_kw
+        )
 
     def plot_convex_hull(
         self,
@@ -2052,7 +2018,7 @@ class PolarDiagramCurve(PolarDiagram):
                 - a tuple of three values, which will be
                 interpreted as a start and end point of an
                 interval aswell as a number of slices,
-                which will be evenly spaces in the given
+                which will be evenly spaced in the given
                 interval
 
                 - a list of specific wind speeds
@@ -2357,6 +2323,8 @@ class PolarDiagramPointcloud(PolarDiagram):
         self._pts = np.row_stack((self.points, new_pts))
 
     def _get_slices(self, ws):
+
+        # issue when ws = 0 ....
         if not ws:
             raise PolarDiagramException(f"No slices given")
         if isinstance(ws, (int, float)):
@@ -2389,7 +2357,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Parameters
         ----------
-        ws : tuple of length 2 or list, optional
+        ws : tuple of length 2, list, int or float, optional
             Slices of the polar diagram given as either
                 - a tuple of two values which
                 represent a lower and upper bound
@@ -2402,7 +2370,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Slices will then consist of all the rows in self.points
             whose first entry is equal to the values in ws
 
-            Defaults to (0, np.inf)
+            Defaults to (0, numpy.inf)
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
@@ -2475,16 +2443,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         ws, wa, bsp = self._get_slices(ws)
         wa = [np.deg2rad(w) for w in wa]
 
-        plot_polar(
-            ws,
-            wa,
-            bsp,
-            ax,
-            colors,
-            show_legend,
-            legend_kw,
-            **plot_kw,
-        )
+        plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
     def plot_flat(
         self,
@@ -2587,16 +2546,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         ws, wa, bsp = self._get_slices(ws)
 
-        plot_flat(
-            ws,
-            wa,
-            bsp,
-            ax,
-            colors,
-            show_legend,
-            legend_kw,
-            **plot_kw,
-        )
+        plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
     def plot_3d(self, ax=None, **plot_kw):
         """Creates a 3d plot of the polar diagram
@@ -2698,7 +2648,9 @@ class PolarDiagramPointcloud(PolarDiagram):
             )
         except IndexError:
             raise PolarDiagramException("Point cloud contains no points")
-        plot_color_gradient(ws, wa, bsp, ax, colors, marker, show_legend, **legend_kw)
+        plot_color_gradient(
+            ws, wa, bsp, ax, colors, marker, show_legend, **legend_kw
+        )
 
     def plot_convex_hull(
         self,
@@ -2801,14 +2753,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         wa = [np.deg2rad(w) for w in wa]
 
         plot_convex_hull(
-            ws,
-            wa,
-            bsp,
-            ax,
-            colors,
-            show_legend,
-            legend_kw,
-            **plot_kw,
+            ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw
         )
 
     def plot_convex_hull_3d(self, ax=None, colors=None):
