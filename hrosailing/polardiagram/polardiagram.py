@@ -222,13 +222,8 @@ def depickling(pkl_path):
         raise FileReadingException(f"Can't find/open/read {pkl_path}")
 
 
-# TODO Add functionality for PolarDiagramMultiSails
-# TODO Change Function a bit
 def symmetric_polar_diagram(obj):
-    """Symmetrize a PolarDiagram instance, meaning for a
-    datapoint with wind speed, wind angle and boatspeed (w, phi, s),
-    a new datapoint with wind speed, wind angle and boat speed
-    (w, 360-phi, s) will be added
+    """Calls the symmetrize-method of the PolarDiagram instance
 
     Parameters
     ----------
@@ -239,42 +234,8 @@ def symmetric_polar_diagram(obj):
     -------
     out : PolarDiagram
         "symmetrized" version of input
-
-    Raises a PolarDiagramException, if obj is not of type
-    PolarDiagramTable or PolarDiagramPointcloud
     """
-    if not isinstance(obj, (PolarDiagramTable, PolarDiagramPointcloud)):
-        raise PolarDiagramException(
-            f"Functionality for Type {type(obj)} not yet implemented"
-        )
-
-    if isinstance(obj, PolarDiagramPointcloud):
-        sym_pts = obj.points
-
-        if not sym_pts.size:
-            return obj
-
-        sym_pts[:, 1] = 360 - sym_pts[:, 1]
-        pts = np.row_stack((obj.points, sym_pts))
-        return PolarDiagramPointcloud(pts=pts)
-
-    wa_res = np.concatenate([obj.wind_angles, 360 - np.flip(obj.wind_angles)])
-    bsps = np.row_stack((obj.boat_speeds, np.flip(obj.boat_speeds, axis=0)))
-
-    # deleting multiple 180° and 0°
-    # occurences in the table
-    if 180 in obj.wind_angles:
-        wa_res = list(wa_res)
-        h = int(len(wa_res) / 2)
-        del wa_res[h]
-        bsps = np.row_stack((bsps[:h, :], bsps[h + 1 :, :]))
-    if 0 in obj.wind_angles:
-        bsps = bsps[:-1, :]
-        wa_res = wa_res[:-1]
-
-    return PolarDiagramTable(
-        ws_res=obj.wind_speeds, wa_res=wa_res, bsps=bsps, tw=True
-    )
+    obj.symmetrize()
 
 
 class PolarDiagram(ABC):
@@ -299,6 +260,7 @@ class PolarDiagram(ABC):
     Abstract Methods
     ----------------
     to_csv(self, csv_path)
+    symmetrize(self)
     plot_polar(
         self,
         ws_range,
@@ -356,6 +318,10 @@ class PolarDiagram(ABC):
 
     @abstractmethod
     def to_csv(self, csv_path):
+        pass
+
+    @abstractmethod
+    def symmetrize(self):
         pass
 
     def plot_polar_slice(self, ws, ax=None, **plot_kw):
@@ -673,6 +639,8 @@ class PolarDiagramTable(PolarDiagram):
             self.wind_angles
             Boat speeds:
             self.boat_speeds
+    symmetrize()
+
     change_entries(data, ws=None, wa=None, tw=True)
         Changes specified entries in the table
     plot_polar(
@@ -874,6 +842,32 @@ class PolarDiagramTable(PolarDiagram):
                 csv_writer.writerows(self.boat_speeds)
         except OSError:
             raise FileWritingException(f"Can't write to {csv_path}")
+
+    def symmetrize(self):
+        """
+
+        """
+        wa_res = np.concatenate(
+            [self.wind_angles, 360 - np.flip(self.wind_angles)]
+        )
+        bsps = np.row_stack(
+            (self.boat_speeds, np.flip(self.boat_speeds, axis=0))
+        )
+
+        # deleting multiple 180° and 0°
+        # occurences in the table
+        if 180 in self.wind_angles:
+            wa_res = list(wa_res)
+            h = int(len(wa_res) / 2)
+            del wa_res[h]
+            bsps = np.row_stack((bsps[:h, :], bsps[h + 1 :, :]))
+        if 0 in self.wind_angles:
+            bsps = bsps[:-1, :]
+            wa_res = wa_res[:-1]
+
+        return PolarDiagramTable(
+            ws_res=self.wind_speeds, wa_res=wa_res, bsps=bsps, tw=True
+        )
 
     def change_entries(self, new_bsps, ws=None, wa=None):
         """Changes specified entries in the table
@@ -1396,6 +1390,13 @@ class PolarDiagramMultiSails(PolarDiagram):
     def to_csv(self, csv_path):
         pass
 
+    def symmetrize(self):
+        """
+
+        """
+        polar_tables = [sail.symmetrize() for sail in self._sails]
+        return PolarDiagramMultiSails(polar_tables)
+
     def _get_radians(self):
         return [np.deg2rad(wa) for wa in self.wind_angles]
 
@@ -1449,23 +1450,6 @@ class PolarDiagramMultiSails(PolarDiagram):
         **legend_kw,
     ):
         pass
-
-    # TODO: Works but it would be nice,
-    #       to see which parts of the
-    #       convex hull belong to the
-    #       convex hull of one sail,
-    #       which belong to the convex
-    #       hull of the other, and
-    #       which are a combination
-    #       of those...
-    #       Mutliple colors and change
-    #       helper function, or create
-    #       seperate helper function?
-    def plot_convex_hull_slice(self, ws, ax=None, **plot_kw):
-        wa = np.concatenate(self._get_radians())
-        bsp = np.concatenate(self._get_slice_data(ws))
-
-        plot_convex_hull(wa, bsp, ax, **plot_kw)
 
     def plot_convex_hull(
         self,
@@ -1521,6 +1505,8 @@ class PolarDiagramCurve(PolarDiagram):
             Function: self.curve
             Radians: self.rad
             Parameters: self.parameters
+    symmetrize()
+
     plot_polar(
         ws=(0, 20, 5),
         ax=None,
@@ -1630,6 +1616,12 @@ class PolarDiagramCurve(PolarDiagram):
                 csv_writer.writerow(["Parameters"] + list(self.parameters))
         except OSError:
             raise FileWritingException(f"Can't write to {csv_path}")
+
+    def symmetrize(self):
+        """
+
+        """
+        return self
 
     def _get_wind_angles(self):
         wa = np.linspace(0, 360, 1000)
@@ -2144,6 +2136,7 @@ class PolarDiagramPointcloud(PolarDiagram):
     Raises a PolarDiagramException if pts can't be
     broadcasted to shape (n, 3)
 
+
     Methods
     -------
     wind_speeds
@@ -2158,6 +2151,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             PolarDiagramPointcloud
             True wind speed: , True wind angle: , Boat speed:
             self.get_points
+    symmetrize()
     add_points(new_pts)
         Adds additional points to the point cloud
     polar_plot(
@@ -2282,6 +2276,18 @@ class PolarDiagramPointcloud(PolarDiagram):
                 csv_writer.writerows(self.points)
         except OSError:
             raise FileWritingException(f"Can't write to {csv_path}")
+
+    def symmetrize(self):
+        """
+
+        """
+        sym_pts = self.points
+        if not sym_pts.size:
+            return self
+
+        sym_pts[:, 1] = 360 - sym_pts[:, 1]
+        pts = np.row_stack((self.points, sym_pts))
+        return PolarDiagramPointcloud(pts=pts)
 
     def add_points(self, new_pts, tw=True):
         """Adds additional points to the point cloud
