@@ -10,21 +10,20 @@ from typing import Iterable
 
 
 def apparent_wind_to_true(wind_arr):
-    """Converts apparent wind data to true wind data
+    """Converts apparent wind to true wind
 
     Parameters
     ----------
     wind_arr : array_like
-        A sequence of points consisting of wind speed, wind angle
-        and boat speed, where the wind speed and wind angle are
+        Wind data given as a sequence of points consisting of wind speed,
+        wind angle and boat speed, where the wind speed and wind angle are
         measured as apparent wind
 
     Returns
     -------
     out : numpy.ndarray of shape (n, 3)
-        Array containing the same points of wind_arr
-        but with converted wind data, ie the wind speed and wind
-        angle are now measured as true wind
+        Array containing the same data as wind_arr, but the wind speed
+        and wind angle now measured as true wind
 
     Raises a ValueError
         - if wind_arr is an empty sequence
@@ -37,6 +36,10 @@ def apparent_wind_to_true(wind_arr):
         raise ValueError("wind_arr is not array_like")
     if not wind_arr.size:
         raise ValueError("Empty array was passed. Conversion not possible")
+    try:
+        wind_arr = wind_arr.reshape(-1, 3)
+    except ValueError:
+        raise ValueError("wind_arr could not be broadcasted to an array of shape (n,3)")
     if not np.isfinite(wind_arr):
         raise ValueError("All values have to be finite and not NaN")
 
@@ -66,21 +69,20 @@ def apparent_wind_to_true(wind_arr):
 
 
 def true_wind_to_apparent(wind_arr):
-    """Converts true wind data to apparent wind data
+    """Converts true wind to apparent wind
 
         Parameters
         ----------
         wind_arr : array_like
-            A sequence of points consisting of wind speed, wind angle
-            and boat speed, where the wind speed and wind angle are
-            measured as true  wind
+            Wind data given as a sequence of points consisting of wind speed,
+            wind angle and boat speed, where the wind speed and wind angle are
+            measured as true wind
 
         Returns
         -------
         out : numpy.ndarray of shape (n, 3)
-            Array containing the same points of wind_arr
-            but with converted wind data, ie the wind speed and wind
-            angle are now measured as apparent wind
+            Array containing the same data as wind_arr, but the wind speed
+            and wind angle now measured as apparent wind
 
         Raises a ValueError
             - if wind_arr is an empty sequence
@@ -93,6 +95,10 @@ def true_wind_to_apparent(wind_arr):
         raise ValueError("wind_arr is not array_like")
     if not wind_arr.size:
         raise ValueError("Empty array passed. Conversion not possible")
+    try:
+        wind_arr = wind_arr.reshape(-1, 3)
+    except ValueError:
+        raise ValueError("wind_arr could not be broadcasted to an array of shape (n,3)")
     if not np.isfinite(wind_arr):
         raise ValueError("All values have to be finite and not NaN")
 

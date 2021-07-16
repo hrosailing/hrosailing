@@ -91,7 +91,7 @@ def from_csv(csv_path, fmt="hro", tw=True):
     Returns
     -------
     out : PolarDiagram
-        PolarDiagram instance saved in .csv file
+        PolarDiagram instance contained in the .csv file
 
     Raises a FileReadingException
         - if an unknown format was specified
@@ -210,7 +210,7 @@ def depickling(pkl_path):
     Returns
     -------
     out : PolarDiagram
-        PolarDiagram instance saved in .pkl file
+        PolarDiagram instance contained in the .pkl file
 
     Raises a FileReadingException if the file
     can't be found, opened, or read
@@ -2217,7 +2217,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             pts = pts.reshape(-1, 3)
         except ValueError:
             raise PolarDiagramException(
-                f"{pts} could not be broadcasted to an array of shape (n,3)"
+                "pts could not be broadcasted to an array of shape (n,3)"
             )
         self._pts = _convert_wind(pts, tw)
 
