@@ -14,7 +14,7 @@ The ``hrosailing``-module has the following third-party dependencies
 
 
 How To Use This Module
-------------------------------------
+----------------------
 
 After installing/downloading one can easily use the ``hrosailing``-module via
 
@@ -185,24 +185,18 @@ The ``hrosailing.polardiagram``-module defines the following public functions:
 
     ``polardiagram``.\ **symmetric_polar_diagram**\ (obj)
 
-            | Symmetrizeses an ``polardiagram.PolarDiagram`` instance, meaning for every
-            | datapoint with wind speed, wind angle and boat speed ``(w, phi, s)``
-            | a new data point with wind speed, wind angle and boat speed ``(w, 360 - phi, s)``
-            | will be added
+            | Calls the symmetrize-method of the ``polardiagram.PolarDiagram`` instance
 
             Parameters :
-                        ``obj`` : ``PolarDiagram``
+                        ``obj`` : ``polardiagram.PolarDiagram``
 
                                 | ``polardiagram.PolarDiagram`` instance which will be
                                 | symmetrized
 
             Returns :
-                        ``symmetric`` : ``PolarDiagram``
+                        ``out`` : ``polardiagram.PolarDiagram``
 
                                 | "symmetrized" version of ``obj``
-
-            | Raises a ``PolarDiagramException`` if ``obj`` is not of type ``PolarDiagramTable`` or
-            | ``PolarDiagramPointcloud``
 
 
 The ``polardiagram``-module defines the following public classes:
@@ -372,6 +366,8 @@ The ``polardiagram``-module defines the following public classes:
             Abstract Methods :
                     ``PolarDiagram``.\ **to_csv**\ (``self, csv_path``)
 
+                    ``PolarDiagram``.\ **symmetrize**\ (``self``)
+
                     ``PolarDiagram``.\ **plot_polar**\ (``self, ws, ax=None,``
 
                     ``colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw``)
@@ -483,9 +479,15 @@ The ``polardiagram``-module defines the following public classes:
                             | Raises a ``FileWritingException`` if the file can't be written to
 
 
-                    ``PolarDiagramTable``.\ **change_entries**\ (``self,new_bsps, ws=None,``
+                    ``PolarDiagramTable``.\ **symmetrize**\ (``self``)
 
-                    ``wa=None``)
+                            |
+
+                            Returns :
+                                        ``out`` : ``polardiagram.PolarDiagramTable``
+
+
+                    ``PolarDiagramTable``.\ **change_entries**\ (``self, new_bsps, ws=None, wa=None``)
 
                             | Changes specified entries in the table
 
@@ -939,6 +941,13 @@ The ``polardiagram``-module defines the following public classes:
 
                             | Raises a ``FileWritingException`` if the file can't be written to
 
+                    ``PolarDiagramCurve``.\ **symmetrize** (``self``)
+
+                            |
+
+                            Returns :
+                                        ``out`` : ``polardiagram.PolarDiagramCurve``
+
 
                     ``PolarDiagramCurve``.\ **plot_polar**\ (``self, ws=(0, 20, 5), ax=None,``
 
@@ -1383,6 +1392,14 @@ The ``polardiagram``-module defines the following public classes:
                                                 | .csv file will be created
 
                             | Raises a ``FileWritingException`` if the file can't be written to
+
+
+                    ``PolarDiagramPointcloud``.\ **symmetrize**\ (``self``)
+
+                            |
+
+                            Returns :
+                                        ``out`` : ``polardiagram.PolarDiagramPointcloud``
 
 
                     ``PolarDiagramPointcloud``.\ **add_points**\ (``self, new_pts, tw=True``)
