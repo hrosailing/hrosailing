@@ -39,7 +39,9 @@ def apparent_wind_to_true(wind_arr):
     try:
         wind_arr = wind_arr.reshape(-1, 3)
     except ValueError:
-        raise ValueError("wind_arr could not be broadcasted to an array of shape (n,3)")
+        raise ValueError(
+            "wind_arr could not be broadcasted to an array of shape (n,3)"
+        )
     if not np.isfinite(wind_arr):
         raise ValueError("All values have to be finite and not NaN")
 
@@ -98,7 +100,9 @@ def true_wind_to_apparent(wind_arr):
     try:
         wind_arr = wind_arr.reshape(-1, 3)
     except ValueError:
-        raise ValueError("wind_arr could not be broadcasted to an array of shape (n,3)")
+        raise ValueError(
+            "wind_arr could not be broadcasted to an array of shape (n,3)"
+        )
     if not np.isfinite(wind_arr):
         raise ValueError("All values have to be finite and not NaN")
 
