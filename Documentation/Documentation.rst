@@ -33,8 +33,51 @@ The ``hrosailing``-module defines the following public functions:
 
     ``hrosailing``.\ **apparent_wind_to_true**\(``wind_arr``)
 
+            | Converts apparent wind to true wind
+
+            Parameters :
+                        ``wind_arr`` : ``array_like``
+
+                                | Wind data given as a sequence of points consisting of wind speed,
+                                | wind angle and boat speed, where the wind speed and wind angle
+                                | are measured as true wind
+
+
+            Returns :
+                        ``out`` : ``numpy.ndarray`` of shape (n, 3)
+
+                                | Array containt the same data as ``wind_arr`` but with the
+                                | wind speed and wind angle now measured as apparent wind
+
+            | Raises a ValueError
+
+                | - if ``wind_arr`` is empty
+                | - if same values in ``wind_arr`` are ``NaN`` or not finite
+                | - if ``wind_arr`` can't be broadcasted to an array of shape (n, 3)
 
     ``hrosailing``.\ **true_wind_to_apparent**\(``wind_arr``)
+
+            | Converts true wind to apparent wind
+
+            Parameters :
+                        ``wind_arr`` : ``array_like``
+
+                                | Wind data given as a sequence of points consisting of wind speed,
+                                | wind angle and boat speed, where the wind speed and wind angle
+                                | are measured as apparent wind
+
+
+            Returns :
+                        ``out`` : ``numpy.ndarray`` of shape (n, 3)
+
+                                | Array containt the same data as ``wind_arr`` but with the
+                                | wind speed and wind angle now measured as true wind
+
+            | Raises a ValueError
+
+                | - if ``wind_arr`` is empty
+                | - if same values in ``wind_arr`` are ``NaN`` or not finite
+                | - if ``wind_arr`` can't be broadcasted to an array of shape (n, 3)
 
 
 The ``hrosailing``-module has the following public submodules:
@@ -91,6 +134,12 @@ The ``hrosailing.polardiagram``-module defines the following public functions:
 
                                 | Defaults to ``True``
 
+            Returns :
+                        ``out`` : ``polardiagram.PolarDiagram``
+
+                                | ``polardiagram.PolarDiagram`` instances contained in the
+                                | .csv file
+
             | Raises a ``FileReadingException`` if
 
                 | - an unknown format was specified
@@ -124,6 +173,12 @@ The ``hrosailing.polardiagram``-module defines the following public functions:
                         ``pkl_path`` : ``string``
 
                                 | Path to a .pkl file which will be read
+
+            Returns :
+                        ``out`` : ``polardiagram.PolarDiagram``
+
+                                | ``polardiagram.PolarDiagram`` instance contained in the
+                                | .pkl file
 
             | Raises a ``FileReadingException`` if file can't be found, opened, or read
 

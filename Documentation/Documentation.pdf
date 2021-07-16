@@ -50,7 +50,7 @@ endobj
 endobj
 9 0 obj
 <<
-/Annots [ 5 0 R 6 0 R 7 0 R 8 0 R ] /Contents 73 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Annots [ 5 0 R 6 0 R 7 0 R 8 0 R ] /Contents 74 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -62,19 +62,19 @@ endobj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://jieter.github.io/orc-data/site/)
->> /Border [ 0 0 0 ] /Rect [ 268.2929 648.0236 290.5129 660.0236 ] /Subtype /Link /Type /Annot
+>> /Border [ 0 0 0 ] /Rect [ 268.2929 176.8661 290.5129 188.8661 ] /Subtype /Link /Type /Annot
 >>
 endobj
 11 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://opencpn.org/OpenCPN/plugins/polar.html)
->> /Border [ 0 0 0 ] /Rect [ 319.5229 636.0236 421.7829 648.0236 ] /Subtype /Link /Type /Annot
+>> /Border [ 0 0 0 ] /Rect [ 319.5229 164.8661 421.7829 176.8661 ] /Subtype /Link /Type /Annot
 >>
 endobj
 12 0 obj
 <<
-/Annots [ 10 0 R 11 0 R ] /Contents 74 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Annots [ 10 0 R 11 0 R ] /Contents 75 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -84,7 +84,7 @@ endobj
 endobj
 13 0 obj
 <<
-/Contents 75 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Contents 76 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 /Trans <<
 
@@ -94,7 +94,7 @@ endobj
 endobj
 14 0 obj
 <<
-/Contents 76 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Contents 77 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 /Trans <<
 
@@ -104,7 +104,7 @@ endobj
 endobj
 15 0 obj
 <<
-/Contents 77 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Contents 78 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 /Trans <<
 
@@ -114,7 +114,7 @@ endobj
 endobj
 16 0 obj
 <<
-/Contents 78 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Contents 79 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 /Trans <<
 
@@ -124,7 +124,7 @@ endobj
 endobj
 17 0 obj
 <<
-/Contents 79 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Contents 80 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 /Trans <<
 
@@ -134,21 +134,31 @@ endobj
 endobj
 18 0 obj
 <<
-/A <<
-/S /URI /Type /Action /URI (https://matplotlib.org/stable/gallery/color/named_colors.html)
->> /Border [ 0 0 0 ] /Rect [ 193.2529 501.0236 219.9229 513.0236 ] /Subtype /Link /Type /Annot
+/Contents 81 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
 >>
 endobj
 19 0 obj
 <<
 /A <<
-/S /URI /Type /Action /URI (https://matplotlib.org/stable/tutorials/colors/colors.html)
->> /Border [ 0 0 0 ] /Rect [ 242.1629 501.0236 259.9429 513.0236 ] /Subtype /Link /Type /Annot
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/gallery/color/named_colors.html)
+>> /Border [ 0 0 0 ] /Rect [ 193.2529 469.8661 219.9229 481.8661 ] /Subtype /Link /Type /Annot
 >>
 endobj
 20 0 obj
 <<
-/Annots [ 18 0 R 19 0 R ] /Contents 80 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/A <<
+/S /URI /Type /Action /URI (https://matplotlib.org/stable/tutorials/colors/colors.html)
+>> /Border [ 0 0 0 ] /Rect [ 242.1629 469.8661 259.9429 481.8661 ] /Subtype /Link /Type /Annot
+>>
+endobj
+21 0 obj
+<<
+/Annots [ 19 0 R 20 0 R ] /Contents 82 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -156,23 +166,23 @@ endobj
 >> /Type /Page
 >>
 endobj
-21 0 obj
+22 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/gallery/color/named_colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 189.5328 236.0236 216.2028 248.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-22 0 obj
+23 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/tutorials/colors/colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 238.4428 236.0236 256.2228 248.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-23 0 obj
+24 0 obj
 <<
-/Annots [ 21 0 R 22 0 R ] /Contents 81 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Annots [ 22 0 R 23 0 R ] /Contents 83 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -180,9 +190,9 @@ endobj
 >> /Type /Page
 >>
 endobj
-24 0 obj
+25 0 obj
 <<
-/Contents 82 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Contents 84 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 /Trans <<
 
@@ -190,37 +200,37 @@ endobj
   /Type /Page
 >>
 endobj
-25 0 obj
+26 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/gallery/color/named_colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 401.2928 717.0236 427.9628 729.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-26 0 obj
+27 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/tutorials/colors/colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 450.2028 717.0236 467.9828 729.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-27 0 obj
+28 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/gallery/color/named_colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 401.2928 440.0236 427.9628 452.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-28 0 obj
+29 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/tutorials/colors/colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 450.2028 440.0236 467.9828 452.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-29 0 obj
+30 0 obj
 <<
-/Annots [ 25 0 R 26 0 R 27 0 R 28 0 R ] /Contents 83 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Annots [ 26 0 R 27 0 R 28 0 R 29 0 R ] /Contents 85 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -228,23 +238,23 @@ endobj
 >> /Type /Page
 >>
 endobj
-30 0 obj
+31 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/gallery/color/named_colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 193.2529 301.8661 219.9229 313.8661 ] /Subtype /Link /Type /Annot
 >>
 endobj
-31 0 obj
+32 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/tutorials/colors/colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 242.1629 301.8661 259.9429 313.8661 ] /Subtype /Link /Type /Annot
 >>
 endobj
-32 0 obj
+33 0 obj
 <<
-/Annots [ 30 0 R 31 0 R ] /Contents 84 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Annots [ 31 0 R 32 0 R ] /Contents 86 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -252,9 +262,9 @@ endobj
 >> /Type /Page
 >>
 endobj
-33 0 obj
+34 0 obj
 <<
-/Contents 85 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Contents 87 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 /Trans <<
 
@@ -262,23 +272,23 @@ endobj
   /Type /Page
 >>
 endobj
-34 0 obj
+35 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/gallery/color/named_colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 189.5328 100.8661 216.2028 112.8661 ] /Subtype /Link /Type /Annot
 >>
 endobj
-35 0 obj
+36 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/tutorials/colors/colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 238.4428 100.8661 256.2228 112.8661 ] /Subtype /Link /Type /Annot
 >>
 endobj
-36 0 obj
+37 0 obj
 <<
-/Annots [ 34 0 R 35 0 R ] /Contents 86 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Annots [ 35 0 R 36 0 R ] /Contents 88 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -286,9 +296,9 @@ endobj
 >> /Type /Page
 >>
 endobj
-37 0 obj
+38 0 obj
 <<
-/Contents 87 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Contents 89 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 /Trans <<
 
@@ -296,23 +306,23 @@ endobj
   /Type /Page
 >>
 endobj
-38 0 obj
+39 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/gallery/color/named_colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 193.2529 489.0236 219.9229 501.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-39 0 obj
+40 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/tutorials/colors/colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 242.1629 489.0236 259.9429 501.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-40 0 obj
+41 0 obj
 <<
-/Annots [ 38 0 R 39 0 R ] /Contents 88 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Annots [ 39 0 R 40 0 R ] /Contents 90 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -320,23 +330,23 @@ endobj
 >> /Type /Page
 >>
 endobj
-41 0 obj
+42 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/gallery/color/named_colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 377.2928 254.0236 403.9628 266.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-42 0 obj
+43 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/tutorials/colors/colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 426.2028 254.0236 443.9828 266.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-43 0 obj
+44 0 obj
 <<
-/Annots [ 41 0 R 42 0 R ] /Contents 89 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Annots [ 42 0 R 43 0 R ] /Contents 91 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -344,23 +354,23 @@ endobj
 >> /Type /Page
 >>
 endobj
-44 0 obj
+45 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/gallery/color/named_colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 401.2928 495.0236 427.9628 507.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-45 0 obj
+46 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/tutorials/colors/colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 450.2028 495.0236 467.9828 507.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-46 0 obj
+47 0 obj
 <<
-/Annots [ 44 0 R 45 0 R ] /Contents 90 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Annots [ 45 0 R 46 0 R ] /Contents 92 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -368,23 +378,23 @@ endobj
 >> /Type /Page
 >>
 endobj
-47 0 obj
+48 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/gallery/color/named_colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 193.2529 465.0236 219.9229 477.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-48 0 obj
+49 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/tutorials/colors/colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 242.1629 465.0236 259.9429 477.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-49 0 obj
+50 0 obj
 <<
-/Annots [ 47 0 R 48 0 R ] /Contents 91 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Annots [ 48 0 R 49 0 R ] /Contents 93 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -392,19 +402,9 @@ endobj
 >> /Type /Page
 >>
 endobj
-50 0 obj
-<<
-/Contents 92 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
-/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
->> /Rotate 0 /Trans <<
-
->> 
-  /Type /Page
->>
-endobj
 51 0 obj
 <<
-/Contents 93 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Contents 94 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 /Trans <<
 
@@ -414,21 +414,31 @@ endobj
 endobj
 52 0 obj
 <<
+/Contents 95 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
+/Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+>> /Rotate 0 /Trans <<
+
+>> 
+  /Type /Page
+>>
+endobj
+53 0 obj
+<<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/gallery/color/named_colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 193.2529 651.0236 219.9229 663.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-53 0 obj
+54 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/tutorials/colors/colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 242.1629 651.0236 259.9429 663.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-54 0 obj
+55 0 obj
 <<
-/Annots [ 52 0 R 53 0 R ] /Contents 94 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Annots [ 53 0 R 54 0 R ] /Contents 96 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -436,23 +446,23 @@ endobj
 >> /Type /Page
 >>
 endobj
-55 0 obj
+56 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/gallery/color/named_colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 162.5328 347.0236 189.2028 359.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-56 0 obj
+57 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/tutorials/colors/colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 211.4428 347.0236 229.2228 359.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-57 0 obj
+58 0 obj
 <<
-/Annots [ 55 0 R 56 0 R ] /Contents 95 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Annots [ 56 0 R 57 0 R ] /Contents 97 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -460,9 +470,9 @@ endobj
 >> /Type /Page
 >>
 endobj
-58 0 obj
+59 0 obj
 <<
-/Contents 96 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Contents 98 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 /Trans <<
 
@@ -470,23 +480,23 @@ endobj
   /Type /Page
 >>
 endobj
-59 0 obj
+60 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/gallery/color/named_colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 374.2928 663.0236 400.9628 675.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-60 0 obj
+61 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/tutorials/colors/colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 423.2028 663.0236 440.9828 675.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-61 0 obj
+62 0 obj
 <<
-/Annots [ 59 0 R 60 0 R ] /Contents 97 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Annots [ 60 0 R 61 0 R ] /Contents 99 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -494,23 +504,23 @@ endobj
 >> /Type /Page
 >>
 endobj
-62 0 obj
+63 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/gallery/color/named_colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 193.2529 639.0236 219.9229 651.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-63 0 obj
+64 0 obj
 <<
 /A <<
 /S /URI /Type /Action /URI (https://matplotlib.org/stable/tutorials/colors/colors.html)
 >> /Border [ 0 0 0 ] /Rect [ 242.1629 639.0236 259.9429 651.0236 ] /Subtype /Link /Type /Annot
 >>
 endobj
-64 0 obj
+65 0 obj
 <<
-/Annots [ 62 0 R 63 0 R ] /Contents 98 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Annots [ 63 0 R 64 0 R ] /Contents 100 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 
   /Trans <<
@@ -518,9 +528,9 @@ endobj
 >> /Type /Page
 >>
 endobj
-65 0 obj
+66 0 obj
 <<
-/Contents 99 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 72 0 R /Resources <<
+/Contents 101 0 R /MediaBox [ 0 0 595.2756 841.8898 ] /Parent 73 0 R /Resources <<
 /Font 1 0 R /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
 >> /Rotate 0 /Trans <<
 
@@ -528,47 +538,47 @@ endobj
   /Type /Page
 >>
 endobj
-66 0 obj
-<<
-/Outlines 68 0 R /PageLabels 100 0 R /PageMode /UseNone /Pages 72 0 R /Type /Catalog
->>
-endobj
 67 0 obj
 <<
-/Author () /CreationDate (D:20210715121753+00'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20210715121753+00'00') /Producer (ReportLab PDF Library - www.reportlab.com) 
-  /Subject (\(unspecified\)) /Title (hrosailing-Module Documentation) /Trapped /False
+/Outlines 69 0 R /PageLabels 102 0 R /PageMode /UseNone /Pages 73 0 R /Type /Catalog
 >>
 endobj
 68 0 obj
 <<
-/Count 3 /First 69 0 R /Last 71 0 R /Type /Outlines
+/Author () /CreationDate (D:20210716103331+00'00') /Creator (\(unspecified\)) /Keywords () /ModDate (D:20210716103331+00'00') /Producer (ReportLab PDF Library - www.reportlab.com) 
+  /Subject (\(unspecified\)) /Title (hrosailing-Module Documentation) /Trapped /False
 >>
 endobj
 69 0 obj
 <<
-/Dest [ 9 0 R /XYZ 62.69291 729.0236 0 ] /Next 70 0 R /Parent 68 0 R /Title (Dependencies)
+/Count 3 /First 70 0 R /Last 72 0 R /Type /Outlines
 >>
 endobj
 70 0 obj
 <<
-/Dest [ 9 0 R /XYZ 62.69291 606.0236 0 ] /Next 71 0 R /Parent 68 0 R /Prev 69 0 R /Title (How To Use This Module)
+/Dest [ 9 0 R /XYZ 62.69291 729.0236 0 ] /Next 71 0 R /Parent 69 0 R /Title (Dependencies)
 >>
 endobj
 71 0 obj
 <<
-/Dest [ 9 0 R /XYZ 62.69291 474.6236 0 ] /Parent 68 0 R /Prev 70 0 R /Title (Contents Of This Module)
+/Dest [ 9 0 R /XYZ 62.69291 606.0236 0 ] /Next 72 0 R /Parent 69 0 R /Prev 70 0 R /Title (How To Use This Module)
 >>
 endobj
 72 0 obj
 <<
-/Count 27 /Kids [ 9 0 R 12 0 R 13 0 R 14 0 R 15 0 R 16 0 R 17 0 R 20 0 R 23 0 R 24 0 R 
-  29 0 R 32 0 R 33 0 R 36 0 R 37 0 R 40 0 R 43 0 R 46 0 R 49 0 R 50 0 R 
-  51 0 R 54 0 R 57 0 R 58 0 R 61 0 R 64 0 R 65 0 R ] /Type /Pages
+/Dest [ 9 0 R /XYZ 62.69291 474.6236 0 ] /Parent 69 0 R /Prev 71 0 R /Title (Contents Of This Module)
 >>
 endobj
 73 0 obj
 <<
-/Length 7844
+/Count 28 /Kids [ 9 0 R 12 0 R 13 0 R 14 0 R 15 0 R 16 0 R 17 0 R 18 0 R 21 0 R 24 0 R 
+  25 0 R 30 0 R 33 0 R 34 0 R 37 0 R 38 0 R 41 0 R 44 0 R 47 0 R 50 0 R 
+  51 0 R 52 0 R 55 0 R 58 0 R 59 0 R 62 0 R 65 0 R 66 0 R ] /Type /Pages
+>>
+endobj
+74 0 obj
+<<
+/Length 7652
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
@@ -791,39 +801,468 @@ q
 1 0 0 1 62.69291 429.6236 cm
 Q
 q
-1 0 0 1 62.69291 399.6236 cm
+1 0 0 1 62.69291 76.86614 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 18 cm
+1 0 0 1 20 346.7575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (apparent_wind_to_true) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_arr) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
+1 0 0 1 20 340.7575 cm
+Q
+q
+1 0 0 1 20 110.7575 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 224 cm
+Q
+q
+1 0 0 1 20 212 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Converts apparent wind to true wind) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 212 cm
+Q
+q
+1 0 0 1 20 196 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 133 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 50 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_arr) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (array_like) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 42 cm
+Q
+q
 1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 36 cm
+Q
+q
+1 0 0 1 20 24 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Wind data given as a sequence of points consisting of wind speed,) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (wind angle and boat speed, where the wind speed and wind angle) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (are measured as true wind) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+q
+1 0 0 1 20 117 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Returns :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 66 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 38 Tm  T* ET
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (out) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (numpy.ndarray) Tj /F1 10 Tf ( of shape \(n, 3\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+Q
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Array containt the same data as ) Tj /F2 10 Tf (wind_arr) Tj /F1 10 Tf ( but with the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (wind speed and wind angle now measured as apparent wind) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+q
+1 0 0 1 20 60 cm
+Q
+q
+1 0 0 1 20 48 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Raises a ValueError) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 42 cm
+Q
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 36 cm
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (- if ) Tj /F2 10 Tf (wind_arr) Tj /F1 10 Tf ( is empty) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (- if same values in ) Tj /F2 10 Tf (wind_arr) Tj /F1 10 Tf ( are ) Tj /F2 10 Tf (NaN) Tj /F1 10 Tf ( or not finite) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (- if ) Tj /F2 10 Tf (wind_arr) Tj /F1 10 Tf ( can't be broadcasted to an array of shape \(n, 3\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+q
+1 0 0 1 20 110.7575 cm
+Q
+q
+1 0 0 1 20 92.75748 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (hrosailing) Tj /F1 10 Tf (.) Tj /F3 10 Tf (true_wind_to_apparent) Tj /F1 10 Tf (\() Tj /F2 10 Tf (wind_arr) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
+1 0 0 1 20 86.75748 cm
+Q
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 80.75748 cm
+Q
+q
+1 0 0 1 20 68.75748 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Converts true wind to apparent wind) Tj T* ET
 Q
 Q
 q
-1 0 0 1 62.69291 399.6236 cm
+1 0 0 1 20 68.75748 cm
 Q
 q
-1 0 0 1 62.69291 381.6236 cm
+1 0 0 1 20 52.75748 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 39.75748 Tm  T* ET
+q
+1 0 0 1 20 37.75748 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wind_arr) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (array_like) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 31.75748 cm
+Q
+q
+1 0 0 1 20 1.75748 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Wind data given as a sequence of points consisting of wind speed,) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (wind angle and boat speed, where the wind speed and wind angle) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+Q
+Q
+q
+Q
+Q
+q
+Q
+Q
+ 
+endstream
+endobj
+75 0 obj
+<<
+/Length 8606
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 617.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 133 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (are measured as apparent wind) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+q
+1 0 0 1 20 117 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Returns :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 66 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 38 Tm  T* ET
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (out) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (numpy.ndarray) Tj /F1 10 Tf ( of shape \(n, 3\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+Q
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Array containt the same data as ) Tj /F2 10 Tf (wind_arr) Tj /F1 10 Tf ( but with the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (wind speed and wind angle now measured as true wind) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+q
+1 0 0 1 20 60 cm
+Q
+q
+1 0 0 1 20 48 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Raises a ValueError) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 42 cm
+Q
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 36 cm
+Q
+q
+1 0 0 1 20 24 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (- if ) Tj /F2 10 Tf (wind_arr) Tj /F1 10 Tf ( is empty) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (- if same values in ) Tj /F2 10 Tf (wind_arr) Tj /F1 10 Tf ( are ) Tj /F2 10 Tf (NaN) Tj /F1 10 Tf ( or not finite) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (- if ) Tj /F2 10 Tf (wind_arr) Tj /F1 10 Tf ( can't be broadcasted to an array of shape \(n, 3\)) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+q
+1 0 0 1 62.69291 617.0236 cm
+Q
+q
+1 0 0 1 62.69291 599.0236 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F2 10 Tf (hrosailing) Tj /F1 10 Tf (-module has the following public submodules:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 62.69291 375.6236 cm
+1 0 0 1 62.69291 593.0236 cm
 Q
 q
-1 0 0 1 62.69291 339.6236 cm
+1 0 0 1 62.69291 557.0236 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
@@ -885,16 +1324,16 @@ q
 Q
 Q
 q
-1 0 0 1 62.69291 339.6236 cm
+1 0 0 1 62.69291 557.0236 cm
 Q
 q
-1 0 0 1 62.69291 321.6236 cm
+1 0 0 1 62.69291 539.0236 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F2 10 Tf (hrosailing.polardiagram) Tj /F1 10 Tf (-module defines the following public functions:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 62.69291 315.6236 cm
+1 0 0 1 62.69291 533.0236 cm
 Q
 q
 1 0 0 1 62.69291 76.86614 cm
@@ -902,16 +1341,16 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 217 cm
+1 0 0 1 20 450 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (polardiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (to_csv) Tj /F1 10 Tf (\() Tj /F2 10 Tf (csv_path,) Tj ( ) Tj (obj) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 211 cm
+1 0 0 1 20 444 cm
 Q
 q
-1 0 0 1 20 54 cm
+1 0 0 1 20 287 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
@@ -1037,16 +1476,16 @@ q
 Q
 Q
 q
-1 0 0 1 20 54 cm
+1 0 0 1 20 287 cm
 Q
 q
-1 0 0 1 20 36 cm
+1 0 0 1 20 269 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (polardiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (from_csv) Tj /F1 10 Tf (\() Tj /F2 10 Tf (csv_path,) Tj ( ) Tj (fmt='hro',) Tj ( ) Tj (tw=True) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 30 cm
+1 0 0 1 20 263 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -1054,58 +1493,33 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 24 cm
+1 0 0 1 20 257 cm
 Q
 q
-1 0 0 1 20 12 cm
+1 0 0 1 20 245 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Reads a .csv file and returns the ) Tj /F2 10 Tf (polardiagram.PolarDiagram) Tj /F1 10 Tf ( instance) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 0 cm
+1 0 0 1 20 233 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (contained in it) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 0 cm
+1 0 0 1 20 233 cm
 Q
 q
-Q
-Q
-q
-Q
-Q
- 
-endstream
-endobj
-74 0 obj
-<<
-/Length 8224
->>
-stream
-1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
-q
-1 0 0 1 62.69291 76.86614 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 433.1575 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 255 cm
+1 0 0 1 20 217 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 54 cm
+1 0 0 1 20 16 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 188 Tm  T* ET
@@ -1268,6 +1682,85 @@ q
 Q
 Q
 q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Returns :) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+Q
+Q
+ 
+endstream
+endobj
+76 0 obj
+<<
+/Length 8215
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 76.86614 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 593 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 54 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 38 Tm  T* ET
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (out) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (polardiagram.PolarDiagram) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+Q
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (polardiagram.PolarDiagram) Tj /F1 10 Tf ( instances contained in the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (.csv file) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+q
 1 0 0 1 20 48 cm
 Q
 q
@@ -1317,19 +1810,19 @@ q
 Q
 Q
 q
-1 0 0 1 20 433.1575 cm
+1 0 0 1 20 593 cm
 Q
 q
-1 0 0 1 20 415.1575 cm
+1 0 0 1 20 575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (polardiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (pickling) Tj /F1 10 Tf (\() Tj /F2 10 Tf (pkl_path,) Tj ( ) Tj (obj) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 409.1575 cm
+1 0 0 1 20 569 cm
 Q
 q
-1 0 0 1 20 252.1575 cm
+1 0 0 1 20 412 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
@@ -1455,50 +1948,50 @@ q
 Q
 Q
 q
-1 0 0 1 20 252.1575 cm
+1 0 0 1 20 412 cm
 Q
 q
-1 0 0 1 20 234.1575 cm
+1 0 0 1 20 394 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (polardiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (depickling) Tj /F1 10 Tf (\() Tj /F2 10 Tf (pkl_path) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 228.1575 cm
+1 0 0 1 20 388 cm
 Q
 q
-1 0 0 1 20 125.1575 cm
+1 0 0 1 20 218 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 97 cm
+1 0 0 1 20 164 cm
 Q
 q
-1 0 0 1 20 85 cm
+1 0 0 1 20 152 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Reads a .pkl file and returns the ) Tj /F2 10 Tf (polardiagram.PolarDiagram) Tj /F1 10 Tf ( instance) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 73 cm
+1 0 0 1 20 140 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (contained in it) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 73 cm
+1 0 0 1 20 140 cm
 Q
 q
-1 0 0 1 20 57 cm
+1 0 0 1 20 124 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 18 cm
+1 0 0 1 20 85 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 26 Tm  T* ET
@@ -1539,6 +2032,60 @@ q
 Q
 Q
 q
+1 0 0 1 20 69 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Returns :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 18 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 38 Tm  T* ET
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (out) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (polardiagram.PolarDiagram) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 30 cm
+Q
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 24 cm
+Q
+q
+1 0 0 1 20 12 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (polardiagram.PolarDiagram) Tj /F1 10 Tf ( instance contained in the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (.pkl file) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+q
 1 0 0 1 20 12 cm
 Q
 q
@@ -1554,16 +2101,16 @@ q
 Q
 Q
 q
-1 0 0 1 20 125.1575 cm
+1 0 0 1 20 218 cm
 Q
 q
-1 0 0 1 20 107.1575 cm
+1 0 0 1 20 200 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (polardiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (symmetric_polar_diagram) Tj /F1 10 Tf (\(obj\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 101.1575 cm
+1 0 0 1 20 194 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -1571,106 +2118,65 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 95.15748 cm
+1 0 0 1 20 188 cm
 Q
 q
-1 0 0 1 20 83.15748 cm
+1 0 0 1 20 176 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Symmetrizeses an ) Tj /F2 10 Tf (polardiagram.PolarDiagram) Tj /F1 10 Tf ( instance, meaning for every) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 71.15748 cm
+1 0 0 1 20 164 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (datapoint with wind speed, wind angle and boat speed ) Tj /F2 10 Tf (\(w,) Tj ( ) Tj (phi,) Tj ( ) Tj (s\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 59.15748 cm
+1 0 0 1 20 152 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (a new data point with wind speed, wind angle and boat speed ) Tj /F2 10 Tf (\(w,) Tj ( ) Tj (360) Tj ( ) Tj (-) Tj ( ) Tj (phi,) Tj ( ) Tj (s\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 47.15748 cm
+1 0 0 1 20 140 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (will be added) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 47.15748 cm
+1 0 0 1 20 140 cm
 Q
 q
-1 0 0 1 20 31.15748 cm
+1 0 0 1 20 124 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 0 cm
+1 0 0 1 20 73 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 18.15748 Tm  T* ET
+BT 1 0 0 1 0 38 Tm  T* ET
 q
-1 0 0 1 20 16.15748 cm
+1 0 0 1 20 36 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (obj) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (PolarDiagram) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 10.15748 cm
+1 0 0 1 20 30 cm
 Q
-q
-1 0 0 1 20 -1.84252 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-Q
-q
-Q
-Q
-q
-Q
-Q
-q
-Q
-Q
-q
-Q
-Q
- 
-endstream
-endobj
-75 0 obj
-<<
-/Length 8529
->>
-stream
-1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
-q
-1 0 0 1 62.69291 653.0236 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 0 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 85 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 14 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
+1 0 0 1 20 24 cm
+Q
 q
 1 0 0 1 20 12 cm
 q
@@ -1697,14 +2203,14 @@ q
 Q
 Q
 q
-1 0 0 1 20 69 cm
+1 0 0 1 20 57 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Returns :) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 30 cm
+1 0 0 1 20 18 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 26 Tm  T* ET
@@ -1744,14 +2250,39 @@ q
 Q
 Q
 q
-1 0 0 1 20 24 cm
+1 0 0 1 20 12 cm
 Q
 q
-1 0 0 1 20 12 cm
+1 0 0 1 20 0 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Raises a ) Tj /F2 10 Tf (PolarDiagramException) Tj /F1 10 Tf ( if ) Tj /F2 10 Tf (obj) Tj /F1 10 Tf ( is not of type ) Tj /F2 10 Tf (PolarDiagramTable) Tj /F1 10 Tf ( or) Tj T* ET
 Q
 Q
+q
+Q
+Q
+q
+Q
+Q
+ 
+endstream
+endobj
+77 0 obj
+<<
+/Length 8262
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 753.0236 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 0 cm
 q
@@ -1772,16 +2303,16 @@ q
 Q
 Q
 q
-1 0 0 1 62.69291 653.0236 cm
+1 0 0 1 62.69291 753.0236 cm
 Q
 q
-1 0 0 1 62.69291 635.0236 cm
+1 0 0 1 62.69291 735.0236 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (The ) Tj /F2 10 Tf (polardiagram) Tj /F1 10 Tf (-module defines the following public classes:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 62.69291 629.0236 cm
+1 0 0 1 62.69291 729.0236 cm
 Q
 q
 1 0 0 1 62.69291 76.86614 cm
@@ -1789,13 +2320,13 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 540.1575 cm
+1 0 0 1 20 640.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (polardiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagram) Tj /F1 10 Tf (\(\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 534.1575 cm
+1 0 0 1 20 634.1575 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -1803,19 +2334,19 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 528.1575 cm
+1 0 0 1 20 628.1575 cm
 Q
 q
-1 0 0 1 20 516.1575 cm
+1 0 0 1 20 616.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (An abstract base class for the ) Tj /F2 10 Tf (polardiagram) Tj /F1 10 Tf ( classes) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 516.1575 cm
+1 0 0 1 20 616.1575 cm
 Q
 q
-1 0 0 1 20 500.1575 cm
+1 0 0 1 20 600.1575 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Methods :) Tj T* ET
@@ -1825,18 +2356,18 @@ q
 1 0 0 1 20 0 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 487.1575 Tm  T* ET
+BT 1 0 0 1 0 587.1575 Tm  T* ET
 q
-1 0 0 1 20 485.1575 cm
+1 0 0 1 20 585.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (pickling) Tj /F1 10 Tf (\() Tj /F2 10 Tf (self,) Tj ( ) Tj (pkl_path) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 479.1575 cm
+1 0 0 1 20 579.1575 cm
 Q
 q
-1 0 0 1 20 376.1575 cm
+1 0 0 1 20 476.1575 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
@@ -1923,16 +2454,16 @@ q
 Q
 Q
 q
-1 0 0 1 20 376.1575 cm
+1 0 0 1 20 476.1575 cm
 Q
 q
-1 0 0 1 20 358.1575 cm
+1 0 0 1 20 458.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_polar_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (self,) Tj ( ) Tj (ws,) Tj ( ) Tj (ax=None,) Tj ( ) Tj (**plot_kw) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 352.1575 cm
+1 0 0 1 20 452.1575 cm
 Q
 q
 1 0 0 1 20 -9 cm
@@ -1940,41 +2471,41 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 355.1575 cm
+1 0 0 1 20 457 cm
 Q
 q
-1 0 0 1 20 343.1575 cm
+1 0 0 1 20 445 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Creates a polar plot of a given slice of the polar diagram) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 343.1575 cm
+1 0 0 1 20 445 cm
 Q
 q
-1 0 0 1 20 327.1575 cm
+1 0 0 1 20 429 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 0 cm
+1 0 0 1 20 66 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 314.1575 Tm  T* ET
+BT 1 0 0 1 0 350 Tm  T* ET
 q
-1 0 0 1 20 312.1575 cm
+1 0 0 1 20 348 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ws) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 306.1575 cm
+1 0 0 1 20 342 cm
 Q
 q
-1 0 0 1 20 102.1575 cm
+1 0 0 1 20 138 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
@@ -2116,19 +2647,19 @@ q
 Q
 Q
 q
-1 0 0 1 20 102.1575 cm
+1 0 0 1 20 138 cm
 Q
 q
-1 0 0 1 20 84.15748 cm
+1 0 0 1 20 120 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (matplotlib.projections.polar.PolarAxes) Tj /F1 10 Tf (, optional) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 78.15748 cm
+1 0 0 1 20 114 cm
 Q
 q
-1 0 0 1 20 30.15748 cm
+1 0 0 1 20 66 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
@@ -2169,89 +2700,32 @@ q
 Q
 Q
 q
-1 0 0 1 20 30.15748 cm
+1 0 0 1 20 66 cm
 Q
 q
-1 0 0 1 20 12.15748 cm
+1 0 0 1 20 48 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (plot_kw) Tj /F1 10 Tf ( : Keyword arguments) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 6.15748 cm
+1 0 0 1 20 42 cm
 Q
 q
-1 0 0 1 20 -11.84252 cm
+1 0 0 1 20 0 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 12 cm
+1 0 0 1 20 36 cm
 Q
 q
-1 0 0 1 20 0 cm
+1 0 0 1 20 24 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Keyword arguments that will be passed to the) Tj T* ET
 Q
 Q
-q
-Q
-Q
-q
-Q
-Q
-q
-Q
-Q
-q
-Q
-Q
-q
-Q
-Q
-q
-Q
-Q
- 
-endstream
-endobj
-76 0 obj
-<<
-/Length 8242
->>
-stream
-1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
-q
-1 0 0 1 62.69291 76.86614 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 663.1575 Tm  T* ET
-q
-1 0 0 1 20 568.1575 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 78 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 14 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 12 cm
 q
@@ -2278,19 +2752,19 @@ q
 Q
 Q
 q
-1 0 0 1 20 72 cm
+1 0 0 1 20 60 cm
 Q
 q
-1 0 0 1 20 60 cm
+1 0 0 1 20 48 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (Raises a ) Tj /F2 10 Tf (PolarDiagramException) Tj /F1 10 Tf ( if) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 60 cm
+1 0 0 1 20 48 cm
 Q
 q
-1 0 0 1 20 54 cm
+1 0 0 1 20 42 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -2298,26 +2772,75 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 48 cm
+1 0 0 1 20 36 cm
 Q
 q
-1 0 0 1 20 36 cm
+1 0 0 1 20 24 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (- ) Tj /F2 10 Tf (ws) Tj /F1 10 Tf ( is not in ) Tj /F2 10 Tf (self.wind_speed) Tj /F1 10 Tf ( for ) Tj /F2 10 Tf (PolarDiagramTable) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 24 cm
+1 0 0 1 20 12 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (and ) Tj /F2 10 Tf (PolarDiagramMultiSails) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 12 cm
+1 0 0 1 20 0 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (- there are no rows in ) Tj /F2 10 Tf (self.points) Tj /F1 10 Tf ( with first entry ) Tj /F2 10 Tf (ws) Tj T* ET
 Q
 Q
+q
+Q
+Q
+q
+Q
+Q
+q
+Q
+Q
+q
+Q
+Q
+q
+Q
+Q
+ 
+endstream
+endobj
+78 0 obj
+<<
+/Length 8224
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 76.86614 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 663.1575 Tm  T* ET
+q
+1 0 0 1 20 661.1575 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 0 cm
 q
@@ -2337,19 +2860,19 @@ q
 Q
 Q
 q
-1 0 0 1 20 568.1575 cm
+1 0 0 1 20 661.1575 cm
 Q
 q
-1 0 0 1 20 550.1575 cm
+1 0 0 1 20 643.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_flat_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (self,) Tj ( ) Tj (ws,) Tj ( ) Tj (ax=None,) Tj ( ) Tj (**plot_kw) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 544.1575 cm
+1 0 0 1 20 637.1575 cm
 Q
 q
-1 0 0 1 20 69.15748 cm
+1 0 0 1 20 162.1575 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
@@ -2694,47 +3217,125 @@ q
 Q
 Q
 q
-1 0 0 1 20 69.15748 cm
+1 0 0 1 20 162.1575 cm
 Q
 q
-1 0 0 1 20 51.15748 cm
+1 0 0 1 20 144.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_convex_hull_slice) Tj /F1 10 Tf (\() Tj /F2 10 Tf (self,) Tj ( ) Tj (ws,) Tj ( ) Tj (ax=None,) Tj ( ) Tj (**plot_kw) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 45.15748 cm
+1 0 0 1 20 138.1575 cm
 Q
 q
-1 0 0 1 20 -0.84252 cm
+1 0 0 1 20 -9 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 40 cm
+1 0 0 1 20 141.1575 cm
 Q
 q
-1 0 0 1 20 28 cm
+1 0 0 1 20 129.1575 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Computes the convex hull of a given slice of the polar diagram) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 16 cm
+1 0 0 1 20 117.1575 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (and creates a polar plot of it) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 16 cm
+1 0 0 1 20 117.1575 cm
+Q
+q
+1 0 0 1 20 101.1575 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 88.15748 Tm  T* ET
+q
+1 0 0 1 20 86.15748 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ws) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 80.15748 cm
+Q
+q
+1 0 0 1 20 -3 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 72 cm
+Q
+q
+1 0 0 1 20 60 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Slice of the polar diagram, given as either) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 60 cm
+Q
+q
+1 0 0 1 20 54 cm
+Q
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 48 cm
+Q
+q
+1 0 0 1 20 36 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (- an element of ) Tj /F2 10 Tf (self.wind_speeds) Tj /F1 10 Tf ( for) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 24 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL (PolarDiagramTable) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 12 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Slice then equals the corresponding) Tj T* ET
+Q
 Q
 q
 1 0 0 1 20 0 cm
 q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (column of ) Tj /F2 10 Tf (self.boat_speeds) Tj /F1 10 Tf ( together) Tj T* ET
+Q
+Q
+q
+Q
+Q
+q
+Q
+Q
+q
 Q
 Q
 q
@@ -2752,9 +3353,9 @@ Q
  
 endstream
 endobj
-77 0 obj
+79 0 obj
 <<
-/Length 8097
+/Length 7648
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
@@ -2764,7 +3365,7 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 60 cm
+1 0 0 1 20 165.1575 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
@@ -2772,7 +3373,7 @@ q
 1 0 0 1 20 175 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 431 Tm  T* ET
+BT 1 0 0 1 0 335 Tm  T* ET
 q
 1 0 0 1 20 0 cm
 0 0 0 rg
@@ -2782,71 +3383,17 @@ q
 1 0 0 1 20 78 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 350 Tm  T* ET
-q
-1 0 0 1 20 348 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ws) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 342 cm
-Q
+BT 1 0 0 1 0 254 Tm  T* ET
 q
 1 0 0 1 20 138 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 198 cm
-Q
-q
-1 0 0 1 20 186 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Slice of the polar diagram, given as either) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 186 cm
-Q
-q
-1 0 0 1 20 180 cm
-Q
 q
 1 0 0 1 20 0 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 174 cm
-Q
-q
-1 0 0 1 20 162 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (- an element of ) Tj /F2 10 Tf (self.wind_speeds) Tj /F1 10 Tf ( for) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 150 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL (PolarDiagramTable) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 138 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Slice then equals the corresponding) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 126 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F1 10 Tf 0 0 0 rg (column of ) Tj /F2 10 Tf (self.boat_speeds) Tj /F1 10 Tf ( together) Tj T* ET
-Q
-Q
 q
 1 0 0 1 20 114 cm
 q
@@ -3176,22 +3723,22 @@ q
 Q
 Q
 q
-1 0 0 1 20 60 cm
+1 0 0 1 20 165.1575 cm
 Q
 q
-1 0 0 1 20 42 cm
+1 0 0 1 20 147.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (polardiagram) Tj /F1 10 Tf (.) Tj /F3 10 Tf (PolarDiagramTable) Tj /F1 10 Tf (\() Tj /F2 10 Tf (ws_res=None,) Tj ( ) Tj (wa_res=None,) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 24 cm
+1 0 0 1 20 129.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (bsps=None,) Tj ( ) Tj (tw=True) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 18 cm
+1 0 0 1 20 123.1575 cm
 Q
 q
 1 0 0 1 20 0 cm
@@ -3199,17 +3746,41 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 12 cm
+1 0 0 1 20 49 cm
 Q
 q
-1 0 0 1 20 0 cm
+1 0 0 1 20 37 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (A class to represent, visualize and work with a polar diagram in form of a table) Tj T* ET
 Q
 Q
 q
+1 0 0 1 20 37 cm
+Q
+q
+1 0 0 1 20 21 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
 1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 8 Tm  T* ET
+q
+1 0 0 1 20 6 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ws_res) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (Iterable) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj /F1 10 Tf (, optional) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
 Q
 q
 Q
@@ -3220,9 +3791,9 @@ Q
  
 endstream
 endobj
-78 0 obj
+80 0 obj
 <<
-/Length 8431
+/Length 8702
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
@@ -3237,26 +3808,10 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 676.1575 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 307.1575 cm
+1 0 0 1 20 367.1575 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 356 Tm  T* ET
-q
-1 0 0 1 20 354 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ws_res) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (Iterable) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj /F1 10 Tf (, optional) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 348 cm
-Q
+BT 1 0 0 1 0 308 Tm  T* ET
 q
 1 0 0 1 20 264 cm
 0 0 0 rg
@@ -3516,23 +4071,23 @@ q
 Q
 Q
 q
-1 0 0 1 20 301.1575 cm
+1 0 0 1 20 361.1575 cm
 Q
 q
-1 0 0 1 20 289.1575 cm
+1 0 0 1 20 349.1575 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Raises a PolarDiagramException) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 289.1575 cm
+1 0 0 1 20 349.1575 cm
 Q
 q
-1 0 0 1 20 283.1575 cm
+1 0 0 1 20 343.1575 cm
 Q
 q
-1 0 0 1 20 241.1575 cm
+1 0 0 1 20 301.1575 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
@@ -3564,10 +4119,10 @@ q
 Q
 Q
 q
-1 0 0 1 20 241.1575 cm
+1 0 0 1 20 301.1575 cm
 Q
 q
-1 0 0 1 20 225.1575 cm
+1 0 0 1 20 285.1575 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Methods :) Tj T* ET
@@ -3577,18 +4132,18 @@ q
 1 0 0 1 20 0 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 212.1575 Tm  T* ET
+BT 1 0 0 1 0 272.1575 Tm  T* ET
 q
-1 0 0 1 20 210.1575 cm
+1 0 0 1 20 270.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (wind_speeds) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 204.1575 cm
+1 0 0 1 20 264.1575 cm
 Q
 q
-1 0 0 1 20 186.1575 cm
+1 0 0 1 20 246.1575 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
@@ -3608,19 +4163,19 @@ q
 Q
 Q
 q
-1 0 0 1 20 186.1575 cm
+1 0 0 1 20 246.1575 cm
 Q
 q
-1 0 0 1 20 168.1575 cm
+1 0 0 1 20 228.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (wind_angles) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 162.1575 cm
+1 0 0 1 20 222.1575 cm
 Q
 q
-1 0 0 1 20 144.1575 cm
+1 0 0 1 20 204.1575 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
@@ -3640,19 +4195,19 @@ q
 Q
 Q
 q
-1 0 0 1 20 144.1575 cm
+1 0 0 1 20 204.1575 cm
 Q
 q
-1 0 0 1 20 126.1575 cm
+1 0 0 1 20 186.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (boat_speeds) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 120.1575 cm
+1 0 0 1 20 180.1575 cm
 Q
 q
-1 0 0 1 20 102.1575 cm
+1 0 0 1 20 162.1575 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
@@ -3672,16 +4227,16 @@ q
 Q
 Q
 q
-1 0 0 1 20 102.1575 cm
+1 0 0 1 20 162.1575 cm
 Q
 q
-1 0 0 1 20 84.15748 cm
+1 0 0 1 20 144.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (to_csv) Tj /F1 10 Tf (\() Tj /F2 10 Tf (self,) Tj ( ) Tj (csv_path,) Tj ( ) Tj (fmt='hro') Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 78.15748 cm
+1 0 0 1 20 138.1575 cm
 Q
 q
 1 0 0 1 20 -21 cm
@@ -3689,69 +4244,117 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 96 cm
+1 0 0 1 20 159.1575 cm
 Q
 q
-1 0 0 1 20 84 cm
+1 0 0 1 20 147.1575 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Creates a .csv file with delimiter ',' and the following format:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 84 cm
+1 0 0 1 20 147.1575 cm
 Q
 q
-1 0 0 1 20 78 cm
+1 0 0 1 20 141.1575 cm
 Q
 q
-1 0 0 1 20 0 cm
+1 0 0 1 20 51.15748 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 72 cm
+1 0 0 1 20 84 cm
 Q
 q
-1 0 0 1 20 60 cm
+1 0 0 1 20 72 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (PolarDiagramTable) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 48 cm
+1 0 0 1 20 60 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Wind speed resolution:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 36 cm
+1 0 0 1 20 48 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL (self.wind_speeds) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 24 cm
+1 0 0 1 20 36 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Wind angle resolution:) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 12 cm
+1 0 0 1 20 24 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL (self.wind_angles) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 0 cm
+1 0 0 1 20 12 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Boat speeds:) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL (self.boat_speeds) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+Q
+q
+Q
+Q
+q
+1 0 0 1 20 51.15748 cm
+Q
+q
+1 0 0 1 20 35.15748 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 22.15748 Tm  T* ET
+q
+1 0 0 1 20 20.15748 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (csv_path) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 14.15748 cm
+Q
+q
+1 0 0 1 20 2.15748 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+Q
+q
 Q
 Q
 q
@@ -3772,9 +4375,9 @@ Q
  
 endstream
 endobj
-79 0 obj
+81 0 obj
 <<
-/Length 7967
+/Length 8029
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
@@ -3794,60 +4397,20 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 663.1575 Tm  T* ET
 q
-1 0 0 1 20 534.1575 cm
+1 0 0 1 20 586.1575 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 127 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F2 10 Tf 12 TL (self.boat_speeds) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 0 cm
-Q
-q
-Q
-Q
-q
-1 0 0 1 20 127 cm
-Q
-q
-1 0 0 1 20 111 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
-Q
-Q
 q
 1 0 0 1 20 18 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 80 Tm  T* ET
-q
-1 0 0 1 20 78 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (csv_path) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (string) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 72 cm
-Q
+BT 1 0 0 1 0 56 Tm  T* ET
 q
 1 0 0 1 20 42 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 24 cm
-Q
 q
 1 0 0 1 20 12 cm
 q
@@ -3923,25 +4486,25 @@ q
 Q
 Q
 q
-1 0 0 1 20 534.1575 cm
+1 0 0 1 20 586.1575 cm
 Q
 q
-1 0 0 1 20 516.1575 cm
+1 0 0 1 20 568.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (change_entries) Tj /F1 10 Tf (\() Tj /F2 10 Tf (self,new_bsps,) Tj ( ) Tj (ws=None,) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 498.1575 cm
+1 0 0 1 20 550.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (wa=None) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 492.1575 cm
+1 0 0 1 20 544.1575 cm
 Q
 q
-1 0 0 1 20 143.1575 cm
+1 0 0 1 20 195.1575 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
@@ -4205,22 +4768,22 @@ q
 Q
 Q
 q
-1 0 0 1 20 143.1575 cm
+1 0 0 1 20 195.1575 cm
 Q
 q
-1 0 0 1 20 125.1575 cm
+1 0 0 1 20 177.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (PolarDiagramTable) Tj /F1 10 Tf (.) Tj /F3 10 Tf (plot_polar) Tj /F1 10 Tf ( \() Tj /F2 10 Tf (self,) Tj ( ) Tj (ws=None,) Tj ( ) Tj (ax=None,) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 107.1575 cm
+1 0 0 1 20 159.1575 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (colors=\('green',) Tj ( ) Tj ('red'\),) Tj ( ) Tj (show_legend=False,) Tj ( ) Tj (legend_kw=None,) Tj ( ) Tj (**plo) Tj (t_kw) Tj /F1 10 Tf (\)) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 101.1575 cm
+1 0 0 1 20 153.1575 cm
 Q
 q
 1 0 0 1 20 3 cm
@@ -4228,27 +4791,27 @@ q
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 92.15748 cm
+1 0 0 1 20 144.1575 cm
 Q
 q
-1 0 0 1 20 80.15748 cm
+1 0 0 1 20 132.1575 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Creates a polar plot of one or more slices of the) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 68.15748 cm
+1 0 0 1 20 120.1575 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (polar diagram) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 68.15748 cm
+1 0 0 1 20 120.1575 cm
 Q
 q
-1 0 0 1 20 52.15748 cm
+1 0 0 1 20 104.1575 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F3 10 Tf 12 TL (Parameters :) Tj T* ET
@@ -4258,110 +4821,45 @@ q
 1 0 0 1 20 0 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 39.15748 Tm  T* ET
+BT 1 0 0 1 0 91.15748 Tm  T* ET
 q
-1 0 0 1 20 37.15748 cm
+1 0 0 1 20 89.15748 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ws) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (Iterable) Tj /F1 10 Tf (, ) Tj /F2 10 Tf (int) Tj /F1 10 Tf ( or ) Tj /F2 10 Tf (float) Tj /F1 10 Tf (, optional) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 31.15748 cm
+1 0 0 1 20 83.15748 cm
 Q
 q
-1 0 0 1 20 -3 cm
+1 0 0 1 20 -0.84252 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 30 cm
+1 0 0 1 20 78 cm
 Q
 q
-1 0 0 1 20 18 cm
+1 0 0 1 20 66 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Slices of the polar diagram table, given as either) Tj T* ET
 Q
 Q
 q
+1 0 0 1 20 66 cm
+Q
+q
+1 0 0 1 20 60 cm
+Q
+q
 1 0 0 1 20 18 cm
-Q
-q
-1 0 0 1 20 12 cm
-Q
-q
-1 0 0 1 20 0 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
 q
-1 0 0 1 20 0 cm
+1 0 0 1 20 36 cm
 Q
-q
-Q
-Q
-q
-Q
-Q
-q
-Q
-Q
-q
-Q
-Q
-q
-Q
-Q
-q
-Q
-Q
-q
-Q
-Q
- 
-endstream
-endobj
-80 0 obj
-<<
-/Length 7732
->>
-stream
-1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
-q
-1 0 0 1 62.69291 76.86614 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 663.1575 Tm  T* ET
-q
-1 0 0 1 20 3 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 0 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 651.1575 Tm  T* ET
-q
-1 0 0 1 20 577.1575 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 48 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 24 cm
 q
@@ -4389,18 +4887,75 @@ q
 Q
 Q
 q
-1 0 0 1 20 48 cm
+1 0 0 1 20 18 cm
 Q
 q
-1 0 0 1 20 42 cm
+1 0 0 1 20 12 cm
 Q
 q
-1 0 0 1 20 30 cm
+1 0 0 1 20 0 cm
 q
 0 0 0 rg
 BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (The slices are then equal to the corresponding) Tj T* ET
 Q
 Q
+q
+Q
+Q
+q
+Q
+Q
+q
+Q
+Q
+q
+Q
+Q
+q
+Q
+Q
+q
+Q
+Q
+ 
+endstream
+endobj
+82 0 obj
+<<
+/Length 6517
+>>
+stream
+1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
+q
+1 0 0 1 62.69291 76.86614 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 663.1575 Tm  T* ET
+q
+1 0 0 1 20 3 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 0 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 566 Tm  T* ET
+q
+1 0 0 1 20 546 cm
+0 0 0 rg
+BT /F1 10 Tf 12 TL ET
+BT 1 0 0 1 0 2 Tm  T* ET
 q
 1 0 0 1 20 18 cm
 q
@@ -4428,19 +4983,19 @@ q
 Q
 Q
 q
-1 0 0 1 20 577.1575 cm
+1 0 0 1 20 546 cm
 Q
 q
-1 0 0 1 20 559.1575 cm
+1 0 0 1 20 528 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (ax) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (matplotlib.projections.polar.PolarAxes) Tj /F1 10 Tf (, optional) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 553.1575 cm
+1 0 0 1 20 522 cm
 Q
 q
-1 0 0 1 20 505.1575 cm
+1 0 0 1 20 474 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
@@ -4481,19 +5036,19 @@ q
 Q
 Q
 q
-1 0 0 1 20 505.1575 cm
+1 0 0 1 20 474 cm
 Q
 q
-1 0 0 1 20 487.1575 cm
+1 0 0 1 20 456 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (colors) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (tuple) Tj /F1 10 Tf (, optional) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 481.1575 cm
+1 0 0 1 20 450 cm
 Q
 q
-1 0 0 1 20 223.1575 cm
+1 0 0 1 20 192 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
@@ -4678,19 +5233,19 @@ q
 Q
 Q
 q
-1 0 0 1 20 223.1575 cm
+1 0 0 1 20 192 cm
 Q
 q
-1 0 0 1 20 205.1575 cm
+1 0 0 1 20 174 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (show_legend) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (bool) Tj /F1 10 Tf (, optional) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 199.1575 cm
+1 0 0 1 20 168 cm
 Q
 q
-1 0 0 1 20 55.15748 cm
+1 0 0 1 20 24 cm
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
@@ -4800,46 +5355,16 @@ q
 Q
 Q
 q
-1 0 0 1 20 55.15748 cm
+1 0 0 1 20 24 cm
 Q
 q
-1 0 0 1 20 37.15748 cm
+1 0 0 1 20 6 cm
 q
 BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (legend_kw) Tj /F1 10 Tf ( : ) Tj /F2 10 Tf (dict) Tj /F1 10 Tf (, optional) Tj T* ET
 Q
 Q
 q
-1 0 0 1 20 31.15748 cm
-Q
-q
-1 0 0 1 20 -10.84252 cm
-0 0 0 rg
-BT /F1 10 Tf 12 TL ET
-BT 1 0 0 1 0 2 Tm  T* ET
-q
-1 0 0 1 20 36 cm
-Q
-q
-1 0 0 1 20 24 cm
-q
-0 0 0 rg
-BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Keyword arguments to be passed to either the) Tj T* ET
-Q
-Q
-q
-1 0 0 1 20 12 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.colorbar.Colorbar) Tj /F1 10 Tf ( class or the) Tj T* ET
-Q
-Q
-q
 1 0 0 1 20 0 cm
-q
-BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.legend.Legend) Tj /F1 10 Tf ( class to change) Tj T* ET
-Q
-Q
-q
-Q
 Q
 q
 Q
@@ -4859,9 +5384,9 @@ Q
  
 endstream
 endobj
-81 0 obj
+83 0 obj
 <<
-/Length 6369
+/Length 6787
 >>
 stream
 1 0 0 1 0 0 cm  BT /F1 12 Tf 14.4 TL ET
@@ -4895,6 +5420,28 @@ q
 0 0 0 rg
 BT /F1 10 Tf 12 TL ET
 BT 1 0 0 1 0 2 Tm  T* ET
+q
+1 0 0 1 20 84 cm
+Q
+q
+1 0 0 1 20 72 cm
+q
+0 0 0 rg
+BT 1 0 0 1 0 2 Tm /F1 10 Tf 12 TL (Keyword arguments to be passed to either the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 60 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.colorbar.Colorbar) Tj /F1 10 Tf ( class or the) Tj T* ET
+Q
+Q
+q
+1 0 0 1 20 48 cm
+q
+BT 1 0 0 1 0 2 Tm 12 TL /F2 10 Tf 0 0 0 rg (matplotlib.legend.Legend) Tj /F1 10 Tf ( class to change) Tj T* ET
+Q
+Q
 q
 1 0 0 1 20 36 cm
 q
@@ -5302,7 +5849,7 @@ Q
  
 endstream
 endobj
-82 0 obj
+84 0 obj
 <<
 /Length 8386
 >>
@@ -5874,7 +6421,7 @@ Q
  
 endstream
 endobj
-83 0 obj
+85 0 obj
 <<
 /Length 7553
 >>
@@ -6387,7 +6934,7 @@ Q
  
 endstream
 endobj
-84 0 obj
+86 0 obj
 <<
 /Length 5929
 >>
@@ -6808,7 +7355,7 @@ Q
  
 endstream
 endobj
-85 0 obj
+87 0 obj
 <<
 /Length 8619
 >>
@@ -7384,7 +7931,7 @@ Q
  
 endstream
 endobj
-86 0 obj
+88 0 obj
 <<
 /Length 8272
 >>
@@ -7941,7 +8488,7 @@ Q
  
 endstream
 endobj
-87 0 obj
+89 0 obj
 <<
 /Length 7990
 >>
@@ -8476,7 +9023,7 @@ Q
  
 endstream
 endobj
-88 0 obj
+90 0 obj
 <<
 /Length 7779
 >>
@@ -9014,7 +9561,7 @@ Q
  
 endstream
 endobj
-89 0 obj
+91 0 obj
 <<
 /Length 7936
 >>
@@ -9539,7 +10086,7 @@ Q
  
 endstream
 endobj
-90 0 obj
+92 0 obj
 <<
 /Length 7853
 >>
@@ -10072,7 +10619,7 @@ Q
  
 endstream
 endobj
-91 0 obj
+93 0 obj
 <<
 /Length 7781
 >>
@@ -10611,7 +11158,7 @@ Q
  
 endstream
 endobj
-92 0 obj
+94 0 obj
 <<
 /Length 6628
 >>
@@ -11072,7 +11619,7 @@ Q
  
 endstream
 endobj
-93 0 obj
+95 0 obj
 <<
 /Length 7732
 >>
@@ -11605,7 +12152,7 @@ Q
  
 endstream
 endobj
-94 0 obj
+96 0 obj
 <<
 /Length 7792
 >>
@@ -12148,7 +12695,7 @@ Q
  
 endstream
 endobj
-95 0 obj
+97 0 obj
 <<
 /Length 8129
 >>
@@ -12684,7 +13231,7 @@ Q
  
 endstream
 endobj
-96 0 obj
+98 0 obj
 <<
 /Length 7596
 >>
@@ -13183,7 +13730,7 @@ Q
  
 endstream
 endobj
-97 0 obj
+99 0 obj
 <<
 /Length 8009
 >>
@@ -13734,7 +14281,7 @@ Q
  
 endstream
 endobj
-98 0 obj
+100 0 obj
 <<
 /Length 7396
 >>
@@ -14255,7 +14802,7 @@ Q
  
 endstream
 endobj
-99 0 obj
+101 0 obj
 <<
 /Length 1060
 >>
@@ -14326,153 +14873,158 @@ Q
  
 endstream
 endobj
-100 0 obj
-<<
-/Nums [ 0 101 0 R 1 102 0 R 2 103 0 R 3 104 0 R 4 105 0 R 
-  5 106 0 R 6 107 0 R 7 108 0 R 8 109 0 R 9 110 0 R 
-  10 111 0 R 11 112 0 R 12 113 0 R 13 114 0 R 14 115 0 R 
-  15 116 0 R 16 117 0 R 17 118 0 R 18 119 0 R 19 120 0 R 
-  20 121 0 R 21 122 0 R 22 123 0 R 23 124 0 R 24 125 0 R 
-  25 126 0 R 26 127 0 R ]
->>
-endobj
-101 0 obj
-<<
-/S /D /St 1
->>
-endobj
 102 0 obj
 <<
-/S /D /St 2
+/Nums [ 0 103 0 R 1 104 0 R 2 105 0 R 3 106 0 R 4 107 0 R 
+  5 108 0 R 6 109 0 R 7 110 0 R 8 111 0 R 9 112 0 R 
+  10 113 0 R 11 114 0 R 12 115 0 R 13 116 0 R 14 117 0 R 
+  15 118 0 R 16 119 0 R 17 120 0 R 18 121 0 R 19 122 0 R 
+  20 123 0 R 21 124 0 R 22 125 0 R 23 126 0 R 24 127 0 R 
+  25 128 0 R 26 129 0 R 27 130 0 R ]
 >>
 endobj
 103 0 obj
 <<
-/S /D /St 3
+/S /D /St 1
 >>
 endobj
 104 0 obj
 <<
-/S /D /St 4
+/S /D /St 2
 >>
 endobj
 105 0 obj
 <<
-/S /D /St 5
+/S /D /St 3
 >>
 endobj
 106 0 obj
 <<
-/S /D /St 6
+/S /D /St 4
 >>
 endobj
 107 0 obj
 <<
-/S /D /St 7
+/S /D /St 5
 >>
 endobj
 108 0 obj
 <<
-/S /D /St 8
+/S /D /St 6
 >>
 endobj
 109 0 obj
 <<
-/S /D /St 9
+/S /D /St 7
 >>
 endobj
 110 0 obj
 <<
-/S /D /St 10
+/S /D /St 8
 >>
 endobj
 111 0 obj
 <<
-/S /D /St 11
+/S /D /St 9
 >>
 endobj
 112 0 obj
 <<
-/S /D /St 12
+/S /D /St 10
 >>
 endobj
 113 0 obj
 <<
-/S /D /St 13
+/S /D /St 11
 >>
 endobj
 114 0 obj
 <<
-/S /D /St 14
+/S /D /St 12
 >>
 endobj
 115 0 obj
 <<
-/S /D /St 15
+/S /D /St 13
 >>
 endobj
 116 0 obj
 <<
-/S /D /St 16
+/S /D /St 14
 >>
 endobj
 117 0 obj
 <<
-/S /D /St 17
+/S /D /St 15
 >>
 endobj
 118 0 obj
 <<
-/S /D /St 18
+/S /D /St 16
 >>
 endobj
 119 0 obj
 <<
-/S /D /St 19
+/S /D /St 17
 >>
 endobj
 120 0 obj
 <<
-/S /D /St 20
+/S /D /St 18
 >>
 endobj
 121 0 obj
 <<
-/S /D /St 21
+/S /D /St 19
 >>
 endobj
 122 0 obj
 <<
-/S /D /St 22
+/S /D /St 20
 >>
 endobj
 123 0 obj
 <<
-/S /D /St 23
+/S /D /St 21
 >>
 endobj
 124 0 obj
 <<
-/S /D /St 24
+/S /D /St 22
 >>
 endobj
 125 0 obj
 <<
-/S /D /St 25
+/S /D /St 23
 >>
 endobj
 126 0 obj
 <<
-/S /D /St 26
+/S /D /St 24
 >>
 endobj
 127 0 obj
 <<
+/S /D /St 25
+>>
+endobj
+128 0 obj
+<<
+/S /D /St 26
+>>
+endobj
+129 0 obj
+<<
 /S /D /St 27
 >>
 endobj
+130 0 obj
+<<
+/S /D /St 28
+>>
+endobj
 xref
-0 128
+0 131
 0000000000 65535 f 
 0000000073 00000 n 
 0000000124 00000 n 
@@ -14492,125 +15044,128 @@ xref
 0000002634 00000 n 
 0000002840 00000 n 
 0000003046 00000 n 
-0000003260 00000 n 
-0000003471 00000 n 
-0000003703 00000 n 
-0000003917 00000 n 
-0000004128 00000 n 
-0000004360 00000 n 
+0000003252 00000 n 
+0000003466 00000 n 
+0000003677 00000 n 
+0000003909 00000 n 
+0000004123 00000 n 
+0000004334 00000 n 
 0000004566 00000 n 
-0000004780 00000 n 
-0000004991 00000 n 
-0000005205 00000 n 
-0000005416 00000 n 
-0000005662 00000 n 
-0000005876 00000 n 
-0000006087 00000 n 
-0000006319 00000 n 
+0000004772 00000 n 
+0000004986 00000 n 
+0000005197 00000 n 
+0000005411 00000 n 
+0000005622 00000 n 
+0000005868 00000 n 
+0000006082 00000 n 
+0000006293 00000 n 
 0000006525 00000 n 
-0000006739 00000 n 
-0000006950 00000 n 
-0000007182 00000 n 
+0000006731 00000 n 
+0000006945 00000 n 
+0000007156 00000 n 
 0000007388 00000 n 
-0000007602 00000 n 
-0000007813 00000 n 
-0000008045 00000 n 
-0000008259 00000 n 
-0000008470 00000 n 
-0000008702 00000 n 
-0000008916 00000 n 
-0000009127 00000 n 
-0000009359 00000 n 
-0000009573 00000 n 
-0000009784 00000 n 
-0000010016 00000 n 
+0000007594 00000 n 
+0000007808 00000 n 
+0000008019 00000 n 
+0000008251 00000 n 
+0000008465 00000 n 
+0000008676 00000 n 
+0000008908 00000 n 
+0000009122 00000 n 
+0000009333 00000 n 
+0000009565 00000 n 
+0000009779 00000 n 
+0000009990 00000 n 
 0000010222 00000 n 
 0000010428 00000 n 
-0000010642 00000 n 
-0000010853 00000 n 
-0000011085 00000 n 
-0000011299 00000 n 
-0000011510 00000 n 
-0000011742 00000 n 
+0000010634 00000 n 
+0000010848 00000 n 
+0000011059 00000 n 
+0000011291 00000 n 
+0000011505 00000 n 
+0000011716 00000 n 
 0000011948 00000 n 
-0000012162 00000 n 
-0000012373 00000 n 
-0000012605 00000 n 
-0000012819 00000 n 
-0000013030 00000 n 
-0000013262 00000 n 
-0000013468 00000 n 
-0000013575 00000 n 
-0000013864 00000 n 
-0000013938 00000 n 
-0000014051 00000 n 
-0000014187 00000 n 
-0000014311 00000 n 
-0000014560 00000 n 
-0000022456 00000 n 
-0000030732 00000 n 
-0000039313 00000 n 
-0000047607 00000 n 
-0000055756 00000 n 
-0000064239 00000 n 
-0000072258 00000 n 
-0000080042 00000 n 
-0000086463 00000 n 
-0000094901 00000 n 
-0000102506 00000 n 
-0000108487 00000 n 
-0000117158 00000 n 
-0000125482 00000 n 
-0000133524 00000 n 
-0000141355 00000 n 
-0000149343 00000 n 
-0000157248 00000 n 
-0000165081 00000 n 
-0000171761 00000 n 
-0000179545 00000 n 
-0000187389 00000 n 
-0000195570 00000 n 
-0000203218 00000 n 
-0000211279 00000 n 
-0000218727 00000 n 
-0000219839 00000 n 
-0000220174 00000 n 
-0000220209 00000 n 
-0000220244 00000 n 
-0000220279 00000 n 
-0000220314 00000 n 
-0000220349 00000 n 
-0000220384 00000 n 
-0000220419 00000 n 
-0000220454 00000 n 
-0000220489 00000 n 
-0000220525 00000 n 
-0000220561 00000 n 
-0000220597 00000 n 
-0000220633 00000 n 
-0000220669 00000 n 
-0000220705 00000 n 
-0000220741 00000 n 
-0000220777 00000 n 
-0000220813 00000 n 
-0000220849 00000 n 
-0000220885 00000 n 
-0000220921 00000 n 
-0000220957 00000 n 
-0000220993 00000 n 
-0000221029 00000 n 
-0000221065 00000 n 
-0000221101 00000 n 
+0000012154 00000 n 
+0000012368 00000 n 
+0000012579 00000 n 
+0000012811 00000 n 
+0000013025 00000 n 
+0000013236 00000 n 
+0000013469 00000 n 
+0000013676 00000 n 
+0000013783 00000 n 
+0000014072 00000 n 
+0000014146 00000 n 
+0000014259 00000 n 
+0000014395 00000 n 
+0000014519 00000 n 
+0000014775 00000 n 
+0000022479 00000 n 
+0000031137 00000 n 
+0000039404 00000 n 
+0000047718 00000 n 
+0000055994 00000 n 
+0000063694 00000 n 
+0000072448 00000 n 
+0000080529 00000 n 
+0000087098 00000 n 
+0000093937 00000 n 
+0000102375 00000 n 
+0000109980 00000 n 
+0000115961 00000 n 
+0000124632 00000 n 
+0000132956 00000 n 
+0000140998 00000 n 
+0000148829 00000 n 
+0000156817 00000 n 
+0000164722 00000 n 
+0000172555 00000 n 
+0000179235 00000 n 
+0000187019 00000 n 
+0000194863 00000 n 
+0000203044 00000 n 
+0000210692 00000 n 
+0000218753 00000 n 
+0000226202 00000 n 
+0000227315 00000 n 
+0000227661 00000 n 
+0000227696 00000 n 
+0000227731 00000 n 
+0000227766 00000 n 
+0000227801 00000 n 
+0000227836 00000 n 
+0000227871 00000 n 
+0000227906 00000 n 
+0000227941 00000 n 
+0000227976 00000 n 
+0000228012 00000 n 
+0000228048 00000 n 
+0000228084 00000 n 
+0000228120 00000 n 
+0000228156 00000 n 
+0000228192 00000 n 
+0000228228 00000 n 
+0000228264 00000 n 
+0000228300 00000 n 
+0000228336 00000 n 
+0000228372 00000 n 
+0000228408 00000 n 
+0000228444 00000 n 
+0000228480 00000 n 
+0000228516 00000 n 
+0000228552 00000 n 
+0000228588 00000 n 
+0000228624 00000 n 
 trailer
 <<
 /ID 
-[<bc0920d67fb1c30c3d084f08d2e8d98e><bc0920d67fb1c30c3d084f08d2e8d98e>]
+[<d978045a45821ed79c6a190ad03bca93><d978045a45821ed79c6a190ad03bca93>]
 % ReportLab generated PDF document -- digest (http://www.reportlab.com)
 
-/Info 67 0 R
-/Root 66 0 R
-/Size 128
+/Info 68 0 R
+/Root 67 0 R
+/Size 131
 >>
 startxref
-221137
+228660
 %%EOF
