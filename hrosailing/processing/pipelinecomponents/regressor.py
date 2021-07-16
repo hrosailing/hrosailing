@@ -40,8 +40,8 @@ class RegressorException(Exception):
 
 # TODO: Error checks!
 class Regressor(ABC):
-    """Base class for all
-    regressor classes
+    """Base class for all regressor classes
+
 
     Abstract Methods
     ----------------
@@ -72,37 +72,28 @@ class Regressor(ABC):
 
 
 class ODRegressor(Regressor):
-    """An orthogonal distance
-    regressor based on the
-    scipy.odr.odrpack package
+    """An orthogonal distance regressor based on scipy.odr.odrpack
 
     Parameters
     ----------
     model_func : function
-        The function which is to
-        describes the model and
-        is to be fitted.
+        The function which describes the model and is to be fitted.
 
-        The function signature
-        should be
-        f(ws, wa, *params) -> bsp,
-        where ws and wa are
-        numpy.ndarrays resp. and
-        params is a list of
-        parameters that will be
-        fitted.
+        The function signature should be f(ws, wa, *params) -> bsp,
+        where ws and wa are numpy.ndarrays resp. and params is a
+        sequence of parameters that will be fitted
+
     init_values : array_like, optional
-        Inital guesses for the
-        optimal parameters of
-        model_func that are passed
-        to the scipy.odr.ODR class
+        Inital guesses for the optimal parameters of  model_func
+        that are passed to the scipy.odr.ODR class
 
         Defaults to None
+
     max_it : int, optional
-        Maximum number of iterations
-        done by scipy.odr.ODR.
+        Maximum number of iterations done by scipy.odr.ODR.
 
         Defaults to 1000
+
 
     Methods
     -------
@@ -140,25 +131,18 @@ class ODRegressor(Regressor):
         pass
 
     def fit(self, data):
-        """Fits the model
-        function to the given
-        data, ie calculates
-        the optimal parameters
-        to minimize an objective
-        function based on the data,
-        see also
-        `ODRPACK <https://docs.scipy.org/doc/external/odrpack_guide.pdf>`_
+        """Fits the model function to the given data, ie calculates
+        the optimal parameters to minimize an objective
+        function based on the data, see also `ODRPACK <https://docs.scipy.org/doc/external/odrpack_guide.pdf>`_
 
         Parameters
         ----------
         data : array_like
-            Data to which the
-            model function will
-            be fitted, given as
-            a sequence of points
-            consisting of wind speed
-            wind angle and boat speed
+            Data to which the model function will  be fitted, given as
+            a sequence of points consisting of wind speed, wind angle
+            and boat speed
         """
+
         X, y = _check_data(data)
 
         odr_data = Data(
@@ -201,30 +185,20 @@ class ODRegressor(Regressor):
 
 # TODO: Error checks!
 class LeastSquareRegressor(Regressor):
-    """A least square regressor
-    based on scipy.optimize.curve_fit
+    """A least square regressor based on scipy.optimize.curve_fit
 
     Parameters
     ----------
     model_func : function or callable
-        The function which is to
-        describes the model and
-        is to be fitted.
+        The function which describes the model and is to be fitted.
 
-        The function signature
-        should be
-        f(ws, wa, *params) -> bsp,
-        where ws and wa are
-        numpy.ndarrays resp. and
-        params is a list of
-        parameters that will be
-        fitted.
+        The function signature should be f(ws, wa, *params) -> bsp,
+        where ws and wa are  numpy.ndarrays resp. and params is a
+        sequence of parameters that will be fitted
 
     init_vals : array_like ,optional
-        Inital guesses for the
-        optimal parameters of
-        model_func that are passed
-        to scipy.optimize.curve_fit
+        Inital guesses for the optimal parameters of model_func
+        that are passed to scipy.optimize.curve_fit
 
         Defaults to None
     """
@@ -247,24 +221,16 @@ class LeastSquareRegressor(Regressor):
         pass
 
     def fit(self, data):
-        """Fits the model
-        function to the given
-        data, ie calculates
-        the optimal parameters
-        to minimize the sum
-        of the squares of the
-        residuals, see also
-        `least squares <https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html>`_
+        """Fits the model function to the given data, ie calculates
+        the optimal parameters to minimize the sum of the squares of
+        the residuals, see also `least squares <https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html>`_
 
         Parameters
         ----------
         data : array_like
-            Data to which the
-            model function will
-            be fitted, given as
-            a sequence of points
-            consisting of wind speed
-            wind angle and boat speed
+            Data to which the model function will be fitted, given as
+            a sequence of points consisting of wind speed, wind angle
+            and boat speed
         """
 
         X, y = _check_data(data)

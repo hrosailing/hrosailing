@@ -20,8 +20,8 @@ class SamplerException(Exception):
 
 
 class Sampler(ABC):
-    """Base class for
-    all sampler classes
+    """Base class for all sampler classes
+
 
     Abstract Methods
     ----------------
@@ -35,27 +35,18 @@ class Sampler(ABC):
 
 # TODO: Other random samplers
 class UniformRandomSampler(Sampler):
-    """A sampler
-    that produces a
-    number of uniformly
-    distributed samples,
-    which all lie in the
-    convex hull of certain
-    given points
+    """A sampler that produces a number of uniformly distributed samples,
+    which all lie in the convex hull of certain given points
 
     Parameters
     ----------
     n_samples : positive int
-        Amount of samples that will
-        be produced by the sampler
+        Amount of samples that will be produced by the sampler
 
     Methods
     -------
     sample(self, pts):
-        Produces samples
-        according to the
-        above described
-        procedure
+        Produces samples according to the above described procedure
     """
 
     def __init__(self, n_samples):
@@ -72,24 +63,17 @@ class UniformRandomSampler(Sampler):
         return f"UniformRandomSampler(no_samples={self._n_samples})"
 
     def sample(self, pts):
-        """Produces samples
-        according to the
-        above described
-        procedure
+        """Produces samples according to the above described procedure
 
         Parameters
         ----------
         pts : array_like of shape (n, 3)
-            Points in whose convex
-            hull the produced
-            samples will lie
+            Points in whose convex hull the produced samples will lie
 
         Returns
         -------
         samples : numpy.ndarray of shape (no_samples, 3)
-            samples produced by
-            the above described
-            method
+            samples produced by the above described method
         """
         rng = np.random.default_rng()
         pts = np.asarray(pts)[:, :2]
@@ -107,7 +91,7 @@ class UniformRandomSampler(Sampler):
             mask = np.all((ineqs[:, :2] @ wind.T).T <= -ineqs[:, 2], axis=1)
             samples.extend(wind[mask])
 
-        return np.array(samples)
+        return np.asarray(samples)
 
 
 def _create_bounds(pts):

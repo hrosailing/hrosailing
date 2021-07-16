@@ -24,9 +24,8 @@ class InterpolatorException(Exception):
 
 
 class Interpolator(ABC):
-    """Base class for
-    all Interpolator
-    classes
+    """Base class for all Interpolator classes
+
 
     Abstract Methods
     ----------------
@@ -68,65 +67,45 @@ class IDWInterpolator(Interpolator):
 
 
 class ArithmeticMeanInterpolator(Interpolator):
-    """An Interpolator
-    that gets the
-    interpolated value
-    as follows:
+    """An Interpolator that gets the interpolated value according
+    to the following procedure
 
-    First the distance
-    of the input variables
-    of all considered points
-    and of the to interpolate
-    point is calculated, ie
-    || p[:d-1] - inter[d-1] ||.
-    Then using a distribution,
-    new weights are calculated
-    based on the old weights,
-    the previously calculated
-    distances and other parameters
-    depending on the distribution
+    First the distance of the independent variables of all considered
+    points and of the to interpolate point is calculated, ie
+    || p[:d-1] - inter[d-1] ||
+    Then using a distribution, new weights are calculated based on
+    the old weights, the previously calculated distances and other
+    parameters depending on the distribution
 
-    The value of the dependend
-    variable of the interpolated
-    point then equals
-
+    The value of the dependent variable of the interpolated point then equals
     s * (Σ w_p * p) / Σ w_p
-
-    where s is an additional
-    scaling factor
+    where s is an additional scaling factor
 
     Parameters
     ----------
     s : positive int or float, optional
-        Scaling factor for
-        the arithmetic mean,
+        Scaling factor for the arithmetic mean,
 
         Defaults to 1
-    norm : function or callable, optional
-        Norm with which to
-        calculate the distances
 
-        If nothing is passed,
-        it will default to
-        ||.||_2
+    norm : function or callable, optional
+        Norm with which to calculate the distances, ie ||.||
+
+        If nothing is passed, it will default to ||.||_2
+
     distribution : function or callable, optional
-        Function with which to
-        calculate the updated
-        weights.
+        Function with which to calculate the updated weights.
 
         Should have the signature
         f(distances, old_weights, *parameters) -> new_weights
 
-        If nothing is passed,
-        it will default to
-        gauss_potential, which
-        calculated weights based
-        on the following formular:
-
+        If nothing is passed, it will default to gauss_potential, which
+        calculated weights based on the formula
         β * exp(-α * old_weights * distances)
+
     params:
-        Parameters to be passed
-        to distribution
+        Parameters to be passed to distribution
+
 
     Methods
     -------

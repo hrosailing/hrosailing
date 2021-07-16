@@ -36,8 +36,7 @@ class FilterException(Exception):
 
 
 class Filter(ABC):
-    """Base class for
-    all filter classes
+    """Base class for all filter classes
 
     Abstract Methods
     ----------------
@@ -50,30 +49,23 @@ class Filter(ABC):
 
 
 class QuantileFilter(Filter):
-    """A filter that
-    filteres all points
-    based on if their
-    resp. weight lies
-    above a certain
-    quantile
+    """A filter that filteres all points based on if their
+    resp. weight lies above a certain quantile
 
     Parameters
     ----------
     percent: int or float, optional
-        The quantile to be
-        calculated
+        The quantile to be calculated
 
-        Should be larger than
-        0 and smaller than 100
+        Should be larger than 0 and smaller than 100
 
         Defaults to 25
+
 
     Methods
     -------
     filter(self, wts)
-        Filters a set
-        of points given by
-        their resp. weights
+        Filters a set of points given by their resp. weights
     """
 
     def __init__(self, percent=50):
@@ -89,25 +81,19 @@ class QuantileFilter(Filter):
         return f"QuantileFilter(percent={self._percent})"
 
     def filter(self, wts):
-        """Filters a set
-        of points given by
-        their resp. weights
+        """Filters a set of points given by their resp. weights
 
         Parameters
         ----------
         wts : array_like of shape (n, )
-            Weights of the points
-            that are to be filtered,
-            given as a sequence of
-            scalars
+            Weights of the points that are to be filtered, given
+            as a sequence of scalars
 
         Returns
         -------
         mask : numpy.ndarray of shape (n, )
-            Boolean array describing
-            with points are filtered
-            depending on their resp.
-            weight
+            Boolean array describing with points are filtered
+            depending on their resp. weight
         """
 
         wts = np.asarray(wts)
@@ -130,32 +116,25 @@ class QuantileFilter(Filter):
 
 
 class BoundFilter(Filter):
-    """A filter that
-    filters all points
-    based on if their
-    weight is outside
-    a lower and upper
-    bound
+    """A filter that filters all points based on if their
+    weight is outside a lower and upper bound
 
     Parameters
     ----------
     upper_bound : int or float, optional
-        The upper bound for
-        the filter
+        The upper bound for the filter
 
         Defaults to 1
+
     lower_bound : int or float, optional
-        The lower bound for
-        the filter
+        The lower bound for the filter
 
         Defaults to 0.5
 
     Methods
     -------
     filter(self, wts)
-        Filters a set
-        of points given by
-        their resp. weights
+        Filters a set of points given by their resp. weights
     """
 
     def __init__(self, upper_bound=1, lower_bound=0.5):
@@ -171,25 +150,19 @@ class BoundFilter(Filter):
         return f"BoundFilter(upper_bound={self._u_b}, lower_bound={self._l_b})"
 
     def filter(self, wts):
-        """Filters a set
-        of points given by
-        their resp. weights
+        """Filters a set of points given by their resp. weights
 
         Parameters
         ----------
         wts : array_like of shape (n, )
-            Weights of the points
-            that are to be filtered,
-            given as a sequence of
-            scalars
+            Weights of the points that are to be filtered, given
+            as a sequence of scalars
 
         Returns
         -------
         mask : numpy.ndarray of shape (n, )
-            Boolean array describing
-            with points are filtered
-            depending on their resp.
-            weight
+            Boolean array describing with points are filtered
+            depending on their resp. weight
         """
 
         wts = np.asarray(wts)

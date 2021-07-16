@@ -95,6 +95,7 @@ class WeightedPoints:
 
         Defaults to True
 
+
     Methods
     -------
     points
@@ -103,6 +104,8 @@ class WeightedPoints:
 
     def __init__(self, pts, wts=None, weigher=None, tw=True):
         pts = np.asarray(pts)
+        if pts.dtype == "object":
+            raise WeightedPointsException("pts is not array_like")
         shape = pts.shape
         if not pts.size:
             raise WeightedPointsException("")
@@ -148,8 +151,8 @@ class WeigherException(Exception):
 
 
 class Weigher(ABC):
-    """Base class for all
-    weigher classes
+    """Base class for all weigher classes
+
 
     Abstract Methods
     ----------------
@@ -162,45 +165,34 @@ class Weigher(ABC):
 
 
 class CylindricMeanWeigher(Weigher):
-    """A weigher that
-    weighs given points
-    according to the
+    """A weigher that weighs given points according to the
     following procedure:
 
-    For a given point p
-    and points pts
-    we look at all the
-    points pt in pts such that
-    ||pt[:d-1] - p[:d-1]|| <= r.
-    Then we take the mean m_p
-    and standard deviation std_p of
-    the dth component of all those
-    points and set
+    For a given point p and points pts
+    we look at all the points pt in pts such that
+    ||pt[:d-1] - p[:d-1]|| <= r
+
+    Then we take the mean m_p and standard deviation std_p
+    of the dth component of all those points and set
     w_p = | m_p - p[d-1] | / std_p
 
     Parameters
     ----------
     radius : positive int or float, optional
-        The radius of the
-        considered cylinder,
-        with infinite height,
-        ie r
+        The radius of the considered cylinder, with infinite height, ie r
 
         Defaults to 1
-    norm : function or callable, optional
-        Norm with which to
-        evaluate the distances,
-        ie ||.||
 
-        If nothing is passed, it
-        will default to ||.||_2
+    norm : function or callable, optional
+        Norm with which to evaluate the distances, ie ||.||
+
+        If nothing is passed, it will default to ||.||_2
+
 
     Methods
     -------
     weigh(self, pts)
-        Weigh given points
-        according to the method
-        described above
+        Weigh given points according to the method described above
     """
 
     def __init__(self, radius=1, norm=None):
@@ -226,9 +218,7 @@ class CylindricMeanWeigher(Weigher):
         )
 
     def weigh(self, pts):
-        """Weigh given points
-        according to the method
-        described above
+        """Weigh given points according to the method described above
 
         Parameters
         ----------
@@ -238,9 +228,9 @@ class CylindricMeanWeigher(Weigher):
         Returns
         -------
         wts : numpy.ndarray of shape (n, )
-            Normalized weights of
-            the input points
+            Normalized weights of the input points
         """
+
         pts = np.asarray(pts)
         shape = pts.shape
         if not pts.size:
@@ -268,55 +258,39 @@ class CylindricMeanWeigher(Weigher):
 
 
 class CylindricMemberWeigher(Weigher):
-    """A weigher that
-    weighs given points
-    according to the
+    """A weigher that weighs given points according to the
     following procedure:
 
-    For a given point p
-    and points pts
-    we look at all the
-    points pt in pts such that
-    |pt[0] - p[0]| <= l
-    ||pt[1:] - p[1:]|| <= r
-    Call the set of all such
-    points P, then
-    w_p = #P - 1, where #
-    is the cardinality of
-    a set
+    For a given point p and points pts
+    we look at all the points pt in pts such that
+    |pt[0] - p[0]| <= h and ||pt[1:] - p[1:]|| <= r
+
+    Call the set of all such points P, then w_p = #P - 1
 
     Parameters
     ----------
     radius : positive int or float, optional
-        The radius of the
-        considered cylinder,
-        ie r
+        The radius of the considered cylinder, ie r
 
         Defaults to 1
+
     length : nonnegative int of float, optional
-        The height of the
-        considered cylinder,
-        ie l
+        The height of the considered cylinder, ie h
 
-        If length is 0,
-        the cylinder is a
-        d-1 dimensional ball
+        If length is 0, the cylinder is a d-1 dimensional ball
 
         Defaults to 1
-    norm : function or callable, optional
-        Norm with which to
-        evaluate the distances,
-        ie ||.||
 
-        If nothing is passed, it
-        will default to ||.||_2
+    norm : function or callable, optional
+        Norm with which to evaluate the distances, ie ||.||
+
+        If nothing is passed, it will default to ||.||_2
+
 
     Methods
     -------
     weigh(self, pts)
-        Weigh given points
-        according to the method
-        described above
+        Weigh given points according to the method described above
     """
 
     def __init__(self, radius=1, length=1, norm=None):
@@ -346,9 +320,7 @@ class CylindricMemberWeigher(Weigher):
         )
 
     def weigh(self, pts):
-        """Weigh given points
-        according to the method
-        described above
+        """Weigh given points according to the method described above
 
         Parameters
         ----------
@@ -358,9 +330,9 @@ class CylindricMemberWeigher(Weigher):
         Returns
         -------
         wts : numpy.ndarray of shape (n, )
-            Normalized weights of
-            the input points
+            Normalized weights of the input points
         """
+
         pts = np.asarray(pts)
         shape = pts.shape
         if not pts.size:
