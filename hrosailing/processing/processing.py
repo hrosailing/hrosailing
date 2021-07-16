@@ -14,8 +14,10 @@ import hrosailing.polardiagram as pol
 import hrosailing.processing.modelfunctions as mf
 import hrosailing.processing.pipelinecomponents as pc
 
-
-from hrosailing.polardiagram.polardiagram import FileReadingException
+from hrosailing.polardiagram.polardiagram import (
+    FileReadingException,
+    PolarDiagramException,
+)
 from hrosailing.wind import (
     apparent_wind_to_true,
     speed_resolution,
@@ -45,9 +47,7 @@ class PipelineException(Exception):
 
 
 class PolarPipeline:
-    """A Pipeline class to create
-    polar diagrams from raw data,
-    similiar to sklearns Pipeline.
+    """A Pipeline class to create polar diagrams from raw data
 
     Parameters
     ----------
@@ -64,20 +64,15 @@ class PolarPipeline:
     Methods
     -------
     weigher
-        Returns a read only version
-        of self._weigher
+        Returns a read only version of self._weigher
     filter
-        Returns a read only version
-        of self._filter
+        Returns a read only version of self._filter
     sampler
-        Returns a read only version
-        of self._sampler
+        Returns a read only version of self._sampler
     interpolater
-        Returns a read only version
-        of self._interpolater
+        Returns a read only version of self._interpolater
     regressor
-        Returns a read only version
-        of self._regressor
+        Returns a read only version of self._regressor
     __call__(p_type: PolarDiagram,
              data=None, data_file=None,
              file_format=None, file_mode='mean',
@@ -130,42 +125,31 @@ class PolarPipeline:
 
     @property
     def weigher(self):
-        """Returns a read only version
-        of self._weigher"""
+        """Returns a read only version of self._weigher"""
         return self._weigher
 
     @property
     def filter(self):
-        """Returns a read only version
-        of self._filter"""
+        """Returns a read only version of self._filter"""
         return self._filter
 
     @property
     def sampler(self):
-        """Returns a read only version
-        of self._sampler"""
+        """Returns a read only version of self._sampler"""
         return self._sampler
 
     @property
     def interpolater(self):
-        """Returns a read only version
-        of self._interpolater"""
+        """Returns a read only version of self._interpolater"""
         return self._interpolater
 
     @property
     def regressor(self):
-        """Returns a read only version
-        of self._regressor"""
+        """Returns a read only version of self._regressor"""
         return self._regressor
 
     def __repr__(self):
-        return (
-            f"PolarPipeline("
-            f"weigher={self.weigher.__name__}, "
-            f"filter={self.filter.__name__}, "
-            f"interpolater={self.interpolater.__name__}, "
-            f"s_fit_func={self.regressor.__name__})"
-        )
+        pass
 
     def __call__(
         self,
@@ -184,100 +168,70 @@ class PolarPipeline:
         Parameters
         ----------
         p_type : PolarDiagram
-            Specifies the type of polar
-            diagram, that is to be created
+            Specifies the type of polar diagram, that is to be created
 
-            Can either be PolarDiagramTable,
-            PolarDiagramCurve or
-            PolarDiagramPointcloud
         data : array_like, optional
-            Data from which to create
-            the polar diagram, given
-            as a sequence of points
-            consisting of wind speed,
+            Data from which to create the polar diagram, given
+            as a sequence of points, consisting of wind speed,
             wind angle and boat speed
+
         data_file : string, optional
-            file containing data from
-            which to create a polar
+            file containing data from which to create a polar
             diagram. Can either be
-            a .csv file containing a
-            sequence of points consisting
-            of wind speed, wind angle and
-            boat speed,
-            or a file containing
-            nmea-sentences from which the
-            data will be extracted.
+                - a .csv file containing a sequence of points consisting
+                of wind speed, wind angle and boat speed
+                - a file containing nmea-sentences from which the data
+                will be extracted.
+
         file_format : string, optional
-            Specifies wether data_file is
-            a .csv file or a file containing
+            Specifies wether data_file is a .csv file or a file containing
             nmea sentences
+
         file_mode : string, optional
-            Reading mode to be passed to
-            filereading.read_nmea_file
-            in the case that data_file is
-            a file containing nmea_sentences
+            Reading mode to be passed to the read_nmea_file-function
+            in the case that data_file is a file containing nmea_sentences
 
-            Defaults to 'mean'
+            Defaults to "mean"
         tw : bool, optional
-            Specifies if the given
-            wind data should be
-            viewed as true wind
+            Specifies if the given wind data should be viewed as true wind
 
-            If False, wind data
-            will be converted to
-            true wind
+            If False, wind data will be converted to true wind
 
             Defaults to True
+
         filtering : bool, optional
-            Specifies if the data
-            should be filtered using
-            self.filter after weighing
+            Specifies if the data should be filtered after weighing
 
             Defaults to True
+
         w_res : tuple of length 2 or string, optional
-            Only used if p_type is
-            PolarDiagramTable
+            Only used if p_type is PolarDiagramTable
 
-            Specifies the wind speed
-            and wind angle resolution
-            for the PolarDiagramTable
+            Specifies the wind speed and wind angle resolution
+            for the PolarDiagramTable. Can either be
+                - a tuple of length 2 containing the wind speed
+                and wind angle resolution given in the same manner
+                as for pol.PolarDiagramTable
+                - the string "auto", in which case the function will try
+                to extract a good wind resolution based on the given data
 
-            Can either be a tuple of
-            length 2 containing the
-            wind speed and wind angle
-            resolution given in the
-            same manner as in
-            PolarDiagramTable,
-            or the string 'auto',
-            in which case the
-            function will try to extract
-            a good wind resolution based
-            on the given data.
+            If nothing is passed w_res will default to
+            (numpy.arange(2, 42, 2), numpy.aragen(0, 360, 5))
 
-            If nothing is passed
-            w_res will default to
-            (numpy.arange(2, 42, 2),
-             numpy.aragen(0, 360, 5))
         neighbourhood : Neighbourhood, optional
-            Only used if p_type is
-            PolarDiagramTable or
-            PolarDiagramPointcloud
+            Only used if p_type is PolarDiagramTable or PolarDiagramPointcloud
 
-            Specifies the neighbourhood
-            of the grid and sample points
+            Specifies the neighbourhood of the grid and sample points
             to be used for interpolation
 
-            If nothing is passed,
-            neighbourhood will default
-            to neighbourhood.Ball()
+            If nothing is passed, neighbourhood will default to pc.Ball()
 
         Returns
         -------
-        polar_diagram : PolarDiagram
-            An instance of the given
-            p_type based on the input
-            data
+        out : PolarDiagram
+            An instance of the given p_type based on the input data
         """
+
         if p_type not in {
             pol.PolarDiagramTable,
             pol.PolarDiagramCurve,
@@ -309,7 +263,6 @@ class PolarPipeline:
 
 
 def _read_file(data_file, file_format, mode, tw):
-    data = []
     if file_format not in {"csv", "nmea"}:
         raise PipelineException(
             f"No functionality for the"
@@ -320,38 +273,31 @@ def _read_file(data_file, file_format, mode, tw):
     if file_format == "csv":
         data = read_csv_file(data_file)
     if file_format == "nmea":
-        data = read_nmea_file(data_file, mode=mode, convert_wind=True)
+        data = read_nmea_file(data_file, mode=mode, tw=True)
         tw = True
 
     return data, tw
 
 
 def read_csv_file(csv_path, delimiter=None):
-    """Reads a .csv file
-    of data points and
-    returns a numpy.ndarray
+    """Reads a .csv file of data points and returns a numpy.ndarray
     of those data points
 
     Parameters
     ----------
     csv_path : string
-        Path to a .csv file
-        which will be read
-    delimiter : string, optional
-        Delimiter used in
-        the .csv file
+        Path to a .csv file which will be read
 
-        If nothing is passed,
-        the python parsing
-        engine autodetects the
-        used delimiter
+    delimiter : string, optional
+        Delimiter used in the .csv file
+
+        If nothing is passed, the python parsing engine will try to
+        autodetect the used delimiter
 
     Returns
     -------
-    csv_data : numpy.ndarray
-        Array of data points
-        contained in the
-        .csv file
+    out : numpy.ndarray
+        Array of the data points contained in the .csv file
     """
 
     try:
@@ -362,104 +308,63 @@ def read_csv_file(csv_path, delimiter=None):
         raise FileReadingException(f"Can't find/open/read {csv_path}")
 
 
-def read_nmea_file(nmea_path, mode="interpolate", convert_wind=True):
-    """Reads a text file
-    containing nmea-sentences
-    and extracts data points
-    based on recorded wind speed,
-    wind angle, and either speed
-    over water or speed over
-    ground and returns
-    a list of said points
+def read_nmea_file(nmea_path, mode="interpolate", tw=True):
+    """Reads a text file containing nmea-sentences and extracts
+    data points based on recorded wind speed, wind angle, and either speed
+    over water or speed over  ground and returns a list of said points
 
-    Function looks for
-    sentences of type:
-        MWV for wind data
-        either VHW for
-        speed over water or
-        if not present
-        RMC for speed over
-        ground
+    Function looks for sentences of type:
+        - MWV for wind data
+        - VHW for speed over water or if not
+        present RMC for speed over ground
 
     Parameters
     ----------
     nmea_path : string
-        Path to a text file,
-        containing nmea-0183
-        sentences, which will
+        Path to a text file, containing nmea-0183 sentences, which will
         be read
+
     mode : string, optional
-        In the case where there is
-        more recorded wind data
-        than speed data,
-        specifies how to handle
-        the surplus:
-            interpolate: handles the
-            surplus by taking
-            convex combinations of
-            two recorded speed datas
-            together with the recorded
-            wind data "between" those
-            two points to create
-            multiple data points
+        In the case where there is more recorded wind data than speed data,
+        specifies how to handle the surplus
+            - "interpolate": handles the surplus by taking
+            convex combinations of two recorded speed datas
+            together with the recorded wind data "between" those
+            two points to create multiple data points
 
-            mean: handles the
-            surplus by taking the
-            mean of the wind data
-            "belonging" to a given
-            speed data to create a
-            singe data point
+            - "mean": handles the surplus by taking the mean
+            of the wind data "belonging" to a given speed data
+            to create a singe data point
 
-        Defaults to 'interpolate'
-    convert_wind : bool, optional
-        Specifies if occuring
-        apparent wind should
-        be automatically converted
-        to true wind.
+        Defaults to "interpolate"
 
-        If False, each point will
-        have an extra component,
-        specifying if it is true
-        or apparent wind
+    tw : bool, optional
+        Specifies if occuring apparent wind should be automatically
+        converted to true wind.
+
+        If False, each point will have an extra component,
+        specifying if it is true or apparent wind
 
         Defaults to True
 
     Returns
     -------
     nmea_data : list
-        If convert_wind is True:
-            A list of points
-            consisting of wind
-            speed, wind angle,
-            and boat speed,
-            with the wind being
-            true wind
-        If convert_wind is False:
-            A list of points
-            consisting of wind
-            speed, wind angle,
-            boat speed, and
-            a reference, specifying
-            wether the wind is
-            true or appearent wind
+        If tw:
+            A list of points consisting of wind speed, wind angle,
+            and boat speed,with the wind being true wind
+        else:
+            A list of points consisting of wind speed, wind angle,
+            boat speed, and a reference, specifying wether the wind
+            is true or appearent wind
 
 
-    Function raises an exception:
-        If file can't be found,
-        opened, or read
-
-        If file isn't "sorted",
-        meaning there has to be
-        at least one recorded
-        wind data between two
-        recorded speed datas
-
-        If file is empty or
-        doesn't contain any
-        relevant sentences
-
-        If file contains invalid
-        speed or wind sentences
+    Raises a FileReadingException
+        - if file can't be found, opened, or read
+        - if file isn't "sorted", meaning there has to be at least
+        one recorded wind data "between" two recorded speed datas
+        - if file is empty or doesn't contain any relevant sentences
+        - if file contains invalid relevant nmea sentences
     """
 
     # TODO: Also look for rmc sentences, if
@@ -504,7 +409,7 @@ def read_nmea_file(nmea_path, mode="interpolate", convert_wind=True):
 
             _process_data(nmea_data, wind_data, stc, bsp, mode)
 
-        if convert_wind:
+        if tw:
             aw = [data[:3] for data in nmea_data if data[3] == "R"]
             tw = [data[:3] for data in nmea_data if data[3] != "R"]
             if not aw:
@@ -562,16 +467,28 @@ def _create_polar_diagram_table(w_pts, w_res, neighbourhood, interpolater):
     w_res = _set_wind_resolution(w_res, w_pts.points)
     bsps = _interpolate_grid_points(w_res, w_pts, neighbourhood, interpolater)
 
-    return pol.PolarDiagramTable(ws_res=w_res[0], wa_res=w_res[1], bsps=bsps)
+    try:
+        return pol.PolarDiagramTable(
+            ws_res=w_res[0], wa_res=w_res[1], bsps=bsps
+        )
+    except PolarDiagramException as pe:
+        raise PipelineException(
+            f"During creation of the polar diagram, exception {pe} occured"
+        )
 
 
 def _create_polar_diagram_curve(w_pts, regressor):
     # regressor.set_weights(w_pts.weights)
     regressor.fit(w_pts.points)
 
-    return pol.PolarDiagramCurve(
-        regressor.model_func, *regressor.optimal_params
-    )
+    try:
+        return pol.PolarDiagramCurve(
+            regressor.model_func, *regressor.optimal_params
+        )
+    except PolarDiagramException as pe:
+        raise PipelineException(
+            f"During creation of the polar diagram, exception {pe} occured"
+        )
 
 
 def _create_polar_diagram_pointcloud(
@@ -590,7 +507,12 @@ def _create_polar_diagram_pointcloud(
         mask = neighbourhood.is_contained_in(w_pts.points[:, :2] - s_pt)
         pts.append(interpolater.interpolate(w_pts[mask], s_pt))
 
-    return pol.PolarDiagramPointcloud(pts=pts)
+    try:
+        return pol.PolarDiagramPointcloud(pts=pts)
+    except PolarDiagramException as pe:
+        raise PipelineException(
+            f"During creation of the polar diagram, exception {pe} occured"
+        )
 
 
 def _set_wind_resolution(w_res, pts):
@@ -626,15 +548,13 @@ def _extract_wind(pts, n, threshhold):
     return res
 
 
-def _interpolate_grid_points(w_res, w_pts, neighbourhood, interpolater):
+def _interpolate_grid_points(w_res, w_pts, nhood, ipol):
     ws_res, wa_res = w_res
     bsps = np.zeros((len(wa_res), len(ws_res)))
 
     for i, ws in enumerate(ws_res):
         for j, wa in enumerate(wa_res):
             grid_point = np.array([ws, wa])
-            mask = neighbourhood.is_contained_in(
-                w_pts.points[:, :2] - grid_point
-            )
-            bsps[j, i] = interpolater.interpolate(w_pts[mask], grid_point)
+            mask = nhood.is_contained_in(w_pts.points[:, :2] - grid_point)
+            bsps[j, i] = ipol.interpolate(w_pts[mask], grid_point)
     return bsps
