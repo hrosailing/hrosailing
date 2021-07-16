@@ -566,6 +566,8 @@ def _convert_wind(wind_arr, tw):
     return apparent_wind_to_true(wind_arr)
 
 
+# TODO: Standardize wind angles, such that they are in [0, 360),
+#       because 360° should be equal to 0°
 class PolarDiagramTable(PolarDiagram):
     """A class to represent, visualize and work with
     a polar diagram in the form of a table.
@@ -844,9 +846,27 @@ class PolarDiagramTable(PolarDiagram):
             raise FileWritingException(f"Can't write to {csv_path}")
 
     def symmetrize(self):
-        """
+        """Constructs a symmetric version of the
+        polar diagram, by mirroring it at the 0° - 180° axis
+        and returning a new instance
+
+        Warning
+        -------
+        Should only be used if all the wind angles of the initial
+        polar diagram are on one side of the 0° - 180° axis,
+        otherwise this can lead to duplicate data, which can
+        overwrite or live alongside old data
 
         """
+        below_180 = [wa for wa in self.wind_angles if wa <= 180]
+        above_180 = [wa for wa in self.wind_angles if wa > 180]
+        if below_180 and above_180:
+            print(
+                "There are wind angles on both sides of the 0° - 180° axis. "
+                "This might result in duplicate data, which can overwrite "
+                "or live alongside old data"
+            )
+
         wa_res = np.concatenate(
             [self.wind_angles, 360 - np.flip(self.wind_angles)]
         )
@@ -854,13 +874,12 @@ class PolarDiagramTable(PolarDiagram):
             (self.boat_speeds, np.flip(self.boat_speeds, axis=0))
         )
 
-        # deleting multiple 180° and 0°
-        # occurences in the table
+        # deleting multiple 180° and 0° occurences in the table
         if 180 in self.wind_angles:
             wa_res = list(wa_res)
-            h = int(len(wa_res) / 2)
-            del wa_res[h]
-            bsps = np.row_stack((bsps[:h, :], bsps[h + 1 :, :]))
+            mid = wa_res.index(180) or wa_res.index(180.0)
+            del wa_res[mid]
+            bsps = np.row_stack((bsps[:mid, :], bsps[mid + 1:, :]))
         if 0 in self.wind_angles:
             bsps = bsps[:-1, :]
             wa_res = wa_res[:-1]
@@ -1365,7 +1384,13 @@ class PolarDiagramTable(PolarDiagram):
         plot_convex_surface(ws, wa, bsp, ax, color)
 
 
+# TODO: Standardize wind angles, such that they are in [0, 360),
+#       because 360° should be equal to 0°
 class PolarDiagramMultiSails(PolarDiagram):
+    """
+
+    """
+
     def __init__(self, polar_tables=None):
         if polar_tables is None:
             polar_tables = [PolarDiagramTable()]
@@ -2113,6 +2138,8 @@ class PolarDiagramCurve(PolarDiagram):
         pass
 
 
+# TODO: Standardize wind angles, such that they are in [0, 360),
+#       because 360° should be equal to 0°
 class PolarDiagramPointcloud(PolarDiagram):
     """A class to represent, visualize and work with a polar diagram
     given by a point cloud
@@ -2278,9 +2305,26 @@ class PolarDiagramPointcloud(PolarDiagram):
             raise FileWritingException(f"Can't write to {csv_path}")
 
     def symmetrize(self):
-        """
+        """Constructs a symmetric version of the
+        polar diagram, by mirroring it at the 0° - 180° axis
+        and returning a new instance
 
+        Warning
+        -------
+        Should only be used if all the wind angles of the initial
+        polar diagram are on one side of the 0° - 180° axis,
+        otherwise this can result in the construction of duplicate points,
+        that might overwrite or live alongside old points
         """
+        below_180 = [wa for wa in self.wind_angles if wa <= 180]
+        above_180 = [wa for wa in self.wind_angles if wa > 180]
+        if below_180 and above_180:
+            print(
+                "There are wind angles on both sides of the 0° - 180° axis. "
+                "This might result in duplicate data, which can overwrite "
+                "or live alongside old data"
+            )
+
         sym_pts = self.points
         if not sym_pts.size:
             return self
