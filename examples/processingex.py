@@ -1,7 +1,7 @@
-import hrosailing.processing as pro
 import hrosailing.processing.pipelinecomponents as pc
 import matplotlib.pyplot as plt
 import numpy as np
+
 
 def visualize_ball():
     x = np.linspace(-1, 1, 1000)
@@ -34,7 +34,6 @@ def visualize_ellipsoid():
 
     plt.plot(x, y, ms=0.6, color='blue', ls='', marker='o')
     plt.show()
-
 
 
 def visualize_cuboid():
