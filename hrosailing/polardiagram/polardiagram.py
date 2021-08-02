@@ -235,7 +235,7 @@ def symmetric_polar_diagram(obj):
     out : PolarDiagram
         "symmetrized" version of input
     """
-    obj.symmetrize()
+    return obj.symmetrize()
 
 
 class PolarDiagram(ABC):
@@ -322,6 +322,10 @@ class PolarDiagram(ABC):
 
     @abstractmethod
     def symmetrize(self):
+        pass
+
+    @abstractmethod
+    def get_slices(self, ws):
         pass
 
     def plot_polar_slice(self, ws, ax=None, **plot_kw):
@@ -879,7 +883,7 @@ class PolarDiagramTable(PolarDiagram):
             wa_res = list(wa_res)
             mid = wa_res.index(180) or wa_res.index(180.0)
             del wa_res[mid]
-            bsps = np.row_stack((bsps[:mid, :], bsps[mid + 1:, :]))
+            bsps = np.row_stack((bsps[:mid, :], bsps[mid + 1 :, :]))
         if 0 in self.wind_angles:
             bsps = bsps[:-1, :]
             wa_res = wa_res[:-1]
@@ -937,18 +941,28 @@ class PolarDiagramTable(PolarDiagram):
             new_bsps = new_bsps.reshape(len(wa_ind), len(ws_ind))
         except ValueError:
             raise PolarDiagramException(
-                f"{new_bsps} couldn't be broadcasted to an "
+                f"{new_bsps} couldnt be broadcasted to an "
                 f"array of shape {(len(wa_ind), len(ws_ind))}"
             )
 
         self._boat_speeds[mask] = new_bsps.flat
 
-    def _get_slice_data(self, ws):
-        ind = _get_indices(ws, self.wind_speeds)
-        return self.boat_speeds[:, ind]
-
     def _get_radians(self):
         return np.deg2rad(self.wind_angles)
+
+    def get_slices(self, ws):
+        if ws is None:
+            ws = self.wind_speeds
+        if isinstance(ws, (int, float)):
+            ws = [ws]
+        # better way?
+        ws = list(ws)
+        if not ws:
+            raise PolarDiagramException("No slices where given")
+
+        ind = _get_indices(ws, self.wind_speeds)
+        wa = np.deg2rad(self.wind_angles)
+        return ws, wa, self.boat_speeds[:, ind]
 
     def plot_polar(
         self,
@@ -1045,19 +1059,10 @@ class PolarDiagramTable(PolarDiagram):
             f"plot_kw={plot_kw})' called"
         )
 
-        if ws is None:
-            ws = self.wind_speeds
-        if isinstance(ws, (int, float)):
-            ws = [ws]
-
-        # better way?
-        ws = list(ws)
-        if not ws:
-            raise PolarDiagramException("No slices where given")
-
-        bsps = list(self._get_slice_data(ws).T)  # <- why?
-        wa = [list(self._get_radians())] * len(bsps)
-        plot_polar(ws, wa, bsps, ax, colors, show_legend, legend_kw, **plot_kw)
+        ws, wa, bsp = self.get_slices(ws)
+        bsp = list(bsp.T)
+        wa = [wa] * len(bsp)
+        plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
     def plot_flat(
         self,
@@ -1154,20 +1159,11 @@ class PolarDiagramTable(PolarDiagram):
             f"plot_kw={plot_kw})' called"
         )
 
-        if ws is None:
-            ws = self.wind_speeds
-        if isinstance(ws, (int, float)):
-            ws = [ws]
+        ws, wa, bsp = self.get_slices(ws)
+        bsp = list(bsp.T)
+        wa = [np.rad2deg(wa)] * len(bsp)
 
-        # better way?
-        ws = list(ws)
-        if not ws:
-            raise PolarDiagramException("No slices where given")
-
-        bsps = list(self._get_slice_data(ws=ws).T)  # <- why?
-        wa = [list(self.wind_angles)] * len(bsps)
-
-        plot_flat(ws, wa, bsps, ax, colors, show_legend, legend_kw, **plot_kw)
+        plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
     def plot_3d(self, ax=None, colors=("blue", "blue")):
         """Creates a 3d plot of the polar diagram
@@ -1353,20 +1349,11 @@ class PolarDiagramTable(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
-        if ws is None:
-            ws = self.wind_speeds
-        if isinstance(ws, (int, float)):
-            ws = [ws]
-
-        # better way?
-        ws = list(ws)
-        if not ws:
-            raise PolarDiagramException("No slices where given")
-
-        bsps = list(self._get_slice_data(ws).T)  # <- why?
-        wa = [list(self._get_radians())] * len(bsps)
+        ws, wa, bsp = self.get_slices(ws)
+        bsp = list(bsp.T)
+        wa = [wa] * len(bsp)
         plot_convex_hull(
-            ws, wa, bsps, colors, show_legend, legend_kw, **plot_kw
+            ws, wa, bsp, colors, show_legend, legend_kw, **plot_kw
         )
 
     # Still very much in development
@@ -1425,7 +1412,7 @@ class PolarDiagramMultiSails(PolarDiagram):
     def _get_radians(self):
         return [np.deg2rad(wa) for wa in self.wind_angles]
 
-    def _get_slice_data(self, ws):
+    def get_slices(self, ws):
         ind = _get_indices(ws, self.wind_speeds)
         return [bsp[:, ind].ravel() for bsp in self.boat_speeds]
 
@@ -1654,6 +1641,19 @@ class PolarDiagramCurve(PolarDiagram):
             wa = np.deg2rad(wa)
         return wa
 
+    def get_slices(self, ws):
+        if isinstance(ws, (int, float)):
+            ws = [ws]
+        if isinstance(ws, tuple):
+            ws = list(np.linspace(ws[0], ws[1], ws[2]))
+
+        wa = self._get_wind_angles()
+        bsp = [self(np.array([w] * 1000), wa) for w in ws]
+        if not self.radians:
+            wa = np.deg2rad(wa)
+
+        return ws, wa, bsp
+
     def plot_polar(
         self,
         ws=(0, 20, 5),
@@ -1748,22 +1748,10 @@ class PolarDiagramCurve(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
-        if isinstance(ws, (int, float)):
-            ws = [ws]
-        if isinstance(ws, tuple):
-            ws = list(np.linspace(ws[0], ws[1], ws[2]))
+        ws, wa, bsp = self.get_slices(ws)
+        wa = [wa] * len(ws)
 
-        wa = self._get_wind_angles()
-        if self.radians:
-            wa_list = [wa] * len(ws)
-        else:
-            wa_list = [np.deg2rad(wa)] * len(ws)
-
-        bsp = [self(np.array([w] * 1000), wa) for w in ws]
-
-        plot_polar(
-            ws, wa_list, bsp, ax, colors, show_legend, legend_kw, **plot_kw
-        )
+        plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
     def plot_flat(
         self,
@@ -1862,22 +1850,10 @@ class PolarDiagramCurve(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
-        if isinstance(ws, (int, float)):
-            ws = [ws]
-        if isinstance(ws, tuple):
-            ws = list(np.linspace(ws[0], ws[1], ws[2]))
+        ws, wa, bsp = self.get_slices(ws)
+        wa = [np.rad2deg(wa)] * len(ws)
 
-        wa = self._get_wind_angles()
-        if self.radians:
-            wa_list = [np.rad2deg(wa)] * len(ws)
-        else:
-            wa_list = [wa] * len(ws)
-
-        bsp = [self(np.array([w] * 1000), wa) for w in ws]
-
-        plot_flat(
-            ws, wa_list, bsp, ax, colors, show_legend, legend_kw, **plot_kw
-        )
+        plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
     # TODO Probably easier way to do it?
     def plot_3d(self, ws=(0, 20, 100), ax=None, colors=("blue", "blue")):
@@ -2110,27 +2086,10 @@ class PolarDiagramCurve(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
-        if isinstance(ws, (int, float)):
-            ws = [ws]
-        if isinstance(ws, tuple):
-            ws = list(np.linspace(ws[0], ws[1], ws[2]))
+        ws, wa, bsp = self.get_slices(ws)
 
-        wa = self._get_wind_angles()
-        if self.radians:
-            wa_list = [wa] * len(ws)
-        else:
-            wa_list = [np.deg2rad(wa)] * len(ws)
-
-        bsp_list = [self(np.array([w] * 1000), wa) for w in ws]
         plot_convex_hull(
-            ws,
-            wa_list,
-            bsp_list,
-            ax,
-            colors,
-            show_legend,
-            legend_kw,
-            **plot_kw,
+            ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw
         )
 
     def plot_convex_hull_3d(self, ax=None, colors=None):
@@ -2372,9 +2331,8 @@ class PolarDiagramPointcloud(PolarDiagram):
             return
         self._pts = np.row_stack((self.points, new_pts))
 
-    def _get_slices(self, ws):
-
-        # issue when ws = 0 ....
+    def get_slices(self, ws):
+        # issue when ws = 0
         if not ws:
             raise PolarDiagramException(f"No slices given")
         if isinstance(ws, (int, float)):
@@ -2389,7 +2347,7 @@ class PolarDiagramPointcloud(PolarDiagram):
                 raise PolarDiagramException(
                     f"No points with wind speed={ws} found"
                 )
-            wa.append(pts[:, 0])
+            wa.append(np.deg2rad(pts[:, 0]))
             bsp.append(pts[:, 1])
 
         return ws, wa, bsp
@@ -2490,8 +2448,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
-        ws, wa, bsp = self._get_slices(ws)
-        wa = [np.deg2rad(w) for w in wa]
+        ws, wa, bsp = self.get_slices(ws)
 
         plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
@@ -2594,7 +2551,8 @@ class PolarDiagramPointcloud(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
-        ws, wa, bsp = self._get_slices(ws)
+        ws, wa, bsp = self.get_slices(ws)
+        wa = [np.rad2deg(a) for a in wa]
 
         plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
@@ -2799,8 +2757,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
-        ws, wa, bsp = self._get_slices(ws)
-        wa = [np.deg2rad(w) for w in wa]
+        ws, wa, bsp = self.get_slices(ws)
 
         plot_convex_hull(
             ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw
