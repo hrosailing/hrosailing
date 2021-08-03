@@ -787,7 +787,7 @@ class PolarDiagramTable(PolarDiagram):
 
     @property
     def wind_angles(self):
-        """Returns a read only version of self._resol_wind_angle"""
+        """Returns a read only version of self._res_wind_angle"""
         return self._res_wind_angle.copy()
 
     @property
@@ -1356,19 +1356,18 @@ class PolarDiagramTable(PolarDiagram):
             ws, wa, bsp, colors, show_legend, legend_kw, **plot_kw
         )
 
-    # Still very much in development
-    # Don't use
     def plot_convex_hull_3d(self, ax=None, color="blue"):
         """"""
-        logger.info(
-            f"Method 'plot_convex_hull_3d( ax={ax}, color={color})' called"
-        )
-
-        ws, wa = np.meshgrid(self.wind_speeds, self._get_radians())
-        bsp = self.boat_speeds
-        bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
-
-        plot_convex_surface(ws, wa, bsp, ax, color)
+        # logger.info(
+        #     f"Method 'plot_convex_hull_3d( ax={ax}, color={color})' called"
+        # )
+        #
+        # ws, wa = np.meshgrid(self.wind_speeds, self._get_radians())
+        # bsp = self.boat_speeds
+        # bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
+        #
+        # plot_convex_surface(ws, wa, bsp, ax, color)
+        pass
 
 
 # TODO: Standardize wind angles, such that they are in [0, 360),
