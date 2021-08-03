@@ -18,63 +18,22 @@ from matplotlib.lines import Line2D
 from scipy.spatial import ConvexHull
 
 
-# TODO: Cleaning up
 def plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
     if ax is None:
         ax = plt.gca(projection="polar")
     _set_polar_directions(ax)
-    _check_keywords(plot_kw)
-    if colors is None:
-        colors = plot_kw.pop("color", None) or plot_kw.pop("c", None)
-    if isinstance(ws, list):
-        c = _set_color_cycle(ax, ws, colors)
-    else:
-        c = _set_color_cycle(ax, wa, colors)
-    if c is not None:
-        plot_kw["c"] = c
 
-    if legend_kw is None:
-        legend_kw = {}
-    if show_legend:
-        _set_legend(ax, ws, colors, label="True Wind Speed", **legend_kw)
-
-    if isinstance(ws, list):
-        c = _set_color_cycle(ax, ws, colors)
-    else:
-        c = _set_color_cycle(ax, wa, colors)
-    if c is not None:
-        plot_kw["c"] = c
+    _prepare_plot(ax, ws, wa, colors, show_legend, legend_kw, **plot_kw)
 
     xs, ys = _sort_data(wa, bsp)
     return _plot(ax, xs, ys, **plot_kw)
 
 
-# TODO: Cleaning up
 def plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
     if ax is None:
         ax = plt.gca()
-    _set_polar_directions(ax)
-    _check_keywords(plot_kw)
-    if colors is None:
-        colors = plot_kw.pop("color", None) or plot_kw.pop("c", None)
-    if isinstance(ws, list):
-        c = _set_color_cycle(ax, ws, colors)
-    else:
-        c = _set_color_cycle(ax, wa, colors)
-    if c is not None:
-        plot_kw["c"] = c
 
-    if legend_kw is None:
-        legend_kw = {}
-    if show_legend:
-        _set_legend(ax, ws, colors, label="True Wind Speed", **legend_kw)
-
-    if isinstance(ws, list):
-        c = _set_color_cycle(ax, ws, colors)
-    else:
-        c = _set_color_cycle(ax, wa, colors)
-    if c is not None:
-        plot_kw["c"] = c
+    _prepare_plot(ax, ws, wa, colors, show_legend, legend_kw, **plot_kw)
 
     xs, ys = _sort_data(wa, bsp)
     return _plot(ax, xs, ys, **plot_kw)
@@ -123,7 +82,18 @@ def plot_convex_hull(
     if ax is None:
         ax = plt.gca(projection="polar")
     _set_polar_directions(ax)
+
+    _prepare_plot(ax, ws, wa, colors, show_legend, legend_kw, **plot_kw)
+
+    wa, bsp = _sort_data(wa, bsp)
+    xs, ys = _get_convex_hull(wa, bsp)
+
+    return _plot(ax, xs, ys, **plot_kw)
+
+
+def _prepare_plot(ax, ws, wa, colors, show_legend, legend_kw, **plot_kw):
     _check_keywords(plot_kw)
+
     if colors is None:
         colors = plot_kw.pop("color", None) or plot_kw.pop("c", None)
     if isinstance(ws, list):
@@ -145,21 +115,15 @@ def plot_convex_hull(
     if c is not None:
         plot_kw["c"] = c
 
-    wa, bsp = _sort_data(wa, bsp)
-    xs, ys = _get_convex_hull(wa, bsp)
-
-    return _plot(ax, xs, ys, **plot_kw)
-
-
 # TODO: Many problems!!
-def plot_convex_surface(ws, wa, bsp, ax, color):
-    if ax is None:
-        ax = plt.gca(projection="3d")
-    _set_3d_labels(ax)
-
-    xs, ys, zs = _get_convex_hull_3d(ws, wa, bsp)
-
-    return ax.plot_surface(xs, ys, zs, rstride=1, cstride=1)
+# def plot_convex_surface(ws, wa, bsp, ax, color):
+#     if ax is None:
+#         ax = plt.gca(projection="3d")
+#     _set_3d_labels(ax)
+#
+#     xs, ys, zs = _get_convex_hull_3d(ws, wa, bsp)
+#
+#     return ax.plot_surface(xs, ys, zs, rstride=1, cstride=1)
 
 
 def _check_keywords(dct):
@@ -216,13 +180,13 @@ def _set_color_cycle(ax, ws, colors):
     ax.set_prop_cycle("color", _get_colors(colors, ws))
 
 
-def _get_colors(colors, scal_list):
+def _get_colors(colors, grad):
     min_color = np.array(to_rgb(colors[0]))
     max_color = np.array(to_rgb(colors[1]))
-    scal_max = max(scal_list)
-    scal_min = min(scal_list)
+    grad_max = max(grad)
+    grad_min = min(grad)
 
-    coeffs = [(scal - scal_min) / (scal_max - scal_min) for scal in scal_list]
+    coeffs = [(g - grad_min) / (grad_max - grad_min) for g in grad]
 
     return [(1 - coeff) * min_color + coeff * max_color for coeff in coeffs]
 
@@ -282,8 +246,6 @@ def _set_legend(ax, ws, colors, label, **legend_kw):
     )
 
 
-# TODO: Is there a better way?
-#       Write it for 2 and 3 dim?
 def _sort_data(wa, bsp):
     if not isinstance(wa, list):
         wa = [wa]
@@ -309,7 +271,6 @@ def _plot(ax, xs, ys, **plot_kw):
         ax.plot(x, y, **plot_kw)
 
 
-# TODO: Write it for 2 and 3 dim?
 def _get_convex_hull(wa, bsp):
     if not isinstance(wa, list):
         wa = [wa]
@@ -318,7 +279,7 @@ def _get_convex_hull(wa, bsp):
     xs = ys = []
     for w, b in zip(wa, bsp):
         w, b = np.asarray(w).ravel(), np.asarray(b).ravel()
-        vert = sorted(convex_hull_polar(np.column_stack((w, b))).vertices)
+        vert = sorted(_convex_hull_polar(np.column_stack((w, b))).vertices)
         x, y = list(zip(*([(w[i], b[i]) for i in vert])))
         x.append(x[0])
         y.append(y[0])
@@ -328,27 +289,27 @@ def _get_convex_hull(wa, bsp):
     return xs, ys
 
 
-# TODO: Merge with _get_convex_hull()?
-def _get_convex_hull_3d(ws, wa, bsp):
-    ws, wa, bsp = ws.ravel(), wa.ravel(), bsp.ravel()
-    vert = sorted(ConvexHull(np.column_stack((ws, wa, bsp))).vertices)
-
-    # maybe not list compr. but a for loop?
-    xs = [ws[i] for i in vert]
-    ys = [wa[i] for i in vert]
-    zs = [bsp[i] for i in vert]
-    xs.append(xs[0])
-    ys.append(ys[0])
-    zs.append(zs[0])
-
-    xs = np.asarray(xs).reshape(-1, 1)
-    ys = np.asarray(ys).reshape(-1, 1)
-    zs = np.asarray(zs).reshape(-1, 1)
-    return xs, ys, zs
-
-
-def convex_hull_polar(pts):
+def _convex_hull_polar(pts):
     polar_pts = np.column_stack(
         (pts[:, 1] * np.cos(pts[:, 0]), pts[:, 1] * np.sin(pts[:, 0]))
     )
     return ConvexHull(polar_pts)
+
+
+# TODO: Merge with _get_convex_hull()?
+# def _get_convex_hull_3d(ws, wa, bsp):
+#     ws, wa, bsp = ws.ravel(), wa.ravel(), bsp.ravel()
+#     vert = sorted(ConvexHull(np.column_stack((ws, wa, bsp))).vertices)
+#
+#     # maybe not list compr. but a for loop?
+#     xs = [ws[i] for i in vert]
+#     ys = [wa[i] for i in vert]
+#     zs = [bsp[i] for i in vert]
+#     xs.append(xs[0])
+#     ys.append(ys[0])
+#     zs.append(zs[0])
+#
+#     xs = np.asarray(xs).reshape(-1, 1)
+#     ys = np.asarray(ys).reshape(-1, 1)
+#     zs = np.asarray(zs).reshape(-1, 1)
+#     return xs, ys, zs
