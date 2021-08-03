@@ -115,6 +115,7 @@ def _prepare_plot(ax, ws, wa, colors, show_legend, legend_kw, **plot_kw):
     if c is not None:
         plot_kw["c"] = c
 
+
 # TODO: Many problems!!
 # def plot_convex_surface(ws, wa, bsp, ax, color):
 #     if ax is None:

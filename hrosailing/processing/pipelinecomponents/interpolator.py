@@ -17,6 +17,7 @@ from abc import ABC, abstractmethod
 def euclidean_norm(vec):
     return np.linalg.norm(vec, axis=1)
 
+
 # TODO: Error checks
 
 

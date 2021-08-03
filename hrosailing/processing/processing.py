@@ -238,7 +238,9 @@ class PolarPipeline:
             pol.PolarDiagramCurve,
             pol.PolarDiagramPointcloud,
         }:
-            raise PipelineException(f"An invalid PolarDiagram-type {p_type} was specified")
+            raise PipelineException(
+                f"An invalid PolarDiagram-type {p_type} was specified"
+            )
 
         if data is None and data_file is None:
             raise PipelineException("No data was specified")
@@ -400,7 +402,10 @@ def read_nmea_file(nmea_path, mode="interpolate", tw=True):
             # check if nmea-file is in a
             # way "sorted"
             if "VHW" in stc:
-                raise FileReadingException("No recorded wind data in between recorded speed data. Parsing not possible")
+                raise FileReadingException(
+                    "No recorded wind data in between recorded speed data. "
+                    "Parsing not possible"
+                )
 
             wind_data = []
             while "VHW" not in stc and stc is not None:
