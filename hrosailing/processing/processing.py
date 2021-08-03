@@ -1,6 +1,6 @@
 """
 A Pipeline class to automate getting a
-polar diagram from "raw" dataa
+polar diagram from "raw" data
 """
 
 # Author: Valentin F. Dannenberg / Ente
@@ -23,7 +23,6 @@ from hrosailing.wind import (
     speed_resolution,
     angle_resolution,
 )
-
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)s: %(message)s",
@@ -92,35 +91,37 @@ class PolarPipeline:
     ):
         if weigher is None:
             weigher = pc.CylindricMeanWeigher()
+        if not isinstance(weigher, pc.Weigher):
+            raise PipelineException(f"{weigher.__name__} is not a Weigher")
+        self._weigher = weigher
+
         if filter_ is None:
             filter_ = pc.QuantileFilter()
+        if not isinstance(filter_, pc.Filter):
+            raise PipelineException(f"{filter_.__name__} is not a Filter")
+        self._filter = filter_
+
         if sampler is None:
             sampler = pc.UniformRandomSampler(500)
+        if not isinstance(sampler, pc.Sampler):
+            raise PipelineException(f"{sampler.__name__} is not a Sampler")
+        self._sampler = sampler
+
         if interpolater is None:
             interpolater = pc.ArithmeticMeanInterpolator(1, 1)
+        if not isinstance(interpolater, pc.Interpolator):
+            raise PipelineException(
+                f"{interpolater.__name__} is not an Interpolator"
+            )
+        self._interpolater = interpolater
+
         if regressor is None:
             regressor = pc.ODRegressor(
                 model_func=mf.tws_s_s_dt_twa_gauss_comb,
                 init_values=(0.25, 10, 1.7, 0, 1.9, 30, 17.6, 0),
             )
-
-        if not isinstance(weigher, pc.Weigher):
-            raise PipelineException(f"{weigher.__name__} is not a Weigher")
-        if not isinstance(filter_, pc.Filter):
-            raise PipelineException(f"{filter_.__name__} is not a Filter")
-        if not isinstance(sampler, pc.Sampler):
-            raise PipelineException(f"{sampler.__name__} is not a Sampler")
-        if not isinstance(interpolater, pc.Interpolator):
-            raise PipelineException(
-                f"{interpolater.__name__} is not an Interpolator"
-            )
         if not isinstance(regressor, pc.Regressor):
             raise PipelineException(f"{regressor.__name__} is not a Regressor")
-
-        self._weigher = weigher
-        self._filter = filter_
-        self._sampler = sampler
-        self._interpolater = interpolater
         self._regressor = regressor
 
     @property
@@ -231,13 +232,13 @@ class PolarPipeline:
         out : PolarDiagram
             An instance of the given p_type based on the input data
         """
-
+        # TODO: Really necessarry? Different approach?
         if p_type not in {
             pol.PolarDiagramTable,
             pol.PolarDiagramCurve,
             pol.PolarDiagramPointcloud,
         }:
-            raise PipelineException("")
+            raise PipelineException(f"An invalid PolarDiagram-type {p_type} was specified")
 
         if data is None and data_file is None:
             raise PipelineException("No data was specified")
@@ -272,7 +273,7 @@ def _read_file(data_file, file_format, mode, tw):
 
     if file_format == "csv":
         data = read_csv_file(data_file)
-    if file_format == "nmea":
+    else:
         data = read_nmea_file(data_file, mode=mode, tw=True)
         tw = True
 
@@ -308,15 +309,16 @@ def read_csv_file(csv_path, delimiter=None):
         raise FileReadingException(f"Can't find/open/read {csv_path}")
 
 
+# TODO: Also look for rmc sentences, if
+#       there are no vhws?
 def read_nmea_file(nmea_path, mode="interpolate", tw=True):
     """Reads a text file containing nmea-sentences and extracts
-    data points based on recorded wind speed, wind angle, and either speed
-    over water or speed over  ground and returns a list of said points
+    data points based on recorded wind speed, wind angle, and speed
+    over water
 
     Function looks for sentences of type:
         - MWV for wind data
-        - VHW for speed over water or if not
-        present RMC for speed over ground
+        - VHW for speed over water
 
     Parameters
     ----------
@@ -366,9 +368,6 @@ def read_nmea_file(nmea_path, mode="interpolate", tw=True):
         - if file is empty or doesn't contain any relevant sentences
         - if file contains invalid relevant nmea sentences
     """
-
-    # TODO: Also look for rmc sentences, if
-    #       there are no vhws
     if mode not in ("mean", "interpolate"):
         raise FileReadingException(f"Mode {mode} not implemented")
 
@@ -397,10 +396,11 @@ def read_nmea_file(nmea_path, mode="interpolate", tw=True):
             if stc is None:
                 # eof
                 break
+
             # check if nmea-file is in a
             # way "sorted"
             if "VHW" in stc:
-                raise FileReadingException("")
+                raise FileReadingException("No recorded wind data in between recorded speed data. Parsing not possible")
 
             wind_data = []
             while "VHW" not in stc and stc is not None:
@@ -528,6 +528,7 @@ def _set_wind_resolution(w_res, pts):
     return speed_resolution(ws_res), angle_resolution(wa_res)
 
 
+# TODO Better approach?
 def _extract_wind(pts, n, threshhold):
     w_max = round(pts.max())
     w_min = round(pts.min())
