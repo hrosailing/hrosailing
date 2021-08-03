@@ -440,23 +440,14 @@ class Polytope(Neighbourhood):
         shape_b = b.shape
         # Sanity checks
         if not mat.size:
-            # TODO: Revert to default
-            #       value instead of
-            #       raising exception?
             raise NeighbourhoodException("mat is an empty array")
         if len(shape_mat) != 2:
-            # TODO: Try broadcast!
             raise NeighbourhoodException(f"mat is not 2-dimensional")
         if not b.size:
-            # TODO: Revert to default
-            #       value instead of
-            #       raising exception?
             raise NeighbourhoodException("b is an empty vector")
         if len(shape_b) != 1:
-            # TODO: Try broadcast!
             raise NeighbourhoodException("b is not 1-dimensional")
         if shape_mat[0] != shape_b[0]:
-            # TODO: Try broadcast!
             raise NeighbourhoodException(
                 f"mat needs to be a matrix of shape (n, d) and "
                 f"b needs to be a vector of shape (n, ), but "
