@@ -723,6 +723,7 @@ class PolarDiagramTable(PolarDiagram):
         bsps = np.ravel(bsps)
         wind_arr = _convert_wind(np.column_stack((ws_res, wa_res, bsps)), tw)
 
+        # TODO CHANGE IT!!!!! ERROR!!!
         self._res_wind_speed = np.array(sorted(list(set(wind_arr[:, 0]))))
         self._res_wind_angle = np.array(sorted(list(set(wind_arr[:, 1]))))
         self._boat_speeds = bsps.reshape(rows, cols)
@@ -962,7 +963,7 @@ class PolarDiagramTable(PolarDiagram):
             raise PolarDiagramException("No slices where given")
 
         ind = _get_indices(ws, self.wind_speeds)
-        wa = np.deg2rad(self.wind_angles)
+        wa = self._get_radians()
         return ws, wa, self.boat_speeds[:, ind]
 
     def plot_polar(
