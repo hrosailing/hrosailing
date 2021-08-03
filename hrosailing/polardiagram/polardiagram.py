@@ -538,9 +538,9 @@ class PolarDiagram(ABC):
     ):
         pass
 
-    @abstractmethod
-    def plot_convex_hull_3d(self, ax=None, colors="blue"):
-        pass
+    # @abstractmethod
+    # def plot_convex_hull_3d(self, ax=None, colors="blue"):
+    #     pass
 
 
 def _get_indices(ws, res):
@@ -646,7 +646,8 @@ class PolarDiagramTable(PolarDiagram):
             Boat speeds:
             self.boat_speeds
     symmetrize()
-
+        Constructs a symmetric version of the polar diagram, by mirroring it
+        at the 0° - 180° axis and returning a new instance
     change_entries(data, ws=None, wa=None, tw=True)
         Changes specified entries in the table
     plot_polar(
@@ -1356,24 +1357,50 @@ class PolarDiagramTable(PolarDiagram):
             ws, wa, bsp, colors, show_legend, legend_kw, **plot_kw
         )
 
-    def plot_convex_hull_3d(self, ax=None, color="blue"):
-        """"""
-        # logger.info(
-        #     f"Method 'plot_convex_hull_3d( ax={ax}, color={color})' called"
-        # )
-        #
-        # ws, wa = np.meshgrid(self.wind_speeds, self._get_radians())
-        # bsp = self.boat_speeds
-        # bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
-        #
-        # plot_convex_surface(ws, wa, bsp, ax, color)
-        pass
+    # def plot_convex_hull_3d(self, ax=None, color="blue"):
+    #     """"""
+    #     logger.info(
+    #         f"Method 'plot_convex_hull_3d( ax={ax}, color={color})' called"
+    #     )
+    #
+    #     ws, wa = np.meshgrid(self.wind_speeds, self._get_radians())
+    #     bsp = self.boat_speeds
+    #     bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
+    #
+    #     plot_convex_surface(ws, wa, bsp, ax, color)
 
 
 # TODO: Standardize wind angles, such that they are in [0, 360),
 #       because 360° should be equal to 0°
 class PolarDiagramMultiSails(PolarDiagram):
-    """
+    """A class to represent, visualize and work with
+    a polar diagram made up of multiple sets of sails,
+    each represented by a PolarDiagramTable
+
+    Parameters
+    ----------
+    polar_tables : list
+
+
+    Raises a PolarDiagramException if
+
+
+    Methods
+    -------
+    wind_speeds
+        Returns a read only version of self._res_wind_speed
+    wind_angles
+        Returns a read only version of self._res_wind_angle
+    boat_speeds
+        Returns a list of pt.boat_speeds for every PolarDiagramTable
+        pt in self._sails
+    to_csv(csv_path)
+
+    symmetrize()
+        Constructs a symmetric version of the polar diagram, by
+        mirroring each PolarDiagramTable  at the 0° - 180° axis
+        and returning a new instance
+
 
     """
 
@@ -1388,21 +1415,34 @@ class PolarDiagramMultiSails(PolarDiagram):
 
     @property
     def wind_speeds(self):
+        """Returns a read only version of self._res_wind_speed"""
         return self._res_wind_speed.copy()
 
     @property
     def wind_angles(self):
+        """Returns a read only version of self._res_wind_angle"""
         return [wa.copy() for wa in self._res_wind_angle]
 
     @property
     def boat_speeds(self):
-        return [pt.boat_speed for pt in self._sails]
+        """Returns a list of pt.boat_speeds for every PolarDiagramTable
+        pt in self._sails"""
+        return [pt.boat_speeds for pt in self._sails]
 
     def to_csv(self, csv_path):
         pass
 
     def symmetrize(self):
-        """
+        """Constructs a symmetric version of the polar diagram, by
+        mirroring each PolarDiagramTable at the 0° - 180° axis and
+        returning a new instance. See also the symmetrize()-method
+        of the PolarDiagramTable class
+
+        Warning
+        -------
+        Should only be used if all the wind angles of the PolarDiagramTables
+        are each on one side of the 0° - 180° axis, otherwise this can lead
+        to duplicate data, which can overwrite or live alongside old data
 
         """
         polar_tables = [sail.symmetrize() for sail in self._sails]
@@ -1447,8 +1487,9 @@ class PolarDiagramMultiSails(PolarDiagram):
         pass
 
     # TODO: Implementation
-    #       Problems: Can we make two color gradients
-    #                 for the two sails? How?
+    #       Problems: How can we make multiple color
+    #                 gradients for the multiple sails?
+    #                 Different approach?
     #                 How to handle legend?
     #                 Multiple legends?
     #                 Change helper function?
@@ -1473,8 +1514,8 @@ class PolarDiagramMultiSails(PolarDiagram):
     ):
         pass
 
-    def plot_convex_hull_3d(self, ax=None, colors=("blue",)):
-        pass
+    # def plot_convex_hull_3d(self, ax=None, colors=("blue",)):
+    #     pass
 
 
 class PolarDiagramCurve(PolarDiagram):
@@ -2083,9 +2124,9 @@ class PolarDiagramCurve(PolarDiagram):
             ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw
         )
 
-    def plot_convex_hull_3d(self, ax=None, colors=None):
-        """"""
-        pass
+    # def plot_convex_hull_3d(self, ax=None, colors=None):
+    #     """"""
+    #     pass
 
 
 # TODO: Standardize wind angles, such that they are in [0, 360),
@@ -2754,6 +2795,6 @@ class PolarDiagramPointcloud(PolarDiagram):
             ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw
         )
 
-    def plot_convex_hull_3d(self, ax=None, colors=None):
-        """"""
-        pass
+    # def plot_convex_hull_3d(self, ax=None, colors=None):
+    #     """"""
+    #     pass
