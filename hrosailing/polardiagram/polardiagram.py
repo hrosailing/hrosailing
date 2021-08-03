@@ -883,7 +883,7 @@ class PolarDiagramTable(PolarDiagram):
             wa_res = list(wa_res)
             mid = wa_res.index(180) or wa_res.index(180.0)
             del wa_res[mid]
-            bsps = np.row_stack((bsps[:mid, :], bsps[mid + 1 :, :]))
+            bsps = np.row_stack((bsps[:mid, :], bsps[mid + 1:, :]))
         if 0 in self.wind_angles:
             bsps = bsps[:-1, :]
             wa_res = wa_res[:-1]
@@ -1855,7 +1855,6 @@ class PolarDiagramCurve(PolarDiagram):
 
         plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
-    # TODO Probably easier way to do it?
     def plot_3d(self, ws=(0, 20, 100), ax=None, colors=("blue", "blue")):
         """Creates a 3d plot of a part of the polar diagram
 
@@ -1893,17 +1892,10 @@ class PolarDiagramCurve(PolarDiagram):
             f"Method 'plot_3d(ws={ws}, ax={ax}, " f"colors={colors})' called"
         )
 
-        ws = np.linspace(ws[0], ws[1], ws[2])
-        wa = self._get_wind_angles()
-
-        bsp_arr = np.array([self(np.array([w] * 1000), wa) for w in ws])
-        ws, wa_arr = np.meshgrid(ws, wa)
-
-        if self.radians:
-            bsp, wa = bsp_arr * np.cos(wa_arr), bsp_arr * np.sin(wa_arr)
-        else:
-            wa_arr = np.deg2rad(wa_arr)
-            bsp, wa = bsp_arr * np.cos(wa_arr), bsp_arr * np.sin(wa_arr)
+        ws, wa, bsp = self.get_slices(ws)
+        bsp = np.array(bsp)
+        ws, wa = np.meshgrid(ws, wa)
+        bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
 
         plot_surface(ws, wa, bsp, ax, colors)
 
