@@ -17,8 +17,8 @@ import numpy as np
 
 from abc import ABC, abstractmethod
 
-from hrosailing.processing.utils import euclidean_norm
 from hrosailing.wind import apparent_wind_to_true
+
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)s: %(message)s",
@@ -35,6 +35,10 @@ file_handler = logging.handlers.TimedRotatingFileHandler(
 file_handler.setLevel(logging.INFO)
 logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)
+
+
+def euclidean_norm(vec):
+    return np.linalg.norm(vec, axis=1)
 
 
 def _convert_wind(wind_arr, tw):
@@ -108,7 +112,7 @@ class WeightedPoints:
             raise WeightedPointsException("pts is not array_like")
         shape = pts.shape
         if not pts.size:
-            raise WeightedPointsException("")
+            raise WeightedPointsException("No points were given")
         self._points = _convert_wind(pts, tw)
 
         if weigher is None:
@@ -130,7 +134,7 @@ class WeightedPoints:
         except ValueError:
             raise WeightedPointsException(
                 f"weights could not be broadcasted "
-                f"to an array of shape ({shape[0]}, )"
+                f"to an array of shape ({shape[0]},)"
             )
         self._weights = wts
 

@@ -13,8 +13,9 @@ import numpy as np
 
 from abc import ABC, abstractmethod
 
-from hrosailing.processing.utils import euclidean_norm
 
+def euclidean_norm(vec):
+    return np.linalg.norm(vec, axis=1)
 
 # TODO: Error checks
 
@@ -38,6 +39,8 @@ class Interpolator(ABC):
 
 
 class IDWInterpolator(Interpolator):
+    """"""
+
     def __init__(self, p=2, norm=None):
         if norm is None:
             norm = euclidean_norm
@@ -142,10 +145,17 @@ class ArithmeticMeanInterpolator(Interpolator):
         )
 
     def interpolate(self, w_pts, grid_pt):
-        distances = self._norm(w_pts.points[:, :2] - grid_pt)
-        weights = self._distr(distances, w_pts.weights, *self._params)
+        dist = self._norm(w_pts.points[:, :2] - grid_pt)
 
-        return self._s * np.average(w_pts.points, axis=0, weights=weights)
+        # If interpolated point is
+        # a measured point, return
+        # the measured value
+        if np.any(dist == 0):
+            mask = dist == 0
+            return w_pts.points[mask][0, 2]
+        wts = self._distr(dist, w_pts.weights, *self._params)
+
+        return self._s * np.average(w_pts.points, axis=0, weights=wts)
 
 
 def gauss_potential(distances, weights, *params):
@@ -156,6 +166,8 @@ def gauss_potential(distances, weights, *params):
 
 # Should be used together with ScalingBall
 class ImprovedIDWInterpolator(Interpolator):
+    """"""
+
     def __init__(self, norm=None):
         if norm is None:
             norm = euclidean_norm
@@ -173,7 +185,7 @@ class ImprovedIDWInterpolator(Interpolator):
         # the measured value
         if np.any(dist == 0):
             mask = dist == 0
-            return dist[mask][0, 2]
+            return w_pts.points[mask][0, 2]
 
         wts = _set_weights(w_pts.points, dist)
         wts = np.square(wts)
@@ -184,6 +196,8 @@ class ImprovedIDWInterpolator(Interpolator):
 
 # Should be used together with ScalingBall
 class ShepardInterpolator(Interpolator):
+    """"""
+
     def __init__(self, tol=np.finfo(float).eps, slope_scal=0.1, norm=None):
         if norm is None:
             norm = euclidean_norm
@@ -208,7 +222,7 @@ class ShepardInterpolator(Interpolator):
         # the measured value
         if np.any(dist == 0):
             mask = dist == 0
-            return dist[mask][0, 2]
+            return w_pts[mask][0, 2]
 
         wts = _set_weights(w_pts, dist)
         wts = _include_direction(w_pts, grid_pt, dist, wts)
