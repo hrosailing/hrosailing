@@ -14,6 +14,15 @@ import numpy as np
 from abc import ABC, abstractmethod
 
 
+def scaled(norm, scal):
+    scal = np.array(list(scal))
+
+    def scaled_norm(vec):
+        return norm(scal * vec)
+
+    return scaled_norm
+
+
 def euclidean_norm(vec):
     return np.linalg.norm(vec, axis=1)
 
@@ -44,7 +53,7 @@ class IDWInterpolator(Interpolator):
 
     def __init__(self, p=2, norm=None):
         if norm is None:
-            norm = euclidean_norm
+            norm = scaled(euclidean_norm, (1/40, 1/360))
         self._p = p
         self._norm = norm
 
@@ -126,7 +135,7 @@ class ArithmeticMeanInterpolator(Interpolator):
             )
 
         if norm is None:
-            norm = euclidean_norm
+            norm = scaled(euclidean_norm, (1/40, 1/360))
 
         if distribution is None:
             distribution = gauss_potential
@@ -171,7 +180,7 @@ class ImprovedIDWInterpolator(Interpolator):
 
     def __init__(self, norm=None):
         if norm is None:
-            norm = euclidean_norm
+            norm = scaled(euclidean_norm, (1/40, 1/360))
 
         self._norm = norm
 
@@ -201,7 +210,7 @@ class ShepardInterpolator(Interpolator):
 
     def __init__(self, tol=np.finfo(float).eps, slope_scal=0.1, norm=None):
         if norm is None:
-            norm = euclidean_norm
+            norm = scaled(euclidean_norm, (1/40, 1/360))
 
         self._tol = tol
         self._slope = slope_scal

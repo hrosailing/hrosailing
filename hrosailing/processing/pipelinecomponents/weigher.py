@@ -37,6 +37,15 @@ logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)
 
 
+def scaled(norm, scal):
+    scal = np.array(list(scal))
+
+    def scaled_norm(vec):
+        return norm(scal * vec)
+
+    return scaled_norm
+
+
 def euclidean_norm(vec):
     return np.linalg.norm(vec, axis=1)
 
@@ -153,6 +162,8 @@ class WeightedPoints:
 class WeigherException(Exception):
     pass
 
+# TODO Different default norm
+
 
 class Weigher(ABC):
     """Base class for all weigher classes
@@ -208,7 +219,7 @@ class CylindricMeanWeigher(Weigher):
                 f"{radius} was passed"
             )
         if norm is None:
-            norm = euclidean_norm
+            norm = scaled(euclidean_norm, (1/40, 1/360))
         if not callable(norm):
             raise WeigherException(f"{norm.__name__} is not callable")
 
@@ -309,7 +320,7 @@ class CylindricMemberWeigher(Weigher):
                 f"but {length} was passed"
             )
         if norm is None:
-            norm = euclidean_norm
+            norm = scaled(euclidean_norm, (1/40, 1/360))
         if not callable(norm):
             raise WeigherException(f"{norm.__name__} is not callable")
 
