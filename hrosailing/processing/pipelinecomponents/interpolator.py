@@ -53,7 +53,9 @@ class IDWInterpolator(Interpolator):
 
     def __init__(self, p=2, norm=None):
         if p < 0 or not isinstance(p, int):
-            raise InterpolatorException(f"p needs to be a nonnegative integer, but {p} was passed")
+            raise InterpolatorException(
+                f"p needs to be a nonnegative integer, but {p} was passed"
+            )
         if norm is None:
             norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
         if not callable(norm):
@@ -146,7 +148,9 @@ class ArithmeticMeanInterpolator(Interpolator):
         if distribution is None:
             distribution = gauss_potential
         if not callable(distribution):
-            raise InterpolatorException(f"{distribution.__name__} is not callable")
+            raise InterpolatorException(
+                f"{distribution.__name__} is not callable"
+            )
 
         self._s = s
         self._norm = norm
@@ -223,9 +227,13 @@ class ShepardInterpolator(Interpolator):
             raise InterpolatorException(f"{norm.__name__} is not callable")
 
         if tol <= 0:
-            raise InterpolatorException(f"tolarance should be a positive number, but {tol} was passed")
+            raise InterpolatorException(
+                f"tolarance should be a positive number, but {tol} was passed"
+            )
         if slope <= 0:
-            raise InterpolatorException(f"slope should be a positive number, but {slope} was passed")
+            raise InterpolatorException(
+                f"slope should be a positive number, but {slope} was passed"
+            )
 
         self._tol = tol
         self._slope = slope

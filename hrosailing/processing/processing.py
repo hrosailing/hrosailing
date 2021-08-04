@@ -511,6 +511,10 @@ def _create_polar_diagram_pointcloud(
     )
     for s_pt in sample_pts:
         mask = neighbourhood.is_contained_in(w_pts.points[:, :2] - s_pt)
+        if not np.any(mask):
+            raise PipelineException(
+                f"No points where contained in the neighbourhood of {s_pt}. Interpolation not possible"
+            )
         pts.append(interpolator.interpolate(w_pts[mask], s_pt))
 
     try:
@@ -565,6 +569,10 @@ def _interpolate_grid_points(w_res, w_pts, nhood, ipol):
         for j, wa in enumerate(wa_res):
             grid_point = np.array([ws, wa])
             mask = nhood.is_contained_in(w_pts.points[:, :2] - grid_point)
+            if not np.any(mask):
+                raise PipelineException(
+                    f"No points were contained in the neighbourhood of {grid_point}. Interpolation not possible"
+                )
             bsp[j, i] = ipol.interpolate(w_pts[mask], grid_point)
 
     return bsp

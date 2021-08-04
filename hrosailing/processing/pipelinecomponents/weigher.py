@@ -244,7 +244,6 @@ class CylindricMeanWeigher(Weigher):
         wts : numpy.ndarray of shape (n, )
             Normalized weights of the input points
         """
-
         pts = np.asarray(pts)
         if not pts.size:
             raise WeigherException("No points were passed")
@@ -349,7 +348,6 @@ class CylindricMemberWeigher(Weigher):
         wts : numpy.ndarray of shape (n, )
             Normalized weights of the input points
         """
-
         pts = np.asarray(pts)
         if not pts.size:
             raise WeigherException("No points were passed")
