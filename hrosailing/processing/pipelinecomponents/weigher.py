@@ -164,9 +164,6 @@ class WeigherException(Exception):
     pass
 
 
-# TODO Different default norm
-
-
 class Weigher(ABC):
     """Base class for all weigher classes
 
@@ -249,18 +246,21 @@ class CylindricMeanWeigher(Weigher):
         """
 
         pts = np.asarray(pts)
-        shape = pts.shape
         if not pts.size:
             raise WeigherException("No points were passed")
 
+        shape = pts.shape
         d = shape[1]
         wts = np.zeros(shape[0])
 
         for i, pt in enumerate(pts):
             mask = self._norm(pts[:, : d - 1] - pt[: d - 1]) <= self._radius
             cylinder = pts[mask][:, d - 1]
+
+            # in case there are on points in cylinder
             std = np.std(cylinder) or 1
             mean = np.mean(cylinder) or 0
+
             wts[i] = np.abs(mean - pt[d - 1]) / std
 
         logger.info(f"Mean (non-normalized) weight: {np.mean(wts)}")
@@ -351,11 +351,10 @@ class CylindricMemberWeigher(Weigher):
         """
 
         pts = np.asarray(pts)
-        shape = pts.shape
         if not pts.size:
             raise WeigherException("No points were passed")
 
-        wts = np.zeros(shape[0])
+        wts = np.zeros(pts.shape[0])
         for i, pt in enumerate(pts):
             mask_l = np.abs(pts[:, 0] - pt[0]) <= self._length
             mask_r = self._norm(pts[:, 1:] - pt[1:]) <= self._radius
