@@ -80,7 +80,6 @@ class PolarPipeline:
 
     """
 
-    # TODO Make it better
     def __init__(
         self,
         weigher=None,
@@ -232,7 +231,7 @@ class PolarPipeline:
         out : PolarDiagram
             An instance of the given p_type based on the input data
         """
-        # TODO: Really necessarry? Different approach?
+        # TODO: Different approach?
         if p_type not in {
             pol.PolarDiagramTable,
             pol.PolarDiagramCurve,
@@ -508,6 +507,7 @@ def _create_polar_diagram_pointcloud(
 
     sample_pts = sampler.sample(w_pts.points)
     pts = []
+    logger.info(f"Beginning to interpolate sample_pts with {interpolater.__name__}")
     for s_pt in sample_pts:
         mask = neighbourhood.is_contained_in(w_pts.points[:, :2] - s_pt)
         pts.append(interpolater.interpolate(w_pts[mask], s_pt))
@@ -557,7 +557,7 @@ def _extract_wind(pts, n, threshhold):
 def _interpolate_grid_points(w_res, w_pts, nhood, ipol):
     ws_res, wa_res = w_res
     bsps = np.zeros((len(wa_res), len(ws_res)))
-
+    logger.info(f"Beginning to interpolate w_res with {ipol.__name__}")
     for i, ws in enumerate(ws_res):
         for j, wa in enumerate(wa_res):
             grid_point = np.array([ws, wa])
