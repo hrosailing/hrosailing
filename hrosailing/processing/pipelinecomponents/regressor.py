@@ -106,6 +106,8 @@ class ODRegressor(Regressor):
 
     def __init__(self, model_func, init_values=None, max_it=1000):
 
+        if not callable(model_func):
+            raise RegressorException(f"{model_func.__name__} is not callable")
         self._func = model_func
 
         def odr_model_func(params, x):
@@ -184,7 +186,6 @@ class ODRegressor(Regressor):
         logger.info(f"Reduced χ^2_min: {chi_squared / dof}")
 
 
-# TODO: Error checks!
 class LeastSquareRegressor(Regressor):
     """A least square regressor based on scipy.optimize.curve_fit
 
@@ -205,7 +206,10 @@ class LeastSquareRegressor(Regressor):
     """
 
     def __init__(self, model_func, init_vals=None):
+        if not callable(model_func):
+            raise RegressorException(f"{model_func.__name__} is not callable")
         self._func = model_func
+
         self._init_vals = init_vals
         self._popt = None
         self._weights = None
@@ -271,19 +275,19 @@ class LeastSquareRegressor(Regressor):
 
 def _check_data(data):
     data = np.asarray(data)
-    shape = data.shape
+
+    # sanity checks
     if not data.size:
         raise RegressorException("No data to fit was passed")
     if data.ndim != 2:
         raise RegressorException("data is not a 2-dimensional array")
-    if shape[1] != 3:
+    if data.shape[1] != 3:
         try:
             data = data.reshape(-1, 3)
         except ValueError:
             raise RegressorException(
                 "data couldn't be broadcasted to an array of shape (n, 3)"
             )
-
     if not np.all(np.isfinite(data)):
         raise RegressorException(
             "data can only contain finite and non-NaN-values"
