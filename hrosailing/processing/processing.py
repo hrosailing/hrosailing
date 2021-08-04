@@ -56,7 +56,7 @@ class PolarPipeline:
 
     sampler : Sampler, optional
 
-    interpolater : Interpolator, optional
+    interpolator : Interpolator, optional
 
     regressor : Regressor, optional
 
@@ -85,7 +85,7 @@ class PolarPipeline:
         weigher=None,
         filter_=None,
         sampler=None,
-        interpolater=None,
+        interpolator=None,
         regressor=None,
     ):
         if weigher is None:
@@ -106,13 +106,13 @@ class PolarPipeline:
             raise PipelineException(f"{sampler.__name__} is not a Sampler")
         self._sampler = sampler
 
-        if interpolater is None:
-            interpolater = pc.ArithmeticMeanInterpolator(1, 1)
-        if not isinstance(interpolater, pc.Interpolator):
+        if interpolator is None:
+            interpolator = pc.ArithmeticMeanInterpolator(1, 1)
+        if not isinstance(interpolator, pc.Interpolator):
             raise PipelineException(
-                f"{interpolater.__name__} is not an Interpolator"
+                f"{interpolator.__name__} is not an Interpolator"
             )
-        self._interpolater = interpolater
+        self._interpolator = interpolator
 
         if regressor is None:
             regressor = pc.ODRegressor(
@@ -139,9 +139,9 @@ class PolarPipeline:
         return self._sampler
 
     @property
-    def interpolater(self):
+    def interpolator(self):
         """Returns a read only version of self._interpolater"""
-        return self._interpolater
+        return self._interpolator
 
     @property
     def regressor(self):
@@ -253,14 +253,14 @@ class PolarPipeline:
 
         if p_type is pol.PolarDiagramTable:
             return _create_polar_diagram_table(
-                w_pts, w_res, neighbourhood, self.interpolater
+                w_pts, w_res, neighbourhood, self.interpolator
             )
 
         if p_type is pol.PolarDiagramCurve:
             return _create_polar_diagram_curve(w_pts, self.regressor)
 
         return _create_polar_diagram_pointcloud(
-            w_pts, neighbourhood, self.interpolater, self.sampler
+            w_pts, neighbourhood, self.interpolator, self.sampler
         )
 
 
@@ -310,8 +310,7 @@ def read_csv_file(csv_path, delimiter=None):
         raise FileReadingException(f"Can't find/open/read {csv_path}")
 
 
-# TODO: Also look for rmc sentences, if
-#       there are no vhws?
+# TODO: Also look for rmc sentences, if there are no vhws?
 def read_nmea_file(nmea_path, mode="interpolate", tw=True):
     """Reads a text file containing nmea-sentences and extracts
     data points based on recorded wind speed, wind angle, and speed
@@ -386,7 +385,7 @@ def read_nmea_file(nmea_path, mode="interpolate", tw=True):
 
         while True:
             try:
-                bsp = pynmea2.parse(stc).spd_over_water
+                bsp = pynmea2.parse(stc).data[4]
             except pynmea2.ParseError:
                 raise FileReadingException(
                     f"Invalid nmea-sentences encountered: {stc}"
@@ -446,7 +445,7 @@ def _process_data(nmea_data, wind_data, stc, bsp, mode):
 
     if mode == "interpolate":
         try:
-            bsp2 = pynmea2.parse(stc).spd_over_grnd
+            bsp2 = pynmea2.parse(stc).data[4]
         except pynmea2.ParseError:
             raise FileReadingException(
                 f"Invalid nmea-sentences encountered: {stc}"
@@ -454,13 +453,13 @@ def _process_data(nmea_data, wind_data, stc, bsp, mode):
 
         inter = len(wind_data)
         for i in range(inter):
-            inter_bsp = (inter - i) / inter * bsp + i / inter * bsp2
+            inter_bsp = ((inter - i) / inter) * bsp + (i / inter) * bsp2
             nmea_data.append(
                 [wind_data[i][0], wind_data[i][1], inter_bsp, wind_data[i][2]]
             )
 
 
-def _create_polar_diagram_table(w_pts, w_res, neighbourhood, interpolater):
+def _create_polar_diagram_table(w_pts, w_res, neighbourhood, interpolator):
     if neighbourhood is None:
         neighbourhood = pc.Ball()
     if not isinstance(neighbourhood, pc.Neighbourhood):
@@ -469,11 +468,11 @@ def _create_polar_diagram_table(w_pts, w_res, neighbourhood, interpolater):
         )
 
     w_res = _set_wind_resolution(w_res, w_pts.points)
-    bsps = _interpolate_grid_points(w_res, w_pts, neighbourhood, interpolater)
+    bsp = _interpolate_grid_points(w_res, w_pts, neighbourhood, interpolator)
 
     try:
         return pol.PolarDiagramTable(
-            ws_res=w_res[0], wa_res=w_res[1], bsps=bsps
+            ws_res=w_res[0], wa_res=w_res[1], bsps=bsp
         )
     except PolarDiagramException as pe:
         raise PipelineException(
@@ -496,7 +495,7 @@ def _create_polar_diagram_curve(w_pts, regressor):
 
 
 def _create_polar_diagram_pointcloud(
-    w_pts, neighbourhood, interpolater, sampler
+    w_pts, neighbourhood, interpolator, sampler
 ):
     if neighbourhood is None:
         neighbourhood = pc.Ball()
@@ -507,10 +506,12 @@ def _create_polar_diagram_pointcloud(
 
     sample_pts = sampler.sample(w_pts.points)
     pts = []
-    logger.info(f"Beginning to interpolate sample_pts with {interpolater.__name__}")
+    logger.info(
+        f"Beginning to interpolate sample_pts with {interpolator.__name__}"
+    )
     for s_pt in sample_pts:
         mask = neighbourhood.is_contained_in(w_pts.points[:, :2] - s_pt)
-        pts.append(interpolater.interpolate(w_pts[mask], s_pt))
+        pts.append(interpolator.interpolate(w_pts[mask], s_pt))
 
     try:
         return pol.PolarDiagramPointcloud(pts=pts)
@@ -540,6 +541,7 @@ def _extract_wind(pts, n, threshhold):
     w_start = (w_min // n + 1) * n
     w_end = (w_max // n) * n
     res = [w_max, w_min]
+
     for w in range(w_start, w_end + n, n):
         if w == w_start:
             mask = pts >= w_min & pts <= w
@@ -556,11 +558,13 @@ def _extract_wind(pts, n, threshhold):
 
 def _interpolate_grid_points(w_res, w_pts, nhood, ipol):
     ws_res, wa_res = w_res
-    bsps = np.zeros((len(wa_res), len(ws_res)))
+    bsp = np.zeros((len(wa_res), len(ws_res)))
+
     logger.info(f"Beginning to interpolate w_res with {ipol.__name__}")
     for i, ws in enumerate(ws_res):
         for j, wa in enumerate(wa_res):
             grid_point = np.array([ws, wa])
             mask = nhood.is_contained_in(w_pts.points[:, :2] - grid_point)
-            bsps[j, i] = ipol.interpolate(w_pts[mask], grid_point)
-    return bsps
+            bsp[j, i] = ipol.interpolate(w_pts[mask], grid_point)
+
+    return bsp
