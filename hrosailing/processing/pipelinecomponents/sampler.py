@@ -51,10 +51,9 @@ class UniformRandomSampler(Sampler):
     """
 
     def __init__(self, n_samples):
-
         if not isinstance(n_samples, int) or n_samples <= 0:
             raise SamplerException(
-                f"The number of samples needs to be a positive"
+                f"The number of samples needs to be a positive "
                 f"number but {n_samples} was passed"
             )
 
@@ -73,11 +72,19 @@ class UniformRandomSampler(Sampler):
 
         Returns
         -------
-        samples : numpy.ndarray of shape (no_samples, 2)
+        samples : numpy.ndarray of shape (n_samples, 2)
             samples produced by the above described method
         """
         rng = np.random.default_rng()
-        pts = np.asarray(pts)[:, :2]
+        pts = np.asarray(pts)
+
+        # sanity checks
+        if not pts.size:
+            raise SamplerException("No points were passed")
+        shape = pts.shape
+        if len(shape) != 2:
+            raise SamplerException("pts needs to be a 2-dimensional array")
+
         ineqs = ConvexHull(pts).equations
         samples = []
         ws_bound, wa_bound = _create_bounds(pts)
@@ -115,12 +122,15 @@ class FibonacciSampler(Sampler):
 # TODO Error Checks?
 class ArchimedianSampler(Sampler):
     """A sampler that produces a number of
-    approximately equidistant sample points on the archimedean spiral (x*cos(x), x*sin(x)),
-    which all lie in the smallest enclosing circle of given data points
+    approximately equidistant sample points on the archimedean spiral
+    (x*cos(x), x*sin(x)), which all lie in the smallest enclosing circle
+    of given data points
+
     Parameters
     ----------
     n_samples : positive int
         Amount of samples that will be produced by the sampler
+
     Methods
     -------
     sample(self, pts):
@@ -128,7 +138,6 @@ class ArchimedianSampler(Sampler):
     """
 
     def __init__(self, n_samples):
-
         if not isinstance(n_samples, int) or n_samples <= 0:
             raise SamplerException(
                 f"The number of samples needs to be a positive"
@@ -145,21 +154,27 @@ class ArchimedianSampler(Sampler):
             Points in whose convex hull the produced samples will lie
         Returns
         -------
-        samples : numpy.ndarray of shape (no_samples, 2)
+        samples : numpy.ndarray of shape (n_samples, 2)
             samples produced by the above described method
         """
+        pts = np.asarray(pts)
 
-        # find smallest enclosing circle
+        # sanity checks
+        if not pts.size:
+            raise SamplerException("No points were passed")
+        shape = pts.shape
+        if len(shape) != 2:
+            raise SamplerException("pts needs to be a 2-dimensional array")
+
         x, y, r = make_circle(pts)
         midpoint = np.array([x, y])
-
-        # create archimedean spiral with approximately equidistant steps
         beta = [0]
-        for i in range(self._n_samples):
+        for _ in range(self._n_samples):
             beta.append(beta[-1] + 8 / (beta[-1] + 2))
+
         beta = np.array(beta)
         spiral = beta * np.array([np.cos(beta), np.sin(beta)])
-        # translate and scale spiral to enclosing circle
+
         return (midpoint[:, None] + r / beta[-1] * spiral).transpose()
 
 
