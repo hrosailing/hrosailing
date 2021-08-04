@@ -27,7 +27,7 @@ def euclidean_norm(vec):
     return np.linalg.norm(vec, axis=1)
 
 
-# TODO: Error checks
+# TODO: Doc-Strings
 
 
 class InterpolatorException(Exception):
@@ -52,29 +52,29 @@ class IDWInterpolator(Interpolator):
     """"""
 
     def __init__(self, p=2, norm=None):
+        if p < 0 or not isinstance(p, int):
+            raise InterpolatorException(f"p needs to be a nonnegative integer, but {p} was passed")
         if norm is None:
             norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
+        if not callable(norm):
+            raise InterpolatorException(f"{norm.__name__} is not callable")
+
         self._p = p
         self._norm = norm
 
     def __repr__(self):
-        return f"IDWInterpolator(" f"p={self._p}, norm={self._norm.__name__})"
+        return f"IDWInterpolator(p={self._p}, norm={self._norm.__name__})"
 
     def interpolate(self, w_pts, grid_pt):
-        if self._p == 0:
-            wts = np.ones(w_pts.points.shape[0])
-            wts /= wts.shape[0]
-        else:
-            wts = self._norm(w_pts.points[:, :2] - grid_pt)
-            wts = 1 / np.power(wts, self._p)
-            wts /= np.sum(wts)
-
-        # If interpolated point is
-        # a measured point, return
+        wts = self._norm(w_pts.points[:, :2] - grid_pt)
+        # If interpolated point is a measured point, return
         # the measured value
         if np.any(wts == 0):
             mask = wts == 0
             return w_pts.points[mask][0, 2]
+
+        wts = 1 / np.power(wts, self._p)
+        wts /= np.sum(wts)
 
         return wts @ w_pts.points[:, 2]
 
@@ -94,6 +94,9 @@ class ArithmeticMeanInterpolator(Interpolator):
     s * (Σ w_p * p) / Σ w_p
     where s is an additional scaling factor
 
+    In fact it is a more general approach to the inverse distance
+    interpolator
+
     Parameters
     ----------
     s : positive int or float, optional
@@ -104,7 +107,8 @@ class ArithmeticMeanInterpolator(Interpolator):
     norm : function or callable, optional
         Norm with which to calculate the distances, ie ||.||
 
-        If nothing is passed, it will default to ||.||_2
+        If nothing is passed, it will default to a scaled
+        version of ||.||_2
 
     distribution : function or callable, optional
         Function with which to calculate the updated weights.
@@ -136,9 +140,13 @@ class ArithmeticMeanInterpolator(Interpolator):
 
         if norm is None:
             norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
+        if not callable(norm):
+            raise InterpolatorException(f"{norm.__name__} is not callable")
 
         if distribution is None:
             distribution = gauss_potential
+        if not callable(distribution):
+            raise InterpolatorException(f"{distribution.__name__} is not callable")
 
         self._s = s
         self._norm = norm
@@ -157,14 +165,13 @@ class ArithmeticMeanInterpolator(Interpolator):
     def interpolate(self, w_pts, grid_pt):
         dist = self._norm(w_pts.points[:, :2] - grid_pt)
 
-        # If interpolated point is
-        # a measured point, return
+        # If interpolated point is a measured point, return
         # the measured value
         if np.any(dist == 0):
             mask = dist == 0
             return w_pts.points[mask][0, 2]
-        wts = self._distr(dist, w_pts.weights, *self._params)
 
+        wts = self._distr(dist, w_pts.weights, *self._params)
         return self._s * np.average(w_pts.points, axis=0, weights=wts)
 
 
@@ -181,6 +188,8 @@ class ImprovedIDWInterpolator(Interpolator):
     def __init__(self, norm=None):
         if norm is None:
             norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
+        if not callable(norm):
+            raise InterpolatorException(f"{norm.__name__} is not callable")
 
         self._norm = norm
 
@@ -190,8 +199,7 @@ class ImprovedIDWInterpolator(Interpolator):
     def interpolate(self, w_pts, grid_pt):
         dist = self._norm(w_pts.points[:, :2] - grid_pt)
 
-        # If interpolated point is
-        # a measured point, return
+        # If interpolated point is a measured point, return
         # the measured value
         if np.any(dist == 0):
             mask = dist == 0
@@ -208,12 +216,19 @@ class ImprovedIDWInterpolator(Interpolator):
 class ShepardInterpolator(Interpolator):
     """"""
 
-    def __init__(self, tol=np.finfo(float).eps, slope_scal=0.1, norm=None):
+    def __init__(self, tol=np.finfo(float).eps, slope=0.1, norm=None):
         if norm is None:
             norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
+        if not callable(norm):
+            raise InterpolatorException(f"{norm.__name__} is not callable")
+
+        if tol <= 0:
+            raise InterpolatorException(f"tolarance should be a positive number, but {tol} was passed")
+        if slope <= 0:
+            raise InterpolatorException(f"slope should be a positive number, but {slope} was passed")
 
         self._tol = tol
-        self._slope = slope_scal
+        self._slope = slope
         self._norm = norm
 
     def __repr__(self):
@@ -227,8 +242,7 @@ class ShepardInterpolator(Interpolator):
     def interpolate(self, w_pts, grid_pt):
         dist = self._norm(w_pts.points[:, :2] - grid_pt)
 
-        # If interpolated point is
-        # a measured point, return
+        # If interpolated point is a measured point, return
         # the measured value
         if np.any(dist == 0):
             mask = dist == 0
