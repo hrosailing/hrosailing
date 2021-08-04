@@ -46,6 +46,9 @@ class Neighbourhood(ABC):
         pass
 
 
+# TODO: Remove Dimension from all, and assume 2/3 dimensional objects?
+
+
 class Ball(Neighbourhood):
     """A class to describe a closed d-dimensional ball
     centered around the origin, ie { x in R^d : || x || <= r }
@@ -60,7 +63,8 @@ class Ball(Neighbourhood):
     norm : function or callable, optional
         The norm for which the ball is described, ie ||x||
 
-        If nothing is passed, it will default to ||.||_2
+        If nothing is passed, it will default to a scaled version
+        of ||.||_2
 
     radius : positive int or float, optional
         The radius of the ball, ie r
@@ -118,9 +122,11 @@ class Ball(Neighbourhood):
         """
 
         pts = np.asarray(pts)
-        shape = pts.shape
+
+        # sanity checks
         if not pts.size:
             raise NeighbourhoodException("No points were passed")
+        shape = pts.shape
         if len(shape) != 2:
             raise NeighbourhoodException(
                 "pts needs to be a 2-dimensional array"
@@ -133,7 +139,6 @@ class Ball(Neighbourhood):
         return self._norm(pts) <= self._radius
 
 
-# TODO Add dimension
 class ScalingBall(Neighbourhood):
     def __init__(self, min_pts, max_pts, norm=None):
         if norm is None:
@@ -157,9 +162,11 @@ class ScalingBall(Neighbourhood):
 
     def is_contained_in(self, pts, r=None):
         pts = np.asarray(pts)
-        shape = pts.shape
+
+        # sanity checks
         if not pts.size:
             raise NeighbourhoodException("No points were passed")
+        shape = pts.shape
         if len(shape) != 2:
             raise NeighbourhoodException(
                 "pts needs to be a 2-dimensional array"
@@ -211,7 +218,8 @@ class Ellipsoid(Neighbourhood):
     norm : function or callable, optional
         The norm for which the ellipsoid is described, ie ||x||
 
-        If nothing is passed, it will default to ||.||_2
+        If nothing is passed, it will default to a scaled
+        version of ||.||_2
     radius : positive int or float, optional
         The radius of the ellipsoid, ie r
 
@@ -225,19 +233,22 @@ class Ellipsoid(Neighbourhood):
     """
 
     def __init__(self, d=2, lin_trans=None, norm=None, radius=1):
-
+        # sanity checks
         if not isinstance(d, int) or d <= 0:
             raise NeighbourhoodException(
                 f"The dimension needs to be a positive integer, "
                 f"but {d} was passed"
             )
+        if not isinstance(radius, (int, float)) or radius <= 0:
+            raise NeighbourhoodException(
+                f"The radius needs to be positive number, but "
+                f"{radius} was passed"
+            )
 
         if lin_trans is None:
             lin_trans = np.eye(d)
-        if norm is None:
-            norm = scaled(euclidean_norm, [1 / 40, 1 / 360] + [1] * (d - 2))
-
         lin_trans = np.asarray(lin_trans)
+
         # Sanity checks
         if not lin_trans.size:
             raise NeighbourhoodException("lin_trans is an empty array")
@@ -248,15 +259,12 @@ class Ellipsoid(Neighbourhood):
         if not np.linalg.det(lin_trans):
             raise NeighbourhoodException(f"{lin_trans} is not invertible")
 
-        if not isinstance(radius, (int, float)) or radius <= 0:
-            raise NeighbourhoodException(
-                f"The radius needs to be positive number, but "
-                f"{radius} was passed"
-            )
+        if norm is None:
+            norm = scaled(euclidean_norm, [1 / 40, 1 / 360] + [1] * (d - 2))
         if not callable(norm):
             raise NeighbourhoodException(f"{norm.__name__} is not callable")
 
-        # Transform the ellipsoid to a ball
+        # transform the ellipsoid to a ball
         lin_trans = np.linalg.inv(lin_trans)
 
         self._dim = d
@@ -284,11 +292,12 @@ class Ellipsoid(Neighbourhood):
             Boolean array describing which of the input points
             is a member of the neighbourhood
         """
-
         pts = np.asarray(pts)
-        shape = pts.shape
+
+        # sanity checks
         if not pts.size:
             raise NeighbourhoodException("No points were passed")
+        shape = pts.shape
         if len(shape) != 2:
             raise NeighbourhoodException(
                 "pts needs to be a 2-dimensional array"
@@ -299,8 +308,6 @@ class Ellipsoid(Neighbourhood):
             )
 
         pts = (self._T @ pts.T).T
-        print(pts)
-
         return self._norm(pts) <= self._radius
 
 
@@ -333,21 +340,22 @@ class Cuboid(Neighbourhood):
     """
 
     def __init__(self, d=2, norm=None, dimensions=None):
+        # sanity check
         if not isinstance(d, int) or d <= 0:
             raise NeighbourhoodException(
                 f"The dimension needs to be a positive integer, "
                 f"but {d} was passed"
             )
 
-        if norm is None:
-            norm = np.abs
         if dimensions is None:
             dimensions = tuple(1 for _ in range(d))
-
-        if not callable(norm):
-            raise NeighbourhoodException(f"{norm.__name__} is not callable")
         if len(dimensions) != d:
             raise NeighbourhoodException(f"{dimensions} is not of length {d}")
+
+        if norm is None:
+            norm = np.abs
+        if not callable(norm):
+            raise NeighbourhoodException(f"{norm.__name__} is not callable")
 
         self._dim = d
         self._norm = norm
@@ -373,12 +381,13 @@ class Cuboid(Neighbourhood):
             Boolean array describing which of the input points
             is a member of the neighbourhood
         """
-
         pts = np.asarray(pts)
-        shape = pts.shape
-        d = self._dim
+
+        # sanity checks
         if not pts.size:
             raise NeighbourhoodException("No points were passed")
+        shape = pts.shape
+        d = self._dim
         if len(shape) != 2:
             raise NeighbourhoodException(
                 "pts needs to be a 2-dimensional array"
@@ -432,6 +441,7 @@ class Polytope(Neighbourhood):
     """
 
     def __init__(self, d=2, mat=None, b=None):
+        # sanity check
         if not isinstance(d, int) or d <= 0:
             raise NeighbourhoodException(
                 f"The dimension needs to be a positive integer, "
@@ -447,7 +457,8 @@ class Polytope(Neighbourhood):
         b = np.asarray(b)
         shape_mat = mat.shape
         shape_b = b.shape
-        # Sanity checks
+
+        # sanity checks
         if not mat.size:
             raise NeighbourhoodException("mat is an empty array")
         if len(shape_mat) != 2:
@@ -490,12 +501,13 @@ class Polytope(Neighbourhood):
             Boolean array describing which of the input points
             is a member of the neighbourhood
         """
-
         pts = np.asarray(pts)
-        shape = pts.shape
-        d = self._dim
+
+        # sanity checks
         if not pts.size:
             raise NeighbourhoodException("No points were passed")
+        shape = pts.shape
+        d = self._dim
         if len(shape) != 2:
             raise NeighbourhoodException(
                 "pts needs to be a 2-dimensional array"
@@ -508,5 +520,4 @@ class Polytope(Neighbourhood):
         mask = np.ones((shape[0],), dtype=bool)
         for ineq, bound in zip(mat, b):
             mask = mask & (ineq @ pts.T <= bound)
-
         return mask
