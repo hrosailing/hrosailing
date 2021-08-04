@@ -120,24 +120,24 @@ class PolarDiagramTableTest(unittest.TestCase):
 
     def test_get_one_slice(self):
         self.assertEqual(
-            self.polar_diagram._get_slice_data(2), self.bsps[:, [0]]
+            self.polar_diagram.get_slices(2), self.bsps[:, [0]]
         )
 
     def test_get_multiple_slices(self):
         self.assertEqual(
-            self.polar_diagram._get_slice_data([2, 4, 8]),
+            self.polar_diagram.get_slices([2, 4, 8]),
             self.bsps[:, [0, 1, 3]],
         )
 
     def test_get_all_slices(self):
-        self.assertEqual(self.polar_diagram._get_slice_data(None), self.bsps)
+        self.assertEqual(self.polar_diagram.get_slices(None), self.bsps)
 
     def test_get_slice_exceptions(self):
         slices = [[], 0, [0, 2, 4]]
         for i, slice_ in enumerate(slices):
             with self.subTest(i=i):
                 with self.assertRaises(PolarDiagramException):
-                    self.polar_diagram._get_slice_data(slice_)
+                    self.polar_diagram.get_slices(slice_)
 
 
 def polar_table_suite():
@@ -248,50 +248,50 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         self.assertEqual(point_cloud.points, pts)
 
     def test_get_slice(self):
-        wa, bsp = self.point_cloud._get_slice_data(4)
+        wa, bsp = self.point_cloud.get_slices(4)
         self.assertEqual(wa, self.points[self.points[:, 0] == 4][:, 1])
         self.assertEqual(bsp, self.points[self.points[:, 0] == 4][:, 2])
 
     def test_get_slice_exception(self):
         with self.assertRaises(PolarDiagramException):
-            self.point_cloud._get_slice_data(0)
+            self.point_cloud.get_slices(0)
 
     def test_get_slices_list(self):
-        ws, wa, bsp = self.point_cloud._get_slices([4, 8])
+        ws, wa, bsp = self.point_cloud.get_slices([4, 8])
         self.assertEqual(ws, [4, 8])
         self.assertEqual(type(wa), list)
         self.assertEqual(type(bsp), list)
         self.assertEqual(len(wa), 2)
         self.assertEqual(len(bsp), 2)
-        self.assertEqual(wa[0], self.point_cloud._get_slice_data(4)[0])
-        self.assertEqual(bsp[0], self.point_cloud._get_slice_data(4)[1])
-        self.assertEqual(wa[1], self.point_cloud._get_slice_data(8)[0])
-        self.assertEqual(bsp[1], self.point_cloud._get_slice_data(8)[1])
+        self.assertEqual(wa[0], self.point_cloud.get_slices(4)[0])
+        self.assertEqual(bsp[0], self.point_cloud.get_slices(4)[1])
+        self.assertEqual(wa[1], self.point_cloud.get_slices(8)[0])
+        self.assertEqual(bsp[1], self.point_cloud.get_slices(8)[1])
 
     def test_get_slices_exception_empty(self):
         with self.assertRaises(PolarDiagramException):
-            self.point_cloud._get_slices([])
+            self.point_cloud.get_slices([])
 
     def test_get_slices_exception_no_slices(self):
         with self.assertRaises(PolarDiagramException):
-            self.point_cloud._get_slices([0, 2])
+            self.point_cloud.get_slices([0, 2])
 
     def test_get_slices_range(self):
-        ws, wa, bsp = self.point_cloud._get_slices((3, 9))
+        ws, wa, bsp = self.point_cloud.get_slices((3, 9))
         self.assertEqual(ws, [4, 6, 8])
         self.assertEqual(type(wa), list)
         self.assertEqual(type(bsp), list)
         self.assertEqual(len(wa), 3)
         self.assertEqual(len(bsp), 3)
-        self.assertEqual(wa[0], self.point_cloud._get_slice_data(4)[0])
-        self.assertEqual(bsp[0], self.point_cloud._get_slice_data(4)[1])
-        self.assertEqual(wa[1], self.point_cloud._get_slice_data(6)[0])
-        self.assertEqual(bsp[1], self.point_cloud._get_slice_data(6)[1])
-        self.assertEqual(wa[2], self.point_cloud._get_slice_data(8)[0])
-        self.assertEqual(bsp[2], self.point_cloud._get_slice_data(8)[1])
+        self.assertEqual(wa[0], self.point_cloud.get_slices(4)[0])
+        self.assertEqual(bsp[0], self.point_cloud.get_slices(4)[1])
+        self.assertEqual(wa[1], self.point_cloud.get_slices(6)[0])
+        self.assertEqual(bsp[1], self.point_cloud.get_slices(6)[1])
+        self.assertEqual(wa[2], self.point_cloud.get_slices(8)[0])
+        self.assertEqual(bsp[2], self.point_cloud.get_slices(8)[1])
 
     def test_get_slices_range_empty(self):
-        ws, wa, bsp = self.point_cloud._get_slices((0, 1))
+        ws, wa, bsp = self.point_cloud.get_slices((0, 1))
         self.assertEqual(ws, [])
         self.assertEqual(wa, [])
         self.assertEqual(bsp, [])

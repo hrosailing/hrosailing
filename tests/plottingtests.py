@@ -23,14 +23,14 @@ class TablePlotTest(unittest.TestCase):
 
     def test_plot_slice(self):
         f, ax = plt.subplots(subplot_kw={"projection": "polar"})
-        self.polar_diagram.polar_plot_slice(2, ax=ax)
+        self.polar_diagram.plot_polar_slice(2, ax=ax)
         x_plot, y_plot = ax.lines[0].get_xydata().T
         np.testing.assert_array_equal(x_plot, np.deg2rad(self.wa_res))
         np.testing.assert_array_equal(y_plot, self.bsps[:, 0].ravel())
 
     def test_plot_slices(self):
         f, ax = plt.subplots(subplot_kw={"projection": "polar"})
-        self.polar_diagram.polar_plot([2, 4], ax=ax)
+        self.polar_diagram.plot_polar([2, 4], ax=ax)
         x_plot_1, y_plot_1 = ax.lines[0].get_xydata().T
         x_plot_2, y_plot_2 = ax.lines[1].get_xydata().T
         x_plot = np.column_stack((x_plot_1, x_plot_2))
@@ -55,7 +55,7 @@ class TablePlotTest(unittest.TestCase):
         for i, c in enumerate(colors):
             with self.subTest(i=i):
                 try:
-                    self.polar_diagram.polar_plot_slice(2, c=c)
+                    self.polar_diagram.plot_polar_slice(2, c=c)
                 except ValueError:
                     self.fail(f"String {c} didn't work")
 
@@ -66,7 +66,7 @@ class TablePlotTest(unittest.TestCase):
         for i, c in enumerate(colors):
             with self.subTest(i=i):
                 try:
-                    self.polar_diagram.polar_plot_slice(2, c=c)
+                    self.polar_diagram.plot_polar_slice(2, c=c)
                 except ValueError:
                     self.fail(f"RGB-Tuple {c} didn't work")
 
@@ -84,7 +84,7 @@ class TablePlotTest(unittest.TestCase):
         for i, c in enumerate(colors):
             with self.subTest(i=i):
                 try:
-                    self.polar_diagram.polar_plot([2, 4, 6, 8], colors=c)
+                    self.polar_diagram.plot_polar([2, 4, 6, 8], colors=c)
                 except ValueError:
                     self.fail(f"String-Tuple {c} didn't work")
 
@@ -112,7 +112,7 @@ class TablePlotTest(unittest.TestCase):
         for i, c in enumerate(colors):
             with self.subTest(i=i):
                 try:
-                    self.polar_diagram.polar_plot([2, 4, 6], colors=c)
+                    self.polar_diagram.plot_polar([2, 4, 6], colors=c)
                 except ValueError:
                     self.fail(f"RBG-Tuples {c} didn't work")
 
