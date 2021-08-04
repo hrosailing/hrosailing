@@ -3,7 +3,8 @@ Defines a baseclass for regressors used in the
 processing.processing.PolarPipeline class,
 that can be used to create custom regressors for use.
 
-Also contains various predefined and usable regressors
+Also contains two predefined and usable regressors,
+the ODRegressor and the LeastSquareRegressor
 """
 
 # Author: Valentin F. Dannenberg / Ente

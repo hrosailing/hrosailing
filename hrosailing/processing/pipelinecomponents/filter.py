@@ -3,7 +3,8 @@ Defines a baseclass for filters used in the
 processing.processing.PolarPipeline class,
 that can be used to create custom filters for use.
 
-Also contains various predefined and usable filter
+Also contains two predefinied and usable filters,
+the QuantileFilter and the BoundFilter
 """
 
 # Author: Valentin F. Dannenberg / Ente
