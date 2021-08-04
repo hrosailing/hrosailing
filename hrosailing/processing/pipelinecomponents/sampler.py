@@ -3,7 +3,7 @@ Defines a baseclass for samplers used in the
 processing.processing.PolarPipeline class,
 that can be used to create custom sampler for use.
 
-Also contains various predefines and usable samplers
+Also contains various predefined and usable samplers
 """
 
 # Author: Valentin F. Dannenberg / Ente
@@ -204,7 +204,7 @@ def make_circle(pts):
     c = None
     for (i, p) in enumerate(shuffled):
         if c is None or not _is_in_circle(c, p):
-            c = _make_circle_one_point(shuffled[0: i + 1], p)
+            c = _make_circle_one_point(shuffled[0 : i + 1], p)
     return c
 
 
@@ -216,7 +216,7 @@ def _make_circle_one_point(pts, p):
             if c[2] == 0.0:
                 c = _make_diameter(p, q)
             else:
-                c = _make_circle_two_points(pts[0: i + 1], p, q)
+                c = _make_circle_two_points(pts[0 : i + 1], p, q)
     return c
 
 

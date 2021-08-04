@@ -76,7 +76,7 @@ class Ball(Neighbourhood):
 
     def __init__(self, d=2, norm=None, radius=1):
         if norm is None:
-            norm = scaled(euclidean_norm, [1/40, 1/360] + [1]*(d-2))
+            norm = scaled(euclidean_norm, [1 / 40, 1 / 360] + [1] * (d - 2))
 
         # Sanity checks
         if not isinstance(d, int) or d <= 0:
@@ -137,7 +137,7 @@ class Ball(Neighbourhood):
 class ScalingBall(Neighbourhood):
     def __init__(self, min_pts, max_pts, norm=None):
         if norm is None:
-            norm = scaled(euclidean_norm, (1/40, 1/360))
+            norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
         if not callable(norm):
             raise NeighbourhoodException(f"{norm.__name__} is not callable")
 
@@ -235,7 +235,7 @@ class Ellipsoid(Neighbourhood):
         if lin_trans is None:
             lin_trans = np.eye(d)
         if norm is None:
-            norm = scaled(euclidean_norm, [1/40, 1/360] + [1]*(d-2))
+            norm = scaled(euclidean_norm, [1 / 40, 1 / 360] + [1] * (d - 2))
 
         lin_trans = np.asarray(lin_trans)
         # Sanity checks

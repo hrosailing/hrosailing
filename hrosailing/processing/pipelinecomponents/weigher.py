@@ -3,7 +3,8 @@ Defines a baseclass for weighers used in the
 processing.processing.PolarPipeline class,
 that can be used to create custom weighers for use.
 
-Also contains various predefined and useable weighers,
+Also contains two predefined and useable weighers,
+the CylindricMeanWeigher and the CylindricMemberWeigher,
 aswell as the WeightedPoints class, used to
 represent data points together with their
 respective weights
@@ -162,6 +163,7 @@ class WeightedPoints:
 class WeigherException(Exception):
     pass
 
+
 # TODO Different default norm
 
 
@@ -219,7 +221,7 @@ class CylindricMeanWeigher(Weigher):
                 f"{radius} was passed"
             )
         if norm is None:
-            norm = scaled(euclidean_norm, (1/40, 1/360))
+            norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
         if not callable(norm):
             raise WeigherException(f"{norm.__name__} is not callable")
 
@@ -320,7 +322,7 @@ class CylindricMemberWeigher(Weigher):
                 f"but {length} was passed"
             )
         if norm is None:
-            norm = scaled(euclidean_norm, (1/40, 1/360))
+            norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
         if not callable(norm):
             raise WeigherException(f"{norm.__name__} is not callable")
 

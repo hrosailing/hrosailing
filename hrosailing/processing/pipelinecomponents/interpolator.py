@@ -53,7 +53,7 @@ class IDWInterpolator(Interpolator):
 
     def __init__(self, p=2, norm=None):
         if norm is None:
-            norm = scaled(euclidean_norm, (1/40, 1/360))
+            norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
         self._p = p
         self._norm = norm
 
@@ -135,7 +135,7 @@ class ArithmeticMeanInterpolator(Interpolator):
             )
 
         if norm is None:
-            norm = scaled(euclidean_norm, (1/40, 1/360))
+            norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
 
         if distribution is None:
             distribution = gauss_potential
@@ -180,7 +180,7 @@ class ImprovedIDWInterpolator(Interpolator):
 
     def __init__(self, norm=None):
         if norm is None:
-            norm = scaled(euclidean_norm, (1/40, 1/360))
+            norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
 
         self._norm = norm
 
@@ -210,7 +210,7 @@ class ShepardInterpolator(Interpolator):
 
     def __init__(self, tol=np.finfo(float).eps, slope_scal=0.1, norm=None):
         if norm is None:
-            norm = scaled(euclidean_norm, (1/40, 1/360))
+            norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
 
         self._tol = tol
         self._slope = slope_scal
