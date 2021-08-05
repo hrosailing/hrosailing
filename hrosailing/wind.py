@@ -9,6 +9,10 @@ import numpy as np
 from typing import Iterable
 
 
+class WindException(Exception):
+    pass
+
+
 def apparent_wind_to_true(wind_arr):
     """Converts apparent wind to true wind
 
@@ -33,17 +37,17 @@ def apparent_wind_to_true(wind_arr):
 
     wind_arr = np.asarray(wind_arr)
     if wind_arr.dtype == "object":
-        raise ValueError("wind_arr is not array_like")
+        raise WindException("wind_arr is not array_like")
     if not wind_arr.size:
-        raise ValueError("Empty array was passed. Conversion not possible")
+        raise WindException("Empty array was passed. Conversion not possible")
     try:
         wind_arr = wind_arr.reshape(-1, 3)
     except ValueError:
-        raise ValueError(
+        raise WindException(
             "wind_arr could not be broadcasted to an array of shape (n,3)"
         )
     if not np.isfinite(wind_arr):
-        raise ValueError("All values have to be finite and not NaN")
+        raise WindException("All values have to be finite and not NaN")
 
     # TODO Maybe not split the array here?
     aws, awa, bsp = np.hsplit(wind_arr, 3)
@@ -94,17 +98,17 @@ def true_wind_to_apparent(wind_arr):
 
     wind_arr = np.asarray(wind_arr)
     if wind_arr.dtype == "object":
-        raise ValueError("wind_arr is not array_like")
+        raise WindException("wind_arr is not array_like")
     if not wind_arr.size:
-        raise ValueError("Empty array passed. Conversion not possible")
+        raise WindException("Empty array passed. Conversion not possible")
     try:
         wind_arr = wind_arr.reshape(-1, 3)
     except ValueError:
-        raise ValueError(
+        raise WindException(
             "wind_arr could not be broadcasted to an array of shape (n,3)"
         )
     if not np.isfinite(wind_arr):
-        raise ValueError("All values have to be finite and not NaN")
+        raise WindException("All values have to be finite and not NaN")
 
     # TODO Maybe not split the array here?
     tws, twa, bsp = np.hsplit(wind_arr, 3)
@@ -135,7 +139,7 @@ def speed_resolution(ws_res):
 
     # Iterable-test really necessary?
     if not isinstance(ws_res, (Iterable, int, float)):
-        raise ValueError(f"{ws_res} is neither array_like, int or float")
+        raise WindException(f"{ws_res} is neither array_like, int or float")
 
     if isinstance(ws_res, Iterable):
         # TODO: Check if contents of
@@ -143,14 +147,14 @@ def speed_resolution(ws_res):
         ws_res = np.asarray(ws_res)
 
         if ws_res.dtype == object:
-            raise ValueError(f"{ws_res} is not array_like")
+            raise WindException(f"{ws_res} is not array_like")
         if not ws_res.size:
-            raise ValueError("Empty ws_res was passed")
+            raise WindException("Empty ws_res was passed")
 
         return ws_res
 
     if ws_res <= 0:
-        raise ValueError("Negative resolution stepsize")
+        raise WindException("Nonpositive resolution stepsize")
 
     return np.arange(ws_res, 40, ws_res)
 
@@ -161,7 +165,7 @@ def angle_resolution(wa_res):
 
     # Iterable-test really necessary?
     if not isinstance(wa_res, (Iterable, int, float)):
-        raise ValueError(f"{wa_res} is neither array_like, int or float")
+        raise WindException(f"{wa_res} is neither array_like, int or float")
 
     if isinstance(wa_res, Iterable):
         # TODO: Check if contents of
@@ -169,12 +173,12 @@ def angle_resolution(wa_res):
         wa_res = np.asarray(wa_res)
 
         if wa_res.dtype == object:
-            raise ValueError(f"{wa_res} is not array_like")
+            raise WindException(f"{wa_res} is not array_like")
         if not wa_res.size:
-            raise ValueError("Empty wa_res was passed")
+            raise WindException("Empty wa_res was passed")
         return wa_res
 
     if wa_res <= 0:
-        raise ValueError("Negative resolution stepsize")
+        raise WindException("Nonpositive resolution stepsize")
 
     return np.arange(wa_res, 360, wa_res)
