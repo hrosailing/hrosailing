@@ -10,10 +10,13 @@ import csv
 import logging.handlers
 import pickle
 
+
 from abc import ABC, abstractmethod
+from typing import List
 
 from hrosailing.polardiagram.plotting import *
 from hrosailing.wind import (
+    WindException,
     apparent_wind_to_true,
     speed_resolution,
     angle_resolution,
@@ -246,24 +249,24 @@ class PolarDiagram(ABC):
     -------
     pickling(pkl_path)
         Writes PolarDiagram instance to a .pkl file
-    polar_plot_slice(self, ws, ax=None, **plot_kw)
+    polar_plot_slice(ws, ax=None, **plot_kw)
         Creates a polar plot  of a given slice of the
         polar diagram
-    flat_plot_slice(self, ws, ax=None, **plot_kw)
+    flat_plot_slice(ws, ax=None, **plot_kw)
         Creates a cartesian plot of a given slice of the
         polar diagram
-    plot_convex_hull_slice(self, ws, ax=None, **plot_kw)
+    plot_convex_hull_slice(ws, ax=None, **plot_kw)
         Computes the convex hull of a given slice of the
         polar diagram and creates a polar plot of it
 
 
     Abstract Methods
     ----------------
-    to_csv(self, csv_path)
-    symmetrize(self)
+    to_csv(csv_path)
+    symmetrize()
+    get_slices(ws)
     plot_polar(
-        self,
-        ws_range,
+        ws,
         ax=None,
         colors=('green', 'red'),
         show_legend=False,
@@ -271,17 +274,15 @@ class PolarDiagram(ABC):
         **plot_kw
     )
     plot_flat(
-        self,
-        ws_range,
+        ws,
         ax=None,
         colors=('green', 'red'),
         show_legend=False,
         legend_kw=None,
         **plot_kw
     )
-    plot_3d(self, ax=None, **plot_kw)
+    plot_3d(ax=None, **plot_kw)
     plot_color_gradient(
-        self,
         ax=None,
         colors=('green', 'red'),
         marker=None,
@@ -289,8 +290,7 @@ class PolarDiagram(ABC):
         **legend_kw,
     )
     plot_convex_hull(
-        self,
-        ws_range,
+        ws,
         ax=None,
         colors=('green', 'red'),
         show_legend=False,
@@ -437,7 +437,7 @@ class PolarDiagram(ABC):
     @abstractmethod
     def plot_polar(
         self,
-        ws_range,
+        ws,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -449,7 +449,7 @@ class PolarDiagram(ABC):
     @abstractmethod
     def plot_flat(
         self,
-        ws_range,
+        ws,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -529,7 +529,7 @@ class PolarDiagram(ABC):
     @abstractmethod
     def plot_convex_hull(
         self,
-        ws_range,
+        ws,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -651,7 +651,7 @@ class PolarDiagramTable(PolarDiagram):
     change_entries(data, ws=None, wa=None, tw=True)
         Changes specified entries in the table
     plot_polar(
-        ws_range=None,
+        ws=None,
         ax=None,
         colors=('green', 'red'),
         show_legend=False,
@@ -660,7 +660,7 @@ class PolarDiagramTable(PolarDiagram):
     )
         Creates a polar plot of one or more slices of the polar diagram
     plot_flat(
-        ws_range=None,
+        ws=None,
         ax=None,
         colors=('green', 'red'),
         show_legend=False,
@@ -680,7 +680,7 @@ class PolarDiagramTable(PolarDiagram):
         Creates a 'wind speed vs. wind angle' color gradient plot
         of the polar diagram with respect to the respective boat speeds
     plot_convex_hull(
-        ws_range=None,
+        ws=None,
         ax=None,
         colors=('green', 'red'),
         show_legend=False,
@@ -696,9 +696,14 @@ class PolarDiagramTable(PolarDiagram):
             f"Class 'PolarDiagramTable(ws_res={ws_res}, wa_res={wa_res}, "
             f"bsps={bsps}, tw={tw})' called"
         )
-
-        ws_res = speed_resolution(ws_res)
-        wa_res = angle_resolution(wa_res)
+        try:
+            ws_res = speed_resolution(ws_res)
+        except WindException as we:
+            raise PolarDiagramException(f"While setting wind speed resolution, the error {we} occured")
+        try:
+            wa_res = angle_resolution(wa_res)
+        except WindException as we:
+            raise PolarDiagramException(f"While setting wind angle resolution, the error {we} occured")
 
         rows = len(wa_res)
         cols = len(ws_res)
@@ -721,7 +726,10 @@ class PolarDiagramTable(PolarDiagram):
         ws_res = np.ravel(ws_res)
         wa_res = np.ravel(wa_res)
         bsps = np.ravel(bsps)
-        wind_arr = _convert_wind(np.column_stack((ws_res, wa_res, bsps)), tw)
+        try:
+            wind_arr = _convert_wind(np.column_stack((ws_res, wa_res, bsps)), tw)
+        except WindException as we:
+            raise PolarDiagramException(f"During converting of wind data, the error {we} occured")
 
         # TODO CHANGE IT!!!!! ERROR!!!
         self._res_wind_speed = np.array(sorted(list(set(wind_arr[:, 0]))))
@@ -777,7 +785,7 @@ class PolarDiagramTable(PolarDiagram):
 
     def __repr__(self):
         return (
-            f"PolarDiagramTable( ws_res={self.wind_speeds}, "
+            f"PolarDiagramTable(ws_res={self.wind_speeds}, "
             f"wa_res={self.wind_angles}, bsps={self.boat_speeds})"
         )
 
@@ -952,7 +960,10 @@ class PolarDiagramTable(PolarDiagram):
     def _get_radians(self):
         return np.deg2rad(self.wind_angles)
 
-    def get_slices(self, ws):
+    def get_slices(self, ws=None):
+        """
+
+        """
         if ws is None:
             ws = self.wind_speeds
         if isinstance(ws, (int, float)):
@@ -1371,16 +1382,44 @@ class PolarDiagramTable(PolarDiagram):
     #     plot_convex_surface(ws, wa, bsp, ax, color)
 
 
+def interpolate():
+    pass
+
+
+def _merge_tables(
+    polar_tables: List[PolarDiagramTable]
+) -> (PolarDiagramTable, list):
+    ws = polar_tables[0].wind_speeds
+    wa = polar_tables[0].wind_angles
+    pd = PolarDiagramTable(ws_res=ws, wa_res=wa)
+    members = []
+    for a in wa:
+        subm = []
+        for w in ws:
+            bsp, sail = sorted(
+                [(pt[w, a], i) for i, pt in enumerate(polar_tables)],
+                key=lambda x: -x[0],
+            )[0]
+            pd.change_entries(bsp, w, a)
+            subm.append(sail)
+
+        members.append(subm)
+
+    return pd, members
+
+
 # TODO: Standardize wind angles, such that they are in [0, 360),
 #       because 360° should be equal to 0°
 class PolarDiagramMultiSails(PolarDiagram):
     """A class to represent, visualize and work with
     a polar diagram made up of multiple sets of sails,
-    each represented by a PolarDiagramTable
+    represented by a PolarDiagramTable
 
     Parameters
     ----------
-    polar_tables : list
+    pds : list
+
+    sails : list
 
 
     Raises a PolarDiagramException if
@@ -1401,34 +1440,75 @@ class PolarDiagramMultiSails(PolarDiagram):
         Constructs a symmetric version of the polar diagram, by
         mirroring each PolarDiagramTable  at the 0° - 180° axis
         and returning a new instance
-
-
+    get_slices(ws)
+    plot_polar(
+        ws=None,
+        ax=None,
+        colors=('green', 'red'),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw,
+    )
+        Creates a polar plot of one or more slices of the polar diagram
+    plot_flat(
+        ws=None,
+        ax=None,
+        colors=('green', 'red'),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw,
+    )
+        Creates a cartesian plot of one or more slices of the polar diagram
+    plot_3d(ax=None, colors=('blue', 'blue'))
+        Creates a 3d plot of the polar diagram
+    plot_color_gradient(
+        ax=None,
+        colors=('green', 'red'),
+        marker=None,
+        show_legend=False,
+        **legend_kw,
+    )
+        Creates a 'wind speed vs. wind angle' color gradient plot
+        of the polar diagram with respect to the respective boat speeds
+    plot_convex_hull(
+        ws=None,
+        ax=None,
+        colors=('green', 'red'),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw,
+    )
+        Computes the (seperate) convex hull of one or more
+        slices of the polar diagram and creates a polar plot of them
     """
 
-    def __init__(self, polar_tables=None):
-        if polar_tables is None:
-            polar_tables = [PolarDiagramTable()]
+    def __init__(self, pds: List[PolarDiagramTable], sails: List[str] = None):
+        ws = pds[0].wind_speeds
+        for pd in pds:
+            if not np.array_equal(ws, pd.wind_speeds):
+                raise PolarDiagramException("")
 
-        self._sails = polar_tables
+        if sails is None:
+            sails = [f"Sail {i}" for i in range(len(pds))]
 
-        self._res_wind_speed = polar_tables[0].wind_speeds
-        self._res_wind_angle = [pt.wind_angles for pt in polar_tables]
+        self._sails = sails
+        self._tables = pds
 
     @property
     def wind_speeds(self):
         """Returns a read only version of self._res_wind_speed"""
-        return self._res_wind_speed.copy()
+        return
 
     @property
     def wind_angles(self):
         """Returns a read only version of self._res_wind_angle"""
-        return [wa.copy() for wa in self._res_wind_angle]
+        return
 
     @property
     def boat_speeds(self):
         """Returns a list of pt.boat_speeds for every PolarDiagramTable
         pt in self._sails"""
-        return [pt.boat_speeds for pt in self._sails]
+        return
 
     def to_csv(self, csv_path):
         pass
@@ -1438,51 +1518,47 @@ class PolarDiagramMultiSails(PolarDiagram):
         mirroring each PolarDiagramTable at the 0° - 180° axis and
         returning a new instance. See also the symmetrize()-method
         of the PolarDiagramTable class
-
         Warning
         -------
         Should only be used if all the wind angles of the PolarDiagramTables
         are each on one side of the 0° - 180° axis, otherwise this can lead
         to duplicate data, which can overwrite or live alongside old data
-
         """
-        polar_tables = [sail.symmetrize() for sail in self._sails]
-        return PolarDiagramMultiSails(polar_tables)
-
-    def _get_radians(self):
-        return [np.deg2rad(wa) for wa in self.wind_angles]
+        pass
 
     def get_slices(self, ws):
         ind = _get_indices(ws, self.wind_speeds)
         return [bsp[:, ind].ravel() for bsp in self.boat_speeds]
 
-    # TODO: Implementation
-    #       Problems: How to handle legend?
-    #                 Multiple legends?
     def plot_polar(
         self,
-        ws_range,
+        ws,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
         legend_kw=None,
         **plot_kw,
     ):
-        pass
+        for i, pd in self._tables:
+            if i == 0 and show_legend:
+                pd.plot_polar(ws, ax, colors, show_legend, legend_kw, **plot_kw)
+            else:
+                pd.plot_polar(ws, ax, colors, False, None, **plot_kw)
 
-    # TODO: Implementation
-    #       Problems: How to handle legend?
-    #                 Multiple legends?
     def plot_flat(
         self,
-        ws_range,
+        ws,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
         legend_kw=None,
         **plot_kw,
     ):
-        pass
+        for i, pd in self._tables:
+            if i == 0 and show_legend:
+                pd.plot_flat(ws, ax, colors, show_legend, legend_kw, **plot_kw)
+            else:
+                pd.plot_flat(ws, ax, colors, False, None, **plot_kw)
 
     def plot_3d(self, ax=None, colors=None):
         pass
@@ -1559,7 +1635,7 @@ class PolarDiagramCurve(PolarDiagram):
             Radians: self.rad
             Parameters: self.parameters
     symmetrize()
-
+    get_slices(ws)
     plot_polar(
         ws=(0, 20, 5),
         ax=None,
@@ -2173,6 +2249,7 @@ class PolarDiagramPointcloud(PolarDiagram):
     symmetrize()
     add_points(new_pts)
         Adds additional points to the point cloud
+    get_slices(ws)
     polar_plot(
         ws=(0, np.inf),
         ax=None,
