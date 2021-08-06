@@ -312,7 +312,8 @@ class PolarDiagram(ABC):
         can't be written to
         """
         try:
-            pickle.dump(self, pkl_path)
+            with open(pkl_path, 'wb') as file:
+                pickle.dump(self, file)
         except OSError:
             raise FileWritingException(f"Can't write to {pkl_path}")
 
@@ -699,11 +700,15 @@ class PolarDiagramTable(PolarDiagram):
         try:
             ws_res = speed_resolution(ws_res)
         except WindException as we:
-            raise PolarDiagramException(f"While setting wind speed resolution, the error {we} occured")
+            raise PolarDiagramException(
+                f"While setting wind speed resolution, the error {we} occured"
+            )
         try:
             wa_res = angle_resolution(wa_res)
         except WindException as we:
-            raise PolarDiagramException(f"While setting wind angle resolution, the error {we} occured")
+            raise PolarDiagramException(
+                f"While setting wind angle resolution, the error {we} occured"
+            )
 
         rows = len(wa_res)
         cols = len(ws_res)
@@ -727,9 +732,13 @@ class PolarDiagramTable(PolarDiagram):
         wa_res = np.ravel(wa_res)
         bsps = np.ravel(bsps)
         try:
-            wind_arr = _convert_wind(np.column_stack((ws_res, wa_res, bsps)), tw)
+            wind_arr = _convert_wind(
+                np.column_stack((ws_res, wa_res, bsps)), tw
+            )
         except WindException as we:
-            raise PolarDiagramException(f"During converting of wind data, the error {we} occured")
+            raise PolarDiagramException(
+                f"During converting of wind data, the error {we} occured"
+            )
 
         # TODO CHANGE IT!!!!! ERROR!!!
         self._res_wind_speed = np.array(sorted(list(set(wind_arr[:, 0]))))
@@ -1387,7 +1396,7 @@ def interpolate():
 
 
 def _merge_tables(
-    polar_tables: List[PolarDiagramTable]
+    polar_tables: List[PolarDiagramTable],
 ) -> (PolarDiagramTable, list):
     ws = polar_tables[0].wind_speeds
     wa = polar_tables[0].wind_angles
@@ -1527,8 +1536,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         pass
 
     def get_slices(self, ws):
-        ind = _get_indices(ws, self.wind_speeds)
-        return [bsp[:, ind].ravel() for bsp in self.boat_speeds]
+        pass
 
     def plot_polar(
         self,
@@ -1541,7 +1549,9 @@ class PolarDiagramMultiSails(PolarDiagram):
     ):
         for i, pd in self._tables:
             if i == 0 and show_legend:
-                pd.plot_polar(ws, ax, colors, show_legend, legend_kw, **plot_kw)
+                pd.plot_polar(
+                    ws, ax, colors, show_legend, legend_kw, **plot_kw
+                )
             else:
                 pd.plot_polar(ws, ax, colors, False, None, **plot_kw)
 
