@@ -29,7 +29,7 @@ def apparent_wind_to_true(wind_arr):
         Array containing the same data as wind_arr, but the wind speed
         and wind angle now measured as true wind
 
-    Raises a ValueError
+    Raises a WindException
         - if wind_arr is an empty sequence
         - if some values in wind_arr are NaN or
         not finite
@@ -90,7 +90,7 @@ def true_wind_to_apparent(wind_arr):
             Array containing the same data as wind_arr, but the wind speed
             and wind angle now measured as apparent wind
 
-        Raises a ValueError
+        Raises a WindException
             - if wind_arr is an empty sequence
             - if some values in wind_arr are NaN or
             not finite
@@ -143,7 +143,7 @@ def speed_resolution(ws_res):
 
     if isinstance(ws_res, Iterable):
         # TODO: Check if contents of
-        #       np.array are numbers?
+        #       array are numbers?
         ws_res = np.asarray(ws_res)
 
         if ws_res.dtype == object:
@@ -169,7 +169,7 @@ def angle_resolution(wa_res):
 
     if isinstance(wa_res, Iterable):
         # TODO: Check if contents of
-        #       np.array are numbers?
+        #       array are numbers?
         wa_res = np.asarray(wa_res)
 
         if wa_res.dtype == object:
