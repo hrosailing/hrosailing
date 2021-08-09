@@ -133,6 +133,8 @@ def true_wind_to_apparent(wind_arr):
     return np.column_stack((tws, twa, bsp))
 
 
+# TODO Refractor speed and angle resolution in one function maybe
+
 def speed_resolution(ws_res):
     if ws_res is None:
         return np.arange(2, 42, 2)
