@@ -134,7 +134,7 @@ def true_wind_to_apparent(wind_arr):
 
 
 def set_resolution(res, speed_or_angle):
-    if speed_or_angle not in {'speed', 'angle'}:
+    if speed_or_angle not in {"speed", "angle"}:
         raise WindException("")
 
     b = speed_or_angle == "speed"
@@ -144,8 +144,7 @@ def set_resolution(res, speed_or_angle):
 
     # Iterable-test really necessary?
     if not isinstance(res, (Iterable, int, float)):
-        raise WindException(
-            f"{res} is neither array_like, int or float")
+        raise WindException(f"{res} is neither array_like, int or float")
 
     if isinstance(res, Iterable):
         # TODO: Check if contents of

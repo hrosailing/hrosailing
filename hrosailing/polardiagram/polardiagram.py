@@ -311,7 +311,7 @@ class PolarDiagram(ABC):
         can't be written to
         """
         try:
-            with open(pkl_path, 'wb') as file:
+            with open(pkl_path, "wb") as file:
                 pickle.dump(self, file)
         except OSError:
             raise FileWritingException(f"Can't write to {pkl_path}")
@@ -746,7 +746,7 @@ class PolarDiagramTable(PolarDiagram):
         # Instead we make use of the special structure of meshgrid to
         # achieve the same thing
         ws, wa = wind_arr[:, 0], wind_arr[:, 1]
-        ws = list(ws)[:len(ws_res)]
+        ws = list(ws)[: len(ws_res)]
         wa = [wa[i] for i in range(0, len(wa), len(ws_res))]
 
         # Sort wind angles and the corresponding order of rows in bsps
@@ -916,7 +916,7 @@ class PolarDiagramTable(PolarDiagram):
             wa_res = list(wa_res)
             mid = wa_res.index(180) or wa_res.index(180.0)
             del wa_res[mid]
-            bsps = np.row_stack((bsps[:mid, :], bsps[mid + 1:, :]))
+            bsps = np.row_stack((bsps[:mid, :], bsps[mid + 1 :, :]))
         if 0 in self.wind_angles:
             bsps = bsps[:-1, :]
             wa_res = wa_res[:-1]

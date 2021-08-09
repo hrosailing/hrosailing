@@ -18,10 +18,7 @@ from hrosailing.polardiagram.polardiagram import (
     FileReadingException,
     PolarDiagramException,
 )
-from hrosailing.wind import (
-    apparent_wind_to_true,
-    set_resolution,
-)
+from hrosailing.wind import apparent_wind_to_true, set_resolution
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)s: %(message)s",
