@@ -20,8 +20,7 @@ from hrosailing.polardiagram.polardiagram import (
 )
 from hrosailing.wind import (
     apparent_wind_to_true,
-    speed_resolution,
-    angle_resolution,
+    set_resolution,
 )
 
 logging.basicConfig(
@@ -535,7 +534,7 @@ def _set_wind_resolution(w_res, pts):
         w_res = (None, None)
 
     ws_res, wa_res = w_res
-    return speed_resolution(ws_res), angle_resolution(wa_res)
+    return set_resolution(ws_res, "speed"), set_resolution(wa_res, "angle")
 
 
 # TODO Better approach?

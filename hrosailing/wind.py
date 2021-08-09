@@ -133,54 +133,33 @@ def true_wind_to_apparent(wind_arr):
     return np.column_stack((tws, twa, bsp))
 
 
-# TODO Refractor speed and angle resolution in one function maybe
+def set_resolution(res, speed_or_angle):
+    if speed_or_angle not in {'speed', 'angle'}:
+        raise WindException("")
 
-def speed_resolution(ws_res):
-    if ws_res is None:
-        return np.arange(2, 42, 2)
+    b = speed_or_angle == "speed"
+
+    if res is None:
+        return np.arange(2, 42, 2) if b else np.arange(0, 360, 5)
 
     # Iterable-test really necessary?
-    if not isinstance(ws_res, (Iterable, int, float)):
-        raise WindException(f"{ws_res} is neither array_like, int or float")
+    if not isinstance(res, (Iterable, int, float)):
+        raise WindException(
+            f"{res} is neither array_like, int or float")
 
-    if isinstance(ws_res, Iterable):
+    if isinstance(res, Iterable):
         # TODO: Check if contents of
         #       array are numbers?
-        ws_res = np.asarray(ws_res)
+        res = np.asarray(res)
 
-        if ws_res.dtype == object:
-            raise WindException(f"{ws_res} is not array_like")
-        if not ws_res.size:
+        if res.dtype == object:
+            raise WindException(f"{res} is not array_like")
+        if not res.size:
             raise WindException("Empty ws_res was passed")
 
-        return ws_res
+        return res
 
-    if ws_res <= 0:
+    if res <= 0:
         raise WindException("Nonpositive resolution stepsize")
 
-    return np.arange(ws_res, 40, ws_res)
-
-
-def angle_resolution(wa_res):
-    if wa_res is None:
-        return np.arange(0, 360, 5)
-
-    # Iterable-test really necessary?
-    if not isinstance(wa_res, (Iterable, int, float)):
-        raise WindException(f"{wa_res} is neither array_like, int or float")
-
-    if isinstance(wa_res, Iterable):
-        # TODO: Check if contents of
-        #       array are numbers?
-        wa_res = np.asarray(wa_res)
-
-        if wa_res.dtype == object:
-            raise WindException(f"{wa_res} is not array_like")
-        if not wa_res.size:
-            raise WindException("Empty wa_res was passed")
-        return wa_res
-
-    if wa_res <= 0:
-        raise WindException("Nonpositive resolution stepsize")
-
-    return np.arange(wa_res, 360, wa_res)
+    return np.arange(res, 40, res) if b else np.arange(res, 360, res)

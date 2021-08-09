@@ -18,8 +18,7 @@ from hrosailing.polardiagram.plotting import *
 from hrosailing.wind import (
     WindException,
     apparent_wind_to_true,
-    speed_resolution,
-    angle_resolution,
+    set_resolution,
 )
 
 logging.basicConfig(
@@ -698,13 +697,13 @@ class PolarDiagramTable(PolarDiagram):
             f"bsps={bsps}, tw={tw})' called"
         )
         try:
-            ws_res = speed_resolution(ws_res)
+            ws_res = set_resolution(ws_res, "speed")
         except WindException as we:
             raise PolarDiagramException(
                 f"While setting wind speed resolution, the error {we} occured"
             )
         try:
-            wa_res = angle_resolution(wa_res)
+            wa_res = set_resolution(wa_res, "angle")
         except WindException as we:
             raise PolarDiagramException(
                 f"While setting wind angle resolution, the error {we} occured"
