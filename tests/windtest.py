@@ -4,31 +4,29 @@ import numpy as np
 
 from hrosailing.wind import speed_resolution, angle_resolution
 
-
-def equal_arrays(a, b, msg=None):
-    if np.all(a == b):
-        return True
-    raise AssertionError(msg)
+# TODO Refractor to one testclass, maybe
 
 
 class SpeedResolutionTest(unittest.TestCase):
-    def setUp(self):
-        self.addTypeEqualityFunc(np.ndarray, equal_arrays)
-
-    def test_speed_resolution_None(self):
-        self.assertEqual(speed_resolution(None), np.arange(2, 42, 2))
+    @staticmethod
+    def test_speed_resolution_None():
+        np.testing.assert_array_equal(
+            speed_resolution(None), np.arange(2, 42, 2)
+        )
 
     def test_speed_resolution_iters(self):
         iters = [[1, 2, 3, 4], (1, 2, 3, 4), np.array([1, 2, 3, 4])]
         for i, iter_ in enumerate(iters):
             with self.subTest(i=i):
-                self.assertEqual(speed_resolution(iter_), np.asarray(iter_))
+                np.testing.assert_array_equal(
+                    speed_resolution(iter_), np.asarray(iter_)
+                )
 
     def test_speed_resolution_nums(self):
         nums = [1, 1.5]
         for i, num in enumerate(nums):
             with self.subTest(i=i):
-                self.assertEqual(
+                np.testing.assert_array_equal(
                     speed_resolution(num), np.arange(num, 40, num)
                 )
 
@@ -85,23 +83,25 @@ def speed_resolution_suite():
 
 
 class AngleResolutionTest(unittest.TestCase):
-    def setUp(self):
-        self.addTypeEqualityFunc(np.ndarray, equal_arrays)
-
-    def test_angle_resolution_None(self):
-        self.assertEqual(angle_resolution(None), np.arange(0, 360, 5))
+    @staticmethod
+    def test_angle_resolution_None():
+        np.testing.assert_array_equal(
+            angle_resolution(None), np.arange(0, 360, 5)
+        )
 
     def test_angle_resolution_iters(self):
         iters = [[1, 2, 3, 4], (1, 2, 3, 4), np.array([1, 2, 3, 4])]
         for i, iter_ in enumerate(iters):
             with self.subTest(i=i):
-                self.assertEqual(angle_resolution(iter_), np.asarray(iter_))
+                np.testing.assert_array_equal(
+                    angle_resolution(iter_), np.asarray(iter_)
+                )
 
     def test_angle_resolution_nums(self):
         nums = [1, 1.5]
         for i, num in enumerate(nums):
             with self.subTest(i=i):
-                self.assertEqual(
+                np.testing.assert_array_equal(
                     angle_resolution(num), np.arange(num, 360, num)
                 )
 
