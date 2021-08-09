@@ -594,7 +594,7 @@ class PolarDiagramTable(PolarDiagram):
 
     wa_res : array_like or int/float, optional
         Wind angles that will correspond to the rows
-        of the table
+        of the table. Should be between 0° and 360°
 
         Can either be sequence of length rdim or an
         int/float value
@@ -714,7 +714,7 @@ class PolarDiagramTable(PolarDiagram):
         cols = len(ws_res)
         if bsps is None:
             bsps = np.zeros((rows, cols))
-        bsps = np.asarray(bsps)
+        bsps = np.asarray(bsps, dtype=np.float64)
         if not bsps.size:
             raise PolarDiagramException("")
         if bsps.ndim != 2:
@@ -727,23 +727,29 @@ class PolarDiagramTable(PolarDiagram):
                 f"{(rows, cols)}"
             )
 
-        ws_res, wa_res = np.meshgrid(ws_res, wa_res)
-        ws_res = np.ravel(ws_res)
-        wa_res = np.ravel(wa_res)
-        bsps = np.ravel(bsps)
+        ws, wa = np.meshgrid(ws_res, wa_res)
+        ws = ws.ravel()
+        wa = wa.ravel()
         try:
             wind_arr = _convert_wind(
-                np.column_stack((ws_res, wa_res, bsps)), tw
+                np.column_stack((ws, wa, bsps.ravel())), tw
             )
         except WindException as we:
             raise PolarDiagramException(
                 f"During converting of wind data, the error {we} occured"
             )
 
-        # TODO CHANGE IT!!!!! ERROR!!!
-        self._res_wind_speed = np.array(sorted(list(set(wind_arr[:, 0]))))
-        self._res_wind_angle = np.array(sorted(list(set(wind_arr[:, 1]))))
-        self._boat_speeds = bsps.reshape(rows, cols)
+        ws, wa = wind_arr[:, 0], wind_arr[:, 1]
+        ws = list(ws)[:len(ws_res)]
+        wa = [wa[i] for i in range(0, len(wa), len(ws_res))]
+
+        wa, bsps = zip(*sorted(zip(wa, bsps), key=lambda x: x[0]))
+        self._res_wind_angle = np.asarray(wa)
+        bsps = np.asarray(bsps, dtype=np.float64)
+
+        ws, bsps = zip(*sorted(zip(ws, bsps.T), key=lambda x: x[0]))
+        self._res_wind_speed = np.asarray(ws)
+        self._boat_speeds = np.asarray(bsps, dtype=np.float64).T
 
     def __str__(self):
         table = ["  TWA \\ TWS"]
@@ -978,7 +984,7 @@ class PolarDiagramTable(PolarDiagram):
         if isinstance(ws, (int, float)):
             ws = [ws]
         # better way?
-        ws = list(ws)
+        ws = sorted(list(ws))
         if not ws:
             raise PolarDiagramException("No slices where given")
 
