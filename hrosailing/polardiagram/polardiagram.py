@@ -739,14 +739,23 @@ class PolarDiagramTable(PolarDiagram):
                 f"During converting of wind data, the error {we} occured"
             )
 
+        # Removing duplicates from the converted wind speeds and wind angles
+        # The normal method of list(set(..)) isn't applicable here,
+        # because we want to keep the order of the elements, but
+        # since sets aren't ordered, list(set(..)) would give us a
+        # reordered list of elements.
+        # Instead we make use of the special structure of meshgrid to
+        # achieve the same thing
         ws, wa = wind_arr[:, 0], wind_arr[:, 1]
         ws = list(ws)[:len(ws_res)]
         wa = [wa[i] for i in range(0, len(wa), len(ws_res))]
 
+        # Sort wind angles and the corresponding order of rows in bsps
         wa, bsps = zip(*sorted(zip(wa, bsps), key=lambda x: x[0]))
         self._res_wind_angle = np.asarray(wa)
         bsps = np.asarray(bsps, dtype=np.float64)
 
+        # Sort wind speeds and the corresponding order of columns in bsps
         ws, bsps = zip(*sorted(zip(ws, bsps.T), key=lambda x: x[0]))
         self._res_wind_speed = np.asarray(ws)
         self._boat_speeds = np.asarray(bsps, dtype=np.float64).T
