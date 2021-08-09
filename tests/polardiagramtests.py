@@ -6,6 +6,7 @@ from hrosailing.polardiagram.polardiagram import PolarDiagramException
 
 
 class PolarDiagramTableTest(unittest.TestCase):
+    # TODO Better setup?
     def setUp(self):
         self.ws_res = np.array([2, 4, 6, 8])
         self.wa_res = np.array([10, 15, 20, 25])
@@ -168,10 +169,24 @@ class PolarDiagramTableTest(unittest.TestCase):
         with self.assertRaises(PolarDiagramException):
             self.pd.change_entries(new_bsps=[])
 
-    # TODO More tests here -> subtests
     def test_change_entries_exception_wrong_shape(self):
-        with self.assertRaises(PolarDiagramException):
-            self.pd.change_entries(new_bsps=[1])
+        new_bsps = [
+            [1],
+            [[1, 2], [3, 4]],
+            [[1, 2], [3, 4], [5, 6], [7, 8]],
+            [[1, 2, 3, 4], [5, 6, 7, 8]],
+        ]
+        for i, new_bsp in enumerate(new_bsps):
+            with self.subTest(i=i):
+                with self.assertRaises(PolarDiagramException):
+                    self.pd.change_entries(new_bsps=new_bsp)
+
+    def test_change_entries_exception_not_array_like(self):
+        new_bsps = [{}, set(), {1: 1, 2: 2, 3: 3, 4: 4}, {1, 2, 3, 4}]
+        for i, new_bsp in enumerate(new_bsps):
+            with self.subTest(i=i):
+                with self.assertRaises(PolarDiagramException):
+                    self.pd.change_entries(new_bsps=new_bsp)
 
     def test_get_one_slice(self):
         ws, wa, bsp = self.pd.get_slices(2)
@@ -238,6 +253,9 @@ def polar_table_suite():
             PolarDiagramTableTest("test_change_one_column"),
             PolarDiagramTableTest("test_change_entries_exceptions_empty"),
             PolarDiagramTableTest("test_change_entries_exception_wrong_shape"),
+            PolarDiagramTableTest(
+                "test_change_entries_exception_not_array_like"
+            ),
             PolarDiagramTableTest("test_change_subarray"),
             PolarDiagramTableTest("test_get_one_slice"),
             PolarDiagramTableTest("test_get_multiple_slices_list"),
@@ -251,6 +269,7 @@ def polar_table_suite():
 
 
 class PolarDiagramPointCloudTest(unittest.TestCase):
+    # TODO Better setup?
     def setUp(self):
         self.points = np.array(
             [
@@ -274,10 +293,9 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         )
         self.pc = pol.PolarDiagramPointcloud(self.points)
 
-    @staticmethod
-    def test_default_init():
+    def test_default_init(self):
         pc = pol.PolarDiagramPointcloud()
-        np.testing.assert_array_equal(pc.points, np.array([]))
+        self.assertEqual(pc.points.size, False)
 
     def test_init(self):
         np.testing.assert_array_equal(self.pc.points, self.points)
@@ -311,10 +329,19 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         with self.assertRaises(PolarDiagramException):
             self.pc.add_points(new_pts=[])
 
-    # TODO More tests -> subtests
     def test_add_points_exception_wrong_shape(self):
-        with self.assertRaises(PolarDiagramException):
-            self.pc.add_points(new_pts=[0])
+        new_pts = [[0], [1, 2], [1, 2, 3, 4]]
+        for i, new_pt in enumerate(new_pts):
+            with self.subTest(i=i):
+                with self.assertRaises(PolarDiagramException):
+                    self.pc.add_points(new_pts=new_pt)
+
+    def test_add_points_exception_not_array_like(self):
+        new_pts = [{}, set(), {1: 1, 2: 2, 3: 3}, {1, 2, 3}]
+        for i, new_pt in enumerate(new_pts):
+            with self.subTest(i=i):
+                with self.assertRaises(PolarDiagramException):
+                    self.pc.add_points(new_pts=new_pt)
 
     def test_symmetric_polar_diagram_no_points(self):
         pc = pol.PolarDiagramPointcloud()
@@ -330,19 +357,14 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
 
     def test_get_slice(self):
         ws, wa, bsp = self.pc.get_slices(4)
-        np.testing.assert_array_equal(ws)
-        np.testing.assert_array_equal(
-            wa, self.points[self.points[:, 0] == 4][:, 1]
-        )
-        np.testing.assert_array_equal(
-            bsp, self.points[self.points[:, 0] == 4][:, 2]
-        )
+        self.assertEqual(ws, [4])
+        np.testing.assert_array_equal(wa[0], np.deg2rad([10, 15, 20, 25]))
+        np.testing.assert_array_equal(bsp[0], np.array([2, 2.4, 2.6, 3]))
 
     def test_get_slice_exception(self):
         with self.assertRaises(PolarDiagramException):
             self.pc.get_slices(0)
 
-    # TODO rewrite
     def test_get_slices_list(self):
         ws, wa, bsp = self.pc.get_slices([4, 8])
         self.assertEqual(ws, [4, 8])
@@ -350,10 +372,10 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         self.assertEqual(type(bsp), list)
         self.assertEqual(len(wa), 2)
         self.assertEqual(len(bsp), 2)
-        np.testing.assert_array_equal(wa[0], self.pc.get_slices(4)[0])
-        np.testing.assert_array_equal(bsp[0], self.pc.get_slices(4)[1])
-        np.testing.assert_array_equal(wa[1], self.pc.get_slices(8)[0])
-        np.testing.assert_array_equal(bsp[1], self.pc.get_slices(8)[1])
+        np.testing.assert_array_equal(wa[0], np.deg2rad([10, 15, 20, 25]))
+        np.testing.assert_array_equal(wa[1], np.deg2rad([10, 15, 20, 25]))
+        np.testing.assert_array_equal(bsp[0], np.array([2, 2.4, 2.6, 3]))
+        np.testing.assert_array_equal(bsp[1], np.array([4, 4.1, 4.4, 4.6]))
 
     def test_get_slices_exception_empty(self):
         with self.assertRaises(PolarDiagramException):
@@ -363,7 +385,6 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         with self.assertRaises(PolarDiagramException):
             self.pc.get_slices([0, 2])
 
-    # TODO rewrite
     def test_get_slices_range(self):
         ws, wa, bsp = self.pc.get_slices((3, 9))
         self.assertEqual(ws, [4, 6, 8])
@@ -371,18 +392,22 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         self.assertEqual(type(bsp), list)
         self.assertEqual(len(wa), 3)
         self.assertEqual(len(bsp), 3)
-        np.testing.assert_array_equal(wa[0], self.pc.get_slices(4)[0])
-        np.testing.assert_array_equal(bsp[0], self.pc.get_slices(4)[1])
-        np.testing.assert_array_equal(wa[1], self.pc.get_slices(6)[0])
-        np.testing.assert_array_equal(bsp[1], self.pc.get_slices(6)[1])
-        np.testing.assert_array_equal(wa[2], self.pc.get_slices(8)[0])
-        np.testing.assert_array_equal(bsp[2], self.pc.get_slices(8)[1])
+        bsps = [
+            np.array([2, 2.4, 2.6, 3]),
+            np.array([3, 3.1, 3.5, 3.8]),
+            np.array([4, 4.1, 4.4, 4.6]),
+        ]
+        for i in range(3):
+            np.testing.assert_array_equal(wa[i], np.deg2rad([10, 15, 20, 25]))
+            np.testing.assert_array_equal(bsp[i], bsps[i])
 
-    def test_get_slices_range_empty(self):
-        ws, wa, bsp = self.pc.get_slices((0, 1))
-        self.assertEqual(ws, [])
-        self.assertEqual(wa, [])
-        self.assertEqual(bsp, [])
+    def test_get_slices_range_no_slices(self):
+        with self.assertRaises(PolarDiagramException):
+            self.pc.get_slices((0, 1))
+
+    def test_get_slices_range_empty_interval(self):
+        with self.assertRaises(PolarDiagramException):
+            self.pc.get_slices((1, 0))
 
 
 def point_cloud_suite():
@@ -404,6 +429,9 @@ def point_cloud_suite():
                 "test_add_points_exception_wrong_shape"
             ),
             PolarDiagramPointCloudTest(
+                "test_add_points_exception_not_array_like"
+            ),
+            PolarDiagramPointCloudTest(
                 "test_symmetric_polar_diagram_no_points"
             ),
             PolarDiagramPointCloudTest("test_symmetric_polar_diagram"),
@@ -413,7 +441,8 @@ def point_cloud_suite():
             PolarDiagramPointCloudTest("test_get_slices_exception_empty"),
             PolarDiagramPointCloudTest("test_get_slices_exception_no_slices"),
             PolarDiagramPointCloudTest("test_get_slices_range"),
-            PolarDiagramPointCloudTest("test_get_slices_range_empty"),
+            PolarDiagramPointCloudTest("test_get_slices_range_no_slices"),
+            PolarDiagramPointCloudTest("test_get_slices_range_empty_interval"),
         ]
     )
 

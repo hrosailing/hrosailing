@@ -961,7 +961,9 @@ class PolarDiagramTable(PolarDiagram):
 
         new_bsps = np.asarray(new_bsps)
         if not new_bsps.size:
-            raise PolarDiagramException(f"No new data was passed")
+            raise PolarDiagramException("No new data was passed")
+        if new_bsps.dtype == object:
+            raise PolarDiagramException(f"{new_bsps} is not array_like")
 
         ws_ind = _get_indices(ws, self.wind_speeds)
         wa_ind = _get_indices(wa, self.wind_angles)
@@ -2409,6 +2411,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         otherwise this can result in the construction of duplicate points,
         that might overwrite or live alongside old points
         """
+        if not self.points.size:
+            return self
+
         below_180 = [wa for wa in self.wind_angles if wa <= 180]
         above_180 = [wa for wa in self.wind_angles if wa > 180]
         if below_180 and above_180:
@@ -2419,9 +2424,6 @@ class PolarDiagramPointcloud(PolarDiagram):
             )
 
         sym_pts = self.points
-        if not sym_pts.size:
-            return self
-
         sym_pts[:, 1] = 360 - sym_pts[:, 1]
         pts = np.row_stack((self.points, sym_pts))
         return PolarDiagramPointcloud(pts=pts)
@@ -2450,7 +2452,10 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         new_pts = np.asarray(new_pts)
         if not new_pts.size:
-            raise PolarDiagramException(f"new_pts is an empty array")
+            raise PolarDiagramException("new_pts is an empty array")
+        if new_pts.dtype == object:
+            raise PolarDiagramException("new_pts is not array_like")
+
         try:
             new_pts = new_pts.reshape(-1, 3)
         except ValueError:
@@ -2466,7 +2471,10 @@ class PolarDiagramPointcloud(PolarDiagram):
         self._pts = np.row_stack((self.points, new_pts))
 
     def get_slices(self, ws):
-        # issue when ws = 0
+        """
+
+        """
+        # issue when ws = 0 -> is that likely to come up?
         if not ws:
             raise PolarDiagramException(f"No slices given")
         if isinstance(ws, (int, float)):
@@ -2474,15 +2482,21 @@ class PolarDiagramPointcloud(PolarDiagram):
         if isinstance(ws, tuple):
             ws = [w for w in self.wind_speeds if ws[0] <= w <= ws[1]]
 
-        wa = bsp = []
-        for ws in ws:
-            pts = self.points[self.points[:, 0] == ws][:, 1:]
+        wa = []
+        bsp = []
+        for w in ws:
+            pts = self.points[self.points[:, 0] == w][:, 1:]
             if not pts.size:
                 raise PolarDiagramException(
-                    f"No points with wind speed={ws} found"
+                    f"No points with wind speed={w} found"
                 )
             wa.append(np.deg2rad(pts[:, 0]))
             bsp.append(pts[:, 1])
+
+        if not wa or not bsp:
+            raise PolarDiagramException(
+                f"There are no slices in the given range {ws}"
+            )
 
         return ws, wa, bsp
 
