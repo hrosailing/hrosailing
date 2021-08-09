@@ -2,155 +2,89 @@ import unittest
 import numpy as np
 
 
-from hrosailing.wind import speed_resolution, angle_resolution
-
-# TODO Refractor to one testclass, maybe
+from hrosailing.wind import set_resolution, WindException
 
 
-class SpeedResolutionTest(unittest.TestCase):
+class ResolutionTest(unittest.TestCase):
     @staticmethod
-    def test_speed_resolution_None():
+    def test_resolution_None():
         np.testing.assert_array_equal(
-            speed_resolution(None), np.arange(2, 42, 2)
+            set_resolution(None, "speed"), np.arange(2, 42, 2)
+        )
+        np.testing.assert_array_equal(
+            set_resolution(None, "angle"), np.arange(0, 360, 5)
         )
 
-    def test_speed_resolution_iters(self):
+    def test_resolution_iters(self):
         iters = [[1, 2, 3, 4], (1, 2, 3, 4), np.array([1, 2, 3, 4])]
         for i, iter_ in enumerate(iters):
             with self.subTest(i=i):
                 np.testing.assert_array_equal(
-                    speed_resolution(iter_), np.asarray(iter_)
+                    set_resolution(iter_, "speed"), np.asarray(iter_)
+                )
+                np.testing.assert_array_equal(
+                    set_resolution(iter_, "angle"), np.asarray(iter_)
                 )
 
-    def test_speed_resolution_nums(self):
+    def test_resolution_nums(self):
         nums = [1, 1.5]
         for i, num in enumerate(nums):
             with self.subTest(i=i):
                 np.testing.assert_array_equal(
-                    speed_resolution(num), np.arange(num, 40, num)
+                    set_resolution(num, "speed"), np.arange(num, 40, num)
+                )
+                np.testing.assert_array_equal(
+                    set_resolution(num, "angle"), np.arange(num, 360, num)
                 )
 
-    def test_speed_resolution_exception_not_iter_int_float(self):
-        with self.assertRaises(ValueError):
+    def test_resolution_exception_not_iter_int_float(self):
+        with self.assertRaises(WindException):
             pass
 
-    def test_speed_resolution_exception_set_dict(self):
+    def test_resolution_exception_set_dict(self):
         iters = [{}, set()]
         for i, iter_ in enumerate(iters):
             with self.subTest(i=i):
-                with self.assertRaises(ValueError):
-                    speed_resolution(iter_)
+                with self.assertRaises(WindException):
+                    set_resolution(iter_, "speed")
+                    set_resolution(iter_, "angle")
 
-    def test_speed_resolution_exception_empty_iter(self):
+    def test_resolution_exception_empty_iter(self):
         iters = [[], (), np.array([])]
         for i, iter_ in enumerate(iters):
             with self.subTest(i=i):
-                with self.assertRaises(ValueError):
-                    speed_resolution(iter_)
+                with self.assertRaises(WindException):
+                    set_resolution(iter_, "speed")
+                    set_resolution(iter_, "angle")
 
-    def test_speed_resolution_exception_zero_nums(self):
+    def test_resolution_exception_zero_nums(self):
         nums = [0, 0.0]
         for i, num in enumerate(nums):
             with self.subTest(i=i):
-                with self.assertRaises(ValueError):
-                    speed_resolution(num)
+                with self.assertRaises(WindException):
+                    set_resolution(num, "speed")
+                    set_resolution(num, "angle")
 
-    def test_speed_resolution_exception_negative_nums(self):
+    def test_resolution_exception_negative_nums(self):
         nums = [-1, -1.5]
         for i, num in enumerate(nums):
             with self.subTest(i=i):
-                with self.assertRaises(ValueError):
-                    speed_resolution(num)
+                with self.assertRaises(WindException):
+                    set_resolution(num, "speed")
+                    set_resolution(num, "angle")
 
 
-def speed_resolution_suite():
+def set_resolution_suite():
     suite = unittest.TestSuite()
     suite.addTests(
         [
-            SpeedResolutionTest("test_speed_resolution_None"),
-            SpeedResolutionTest("test_speed_resolution_iters"),
-            SpeedResolutionTest("test_speed_resolution_nums"),
-            SpeedResolutionTest("test_speed_resolution_exception_set_dict"),
-            SpeedResolutionTest("test_speed_resolution_exception_empty_iter"),
-            SpeedResolutionTest("test_speed_resolution_exception_zero_nums"),
-            SpeedResolutionTest(
-                "test_speed_resolution_exception_negative_nums"
-            ),
-        ]
-    )
-
-    return suite
-
-
-class AngleResolutionTest(unittest.TestCase):
-    @staticmethod
-    def test_angle_resolution_None():
-        np.testing.assert_array_equal(
-            angle_resolution(None), np.arange(0, 360, 5)
-        )
-
-    def test_angle_resolution_iters(self):
-        iters = [[1, 2, 3, 4], (1, 2, 3, 4), np.array([1, 2, 3, 4])]
-        for i, iter_ in enumerate(iters):
-            with self.subTest(i=i):
-                np.testing.assert_array_equal(
-                    angle_resolution(iter_), np.asarray(iter_)
-                )
-
-    def test_angle_resolution_nums(self):
-        nums = [1, 1.5]
-        for i, num in enumerate(nums):
-            with self.subTest(i=i):
-                np.testing.assert_array_equal(
-                    angle_resolution(num), np.arange(num, 360, num)
-                )
-
-    def test_angle_resolution_exception_not_iter_int_float(self):
-        with self.assertRaises(ValueError):
-            pass
-
-    def test_angle_resolution_exception_set_dict(self):
-        iters = [{}, set()]
-        for i, iter_ in enumerate(iters):
-            with self.subTest(i=i):
-                with self.assertRaises(ValueError):
-                    angle_resolution(iter_)
-
-    def test_angle_resolution_exception_empty_iter(self):
-        iters = [[], (), np.array([])]
-        for i, iter_ in enumerate(iters):
-            with self.subTest(i=i):
-                with self.assertRaises(ValueError):
-                    angle_resolution(iter_)
-
-    def test_angle_resolution_exception_zero_nums(self):
-        nums = [0, 0.0]
-        for i, num in enumerate(nums):
-            with self.subTest(i=i):
-                with self.assertRaises(ValueError):
-                    angle_resolution(num)
-
-    def test_angle_resolution_exception_negative_nums(self):
-        nums = [-1, -1.5]
-        for i, num in enumerate(nums):
-            with self.subTest(i=i):
-                with self.assertRaises(ValueError):
-                    angle_resolution(num)
-
-
-def angle_resolution_suite():
-    suite = unittest.TestSuite()
-    suite.addTests(
-        [
-            AngleResolutionTest("test_angle_resolution_None"),
-            AngleResolutionTest("test_angle_resolution_iters"),
-            AngleResolutionTest("test_angle_resolution_nums"),
-            AngleResolutionTest("test_angle_resolution_exception_set_dict"),
-            AngleResolutionTest("test_angle_resolution_exception_empty_iter"),
-            AngleResolutionTest("test_angle_resolution_exception_zero_nums"),
-            AngleResolutionTest(
-                "test_angle_resolution_exception_negative_nums"
-            ),
+            ResolutionTest("test_resolution_None"),
+            ResolutionTest("test_resolution_iters"),
+            ResolutionTest("test_resolution_nums"),
+            ResolutionTest("test_resolution_exception_set_dict"),
+            ResolutionTest("test_resolution_exception_empty_iter"),
+            ResolutionTest("test_resolution_exception_zero_nums"),
+            ResolutionTest("test_resolution_exception_negative_nums"),
         ]
     )
 
