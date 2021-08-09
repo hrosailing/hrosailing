@@ -114,11 +114,13 @@ def true_wind_to_apparent(wind_arr):
     tws, twa, bsp = np.hsplit(wind_arr, 3)
 
     twa_above_180 = twa > 180
-    twa_rad = np.deg2rad(twa)
+    twa = np.deg2rad(twa)
 
-    aws = np.sqrt(pow(tws, 2) + pow(bsp, 2) + 2 * tws * bsp * np.cos(twa_rad))
+    aws = np.sqrt(
+        np.square(tws, 2) + np.square(bsp, 2) + 2 * tws * bsp * np.cos(twa)
+    )
 
-    temp = (tws * np.cos(twa_rad) + bsp) / aws
+    temp = (tws * np.cos(twa) + bsp) / aws
     # Account for computer error
     # Why necessary?
     temp[temp > 1] = 1
