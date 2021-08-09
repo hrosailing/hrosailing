@@ -72,20 +72,14 @@ class PolarDiagramTableTest(unittest.TestCase):
         np.testing.assert_array_equal(pd.boat_speeds, bsps)
 
     def test_init_ws_res_not_array_like(self):
-        ws_res = [
-            {2, 4, 6, 8},
-            {2: 0, 4: 0, 6: 0, 8: 0},
-        ]
+        ws_res = [{2, 4, 6, 8}, {2: 0, 4: 0, 6: 0, 8: 0}]
         for i, ws in enumerate(ws_res):
             with self.subTest(i=i):
                 with self.assertRaises(PolarDiagramException):
                     pol.PolarDiagramTable(ws_res=ws)
 
     def test_init_wa_res_not_array_like(self):
-        wa_res = [
-            {10, 15, 20, 25},
-            {10: 0, 15: 0, 20: 0, 25: 0},
-        ]
+        wa_res = [{10, 15, 20, 25}, {10: 0, 15: 0, 20: 0, 25: 0}]
         for i, wa in enumerate(wa_res):
             with self.subTest(i=i):
                 with self.assertRaises(PolarDiagramException):
@@ -336,9 +330,13 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
 
     def test_get_slice(self):
         ws, wa, bsp = self.pc.get_slices(4)
-        np.testing.assert_array_equal(ws, )
-        np.testing.assert_array_equal(wa, self.points[self.points[:, 0] == 4][:, 1])
-        np.testing.assert_array_equal(bsp, self.points[self.points[:, 0] == 4][:, 2])
+        np.testing.assert_array_equal(ws)
+        np.testing.assert_array_equal(
+            wa, self.points[self.points[:, 0] == 4][:, 1]
+        )
+        np.testing.assert_array_equal(
+            bsp, self.points[self.points[:, 0] == 4][:, 2]
+        )
 
     def test_get_slice_exception(self):
         with self.assertRaises(PolarDiagramException):
