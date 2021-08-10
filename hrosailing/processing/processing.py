@@ -367,57 +367,60 @@ def read_nmea_file(nmea_path, mode="interpolate", tw=True):
     if mode not in ("mean", "interpolate"):
         raise FileReadingException(f"Mode {mode} not implemented")
 
-    with open(nmea_path, "r") as nmea_file:
-        nmea_data = []
-        nmea_stcs = filter(
-            lambda line: "VHW" in line or "MWV" in line, nmea_file
-        )
-
-        stc = next(nmea_stcs, None)
-        if stc is None:
-            raise FileReadingException(
-                "File didn't contain any relevant nmea sentences"
+    try:
+        with open(nmea_path, "r") as nmea_file:
+            nmea_data = []
+            nmea_stcs = filter(
+                lambda line: "VHW" in line or "MWV" in line, nmea_file
             )
 
-        while True:
-            try:
-                bsp = pynmea2.parse(stc).data[4]
-            except pynmea2.ParseError:
-                raise FileReadingException(
-                    f"Invalid nmea-sentences encountered: {stc}"
-                )
-
             stc = next(nmea_stcs, None)
-
             if stc is None:
-                # eof
-                break
-
-            # check if nmea-file is in a
-            # way "sorted"
-            if "VHW" in stc:
                 raise FileReadingException(
-                    "No recorded wind data in between recorded speed data. "
-                    "Parsing not possible"
+                    "File didn't contain any relevant nmea sentences"
                 )
 
-            wind_data = []
-            while "VHW" not in stc and stc is not None:
-                _get_wind_data(wind_data, stc)
+            while True:
+                try:
+                    bsp = pynmea2.parse(stc).data[4]
+                except pynmea2.ParseError:
+                    raise FileReadingException(
+                        f"Invalid nmea-sentences encountered: {stc}"
+                    )
+
                 stc = next(nmea_stcs, None)
 
-            _process_data(nmea_data, wind_data, stc, bsp, mode)
+                if stc is None:
+                    # eof
+                    break
 
-        if tw:
-            aw = [data[:3] for data in nmea_data if data[3] == "R"]
-            tw = [data[:3] for data in nmea_data if data[3] != "R"]
-            if not aw:
-                return tw
+                # check if nmea-file is in a
+                # way "sorted"
+                if "VHW" in stc:
+                    raise FileReadingException(
+                        "No recorded wind data in between recorded speed data. "
+                        "Parsing not possible"
+                    )
 
-            aw = apparent_wind_to_true(aw)
-            return tw.extend(aw)
+                wind_data = []
+                while "VHW" not in stc and stc is not None:
+                    _get_wind_data(wind_data, stc)
+                    stc = next(nmea_stcs, None)
 
-        return nmea_data
+                _process_data(nmea_data, wind_data, stc, bsp, mode)
+
+            if tw:
+                aw = [data[:3] for data in nmea_data if data[3] == "R"]
+                tw = [data[:3] for data in nmea_data if data[3] != "R"]
+                if not aw:
+                    return tw
+
+                aw = apparent_wind_to_true(aw)
+                return tw.extend(aw)
+
+            return nmea_data
+    except OSError:
+        raise FileReadingException(f"Can't find/open/read {nmea_path}")
 
 
 def _get_wind_data(wind_data, stc):
@@ -509,7 +512,8 @@ def _create_polar_diagram_pointcloud(
         mask = neighbourhood.is_contained_in(w_pts.points[:, :2] - s_pt)
         if not np.any(mask):
             raise PipelineException(
-                f"No points where contained in the neighbourhood of {s_pt}. Interpolation not possible"
+                f"No points where contained in the neighbourhood of {s_pt}. "
+                f"Interpolation not possible"
             )
         pts.append(interpolator.interpolate(w_pts[mask], s_pt))
 
@@ -567,7 +571,8 @@ def _interpolate_grid_points(w_res, w_pts, nhood, ipol):
             mask = nhood.is_contained_in(w_pts.points[:, :2] - grid_point)
             if not np.any(mask):
                 raise PipelineException(
-                    f"No points were contained in the neighbourhood of {grid_point}. Interpolation not possible"
+                    f"No points were contained in the neighbourhood of "
+                    f"{grid_point}. Interpolation not possible"
                 )
             bsp[j, i] = ipol.interpolate(w_pts[mask], grid_point)
 

@@ -49,10 +49,10 @@ def convex_direction(pd: pol.PolarDiagram, ws, direction):
     return [(np.rad2deg(wa[i1]), lambd), (np.rad2deg(wa[i2]), 1 - lambd)]
 
 
-def cruise(pd: pol.PolarDiagram, ws, wa, start, end):
+def cruise(pd: pol.PolarDiagram, ws, wa, start, end, em):
 
     _, _, bsp = pd.get_slices(ws)
-    (wa1, _), (wa2, _) = convex_direction(pd, ws)
+    (wa1, lambd1), (wa2, lambd2) = convex_direction(pd, ws, wa)
     dist = ...
     t1, t2 = ..., ...
 
