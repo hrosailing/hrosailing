@@ -1758,12 +1758,19 @@ class PolarDiagramCurve(PolarDiagram):
         """
 
         """
+
         def sym_func(w_arr, *params):
             sym_w_arr = w_arr.copy()
             sym_w_arr[:, 1] = 360 - sym_w_arr[:, 1]
-            return 1/2 * (self.curve(w_arr, *params) + self.curve(sym_w_arr, *params))
+            return (
+                1
+                / 2
+                * (self.curve(w_arr, *params) + self.curve(sym_w_arr, *params))
+            )
 
-        return PolarDiagramCurve(sym_func, self.parameters, radians=self.radians)
+        return PolarDiagramCurve(
+            sym_func, self.parameters, radians=self.radians
+        )
 
     def _get_wind_angles(self):
         wa = np.linspace(0, 360, 1000)
