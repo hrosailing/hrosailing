@@ -717,9 +717,9 @@ class PolarDiagramTable(PolarDiagram):
             bsps = np.zeros((rows, cols))
         bsps = np.asarray(bsps, dtype=np.float64)
         if not bsps.size:
-            raise PolarDiagramException("")
+            raise PolarDiagramException("Empty boat speed array was passed")
         if bsps.ndim != 2:
-            raise PolarDiagramException("")
+            raise PolarDiagramException(f"{bsps} is not 2-dimensional")
         try:
             bsps = bsps.reshape(rows, cols)
         except ValueError:
