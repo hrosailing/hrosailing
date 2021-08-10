@@ -1,5 +1,6 @@
 import unittest
 import numpy as np
+
 import hrosailing.polardiagram as pol
 
 from hrosailing.polardiagram.polardiagram import PolarDiagramException
@@ -449,50 +450,96 @@ def point_cloud_suite():
     return suite
 
 
-# TODO add get_slices()-tests
 class PolarDiagramCurveTest(unittest.TestCase):
     def setUp(self):
-        def test_func(ws, wa, *params):
-            return params[0] * ws * wa + params[1]
+        def test_func(w_arr, *params):
+            return params[0] * w_arr[:, 0] * w_arr[:, 1] + params[1]
 
         self.f = test_func
-        self.params = (1, 2)
+        self.params = 1, 2
         self.radians = False
-        self.polar_curve = pol.PolarDiagramCurve(
+        self.c = pol.PolarDiagramCurve(
             self.f, self.params, radians=self.radians
         )
 
     def test_init(self):
-        self.assertEqual(self.polar_curve.curve.__name__, "test_func")
-        self.assertEqual(self.polar_curve.parameters, (1, 2))
-        self.assertEqual(self.polar_curve.radians, False)
+        self.assertEqual(self.c.curve.__name__, "test_func")
+        self.assertEqual(self.c.parameters, (1, 2))
+        self.assertEqual(self.c.radians, False)
 
-    def test_init_exception(self):
+    def test_init_exception_not_callable(self):
         with self.assertRaises(PolarDiagramException):
             f = 5
             params = 1, 2
             pol.PolarDiagramCurve(f, params)
 
+    def test_init_exception_not_bool(self):
+        with self.assertRaises(PolarDiagramException):
+            pol.PolarDiagramCurve(self.f, self.params, radians=13)
+
     def test_curve(self):
-        self.assertEqual(self.polar_curve.curve.__name__, "test_func")
+        self.assertEqual(self.c.curve.__name__, "test_func")
 
     def test_parameters(self):
-        self.assertEqual(self.polar_curve.parameters, (1, 2))
+        self.assertEqual(self.c.parameters, (1, 2))
 
     def test_radians(self):
-        self.assertEqual(self.polar_curve.radians, False)
+        self.assertEqual(self.c.radians, False)
 
-    def test_get_wind_angles(self):
+    def test_call_scalar(self):
+        import random
+
+        for _ in range(500):
+            ws = random.randrange(2, 40)
+            wa = random.randrange(0, 360)
+            self.assertEqual(self.c(ws, wa), ws * wa + 2)
+
+    def test_call_array(self):
+        for _ in range(500):
+            ws = np.random.rand(100)
+            wa = np.random.rand(100)
+            np.testing.assert_array_equal(self.c(ws, wa), ws * wa + 2)
+
+    def test_symmetrize(self):
+        import random
+
+        sym_c = self.c.symmetrize()
+        for _ in range(500):
+            ws = random.randrange(2, 40)
+            wa = random.randrange(0, 360)
+            np.testing.assert_array_equal(
+                sym_c(ws, wa), 1 / 2 * (self.c(ws, wa) + self.c(ws, 360 - wa))
+            )
+
+    def test_get_slice(self):
+        ws, wa, bsp = self.c.get_slices(10)
+        self.assertEqual(ws, [10])
         np.testing.assert_array_equal(
-            self.polar_curve._get_wind_angles(), np.linspace(0, 360, 1000)
+            wa, np.deg2rad(np.linspace(0, 360, 1000))
+        )
+        np.testing.assert_array_equal(
+            bsp[0], self.c(np.array(ws * 1000), np.linspace(0, 360, 1000))
         )
 
-    def test_get_wind_angles_radians(self):
-        polar_curve = pol.PolarDiagramCurve(self.f, self.params, radians=True)
+    def test_get_slices_list(self):
+        ws, wa, bsp = self.c.get_slices([10, 12, 14])
+        self.assertEqual(ws, [10, 12, 14])
         np.testing.assert_array_equal(
-            polar_curve._get_wind_angles(),
-            np.deg2rad(np.linspace(0, 360, 1000)),
+            wa, np.deg2rad(np.linspace(0, 360, 1000))
         )
+        for i, w in enumerate(ws):
+            np.testing.assert_array_equal(
+                bsp[i], self.c(np.array([w] * 1000), np.linspace(0, 360, 1000))
+            )
+
+    def test_get_slices_tuple(self):
+        ws, wa, bsp = self.c.get_slices((10, 15, 100))
+        self.assertEqual(ws, list(np.linspace(10, 15, 100)))
+        np.testing.assert_array_equal(wa, np.deg2rad(np.linspace(0, 360, 1000)))
+        for i, w in enumerate(ws):
+            np.testing.assert_array_equal(
+                bsp[i], self.c(np.array([w] * 1000), np.linspace(0, 360, 1000))
+            )
 
 
 def polar_curve_suite():
@@ -500,12 +547,17 @@ def polar_curve_suite():
     suite.addTests(
         [
             PolarDiagramCurveTest("test_init"),
-            PolarDiagramCurveTest("test_init_exception"),
+            PolarDiagramCurveTest("test_init_exception_not_callable"),
+            PolarDiagramCurveTest("test_init_exception_not_bool"),
             PolarDiagramCurveTest("test_curve"),
             PolarDiagramCurveTest("test_parameters"),
             PolarDiagramCurveTest("test_radians"),
-            PolarDiagramCurveTest("test_get_wind_angles"),
-            PolarDiagramCurveTest("test_get_wind_angles_radians"),
+            PolarDiagramCurveTest("test_call_scalar"),
+            PolarDiagramCurveTest("test_call_array"),
+            PolarDiagramCurveTest("test_symmetrize"),
+            PolarDiagramCurveTest("test_get_slice"),
+            PolarDiagramCurveTest("test_get_slices_list"),
+            PolarDiagramCurveTest("test_get_slices_tuple"),
         ]
     )
 
