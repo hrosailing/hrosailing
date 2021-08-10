@@ -116,16 +116,14 @@ def from_csv(csv_path, fmt="hro", tw=True):
                 if first_row == "PolarDiagramTable":
                     ws_res, wa_res, bsps = _read_table(csv_reader)
                     return PolarDiagramTable(
-                        ws_res=ws_res, wa_res=wa_res, bsps=bsps, tw=tw
+                        ws_res=ws_res, wa_res=wa_res, bsps=bsps
                     )
 
                 pts = _read_pointcloud(csv_reader)
                 return PolarDiagramPointcloud(pts=pts, tw=tw)
 
             ws_res, wa_res, bsps = _read_extern_format(csv_path, fmt)
-            return PolarDiagramTable(
-                ws_res=ws_res, wa_res=wa_res, bsps=bsps, tw=tw
-            )
+            return PolarDiagramTable(ws_res=ws_res, wa_res=wa_res, bsps=bsps)
     except OSError:
         raise FileReadingException(f"can't find/open/read {csv_path}")
 
@@ -613,13 +611,6 @@ class PolarDiagramTable(PolarDiagram):
         If nothing is passed it will default to
         numpy.zeros((rdim, cdim))
 
-    tw : bool, optional
-        Specifies if the given wind data should be viewed as true wind
-
-        If False, wind data will be converted to true wind
-
-        Defaults to True
-
     Raises a PolarDiagramException
         - if bsps can't be broadcasted
         to a fitting shape
@@ -691,10 +682,10 @@ class PolarDiagramTable(PolarDiagram):
         slices of the polar diagram and creates a polar plot of them
     """
 
-    def __init__(self, ws_res=None, wa_res=None, bsps=None, tw=True):
+    def __init__(self, ws_res=None, wa_res=None, bsps=None):
         logger.info(
             f"Class 'PolarDiagramTable(ws_res={ws_res}, wa_res={wa_res}, "
-            f"bsps={bsps}, tw={tw})' called"
+            f"bsps={bsps})' called"
         )
         try:
             ws_res = set_resolution(ws_res, "speed")
@@ -702,11 +693,22 @@ class PolarDiagramTable(PolarDiagram):
             raise PolarDiagramException(
                 f"While setting wind speed resolution, the error {we} occured"
             )
+        if len(set(ws_res)) != len(ws_res):
+            print(
+                "Warning: Wind resolution contains duplicate data. "
+                "This may lead to unwanted behaviour"
+            )
+
         try:
             wa_res = set_resolution(wa_res, "angle")
         except WindException as we:
             raise PolarDiagramException(
                 f"While setting wind angle resolution, the error {we} occured"
+            )
+        if len(set(wa_res)) != len(wa_res):
+            print(
+                "Warning: Angle resolution contains duplicate data. "
+                "This may lead to unwanted behaviour"
             )
 
         rows = len(wa_res)
@@ -726,37 +728,14 @@ class PolarDiagramTable(PolarDiagram):
                 f"{(rows, cols)}"
             )
 
-        ws, wa = np.meshgrid(ws_res, wa_res)
-        ws = ws.ravel()
-        wa = wa.ravel()
-        try:
-            wind_arr = _convert_wind(
-                np.column_stack((ws, wa, bsps.ravel())), tw
-            )
-        except WindException as we:
-            raise PolarDiagramException(
-                f"During converting of wind data, the error {we} occured"
-            )
-
-        # Removing duplicates from the converted wind speeds and wind angles
-        # The normal method of list(set(..)) isn't applicable here,
-        # because we want to keep the order of the elements, but
-        # since sets aren't ordered, list(set(..)) would give us a
-        # reordered list of elements.
-        # Instead we make use of the special structure of meshgrid to
-        # achieve the same thing
-        ws, wa = wind_arr[:, 0], wind_arr[:, 1]
-        ws = list(ws)[: len(ws_res)]
-        wa = [wa[i] for i in range(0, len(wa), len(ws_res))]
-
         # Sort wind angles and the corresponding order of rows in bsps
-        wa, bsps = zip(*sorted(zip(wa, bsps), key=lambda x: x[0]))
-        self._res_wind_angle = np.asarray(wa)
+        wa_res, bsps = zip(*sorted(zip(wa_res, bsps), key=lambda x: x[0]))
+        self._res_wind_angle = np.asarray(wa_res)
         bsps = np.asarray(bsps, dtype=np.float64)
 
         # Sort wind speeds and the corresponding order of columns in bsps
-        ws, bsps = zip(*sorted(zip(ws, bsps.T), key=lambda x: x[0]))
-        self._res_wind_speed = np.asarray(ws)
+        ws_res, bsps = zip(*sorted(zip(ws_res, bsps.T), key=lambda x: x[0]))
+        self._res_wind_speed = np.asarray(ws_res)
         self._boat_speeds = np.asarray(bsps, dtype=np.float64).T
 
     def __str__(self):
@@ -899,9 +878,9 @@ class PolarDiagramTable(PolarDiagram):
         above_180 = [wa for wa in self.wind_angles if wa > 180]
         if below_180 and above_180:
             print(
-                "There are wind angles on both sides of the 0° - 180° axis. "
-                "This might result in duplicate data, which can overwrite "
-                "or live alongside old data"
+                "Warning: There are wind angles on both sides of the "
+                "0° - 180° axis. This might result in duplicate data, "
+                "which can overwrite or live alongside old data"
             )
 
         wa_res = np.concatenate(
@@ -922,7 +901,7 @@ class PolarDiagramTable(PolarDiagram):
             wa_res = wa_res[:-1]
 
         return PolarDiagramTable(
-            ws_res=self.wind_speeds, wa_res=wa_res, bsps=bsps, tw=True
+            ws_res=self.wind_speeds, wa_res=wa_res, bsps=bsps
         )
 
     def change_entries(self, new_bsps, ws=None, wa=None):
@@ -2418,9 +2397,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         above_180 = [wa for wa in self.wind_angles if wa > 180]
         if below_180 and above_180:
             print(
-                "There are wind angles on both sides of the 0° - 180° axis. "
-                "This might result in duplicate data, which can overwrite "
-                "or live alongside old data"
+                "Warning: There are wind angles on both sides of the "
+                "0° - 180° axis. This might result in duplicate data, "
+                "which can overwrite or live alongside old data"
             )
 
         sym_pts = self.points
