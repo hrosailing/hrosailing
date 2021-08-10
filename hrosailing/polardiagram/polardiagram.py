@@ -1685,13 +1685,16 @@ class PolarDiagramCurve(PolarDiagram):
     """
 
     def __init__(self, f, params, radians=False):
+        if not callable(f):
+            raise PolarDiagramException(f"{f} is not callable")
+
         logger.info(
-            f"Class 'PolarDiagramCurve( f={f.__name__}, {params}, "
+            f"Class 'PolarDiagramCurve(f={f.__name__}, {params}, "
             f"radians = {radians})' called"
         )
 
-        if not callable(f):
-            raise PolarDiagramException(f"{f.__name__} is not callable")
+        if not isinstance(radians, bool):
+            raise PolarDiagramException("")
 
         self._f = f
         self._params = params
@@ -1699,8 +1702,8 @@ class PolarDiagramCurve(PolarDiagram):
 
     def __repr__(self):
         return (
-            f"PolarDiagramCurve( f={self._f.__name__},"
-            f"{self._params}, radians={self._rad}"
+            f"PolarDiagramCurve(f={self._f.__name__},"
+            f"{self._params}, radians={self._rad})"
         )
 
     def __call__(self, ws, wa):
@@ -1714,12 +1717,12 @@ class PolarDiagramCurve(PolarDiagram):
     @property
     def parameters(self):
         """Returns a read only version of self._params"""
-        return self._params.copy()
+        return self._params
 
     @property
     def radians(self):
         """Returns a read only version of self._rad"""
-        return self._rad.copy()
+        return self._rad
 
     def to_csv(self, csv_path):
         """Creates a .csv file with delimiter ':' and the
@@ -1755,7 +1758,12 @@ class PolarDiagramCurve(PolarDiagram):
         """
 
         """
-        return self
+        def sym_func(w_arr, *params):
+            sym_w_arr = w_arr.copy()
+            sym_w_arr[:, 1] = 360 - sym_w_arr[:, 1]
+            return 1/2 * (self.curve(w_arr, *params) + self.curve(sym_w_arr, *params))
+
+        return PolarDiagramCurve(sym_func, self.parameters, radians=self.radians)
 
     def _get_wind_angles(self):
         wa = np.linspace(0, 360, 1000)
