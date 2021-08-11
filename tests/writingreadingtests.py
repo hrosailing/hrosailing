@@ -29,7 +29,7 @@ class FileReadingTest(unittest.TestCase):
             ("tests/pc-hro.csv", "hro"),
             ("tests/pd-orc.csv", "orc"),
             ("tests/pd-opencpn.csv", "opencpn"),
-            ("tests/pd-array", "array"),
+            ("tests/pd-array.csv", "array"),
         ]
         for i, (file, fmt) in enumerate(files):
             with self.subTest(i=i):
