@@ -159,13 +159,15 @@ def _read_sail_csv(csv_path, delimiter):
     with open(csv_path, "r", newline="") as file:
         csv_reader = csv.reader(file, delimiter=delimiter)
         ws_res = [eval(ws) for ws in next(csv_reader)[1:]]
-        next(csv_reader)
+        if delimiter == ";":
+            next(csv_reader)
         wa_res, bsps = list(
             zip(
                 *(
                     [
                         (
-                            eval(row[0]),
+                            # replace °-symbol in case of opencpn format
+                            eval(row[0].replace("°", "")),
                             [eval(bsp) if bsp != "" else 0 for bsp in row[1:]],
                         )
                         for row in csv_reader
@@ -2352,12 +2354,16 @@ class PolarDiagramPointcloud(PolarDiagram):
     @property
     def wind_speeds(self):
         """Returns a list of all unique wind speeds in the point cloud"""
-        return sorted(list(set(self.points[:, 0])))
+        return np.array(sorted(list(set(self.points[:, 0]))))
 
     @property
     def wind_angles(self):
         """Returns a list of all unique wind angles in the point cloud"""
-        return sorted(list(set(self.points[:, 1])))
+        return np.array(sorted(list(set(self.points[:, 1]))))
+
+    @property
+    def boat_speeds(self):
+        return self.points[:, 2]
 
     @property
     def points(self):
