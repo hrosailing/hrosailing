@@ -88,7 +88,9 @@ class FileReadingTest(unittest.TestCase):
 
     @staticmethod
     def test_from_csv_format_array_works_correctly():
-        pd: pol.PolarDiagramTable = pol.from_csv("tests/pd-array.csv", fmt="array")
+        pd: pol.PolarDiagramTable = pol.from_csv(
+            "tests/pd-array.csv", fmt="array"
+        )
         np.testing.assert_array_equal(
             pd.wind_speeds, np.array([0, 4, 6, 8, 10, 12, 14, 16, 20, 25, 30])
         )
