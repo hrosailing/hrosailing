@@ -1,6 +1,8 @@
 PolarDiagramTable
-Wind speed resolution:,2,4,6,8,10
-Wind angle resolution:,10,15,20,25,30
+Wind speed resolution:
+2,4,6,8,10
+Wind angle resolution:
+10,15,20,25,30
 Boat speeds:
 0,0,0,0,0
 0,0,0,0,0
