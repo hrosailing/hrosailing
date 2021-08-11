@@ -15,7 +15,7 @@ def visualize_ball():
     x = x[mask]
     y = y[mask]
 
-    plt.plot(x, y, ms=0.6, color='blue', ls='', marker='o')
+    plt.plot(x, y, ms=0.6, color="blue", ls="", marker="o")
     plt.show()
 
 
@@ -26,13 +26,15 @@ def visualize_ellipsoid():
     x = np.ravel(x)
     y = np.ravel(y)
 
-    ellipsoid = pc.Ellipsoid(d=2, lin_trans=np.array([[2, 1], [1, 2]]), radius=1)
+    ellipsoid = pc.Ellipsoid(
+        d=2, lin_trans=np.array([[2, 1], [1, 2]]), radius=1
+    )
 
     mask = ellipsoid.is_contained_in(np.column_stack((x, y)))
     x = x[mask]
     y = y[mask]
 
-    plt.plot(x, y, ms=0.6, color='blue', ls='', marker='o')
+    plt.plot(x, y, ms=0.6, color="blue", ls="", marker="o")
     plt.show()
 
 
@@ -50,5 +52,5 @@ def visualize_cuboid():
     x = x[mask]
     y = y[mask]
 
-    plt.plot(x, y, ms=0.6, color='blue', ls='', marker='o')
+    plt.plot(x, y, ms=0.6, color="blue", ls="", marker="o")
     plt.show()
