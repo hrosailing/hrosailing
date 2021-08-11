@@ -227,7 +227,8 @@ class PolarPipeline:
         out : PolarDiagram
             An instance of the given p_type based on the input data
         """
-        # TODO: Different approach?
+        # TODO: Different approach? Cant really be expanded that way....
+        #       -> static Class method???
         if p_type not in {
             pol.PolarDiagramTable,
             pol.PolarDiagramCurve,
@@ -263,8 +264,7 @@ class PolarPipeline:
 def _read_file(data_file, file_format, mode, tw):
     if file_format not in {"csv", "nmea"}:
         raise PipelineException(
-            f"No functionality for the"
-            f"specified file-format"
+            f"No functionality for the specified file-format "
             f"{file_format} implemented"
         )
 
@@ -383,9 +383,9 @@ def read_nmea_file(nmea_path, mode="interpolate", tw=True):
             while True:
                 try:
                     bsp = pynmea2.parse(stc).data[4]
-                except pynmea2.ParseError:
+                except pynmea2.ParseError as pe:
                     raise FileReadingException(
-                        f"Invalid nmea-sentences encountered: {stc}"
+                        f"During parsing of {stc}, the error {pe} occured"
                     )
 
                 stc = next(nmea_stcs, None)
@@ -445,9 +445,9 @@ def _process_data(nmea_data, wind_data, stc, bsp, mode):
     if mode == "interpolate":
         try:
             bsp2 = pynmea2.parse(stc).data[4]
-        except pynmea2.ParseError:
+        except pynmea2.ParseError as pe:
             raise FileReadingException(
-                f"Invalid nmea-sentences encountered: {stc}"
+                f"During parsing of {stc}, the error {pe} occured"
             )
 
         inter = len(wind_data)
