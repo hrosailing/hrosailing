@@ -398,8 +398,8 @@ def read_nmea_file(nmea_path, mode="interpolate", tw=True):
                 # way "sorted"
                 if "VHW" in stc:
                     raise FileReadingException(
-                        "No recorded wind data in between recorded speed data. "
-                        "Parsing not possible"
+                        "No recorded wind data in between recorded speed "
+                        "data. Parsing not possible"
                     )
 
                 wind_data = []
