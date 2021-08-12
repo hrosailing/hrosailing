@@ -14,7 +14,7 @@ import logging.handlers
 from abc import ABC, abstractmethod
 
 import numpy as np
-from scipy.odr.odrpack import Data, Model, ODR
+from scipy.odr.odrpack import Data, Model, ODR, OdrError
 from scipy.optimize import curve_fit
 
 
@@ -43,7 +43,6 @@ class RegressorException(Exception):
     pass
 
 
-# TODO: Error checks!
 class Regressor(ABC):
     """Base class for all regressor classes
 
@@ -68,7 +67,6 @@ class Regressor(ABC):
 
     @abstractmethod
     def fit(self, data):
-        # should really be X, y instead of data?
         pass
 
     @abstractmethod
@@ -144,22 +142,37 @@ class ODRegressor(Regressor):
 
         Parameters
         ----------
-        data : array_like
+        data : array_like of shape (n, 3)
             Data to which the model function will  be fitted, given as
             a sequence of points consisting of wind speed, wind angle
             and boat speed
+
+        Raises a RegressorException
+            - if data is an empty array
+            - if data contains non-finite entries
+            - if an error in the initialization of
+            scipy.odr.odrpack.Data occurs
+            - if an error in the initialization of
+            scipy.odr.odrpack.ODR occurs
+            - if an error in the method set_job of
+            scipy.odr.odrpack.ODR occurs
+            - if an error in the method run of
+            scipy.odr.odrpack.ODR occurs
         """
 
         X, y = _check_data(data)
 
-        odr_data = Data(
-            (X[:, 0], X[:, 1]), y, wd=self._weights_X, we=self._weights_y
-        )
-        odr = ODR(
-            odr_data, self._model, beta0=self._init_vals, maxit=self._maxit
-        )
-        odr.set_job(fit_type=2)
-        out = odr.run()
+        try:
+            odr_data = Data(
+                (X[:, 0], X[:, 1]), y, wd=self._weights_X, we=self._weights_y
+            )
+            odr = ODR(
+                odr_data, self._model, beta0=self._init_vals, maxit=self._maxit
+            )
+            odr.set_job(fit_type=2)
+            out = odr.run()
+        except (ValueError, OdrError) as e:
+            raise RegressorException(f"While running the regression, an error occured") from e
 
         self._popt = out.beta
 
@@ -236,19 +249,27 @@ class LeastSquareRegressor(Regressor):
 
         Parameters
         ----------
-        data : array_like
+        data : array_like of shape (n, 3)
             Data to which the model function will be fitted, given as
             a sequence of points consisting of wind speed, wind angle
             and boat speed
+
+        Raises a RegressorException
+            - if data is an empty array
+            - if data contains non-finite entries
+            - if an error in the function scipy.optimize.curve_fit occurs
         """
 
         X, y = _check_data(data)
         X = np.ravel(X).T
         y = np.ravel(y).T
 
-        self._popt, _ = curve_fit(
-            self.model_func, X, y, p0=self._init_vals, sigma=self._weights
-        )
+        try:
+            self._popt, _ = curve_fit(
+                self.model_func, X, y, p0=self._init_vals, sigma=self._weights
+            )
+        except ValueError as ve:
+            raise RegressorException(f"While fitting the curve, an error occurred") from ve
 
         logger.info(f"Model-function: {self._func}")
         logger.info(f"Optimal parameters: {self._popt}")
