@@ -50,22 +50,14 @@ class Neighbourhood(ABC):
         pass
 
 
-# TODO: Remove Dimension from all, and assume 2/3 dimensional objects?
-
-
 class Ball(Neighbourhood):
-    """A class to describe a closed d-dimensional ball
-    centered around the origin, ie { x in R^d : || x || <= r }
+    """A class to describe a closed 2-dimensional ball
+    centered around the origin, ie { x in R^2 : ||x|| <= r }
 
     Parameters
     ----------
-    d : positive int, optional
-        The dimension of the ball
-
-        Defaults to 2
-
     norm : function or callable, optional
-        The norm for which the ball is described, ie ||x||
+        The norm for which the ball is described, ie ||.||
 
         If nothing is passed, it will default to a scaled version
         of ||.||_2
@@ -75,9 +67,8 @@ class Ball(Neighbourhood):
 
         Defaults to 1
 
-    Raises a NeighbourhoodException
-        -
-
+    Raises a NeighbourhoodException if inputs are not of the
+    specified or functionally equivalent types
 
     Methods
     -------
@@ -85,16 +76,10 @@ class Ball(Neighbourhood):
         Checks given points for membership.
     """
 
-    def __init__(self, d=2, norm=None, radius=1):
+    def __init__(self, norm=None, radius=1):
         if norm is None:
-            norm = scaled(euclidean_norm, [1 / 40, 1 / 360] + [1] * (d - 2))
+            norm = scaled(euclidean_norm, [1 / 40, 1 / 360])
 
-        # Sanity checks
-        if not isinstance(d, int) or d <= 0:
-            raise NeighbourhoodException(
-                f"The dimension needs to be a positive integer, "
-                f"but {d} was passed"
-            )
         if not isinstance(radius, (int, float)) or radius <= 0:
             raise NeighbourhoodException(
                 f"The radius needs to be positive number, but "
@@ -103,22 +88,18 @@ class Ball(Neighbourhood):
         if not callable(norm):
             raise NeighbourhoodException(f"{norm.__name__} is not callable")
 
-        self._dim = d
         self._norm = norm
         self._radius = radius
 
     def __repr__(self):
-        return (
-            f"Ball(d={self._dim}, norm={self._norm.__name__}, "
-            f"radius={self._radius})"
-        )
+        return f"Ball(norm={self._norm.__name__}, radius={self._radius})"
 
     def is_contained_in(self, pts):
         """Checks given points for membership.
 
         Parameters
         ----------
-        pts : array_like of shape (n, d)
+        pts : array_like of shape (n, 2)
             Points that will be checked for membership
 
         Returns
@@ -126,30 +107,78 @@ class Ball(Neighbourhood):
         mask : numpy.ndarray of shape (n, )
             Boolean array describing which of the input points
             is a member of the neighbourhood
+
+
+        Raises a NeighbourhoodException
+            - if the input is not of the specified or functionally equivalent type
+            - if pts contains non-finite entries
         """
-
         pts = np.asarray(pts)
-
-        # sanity checks
-        if not pts.size:
-            raise NeighbourhoodException("No points were passed")
-        shape = pts.shape
-        if len(shape) != 2:
-            raise NeighbourhoodException(
-                "pts needs to be a 2-dimensional array"
-            )
-        if shape[1] != self._dim:
-            raise NeighbourhoodException(
-                f"Points are not of dimension {self._dim}"
-            )
+        _sanity_checks(pts)
 
         return self._norm(pts) <= self._radius
 
 
 class ScalingBall(Neighbourhood):
+    """A class to represent a closed 2-dimensional ball
+    centered around the origin, ie { x in R^2 : ||x|| <= r },
+    where the radius r will be dynamically determined, such that
+    there are always a certain amount of given points contained
+    in the ball
+
+    Parameters
+    ----------
+    min_pts : positive int
+        The minimal amount of certain given points that should be
+        contained in the scaling ball
+
+    max_pts : positive int
+        The "maximal" amount of certain given points that should be
+        contained in the scaling ball.
+
+        Mostly used for initial guess of a "good" radius. Also to
+        guarantee that on average, the scaling ball will contain
+        (min_pts + max_pts) / 2 points of certain given points
+
+        It is also unlikely that the scaling ball will contain
+        more than max_pts points
+
+    norm : function or callable, optional
+        The norm for which the scaling ball is described, ie ||.||
+
+        If nothing is passed, it will default to a scaled version
+        of ||.||_2
+
+    Raises a NeighbourhoodException
+        - if inputs are not of the specified or
+        functionally equivalent types
+        - if max_pts is smaller or equal to min_pts
+
+
+    Methods
+    -------
+    is_contained_in(self, pts)
+        Checks given points for membership.
+    """
+
     def __init__(self, min_pts, max_pts, norm=None):
         if norm is None:
             norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
+
+        if not isinstance(min_pts, int) or min_pts <= 0:
+            raise NeighbourhoodException(
+                f"min_pts needs to be a positive integer, but "
+                f"{min_pts} was passed"
+            )
+        if not isinstance(max_pts, int) or max_pts <= 0:
+            raise NeighbourhoodException(
+                f"max_pts needs to be a positive integer, but "
+                f"{max_pts} was passed"
+            )
+        if max_pts <= min_pts:
+            raise NeighbourhoodException(
+                "max_pts should be greater than min_pts"
+            )
         if not callable(norm):
             raise NeighbourhoodException(f"{norm.__name__} is not callable")
 
@@ -159,6 +188,8 @@ class ScalingBall(Neighbourhood):
         self._n_pts = None
         self._area = None
         self._avg = (min_pts + max_pts) / 2
+        self._radius = None
+        self._checks = True
 
     def __repr__(self):
         return (
@@ -167,34 +198,48 @@ class ScalingBall(Neighbourhood):
             f"max_pts={self._max_pts})"
         )
 
-    def is_contained_in(self, pts, r=None):
+    def is_contained_in(self, pts):
+        """Checks given points for membership, and scales
+        ball so that at least min_pts points are contained in it
+
+        Parameters
+        ----------
+        pts : array_like of shape (n, 2)
+            Points that will be checked for membership
+
+        Returns
+        -------
+        mask : numpy.ndarray of shape (n, )
+            Boolean array describing which of the input points
+            is a member of the neighbourhood
+
+
+        Raises a NeighbourhoodException
+            - if the input is not of the specified or
+            functionally equivalent type
+            - if pts contains non-finite entries
+        """
         pts = np.asarray(pts)
 
-        # sanity checks
-        if not pts.size:
-            raise NeighbourhoodException("No points were passed")
-        shape = pts.shape
-        if len(shape) != 2:
-            raise NeighbourhoodException(
-                "pts needs to be a 2-dimensional array"
-            )
-        if shape[1] != 2:
-            raise NeighbourhoodException(f"Points are not of dimension 2")
+        if self._checks:
+            _sanity_checks(pts)
 
         if self._n_pts is None:
-            self._n_pts = shape[0]
+            self._n_pts = pts.shape[0]
         if self._area is None:
             self._area = ConvexHull(pts).volume
-        if r is None:
-            r = np.sqrt(self._avg * self._area / (np.pi, *self._n_pts))
+        if self._radius is None:
+            self._radius = np.sqrt(
+                self._avg * self._area / (np.pi, *self._n_pts)
+            )
 
         dist = self._norm(pts)
-        mask = dist <= r
+        mask = dist <= self._radius
         if self._min_pts <= len(pts[mask]):
             return mask
 
-        r = np.min(dist[np.logical_not(mask)])
-        return self.is_contained_in(pts, r)
+        self._radius = np.min(dist[np.logical_not(mask)])
+        return self.is_contained_in(pts)
 
 
 class Ellipsoid(Neighbourhood):
@@ -204,33 +249,32 @@ class Ellipsoid(Neighbourhood):
     centered around the origin.
 
     It will be represented using the equivalent formulation:
-    { x in R^d : ||T^-1 x|| <= r }
+    { x in R^2 : ||T^-1 x|| <= r }
 
     Parameters
     ----------
-    d : positive int, optional
-        The dimension of the ellipsoid
-
-        Defaults to 2
-
-    lin_trans: numpy.ndarray with shape (d,d), optional
-        The invertible linear transformation which transforms the
+    lin_trans: numpy.ndarray with shape (2,2), optional
+        The linear transformation which transforms the
         ball into the given ellipsoid, ie T
 
-        lin_trans needs to have a non-zero determinant.
-
-        If nothins is passed, it will default to I_d, the dxd unit matrix,
-        ie the ellipsoid will be a ball
+        If nothing is passed, it will default to I_2, the 2x2
+        unit matrix, ie the ellipsoid will be a ball
 
     norm : function or callable, optional
-        The norm for which the ellipsoid is described, ie ||x||
+        The norm for which the ellipsoid is described, ie ||.||
 
         If nothing is passed, it will default to a scaled
         version of ||.||_2
+
     radius : positive int or float, optional
         The radius of the ellipsoid, ie r
 
         Defaults to 1
+
+    Raises a NeighbourhoodException
+        - if the inputs are not of the specified or
+        functionally equivalent types
+        - if lin_trans is not invertible
 
 
     Methods
@@ -239,49 +283,39 @@ class Ellipsoid(Neighbourhood):
         Checks given points for membership.
     """
 
-    def __init__(self, d=2, lin_trans=None, norm=None, radius=1):
-        # sanity checks
-        if not isinstance(d, int) or d <= 0:
-            raise NeighbourhoodException(
-                f"The dimension needs to be a positive integer, "
-                f"but {d} was passed"
-            )
+    def __init__(self, lin_trans=None, norm=None, radius=1):
+        if lin_trans is None:
+            lin_trans = np.eye(2)
+        lin_trans = np.asarray(lin_trans)
+        if norm is None:
+            norm = scaled(euclidean_norm, [1 / 40, 1 / 360])
+
         if not isinstance(radius, (int, float)) or radius <= 0:
             raise NeighbourhoodException(
                 f"The radius needs to be positive number, but "
                 f"{radius} was passed"
             )
-
-        if lin_trans is None:
-            lin_trans = np.eye(d)
-        lin_trans = np.asarray(lin_trans)
-
-        # Sanity checks
         if not lin_trans.size:
             raise NeighbourhoodException("lin_trans is an empty array")
-        if lin_trans.shape != (d, d):
+        if lin_trans.shape != (2, 2):
             raise NeighbourhoodException(
-                f"lin_trans is not a square matrix of size {d}"
+                "lin_trans is not a square matrix of size 2"
             )
         if not np.linalg.det(lin_trans):
             raise NeighbourhoodException(f"{lin_trans} is not invertible")
-
-        if norm is None:
-            norm = scaled(euclidean_norm, [1 / 40, 1 / 360] + [1] * (d - 2))
         if not callable(norm):
             raise NeighbourhoodException(f"{norm.__name__} is not callable")
 
         # transform the ellipsoid to a ball
         lin_trans = np.linalg.inv(lin_trans)
 
-        self._dim = d
         self._T = lin_trans
         self._norm = norm
         self._radius = radius
 
     def __repr__(self):
         return (
-            f"Ellipsoid(d={self._dim}, lin_trans={self._T}, "
+            f"Ellipsoid(lin_trans={self._T}, "
             f"norm={self._norm.__name__}, radius={self._radius})"
         )
 
@@ -290,7 +324,7 @@ class Ellipsoid(Neighbourhood):
 
         Parameters
          ----------
-        pts : array_like of shape (n, d)
+        pts : array_like of shape (n, 2)
             Points that will be checked for membership
 
         Returns
@@ -298,21 +332,15 @@ class Ellipsoid(Neighbourhood):
         mask : numpy.ndarray of shape (n, )
             Boolean array describing which of the input points
             is a member of the neighbourhood
+
+
+        Raises a NeighbourhoodException
+            - if the input is not of the specified or
+            functionally equivalent type
+            - if pts contains non-finite entries
         """
         pts = np.asarray(pts)
-
-        # sanity checks
-        if not pts.size:
-            raise NeighbourhoodException("No points were passed")
-        shape = pts.shape
-        if len(shape) != 2:
-            raise NeighbourhoodException(
-                "pts needs to be a 2-dimensional array"
-            )
-        if shape[1] != self._dim:
-            raise NeighbourhoodException(
-                f"Points are not of dimension {self._dim}"
-            )
+        _sanity_checks(pts)
 
         pts = (self._T @ pts.T).T
         return self._norm(pts) <= self._radius
@@ -320,24 +348,22 @@ class Ellipsoid(Neighbourhood):
 
 class Cuboid(Neighbourhood):
     """A class to represent a d-dimensional closed cuboid, ie
-    { x in R^d : |x_i| <= b_i, i=1,..,d }
+    { x in R^2 : |x_i| <= b_i, i=1,2 }
 
     Parameters
     ----------
-    d : positive int, optional
-        The dimension of the cuboid
-
-        Defaults to 2
-
     norm : function or callable, optional
         The 1-d norm used to measure the length of the x_i, ie |.|
 
         If nothing is passed, it will default to the absolute value |.|
 
-    dimensions: tuple of length d, optional
+    dimensions: tuple of length 2, optional
         The 'length' of the 'sides' of the cuboid, ie the b_i
 
-        If nothing is passed, it will default to (1,...,1)
+        If nothing is passed, it will default to (1,1)
+
+    Raises a NeighbourhoodException if inputs are not of the
+    specified or functionally equivalent types
 
 
     Methods
@@ -346,40 +372,29 @@ class Cuboid(Neighbourhood):
         Checks given points for membership.
     """
 
-    def __init__(self, d=2, norm=None, dimensions=None):
-        # sanity check
-        if not isinstance(d, int) or d <= 0:
-            raise NeighbourhoodException(
-                f"The dimension needs to be a positive integer, "
-                f"but {d} was passed"
-            )
-
+    def __init__(self, norm=None, dimensions=None):
         if dimensions is None:
-            dimensions = tuple(1 for _ in range(d))
-        if len(dimensions) != d:
-            raise NeighbourhoodException(f"{dimensions} is not of length {d}")
+            dimensions = (1, 1)
+        if len(dimensions) != 2:
+            raise NeighbourhoodException(f"{dimensions} is not of length 2")
 
         if norm is None:
             norm = np.abs
         if not callable(norm):
             raise NeighbourhoodException(f"{norm.__name__} is not callable")
 
-        self._dim = d
         self._norm = norm
         self._size = dimensions
 
     def __repr__(self):
-        return (
-            f"Cuboid(d={self._dim}, norm={self._norm.__name__}, "
-            f"dimensions={self._size})"
-        )
+        return f"Cuboid(norm={self._norm.__name__}, dimensions={self._size})"
 
     def is_contained_in(self, pts):
         """Checks given points for membership.
 
         Parameters
          ----------
-        pts : array_like of shape (n, d)
+        pts : array_like of shape (n, 2)
             Points that will be checked for membership
 
         Returns
@@ -387,46 +402,38 @@ class Cuboid(Neighbourhood):
         mask : numpy.ndarray of shape (n, )
             Boolean array describing which of the input points
             is a member of the neighbourhood
+
+
+        Raises a NeighbourhoodException
+            - if the input is not of the specified or
+            functionally equivalent type
+            - if pts contains non-finite entries
         """
         pts = np.asarray(pts)
-
-        # sanity checks
-        if not pts.size:
-            raise NeighbourhoodException("No points were passed")
-        shape = pts.shape
-        d = self._dim
-        if len(shape) != 2:
-            raise NeighbourhoodException(
-                "pts needs to be a 2-dimensional array"
-            )
-        if shape[1] != d:
-            raise NeighbourhoodException(f"Points are not of dimension {d}")
+        _sanity_checks(pts)
 
         dimensions = self._size
-        mask = np.ones((shape[0],), dtype=bool)
-        for i in range(d):
-            mask = mask & (self._norm(pts[:, i]) <= dimensions[i])
+        mask = (
+            np.ones((pts.shape[0],), dtype=bool)
+            & (self._norm(pts[:, 0]) <= dimensions[0])
+            & (self._norm(pts[:, 1]) <= dimensions[1])
+        )
         return mask
 
 
 class Polytope(Neighbourhood):
-    """A class to represent a general d-dimensional polytope, ie the
+    """A class to represent a general 2-dimensional polytope, ie the
     convex hull P = conv(x_1, ..., x_n) of some n points x_1 ,..., x_n
     or equivalent as the (bounded) intersection of m half spaces
-    P = { x in R^d : Ax <= b }
+    P = { x in R^2 : Ax <= b }
 
     Parameters
     ----------
-    d : positive int, optional
-        The dimension of the polytope
-
-        Defaults to 2
-
-    mat: array_like of shape (m, d), optional
+    mat: array_like of shape (m, 2), optional
         matrix to represent the normal vectors a_i of the half
         spaces, ie A = (a_1, ... , a_m)^t
 
-        If nothing is passed, it will default to (I_d, -I_d)^t,
+        If nothing is passed, it will default to (I_2, -I_2)^t,
         where I_d is the d-dimensional unit matrix
 
     b: array_like of shape (m, ), optional
@@ -434,6 +441,9 @@ class Polytope(Neighbourhood):
         b = (b_1, ... , b_m)^t
 
         If nothing is passed, it will default to (1,...,1)
+
+    Raises a NeighbourhoodException if inputs are not of the
+    specified or functionally equivalent types
 
     Warning
     -------
@@ -447,25 +457,17 @@ class Polytope(Neighbourhood):
         Checks given points for membership.
     """
 
-    def __init__(self, d=2, mat=None, b=None):
-        # sanity check
-        if not isinstance(d, int) or d <= 0:
-            raise NeighbourhoodException(
-                f"The dimension needs to be a positive integer, "
-                f"but {d} was passed"
-            )
-
+    def __init__(self, mat=None, b=None):
         if mat is None:
-            mat = np.row_stack((np.eye(d), -np.eye(d)))
+            mat = np.row_stack((np.eye(2), -np.eye(2)))
         if b is None:
-            b = np.ones(2 * d)
+            b = np.ones(4)
 
         mat = np.asarray(mat)
         b = np.asarray(b)
         shape_mat = mat.shape
         shape_b = b.shape
 
-        # sanity checks
         if not mat.size:
             raise NeighbourhoodException("mat is an empty array")
         if len(shape_mat) != 2:
@@ -481,25 +483,24 @@ class Polytope(Neighbourhood):
                 f"they are of shape {shape_mat} and {shape_b}, "
                 f"respectively"
             )
-        if shape_mat[1] != d:
+        if shape_mat[1] != 2:
             raise NeighbourhoodException(
-                f"mat needs to be a matrix of shape (n, {d}), but "
+                f"mat needs to be a matrix of shape (n, 2), but "
                 f"is a matrix of shape {shape_mat}"
             )
 
-        self._dim = d
         self._mat = mat
         self._b = b
 
     def __repr__(self):
-        return f"Polytope(d={self._dim}, mat={self._mat}, b={self._b})"
+        return f"Polytope(mat={self._mat}, b={self._b})"
 
     def is_contained_in(self, pts):
         """Checks given points for membership.
 
         Parameters
          ----------
-        pts : array_like of shape (n, d)
+        pts : array_like of shape (n, 2)
             Points that will be checked for membership
 
         Returns
@@ -507,24 +508,35 @@ class Polytope(Neighbourhood):
         mask : numpy.ndarray of shape (n, )
             Boolean array describing which of the input points
             is a member of the neighbourhood
+
+
+        Raises a NeighbourhoodException
+            - if the input is not of the specified or
+            functionally equivalent type
+            - if pts contains non-finite entries
         """
         pts = np.asarray(pts)
-
-        # sanity checks
-        if not pts.size:
-            raise NeighbourhoodException("No points were passed")
-        shape = pts.shape
-        d = self._dim
-        if len(shape) != 2:
-            raise NeighbourhoodException(
-                "pts needs to be a 2-dimensional array"
-            )
-        if shape[1] != d:
-            raise NeighbourhoodException(f"Points are not of dimension {d}")
+        _sanity_checks(pts)
 
         mat = self._mat
         b = self._b
-        mask = np.ones((shape[0],), dtype=bool)
+        mask = np.ones((pts.shape[0],), dtype=bool)
         for ineq, bound in zip(mat, b):
             mask = mask & (ineq @ pts.T <= bound)
         return mask
+
+
+def _sanity_checks(pts):
+    if not pts.size:
+        raise NeighbourhoodException("No points were passed")
+    shape = pts.shape
+    if len(shape) != 2:
+        raise NeighbourhoodException(
+            "pts needs to be a 2-dimensional array"
+        )
+    if shape[1] != 2:
+        raise NeighbourhoodException("pts has more than 2 columns")
+    if not np.all(np.isfinite(pts)):
+        raise NeighbourhoodException(
+            "pts should only have finite and non-NaN entries"
+        )
