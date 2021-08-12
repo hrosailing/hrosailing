@@ -67,51 +67,46 @@ class WeightedPointsException(Exception):
 
 
 class WeightedPoints:
-    """A class to weigh data points
-    and represent them together with
-    their respective weights
+    """A class to weigh data points and represent them together
+    with their respective weights
 
     Parameters
     ----------
     pts : array_like of shape (n, d)
-        Points that will
-        be weight or paired
-        with given weights
-    wts : int, float or array_like of shape (n, ), optional
-        If the weights of the
-        points are known beforehand,
-        they can be given as an
-        argument. If weights are
-        passed, they will be
-        assigned to the points
-        and no further weighing
-        will take place
+        Points that will be weight or paired with given weights
 
-        If a scalar is passed,
-        the points will all be
-        assigned the same weight
+    wts : int, float or array_like of shape (n, ), optional
+        If the weights of the points are known beforehand,
+        they can be given as an argument. If weights are
+        passed, they will be assigned to the points
+        and no further weighing will take place
+
+        If a scalar is passed, the points will all be assigned
+        the same weight
 
         Defaults to None
+
     weigher : Weigher, optional
-        Instance of a Weigher class,
-        which will weigh the points
+        Instance of a Weigher class, which will weigh the points
 
-        Will only be used if
-        weights is None
+        Will only be used if weights is None
 
-        If nothing is passed, it
-        will default to
-        CylindricMeanWeigher()
+        If nothing is passed, it will default to CylindricMeanWeigher()
+
     tw : bool, optional
-        Specifies if the
-        given wind data should
-        be viewed as true wind
+        Specifies if the given wind data should be viewed as true wind
 
-        If False, wind data
-        will be converted
-        to true wind
+        If False, wind data will be converted to true wind
 
         Defaults to True
+
+    Raises a WeightedPointsException
+        - if pts is an empty array
+        - if pts can't be broadcasted to an array of
+        fitting shape
+        - if weigher is not an instance of the Weigher class
+        - if wts can't be broadcasted to an array of
+        fitting shape
 
 
     Methods
@@ -127,6 +122,10 @@ class WeightedPoints:
         shape = pts.shape
         if not pts.size:
             raise WeightedPointsException("No points were given")
+        try:
+            pts = pts.reshape(-1, 3)
+        except ValueError:
+            raise WeightedPointsException("")
         self._points = _convert_wind(pts, tw)
 
         if weigher is None:
@@ -147,9 +146,10 @@ class WeightedPoints:
             wts = wts.reshape(shape[0])
         except ValueError:
             raise WeightedPointsException(
-                f"weights could not be broadcasted "
+                f"wts could not be broadcasted "
                 f"to an array of shape ({shape[0]},)"
             )
+
         self._weights = wts
 
     def __getitem__(self, mask):
@@ -190,9 +190,8 @@ class CylindricMeanWeigher(Weigher):
     """A weigher that weighs given points according to the
     following procedure:
 
-    For a given point p and points pts
-    we look at all the points pt in pts such that
-    ||pt[:d-1] - p[:d-1]|| <= r
+    For a given point p and points pts we look at all the points
+    pt in pts such that ||pt[:d-1] - p[:d-1]|| <= r
 
     Then we take the mean m_p and standard deviation std_p
     of the dth component of all those points and set
