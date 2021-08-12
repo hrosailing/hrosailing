@@ -531,9 +531,7 @@ def _sanity_checks(pts):
         raise NeighbourhoodException("No points were passed")
     shape = pts.shape
     if len(shape) != 2:
-        raise NeighbourhoodException(
-            "pts needs to be a 2-dimensional array"
-        )
+        raise NeighbourhoodException("pts needs to be a 2-dimensional array")
     if shape[1] != 2:
         raise NeighbourhoodException("pts has more than 2 columns")
     if not np.all(np.isfinite(pts)):
