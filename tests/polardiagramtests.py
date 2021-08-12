@@ -3,7 +3,7 @@ import numpy as np
 
 import hrosailing.polardiagram as pol
 
-from hrosailing.polardiagram.polardiagram import PolarDiagramException
+from hrosailing.polardiagram import PolarDiagramException
 
 
 class PolarDiagramTableTest(unittest.TestCase):

@@ -4,7 +4,7 @@ import hrosailing.processing as pro
 
 import numpy as np
 
-from hrosailing.polardiagram.polardiagram import (
+from hrosailing.polardiagram import (
     FileReadingException,
     FileWritingException,
 )
