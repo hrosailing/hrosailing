@@ -2,10 +2,13 @@
 
 """
 
+# Author: Valentin F. Dannenberg / Ente
 
-import hrosailing.polardiagram as pol
+
 import numpy as np
 from scipy.spatial import ConvexHull
+
+import hrosailing.polardiagram as pol
 
 # TODO Maybe change some function names
 
@@ -49,7 +52,7 @@ def convex_direction(pd: pol.PolarDiagram, ws, direction):
     return [(np.rad2deg(wa[i1]), lambd), (np.rad2deg(wa[i2]), 1 - lambd)]
 
 
-def cruise(pd: pol.PolarDiagram, ws, wa, start, end, em):
+def cruise(pd: pol.PolarDiagram, ws, wa, start, end):
 
     _, _, bsp = pd.get_slices(ws)
     (wa1, lambd1), (wa2, lambd2) = convex_direction(pd, ws, wa)
@@ -59,13 +62,8 @@ def cruise(pd: pol.PolarDiagram, ws, wa, start, end, em):
     return [(wa1, t1), (wa2, t2)]
 
 
-class WeatherModel:
-    pass
-
-
 def cost_cruise(
     pd: pol.PolarDiagram,
-    wm,
     start,
     end,
     cost_func=None,
@@ -77,7 +75,6 @@ def cost_cruise(
 
 def isocost(
     pd: pol.PolarDiagram,
-    wm,
     start,
     direction,
     cost_func=None,

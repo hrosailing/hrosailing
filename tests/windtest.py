@@ -1,6 +1,13 @@
-import unittest
-import numpy as np
+"""
 
+"""
+
+# Author: Valentin F. Dannenberg
+
+
+import unittest
+
+import numpy as np
 
 from hrosailing.wind import set_resolution, WindException
 

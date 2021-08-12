@@ -6,11 +6,10 @@ in different forms and functions to manipulate PolarDiagram-objects
 
 # Author: Valentin F. Dannenberg / Ente
 
+
 import csv
 import logging.handlers
 import pickle
-
-
 from abc import ABC, abstractmethod
 from typing import List
 
@@ -37,14 +36,17 @@ logger.setLevel(logging.INFO)
 
 
 class PolarDiagramException(Exception):
+    """"""
     pass
 
 
 class FileReadingException(Exception):
+    """"""
     pass
 
 
 class FileWritingException(Exception):
+    """"""
     pass
 
 

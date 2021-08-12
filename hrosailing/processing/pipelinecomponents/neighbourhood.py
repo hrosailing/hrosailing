@@ -9,9 +9,9 @@ Also contains various predefined and usable neighbourhoods
 # Author: Valentin F. Dannenberg / Ente
 
 
-import numpy as np
-
 from abc import ABC, abstractmethod
+
+import numpy as np
 from scipy.spatial import ConvexHull
 
 
@@ -29,6 +29,10 @@ def euclidean_norm(vec):
 
 
 class NeighbourhoodException(Exception):
+    """Custom exception for errors that may appear whilst
+    working with the Neighbourhood class and subclasses
+    """
+
     pass
 
 
@@ -70,6 +74,9 @@ class Ball(Neighbourhood):
         The radius of the ball, ie r
 
         Defaults to 1
+
+    Raises a NeighbourhoodException
+        -
 
 
     Methods

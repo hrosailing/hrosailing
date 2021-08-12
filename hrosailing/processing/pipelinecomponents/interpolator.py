@@ -9,9 +9,9 @@ Also contains various predefined and usable Interpolators
 # Author Valentin F. Dannenberg / Ente
 
 
-import numpy as np
-
 from abc import ABC, abstractmethod
+
+import numpy as np
 
 
 def scaled(norm, scal):
@@ -31,6 +31,10 @@ def euclidean_norm(vec):
 
 
 class InterpolatorException(Exception):
+    """Custom exception for errors that may appear whilst
+    working with the Interpolator class and subclasses
+    """
+
     pass
 
 
@@ -68,6 +72,7 @@ class IDWInterpolator(Interpolator):
         return f"IDWInterpolator(p={self._p}, norm={self._norm.__name__})"
 
     def interpolate(self, w_pts, grid_pt):
+        """"""
         wts = self._norm(w_pts.points[:, :2] - grid_pt)
         # If interpolated point is a measured point, return
         # the measured value
@@ -125,6 +130,12 @@ class ArithmeticMeanInterpolator(Interpolator):
     params:
         Parameters to be passed to distribution
 
+    Raises an InterpolatorException
+        - s is not a positive number
+        - if norm is not callable
+        - distribution is not callable
+
+
 
     Methods
     -------
@@ -167,6 +178,7 @@ class ArithmeticMeanInterpolator(Interpolator):
         )
 
     def interpolate(self, w_pts, grid_pt):
+        """"""
         dist = self._norm(w_pts.points[:, :2] - grid_pt)
 
         # If interpolated point is a measured point, return
@@ -201,6 +213,7 @@ class ImprovedIDWInterpolator(Interpolator):
         pass
 
     def interpolate(self, w_pts, grid_pt):
+        """"""
         dist = self._norm(w_pts.points[:, :2] - grid_pt)
 
         # If interpolated point is a measured point, return
@@ -248,6 +261,7 @@ class ShepardInterpolator(Interpolator):
         )
 
     def interpolate(self, w_pts, grid_pt):
+        """"""
         dist = self._norm(w_pts.points[:, :2] - grid_pt)
 
         # If interpolated point is a measured point, return

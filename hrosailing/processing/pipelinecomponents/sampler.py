@@ -6,17 +6,22 @@ that can be used to create custom sampler for use.
 Also contains various predefined and usable samplers
 """
 
-# Author: Valentin F. Dannenberg / Ente
+# Author: Valentin F. Dannenberg / Ente, Robert Schüler
+
 
 import math
-import numpy as np
 import random
-
 from abc import ABC, abstractmethod
+
+import numpy as np
 from scipy.spatial import ConvexHull
 
 
 class SamplerException(Exception):
+    """Custom exception for errors that may appear whilst
+    working with the Sampler class and subclasses
+    """
+
     pass
 
 
@@ -199,17 +204,16 @@ class ArchimedianSampler(Sampler):
 # You should have received a copy of the GNU General Public License
 # along with this program (see COPYING.txt).
 # If not, see <http://www.gnu.org/licenses/>.
-#
 
 
 # Data conventions: A point is a pair of floats (x, y). A circle is a triple of floats (center x, center y, radius).
 
-#
+
 # Returns the smallest circle that encloses all the given points. Runs in expected O(n) time, randomized.
 # Input: A sequence of pairs of floats or ints, e.g. [(0,5), (3.1,-2.7)].
 # Output: A triple of floats representing a circle.
 # Note: If 0 points are given, None is returned. If 1 point is given, a circle of radius 0 is returned.
-#
+
 def make_circle(pts):
     # Convert to float and randomize order
     shuffled = [(float(p[0]), float(p[1])) for p in pts]

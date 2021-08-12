@@ -1,3 +1,10 @@
+"""
+
+"""
+
+# Author: Valentin F. Dannenberg
+
+
 import numpy as np
 
 

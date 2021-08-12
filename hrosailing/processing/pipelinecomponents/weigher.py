@@ -14,9 +14,9 @@ respective weights
 
 
 import logging.handlers
-import numpy as np
-
 from abc import ABC, abstractmethod
+
+import numpy as np
 
 from hrosailing.wind import apparent_wind_to_true
 
@@ -59,6 +59,10 @@ def _convert_wind(wind_arr, tw):
 
 
 class WeightedPointsException(Exception):
+    """Custom exception for errors that may appear whilst
+    working with the WeightedPoints class
+    """
+
     pass
 
 
@@ -161,6 +165,10 @@ class WeightedPoints:
 
 
 class WeigherException(Exception):
+    """Custom exception for errors that may appear whilst
+    working with the Weigher class and subclasses
+    """
+
     pass
 
 

@@ -11,9 +11,9 @@ the ODRegressor and the LeastSquareRegressor
 
 
 import logging.handlers
-import numpy as np
-
 from abc import ABC, abstractmethod
+
+import numpy as np
 from scipy.odr.odrpack import Data, Model, ODR
 from scipy.optimize import curve_fit
 
@@ -36,6 +36,10 @@ logger.setLevel(logging.INFO)
 
 
 class RegressorException(Exception):
+    """Custom exception for errors that may appear whilst
+    working with the Regressor class and subclasses
+    """
+
     pass
 
 

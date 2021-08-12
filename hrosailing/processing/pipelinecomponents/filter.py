@@ -9,10 +9,11 @@ the QuantileFilter and the BoundFilter
 
 # Author: Valentin F. Dannenberg / Ente
 
-import logging.handlers
-import numpy as np
 
+import logging.handlers
 from abc import ABC, abstractmethod
+
+import numpy as np
 
 
 logging.basicConfig(

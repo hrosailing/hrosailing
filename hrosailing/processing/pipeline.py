@@ -5,15 +5,15 @@ polar diagram from "raw" data
 
 # Author: Valentin F. Dannenberg / Ente
 
-import logging.handlers
-import numpy as np
 
+import logging.handlers
 from abc import ABC, abstractmethod
+
+import numpy as np
 
 import hrosailing.polardiagram as pol
 import hrosailing.processing.modelfunctions as mf
 import hrosailing.processing.pipelinecomponents as pc
-
 from hrosailing.polardiagram import PolarDiagramException
 from hrosailing.wind import set_resolution
 
@@ -35,10 +35,14 @@ logger.setLevel(logging.INFO)
 
 
 class PipelineException(Exception):
+    """"""
+
     pass
 
 
 class PipelineExtension(ABC):
+    """"""
+
     @abstractmethod
     def process(self, w_pts: pc.WeightedPoints):
         pass
@@ -127,6 +131,8 @@ class PolarPipeline:
 
 
 class TableExtension(PipelineExtension):
+    """"""
+
     def __init__(
         self,
         w_res=None,
@@ -152,6 +158,7 @@ class TableExtension(PipelineExtension):
         self.interpolator = interpolator
 
     def process(self, w_pts: pc.WeightedPoints):
+        """"""
         w_res = _set_wind_resolution(self.w_res, w_pts.points)
         bsp = _interpolate_grid_points(
             w_res, w_pts, self.neighbourhood, self.interpolator
@@ -169,6 +176,8 @@ class TableExtension(PipelineExtension):
 
 # TODO Add options for radians
 class CurveExtension(PipelineExtension):
+    """"""
+
     def __init__(self, regressor: pc.Regressor = None):
         if regressor is None:
             regressor = pc.ODRegressor(
@@ -180,6 +189,7 @@ class CurveExtension(PipelineExtension):
         self.regressor = regressor
 
     def process(self, w_pts: pc.WeightedPoints):
+        """"""
         self.regressor.fit(w_pts.points)
 
         try:
@@ -193,6 +203,8 @@ class CurveExtension(PipelineExtension):
 
 
 class PointcloudExtension(PipelineExtension):
+    """"""
+
     def __init__(
         self,
         sampler: pc.Sampler = None,
@@ -222,6 +234,7 @@ class PointcloudExtension(PipelineExtension):
         self.interpolator = interpolator
 
     def process(self, w_pts: pc.WeightedPoints):
+        """"""
         sample_pts = self.sampler.sample(w_pts.points)
         pts = []
         logger.info(

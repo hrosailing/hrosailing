@@ -1,6 +1,14 @@
-import hrosailing.processing.pipelinecomponents as pc
+"""
+
+"""
+
+# Author: Valentin F. Dannenberg / Ente
+
+
 import matplotlib.pyplot as plt
 import numpy as np
+
+import hrosailing.processing.pipelinecomponents as pc
 
 
 def visualize_ball():

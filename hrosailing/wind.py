@@ -4,12 +4,14 @@ Functions to convert wind from apparent to true and vice versa
 
 # Author: Valentin F. Dannenberg / Ente
 
-import numpy as np
 
 from typing import Iterable
 
+import numpy as np
+
 
 class WindException(Exception):
+    """"""
     pass
 
 

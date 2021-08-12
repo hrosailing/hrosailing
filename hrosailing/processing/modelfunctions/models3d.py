@@ -1,3 +1,10 @@
+"""
+
+"""
+
+# Author: Valentin F. Dannenberg / Ente
+
+
 from hrosailing.processing.modelfunctions.models2d import *
 
 

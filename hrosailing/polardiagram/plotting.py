@@ -4,9 +4,9 @@ Various functions to plot PolarDiagram objects
 
 # Author: Valentin F. Dannenberg / Ente
 
+
 import matplotlib.pyplot as plt
 import numpy as np
-
 from matplotlib.colors import (
     to_rgb,
     is_color_like,

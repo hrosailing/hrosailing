@@ -1,4 +1,12 @@
+"""
+
+"""
+
+# Author: Valentin F. Dannenberg / Ente
+
+
 import unittest
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -307,6 +315,7 @@ class CurvePlotTest(unittest.TestCase):
 
     def test_plot_color_gradient(self):
         f, ax = plt.subplots()
+        self.pd.plot_color_gradient(ax=ax)
         x_plot, y_plot = ax.lines[0].get_xydata().T
 
     def test_one_color_string_works(self):

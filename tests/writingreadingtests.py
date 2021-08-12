@@ -1,8 +1,15 @@
+"""
+
+"""
+
+# Author: Valentin F. Dannenberg / Ente
+
+
 import unittest
-import hrosailing.polardiagram as pol
 
 import numpy as np
 
+import hrosailing.polardiagram as pol
 from hrosailing.polardiagram import FileReadingException, FileWritingException
 
 
