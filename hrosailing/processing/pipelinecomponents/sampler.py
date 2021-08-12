@@ -153,10 +153,12 @@ class ArchimedianSampler(Sampler):
 
     def sample(self, pts):
         """Produces samples according to the above described procedure
+
         Parameters
         ----------
         pts : array_like of shape (n, 2)
             Points in whose convex hull the produced samples will lie
+
         Returns
         -------
         samples : numpy.ndarray of shape (n_samples, 2)
@@ -213,6 +215,7 @@ class ArchimedianSampler(Sampler):
 # Input: A sequence of pairs of floats or ints, e.g. [(0,5), (3.1,-2.7)].
 # Output: A triple of floats representing a circle.
 # Note: If 0 points are given, None is returned. If 1 point is given, a circle of radius 0 is returned.
+
 
 def make_circle(pts):
     # Convert to float and randomize order
