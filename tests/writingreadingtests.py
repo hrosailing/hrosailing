@@ -1,23 +1,14 @@
 import unittest
 import hrosailing.polardiagram as pol
-import hrosailing.processing as pro
 
 import numpy as np
 
-from hrosailing.polardiagram import (
-    FileReadingException,
-    FileWritingException,
-)
+from hrosailing.polardiagram import FileReadingException, FileWritingException
 
 
 class FileReadingTest(unittest.TestCase):
     def test_read_nonexistent_file(self):
-        funcs = [
-            pol.from_csv,
-            pol.depickling,
-            pro.read_csv_file,
-            pro.read_nmea_file,
-        ]
+        funcs = [pol.from_csv, pol.depickling]
         for i, f in enumerate(funcs):
             with self.subTest(i=i):
                 with self.assertRaises(FileReadingException):
@@ -25,11 +16,11 @@ class FileReadingTest(unittest.TestCase):
 
     def test_from_csv_read_correct_existent_file(self):
         files = [
-            ("tests/pd-hro.csv", "hro"),
-            ("tests/pc-hro.csv", "hro"),
-            ("tests/pd-orc.csv", "orc"),
-            ("tests/pd-opencpn.csv", "opencpn"),
-            ("tests/pd-array.csv", "array"),
+            ("tests/testfiles/pd-hro.csv", "hro"),
+            ("tests/testfiles/pc-hro.csv", "hro"),
+            ("tests/testfiles/pd-orc.csv", "orc"),
+            ("tests/testfiles/pd-opencpn.csv", "opencpn"),
+            ("tests/testfiles/pd-array.csv", "array"),
         ]
         for i, (file, fmt) in enumerate(files):
             with self.subTest(i=i):
@@ -38,7 +29,7 @@ class FileReadingTest(unittest.TestCase):
         self.assertTrue(True)
 
     def test_from_csv_format_hro_works_correctly(self):
-        files = ["tests/pd-hro.csv", "tests/pc-hro.csv"]
+        files = ["tests/testfiles/pd-hro.csv", "tests/testfiles/pc-hro.csv"]
         for i, file in enumerate(files):
             with self.subTest(i=i):
                 pd = pol.from_csv(file)
@@ -54,7 +45,9 @@ class FileReadingTest(unittest.TestCase):
 
     @staticmethod
     def test_from_csv_format_orc_works_correctly():
-        pd: pol.PolarDiagramTable = pol.from_csv("tests/pd-orc.csv", fmt="orc")
+        pd: pol.PolarDiagramTable = pol.from_csv(
+            "tests/testfiles/pd-orc.csv", fmt="orc"
+        )
         np.testing.assert_array_equal(
             pd.wind_speeds, np.array([6, 8, 10, 12, 14, 16, 20])
         )
@@ -80,7 +73,7 @@ class FileReadingTest(unittest.TestCase):
     @staticmethod
     def test_from_csv_format_opencpn_works_correctly():
         pd: pol.PolarDiagramTable = pol.from_csv(
-            "tests/pd-opencpn.csv", fmt="opencpn"
+            "tests/testfiles/pd-opencpn.csv", fmt="opencpn"
         )
         np.testing.assert_array_equal(pd.wind_speeds, np.arange(2, 42, 2))
         np.testing.assert_array_equal(pd.wind_angles, np.arange(5, 185, 5))
@@ -89,7 +82,7 @@ class FileReadingTest(unittest.TestCase):
     @staticmethod
     def test_from_csv_format_array_works_correctly():
         pd: pol.PolarDiagramTable = pol.from_csv(
-            "tests/pd-array.csv", fmt="array"
+            "tests/testfiles/pd-array.csv", fmt="array"
         )
         np.testing.assert_array_equal(
             pd.wind_speeds, np.array([0, 4, 6, 8, 10, 12, 14, 16, 20, 25, 30])
