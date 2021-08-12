@@ -157,7 +157,7 @@ class TableExtension(PipelineExtension):
             )
         self.interpolator = interpolator
 
-    def process(self, w_pts: pc.WeightedPoints):
+    def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramTable:
         """"""
         w_res = _set_wind_resolution(self.w_res, w_pts.points)
         bsp = _interpolate_grid_points(
@@ -188,7 +188,7 @@ class CurveExtension(PipelineExtension):
             raise PipelineException(f"{regressor.__name__} is not a Regressor")
         self.regressor = regressor
 
-    def process(self, w_pts: pc.WeightedPoints):
+    def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramCurve:
         """"""
         self.regressor.fit(w_pts.points)
 
@@ -233,7 +233,7 @@ class PointcloudExtension(PipelineExtension):
             )
         self.interpolator = interpolator
 
-    def process(self, w_pts: pc.WeightedPoints):
+    def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramPointcloud:
         """"""
         sample_pts = self.sampler.sample(w_pts.points)
         pts = []
