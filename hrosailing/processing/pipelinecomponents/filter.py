@@ -33,11 +33,16 @@ logger.setLevel(logging.INFO)
 
 
 class FilterException(Exception):
+    """Custom exception for errors that may appear whilst
+    working with the Filter class and subclasses
+    """
+
     pass
 
 
 class Filter(ABC):
     """Base class for all filter classes
+
 
     Abstract Methods
     ----------------
@@ -62,6 +67,8 @@ class QuantileFilter(Filter):
 
         Defaults to 25
 
+    Raises a FilterException, if percent is not in the interval [0, 100]
+
 
     Methods
     -------
@@ -83,6 +90,7 @@ class QuantileFilter(Filter):
 
     def filter(self, wts):
         """Filters a set of points given by their resp. weights
+        according to the above described method
 
         Parameters
         ----------
@@ -95,6 +103,12 @@ class QuantileFilter(Filter):
         mask : numpy.ndarray of shape (n, )
             Boolean array describing with points are filtered
             depending on their resp. weight
+
+
+        Raises a FilterException
+            - if wts is an empty array
+            - if wts can't be broadcasted to a fitting shape
+            - if wts contains non-finite entries
         """
 
         wts = np.asarray(wts)
@@ -118,7 +132,7 @@ class QuantileFilter(Filter):
 
 class BoundFilter(Filter):
     """A filter that filters all points based on if their
-    weight is outside a lower and upper bound
+    weight is outside an interval given by a lower and upper bound
 
     Parameters
     ----------
@@ -131,6 +145,8 @@ class BoundFilter(Filter):
         The lower bound for the filter
 
         Defaults to 0.5
+
+    Raises a FilterException if lower_bound is greater than upper_bound
 
     Methods
     -------
@@ -152,6 +168,7 @@ class BoundFilter(Filter):
 
     def filter(self, wts):
         """Filters a set of points given by their resp. weights
+        according to the above described method
 
         Parameters
         ----------
@@ -164,6 +181,12 @@ class BoundFilter(Filter):
         mask : numpy.ndarray of shape (n, )
             Boolean array describing with points are filtered
             depending on their resp. weight
+
+
+        Raises a FilterException
+            - if wts is an empty array
+            - if wts can't be broadcasted to a fitting shape
+            - if wts contains non-finite entries
         """
 
         wts = np.asarray(wts)
