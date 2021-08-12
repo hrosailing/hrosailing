@@ -44,8 +44,9 @@ class ArrayHandler(DataHandler):
 
 
 class CsvFileHandler(DataHandler):
-    """A data handler to extract data from
-    a .csv file with the following format
+    """A data handler to extract data from a .csv file
+    with three columns representing wind speed, wind angle, and
+    boat speed respectively
 
     Parameters
     ----------
@@ -58,31 +59,39 @@ class CsvFileHandler(DataHandler):
     Methods
     -------
     handle(self, data)
-
+        Reads the above mentioned .csv file and returns a (n, 3)
+        numpy.ndarray containing the represented data points
     """
 
     def __init__(self, delimiter: str = None):
         self.delimiter = delimiter
 
     def handle(self, data):
-        """Reads a .csv file of data points and returns a numpy.ndarray
-        of those data points
+        """Reads the above mentioned .csv file and returns a (n, 3)
+        numpy.ndarray containing the represented data points
+
         Parameters
         ----------
         data : string
             Path to a .csv file which will be read
+
         Returns
         -------
-        out : numpy.ndarray
-            Array of the data points contained in the .csv file
+        out : numpy.ndarray of shape (n, 3)
+            Array of the data points represented by the .csv file
 
         """
         try:
             with open(data, "r", newline="") as file:
                 csv_reader = csv.reader(file, delimiter=self.delimiter)
-                return np.array(
-                    [[eval(pt) for pt in row] for row in csv_reader]
-                )
+                try:
+                    return np.array(
+                        [[eval(pt) for pt in row[:3]] for row in csv_reader]
+                    )
+                except ValueError as ve:
+                    raise HandlerException(
+                        f"While evaluating the data points, the error {ve} occured"
+                    )
         except OSError:
             raise HandlerException(f"Can't find/open/read {data}")
 
@@ -104,26 +113,18 @@ class NMEAFileHandler(DataHandler):
             of the wind data "belonging" to a given speed data
             to create a singe data point
         Defaults to "interpolate"
-    tw : bool, optional
-        Specifies if occuring apparent wind should be automatically
-        converted to true wind.
-        If False, each point will have an extra component,
-        specifying if it is true or apparent wind
-        Defaults to True
 
 
+    Methods
+    -------
+    handle(self, data)
     """
 
-    def __init__(self, mode="interpolate", tw: bool = True):
+    def __init__(self, mode="interpolate"):
         if mode not in {"mean", "interpolate"}:
             raise HandlerException(f"Mode {mode} not implemented")
 
         self.mode = mode
-
-        if not isinstance(tw, bool):
-            raise HandlerException("")
-
-        self.tw = tw
 
     def handle(self, data: str):
         """Reads a text file containing nmea-sentences and extracts
@@ -132,6 +133,7 @@ class NMEAFileHandler(DataHandler):
         Function looks for sentences of type:
             - MWV for wind data
             - VHW for speed over water
+
         Parameters
         ----------
         data : string
@@ -140,20 +142,14 @@ class NMEAFileHandler(DataHandler):
 
         Returns
         -------
-        nmea_data : list
-            If tw:
-                A list of points consisting of wind speed, wind angle,
-                and boat speed, with the wind being true wind
-            else:
-                A list of points consisting of wind speed, wind angle,
-                boat speed, and a reference, specifying wether the wind
-                is true or appearent wind
+        out : numpy.ndarray of shape (n, 3)
+
 
         Raises a FileReadingException
             - if file can't be found, opened, or read
             - if file isn't "sorted", meaning there has to be at least
             one recorded wind data "between" two recorded speed datas
-            - if file is empty or doesn't contain any relevant sentences
+            - if file doesn't contain any relevant sentences
             - if file contains invalid relevant nmea sentences
         """
         try:
@@ -198,16 +194,13 @@ class NMEAFileHandler(DataHandler):
 
                     _process_data(nmea_data, wind_data, stc, bsp, self.mode)
 
-                if self.tw:
-                    aw = [data[:3] for data in nmea_data if data[3] == "R"]
-                    tw = [data[:3] for data in nmea_data if data[3] != "R"]
-                    if not aw:
-                        return tw
+                aw = [data[:3] for data in nmea_data if data[3] == "R"]
+                tw = [data[:3] for data in nmea_data if data[3] != "R"]
+                if not aw:
+                    return np.asarray(tw)
 
-                    aw = apparent_wind_to_true(aw)
-                    return tw.extend(aw)
-
-                return nmea_data
+                aw = apparent_wind_to_true(aw)
+                return np.asarray(tw.extend(aw))
 
         except OSError:
             raise HandlerException(f"Can't find/open/read {data}")
@@ -217,9 +210,7 @@ def _get_wind_data(wind_data, stc):
     try:
         wind = pynmea2.parse(stc)
     except pynmea2.ParseError:
-        raise HandlerException(
-            f"Invalid nmea-sentences encountered: {stc}"
-        )
+        raise HandlerException(f"Invalid nmea-sentences encountered: {stc}")
 
     wind_data.append(
         [float(wind.wind_speed), float(wind.wind_angle), wind.reference]
