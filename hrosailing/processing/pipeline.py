@@ -170,8 +170,8 @@ class TableExtension(PipelineExtension):
             )
         except PolarDiagramException as pe:
             raise PipelineException(
-                f"During creation of the polar diagram, exception {pe} occured"
-            )
+                f"During creation of the polar diagram, an error occured"
+            ) from pe
 
 
 # TODO Add options for radians
@@ -198,8 +198,8 @@ class CurveExtension(PipelineExtension):
             )
         except PolarDiagramException as pe:
             raise PipelineException(
-                f"During creation of the polar diagram, exception {pe} occured"
-            )
+                f"During creation of the polar diagram, an error occured"
+            ) from pe
 
 
 class PointcloudExtension(PipelineExtension):
@@ -256,8 +256,8 @@ class PointcloudExtension(PipelineExtension):
             return pol.PolarDiagramPointcloud(pts=pts)
         except PolarDiagramException as pe:
             raise PipelineException(
-                f"During creation of the polar diagram, exception {pe} occured"
-            )
+                f"During creation of the polar diagram, an error occured"
+            ) from pe
 
 
 def _set_wind_resolution(w_res, pts):
