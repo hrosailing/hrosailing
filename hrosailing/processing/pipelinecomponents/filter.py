@@ -64,8 +64,6 @@ class QuantileFilter(Filter):
     percent: int or float, optional
         The quantile to be calculated
 
-        Should be larger than 0 and smaller than 100
-
         Defaults to 25
 
     Raises a FilterException, if percent is not in the interval [0, 100]
@@ -108,10 +106,8 @@ class QuantileFilter(Filter):
 
         Raises a FilterException
             - if wts is an empty array
-            - if wts can't be broadcasted to a fitting shape
             - if wts contains non-finite entries
         """
-
         wts = np.asarray(wts)
         if not wts.size:
             raise FilterException("No weights were passed")
@@ -186,10 +182,8 @@ class BoundFilter(Filter):
 
         Raises a FilterException
             - if wts is an empty array
-            - if wts can't be broadcasted to a fitting shape
             - if wts contains non-finite entries
         """
-
         wts = np.asarray(wts)
         if not wts.size:
             raise FilterException("No weights were passed")
