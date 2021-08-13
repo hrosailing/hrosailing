@@ -37,6 +37,7 @@ class InterpolatorException(Exception):
 
 # TODO Improve docstrings
 
+
 class Interpolator(ABC):
     """Base class for all Interpolator classes
 
