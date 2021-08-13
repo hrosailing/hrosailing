@@ -53,7 +53,19 @@ class Interpolator(ABC):
 
 
 class IDWInterpolator(Interpolator):
-    """"""
+    """
+
+    Parameters
+    ----------
+    p : nonnegative int, optional
+        Defaults to 2
+    norm : function or callable, optional
+
+
+    Methods
+    -------
+    interpolate(w_pts, grid_pt)
+    """
 
     def __init__(self, p=2, norm=None):
         if p < 0 or not isinstance(p, int):
