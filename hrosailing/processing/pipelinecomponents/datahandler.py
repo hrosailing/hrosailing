@@ -37,9 +37,19 @@ class DataHandler(ABC):
 
 
 class ArrayHandler(DataHandler):
-    """"""
+    """A data handler to handle data, given
+    as an array_like sequence.
 
-    def handle(self, data):
+    Doesn't really do anything since error handling
+    and array conversion is handeled by the
+    WeightedPoints class now.
+
+    Only needed for general layout of the pipeline
+
+    """
+
+    @staticmethod
+    def handle(data):
         return data
 
 
@@ -85,13 +95,11 @@ class CsvFileHandler(DataHandler):
             with open(data, "r", newline="") as file:
                 csv_reader = csv.reader(file, delimiter=self.delimiter)
                 try:
-                    return np.array(
-                        [[eval(pt) for pt in row[:3]] for row in csv_reader]
-                    )
+                    return [[eval(pt) for pt in row[:3]] for row in csv_reader]
                 except ValueError as ve:
                     raise HandlerException(
-                        f"While evaluating the data points, the error {ve} occured"
-                    )
+                        f"While evaluating the data points, an error occured"
+                    ) from ve
         except OSError:
             raise HandlerException(f"Can't find/open/read {data}")
 
@@ -170,8 +178,8 @@ class NMEAFileHandler(DataHandler):
                         bsp = pynmea2.parse(stc).data[4]
                     except pynmea2.ParseError as pe:
                         raise HandlerException(
-                            f"During parsing of {stc}, the error {pe} occured"
-                        )
+                            f"During parsing of {stc}, an error occured"
+                        ) from pe
 
                     stc = next(nmea_stcs, None)
 
@@ -197,20 +205,22 @@ class NMEAFileHandler(DataHandler):
                 aw = [data[:3] for data in nmea_data if data[3] == "R"]
                 tw = [data[:3] for data in nmea_data if data[3] != "R"]
                 if not aw:
-                    return np.asarray(tw)
+                    return tw
 
                 aw = apparent_wind_to_true(aw)
-                return np.asarray(tw.extend(aw))
+                return tw.extend(aw)
 
-        except OSError:
-            raise HandlerException(f"Can't find/open/read {data}")
+        except OSError as oe:
+            raise HandlerException(f"Can't find/open/read {data}") from oe
 
 
 def _get_wind_data(wind_data, stc):
     try:
         wind = pynmea2.parse(stc)
-    except pynmea2.ParseError:
-        raise HandlerException(f"Invalid nmea-sentences encountered: {stc}")
+    except pynmea2.ParseError as pe:
+        raise HandlerException(
+            f"Invalid nmea-sentences encountered: {stc}"
+        ) from pe
 
     wind_data.append(
         [float(wind.wind_speed), float(wind.wind_angle), wind.reference]
@@ -228,8 +238,8 @@ def _process_data(nmea_data, wind_data, stc, bsp, mode):
             bsp2 = pynmea2.parse(stc).data[4]
         except pynmea2.ParseError as pe:
             raise HandlerException(
-                f"During parsing of {stc}, the error {pe} occured"
-            )
+                f"During parsing of {stc}, an error"
+            ) from pe
 
         inter = len(wind_data)
         for i in range(inter):
