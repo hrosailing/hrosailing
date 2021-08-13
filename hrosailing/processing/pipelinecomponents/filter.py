@@ -108,13 +108,14 @@ class QuantileFilter(Filter):
             - if wts is an empty array
             - if wts contains non-finite entries
         """
-        wts = np.asarray(wts)
+        try:
+            wts = np.asarray_chkfinite(wts)
+        except ValueError:
+            raise FilterException(
+                "wts should only have finite and non-NaN entries"
+            )
         if not wts.size:
             raise FilterException("No weights were passed")
-        if not all(np.isfinite(wts)):
-            raise FilterException(
-                "Weights need to be finite and can't be NaNs"
-            )
 
         mask = wts >= np.percentile(wts, self._percent)
 
@@ -184,13 +185,14 @@ class BoundFilter(Filter):
             - if wts is an empty array
             - if wts contains non-finite entries
         """
-        wts = np.asarray(wts)
+        try:
+            wts = np.asarray_chkfinite(wts)
+        except ValueError:
+            raise FilterException(
+                "wts should only have finite and non-NaN entries"
+            )
         if not wts.size:
             raise FilterException("No weights were passed")
-        if not all(np.isfinite(wts)):
-            raise FilterException(
-                "Weights need to be finite and can't be NaNs"
-            )
 
         mask_1 = wts >= self._l_b
         mask_2 = wts <= self._u_b
