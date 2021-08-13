@@ -14,11 +14,7 @@ from abc import ABC, abstractmethod
 from typing import List
 
 from hrosailing.polardiagram.plotting import *
-from hrosailing.wind import (
-    WindException,
-    apparent_wind_to_true,
-    set_resolution,
-)
+from hrosailing.wind import WindException, convert_wind, set_resolution
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)s: %(message)s",
@@ -245,6 +241,7 @@ def symmetric_polar_diagram(obj):
 
 
 # TODO Error handling in plot methods?
+
 
 class PolarDiagram(ABC):
     """Base class for all polardiagram classes
@@ -549,31 +546,24 @@ class PolarDiagram(ABC):
     #     pass
 
 
-def _get_indices(ws, res):
-    if ws is None:
+def _get_indices(wind, res):
+    if wind is None:
         return range(len(res))
 
-    if isinstance(ws, (int, float)):
+    if isinstance(wind, (int, float)):
         try:
-            return [list(res).index(ws)]
+            return [list(res).index(wind)]
         except ValueError:
-            raise PolarDiagramException(f"{ws} is not contained in {res}")
+            raise PolarDiagramException(f"{wind} is not contained in {res}")
 
-    ws = set(ws)
-    if not ws:
+    wind = set(wind)
+    if not wind:
         raise PolarDiagramException("Empty slice-list was passed")
 
-    if not ws.issubset(set(res)):
-        raise PolarDiagramException(f"{ws} is not a subset of {res}")
+    if not wind.issubset(set(res)):
+        raise PolarDiagramException(f"{wind} is not a subset of {res}")
 
-    return [i for i, w in enumerate(res) if w in ws]
-
-
-def _convert_wind(wind_arr, tw):
-    if tw:
-        return wind_arr
-
-    return apparent_wind_to_true(wind_arr)
+    return [i for i, w in enumerate(res) if w in wind]
 
 
 # TODO: Standardize wind angles, such that they are in [0, 360),
@@ -695,35 +685,27 @@ class PolarDiagramTable(PolarDiagram):
             f"Class 'PolarDiagramTable(ws_res={ws_res}, wa_res={wa_res}, "
             f"bsps={bsps})' called"
         )
-        try:
-            ws_res = set_resolution(ws_res, "speed")
-        except WindException as we:
-            raise PolarDiagramException(
-                f"While setting wind speed resolution, the error {we} occured"
-            )
-        if len(set(ws_res)) != len(ws_res):
-            print(
-                "Warning: Wind resolution contains duplicate data. "
-                "This may lead to unwanted behaviour"
-            )
 
         try:
+            ws_res = set_resolution(ws_res, "speed")
             wa_res = set_resolution(wa_res, "angle")
         except WindException as we:
             raise PolarDiagramException(
-                f"While setting wind angle resolution, the error {we} occured"
-            )
-        if len(set(wa_res)) != len(wa_res):
-            print(
-                "Warning: Angle resolution contains duplicate data. "
-                "This may lead to unwanted behaviour"
-            )
+                f"While setting wind speed resolution, an error occured"
+            ) from we
 
         rows = len(wa_res)
         cols = len(ws_res)
         if bsps is None:
             bsps = np.zeros((rows, cols))
-        bsps = np.asarray(bsps, dtype=np.float64)
+        try:
+            bsps = np.asarray_chkfinite(bsps, dtype=np.float64)
+        except ValueError as ve:
+            raise PolarDiagramException(
+                "bsps should only contain finite and non-NaN entries"
+            ) from ve
+        if bsps.dtype is object:
+            raise PolarDiagramException("bsps is not array_like")
         if not bsps.size:
             raise PolarDiagramException("Empty boat speed array was passed")
         if bsps.ndim != 2:
@@ -946,11 +928,16 @@ class PolarDiagramTable(PolarDiagram):
             f"new_bsps={new_bsps}, ws={ws}, wa={wa}) called"
         )
 
-        new_bsps = np.asarray(new_bsps)
+        try:
+            new_bsps = np.asarray_chkfinite(new_bsps)
+        except ValueError as ve:
+            raise PolarDiagramException(
+                "new_bsps should only contain finite and non-NaN entries"
+            ) from ve
+        if new_bsps.dtype is object:
+            raise PolarDiagramException(f"{new_bsps} is not array_like")
         if not new_bsps.size:
             raise PolarDiagramException("No new data was passed")
-        if new_bsps.dtype == object:
-            raise PolarDiagramException(f"{new_bsps} is not array_like")
 
         ws_ind = _get_indices(ws, self.wind_speeds)
         wa_ind = _get_indices(wa, self.wind_angles)
@@ -2327,17 +2314,13 @@ class PolarDiagramPointcloud(PolarDiagram):
         if pts is None:
             self._pts = np.array([])
             return
-        pts = np.asarray(pts)
-        if not pts.size:
-            self._pts = np.array([])
-            return
+
         try:
-            pts = pts.reshape(-1, 3)
-        except ValueError as ve:
+            self._pts = convert_wind(pts, -1, tw)
+        except WindException as we:
             raise PolarDiagramException(
-                "pts could not be broadcasted to an array of shape (n,3)"
-            ) from ve
-        self._pts = _convert_wind(pts, tw)
+                "While converting wind, an error occured"
+            ) from we
 
     def __str__(self):
         table = ["   TWS      TWA     BSP\n", "------  -------  ------\n"]
@@ -2456,20 +2439,12 @@ class PolarDiagramPointcloud(PolarDiagram):
         """
         logger.info(f"Method 'add_points(new_pts{new_pts}, tw={tw})' called")
 
-        new_pts = np.asarray(new_pts)
-        if not new_pts.size:
-            raise PolarDiagramException("new_pts is an empty array")
-        if new_pts.dtype == object:
-            raise PolarDiagramException("new_pts is not array_like")
-
         try:
-            new_pts = new_pts.reshape(-1, 3)
-        except ValueError as ve:
+            new_pts = convert_wind(new_pts, -1, tw)
+        except WindException as we:
             raise PolarDiagramException(
-                f"new_pts of shape {new_pts.shape} could not be "
-                f"broadcasted to an array of shape (n,3)"
-            ) from ve
-        new_pts = _convert_wind(new_pts, tw)
+                "While converting wind, an error occured"
+            ) from we
 
         if not self.points.size:
             self._pts = new_pts
