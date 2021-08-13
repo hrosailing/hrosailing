@@ -303,9 +303,16 @@ class LeastSquareRegressor(Regressor):
 
 
 def _check_data(data):
-    data = np.asarray(data)
+    try:
+        data = np.asarray_chkfinite(data)
+    except ValueError as ve:
+        raise RegressorException(
+            "data can only contain finite and non-NaN-values"
+        ) from ve
 
     # sanity checks
+    if data.dtype == object:
+        raise RegressorException("data is not array_like")
     if not data.size:
         raise RegressorException("No data to fit was passed")
     if data.ndim != 2:
@@ -317,9 +324,5 @@ def _check_data(data):
             raise RegressorException(
                 "data couldn't be broadcasted to an array of shape (n, 3)"
             )
-    if not np.all(np.isfinite(data)):
-        raise RegressorException(
-            "data can only contain finite and non-NaN-values"
-        )
 
     return data[:, :2], data[:, 2]
