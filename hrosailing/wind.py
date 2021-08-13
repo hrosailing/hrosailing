@@ -37,7 +37,7 @@ def apparent_wind_to_true(wind):
         - if some values in wind_arr are NaN or
         not finite
     """
-    return _conversion(wind, -1)
+    return convert_wind(wind, -1, False)
 
 
 def true_wind_to_apparent(wind):
@@ -61,11 +61,13 @@ def true_wind_to_apparent(wind):
             - if some values in wind_arr are NaN or
             not finite
         """
-    return _conversion(wind, 1)
+    return convert_wind(wind, 1, False)
 
 
-def _conversion(wind, sign):
+def convert_wind(wind, sign, tw):
     wind = _sanity_checks(wind)
+    if tw:
+        return wind
 
     ws, wa, bsp = np.hsplit(wind, 3)
     wa_above_180 = wa > 180
