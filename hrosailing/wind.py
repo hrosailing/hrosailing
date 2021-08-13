@@ -96,18 +96,18 @@ def _sanity_checks(wind):
         wind = np.asarray_chkfinite(wind)
     except ValueError as ve:
         raise WindException(
-            "wind should only contain finite and non-NaN values"
+            "array should only contain finite and non-NaN values"
         ) from ve
 
     if wind.dtype is object:
-        raise WindException("wind_arr is not array_like")
+        raise WindException("array is not array_like")
     if not wind.size:
-        raise WindException("Empty array passed. Conversion not possible")
+        raise WindException("Empty array was passed")
     try:
         wind = wind.reshape(-1, 3)
     except ValueError:
         raise WindException(
-            "wind_arr could not be broadcasted to an array of shape (n,3)"
+            "array could not be broadcasted to an array of shape (n, 3)"
         )
 
     return wind
