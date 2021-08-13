@@ -541,10 +541,9 @@ def _sanity_checks(pts):
     if not pts.size:
         raise NeighbourhoodException("pts is an empty array")
 
-    shape = pts.shape
-    if len(shape) != 2:
+    if pts.ndim != 2:
         raise NeighbourhoodException("pts is not a 2-dimensional array")
-    if shape[1] != 2:
+    if pts.shape[1] != 2:
         try:
             pts = pts.reshape(-1, 2)
         except ValueError as ve:

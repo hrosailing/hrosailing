@@ -81,14 +81,7 @@ class UniformRandomSampler(Sampler):
             samples produced by the above described method
         """
         rng = np.random.default_rng()
-        pts = np.asarray(pts)
-
-        # sanity checks
-        if not pts.size:
-            raise SamplerException("No points were passed")
-        shape = pts.shape
-        if len(shape) != 2:
-            raise SamplerException("pts needs to be a 2-dimensional array")
+        pts = _sanity_checks(pts)
 
         ineqs = ConvexHull(pts).equations
         samples = []
@@ -124,7 +117,6 @@ class FibonacciSampler(Sampler):
         pass
 
 
-# TODO Error Checks?
 class ArchimedianSampler(Sampler):
     """A sampler that produces a number of
     approximately equidistant sample points on the archimedean spiral
@@ -164,14 +156,7 @@ class ArchimedianSampler(Sampler):
         samples : numpy.ndarray of shape (n_samples, 2)
             samples produced by the above described method
         """
-        pts = np.asarray(pts)
-
-        # sanity checks
-        if not pts.size:
-            raise SamplerException("No points were passed")
-        shape = pts.shape
-        if len(shape) != 2:
-            raise SamplerException("pts needs to be a 2-dimensional array")
+        pts = _sanity_checks(pts)
 
         x, y, r = make_circle(pts)
         midpoint = np.array([x, y])
@@ -184,6 +169,31 @@ class ArchimedianSampler(Sampler):
 
         return (midpoint[:, None] + r / beta[-1] * spiral).transpose()
 
+
+def _sanity_checks(pts):
+    try:
+        pts = np.asarray_chkfinite(pts)
+    except ValueError as ve:
+        raise SamplerException(
+            "pts should only have finite and non-NaN entries"
+        ) from ve
+
+    if pts.dtype is object:
+        raise SamplerException("pts is not array_like")
+    if not pts.size:
+        raise SamplerException("pts is an empty array")
+
+    if pts.ndim != 2:
+        raise SamplerException("pts is not a 2-dimensional array")
+    if pts.shape[1] != 2:
+        try:
+            pts = pts.reshape(-1, 2)
+        except ValueError as ve:
+            raise SamplerException(
+                "pts couldn't be broadcasted to a fitting shape"
+            ) from ve
+
+    return pts
 
 ###### The following code has been copied from an extern source ########
 ###### and changed a bit                                        ########
