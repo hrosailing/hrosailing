@@ -195,6 +195,7 @@ def _sanity_checks(pts):
 
     return pts
 
+
 ###### The following code has been copied from an extern source ########
 ###### and changed a bit                                        ########
 
