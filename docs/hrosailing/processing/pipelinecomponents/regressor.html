@@ -89,11 +89,15 @@ the optimal parameters to minimize the sum of the squares of
 the residuals, see also <code>least squares &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html&gt;</code>_</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>data</code></strong> :&ensp;<code>array_like</code></dt>
+<dt><strong><code>data</code></strong> :&ensp;<code>array_like</code> of <code>shape (n, 3)</code></dt>
 <dd>Data to which the model function will be fitted, given as
 a sequence of points consisting of wind speed, wind angle
 and boat speed</dd>
-</dl></div>
+</dl>
+<p>Raises a RegressorException
+- if data is an empty array
+- if data contains non-finite entries
+- if an error in the function scipy.optimize.curve_fit occurs</p></div>
 </dd>
 <dt id="hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor.set_weights"><code class="name flex">
 <span>def <span class="ident">set_weights</span></span>(<span>self, X_weights, y_weights)</span>
@@ -163,12 +167,23 @@ the optimal parameters to minimize an objective
 function based on the data, see also <code>ODRPACK &lt;https://docs.scipy.org/doc/external/odrpack_guide.pdf&gt;</code>_</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>data</code></strong> :&ensp;<code>array_like</code></dt>
+<dt><strong><code>data</code></strong> :&ensp;<code>array_like</code> of <code>shape (n, 3)</code></dt>
 <dd>Data to which the model function will
 be fitted, given as
 a sequence of points consisting of wind speed, wind angle
 and boat speed</dd>
-</dl></div>
+</dl>
+<p>Raises a RegressorException
+- if data is an empty array
+- if data contains non-finite entries
+- if an error in the initialization of
+scipy.odr.odrpack.Data occurs
+- if an error in the initialization of
+scipy.odr.odrpack.ODR occurs
+- if an error in the method set_job of
+scipy.odr.odrpack.ODR occurs
+- if an error in the method run of
+scipy.odr.odrpack.ODR occurs</p></div>
 </dd>
 <dt id="hrosailing.processing.pipelinecomponents.regressor.ODRegressor.set_weights"><code class="name flex">
 <span>def <span class="ident">set_weights</span></span>(<span>self, X_weights, y_weights)</span>
@@ -229,7 +244,8 @@ fit(self, data)</p></div>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p></div>
+<div class="desc"><p>Custom exception for errors that may appear whilst
+working with the Regressor class and subclasses</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>

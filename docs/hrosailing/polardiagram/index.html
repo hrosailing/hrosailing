@@ -158,7 +158,7 @@ can't be written to</p></div>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p></div>
+<div class="desc"></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>
@@ -170,7 +170,7 @@ can't be written to</p></div>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p></div>
+<div class="desc"></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>
@@ -932,7 +932,7 @@ can't be written to</p></div>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p></div>
+<div class="desc"></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>
@@ -1190,6 +1190,10 @@ slices of the polar diagram and creates a polar plot of them</p></div>
 </ul>
 <h3>Instance variables</h3>
 <dl>
+<dt id="hrosailing.polardiagram.PolarDiagramPointcloud.boat_speeds"><code class="name">var <span class="ident">boat_speeds</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.points"><code class="name">var <span class="ident">points</span></code></dt>
 <dd>
 <div class="desc"><p>Returns a read only version of self._pts</p></div>
@@ -1589,7 +1593,7 @@ can't be written to</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramTable"><code class="flex name class">
 <span>class <span class="ident">PolarDiagramTable</span></span>
-<span>(</span><span>ws_res=None, wa_res=None, bsps=None, tw=True)</span>
+<span>(</span><span>ws_res=None, wa_res=None, bsps=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>A class to represent, visualize and work with
@@ -1610,7 +1614,7 @@ numpy.arange(2, 42, 2)</p>
 <dt><strong><code>wa_res</code></strong> :&ensp;<code>array_like</code> or <code>int/float</code>, optional</dt>
 <dd>
 <p>Wind angles that will correspond to the rows
-of the table</p>
+of the table. Should be between 0° and 360°</p>
 <p>Can either be sequence of length rdim or an
 int/float value</p>
 <p>If a number num is passed, numpy.arange(num, 360, num)
@@ -1625,12 +1629,6 @@ the table</p>
 <p>Should be broadcastable to the shape (rdim, cdim)</p>
 <p>If nothing is passed it will default to
 numpy.zeros((rdim, cdim))</p>
-</dd>
-<dt><strong><code>tw</code></strong> :&ensp;<code>bool</code>, optional</dt>
-<dd>
-<p>Specifies if the given wind data should be viewed as true wind</p>
-<p>If False, wind data will be converted to true wind</p>
-<p>Defaults to True</p>
 </dd>
 </dl>
 <p>Raises a PolarDiagramException
@@ -2199,6 +2197,7 @@ can't be written to</p></div>
 <h4><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud" href="#hrosailing.polardiagram.PolarDiagramPointcloud">PolarDiagramPointcloud</a></code></h4>
 <ul class="two-column">
 <li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.add_points" href="#hrosailing.polardiagram.PolarDiagramPointcloud.add_points">add_points</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.boat_speeds" href="#hrosailing.polardiagram.PolarDiagramPointcloud.boat_speeds">boat_speeds</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.get_slices" href="#hrosailing.polardiagram.PolarDiagramPointcloud.get_slices">get_slices</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.plot_3d" href="#hrosailing.polardiagram.PolarDiagramPointcloud.plot_3d">plot_3d</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.plot_color_gradient" href="#hrosailing.polardiagram.PolarDiagramPointcloud.plot_color_gradient">plot_color_gradient</a></code></li>

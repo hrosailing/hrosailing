@@ -45,7 +45,7 @@ the QuantileFilter and the BoundFilter</p>
 </code></dt>
 <dd>
 <div class="desc"><p>A filter that filters all points based on if their
-weight is outside a lower and upper bound</p>
+weight is outside an interval given by a lower and upper bound</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>upper_bound</code></strong> :&ensp;<code>int</code> or <code>float</code>, optional</dt>
@@ -59,6 +59,7 @@ weight is outside a lower and upper bound</p>
 <p>Defaults to 0.5</p>
 </dd>
 </dl>
+<p>Raises a FilterException if lower_bound is greater than upper_bound</p>
 <h2 id="methods">Methods</h2>
 <p>filter(self, wts)
 Filters a set of points given by their resp. weights</p></div>
@@ -73,10 +74,11 @@ Filters a set of points given by their resp. weights</p></div>
 <span>def <span class="ident">filter</span></span>(<span>self, wts)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Filters a set of points given by their resp. weights</p>
+<div class="desc"><p>Filters a set of points given by their resp. weights
+according to the above described method</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>wts</code></strong> :&ensp;<code>array_like</code> of <code>shape (n, )</code></dt>
+<dt><strong><code>wts</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (n, )</code></dt>
 <dd>Weights of the points that are to be filtered, given
 as a sequence of scalars</dd>
 </dl>
@@ -120,7 +122,8 @@ depending on their resp. weight</dd>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p></div>
+<div class="desc"><p>Custom exception for errors that may appear whilst
+working with the Filter class and subclasses</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>
@@ -139,10 +142,10 @@ resp. weight lies above a certain quantile</p>
 <dt><strong><code>percent</code></strong> :&ensp;<code>int</code> or <code>float</code>, optional</dt>
 <dd>
 <p>The quantile to be calculated</p>
-<p>Should be larger than 0 and smaller than 100</p>
 <p>Defaults to 25</p>
 </dd>
 </dl>
+<p>Raises a FilterException, if percent is not in the interval [0, 100]</p>
 <h2 id="methods">Methods</h2>
 <p>filter(self, wts)
 Filters a set of points given by their resp. weights</p></div>
@@ -157,10 +160,11 @@ Filters a set of points given by their resp. weights</p></div>
 <span>def <span class="ident">filter</span></span>(<span>self, wts)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Filters a set of points given by their resp. weights</p>
+<div class="desc"><p>Filters a set of points given by their resp. weights
+according to the above described method</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>wts</code></strong> :&ensp;<code>array_like</code> of <code>shape (n, )</code></dt>
+<dt><strong><code>wts</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (n, )</code></dt>
 <dd>Weights of the points that are to be filtered, given
 as a sequence of scalars</dd>
 </dl>

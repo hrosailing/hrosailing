@@ -32,13 +32,13 @@
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="hrosailing.wind.apparent_wind_to_true"><code class="name flex">
-<span>def <span class="ident">apparent_wind_to_true</span></span>(<span>wind_arr)</span>
+<span>def <span class="ident">apparent_wind_to_true</span></span>(<span>wind)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Converts apparent wind to true wind</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>wind_arr</code></strong> :&ensp;<code>array_like</code></dt>
+<dt><strong><code>wind</code></strong> :&ensp;<code>array_like</code></dt>
 <dd>Wind data given as a sequence of points consisting of wind speed,
 wind angle and boat speed, where the wind speed and wind angle are
 measured as apparent wind</dd>
@@ -59,13 +59,13 @@ not finite</li>
 </dl></div>
 </dd>
 <dt id="hrosailing.wind.true_wind_to_apparent"><code class="name flex">
-<span>def <span class="ident">true_wind_to_apparent</span></span>(<span>wind_arr)</span>
+<span>def <span class="ident">true_wind_to_apparent</span></span>(<span>wind)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Converts true wind to apparent wind</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>wind_arr</code></strong> :&ensp;<code>array_like</code></dt>
+<dt><strong><code>wind</code></strong> :&ensp;<code>array_like</code></dt>
 <dd>Wind data given as a sequence of points consisting of wind speed,
 wind angle and boat speed, where the wind speed and wind angle are
 measured as true wind</dd>
@@ -95,7 +95,7 @@ not finite</li>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p></div>
+<div class="desc"></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>

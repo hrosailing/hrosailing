@@ -64,9 +64,8 @@ respective weights</p>
 <dd>
 <div class="desc"><p>A weigher that weighs given points according to the
 following procedure:</p>
-<p>For a given point p and points pts
-we look at all the points pt in pts such that
-||pt[:d-1] - p[:d-1]|| &lt;= r</p>
+<p>For a given point p and points pts we look at all the points
+pt in pts such that ||pt[:d-1] - p[:d-1]|| &lt;= r</p>
 <p>Then we take the mean m_p and standard deviation std_p
 of the dth component of all those points and set
 w_p = | m_p - p[d-1] | / std_p</p>
@@ -100,7 +99,7 @@ Weigh given points according to the method described above</p></div>
 <div class="desc"><p>Weigh given points according to the method described above</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>pts</code></strong> :&ensp;<code>array_like</code> of <code>shape (n, d)</code></dt>
+<dt><strong><code>pts</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (n, 3)</code></dt>
 <dd>Points to be weight</dd>
 </dl>
 <h2 id="returns">Returns</h2>
@@ -158,7 +157,7 @@ Weigh given points according to the method described above</p></div>
 <div class="desc"><p>Weigh given points according to the method described above</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>pts</code></strong> :&ensp;<code>array_like</code> of <code>shape (n, d)</code></dt>
+<dt><strong><code>pts</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (n, 3)</code></dt>
 <dd>Points to be weight</dd>
 </dl>
 <h2 id="returns">Returns</h2>
@@ -200,7 +199,8 @@ Weigh given points according to the method described above</p></div>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p></div>
+<div class="desc"><p>Custom exception for errors that may appear whilst
+working with the Weigher class and subclasses</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>
@@ -212,51 +212,42 @@ Weigh given points according to the method described above</p></div>
 <span>(</span><span>pts, wts=None, weigher=None, tw=True)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>A class to weigh data points
-and represent them together with
-their respective weights</p>
+<div class="desc"><p>A class to weigh data points and represent them together
+with their respective weights</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>pts</code></strong> :&ensp;<code>array_like</code> of <code>shape (n, d)</code></dt>
-<dd>Points that will
-be weight or paired
-with given weights</dd>
+<dd>Points that will be weight or paired with given weights</dd>
 <dt><strong><code>wts</code></strong> :&ensp;<code>int, float</code> or <code>array_like</code> of <code>shape (n, )</code>, optional</dt>
 <dd>
-<p>If the weights of the
-points are known beforehand,
-they can be given as an
-argument. If weights are
-passed, they will be
-assigned to the points
-and no further weighing
-will take place</p>
-<p>If a scalar is passed,
-the points will all be
-assigned the same weight</p>
+<p>If the weights of the points are known beforehand,
+they can be given as an argument. If weights are
+passed, they will be assigned to the points
+and no further weighing will take place</p>
+<p>If a scalar is passed, the points will all be assigned
+the same weight</p>
 <p>Defaults to None</p>
 </dd>
 <dt><strong><code>weigher</code></strong> :&ensp;<code><a title="hrosailing.processing.pipelinecomponents.weigher.Weigher" href="#hrosailing.processing.pipelinecomponents.weigher.Weigher">Weigher</a></code>, optional</dt>
 <dd>
-<p>Instance of a Weigher class,
-which will weigh the points</p>
-<p>Will only be used if
-weights is None</p>
-<p>If nothing is passed, it
-will default to
-CylindricMeanWeigher()</p>
+<p>Instance of a Weigher class, which will weigh the points</p>
+<p>Will only be used if weights is None</p>
+<p>If nothing is passed, it will default to CylindricMeanWeigher()</p>
 </dd>
 <dt><strong><code>tw</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
-<p>Specifies if the
-given wind data should
-be viewed as true wind</p>
-<p>If False, wind data
-will be converted
-to true wind</p>
+<p>Specifies if the given wind data should be viewed as true wind</p>
+<p>If False, wind data will be converted to true wind</p>
 <p>Defaults to True</p>
 </dd>
 </dl>
+<p>Raises a WeightedPointsException
+- if pts is an empty array
+- if pts can't be broadcasted to an array of
+fitting shape
+- if weigher is not an instance of the Weigher class
+- if wts can't be broadcasted to an array of
+fitting shape</p>
 <h2 id="methods">Methods</h2>
 <p>points
 weights</p></div>
@@ -277,7 +268,8 @@ weights</p></div>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p></div>
+<div class="desc"><p>Custom exception for errors that may appear whilst
+working with the WeightedPoints class</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>

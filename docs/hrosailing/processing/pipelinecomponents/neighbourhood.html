@@ -55,21 +55,16 @@ taht can be used to create custom neighbourhoods for use.</p>
 <dl>
 <dt id="hrosailing.processing.pipelinecomponents.neighbourhood.Ball"><code class="flex name class">
 <span>class <span class="ident">Ball</span></span>
-<span>(</span><span>d=2, norm=None, radius=1)</span>
+<span>(</span><span>norm=None, radius=1)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>A class to describe a closed d-dimensional ball
-centered around the origin, ie { x in R^d : || x || &lt;= r }</p>
+<div class="desc"><p>A class to describe a closed 2-dimensional ball
+centered around the origin, ie { x in R^2 : ||x|| &lt;= r }</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>d</code></strong> :&ensp;<code>positive int</code>, optional</dt>
-<dd>
-<p>The dimension of the ball</p>
-<p>Defaults to 2</p>
-</dd>
 <dt><strong><code>norm</code></strong> :&ensp;<code>function</code> or <code>callable</code>, optional</dt>
 <dd>
-<p>The norm for which the ball is described, ie ||x||</p>
+<p>The norm for which the ball is described, ie ||.||</p>
 <p>If nothing is passed, it will default to a scaled version
 of ||.||_2</p>
 </dd>
@@ -79,6 +74,8 @@ of ||.||_2</p>
 <p>Defaults to 1</p>
 </dd>
 </dl>
+<p>Raises a NeighbourhoodException if inputs are not of the
+specified or functionally equivalent types</p>
 <h2 id="methods">Methods</h2>
 <p>is_contained_in(self, pts)
 Checks given points for membership.</p></div>
@@ -96,7 +93,7 @@ Checks given points for membership.</p></div>
 <div class="desc"><p>Checks given points for membership.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>pts</code></strong> :&ensp;<code>array_like</code> of <code>shape (n, d)</code></dt>
+<dt><strong><code>pts</code></strong> :&ensp;<code>array_like</code> of <code>shape (n, 2)</code></dt>
 <dd>Points that will be checked for membership</dd>
 </dl>
 <h2 id="returns">Returns</h2>
@@ -104,34 +101,38 @@ Checks given points for membership.</p></div>
 <dt><strong><code>mask</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (n, )</code></dt>
 <dd>Boolean array describing which of the input points
 is a member of the neighbourhood</dd>
+<dt><code>Raises a <a title="hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException" href="#hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException">NeighbourhoodException</a></code></dt>
+<dd>
+<ul>
+<li>if the input is not of the specified or functionally equivalent type</li>
+<li>if pts contains non-finite entries</li>
+</ul>
+</dd>
 </dl></div>
 </dd>
 </dl>
 </dd>
 <dt id="hrosailing.processing.pipelinecomponents.neighbourhood.Cuboid"><code class="flex name class">
 <span>class <span class="ident">Cuboid</span></span>
-<span>(</span><span>d=2, norm=None, dimensions=None)</span>
+<span>(</span><span>norm=None, dimensions=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p : R_d="R^d" _="&lt;" _x_i_="|x_i|" in x>A class to represent a d-dimensional closed cuboid, ie</p>
+<div class="desc"><p : R_2="R^2" _="&lt;" _x_i_="|x_i|" in x>A class to represent a d-dimensional closed cuboid, ie</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>d</code></strong> :&ensp;<code>positive int</code>, optional</dt>
-<dd>
-<p>The dimension of the cuboid</p>
-<p>Defaults to 2</p>
-</dd>
 <dt><strong><code>norm</code></strong> :&ensp;<code>function</code> or <code>callable</code>, optional</dt>
 <dd>
 <p>The 1-d norm used to measure the length of the x_i, ie |.|</p>
 <p>If nothing is passed, it will default to the absolute value |.|</p>
 </dd>
-<dt><strong><code>dimensions</code></strong> :&ensp;<code>tuple</code> of <code>length d</code>, optional</dt>
+<dt><strong><code>dimensions</code></strong> :&ensp;<code>tuple</code> of <code>length 2</code>, optional</dt>
 <dd>
 <p>The 'length' of the 'sides' of the cuboid, ie the b_i</p>
-<p>If nothing is passed, it will default to (1,&hellip;,1)</p>
+<p>If nothing is passed, it will default to (1,1)</p>
 </dd>
 </dl>
+<p>Raises a NeighbourhoodException if inputs are not of the
+specified or functionally equivalent types</p>
 <h2 id="methods">Methods</h2>
 <p>is_contained_in(self, pts)
 Checks given points for membership.</p></div>
@@ -149,45 +150,47 @@ Checks given points for membership.</p></div>
 <div class="desc"><p>Checks given points for membership.</p>
 <p>Parameters</p>
 <hr>
-<p>pts : array_like of shape (n, d)
+<p>pts : array_like of shape (n, 2)
 Points that will be checked for membership</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>mask</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (n, )</code></dt>
 <dd>Boolean array describing which of the input points
 is a member of the neighbourhood</dd>
+<dt><code>Raises a <a title="hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException" href="#hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException">NeighbourhoodException</a></code></dt>
+<dd>
+<ul>
+<li>if the input is not of the specified or
+functionally equivalent type</li>
+<li>if pts contains non-finite entries</li>
+</ul>
+</dd>
 </dl></div>
 </dd>
 </dl>
 </dd>
 <dt id="hrosailing.processing.pipelinecomponents.neighbourhood.Ellipsoid"><code class="flex name class">
 <span>class <span class="ident">Ellipsoid</span></span>
-<span>(</span><span>d=2, lin_trans=None, norm=None, radius=1)</span>
+<span>(</span><span>lin_trans=None, norm=None, radius=1)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>A class to represent a closed d-dimensional ellipsoid
 centered around the origin, ie T(B), where T is an invertible
 linear transformation, and B is a closed d-dimensional ball,
 centered around the origin.</p>
-<p : R_d="R^d" _="&lt;" _T_-1="||T^-1" in x x_="x||">It will be represented using the equivalent formulation:</p>
+<p : R_2="R^2" _="&lt;" _T_-1="||T^-1" in x x_="x||">It will be represented using the equivalent formulation:</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>d</code></strong> :&ensp;<code>positive int</code>, optional</dt>
+<dt><strong><code>lin_trans</code></strong> :&ensp;<code>numpy.ndarray with shape (2,2)</code>, optional</dt>
 <dd>
-<p>The dimension of the ellipsoid</p>
-<p>Defaults to 2</p>
-</dd>
-<dt><strong><code>lin_trans</code></strong> :&ensp;<code>numpy.ndarray with shape (d,d)</code>, optional</dt>
-<dd>
-<p>The invertible linear transformation which transforms the
+<p>The linear transformation which transforms the
 ball into the given ellipsoid, ie T</p>
-<p>lin_trans needs to have a non-zero determinant.</p>
-<p>If nothins is passed, it will default to I_d, the dxd unit matrix,
-ie the ellipsoid will be a ball</p>
+<p>If nothing is passed, it will default to I_2, the 2x2
+unit matrix, ie the ellipsoid will be a ball</p>
 </dd>
 <dt><strong><code>norm</code></strong> :&ensp;<code>function</code> or <code>callable</code>, optional</dt>
 <dd>
-<p>The norm for which the ellipsoid is described, ie ||x||</p>
+<p>The norm for which the ellipsoid is described, ie ||.||</p>
 <p>If nothing is passed, it will default to a scaled
 version of ||.||_2</p>
 </dd>
@@ -197,6 +200,10 @@ version of ||.||_2</p>
 <p>Defaults to 1</p>
 </dd>
 </dl>
+<p>Raises a NeighbourhoodException
+- if the inputs are not of the specified or
+functionally equivalent types
+- if lin_trans is not invertible</p>
 <h2 id="methods">Methods</h2>
 <p>is_contained_in(self, pts)
 Checks given points for membership.</p></div>
@@ -214,13 +221,21 @@ Checks given points for membership.</p></div>
 <div class="desc"><p>Checks given points for membership.</p>
 <p>Parameters</p>
 <hr>
-<p>pts : array_like of shape (n, d)
+<p>pts : array_like of shape (n, 2)
 Points that will be checked for membership</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>mask</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (n, )</code></dt>
 <dd>Boolean array describing which of the input points
 is a member of the neighbourhood</dd>
+<dt><code>Raises a <a title="hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException" href="#hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException">NeighbourhoodException</a></code></dt>
+<dd>
+<ul>
+<li>if the input is not of the specified or
+functionally equivalent type</li>
+<li>if pts contains non-finite entries</li>
+</ul>
+</dd>
 </dl></div>
 </dd>
 </dl>
@@ -259,7 +274,8 @@ is a member of the neighbourhood</dd>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p></div>
+<div class="desc"><p>Custom exception for errors that may appear whilst
+working with the Neighbourhood class and subclasses</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>
@@ -268,25 +284,20 @@ is a member of the neighbourhood</dd>
 </dd>
 <dt id="hrosailing.processing.pipelinecomponents.neighbourhood.Polytope"><code class="flex name class">
 <span>class <span class="ident">Polytope</span></span>
-<span>(</span><span>d=2, mat=None, b=None)</span>
+<span>(</span><span>mat=None, b=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>A class to represent a general d-dimensional polytope, ie the
+<div class="desc"><p>A class to represent a general 2-dimensional polytope, ie the
 convex hull P = conv(x_1, &hellip;, x_n) of some n points x_1 ,&hellip;, x_n
 or equivalent as the (bounded) intersection of m half spaces
-P = { x in R^d : Ax &lt;= b }</p>
+P = { x in R^2 : Ax &lt;= b }</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>d</code></strong> :&ensp;<code>positive int</code>, optional</dt>
-<dd>
-<p>The dimension of the polytope</p>
-<p>Defaults to 2</p>
-</dd>
-<dt><strong><code>mat</code></strong> :&ensp;<code>array_like</code> of <code>shape (m, d)</code>, optional</dt>
+<dt><strong><code>mat</code></strong> :&ensp;<code>array_like</code> of <code>shape (m, 2)</code>, optional</dt>
 <dd>
 <p>matrix to represent the normal vectors a_i of the half
 spaces, ie A = (a_1, &hellip; , a_m)^t</p>
-<p>If nothing is passed, it will default to (I_d, -I_d)^t,
+<p>If nothing is passed, it will default to (I_2, -I_2)^t,
 where I_d is the d-dimensional unit matrix</p>
 </dd>
 <dt><strong><code>b</code></strong> :&ensp;<code>array_like</code> of <code>shape (m, )</code>, optional</dt>
@@ -296,6 +307,8 @@ b = (b_1, &hellip; , b_m)^t</p>
 <p>If nothing is passed, it will default to (1,&hellip;,1)</p>
 </dd>
 </dl>
+<p>Raises a NeighbourhoodException if inputs are not of the
+specified or functionally equivalent types</p>
 <h2 id="warning">Warning</h2>
 <p>Does not check wether the polytope given by mat and b is a polytope,
 ie if P is actually bounded</p>
@@ -316,13 +329,21 @@ Checks given points for membership.</p></div>
 <div class="desc"><p>Checks given points for membership.</p>
 <p>Parameters</p>
 <hr>
-<p>pts : array_like of shape (n, d)
+<p>pts : array_like of shape (n, 2)
 Points that will be checked for membership</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>mask</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (n, )</code></dt>
 <dd>Boolean array describing which of the input points
 is a member of the neighbourhood</dd>
+<dt><code>Raises a <a title="hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException" href="#hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException">NeighbourhoodException</a></code></dt>
+<dd>
+<ul>
+<li>if the input is not of the specified or
+functionally equivalent type</li>
+<li>if pts contains non-finite entries</li>
+</ul>
+</dd>
 </dl></div>
 </dd>
 </dl>
@@ -332,9 +353,40 @@ is a member of the neighbourhood</dd>
 <span>(</span><span>min_pts, max_pts, norm=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Base class for all neighbourhood classes</p>
-<h2 id="abstract-methods">Abstract Methods</h2>
-<p>is_contained_in(self, pts)</p></div>
+<div class="desc"><p>A class to represent a closed 2-dimensional ball
+centered around the origin, ie { x in R^2 : ||x|| &lt;= r },
+where the radius r will be dynamically determined, such that
+there are always a certain amount of given points contained
+in the ball</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>min_pts</code></strong> :&ensp;<code>positive int</code></dt>
+<dd>The minimal amount of certain given points that should be
+contained in the scaling ball</dd>
+<dt><strong><code>max_pts</code></strong> :&ensp;<code>positive int</code></dt>
+<dd>
+<p>The "maximal" amount of certain given points that should be
+contained in the scaling ball.</p>
+<p>Mostly used for initial guess of a "good" radius. Also to
+guarantee that on average, the scaling ball will contain
+(min_pts + max_pts) / 2 points of certain given points</p>
+<p>It is also unlikely that the scaling ball will contain
+more than max_pts points</p>
+</dd>
+<dt><strong><code>norm</code></strong> :&ensp;<code>function</code> or <code>callable</code>, optional</dt>
+<dd>
+<p>The norm for which the scaling ball is described, ie ||.||</p>
+<p>If nothing is passed, it will default to a scaled version
+of ||.||_2</p>
+</dd>
+</dl>
+<p>Raises a NeighbourhoodException
+- if inputs are not of the specified or
+functionally equivalent types
+- if max_pts is smaller or equal to min_pts</p>
+<h2 id="methods">Methods</h2>
+<p>is_contained_in(self, pts)
+Checks given points for membership.</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a></li>
@@ -343,10 +395,30 @@ is a member of the neighbourhood</dd>
 <h3>Methods</h3>
 <dl>
 <dt id="hrosailing.processing.pipelinecomponents.neighbourhood.ScalingBall.is_contained_in"><code class="name flex">
-<span>def <span class="ident">is_contained_in</span></span>(<span>self, pts, r=None)</span>
+<span>def <span class="ident">is_contained_in</span></span>(<span>self, pts)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Checks given points for membership, and scales
+ball so that at least min_pts points are contained in it</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>pts</code></strong> :&ensp;<code>array_like</code> of <code>shape (n, 2)</code></dt>
+<dd>Points that will be checked for membership</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>mask</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (n, )</code></dt>
+<dd>Boolean array describing which of the input points
+is a member of the neighbourhood</dd>
+<dt><code>Raises a <a title="hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException" href="#hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException">NeighbourhoodException</a></code></dt>
+<dd>
+<ul>
+<li>if the input is not of the specified or
+functionally equivalent type</li>
+<li>if pts contains non-finite entries</li>
+</ul>
+</dd>
+</dl></div>
 </dd>
 </dl>
 </dd>

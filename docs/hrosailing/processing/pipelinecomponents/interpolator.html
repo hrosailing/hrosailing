@@ -102,8 +102,12 @@ calculated weights based on the formula
 </dl>
 <p>params:
 Parameters to be passed to distribution</p>
+<p>Raises an InterpolatorException if the inputs are not of the
+specified or functionally equivalent type</p>
 <h2 id="methods">Methods</h2>
-<p>interpolate(self, w_pts, grid_pt)</p></div>
+<p>interpolate(self, w_pts, grid_pt)
+Interpolates a given grid_pt according to the
+above described method</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.interpolator.Interpolator" href="#hrosailing.processing.pipelinecomponents.interpolator.Interpolator">Interpolator</a></li>
@@ -115,7 +119,27 @@ Parameters to be passed to distribution</p>
 <span>def <span class="ident">interpolate</span></span>(<span>self, w_pts, grid_pt)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Interpolates a given grid_pt according to the
+above described method</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>w_pts</code></strong> :&ensp;<code>WeightedPoints</code></dt>
+<dd>Considered measured points</dd>
+<dt><strong><code>grid_pt</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (2,)</code></dt>
+<dd>Point that is to be interpolated</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>out</code></strong> :&ensp;<code>int / float</code></dt>
+<dd>Interpolated values at grid_pt</dd>
+<dt><code>Raises an <a title="hrosailing.processing.pipelinecomponents.interpolator.InterpolatorException" href="#hrosailing.processing.pipelinecomponents.interpolator.InterpolatorException">InterpolatorException</a></code></dt>
+<dd>
+<ul>
+<li>if</li>
+<li>if</li>
+</ul>
+</dd>
+</dl></div>
 </dd>
 </dl>
 </dd>
@@ -124,7 +148,32 @@ Parameters to be passed to distribution</p>
 <span>(</span><span>p=2, norm=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Basic inverse distance interpolator, based on the work
+of Shepard, "A two-dimensional interpolation function
+for irregulary-spaced data"</p>
+<p>For a given point grid_pt, that is to be interpolated, we
+calculate the distances d_pt = ||grid-pt - pt[:2]|| for all considered
+measured points. Then we set the weights of a point pt to be
+w_pt = 1 / d_pt^p, for some nonnegative integer p</p>
+<p>The interpolated value on grid_pt then equals (Σ w_pt pt[2]) / Σ w_pt
+or if grid_pt is already a measured point pt<em>, it will equal pt</em>[2]</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>p</code></strong> :&ensp;<code>nonnegative int</code>, optional</dt>
+<dd>Defaults to 2</dd>
+<dt><strong><code>norm</code></strong> :&ensp;<code>function</code> or <code>callable</code>, optional</dt>
+<dd>
+<p>Norm with which to calculate the distances, ie ||.||</p>
+<p>If nothing is passed, it will default to a scaled
+version of ||.||_2</p>
+</dd>
+</dl>
+<p>Raises an InterpolatorException if the inputs are not of the
+specified or functionally equivalent type</p>
+<h2 id="methods">Methods</h2>
+<p>interpolate(w_pts, grid_pt)
+Interpolates a given grid_pt according to the
+above described method</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.interpolator.Interpolator" href="#hrosailing.processing.pipelinecomponents.interpolator.Interpolator">Interpolator</a></li>
@@ -136,7 +185,27 @@ Parameters to be passed to distribution</p>
 <span>def <span class="ident">interpolate</span></span>(<span>self, w_pts, grid_pt)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Interpolates a given grid_pt according to the
+above described method</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>w_pts</code></strong> :&ensp;<code>WeightedPoints</code></dt>
+<dd>Considered measured points</dd>
+<dt><strong><code>grid_pt</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (2,)</code></dt>
+<dd>Point that is to be interpolated</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>out</code></strong> :&ensp;<code>int / float</code></dt>
+<dd>Interpolated values at grid_pt</dd>
+<dt><code>Raises an <a title="hrosailing.processing.pipelinecomponents.interpolator.InterpolatorException" href="#hrosailing.processing.pipelinecomponents.interpolator.InterpolatorException">InterpolatorException</a></code></dt>
+<dd>
+<ul>
+<li>if</li>
+<li>if</li>
+</ul>
+</dd>
+</dl></div>
 </dd>
 </dl>
 </dd>
@@ -145,7 +214,34 @@ Parameters to be passed to distribution</p>
 <span>(</span><span>norm=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>An improved inverse distance interpolator, based
+on the work of Shepard, "A two-dimensional interpolation
+function for irregulary-spaced data"</p>
+<p>Should (only) be used together with the ScalingBall neighbourhood</p>
+<p>Instead of setting the weights as the normal inverse distance
+to some power, we set the weights in the following way:</p>
+<p>Let r be the radius of the ScalingBall with the center being some
+point grid_pt which is to be interpolated.
+For all considered measured points let d_pt be the same as
+in IDWInterpolator. If d_pt &lt;= r/3 we set w_pt = 1 / d_pt.
+Otherwise we set w_pt = 27 / (4 * r) * (d / r - 1)^2</p>
+<p>The resulting value on grid_pt will then be calculated the same
+way as in IDWInterpolator</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>norm</code></strong> :&ensp;<code>function</code> or <code>callable</code>, optional</dt>
+<dd>
+<p>Norm with which to calculate the distances, ie ||.||</p>
+<p>If nothing is passed, it will default to a scaled
+version of ||.||_2</p>
+</dd>
+</dl>
+<p>Raises an InterpolatorException if the input is not of the
+specified or functionally equivalent type</p>
+<h2 id="methods">Methods</h2>
+<p>interpolate(self, w_pts, grid_pt)
+Interpolates a given grid_pt according to the
+above described method</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.interpolator.Interpolator" href="#hrosailing.processing.pipelinecomponents.interpolator.Interpolator">Interpolator</a></li>
@@ -157,7 +253,27 @@ Parameters to be passed to distribution</p>
 <span>def <span class="ident">interpolate</span></span>(<span>self, w_pts, grid_pt)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Interpolates a given grid_pt according to the
+above described method</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>w_pts</code></strong> :&ensp;<code>WeightedPoints</code></dt>
+<dd>Considered measured points</dd>
+<dt><strong><code>grid_pt</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (2,)</code></dt>
+<dd>Point that is to be interpolated</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>out</code></strong> :&ensp;<code>int / float</code></dt>
+<dd>Interpolated values at grid_pt</dd>
+<dt><code>Raises an <a title="hrosailing.processing.pipelinecomponents.interpolator.InterpolatorException" href="#hrosailing.processing.pipelinecomponents.interpolator.InterpolatorException">InterpolatorException</a></code></dt>
+<dd>
+<ul>
+<li>if</li>
+<li>if</li>
+</ul>
+</dd>
+</dl></div>
 </dd>
 </dl>
 </dd>
@@ -194,7 +310,8 @@ Parameters to be passed to distribution</p>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Common base class for all non-exit exceptions.</p></div>
+<div class="desc"><p>Custom exception for errors that may appear whilst
+working with the Interpolator class and subclasses</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>
@@ -206,7 +323,30 @@ Parameters to be passed to distribution</p>
 <span>(</span><span>tol=2.220446049250313e-16, slope=0.1, norm=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>A full featured inverse distance interpolator, based
+on the work of Shepard, "A two-dimensional interpolation
+function for irregulary-spaced data"</p>
+<p>Should (only) be used together with the ScalingBall neighbourhood</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>tol</code></strong> :&ensp;<code>positive float</code> , optional</dt>
+<dd>Defautls to numpy.finfo(float).eps</dd>
+<dt><strong><code>slope</code></strong> :&ensp;<code>positive float</code>, optional</dt>
+<dd>Defaults to 0.1</dd>
+<dt><strong><code>norm</code></strong> :&ensp;<code>function</code> or <code>callable</code>, optional</dt>
+<dd>
+<p>Norm with which to calculate the distances, ie ||.||</p>
+<p>If nothing is passed, it will default to a scaled
+version of ||.||_2</p>
+</dd>
+</dl>
+<p>Raises an InterpolatorException
+- if
+- if</p>
+<h2 id="methods">Methods</h2>
+<p>interpolate(self, w_pts, grid_pt)
+Interpolates a given grid_pt according to the
+above described method</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.interpolator.Interpolator" href="#hrosailing.processing.pipelinecomponents.interpolator.Interpolator">Interpolator</a></li>
@@ -218,7 +358,27 @@ Parameters to be passed to distribution</p>
 <span>def <span class="ident">interpolate</span></span>(<span>self, w_pts, grid_pt)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Interpolates a given grid_pt according to the
+above described method</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>w_pts</code></strong> :&ensp;<code>WeightedPoints</code></dt>
+<dd>Considered measured points</dd>
+<dt><strong><code>grid_pt</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (2,)</code></dt>
+<dd>Point that is to be interpolated</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>out</code></strong> :&ensp;<code>int / float</code></dt>
+<dd>Interpolated values at grid_pt</dd>
+<dt><code>Raises an <a title="hrosailing.processing.pipelinecomponents.interpolator.InterpolatorException" href="#hrosailing.processing.pipelinecomponents.interpolator.InterpolatorException">InterpolatorException</a></code></dt>
+<dd>
+<ul>
+<li>if</li>
+<li>if</li>
+</ul>
+</dd>
+</dl></div>
 </dd>
 </dl>
 </dd>
