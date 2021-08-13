@@ -37,16 +37,19 @@ logger.setLevel(logging.INFO)
 
 class PolarDiagramException(Exception):
     """"""
+
     pass
 
 
 class FileReadingException(Exception):
     """"""
+
     pass
 
 
 class FileWritingException(Exception):
     """"""
+
     pass
 
 
@@ -124,10 +127,10 @@ def from_csv(csv_path, fmt="hro", tw=True):
                 pts = _read_pointcloud(csv_reader)
                 return PolarDiagramPointcloud(pts=pts, tw=tw)
 
-            ws_res, wa_res, bsps = _read_extern_format(csv_path, fmt)
+            ws_res, wa_res, bsps = _read_extern_format(file, fmt)
             return PolarDiagramTable(ws_res=ws_res, wa_res=wa_res, bsps=bsps)
-    except OSError:
-        raise FileReadingException(f"can't find/open/read {csv_path}")
+    except OSError as oe:
+        raise FileReadingException(f"can't find/open/read {csv_path}") from oe
 
 
 def _read_table(csv_reader):
@@ -146,42 +149,41 @@ def _read_pointcloud(csv_reader):
     return np.array([[eval(pt) for pt in row] for row in csv_reader])
 
 
-def _read_extern_format(csv_path, fmt):
+def _read_extern_format(file, fmt):
     if fmt == "array":
-        return _read_array_csv(csv_path)
+        return _read_array_csv(file)
 
     delimiter = ","
     if fmt == "orc":
         delimiter = ";"
 
-    return _read_sail_csv(csv_path, delimiter)
+    return _read_sail_csv(file, delimiter)
 
 
-def _read_sail_csv(csv_path, delimiter):
-    with open(csv_path, "r", newline="") as file:
-        csv_reader = csv.reader(file, delimiter=delimiter)
-        ws_res = [eval(ws) for ws in next(csv_reader)[1:]]
-        if delimiter == ";":
-            next(csv_reader)
-        wa_res, bsps = list(
-            zip(
-                *(
-                    [
-                        (
-                            # replace °-symbol in case of opencpn format
-                            eval(row[0].replace("°", "")),
-                            [eval(bsp) if bsp != "" else 0 for bsp in row[1:]],
-                        )
-                        for row in csv_reader
-                    ]
-                )
+def _read_sail_csv(file, delimiter):
+    csv_reader = csv.reader(file, delimiter=delimiter)
+    ws_res = [eval(ws) for ws in next(csv_reader)[1:]]
+    if delimiter == ";":
+        next(csv_reader)
+    wa_res, bsps = list(
+        zip(
+            *(
+                [
+                    (
+                        # replace °-symbol in case of opencpn format
+                        eval(row[0].replace("°", "")),
+                        [eval(bsp) if bsp != "" else 0 for bsp in row[1:]],
+                    )
+                    for row in csv_reader
+                ]
             )
         )
-        return ws_res, wa_res, bsps
+    )
+    return ws_res, wa_res, bsps
 
 
-def _read_array_csv(csv_path):
-    file_data = np.genfromtxt(csv_path, delimiter="\t")
+def _read_array_csv(file):
+    file_data = np.genfromtxt(file, delimiter="\t")
     return file_data[0, 1:], file_data[1:, 0], file_data[1:, 1:]
 
 
@@ -222,8 +224,8 @@ def depickling(pkl_path):
     try:
         with open(pkl_path, "rb") as file:
             return pickle.load(file)
-    except OSError:
-        raise FileReadingException(f"Can't find/open/read {pkl_path}")
+    except OSError as oe:
+        raise FileReadingException(f"Can't find/open/read {pkl_path}") from oe
 
 
 def symmetric_polar_diagram(obj):
@@ -241,6 +243,8 @@ def symmetric_polar_diagram(obj):
     """
     return obj.symmetrize()
 
+
+# TODO Error handling in plot methods?
 
 class PolarDiagram(ABC):
     """Base class for all polardiagram classes
@@ -315,8 +319,8 @@ class PolarDiagram(ABC):
         try:
             with open(pkl_path, "wb") as file:
                 pickle.dump(self, file)
-        except OSError:
-            raise FileWritingException(f"Can't write to {pkl_path}")
+        except OSError as oe:
+            raise FileWritingException(f"Can't write to {pkl_path}") from oe
 
     @abstractmethod
     def to_csv(self, csv_path):
@@ -726,11 +730,11 @@ class PolarDiagramTable(PolarDiagram):
             raise PolarDiagramException(f"{bsps} is not 2-dimensional")
         try:
             bsps = bsps.reshape(rows, cols)
-        except ValueError:
+        except ValueError as ve:
             raise PolarDiagramException(
                 f"bsps couldn't be broadcasted to an array of shape "
                 f"{(rows, cols)}"
-            )
+            ) from ve
 
         # Sort wind angles and the corresponding order of rows in bsps
         wa_res, bsps = zip(*sorted(zip(wa_res, bsps), key=lambda x: x[0]))
@@ -862,8 +866,8 @@ class PolarDiagramTable(PolarDiagram):
                 csv_writer.writerow(self.wind_angles)
                 csv_writer.writerow(["Boat speeds:"])
                 csv_writer.writerows(self.boat_speeds)
-        except OSError:
-            raise FileWritingException(f"Can't write to {csv_path}")
+        except OSError as oe:
+            raise FileWritingException(f"Can't write to {csv_path}") from oe
 
     def symmetrize(self):
         """Constructs a symmetric version of the
@@ -957,11 +961,11 @@ class PolarDiagramTable(PolarDiagram):
                 mask[i, j] = True
         try:
             new_bsps = new_bsps.reshape(len(wa_ind), len(ws_ind))
-        except ValueError:
+        except ValueError as ve:
             raise PolarDiagramException(
                 f"{new_bsps} couldnt be broadcasted to an "
                 f"array of shape {(len(wa_ind), len(ws_ind))}"
-            )
+            ) from ve
 
         self._boat_speeds[mask] = new_bsps.flat
 
@@ -1755,8 +1759,8 @@ class PolarDiagramCurve(PolarDiagram):
                 csv_writer.writerow(["Function"] + [self.curve.__name__])
                 csv_writer.writerow(["Radians"] + [str(self.radians)])
                 csv_writer.writerow(["Parameters"] + list(self.parameters))
-        except OSError:
-            raise FileWritingException(f"Can't write to {csv_path}")
+        except OSError as oe:
+            raise FileWritingException(f"Can't write to {csv_path}") from oe
 
     def symmetrize(self):
         """
@@ -2329,10 +2333,10 @@ class PolarDiagramPointcloud(PolarDiagram):
             return
         try:
             pts = pts.reshape(-1, 3)
-        except ValueError:
+        except ValueError as ve:
             raise PolarDiagramException(
                 "pts could not be broadcasted to an array of shape (n,3)"
-            )
+            ) from ve
         self._pts = _convert_wind(pts, tw)
 
     def __str__(self):
@@ -2398,8 +2402,8 @@ class PolarDiagramPointcloud(PolarDiagram):
                     ["True wind speed ", "True wind angle ", "Boat speed "]
                 )
                 csv_writer.writerows(self.points)
-        except OSError:
-            raise FileWritingException(f"Can't write to {csv_path}")
+        except OSError as oe:
+            raise FileWritingException(f"Can't write to {csv_path}") from oe
 
     def symmetrize(self):
         """Constructs a symmetric version of the
@@ -2460,11 +2464,11 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         try:
             new_pts = new_pts.reshape(-1, 3)
-        except ValueError:
+        except ValueError as ve:
             raise PolarDiagramException(
                 f"new_pts of shape {new_pts.shape} could not be "
                 f"broadcasted to an array of shape (n,3)"
-            )
+            ) from ve
         new_pts = _convert_wind(new_pts, tw)
 
         if not self.points.size:
@@ -2734,8 +2738,10 @@ class PolarDiagramPointcloud(PolarDiagram):
                 self.points[:, 1],
                 self.points[:, 2],
             )
-        except IndexError:
-            raise PolarDiagramException("Point cloud contains no points")
+        except IndexError as ie:
+            raise PolarDiagramException(
+                "Point cloud contains no points"
+            ) from ie
 
         wa = np.deg2rad(wa)
         bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
@@ -2804,8 +2810,10 @@ class PolarDiagramPointcloud(PolarDiagram):
                 self.points[:, 1],
                 self.points[:, 2],
             )
-        except IndexError:
-            raise PolarDiagramException("Point cloud contains no points")
+        except IndexError as ie:
+            raise PolarDiagramException(
+                "Point cloud contains no points"
+            ) from ie
         plot_color_gradient(
             ws, wa, bsp, ax, colors, marker, show_legend, **legend_kw
         )
