@@ -110,10 +110,10 @@ class QuantileFilter(Filter):
         """
         try:
             wts = np.asarray_chkfinite(wts)
-        except ValueError:
+        except ValueError as ve:
             raise FilterException(
                 "wts should only have finite and non-NaN entries"
-            )
+            ) from ve
         if not wts.size:
             raise FilterException("No weights were passed")
 
@@ -187,10 +187,10 @@ class BoundFilter(Filter):
         """
         try:
             wts = np.asarray_chkfinite(wts)
-        except ValueError:
+        except ValueError as ve:
             raise FilterException(
                 "wts should only have finite and non-NaN entries"
-            )
+            ) from ve
         if not wts.size:
             raise FilterException("No weights were passed")
 
