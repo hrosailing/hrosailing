@@ -27,9 +27,6 @@ def euclidean_norm(vec):
     return np.linalg.norm(vec, axis=1)
 
 
-# TODO: Doc-Strings
-
-
 class InterpolatorException(Exception):
     """Custom exception for errors that may appear whilst
     working with the Interpolator class and subclasses
@@ -37,6 +34,8 @@ class InterpolatorException(Exception):
 
     pass
 
+
+# TODO Improve docstrings
 
 class Interpolator(ABC):
     """Base class for all Interpolator classes
@@ -53,18 +52,38 @@ class Interpolator(ABC):
 
 
 class IDWInterpolator(Interpolator):
-    """
+    """Basic inverse distance interpolator, based on the work
+    of Shepard, "A two-dimensional interpolation function
+    for irregulary-spaced data"
+
+    For a given point grid_pt, that is to be interpolated, we
+    calculate the distances d_pt = ||grid-pt - pt[:2]|| for all considered
+    measured points. Then we set the weights of a point pt to be
+    w_pt = 1 / d_pt^p, for some nonnegative integer p
+
+    The interpolated value on grid_pt then equals (Σ w_pt pt[2]) / Σ w_pt
+    or if grid_pt is already a measured point pt*, it will equal pt*[2]
 
     Parameters
     ----------
     p : nonnegative int, optional
         Defaults to 2
+
     norm : function or callable, optional
+        Norm with which to calculate the distances, ie ||.||
+
+        If nothing is passed, it will default to a scaled
+        version of ||.||_2
+
+    Raises an InterpolatorException if the inputs are not of the
+    specified or functionally equivalent type
 
 
     Methods
     -------
     interpolate(w_pts, grid_pt)
+        Interpolates a given grid_pt according to the
+        above described method
     """
 
     def __init__(self, p=2, norm=None):
@@ -84,18 +103,37 @@ class IDWInterpolator(Interpolator):
         return f"IDWInterpolator(p={self._p}, norm={self._norm.__name__})"
 
     def interpolate(self, w_pts, grid_pt):
-        """"""
-        wts = self._norm(w_pts.points[:, :2] - grid_pt)
-        # If interpolated point is a measured point, return
-        # the measured value
+        """Interpolates a given grid_pt according to the
+        above described method
+
+        Parameters
+        ----------
+        w_pts : WeightedPoints
+            Considered measured points
+
+        grid_pt : array_like of shape (2,)
+            Point that is to be interpolated
+
+        Returns
+        -------
+        out : int / float
+            Interpolated values at grid_pt
+
+
+        Raises an InterpolatorException
+            - if
+            - if
+        """
+        pts = w_pts.points
+        wts = self._norm(pts[:, :2] - grid_pt)
         if np.any(wts == 0):
             mask = wts == 0
-            return w_pts.points[mask][0, 2]
+            return pts[mask][0, 2]
 
         wts = 1 / np.power(wts, self._p)
         wts /= np.sum(wts)
 
-        return wts @ w_pts.points[:, 2]
+        return wts @ pts[:, 2]
 
 
 class ArithmeticMeanInterpolator(Interpolator):
@@ -142,25 +180,22 @@ class ArithmeticMeanInterpolator(Interpolator):
     params:
         Parameters to be passed to distribution
 
-    Raises an InterpolatorException
-        - s is not a positive number
-        - if norm is not callable
-        - distribution is not callable
-
+    Raises an InterpolatorException if the inputs are not of the
+    specified or functionally equivalent type
 
 
     Methods
     -------
     interpolate(self, w_pts, grid_pt)
+        Interpolates a given grid_pt according to the
+        above described method
     """
 
     def __init__(self, *params, s=1, norm=None, distribution=None):
         if not isinstance(s, (int, float)) or s <= 0:
             raise InterpolatorException(
-                f"The scaling parameter "
-                f"needs to be a positive "
-                f"number, but {s} was "
-                f"passed"
+                f"The scaling parameter needs to be a positive "
+                f"number, but {s} was passed"
             )
 
         if norm is None:
@@ -190,17 +225,36 @@ class ArithmeticMeanInterpolator(Interpolator):
         )
 
     def interpolate(self, w_pts, grid_pt):
-        """"""
-        dist = self._norm(w_pts.points[:, :2] - grid_pt)
+        """Interpolates a given grid_pt according to the
+        above described method
 
-        # If interpolated point is a measured point, return
-        # the measured value
+        Parameters
+        ----------
+        w_pts : WeightedPoints
+            Considered measured points
+
+        grid_pt : array_like of shape (2,)
+            Point that is to be interpolated
+
+        Returns
+        -------
+        out : int / float
+            Interpolated values at grid_pt
+
+
+        Raises an InterpolatorException
+            - if
+            - if
+        """
+        pts = w_pts.points
+        dist = self._norm(pts[:, :2] - grid_pt)
         if np.any(dist == 0):
             mask = dist == 0
-            return w_pts.points[mask][0, 2]
+            return pts[mask][0, 2]
 
-        wts = self._distr(dist, w_pts.weights, *self._params)
-        return self._s * np.average(w_pts.points, axis=0, weights=wts)
+        wts = w_pts.weights
+        wts = self._distr(dist, wts, *self._params)
+        return self._s * np.average(pts, axis=0, weights=wts)
 
 
 def gauss_potential(distances, weights, *params):
@@ -209,9 +263,43 @@ def gauss_potential(distances, weights, *params):
     return beta * np.exp(-alpha * weights * distances)
 
 
-# Should be used together with ScalingBall
 class ImprovedIDWInterpolator(Interpolator):
-    """"""
+    """An improved inverse distance interpolator, based
+    on the work of Shepard, "A two-dimensional interpolation
+    function for irregulary-spaced data"
+
+    Should (only) be used together with the ScalingBall neighbourhood
+
+    Instead of setting the weights as the normal inverse distance
+    to some power, we set the weights in the following way:
+
+    Let r be the radius of the ScalingBall with the center being some
+    point grid_pt which is to be interpolated.
+    For all considered measured points let d_pt be the same as
+    in IDWInterpolator. If d_pt <= r/3 we set w_pt = 1 / d_pt.
+    Otherwise we set w_pt = 27 / (4 * r) * (d / r - 1)^2
+
+    The resulting value on grid_pt will then be calculated the same
+    way as in IDWInterpolator
+
+    Parameters
+    ----------
+    norm : function or callable, optional
+        Norm with which to calculate the distances, ie ||.||
+
+        If nothing is passed, it will default to a scaled
+        version of ||.||_2
+
+    Raises an InterpolatorException if the input is not of the
+    specified or functionally equivalent type
+
+
+    Methods
+    -------
+    interpolate(self, w_pts, grid_pt)
+        Interpolates a given grid_pt according to the
+        above described method
+    """
 
     def __init__(self, norm=None):
         if norm is None:
@@ -225,25 +313,76 @@ class ImprovedIDWInterpolator(Interpolator):
         pass
 
     def interpolate(self, w_pts, grid_pt):
-        """"""
-        dist = self._norm(w_pts.points[:, :2] - grid_pt)
+        """Interpolates a given grid_pt according to the
+        above described method
 
-        # If interpolated point is a measured point, return
-        # the measured value
+        Parameters
+        ----------
+        w_pts : WeightedPoints
+            Considered measured points
+
+        grid_pt : array_like of shape (2,)
+            Point that is to be interpolated
+
+        Returns
+        -------
+        out : int / float
+            Interpolated values at grid_pt
+
+        Raises an InterpolatorException
+            - if
+            - if
+        """
+        pts = w_pts.points
+        dist = self._norm(pts[:, :2] - grid_pt)
         if np.any(dist == 0):
             mask = dist == 0
-            return w_pts.points[mask][0, 2]
+            return pts[mask][0, 2]
 
-        wts = _set_weights(w_pts.points, dist)
+        wts = _set_weights(pts, dist)
         wts = np.square(wts)
         wts /= np.sum(wts)
 
-        return wts @ w_pts.points[:, 2]
+        return wts @ pts[:, 2]
 
 
-# Should be used together with ScalingBall
+# TODO Finish implementation
 class ShepardInterpolator(Interpolator):
-    """"""
+    """A full featured inverse distance interpolator, based
+    on the work of Shepard, "A two-dimensional interpolation
+    function for irregulary-spaced data"
+
+    Should (only) be used together with the ScalingBall neighbourhood
+
+
+
+    Parameters
+    ----------
+    tol : positive float , optional
+
+        Defautls to numpy.finfo(float).eps
+
+    slope: positive float, optional
+
+        Defaults to 0.1
+
+    norm : function or callable, optional
+        Norm with which to calculate the distances, ie ||.||
+
+        If nothing is passed, it will default to a scaled
+        version of ||.||_2
+
+    Raises an InterpolatorException
+        - if
+        - if
+
+
+    Methods
+    -------
+    interpolate(self, w_pts, grid_pt)
+        Interpolates a given grid_pt according to the
+        above described method
+    """
 
     def __init__(self, tol=np.finfo(float).eps, slope=0.1, norm=None):
         if norm is None:
@@ -273,25 +412,43 @@ class ShepardInterpolator(Interpolator):
         )
 
     def interpolate(self, w_pts, grid_pt):
-        """"""
-        dist = self._norm(w_pts.points[:, :2] - grid_pt)
+        """Interpolates a given grid_pt according to the
+        above described method
 
-        # If interpolated point is a measured point, return
-        # the measured value
+        Parameters
+        ----------
+        w_pts : WeightedPoints
+            Considered measured points
+
+        grid_pt : array_like of shape (2,)
+            Point that is to be interpolated
+
+        Returns
+        -------
+        out : int / float
+            Interpolated values at grid_pt
+
+
+        Raises an InterpolatorException
+            - if
+            - if
+        """
+        pts = w_pts.points
+        dist = self._norm(pts[:, :2] - grid_pt)
         if np.any(dist == 0):
             mask = dist == 0
-            return w_pts[mask][0, 2]
+            return pts[mask][0, 2]
 
-        wts = _set_weights(w_pts, dist)
-        wts = _include_direction(w_pts, grid_pt, dist, wts)
+        wts = _set_weights(pts, dist)
+        wts = _include_direction(pts, grid_pt, dist, wts)
         wts /= np.sum(wts)
 
         mask = dist < self._tol
-        n_eps = w_pts.points[mask]
+        n_eps = pts[mask]
         if n_eps.size:
             return np.sum(n_eps[:, 2]) / n_eps.shape[0]
 
-        return wts @ (w_pts.points[:, 2])
+        return wts @ (pts[:, 2])
 
 
 def _set_weights(pts, dist):
