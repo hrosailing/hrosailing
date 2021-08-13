@@ -116,7 +116,6 @@ def _prepare_plot(ax, ws, wa, colors, show_legend, legend_kw, **plot_kw):
         plot_kw["c"] = c
 
 
-# TODO: Many problems!!
 # def plot_convex_surface(ws, wa, bsp, ax, color):
 #     if ax is None:
 #         ax = plt.gca(projection="3d")
@@ -297,7 +296,6 @@ def _convex_hull_polar(pts):
     return ConvexHull(polar_pts)
 
 
-# TODO: Merge with _get_convex_hull()?
 # def _get_convex_hull_3d(ws, wa, bsp):
 #     ws, wa, bsp = ws.ravel(), wa.ravel(), bsp.ravel()
 #     vert = sorted(ConvexHull(np.column_stack((ws, wa, bsp))).vertices)
