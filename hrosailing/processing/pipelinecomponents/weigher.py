@@ -18,7 +18,7 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from hrosailing.wind import apparent_wind_to_true
+from hrosailing.wind import convert_wind, WindException
 
 
 logging.basicConfig(
@@ -49,13 +49,6 @@ def scaled(norm, scal):
 
 def euclidean_norm(vec):
     return np.linalg.norm(vec, axis=1)
-
-
-def _convert_wind(wind_arr, tw):
-    if tw:
-        return wind_arr
-
-    return apparent_wind_to_true(wind_arr)
 
 
 class WeightedPointsException(Exception):
@@ -116,17 +109,10 @@ class WeightedPoints:
     """
 
     def __init__(self, pts, wts=None, weigher=None, tw=True):
-        pts = np.asarray(pts)
-        if pts.dtype == "object":
-            raise WeightedPointsException("pts is not array_like")
-        shape = pts.shape
-        if not pts.size:
-            raise WeightedPointsException("No points were given")
         try:
-            pts = pts.reshape(-1, 3)
-        except ValueError:
-            raise WeightedPointsException("")
-        self._points = _convert_wind(pts, tw)
+            self._pts = convert_wind(pts, -1, tw)
+        except WindException as we:
+            raise WeightedPointsException("During conversion of wind, an error occured") from we
 
         if weigher is None:
             weigher = CylindricMeanWeigher()
@@ -137,7 +123,7 @@ class WeightedPoints:
         if wts is None:
             self._weights = weigher.weigh(pts)
             return
-
+        shape = self._pts.shape
         if isinstance(wts, (int, float)):
             self._weights = np.array([wts] * shape[0])
             return
@@ -157,7 +143,7 @@ class WeightedPoints:
 
     @property
     def points(self):
-        return self._points.copy()
+        return self._pts.copy()
 
     @property
     def weights(self):
