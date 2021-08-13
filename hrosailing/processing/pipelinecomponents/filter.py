@@ -93,7 +93,7 @@ class QuantileFilter(Filter):
 
         Parameters
         ----------
-        wts : array_like of shape (n, )
+        wts : numpy.ndarray of shape (n, )
             Weights of the points that are to be filtered, given
             as a sequence of scalars
 
@@ -102,21 +102,7 @@ class QuantileFilter(Filter):
         mask : numpy.ndarray of shape (n, )
             Boolean array describing with points are filtered
             depending on their resp. weight
-
-
-        Raises a FilterException
-            - if wts is an empty array
-            - if wts contains non-finite entries
         """
-        try:
-            wts = np.asarray_chkfinite(wts)
-        except ValueError as ve:
-            raise FilterException(
-                "wts should only have finite and non-NaN entries"
-            ) from ve
-        if not wts.size:
-            raise FilterException("No weights were passed")
-
         mask = wts >= np.percentile(wts, self._percent)
 
         logger.info(f"Total amount of filtered points: {wts[mask].shape[0]}")
@@ -170,7 +156,7 @@ class BoundFilter(Filter):
 
         Parameters
         ----------
-        wts : array_like of shape (n, )
+        wts : numpy.ndarray of shape (n, )
             Weights of the points that are to be filtered, given
             as a sequence of scalars
 
@@ -179,21 +165,7 @@ class BoundFilter(Filter):
         mask : numpy.ndarray of shape (n, )
             Boolean array describing with points are filtered
             depending on their resp. weight
-
-
-        Raises a FilterException
-            - if wts is an empty array
-            - if wts contains non-finite entries
         """
-        try:
-            wts = np.asarray_chkfinite(wts)
-        except ValueError as ve:
-            raise FilterException(
-                "wts should only have finite and non-NaN entries"
-            ) from ve
-        if not wts.size:
-            raise FilterException("No weights were passed")
-
         mask_1 = wts >= self._l_b
         mask_2 = wts <= self._u_b
         mask = mask_1 & mask_2

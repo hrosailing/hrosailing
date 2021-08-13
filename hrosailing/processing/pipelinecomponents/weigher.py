@@ -112,7 +112,9 @@ class WeightedPoints:
         try:
             self._pts = convert_wind(pts, -1, tw)
         except WindException as we:
-            raise WeightedPointsException("During conversion of wind, an error occured") from we
+            raise WeightedPointsException(
+                "During conversion of wind, an error occured"
+            ) from we
 
         if weigher is None:
             weigher = CylindricMeanWeigher()
@@ -120,23 +122,13 @@ class WeightedPoints:
             raise WeightedPointsException(
                 f"{weigher.__name__} is not a Weigher"
             )
-        if wts is None:
-            self._weights = weigher.weigh(pts)
-            return
-        shape = self._pts.shape
-        if isinstance(wts, (int, float)):
-            self._weights = np.array([wts] * shape[0])
-            return
-        wts = np.asarray(wts)
-        try:
-            wts = wts.reshape(shape[0])
-        except ValueError:
-            raise WeightedPointsException(
-                f"wts could not be broadcasted "
-                f"to an array of shape ({shape[0]},)"
-            )
 
-        self._weights = wts
+        try:
+            self._wts = _set_weights(self._pts, weigher, wts)
+        except WeigherException as we:
+            raise WeightedPointsException(
+                "During weighing an error occured"
+            ) from we
 
     def __getitem__(self, mask):
         return WeightedPoints(pts=self.points[mask], wts=self.weights[mask])
@@ -147,7 +139,39 @@ class WeightedPoints:
 
     @property
     def weights(self):
-        return self._weights.copy()
+        return self._wts.copy()
+
+
+def _set_weights(pts, weigher, wts):
+    shape = pts.shape
+    if wts is None:
+        return _sanity_checks(weigher.weigh(pts), shape[0])
+
+    if isinstance(wts, (int, float)):
+        return np.array([wts] * shape[0])
+
+    return _sanity_checks(wts, shape[0])
+
+
+def _sanity_checks(wts, shape):
+    try:
+        wts = np.asarray_chkfinite(wts)
+    except ValueError as ve:
+        raise WeightedPointsException(
+            "wts should only contain finite and non-NaN entries"
+        ) from ve
+    if wts.dtype is object:
+        raise WeightedPointsException("")
+    if not wts.size:
+        raise WeightedPointsException("")
+    try:
+        wts = wts.reshape(shape)
+    except ValueError as ve:
+        raise WeightedPointsException(
+            f"wts could not be broadcasted " f"to an array of shape ({shape},)"
+        ) from ve
+
+    return wts
 
 
 class WeigherException(Exception):
@@ -203,7 +227,6 @@ class CylindricMeanWeigher(Weigher):
     """
 
     def __init__(self, radius=1, norm=None):
-
         # Sanity checks
         if not isinstance(radius, (int, float)) or radius <= 0:
             raise WeigherException(
@@ -229,7 +252,7 @@ class CylindricMeanWeigher(Weigher):
 
         Parameters
         ----------
-        pts : array_like of shape (n, d)
+        pts : numpy.ndarray of shape (n, 3)
             Points to be weight
 
         Returns
@@ -237,10 +260,6 @@ class CylindricMeanWeigher(Weigher):
         wts : numpy.ndarray of shape (n, )
             Normalized weights of the input points
         """
-        pts = np.asarray(pts)
-        if not pts.size:
-            raise WeigherException("No points were passed")
-
         shape = pts.shape
         d = shape[1]
         wts = np.zeros(shape[0])
@@ -333,7 +352,7 @@ class CylindricMemberWeigher(Weigher):
 
         Parameters
         ----------
-        pts : array_like of shape (n, d)
+        pts : numpy.ndarray of shape (n, 3)
             Points to be weight
 
         Returns
@@ -341,10 +360,6 @@ class CylindricMemberWeigher(Weigher):
         wts : numpy.ndarray of shape (n, )
             Normalized weights of the input points
         """
-        pts = np.asarray(pts)
-        if not pts.size:
-            raise WeigherException("No points were passed")
-
         wts = np.zeros(pts.shape[0])
         for i, pt in enumerate(pts):
             mask_l = np.abs(pts[:, 0] - pt[0]) <= self._length

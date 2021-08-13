@@ -112,7 +112,7 @@ class IDWInterpolator(Interpolator):
         w_pts : WeightedPoints
             Considered measured points
 
-        grid_pt : array_like of shape (2,)
+        grid_pt : numpy.ndarray of shape (2,)
             Point that is to be interpolated
 
         Returns
@@ -234,7 +234,7 @@ class ArithmeticMeanInterpolator(Interpolator):
         w_pts : WeightedPoints
             Considered measured points
 
-        grid_pt : array_like of shape (2,)
+        grid_pt : numpy.ndarray of shape (2,)
             Point that is to be interpolated
 
         Returns
@@ -322,7 +322,7 @@ class ImprovedIDWInterpolator(Interpolator):
         w_pts : WeightedPoints
             Considered measured points
 
-        grid_pt : array_like of shape (2,)
+        grid_pt : numpy.ndarray of shape (2,)
             Point that is to be interpolated
 
         Returns
@@ -421,7 +421,7 @@ class ShepardInterpolator(Interpolator):
         w_pts : WeightedPoints
             Considered measured points
 
-        grid_pt : array_like of shape (2,)
+        grid_pt : numpy.ndarray of shape (2,)
             Point that is to be interpolated
 
         Returns

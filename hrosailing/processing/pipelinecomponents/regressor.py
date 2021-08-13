@@ -159,8 +159,7 @@ class ODRegressor(Regressor):
             - if an error in the method run of
             scipy.odr.odrpack.ODR occurs
         """
-
-        X, y = _check_data(data)
+        X, y = data[:, :2], data[:, 2]
 
         try:
             odr_data = Data(
@@ -261,8 +260,7 @@ class LeastSquareRegressor(Regressor):
             - if data contains non-finite entries
             - if an error in the function scipy.optimize.curve_fit occurs
         """
-
-        X, y = _check_data(data)
+        X, y = data[:, :2], data[:, 2]
         X = np.ravel(X).T
         y = np.ravel(y).T
 
@@ -300,29 +298,3 @@ class LeastSquareRegressor(Regressor):
         logger.info(f"F_emp ={(sse / indep_vars) / (sst / dof)}")
         logger.info(f"χ^2: {chi_squared}")
         logger.info(f"χ^2_red: {chi_squared / dof}")
-
-
-def _check_data(data):
-    try:
-        data = np.asarray_chkfinite(data)
-    except ValueError as ve:
-        raise RegressorException(
-            "data can only contain finite and non-NaN-values"
-        ) from ve
-
-    # sanity checks
-    if data.dtype == object:
-        raise RegressorException("data is not array_like")
-    if not data.size:
-        raise RegressorException("No data to fit was passed")
-    if data.ndim != 2:
-        raise RegressorException("data is not a 2-dimensional array")
-    if data.shape[1] != 3:
-        try:
-            data = data.reshape(-1, 3)
-        except ValueError:
-            raise RegressorException(
-                "data couldn't be broadcasted to an array of shape (n, 3)"
-            )
-
-    return data[:, :2], data[:, 2]

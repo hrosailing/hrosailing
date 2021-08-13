@@ -48,9 +48,6 @@ class PipelineExtension(ABC):
         pass
 
 
-# TODO Move finiteness and other in common error checks
-#      from components to pipeline?
-
 class PolarPipeline:
     """A Pipeline class to create polar diagrams from raw data
     Parameters

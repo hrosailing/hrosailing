@@ -530,18 +530,6 @@ class Polytope(Neighbourhood):
 
 
 def _sanity_checks(pts):
-    try:
-        pts = np.asarray_chkfinite(pts)
-    except ValueError as ve:
-        raise NeighbourhoodException(
-            "pts should only have finite and non-NaN entries"
-        ) from ve
-
-    if pts.dtype is object:
-        raise NeighbourhoodException("pts is not array_like")
-    if not pts.size:
-        raise NeighbourhoodException("pts is an empty array")
-
     if pts.ndim != 2:
         raise NeighbourhoodException("pts is not a 2-dimensional array")
     if pts.shape[1] != 2:
