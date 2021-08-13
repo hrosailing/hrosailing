@@ -415,6 +415,7 @@ class Cuboid(Neighbourhood):
         return mask
 
 
+# TODO Improve __init__
 class Polytope(Neighbourhood):
     """A class to represent a general 2-dimensional polytope, ie the
     convex hull P = conv(x_1, ..., x_n) of some n points x_1 ,..., x_n
