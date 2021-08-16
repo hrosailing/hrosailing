@@ -117,10 +117,10 @@ def _prepare_plot(ax, ws, wa, colors, show_legend, legend_kw, **plot_kw):
 
 
 def _check_keywords(dct):
-    ls = dct.pop("linestyle") or dct.pop("ls")
+    ls = dct.get("linestyle") or dct.get("ls")
     if ls is None:
         dct["ls"] = ""
-    marker = dct.pop("marker")
+    marker = dct.get("marker")
     if marker is None:
         dct["marker"] = "o"
 
