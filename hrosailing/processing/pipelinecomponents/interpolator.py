@@ -90,12 +90,12 @@ class IDWInterpolator(Interpolator):
     def __init__(self, p=2, norm=None):
         if p < 0 or not isinstance(p, int):
             raise InterpolatorException(
-                f"p needs to be a nonnegative integer, but {p} was passed"
+                "`p` needs to be a nonnegative integer"
             )
         if norm is None:
             norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
         if not callable(norm):
-            raise InterpolatorException(f"{norm.__name__} is not callable")
+            raise InterpolatorException("`norm` is not callable")
 
         self._p = p
         self._norm = norm
@@ -194,22 +194,17 @@ class ArithmeticMeanInterpolator(Interpolator):
 
     def __init__(self, *params, s=1, norm=None, distribution=None):
         if not isinstance(s, (int, float)) or s <= 0:
-            raise InterpolatorException(
-                f"The scaling parameter needs to be a positive "
-                f"number, but {s} was passed"
-            )
+            raise InterpolatorException("`s` needs to be a positive")
 
         if norm is None:
             norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
         if not callable(norm):
-            raise InterpolatorException(f"{norm.__name__} is not callable")
+            raise InterpolatorException("`norm` is not callable")
 
         if distribution is None:
             distribution = gauss_potential
         if not callable(distribution):
-            raise InterpolatorException(
-                f"{distribution.__name__} is not callable"
-            )
+            raise InterpolatorException("`distribution` is not callable")
 
         self._s = s
         self._norm = norm
@@ -218,11 +213,8 @@ class ArithmeticMeanInterpolator(Interpolator):
 
     def __repr__(self):
         return (
-            f"ArithmeticMeanInterpolator("
-            f"*params={self._params}, "
-            f"s={self._s}, "
-            f"norm={self._norm.__name__},"
-            f"distribution={self._distr})"
+            f"ArithmeticMeanInterpolator(*params={self._params}, s={self._s}, "
+            f"norm={self._norm.__name__}, distribution={self._distr})"
         )
 
     def interpolate(self, w_pts, grid_pt):
@@ -306,7 +298,7 @@ class ImprovedIDWInterpolator(Interpolator):
         if norm is None:
             norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
         if not callable(norm):
-            raise InterpolatorException(f"{norm.__name__} is not callable")
+            raise InterpolatorException("`norm` is not callable")
 
         self._norm = norm
 
@@ -389,15 +381,13 @@ class ShepardInterpolator(Interpolator):
         if norm is None:
             norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
         if not callable(norm):
-            raise InterpolatorException(f"{norm.__name__} is not callable")
+            raise InterpolatorException("`norm` is not callable")
 
         if tol <= 0:
-            raise InterpolatorException(
-                f"tolarance should be a positive number, but {tol} was passed"
-            )
+            raise InterpolatorException("`tol` needs to be a positive number")
         if slope <= 0:
             raise InterpolatorException(
-                f"slope should be a positive number, but {slope} was passed"
+                "`slope` needs to be a positive number"
             )
 
         self._tol = tol
@@ -406,10 +396,8 @@ class ShepardInterpolator(Interpolator):
 
     def __repr__(self):
         return (
-            f"ShepardInterpolator("
-            f"tol={self._tol}, "
-            f"slope_scal={self._slope}, "
-            f"norm={self._norm.__name__})"
+            f"ShepardInterpolator( tol={self._tol}, "
+            f"slope_scal={self._slope}, norm={self._norm.__name__})"
         )
 
     def interpolate(self, w_pts, grid_pt):

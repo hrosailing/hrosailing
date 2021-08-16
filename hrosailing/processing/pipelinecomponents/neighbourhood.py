@@ -82,11 +82,10 @@ class Ball(Neighbourhood):
 
         if not isinstance(radius, (int, float)) or radius <= 0:
             raise NeighbourhoodException(
-                f"The radius needs to be positive number, but "
-                f"{radius} was passed"
+                "`radius` needs to be positive number"
             )
         if not callable(norm):
-            raise NeighbourhoodException(f"{norm.__name__} is not callable")
+            raise NeighbourhoodException("`norm` is not callable")
 
         self._norm = norm
         self._radius = radius
@@ -165,20 +164,16 @@ class ScalingBall(Neighbourhood):
 
         if not isinstance(min_pts, int) or min_pts <= 0:
             raise NeighbourhoodException(
-                f"min_pts needs to be a positive integer, but "
-                f"{min_pts} was passed"
+                "`min_pts` needs to be a positive integer"
             )
         if not isinstance(max_pts, int) or max_pts <= 0:
             raise NeighbourhoodException(
-                f"max_pts needs to be a positive integer, but "
-                f"{max_pts} was passed"
+                "`max_pts` needs to be a positive integer"
             )
         if max_pts <= min_pts:
-            raise NeighbourhoodException(
-                "max_pts should be greater than min_pts"
-            )
+            raise NeighbourhoodException("`max_pts` is smaller than `min_pts`")
         if not callable(norm):
-            raise NeighbourhoodException(f"{norm.__name__} is not callable")
+            raise NeighbourhoodException("`norm` is not callable")
 
         self._min_pts = min_pts
         self._max_pts = max_pts
@@ -192,9 +187,7 @@ class ScalingBall(Neighbourhood):
 
     def __repr__(self):
         return (
-            f"ScalingBall("
-            f"min_pts={self._min_pts}, "
-            f"max_pts={self._max_pts})"
+            f"ScalingBall(min_pts={self._min_pts}, max_pts={self._max_pts})"
         )
 
     def is_contained_in(self, pts):
@@ -290,20 +283,16 @@ class Ellipsoid(Neighbourhood):
 
         if not isinstance(radius, (int, float)) or radius <= 0:
             raise NeighbourhoodException(
-                f"The radius needs to be positive number, but "
-                f"{radius} was passed"
+                "`radius` needs to be positive number"
             )
-        if not lin_trans.size:
-            raise NeighbourhoodException("lin_trans is an empty array")
         if lin_trans.shape != (2, 2):
             raise NeighbourhoodException(
-                f"lin_trans is not a square matrix of size 2 but "
-                f"a matrix of size {lin_trans.shape}"
+                "`lin_trans` needs to be a square matrix of size 2"
             )
         if not np.linalg.det(lin_trans):
-            raise NeighbourhoodException(f"{lin_trans} is not invertible")
+            raise NeighbourhoodException("`lin_trans` needs to be invertible")
         if not callable(norm):
-            raise NeighbourhoodException(f"{norm.__name__} is not callable")
+            raise NeighbourhoodException("`norm` is not callable")
 
         # transform the ellipsoid to a ball
         lin_trans = np.linalg.inv(lin_trans)
@@ -373,12 +362,12 @@ class Cuboid(Neighbourhood):
         if dimensions is None:
             dimensions = (1, 1)
         if len(dimensions) != 2:
-            raise NeighbourhoodException(f"{dimensions} is not of length 2")
+            raise NeighbourhoodException("`dimensions` is not of length 2")
 
         if norm is None:
             norm = np.abs
         if not callable(norm):
-            raise NeighbourhoodException(f"{norm.__name__} is not callable")
+            raise NeighbourhoodException("`norm` is not callable")
 
         self._norm = norm
         self._size = dimensions
@@ -462,38 +451,25 @@ class Polytope(Neighbourhood):
             mat = np.asarray_chkfinite(mat)
         except ValueError as ve:
             raise NeighbourhoodException(
-                "mat should only have finite and non-NaN entries"
+                "`mat` should only have finite and non-NaN entries"
             ) from ve
 
         try:
-            b = np.asarray(b)
+            b = np.asarray_chkfinite(b)
         except ValueError as ve:
             raise NeighbourhoodException(
-                "b should only have finite and non-NaN entries"
+                "`b` should only have finite and non-NaN entries"
             ) from ve
 
-        if not mat.size:
-            raise NeighbourhoodException("mat is an empty array")
         if mat.ndim != 2:
-            raise NeighbourhoodException(f"mat is not 2-dimensional")
-        if not b.size:
-            raise NeighbourhoodException("b is an empty vector")
+            raise NeighbourhoodException("`mat` is not 2-dimensional")
         if b.ndim != 1:
-            raise NeighbourhoodException("b is not 1-dimensional")
+            raise NeighbourhoodException("`b` is not 1-dimensional")
 
-        shape_mat = mat.shape
-        shape_b = b.shape
-        if shape_mat[0] != shape_b[0]:
+        if mat.shape[0] != b.shape[0] or mat.shape[1] != 2:
             raise NeighbourhoodException(
-                f"mat needs to be a matrix of shape (n, 2) and "
-                f"b needs to be a vector of shape (n, ), but "
-                f"they are of shape {shape_mat} and {shape_b}, "
-                f"respectively"
-            )
-        if shape_mat[1] != 2:
-            raise NeighbourhoodException(
-                f"mat needs to be a matrix of shape (n, 2), but "
-                f"is a matrix of shape {shape_mat}"
+                "`mat` needs to be a matrix of shape (n, 2) and "
+                "`b` needs to be a vector of shape (n, )"
             )
 
         self._mat = mat
@@ -531,13 +507,8 @@ class Polytope(Neighbourhood):
 
 def _sanity_checks(pts):
     if pts.ndim != 2:
-        raise NeighbourhoodException("pts is not a 2-dimensional array")
+        raise NeighbourhoodException("`pts` is not a 2-dimensional array")
     if pts.shape[1] != 2:
-        try:
-            pts = pts.reshape(-1, 2)
-        except ValueError as ve:
-            raise NeighbourhoodException(
-                "pts couldn't be broadcasted to a fitting shape"
-            ) from ve
+        raise NeighbourhoodException("`pts` has incorrect shape")
 
     return pts

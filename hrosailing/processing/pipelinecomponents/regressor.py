@@ -109,7 +109,7 @@ class ODRegressor(Regressor):
     def __init__(self, model_func, init_values=None, max_it=1000):
 
         if not callable(model_func):
-            raise RegressorException(f"{model_func.__name__} is not callable")
+            raise RegressorException("`model_func` is not callable")
         self._func = model_func
 
         def odr_model_func(params, x):
@@ -225,7 +225,7 @@ class LeastSquareRegressor(Regressor):
 
     def __init__(self, model_func, init_vals=None):
         if not callable(model_func):
-            raise RegressorException(f"{model_func.__name__} is not callable")
+            raise RegressorException("`model_func` is not callable")
         self._func = model_func
 
         self._init_vals = init_vals

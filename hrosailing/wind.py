@@ -64,10 +64,10 @@ def true_wind_to_apparent(wind):
     return convert_wind(wind, 1, False)
 
 
-def convert_wind(wind, sign, tw):
-    wind = _sanity_checks(wind)
+def convert_wind(wind, sign, tw, check_finite=True):
     if tw:
         return wind
+    wind = _sanity_checks(wind, check_finite)
 
     ws, wa, bsp = np.hsplit(wind, 3)
     wa_above_180 = wa > 180
@@ -91,24 +91,22 @@ def convert_wind(wind, sign, tw):
     return np.column_stack((cws, cwa, bsp))
 
 
-def _sanity_checks(wind):
-    try:
-        wind = np.asarray_chkfinite(wind)
-    except ValueError as ve:
-        raise WindException(
-            "array should only contain finite and non-NaN values"
-        ) from ve
+def _sanity_checks(wind, check_finite):
+    if check_finite:
+        try:
+            wind = np.asarray_chkfinite(wind)
+        except ValueError as ve:
+            raise WindException(
+                "`wind contains infinite or NaN values`"
+            ) from ve
+    else:
+        wind = np.asarray(wind)
 
     if wind.dtype is object:
-        raise WindException("array is not array_like")
-    if not wind.size:
-        raise WindException("Empty array was passed")
-    try:
-        wind = wind.reshape(-1, 3)
-    except ValueError:
-        raise WindException(
-            "array could not be broadcasted to an array of shape (n, 3)"
-        )
+        raise WindException("`wind` is not array_like")
+
+    if wind.shape[1] != 3 or wind.ndim != 2:
+        raise WindException("`wind` has incorrect shape")
 
     return wind
 

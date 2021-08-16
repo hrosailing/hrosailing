@@ -77,10 +77,7 @@ class QuantileFilter(Filter):
 
     def __init__(self, percent=50):
         if percent < 0 or percent > 100:
-            raise FilterException(
-                f"The percentage needs to be between 0 and 100, but"
-                f"{percent} was passed"
-            )
+            raise FilterException("`percent` needs to be between 0 and 100")
 
         self._percent = percent
 
@@ -141,7 +138,7 @@ class BoundFilter(Filter):
     def __init__(self, upper_bound=1, lower_bound=0.5):
         if upper_bound < lower_bound:
             raise FilterException(
-                "The upper bound can't be lower than the lower bound"
+                "`upper_bound` is smaller than `lower_bound`"
             )
 
         self._u_b = upper_bound
@@ -172,7 +169,7 @@ class BoundFilter(Filter):
 
         logger.info(f"Total amount of filtered points: {wts[mask].shape[0]}")
         logger.info(
-            f"Percentage of filtered"
+            f"Percentage of filtered "
             f"points: {wts[mask].shape[0] / wts.shape[0]}"
         )
 

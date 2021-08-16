@@ -41,11 +41,9 @@ class ArrayHandler(DataHandler):
     as an array_like sequence.
 
     Doesn't really do anything since error handling
-    and array conversion is handeled by the
-    WeightedPoints class now.
+    and array conversion is handeled by the pipeline itself
 
     Only needed for general layout of the pipeline
-
     """
 
     @staticmethod
@@ -89,7 +87,6 @@ class CsvFileHandler(DataHandler):
         -------
         out : numpy.ndarray of shape (n, 3)
             Array of the data points represented by the .csv file
-
         """
         try:
             with open(data, "r", newline="") as file:
@@ -101,7 +98,7 @@ class CsvFileHandler(DataHandler):
                         f"While evaluating the data points, an error occured"
                     ) from ve
         except OSError:
-            raise HandlerException(f"Can't find/open/read {data}")
+            raise HandlerException("Can't find/open/read `data`")
 
 
 class NMEAFileHandler(DataHandler):
@@ -130,7 +127,7 @@ class NMEAFileHandler(DataHandler):
 
     def __init__(self, mode="interpolate"):
         if mode not in {"mean", "interpolate"}:
-            raise HandlerException(f"Mode {mode} not implemented")
+            raise HandlerException("`mode` not implemented")
 
         self.mode = mode
 
@@ -211,7 +208,7 @@ class NMEAFileHandler(DataHandler):
                 return tw.extend(aw)
 
         except OSError as oe:
-            raise HandlerException(f"Can't find/open/read {data}") from oe
+            raise HandlerException(f"Can't find/open/read `data`") from oe
 
 
 def _get_wind_data(wind_data, stc):
@@ -238,7 +235,7 @@ def _process_data(nmea_data, wind_data, stc, bsp, mode):
             bsp2 = pynmea2.parse(stc).data[4]
         except pynmea2.ParseError as pe:
             raise HandlerException(
-                f"During parsing of {stc}, an error"
+                f"During parsing of {stc}, an error occured"
             ) from pe
 
         inter = len(wind_data)

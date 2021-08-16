@@ -50,28 +50,20 @@ class PipelineExtension(ABC):
 
 class PolarPipeline:
     """A Pipeline class to create polar diagrams from raw data
+
     Parameters
     ----------
     extension: PipelineExtension
+    handler : DataHandler
     weigher : Weigher, optional
     filter_ : Filter, optional
+
+    Raises a PipelineException
+
+
     Methods
     -------
-    weigher
-        Returns a read only version of self._weigher
-    filter
-        Returns a read only version of self._filter
-    sampler
-        Returns a read only version of self._sampler
-    interpolater
-        Returns a read only version of self._interpolater
-    regressor
-        Returns a read only version of self._regressor
-    __call__(p_type: PolarDiagram,
-             data=None, data_file=None,
-             file_format=None, file_mode='mean',
-             tw=True, filtering=True, w_res=None,
-             neighbourhood=None)
+    __call__(self, data, tw=True, filtering=True)
     """
 
     def __init__(
@@ -84,33 +76,36 @@ class PolarPipeline:
         if weigher is None:
             weigher = pc.CylindricMeanWeigher()
         if not isinstance(weigher, pc.Weigher):
-            raise PipelineException(f"{weigher.__name__} is not a Weigher")
+            raise PipelineException("weigher is not a Weigher")
         self.weigher = weigher
 
         if filter_ is None:
             filter_ = pc.QuantileFilter()
         if not isinstance(filter_, pc.Filter):
-            raise PipelineException(f"{filter_.__name__} is not a Filter")
+            raise PipelineException("filter_ is not a Filter")
         self.filter = filter_
 
         if not isinstance(extension, PipelineExtension):
-            raise PipelineException(
-                f"{extension.__name__} is not a PipelineExtension"
-            )
+            raise PipelineException("extension is not a PipelineExtension")
         self.extension = extension
 
         if not isinstance(handler, pc.DataHandler):
-            raise PipelineException(f"{handler.__name__} is not a DataHandler")
+            raise PipelineException("handler is not a DataHandler")
         self.handler = handler
 
-    def __repr__(self):
-        pass
-
-    def __call__(self, data, tw=True, filtering=True):
+    def __call__(
+        self,
+        data,
+        check_finite: bool = True,
+        tw: bool = True,
+        filtering: bool = True,
+    ) -> pol.PolarDiagram:
         """
         Parameters
         ----------
         data :
+
+        check_finite : bool, optional
 
         tw : bool, optional
 
@@ -119,10 +114,32 @@ class PolarPipeline:
         Returns
         -------
         out : PolarDiagram
-            An instance of the given p_type based on the input data
         """
         data = self.handler.handle(data)
+
+        # NaN and infinite values can't normally be handled
+        if check_finite:
+            try:
+                data = np.asarray_chkfinite(data, float)
+            except ValueError as ve:
+                raise PipelineException(
+                    "`data` containes infinite or NaN values"
+                ) from ve
+        else:
+            data = np.asarray(data, float)
+
+        # Non-array_like `data` is not allowed, after handling
+        if data.dtype is object:
+            raise PipelineException("")
+
+        # `data` should have 3 columns corresponding to wind speed,
+        # wind angle and boat speed, after handling
+        if data.shape[1] != 3:
+            raise PipelineException("`data` has incorrect shape")
+
+        # check finiteness of weights?
         w_pts = pc.WeightedPoints(data, weigher=self.weigher, tw=tw)
+
         if filtering:
             mask = self.filter.filter(w_pts.weights)
             w_pts = w_pts[mask]
@@ -144,17 +161,13 @@ class TableExtension(PipelineExtension):
         if neighbourhood is None:
             neighbourhood = pc.Ball()
         if not isinstance(neighbourhood, pc.Neighbourhood):
-            raise PipelineException(
-                f"{neighbourhood.__name__} is not a Neighbourhood"
-            )
+            raise PipelineException("neighbourhood is not a Neighbourhood")
         self.neighbourhood = neighbourhood
 
         if interpolator is None:
             interpolator = pc.ArithmeticMeanInterpolator(1, 1)
         if not isinstance(interpolator, pc.Interpolator):
-            raise PipelineException(
-                f"{interpolator.__name__} is not an Interpolator"
-            )
+            raise PipelineException("interpolator is not an Interpolator")
         self.interpolator = interpolator
 
     def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramTable:
@@ -185,7 +198,7 @@ class CurveExtension(PipelineExtension):
                 init_values=(0.25, 10, 1.7, 0, 1.9, 30, 17.6, 0),
             )
         if not isinstance(regressor, pc.Regressor):
-            raise PipelineException(f"{regressor.__name__} is not a Regressor")
+            raise PipelineException("regressor is not a Regressor")
         self.regressor = regressor
 
     def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramCurve:
@@ -214,33 +227,30 @@ class PointcloudExtension(PipelineExtension):
         if sampler is None:
             sampler = pc.UniformRandomSampler(500)
         if not isinstance(sampler, pc.Sampler):
-            raise PipelineException(f"{sampler.__name__} is not a Sampler")
+            raise PipelineException("sampler is not a Sampler")
         self.sampler = sampler
 
         if neighbourhood is None:
             neighbourhood = pc.Ball()
         if not isinstance(neighbourhood, pc.Neighbourhood):
-            raise PipelineException(
-                f"{neighbourhood.__name__} is not a Neighbourhood"
-            )
+            raise PipelineException("neighbourhood is not a Neighbourhood")
         self.neighbourhood = neighbourhood
 
         if interpolator is None:
             interpolator = pc.ArithmeticMeanInterpolator(1, 1)
         if not isinstance(interpolator, pc.Interpolator):
-            raise PipelineException(
-                f"{interpolator.__name__} is not an Interpolator"
-            )
+            raise PipelineException("interpolator is not an Interpolator")
         self.interpolator = interpolator
 
     def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramPointcloud:
         """"""
         sample_pts = self.sampler.sample(w_pts.points)
         pts = []
+
         logger.info(
-            f"Beginning to interpolate sample_pts with "
-            f"{self.interpolator.__name__}"
+            f"Beginning to interpolate sample_pts with {self.interpolator}"
         )
+
         for s_pt in sample_pts:
             mask = self.neighbourhood.is_contained_in(
                 w_pts.points[:, :2] - s_pt
@@ -299,7 +309,8 @@ def _interpolate_grid_points(w_res, w_pts, nhood, ipol):
     ws_res, wa_res = w_res
     bsp = np.zeros((len(wa_res), len(ws_res)))
 
-    logger.info(f"Beginning to interpolate w_res with {ipol.__name__}")
+    logger.info(f"Beginning to interpolate w_res with {ipol}")
+
     for i, ws in enumerate(ws_res):
         for j, wa in enumerate(wa_res):
             grid_point = np.array([ws, wa])
