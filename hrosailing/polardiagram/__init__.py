@@ -101,7 +101,7 @@ def from_csv(csv_path, fmt="hro", tw=True):
         - if the file can't be found, opened, or read
     """
     if fmt not in {"array", "hro", "opencpn", "orc"}:
-        raise FileReadingException(f"Format {fmt} not yet implemented")
+        raise FileReadingException("`fmt` not implemented")
     try:
         with open(csv_path, "r", newline="") as file:
             if fmt == "hro":
@@ -112,7 +112,7 @@ def from_csv(csv_path, fmt="hro", tw=True):
                     "PolarDiagramPointcloud",
                 }:
                     raise FileReadingException(
-                        f"hro-format for {first_row} not yet implemented"
+                        f"hro-format for {first_row} not implemented"
                     )
                 if first_row == "PolarDiagramTable":
                     ws_res, wa_res, bsps = _read_table(csv_reader)
@@ -126,7 +126,7 @@ def from_csv(csv_path, fmt="hro", tw=True):
             ws_res, wa_res, bsps = _read_extern_format(file, fmt)
             return PolarDiagramTable(ws_res=ws_res, wa_res=wa_res, bsps=bsps)
     except OSError as oe:
-        raise FileReadingException(f"can't find/open/read {csv_path}") from oe
+        raise FileReadingException("Can't find/open/read `csv_path`") from oe
 
 
 def _read_table(csv_reader):
@@ -221,7 +221,7 @@ def depickling(pkl_path):
         with open(pkl_path, "rb") as file:
             return pickle.load(file)
     except OSError as oe:
-        raise FileReadingException(f"Can't find/open/read {pkl_path}") from oe
+        raise FileReadingException("Can't find/open/read `pkl_path`") from oe
 
 
 def symmetric_polar_diagram(obj):
@@ -240,7 +240,7 @@ def symmetric_polar_diagram(obj):
     return obj.symmetrize()
 
 
-# TODO Error handling in plot methods?
+# TODO Add support for format strings in plot methods?
 
 
 class PolarDiagram(ABC):
@@ -317,7 +317,7 @@ class PolarDiagram(ABC):
             with open(pkl_path, "wb") as file:
                 pickle.dump(self, file)
         except OSError as oe:
-            raise FileWritingException(f"Can't write to {pkl_path}") from oe
+            raise FileWritingException("Can't write to `pkl_path`") from oe
 
     @abstractmethod
     def to_csv(self, csv_path):
@@ -687,32 +687,23 @@ class PolarDiagramTable(PolarDiagram):
             wa_res = set_resolution(wa_res, "angle")
         except WindException as we:
             raise PolarDiagramException(
-                f"While setting wind speed resolution, an error occured"
+                f"While setting wind resolution, an error occured"
             ) from we
 
-        rows = len(wa_res)
-        cols = len(ws_res)
+        rows, cols = len(wa_res), len(ws_res)
         if bsps is None:
             bsps = np.zeros((rows, cols))
         try:
-            bsps = np.asarray_chkfinite(bsps, dtype=np.float64)
+            bsps = np.asarray_chkfinite(bsps, float)
         except ValueError as ve:
             raise PolarDiagramException(
-                "bsps should only contain finite and non-NaN entries"
+                "`bsps` contains infinite or NaN values"
             ) from ve
         if bsps.dtype is object:
-            raise PolarDiagramException("bsps is not array_like")
-        if not bsps.size:
-            raise PolarDiagramException("Empty boat speed array was passed")
-        if bsps.ndim != 2:
-            raise PolarDiagramException(f"{bsps} is not 2-dimensional")
-        try:
-            bsps = bsps.reshape(rows, cols)
-        except ValueError as ve:
-            raise PolarDiagramException(
-                f"bsps couldn't be broadcasted to an array of shape "
-                f"{(rows, cols)}"
-            ) from ve
+            raise PolarDiagramException("`bsps` is not array_like")
+
+        if bsps.shape != (rows, cols) or bsps.ndim != 2:
+            raise PolarDiagramException("`bsps` has incorrect shape")
 
         # Sort wind angles and the corresponding order of rows in bsps
         wa_res, bsps = zip(*sorted(zip(wa_res, bsps), key=lambda x: x[0]))
@@ -845,7 +836,7 @@ class PolarDiagramTable(PolarDiagram):
                 csv_writer.writerow(["Boat speeds:"])
                 csv_writer.writerows(self.boat_speeds)
         except OSError as oe:
-            raise FileWritingException(f"Can't write to {csv_path}") from oe
+            raise FileWritingException("Can't write to `csv_path`") from oe
 
     def symmetrize(self):
         """Constructs a symmetric version of the
@@ -928,28 +919,21 @@ class PolarDiagramTable(PolarDiagram):
             new_bsps = np.asarray_chkfinite(new_bsps)
         except ValueError as ve:
             raise PolarDiagramException(
-                "new_bsps should only contain finite and non-NaN entries"
+                "`new_bsps` contains infinite or NaN values"
             ) from ve
         if new_bsps.dtype is object:
-            raise PolarDiagramException(f"{new_bsps} is not array_like")
-        if not new_bsps.size:
-            raise PolarDiagramException("No new data was passed")
+            raise PolarDiagramException("`new_bsps` is not array_like")
 
         ws_ind = _get_indices(ws, self.wind_speeds)
         wa_ind = _get_indices(wa, self.wind_angles)
+
+        if new_bsps.shape != (len(wa_ind), len(ws_ind)):
+            raise PolarDiagramException("`new_bsps` has incorrect shape")
 
         mask = np.zeros(self.boat_speeds.shape, dtype=bool)
         for i in wa_ind:
             for j in ws_ind:
                 mask[i, j] = True
-        try:
-            new_bsps = new_bsps.reshape(len(wa_ind), len(ws_ind))
-        except ValueError as ve:
-            raise PolarDiagramException(
-                f"{new_bsps} couldnt be broadcasted to an "
-                f"array of shape {(len(wa_ind), len(ws_ind))}"
-            ) from ve
-
         self._boat_speeds[mask] = new_bsps.flat
 
     def _get_radians(self):
@@ -963,10 +947,11 @@ class PolarDiagramTable(PolarDiagram):
             ws = self.wind_speeds
         if isinstance(ws, (int, float)):
             ws = [ws]
+
         # better way?
         ws = sorted(list(ws))
         if not ws:
-            raise PolarDiagramException("No slices where given")
+            raise PolarDiagramException("No slices were given")
 
         ind = _get_indices(ws, self.wind_speeds)
         wa = self._get_radians()
@@ -1660,15 +1645,12 @@ class PolarDiagramCurve(PolarDiagram):
 
     def __init__(self, f, params, radians=False):
         if not callable(f):
-            raise PolarDiagramException(f"{f} is not callable")
+            raise PolarDiagramException("`f` is not callable")
 
         logger.info(
             f"Class 'PolarDiagramCurve(f={f.__name__}, {params}, "
-            f"radians = {radians})' called"
+            f"radians={radians})' called"
         )
-
-        if not isinstance(radians, bool):
-            raise PolarDiagramException("")
 
         self._f = f
         self._params = params
@@ -1726,7 +1708,7 @@ class PolarDiagramCurve(PolarDiagram):
                 csv_writer.writerow(["Radians"] + [str(self.radians)])
                 csv_writer.writerow(["Parameters"] + list(self.parameters))
         except OSError as oe:
-            raise FileWritingException(f"Can't write to {csv_path}") from oe
+            raise FileWritingException("Can't write to `csv_path`") from oe
 
     def symmetrize(self):
         """
@@ -2361,7 +2343,7 @@ class PolarDiagramPointcloud(PolarDiagram):
                 )
                 csv_writer.writerows(self.points)
         except OSError as oe:
-            raise FileWritingException(f"Can't write to {csv_path}") from oe
+            raise FileWritingException(f"Can't write to `csv_path`") from oe
 
     def symmetrize(self):
         """Constructs a symmetric version of the
@@ -2432,7 +2414,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         """
         # issue when ws = 0 -> is that likely to come up?
         if not ws:
-            raise PolarDiagramException(f"No slices given")
+            raise PolarDiagramException(f"No slices were given")
         if isinstance(ws, (int, float)):
             ws = [ws]
         if isinstance(ws, tuple):
@@ -2451,7 +2433,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         if not wa or not bsp:
             raise PolarDiagramException(
-                f"There are no slices in the given range {ws}"
+                "There are no slices in the given range `ws`"
             )
 
         return ws, wa, bsp
