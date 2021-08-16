@@ -541,10 +541,6 @@ class PolarDiagram(ABC):
     ):
         pass
 
-    # @abstractmethod
-    # def plot_convex_hull_3d(self, ax=None, colors="blue"):
-    #     pass
-
 
 def _get_indices(wind, res):
     if wind is None:
@@ -1174,7 +1170,6 @@ class PolarDiagramTable(PolarDiagram):
         ws, wa, bsp = self.get_slices(ws)
         bsp = list(bsp.T)
         wa = [np.rad2deg(wa)] * len(bsp)
-
         plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
     def plot_3d(self, ax=None, colors=("blue", "blue")):
@@ -1261,7 +1256,6 @@ class PolarDiagramTable(PolarDiagram):
         ws = ws.ravel()
         wa = wa.ravel()
         bsp = self.boat_speeds.ravel()
-
         plot_color_gradient(
             ws, wa, bsp, ax, colors, marker, show_legend, **legend_kw
         )
@@ -1367,18 +1361,6 @@ class PolarDiagramTable(PolarDiagram):
         plot_convex_hull(
             ws, wa, bsp, colors, show_legend, legend_kw, **plot_kw
         )
-
-    # def plot_convex_hull_3d(self, ax=None, color="blue"):
-    #     """"""
-    #     logger.info(
-    #         f"Method 'plot_convex_hull_3d( ax={ax}, color={color})' called"
-    #     )
-    #
-    #     ws, wa = np.meshgrid(self.wind_speeds, self._get_radians())
-    #     bsp = self.boat_speeds
-    #     bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
-    #
-    #     plot_convex_surface(ws, wa, bsp, ax, color)
 
 
 def interpolate():
@@ -1590,9 +1572,6 @@ class PolarDiagramMultiSails(PolarDiagram):
         **plot_kw,
     ):
         pass
-
-    # def plot_convex_hull_3d(self, ax=None, colors=("blue",)):
-    #     pass
 
 
 class PolarDiagramCurve(PolarDiagram):
@@ -2215,10 +2194,6 @@ class PolarDiagramCurve(PolarDiagram):
         plot_convex_hull(
             ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw
         )
-
-    # def plot_convex_hull_3d(self, ax=None, colors=None):
-    #     """"""
-    #     pass
 
 
 # TODO: Standardize wind angles, such that they are in [0, 360),
@@ -2895,7 +2870,3 @@ class PolarDiagramPointcloud(PolarDiagram):
         plot_convex_hull(
             ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw
         )
-
-    # def plot_convex_hull_3d(self, ax=None, colors=None):
-    #     """"""
-    #     pass

@@ -116,21 +116,11 @@ def _prepare_plot(ax, ws, wa, colors, show_legend, legend_kw, **plot_kw):
         plot_kw["c"] = c
 
 
-# def plot_convex_surface(ws, wa, bsp, ax, color):
-#     if ax is None:
-#         ax = plt.gca(projection="3d")
-#     _set_3d_labels(ax)
-#
-#     xs, ys, zs = _get_convex_hull_3d(ws, wa, bsp)
-#
-#     return ax.plot_surface(xs, ys, zs, rstride=1, cstride=1)
-
-
 def _check_keywords(dct):
-    ls = dct.get("linestyle") or dct.get("ls")
+    ls = dct.pop("linestyle") or dct.pop("ls")
     if ls is None:
         dct["ls"] = ""
-    marker = dct.get("marker")
+    marker = dct.pop("marker")
     if marker is None:
         dct["marker"] = "o"
 
@@ -294,21 +284,3 @@ def _convex_hull_polar(pts):
         (pts[:, 1] * np.cos(pts[:, 0]), pts[:, 1] * np.sin(pts[:, 0]))
     )
     return ConvexHull(polar_pts)
-
-
-# def _get_convex_hull_3d(ws, wa, bsp):
-#     ws, wa, bsp = ws.ravel(), wa.ravel(), bsp.ravel()
-#     vert = sorted(ConvexHull(np.column_stack((ws, wa, bsp))).vertices)
-#
-#     # maybe not list compr. but a for loop?
-#     xs = [ws[i] for i in vert]
-#     ys = [wa[i] for i in vert]
-#     zs = [bsp[i] for i in vert]
-#     xs.append(xs[0])
-#     ys.append(ys[0])
-#     zs.append(zs[0])
-#
-#     xs = np.asarray(xs).reshape(-1, 1)
-#     ys = np.asarray(ys).reshape(-1, 1)
-#     zs = np.asarray(zs).reshape(-1, 1)
-#     return xs, ys, zs
