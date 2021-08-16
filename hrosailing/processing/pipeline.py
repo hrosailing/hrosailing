@@ -123,7 +123,7 @@ class PolarPipeline:
                 data = np.asarray_chkfinite(data, float)
             except ValueError as ve:
                 raise PipelineException(
-                    "`data` containes infinite or NaN values"
+                    "`data` contains infinite or NaN values"
                 ) from ve
         else:
             data = np.asarray(data, float)
