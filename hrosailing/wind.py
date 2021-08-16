@@ -140,7 +140,7 @@ def set_resolution(res, speed_or_angle):
         if not res.size:
             raise WindException("Empty res was passed")
 
-        if len(set(res)) == len(res):
+        if len(set(res)) != len(res):
             print(
                 "Warning: Wind resolution contains duplicate data."
                 "This may lead to unwanted behaviour"
