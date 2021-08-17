@@ -10,6 +10,10 @@ from hrosailing.processing.pipelinecomponents.filter import (
     BoundFilter,
     QuantileFilter,
 )
+from hrosailing.processing.pipelinecomponents.influencemodel import (
+    InfluenceModel,
+    LinearCurrentModel,
+)
 from hrosailing.processing.pipelinecomponents.interpolator import (
     Interpolator,
     IDWInterpolator,
