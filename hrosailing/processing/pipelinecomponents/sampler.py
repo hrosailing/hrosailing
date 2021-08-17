@@ -39,7 +39,6 @@ class Sampler(ABC):
         pass
 
 
-# TODO: Other random samplers
 class UniformRandomSampler(Sampler):
     """A sampler that produces a number of uniformly distributed samples,
     which all lie in the convex hull of certain given points
@@ -48,6 +47,9 @@ class UniformRandomSampler(Sampler):
     ----------
     n_samples : positive int
         Amount of samples that will be produced by the sampler
+
+    Raises SamplerException if input is not of specified type
+
 
     Methods
     -------
@@ -123,6 +125,9 @@ class ArchimedianSampler(Sampler):
     ----------
     n_samples : positive int
         Amount of samples that will be produced by the sampler
+
+    Raises SamplerException if input is not of specified type
+
 
     Methods
     -------
