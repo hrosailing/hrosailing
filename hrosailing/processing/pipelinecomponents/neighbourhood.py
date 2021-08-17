@@ -67,8 +67,8 @@ class Ball(Neighbourhood):
 
         Defaults to 1
 
-    Raises a NeighbourhoodException if inputs are not of the
-    specified or functionally equivalent types
+    Raises a NeighbourhoodException if inputs are not
+    of the specified types
 
     Methods
     -------
@@ -108,11 +108,10 @@ class Ball(Neighbourhood):
             is a member of the neighbourhood
 
 
-        Raises a NeighbourhoodException
-            - if the input is not of the specified or functionally equivalent type
-            - if pts contains non-finite entries
+        Raises a NeighbourhoodException if the input is not
+        of the specified type
         """
-        pts = _sanity_checks(pts)
+        pts = _sanity_check(pts)
         return self._norm(pts) <= self._radius
 
 
@@ -147,8 +146,7 @@ class ScalingBall(Neighbourhood):
         of ||.||_2
 
     Raises a NeighbourhoodException
-        - if inputs are not of the specified or
-        functionally equivalent types
+        - if inputs are not of the specified types
         - if max_pts is smaller or equal to min_pts
 
 
@@ -186,9 +184,7 @@ class ScalingBall(Neighbourhood):
         self._radius = None
 
     def __repr__(self):
-        return (
-            f"ScalingBall(min_pts={self._min_pts}, max_pts={self._max_pts})"
-        )
+        return f"ScalingBall(min_pts={self._min_pts}, max_pts={self._max_pts})"
 
     def is_contained_in(self, pts):
         """Checks given points for membership, and scales
@@ -206,14 +202,12 @@ class ScalingBall(Neighbourhood):
             is a member of the neighbourhood
 
 
-        Raises a NeighbourhoodException
-            - if the input is not of the specified or
-            functionally equivalent type
-            - if pts contains non-finite entries
+        Raises a NeighbourhoodException if the input is not
+        of the specified type
         """
         if self._first_call:
             # check only in the first call
-            pts = _sanity_checks(pts)
+            pts = _sanity_check(pts)
 
             # initial guess for suitable radius.
             self._n_pts = pts.shape[0]
@@ -229,6 +223,8 @@ class ScalingBall(Neighbourhood):
         if self._min_pts <= len(pts[mask]):
             return mask
 
+        # expand radius the smallest possible amount, such
+        # that a new point will be in scaling ball
         self._radius = np.min(dist[np.logical_not(mask)])
         return self.is_contained_in(pts)
 
@@ -294,10 +290,7 @@ class Ellipsoid(Neighbourhood):
         if not callable(norm):
             raise NeighbourhoodException("`norm` is not callable")
 
-        # transform the ellipsoid to a ball
-        lin_trans = np.linalg.inv(lin_trans)
-
-        self._T = lin_trans
+        self._T = np.linalg.inv(lin_trans)
         self._norm = norm
         self._radius = radius
 
@@ -322,12 +315,12 @@ class Ellipsoid(Neighbourhood):
             is a member of the neighbourhood
 
 
-        Raises a NeighbourhoodException
-            - if the input is not of the specified or
-            functionally equivalent type
-            - if pts contains non-finite entries
+        Raises a NeighbourhoodException if the input is not
+        of the specified type
         """
-        pts = _sanity_checks(pts)
+        pts = _sanity_check(pts)
+
+        # transform the ellipsoid to a ball
         pts = (self._T @ pts.T).T
         return self._norm(pts) <= self._radius
 
@@ -393,9 +386,8 @@ class Cuboid(Neighbourhood):
         Raises a NeighbourhoodException
             - if the input is not of the specified or
             functionally equivalent type
-            - if pts contains non-finite entries
         """
-        pts = _sanity_checks(pts)
+        pts = _sanity_check(pts)
         mask = (
             np.ones((pts.shape[0],), dtype=bool)
             & (self._norm(pts[:, 0]) <= self._size[0])
@@ -493,22 +485,20 @@ class Polytope(Neighbourhood):
             is a member of the neighbourhood
 
 
-        Raises a NeighbourhoodException
-            - if the input is not of the specified or
-            functionally equivalent type
-            - if pts contains non-finite entries
+        Raises a NeighbourhoodException if the input is not
+        of the specified type
         """
-        pts = _sanity_checks(pts)
+        pts = _sanity_check(pts)
         mask = np.ones((pts.shape[0],), dtype=bool)
         for ineq, bound in zip(self._mat, self._b):
             mask = mask & (ineq @ pts.T <= bound)
         return mask
 
 
-def _sanity_checks(pts):
-    if pts.ndim != 2:
-        raise NeighbourhoodException("`pts` is not a 2-dimensional array")
-    if pts.shape[1] != 2:
+def _sanity_check(pts):
+    pts = np.asarray(pts)
+
+    if pts.shape[1] != 2 or pts.ndim != 2:
         raise NeighbourhoodException("`pts` has incorrect shape")
 
     return pts
