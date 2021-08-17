@@ -32,17 +32,18 @@ logger.setLevel(logging.INFO)
 
 
 class PolarDiagramException(Exception):
-    """"""
+    """Custom exception for errors that may appear whilst handling
+    polar diagrams"""
     pass
 
 
 class FileReadingException(Exception):
-    """"""
+    """Custom exception for errors that may appear whilst reading a file"""
     pass
 
 
 class FileWritingException(Exception):
-    """"""
+    """Custom exception for errors that may appear whilst writing to a file"""
     pass
 
 
@@ -57,7 +58,7 @@ def to_csv(csv_path, obj):
     obj : PolarDiagram
         PolarDiagram instance which will be written to .csv file
 
-    Raises a FileWritingException if the file can't be written to
+    Raises a FileWritingException if an error occurs whilst writing
     """
     obj.to_csv(csv_path)
 
@@ -93,7 +94,7 @@ def from_csv(csv_path, fmt="hro", tw=True):
 
     Raises a FileReadingException
         - if an unknown format was specified
-        - if the file can't be found, opened, or read
+        - if an error occurs whilst reading
     """
     if fmt not in {"array", "hro", "opencpn", "orc"}:
         raise FileReadingException("`fmt` not implemented")
@@ -121,7 +122,7 @@ def from_csv(csv_path, fmt="hro", tw=True):
             ws_res, wa_res, bsps = _read_extern_format(file, fmt)
             return PolarDiagramTable(ws_res=ws_res, wa_res=wa_res, bsps=bsps)
     except OSError as oe:
-        raise FileReadingException("Can't find/open/read `csv_path`") from oe
+        raise FileReadingException("While reading `csv_path` an error occured") from oe
 
 
 def _read_table(csv_reader):
@@ -189,7 +190,7 @@ def pickling(pkl_path, obj):
     obj : PolarDiagram
         PolarDiagram instance which will be written to .csv file
 
-    Raises a FileWritingException if the file can't be written to
+    Raises a FileWritingException if an error occurs whilst writing
     """
     obj.pickling(pkl_path)
 
@@ -208,13 +209,13 @@ def depickling(pkl_path):
     out : PolarDiagram
         PolarDiagram instance contained in the .pkl file
 
-    Raises a FileReadingException if the file can't be read
+    Raises a FileReadingException if an error occurs whilst reading
     """
     try:
         with open(pkl_path, "rb") as file:
             return pickle.load(file)
     except OSError as oe:
-        raise FileReadingException("Can't find/open/read `pkl_path`") from oe
+        raise FileReadingException("While reading `pkl_path` an error occured") from oe
 
 
 def symmetric_polar_diagram(obj):
@@ -302,13 +303,13 @@ class PolarDiagram(ABC):
         pkl_path: path-like
             Path to a .pkl file or where a new .pkl file will be created
 
-        Raises a FileWritingException if file can't be written to
+        Raises a FileWritingException if an error occurs whilst writing
         """
         try:
             with open(pkl_path, "wb") as file:
                 pickle.dump(self, file)
         except OSError as oe:
-            raise FileWritingException("Can't write to `pkl_path`") from oe
+            raise FileWritingException("While writing to `pkl_path` an error occured") from oe
 
     @abstractmethod
     def to_csv(self, csv_path):
@@ -802,7 +803,7 @@ class PolarDiagramTable(PolarDiagram):
 
         Raises a FileWritingException
             - inputs are not of the specified types
-            - if the file can't be written to
+            - if an error occurs whilst writing
             - unknown format was specified
         """
         logger.info(f"Method '.to_csv({csv_path}, fmt={fmt})' called")
@@ -828,7 +829,7 @@ class PolarDiagramTable(PolarDiagram):
                 csv_writer.writerow(["Boat speeds:"])
                 csv_writer.writerows(self.boat_speeds)
         except OSError as oe:
-            raise FileWritingException("Can't write to `csv_path`") from oe
+            raise FileWritingException("While writing to `csv_path` an error occured") from oe
 
     def symmetrize(self):
         """Constructs a symmetric version of the
@@ -1683,7 +1684,7 @@ class PolarDiagramCurve(PolarDiagram):
         csv_path : path-like
             Path to a .csv file or where a new .csv file will be created
 
-        Raises a FileWritingException if the file can't be written to
+        Raises a FileWritingException if an error occurs whilst writing
         """
         logger.info(f"Method '.to_csv({csv_path})' called")
 
@@ -1695,7 +1696,7 @@ class PolarDiagramCurve(PolarDiagram):
                 csv_writer.writerow(["Radians"] + [str(self.radians)])
                 csv_writer.writerow(["Parameters"] + list(self.parameters))
         except OSError as oe:
-            raise FileWritingException("Can't write to `csv_path`") from oe
+            raise FileWritingException("While writing to `csv_path` an error occured") from oe
 
     def symmetrize(self):
         """
@@ -2313,7 +2314,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         csv_path : path-like
             Path to a .csv-file or where a new .csv file will be created
 
-        Raises a FileWritingException if the file can't be written to
+        Raises a FileWritingException if an error occurs whilst writing
         """
         logger.info(f"Method '.to_csv({csv_path})' called")
 
@@ -2326,7 +2327,7 @@ class PolarDiagramPointcloud(PolarDiagram):
                 )
                 csv_writer.writerows(self.points)
         except OSError as oe:
-            raise FileWritingException(f"Can't write to `csv_path`") from oe
+            raise FileWritingException("While writing to `csv_path` an error occured") from oe
 
     def symmetrize(self):
         """Constructs a symmetric version of the polar diagram,
