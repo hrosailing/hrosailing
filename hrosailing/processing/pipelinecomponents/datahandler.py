@@ -11,7 +11,7 @@ from abc import ABC, abstractmethod
 import numpy as np
 import pynmea2
 
-from hrosailing.wind import apparent_wind_to_true
+from hrosailing.wind import apparent_wind_to_true, WindException
 
 
 class HandlerException(Exception):
@@ -56,49 +56,42 @@ class CsvFileHandler(DataHandler):
     with three columns representing wind speed, wind angle, and
     boat speed respectively
 
-    Parameters
-    ----------
-    delimiter : str, optional
-        Delimiter used in the .csv file
-        If nothing is passed, the python parsing engine will try to
-        autodetect the used delimiter, when reading a given .csv file
-
-
     Methods
     -------
     handle(self, data)
-        Reads the above mentioned .csv file and returns a (n, 3)
-        numpy.ndarray containing the represented data points
+        Reads a .csv file and extracts the contained data points
     """
 
-    def __init__(self, delimiter: str = None):
-        self.delimiter = delimiter
-
-    def handle(self, data):
-        """Reads the above mentioned .csv file and returns a (n, 3)
-        numpy.ndarray containing the represented data points
+    @staticmethod
+    def handle(data):
+        """Reads a .csv file and extracts the contained data points
 
         Parameters
         ----------
-        data : string
-            Path to a .csv file which will be read
+        data : path-like
+            Path to a .csv file
 
         Returns
         -------
-        out : numpy.ndarray of shape (n, 3)
-            Array of the data points represented by the .csv file
+        out : list of lists of length 3
+
+
+        Raises a HandlerException
+            - if an error occurs whilst reading
+            - if an error occurs whilst evaluating the data points
         """
         try:
             with open(data, "r", newline="") as file:
-                csv_reader = csv.reader(file, delimiter=self.delimiter)
-                try:
-                    return [[eval(pt) for pt in row[:3]] for row in csv_reader]
-                except ValueError as ve:
-                    raise HandlerException(
-                        f"While evaluating the data points, an error occured"
-                    ) from ve
-        except OSError:
-            raise HandlerException("Can't find/open/read `data`")
+                csv_reader = csv.reader(file)
+                return [[eval(pt) for pt in row[:3]] for row in csv_reader]
+        except OSError as oe:
+            raise HandlerException(
+                "While reading `data` an error occured"
+            ) from oe
+        except ValueError as ve:
+            raise HandlerException(
+                "While evaluating data points in `data` an error occured"
+            ) from ve
 
 
 class NMEAFileHandler(DataHandler):
@@ -141,55 +134,47 @@ class NMEAFileHandler(DataHandler):
 
         Parameters
         ----------
-        data : string
-            Path to a text file, containing nmea-0183 sentences, which will
-            be read
+        data : path-like
+            Path to a text file, containing nmea-0183 sentences
 
         Returns
         -------
-        out : numpy.ndarray of shape (n, 3)
+        out : list of lists of length 3
 
 
-        Raises a FileReadingException
-            - if file can't be found, opened, or read
-            - if file isn't "sorted", meaning there has to be at least
-            one recorded wind data "between" two recorded speed datas
-            - if file doesn't contain any relevant sentences
-            - if file contains invalid relevant nmea sentences
+        Raises a HandlerException
+            - if `data` doesn't contain relevant nmea senteces
+            - if nmea senteces are not sorted
+            - if an error occurs whilst reading
+            - if an error occurs whilst parsing of the nmea senteces
+            - if an error occurs during conversion of apperant wind
         """
         try:
-            with open(data, "r") as nmea_file:
+            with open(data, "r") as file:
                 nmea_data = []
                 nmea_stcs = filter(
-                    lambda line: "VHW" in line or "MWV" in line, nmea_file
+                    lambda line: "VHW" in line or "MWV" in line, file
                 )
 
                 stc = next(nmea_stcs, None)
                 if stc is None:
                     raise HandlerException(
-                        "File didn't contain any relevant nmea sentences"
+                        "`data` doesn't contain any (relevant) nmea sentences"
                     )
 
                 while True:
-                    try:
-                        bsp = pynmea2.parse(stc).data[4]
-                    except pynmea2.ParseError as pe:
-                        raise HandlerException(
-                            f"During parsing of {stc}, an error occured"
-                        ) from pe
-
+                    bsp = pynmea2.parse(stc).data[4]
                     stc = next(nmea_stcs, None)
 
+                    # eof
                     if stc is None:
-                        # eof
                         break
 
-                    # check if nmea-file is in a
-                    # way "sorted"
+                    # check if nmea sentences is "sorted"
                     if "VHW" in stc:
                         raise HandlerException(
-                            "No recorded wind data in between recorded speed "
-                            "data. Parsing not possible"
+                            "No wind records in between speed records. "
+                            "Parsing not possible"
                         )
 
                     wind_data = []
@@ -199,6 +184,7 @@ class NMEAFileHandler(DataHandler):
 
                     _process_data(nmea_data, wind_data, stc, bsp, self.mode)
 
+                # TODO better way
                 aw = [data[:3] for data in nmea_data if data[3] == "R"]
                 tw = [data[:3] for data in nmea_data if data[3] != "R"]
                 if not aw:
@@ -206,19 +192,22 @@ class NMEAFileHandler(DataHandler):
 
                 aw = apparent_wind_to_true(aw)
                 return tw.extend(aw)
-
         except OSError as oe:
-            raise HandlerException(f"Can't find/open/read `data`") from oe
+            raise HandlerException(
+                "While reading `data` an error occured"
+            ) from oe
+        except pynmea2.ParseError as pe:
+            raise HandlerException(
+                f"During parsing of {stc}, an error occured"
+            ) from pe
+        except WindException as we:
+            raise HandlerException(
+                "While converting wind, an error occured"
+            ) from we
 
 
 def _get_wind_data(wind_data, stc):
-    try:
-        wind = pynmea2.parse(stc)
-    except pynmea2.ParseError as pe:
-        raise HandlerException(
-            f"Invalid nmea-sentences encountered: {stc}"
-        ) from pe
-
+    wind = pynmea2.parse(stc)
     wind_data.append(
         [float(wind.wind_speed), float(wind.wind_angle), wind.reference]
     )
@@ -229,14 +218,8 @@ def _process_data(nmea_data, wind_data, stc, bsp, mode):
         wind_arr = np.array([w[:2] for w in wind_data])
         wind_arr = np.mean(wind_arr, axis=0)
         nmea_data.append([wind_arr[0], wind_arr[1], bsp, wind_data[0][2]])
-
-    if mode == "interpolate":
-        try:
-            bsp2 = pynmea2.parse(stc).data[4]
-        except pynmea2.ParseError as pe:
-            raise HandlerException(
-                f"During parsing of {stc}, an error occured"
-            ) from pe
+    elif mode == "interpolate":
+        bsp2 = pynmea2.parse(stc).data[4]
 
         inter = len(wind_data)
         for i in range(inter):
