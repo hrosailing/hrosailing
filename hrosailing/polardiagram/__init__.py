@@ -655,12 +655,12 @@ class PolarDiagramTable(PolarDiagram):
         # Sort wind angles and the corresponding order of rows in bsps
         wa_res, bsps = zip(*sorted(zip(wa_res, bsps), key=lambda x: x[0]))
         self._res_wind_angle = np.asarray(wa_res)
-        bsps = np.asarray(bsps, dtype=np.float64)
+        bsps = np.asarray(bsps, float)
 
         # Sort wind speeds and the corresponding order of columns in bsps
         ws_res, bsps = zip(*sorted(zip(ws_res, bsps.T), key=lambda x: x[0]))
         self._res_wind_speed = np.asarray(ws_res)
-        self._boat_speeds = np.asarray(bsps, dtype=np.float64).T
+        self._boat_speeds = np.asarray(bsps, float).T
 
     def __str__(self):
         table = ["  TWA \\ TWS"]
@@ -736,7 +736,6 @@ class PolarDiagramTable(PolarDiagram):
         """Returns a read only version of self._boat_speeds"""
         return self._boat_speeds.copy()
 
-    # TODO Add more formats?
     def to_csv(self, csv_path, fmt="hro"):
         """Creates a .csv file with delimiter ',' and the
         following format:
@@ -896,7 +895,6 @@ class PolarDiagramTable(PolarDiagram):
         if isinstance(ws, (int, float)):
             ws = [ws]
 
-        # better way?
         ws = sorted(list(ws))
         if not ws:
             raise PolarDiagramException("No slices were given")
@@ -1665,8 +1663,8 @@ class PolarDiagramCurve(PolarDiagram):
         def sym_func(w_arr, *params):
             sym_w_arr = w_arr.copy()
             sym_w_arr[:, 1] = 360 - sym_w_arr[:, 1]
-            return 0.5 * self.curve(w_arr, *params) + 0.5 * self.curve(
-                sym_w_arr, *params
+            return 0.5 * (
+                self.curve(w_arr, *params) + self.curve(sym_w_arr, *params)
             )
 
         return PolarDiagramCurve(
