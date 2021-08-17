@@ -14,7 +14,6 @@ import numpy as np
 import hrosailing.polardiagram as pol
 import hrosailing.processing.modelfunctions as mf
 import hrosailing.processing.pipelinecomponents as pc
-from hrosailing.polardiagram import PolarDiagramException
 from hrosailing.wind import set_resolution
 
 logging.basicConfig(
@@ -78,24 +77,21 @@ class PolarPipeline:
         elif not isinstance(weigher, pc.Weigher):
             raise PipelineException("weigher is not a Weigher")
 
-        self.weigher = weigher
-
         if filter_ is None:
             filter_ = pc.QuantileFilter()
         elif not isinstance(filter_, pc.Filter):
             raise PipelineException("filter_ is not a Filter")
 
-        self.filter = filter_
-
         if not isinstance(extension, PipelineExtension):
             raise PipelineException("extension is not a PipelineExtension")
-
-        self.extension = extension
 
         if not isinstance(handler, pc.DataHandler):
             raise PipelineException("handler is not a DataHandler")
 
         self.handler = handler
+        self.weigher = weigher
+        self.filter = filter_
+        self.extension = extension
 
     def __call__(
         self,
@@ -160,20 +156,18 @@ class TableExtension(PipelineExtension):
         neighbourhood: pc.Neighbourhood = None,
         interpolator: pc.Interpolator = None,
     ):
-        self.w_res = w_res
-
         if neighbourhood is None:
             neighbourhood = pc.Ball()
         elif not isinstance(neighbourhood, pc.Neighbourhood):
             raise PipelineException("`neighbourhood` is not a Neighbourhood")
-
-        self.neighbourhood = neighbourhood
 
         if interpolator is None:
             interpolator = pc.ArithmeticMeanInterpolator(1, 1)
         elif not isinstance(interpolator, pc.Interpolator):
             raise PipelineException("`interpolator` is not an Interpolator")
 
+        self.w_res = w_res
+        self.neighbourhood = neighbourhood
         self.interpolator = interpolator
 
     def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramTable:
@@ -183,14 +177,9 @@ class TableExtension(PipelineExtension):
             w_res, w_pts, self.neighbourhood, self.interpolator
         )
 
-        try:
-            return pol.PolarDiagramTable(
-                ws_res=w_res[0], wa_res=w_res[1], bsps=bsp
-            )
-        except PolarDiagramException as pe:
-            raise PipelineException(
-                "During creation of the polar diagram, an error occured"
-            ) from pe
+        return pol.PolarDiagramTable(
+            ws_res=w_res[0], wa_res=w_res[1], bsps=bsp
+        )
 
 
 # TODO Add options for radians
@@ -212,14 +201,9 @@ class CurveExtension(PipelineExtension):
         """"""
         self.regressor.fit(w_pts.points)
 
-        try:
-            return pol.PolarDiagramCurve(
-                self.regressor.model_func, *self.regressor.optimal_params
-            )
-        except PolarDiagramException as pe:
-            raise PipelineException(
-                "During creation of the polar diagram, an error occured"
-            ) from pe
+        return pol.PolarDiagramCurve(
+            self.regressor.model_func, *self.regressor.optimal_params
+        )
 
 
 class PointcloudExtension(PipelineExtension):
@@ -236,20 +220,18 @@ class PointcloudExtension(PipelineExtension):
         elif not isinstance(sampler, pc.Sampler):
             raise PipelineException("`sampler` is not a Sampler")
 
-        self.sampler = sampler
-
         if neighbourhood is None:
             neighbourhood = pc.Ball()
         elif not isinstance(neighbourhood, pc.Neighbourhood):
             raise PipelineException("`neighbourhood` is not a Neighbourhood")
-
-        self.neighbourhood = neighbourhood
 
         if interpolator is None:
             interpolator = pc.ArithmeticMeanInterpolator(1, 1)
         elif not isinstance(interpolator, pc.Interpolator):
             raise PipelineException("`interpolator` is not an Interpolator")
 
+        self.sampler = sampler
+        self.neighbourhood = neighbourhood
         self.interpolator = interpolator
 
     def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramPointcloud:
@@ -272,12 +254,7 @@ class PointcloudExtension(PipelineExtension):
                 )
             pts.append(self.interpolator.interpolate(w_pts[mask], s_pt))
 
-        try:
-            return pol.PolarDiagramPointcloud(pts=pts)
-        except PolarDiagramException as pe:
-            raise PipelineException(
-                "During creation of the polar diagram, an error occured"
-            ) from pe
+        return pol.PolarDiagramPointcloud(pts=pts)
 
 
 def _set_wind_resolution(w_res, pts):
@@ -319,7 +296,7 @@ def _interpolate_grid_points(w_res, w_pts, nhood, ipol):
     ws_res, wa_res = w_res
     bsp = np.zeros((len(wa_res), len(ws_res)))
 
-    logger.info(f"Beginning to interpolate w_res with {ipol}")
+    logger.info(f"Beginning to interpolate `w_res` with {ipol}")
 
     for i, ws in enumerate(ws_res):
         for j, wa in enumerate(wa_res):
