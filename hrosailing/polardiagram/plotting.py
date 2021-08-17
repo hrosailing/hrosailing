@@ -20,7 +20,7 @@ from scipy.spatial import ConvexHull
 
 def plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
     if ax is None:
-        ax = plt.gca(projection="polar")
+        ax = plt.axes(projection="polar")
     _set_polar_directions(ax)
 
     _prepare_plot(ax, ws, wa, colors, show_legend, legend_kw, **plot_kw)
@@ -59,7 +59,7 @@ def plot3d(ws, wa, bsp, ax, **plot_kw):
     _check_keywords(plot_kw)
 
     if ax is None:
-        ax = plt.gca(projection="3d")
+        ax = plt.axes(projection="3d")
     _set_3d_labels(ax)
 
     return ax.plot(ws, wa, bsp, **plot_kw)
@@ -67,7 +67,7 @@ def plot3d(ws, wa, bsp, ax, **plot_kw):
 
 def plot_surface(ws, wa, bsp, ax, colors):
     if ax is None:
-        ax = plt.gca(projection="3d")
+        ax = plt.axes(projection="3d")
     _set_3d_labels(ax)
 
     cmap = LinearSegmentedColormap.from_list("custom_cmap", list(colors))
@@ -80,7 +80,7 @@ def plot_convex_hull(
     ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw
 ):
     if ax is None:
-        ax = plt.gca(projection="polar")
+        ax = plt.axes(projection="polar")
     _set_polar_directions(ax)
 
     ls = plot_kw.get("linestyle") or plot_kw.get("ls")
