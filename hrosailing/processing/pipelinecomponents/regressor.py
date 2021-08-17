@@ -170,10 +170,8 @@ class ODRegressor(Regressor):
             )
             odr.set_job(fit_type=2)
             out = odr.run()
-        except (ValueError, OdrError) as e:
-            raise RegressorException(
-                f"While running the regression, an error occured"
-            ) from e
+        except (ValueError, OdrError) as err:
+            raise RegressorException("Regression was unsuccessful") from err
 
         self._popt = out.beta
 
@@ -268,10 +266,8 @@ class LeastSquareRegressor(Regressor):
             self._popt, _ = curve_fit(
                 self.model_func, X, y, p0=self._init_vals, sigma=self._weights
             )
-        except ValueError as ve:
-            raise RegressorException(
-                f"While fitting the curve, an error occurred"
-            ) from ve
+        except RuntimeError as re:
+            raise RegressorException("Least-square minimization was unsuccesful") from re
 
         logger.info(f"Model-function: {self._func}")
         logger.info(f"Optimal parameters: {self._popt}")
