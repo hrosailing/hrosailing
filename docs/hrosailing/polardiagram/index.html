@@ -43,16 +43,14 @@ in different forms and functions to manipulate PolarDiagram-objects</p>
 instance contained in it.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>pkl_path</code></strong> :&ensp;<code>string</code></dt>
-<dd>Path a .pkl file which will be read</dd>
+<dt><strong><code>pkl_path</code></strong> :&ensp;<code>path-like</code></dt>
+<dd>Path to a .pkl file</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>out</code></strong> :&ensp;<code><a title="hrosailing.polardiagram.PolarDiagram" href="#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a></code></dt>
 <dd>PolarDiagram instance contained in the .pkl file</dd>
-<dt><code>Raises a <a title="hrosailing.polardiagram.FileReadingException" href="#hrosailing.polardiagram.FileReadingException">FileReadingException</a> if the file</code></dt>
-<dd>&nbsp;</dd>
-<dt><code>can't be found, opened,</code> or <code>read</code></dt>
+<dt><code>Raises a <a title="hrosailing.polardiagram.FileReadingException" href="#hrosailing.polardiagram.FileReadingException">FileReadingException</a> if an error occurs whilst reading</code></dt>
 <dd>&nbsp;</dd>
 </dl></div>
 </dd>
@@ -64,8 +62,8 @@ instance contained in it.</p>
 instance contained in it</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>csv_path</code></strong> :&ensp;<code>string</code></dt>
-<dd>Path to a .csv file which will be read</dd>
+<dt><strong><code>csv_path</code></strong> :&ensp;<code>path-like</code></dt>
+<dd>Path to a .csv file</dd>
 <dt><strong><code>fmt</code></strong> :&ensp;<code>string</code></dt>
 <dd>The "format" of the .csv file.
 - hro: format created by the to_csv-method of the
@@ -89,7 +87,7 @@ PolarDiagram class
 <dd>
 <ul>
 <li>if an unknown format was specified</li>
-<li>if the file can't be found, opened, or read</li>
+<li>if an error occurs whilst reading</li>
 </ul>
 </dd>
 </dl></div>
@@ -104,23 +102,21 @@ PolarDiagram class
 <span>def <span class="ident">pickling</span></span>(<span>pkl_path, obj)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Calls the pickling-method of the PolarDiagram instance</p>
+<div class="desc"><p>See also the pickling()-method of PolarDiagram</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>pkl_path</code></strong> :&ensp;<code>string</code></dt>
-<dd>Path where a .pkl file is located or where a new .pkl file
-will be created</dd>
+<dt><strong><code>pkl_path</code></strong> :&ensp;<code>path-like</code></dt>
+<dd>Path to a .pkl file or where a new .pkl file will be created</dd>
 <dt><strong><code>obj</code></strong> :&ensp;<code><a title="hrosailing.polardiagram.PolarDiagram" href="#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a></code></dt>
 <dd>PolarDiagram instance which will be written to .csv file</dd>
 </dl>
-<p>Function raises a FileWritingException if the file
-can't be written to</p></div>
+<p>Raises a FileWritingException if an error occurs whilst writing</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.symmetric_polar_diagram"><code class="name flex">
 <span>def <span class="ident">symmetric_polar_diagram</span></span>(<span>obj)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Calls the symmetrize-method of the PolarDiagram instance</p>
+<div class="desc"><p>See also the symmetrize()-method of PolarDiagram</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>obj</code></strong> :&ensp;<code><a title="hrosailing.polardiagram.PolarDiagram" href="#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a></code></dt>
@@ -136,17 +132,15 @@ can't be written to</p></div>
 <span>def <span class="ident">to_csv</span></span>(<span>csv_path, obj)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Calls the to_csv-method of the PolarDiagram instance</p>
+<div class="desc"><p>See also the to_csv()-method of PolarDiagram</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>csv_path</code></strong> :&ensp;<code>string</code></dt>
-<dd>Path where a .csv-file is located or where a new .csv file
-will be created</dd>
+<dt><strong><code>csv_path</code></strong> :&ensp;<code>path-like</code></dt>
+<dd>Path to a .csv-file or where a new .csv file will be created</dd>
 <dt><strong><code>obj</code></strong> :&ensp;<code><a title="hrosailing.polardiagram.PolarDiagram" href="#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a></code></dt>
 <dd>PolarDiagram instance which will be written to .csv file</dd>
 </dl>
-<p>Raises a FileWritingException if the file
-can't be written to</p></div>
+<p>Raises a FileWritingException if an error occurs whilst writing</p></div>
 </dd>
 </dl>
 </section>
@@ -158,7 +152,7 @@ can't be written to</p></div>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Custom exception for errors that may appear whilst reading a file</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>
@@ -170,7 +164,7 @@ can't be written to</p></div>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Custom exception for errors that may appear whilst writing to a file</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>
@@ -257,12 +251,10 @@ legend_kw=None,
 <div class="desc"><p>Writes PolarDiagram instance to a .pkl file</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>pkl_path</code></strong> :&ensp;<code>string</code></dt>
-<dd>Path where a .pkl file is located or where a new .pkl file
-will be created</dd>
+<dt><strong><code>pkl_path</code></strong> :&ensp;<code>path-like</code></dt>
+<dd>Path to a .pkl file or where a new .pkl file will be created</dd>
 </dl>
-<p>Function raises a PolarDiagramException if file
-can't be written to</p></div>
+<p>Raises a FileWritingException if an error occurs whilst writing</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_3d"><code class="name flex">
 <span>def <span class="ident">plot_3d</span></span>(<span>self)</span>
@@ -290,26 +282,12 @@ can't be written to</p></div>
 the polar diagram and creates a polar plot of it</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>ws</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
-<dd>Slice of the polar diagram, given as either
-- an element of self.wind_speeds for
-PolarDiagramTable<pre><code>Slice then equals the corresponding
-column of self.boat_speeds together
-with the wind angles in self.wind_angles
-
-Same with PolarDiagramMultiSails
-
-- as a single wind speed for PolarDiagramCurve
-
-Slice then equals self(ws, wa), where wa will
-go through a fixed number of angles between
-0° and 360°
-
-- a single wind speed for PolarDiagramPointcloud
-
-Slice then consists of all rows of self.points
-with the first entry being equal to ws
-</code></pre>
+<dt><strong><code>ws</code></strong> :&ensp;<code>int/float</code></dt>
+<dd>
+<p>Slice of the polar diagram</p>
+<p>For a description of what the slice is made of,
+see the plot_convex_hull()-method of the respective
+PolarDiagram subclass</p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
 <dd>
@@ -322,11 +300,8 @@ a suitable axes</p>
 matplotlib.axes.Axes.plot function, to change
 certain appearences of the plot</dd>
 </dl>
-<p>Raises a PolarDiagramException if
-- ws is not in self.wind_speeds
-for PolarDiagramTable and PolarDiagramMultiSails
-- there are no rows in self.points with first entry ws
-for PolarDiagramPointcloud</p></div>
+<p>Raises a PolarDiagramException, if the plot_convex_hull()-method
+of the respective PolarDiagram subclass raises one</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_flat"><code class="name flex">
 <span>def <span class="ident">plot_flat</span></span>(<span>self, ws, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
@@ -342,26 +317,12 @@ for PolarDiagramPointcloud</p></div>
 polar diagram</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>ws</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
-<dd>Slice of the polar diagram, given as either
-- an element of self.wind_speeds for
-PolarDiagramTable<pre><code>Slice then equals the corresponding
-column of self.boat_speeds together
-with the wind angles in self.wind_angles
-
-Same with PolarDiagramMultiSails
-
-- as a single wind speed for PolarDiagramCurve
-
-Slice then equals self(ws, wa), where wa will
-go through a fixed number of angles between
-0° and 360°
-
-- a single wind speed for PolarDiagramPointcloud
-
-Slice then consists of all rows of self.points
-with the first entry being equal to ws
-</code></pre>
+<dt><strong><code>ws</code></strong> :&ensp;<code>int/float</code></dt>
+<dd>
+<p>Slice of the polar diagram</p>
+<p>For a description of what the slice is made of,
+see the plot_flat()-method of the respective
+PolarDiagram subclass</p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
 <dd>
@@ -374,11 +335,8 @@ a suitable axes</p>
 matplotlib.axes.Axes.plot function, to change
 certain appearences of the plot</dd>
 </dl>
-<p>Raises a PolarDiagramException if
-- ws is not in self.wind_speeds
-for PolarDiagramTable and PolarDiagramMultiSails
-- there are no rows in self.points with first entry ws
-for PolarDiagramPointcloud</p></div>
+<p>Raises a PolarDiagramException, if the plot_flat()-method
+of the respective PolarDiagram subclass raises one</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_polar"><code class="name flex">
 <span>def <span class="ident">plot_polar</span></span>(<span>self, ws, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
@@ -394,26 +352,12 @@ for PolarDiagramPointcloud</p></div>
 polar diagram</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>ws</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
-<dd>Slice of the polar diagram, given as either
-- an element of self.wind_speeds for
-PolarDiagramTable<pre><code>Slice then equals the corresponding
-column of self.boat_speeds together
-with the wind angles in self.wind_angles
-
-Same with PolarDiagramMultiSails
-
-- as a single wind speed for PolarDiagramCurve
-
-Slice then equals self(ws, wa), where wa will
-go through a fixed number of angles between
-0° and 360°
-
-- a single wind speed for PolarDiagramPointcloud
-
-Slice then consists of all rows of self.points
-with the first entry being equal to ws
-</code></pre>
+<dt><strong><code>ws</code></strong> :&ensp;<code>int/float</code></dt>
+<dd>
+<p>Slice of the polar diagram</p>
+<p>For a description of what the slice is made of,
+see the plot_polar()-method of the respective
+PolarDiagram subclasses</p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
 <dd>
@@ -426,11 +370,8 @@ a suitable axes</p>
 matplotlib.axes.Axes.plot function, to change
 certain appearences of the plot</dd>
 </dl>
-<p>Raises a PolarDiagramException if
-- ws is not in self.wind_speeds
-for PolarDiagramTable and PolarDiagramMultiSails
-- there are no rows in self.points with first entry ws
-for PolarDiagramPointcloud</p></div>
+<p>Raises a PolarDiagramException, if the plot_polar()-method
+of the respective PolarDiagram subclass raises one</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.symmetrize"><code class="name flex">
 <span>def <span class="ident">symmetrize</span></span>(<span>self)</span>
@@ -907,12 +848,10 @@ Radians: self.rad
 Parameters: self.parameters</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>csv_path</code></strong> :&ensp;<code>string</code></dt>
-<dd>Path where a .csv file is located or where a new .csv file
-will be created</dd>
+<dt><strong><code>csv_path</code></strong> :&ensp;<code>path-like</code></dt>
+<dd>Path to a .csv file or where a new .csv file will be created</dd>
 </dl>
-<p>Raises a FileWritingException if the file
-can't be written to</p></div>
+<p>Raises a FileWritingException if an error occurs whilst writing</p></div>
 </dd>
 </dl>
 <h3>Inherited members</h3>
@@ -932,7 +871,8 @@ can't be written to</p></div>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Custom exception for errors that may appear whilst handling
+polar diagrams</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>
@@ -1110,7 +1050,7 @@ to duplicate data, which can overwrite or live alongside old data</p></div>
 given by a point cloud</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>pts</code></strong> :&ensp;<code>array_like</code>, optional</dt>
+<dt><strong><code>pts</code></strong> :&ensp;<code>array_like</code> of <code>shape (n, 3)</code>, optional</dt>
 <dd>
 <p>Initial points of the point cloud, given as a sequence of
 points consisting of wind speed, wind angle and boat speed</p>
@@ -1124,13 +1064,14 @@ as an empty point cloud</p>
 <p>Defaults to True</p>
 </dd>
 </dl>
-<p>Raises a PolarDiagramException if pts can't be
-broadcasted to shape (n, 3)</p>
+<p>Raises a PolarDiagramException
+- if
+- if</p>
 <h2 id="methods">Methods</h2>
 <p>wind_speeds
-Returns a list of all unique wind speeds in the point cloud
+Returns all unique wind speeds in the point cloud
 wind_angles
-Returns a list of all unique wind angles in the point cloud
+Returns all unique wind angles in the point cloud
 points
 Returns a read only version
 of self._pts
@@ -1200,11 +1141,11 @@ slices of the polar diagram and creates a polar plot of them</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.wind_angles"><code class="name">var <span class="ident">wind_angles</span></code></dt>
 <dd>
-<div class="desc"><p>Returns a list of all unique wind angles in the point cloud</p></div>
+<div class="desc"><p>Returns all unique wind angles in the point cloud</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.wind_speeds"><code class="name">var <span class="ident">wind_speeds</span></code></dt>
 <dd>
-<div class="desc"><p>Returns a list of all unique wind speeds in the point cloud</p></div>
+<div class="desc"><p>Returns all unique wind speeds in the point cloud</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -1216,7 +1157,7 @@ slices of the polar diagram and creates a polar plot of them</p></div>
 <div class="desc"><p>Adds additional points to the point cloud</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>new_pts</code></strong> :&ensp;<code>array_like</code></dt>
+<dt><strong><code>new_pts</code></strong> :&ensp;<code>array_like</code> of <code>shape (n, 3)</code></dt>
 <dd>New points to be added to the point cloud given as a sequence
 of points consisting of wind speed, wind angle and boat speed</dd>
 <dt><strong><code>tw</code></strong> :&ensp;<code>bool</code>, optional</dt>
@@ -1226,10 +1167,7 @@ of points consisting of wind speed, wind angle and boat speed</dd>
 <p>Defaults to True</p>
 </dd>
 </dl>
-<p>Raises a PolarDiagramException
-- if new_pts can't be
-broadcasted to shape (n, 3)
-- if new_pts is an empty array</p></div>
+<p>Raises a PolarDiagramException</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.get_slices"><code class="name flex">
 <span>def <span class="ident">get_slices</span></span>(<span>self, ws)</span>
@@ -1551,9 +1489,8 @@ is equal to w</p></div>
 <span>def <span class="ident">symmetrize</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Constructs a symmetric version of the
-polar diagram, by mirroring it at the 0° - 180° axis
-and returning a new instance</p>
+<div class="desc"><p>Constructs a symmetric version of the polar diagram,
+by mirroring it at the 0° - 180° axis and returning a new instance</p>
 <h2 id="warning">Warning</h2>
 <p>Should only be used if all the wind angles of the initial
 polar diagram are on one side of the 0° - 180° axis,
@@ -1571,12 +1508,10 @@ True wind speed ,True wind angle ,Boat speed
 self.points</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>csv_path</code></strong> :&ensp;<code>string</code></dt>
-<dd>Path where a .csv-file is located or where a new .csv file
-will be created</dd>
+<dt><strong><code>csv_path</code></strong> :&ensp;<code>path-like</code></dt>
+<dd>Path to a .csv-file or where a new .csv file will be created</dd>
 </dl>
-<p>Function raises a FileWritingException if the file
-can't be written to</p></div>
+<p>Raises a FileWritingException if an error occurs whilst writing</p></div>
 </dd>
 </dl>
 <h3>Inherited members</h3>
@@ -1600,7 +1535,7 @@ can't be written to</p></div>
 a polar diagram in the form of a table.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>ws_res</code></strong> :&ensp;<code>array_like</code> or <code>int/float</code>, optional</dt>
+<dt><strong><code>ws_res</code></strong> :&ensp;<code>array_like</code> or <code>positive int/float</code>, optional</dt>
 <dd>
 <p>Wind speeds that will correspond to the columns
 of the table</p>
@@ -1611,7 +1546,7 @@ will be assigned to ws_res</p>
 <p>If nothing is passed, it will default to
 numpy.arange(2, 42, 2)</p>
 </dd>
-<dt><strong><code>wa_res</code></strong> :&ensp;<code>array_like</code> or <code>int/float</code>, optional</dt>
+<dt><strong><code>wa_res</code></strong> :&ensp;<code>array_like</code> or <code>positive int/float</code>, optional</dt>
 <dd>
 <p>Wind angles that will correspond to the rows
 of the table. Should be between 0° and 360°</p>
@@ -1726,12 +1661,9 @@ slices of the polar diagram and creates a polar plot of them</p></div>
 <div class="desc"><p>Changes specified entries in the table</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>new_bsps</code></strong> :&ensp;<code>array_like</code></dt>
-<dd>
-<p>Sequence containing the new boat speeds to be inserted
-in the specified entries</p>
-<p>Should be of a matching shape</p>
-</dd>
+<dt><strong><code>new_bsps</code></strong> :&ensp;<code>array_like</code> of <code>matching shape</code></dt>
+<dd>Sequence containing the new boat speeds to be inserted
+in the specified entries</dd>
 <dt><strong><code>ws</code></strong> :&ensp;<code>Iterable</code> or <code>int</code> or <code>float</code>, optional</dt>
 <dd>
 <p>Element(s) of self.wind_speeds, specifying the columns,
@@ -2087,14 +2019,15 @@ Boat speeds:
 self.boat_speeds</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>csv_path</code></strong> :&ensp;<code>string</code></dt>
-<dd>Path where a .csv file is located or where a new .csv file
-will be created</dd>
+<dt><strong><code>csv_path</code></strong> :&ensp;<code>path-like</code></dt>
+<dd>Path to a .csv file or where a new .csv file will be created</dd>
 <dt><strong><code>fmt</code></strong> :&ensp;<code>string</code></dt>
 <dd>&nbsp;</dd>
 </dl>
-<p>Raises a FileWritingException if the file
-can't be written to</p></div>
+<p>Raises a FileWritingException
+- inputs are not of the specified types
+- if an error occurs whilst writing
+- unknown format was specified</p></div>
 </dd>
 </dl>
 <h3>Inherited members</h3>

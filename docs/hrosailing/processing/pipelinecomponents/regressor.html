@@ -94,10 +94,9 @@ the residuals, see also <code>least squares &lt;https://docs.scipy.org/doc/scipy
 a sequence of points consisting of wind speed, wind angle
 and boat speed</dd>
 </dl>
-<p>Raises a RegressorException
-- if data is an empty array
-- if data contains non-finite entries
-- if an error in the function scipy.optimize.curve_fit occurs</p></div>
+<p>Raises a RegressorException if least-square minimization
+was not succesful, ie, if scipy.optimize.curve_fit
+raises a RuntimeError</p></div>
 </dd>
 <dt id="hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor.set_weights"><code class="name flex">
 <span>def <span class="ident">set_weights</span></span>(<span>self, X_weights, y_weights)</span>
@@ -174,16 +173,9 @@ a sequence of points consisting of wind speed, wind angle
 and boat speed</dd>
 </dl>
 <p>Raises a RegressorException
-- if data is an empty array
-- if data contains non-finite entries
-- if an error in the initialization of
-scipy.odr.odrpack.Data occurs
-- if an error in the initialization of
-scipy.odr.odrpack.ODR occurs
-- if an error in the method set_job of
-scipy.odr.odrpack.ODR occurs
-- if an error in the method run of
-scipy.odr.odrpack.ODR occurs</p></div>
+- if
+- if
+- if</p></div>
 </dd>
 <dt id="hrosailing.processing.pipelinecomponents.regressor.ODRegressor.set_weights"><code class="name flex">
 <span>def <span class="ident">set_weights</span></span>(<span>self, X_weights, y_weights)</span>
