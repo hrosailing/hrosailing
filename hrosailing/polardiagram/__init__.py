@@ -33,36 +33,31 @@ logger.setLevel(logging.INFO)
 
 class PolarDiagramException(Exception):
     """"""
-
     pass
 
 
 class FileReadingException(Exception):
     """"""
-
     pass
 
 
 class FileWritingException(Exception):
     """"""
-
     pass
 
 
 def to_csv(csv_path, obj):
-    """Calls the to_csv-method of the PolarDiagram instance
+    """See also the to_csv()-method of PolarDiagram
 
     Parameters
     ----------
-    csv_path : string
-        Path where a .csv-file is located or where a new .csv file
-        will be created
+    csv_path : path-like
+        Path to a .csv-file or where a new .csv file will be created
 
     obj : PolarDiagram
         PolarDiagram instance which will be written to .csv file
 
-    Raises a FileWritingException if the file
-    can't be written to
+    Raises a FileWritingException if the file can't be written to
     """
     obj.to_csv(csv_path)
 
@@ -73,8 +68,8 @@ def from_csv(csv_path, fmt="hro", tw=True):
 
     Parameters
     ----------
-    csv_path : string
-        Path to a .csv file which will be read
+    csv_path : path-like
+        Path to a .csv file
 
     fmt : string
         The "format" of the .csv file.
@@ -166,7 +161,7 @@ def _read_sail_csv(file, delimiter):
             *(
                 [
                     (
-                        # replace °-symbol in case of opencpn format
+                        # delete °-symbol in case of opencpn format
                         eval(row[0].replace("°", "")),
                         [eval(bsp) if bsp != "" else 0 for bsp in row[1:]],
                     )
@@ -184,18 +179,17 @@ def _read_array_csv(file):
 
 
 def pickling(pkl_path, obj):
-    """Calls the pickling-method of the PolarDiagram instance
+    """See also the pickling()-method of PolarDiagram
 
     Parameters
     ----------
-    pkl_path : string
-        Path where a .pkl file is located or where a new .pkl file
-        will be created
+    pkl_path : path-like
+        Path to a .pkl file or where a new .pkl file will be created
+
     obj : PolarDiagram
         PolarDiagram instance which will be written to .csv file
 
-    Function raises a FileWritingException if the file
-    can't be written to
+    Raises a FileWritingException if the file can't be written to
     """
     obj.pickling(pkl_path)
 
@@ -206,16 +200,15 @@ def depickling(pkl_path):
 
     Parameters
     ----------
-    pkl_path : string
-        Path a .pkl file which will be read
+    pkl_path : path-like
+        Path to a .pkl file
 
     Returns
     -------
     out : PolarDiagram
         PolarDiagram instance contained in the .pkl file
 
-    Raises a FileReadingException if the file
-    can't be found, opened, or read
+    Raises a FileReadingException if the file can't be read
     """
     try:
         with open(pkl_path, "rb") as file:
@@ -225,7 +218,7 @@ def depickling(pkl_path):
 
 
 def symmetric_polar_diagram(obj):
-    """Calls the symmetrize-method of the PolarDiagram instance
+    """See also the symmetrize()-method of PolarDiagram
 
     Parameters
     ----------
@@ -306,12 +299,10 @@ class PolarDiagram(ABC):
 
         Parameters
         ----------
-        pkl_path: string
-            Path where a .pkl file is located or where a new .pkl file
-            will be created
+        pkl_path: path-like
+            Path to a .pkl file or where a new .pkl file will be created
 
-        Function raises a PolarDiagramException if file
-        can't be written to
+        Raises a FileWritingException if file can't be written to
         """
         try:
             with open(pkl_path, "wb") as file:
@@ -803,20 +794,21 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        csv_path : string
-            Path where a .csv file is located or where a new .csv file
-            will be created
+        csv_path : path-like
+            Path to a .csv file or where a new .csv file will be created
 
         fmt : string
 
 
-        Raises a FileWritingException if the file
-        can't be written to
+        Raises a FileWritingException
+            - inputs are not of the specified types
+            - if the file can't be written to
+            - unknown format was specified
         """
         logger.info(f"Method '.to_csv({csv_path}, fmt={fmt})' called")
 
-        if fmt not in {"hro", "opencpn"}:
-            raise PolarDiagramException("")
+        if fmt not in {"hro", "opencpn", "orc"}:
+            raise PolarDiagramException("`fmt` not implemented")
 
         try:
             with open(csv_path, "w", newline="") as file:
@@ -886,11 +878,9 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        new_bsps: array_like
+        new_bsps: array_like of matching shape
             Sequence containing the new boat speeds to be inserted
             in the specified entries
-
-            Should be of a matching shape
 
         ws: Iterable or int or float, optional
             Element(s) of self.wind_speeds, specifying the columns,
@@ -1690,13 +1680,10 @@ class PolarDiagramCurve(PolarDiagram):
 
         Parameters
         ----------
-        csv_path : string
-            Path where a .csv file is located or where a new .csv file
-            will be created
+        csv_path : path-like
+            Path to a .csv file or where a new .csv file will be created
 
-
-        Raises a FileWritingException if the file
-        can't be written to
+        Raises a FileWritingException if the file can't be written to
         """
         logger.info(f"Method '.to_csv({csv_path})' called")
 
@@ -1714,14 +1701,12 @@ class PolarDiagramCurve(PolarDiagram):
         """
 
         """
-
         def sym_func(w_arr, *params):
             sym_w_arr = w_arr.copy()
             sym_w_arr[:, 1] = 360 - sym_w_arr[:, 1]
             return (
-                1
-                / 2
-                * (self.curve(w_arr, *params) + self.curve(sym_w_arr, *params))
+                0.5
+                * self.curve(w_arr, *params) + 0.5 * self.curve(sym_w_arr, *params)
             )
 
         return PolarDiagramCurve(
@@ -1737,7 +1722,7 @@ class PolarDiagramCurve(PolarDiagram):
     def get_slices(self, ws):
         if isinstance(ws, (int, float)):
             ws = [ws]
-        if isinstance(ws, tuple):
+        elif isinstance(ws, tuple):
             ws = list(np.linspace(ws[0], ws[1], ws[2]))
 
         wa = self._get_wind_angles()
@@ -2207,9 +2192,9 @@ class PolarDiagramPointcloud(PolarDiagram):
     Methods
     -------
     wind_speeds
-        Returns a list of all unique wind speeds in the point cloud
+        Returns all unique wind speeds in the point cloud
     wind_angles
-        Returns a list of all unique wind angles in the point cloud
+        Returns all unique wind angles in the point cloud
     points
         Returns a read only version  of self._pts
     to_csv(csv_path)
@@ -2299,12 +2284,12 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     @property
     def wind_speeds(self):
-        """Returns a list of all unique wind speeds in the point cloud"""
+        """Returns all unique wind speeds in the point cloud"""
         return np.array(sorted(list(set(self.points[:, 0]))))
 
     @property
     def wind_angles(self):
-        """Returns a list of all unique wind angles in the point cloud"""
+        """Returns all unique wind angles in the point cloud"""
         return np.array(sorted(list(set(self.points[:, 1]))))
 
     @property
@@ -2325,12 +2310,10 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Parameters
         ----------
-        csv_path : string
-            Path where a .csv-file is located or where a new .csv file
-            will be created
+        csv_path : path-like
+            Path to a .csv-file or where a new .csv file will be created
 
-        Function raises a FileWritingException if the file
-        can't be written to
+        Raises a FileWritingException if the file can't be written to
         """
         logger.info(f"Method '.to_csv({csv_path})' called")
 
@@ -2346,9 +2329,8 @@ class PolarDiagramPointcloud(PolarDiagram):
             raise FileWritingException(f"Can't write to `csv_path`") from oe
 
     def symmetrize(self):
-        """Constructs a symmetric version of the
-        polar diagram, by mirroring it at the 0° - 180° axis
-        and returning a new instance
+        """Constructs a symmetric version of the polar diagram,
+        by mirroring it at the 0° - 180° axis and returning a new instance
 
         Warning
         -------
@@ -2391,8 +2373,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to True
 
         Raises a PolarDiagramException
-            - if new_pts can't be  broadcasted to shape (n, 3)
-            - if new_pts is an empty array
+
         """
         logger.info(f"Method 'add_points(new_pts{new_pts}, tw={tw})' called")
 
@@ -2412,13 +2393,13 @@ class PolarDiagramPointcloud(PolarDiagram):
         """
 
         """
-        # issue when ws = 0 -> is that likely to come up?
-        if not ws:
-            raise PolarDiagramException(f"No slices were given")
         if isinstance(ws, (int, float)):
             ws = [ws]
-        if isinstance(ws, tuple):
+        elif isinstance(ws, tuple):
             ws = [w for w in self.wind_speeds if ws[0] <= w <= ws[1]]
+
+        if not ws:
+            raise PolarDiagramException(f"No slices were given")
 
         wa = []
         bsp = []
