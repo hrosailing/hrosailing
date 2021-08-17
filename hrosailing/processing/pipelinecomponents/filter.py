@@ -41,6 +41,9 @@ class FilterException(Exception):
     pass
 
 
+# TODO More error checks
+
+
 class Filter(ABC):
     """Base class for all filter classes
 
