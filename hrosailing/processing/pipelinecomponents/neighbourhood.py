@@ -338,7 +338,7 @@ class Cuboid(Neighbourhood):
         If nothing is passed, it will default to (1,1)
 
     Raises a NeighbourhoodException if inputs are not of the
-    specified or functionally equivalent types
+    specified types
 
 
     Methods
@@ -379,9 +379,8 @@ class Cuboid(Neighbourhood):
             is a member of the neighbourhood
 
 
-        Raises a NeighbourhoodException
-            - if the input is not of the specified or
-            functionally equivalent type
+        Raises a NeighbourhoodException if the input is not
+        of the specified type
         """
         pts = _sanity_check(pts)
         mask = (
@@ -414,8 +413,9 @@ class Polytope(Neighbourhood):
 
         If nothing is passed, it will default to (1,...,1)
 
-    Raises a NeighbourhoodException if inputs are not of the
-    specified or functionally equivalent types
+    Raises a NeighbourhoodException
+        - if inputs are not of the specified types
+        - mat or b contain NaN or infinite values
 
     Warning
     -------
