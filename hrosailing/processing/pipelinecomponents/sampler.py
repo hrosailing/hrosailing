@@ -57,9 +57,7 @@ class UniformRandomSampler(Sampler):
 
     def __init__(self, n_samples):
         if not isinstance(n_samples, int) or n_samples <= 0:
-            raise SamplerException(
-                "`n_samples` needs to be a positive integer"
-            )
+            raise SamplerException("`n_samples`is not a positive integer")
 
         self._n_samples = n_samples
 
@@ -134,9 +132,7 @@ class ArchimedianSampler(Sampler):
 
     def __init__(self, n_samples):
         if not isinstance(n_samples, int) or n_samples <= 0:
-            raise SamplerException(
-                "`n_samples` needs to be a positive integer"
-            )
+            raise SamplerException("`n_samples` is not a positive integer")
 
         self._n_samples = n_samples
 
