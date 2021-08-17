@@ -83,6 +83,9 @@ def plot_convex_hull(
         ax = plt.gca(projection="polar")
     _set_polar_directions(ax)
 
+    ls = plot_kw.get("linestyle") or plot_kw.get("ls")
+    if ls is None:
+        plot_kw["ls"] = "-"
     _prepare_plot(ax, ws, wa, colors, show_legend, legend_kw, **plot_kw)
 
     wa, bsp = _sort_data(wa, bsp)
@@ -266,11 +269,14 @@ def _get_convex_hull(wa, bsp):
         wa = [wa]
     if not isinstance(bsp, list):
         bsp = [bsp]
-    xs = ys = []
+    xs = []
+    ys = []
     for w, b in zip(wa, bsp):
         w, b = np.asarray(w).ravel(), np.asarray(b).ravel()
         vert = sorted(_convex_hull_polar(np.column_stack((w, b))).vertices)
-        x, y = list(zip(*([(w[i], b[i]) for i in vert])))
+        x, y = zip(*([(w[i], b[i]) for i in vert]))
+        x = list(x)
+        y = list(y)
         x.append(x[0])
         y.append(y[0])
         xs.append(x)

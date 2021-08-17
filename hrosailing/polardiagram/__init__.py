@@ -562,7 +562,7 @@ class PolarDiagramTable(PolarDiagram):
 
     Parameters
     ----------
-    ws_res : array_like or int/float, optional
+    ws_res : array_like or positive int/float, optional
         Wind speeds that will correspond to the columns
         of the table
 
@@ -575,7 +575,7 @@ class PolarDiagramTable(PolarDiagram):
         If nothing is passed, it will default to
         numpy.arange(2, 42, 2)
 
-    wa_res : array_like or int/float, optional
+    wa_res : array_like or positive int/float, optional
         Wind angles that will correspond to the rows
         of the table. Should be between 0° and 360°
 
@@ -678,24 +678,26 @@ class PolarDiagramTable(PolarDiagram):
             ws_res = set_resolution(ws_res, "speed")
             wa_res = set_resolution(wa_res, "angle")
         except WindException as we:
-            raise PolarDiagramException(
-                f"While setting wind resolution, an error occured"
-            ) from we
+            raise PolarDiagramException("") from we
 
         rows, cols = len(wa_res), len(ws_res)
         if bsps is None:
             bsps = np.zeros((rows, cols))
-        try:
-            bsps = np.asarray_chkfinite(bsps, float)
-        except ValueError as ve:
-            raise PolarDiagramException(
-                "`bsps` contains infinite or NaN values"
-            ) from ve
-        if bsps.dtype is object:
-            raise PolarDiagramException("`bsps` is not array_like")
+        else:
+            # NaN's and infinite values can't be handled
+            try:
+                bsps = np.asarray_chkfinite(bsps, float)
+            except ValueError as ve:
+                raise PolarDiagramException(
+                    "`bsps` contains infinite or NaN values"
+                ) from ve
 
-        if bsps.shape != (rows, cols) or bsps.ndim != 2:
-            raise PolarDiagramException("`bsps` has incorrect shape")
+            # Non array_like `bsps` are not allowed
+            if bsps.dtype is object:
+                raise PolarDiagramException("`bsps` is not array_like")
+
+            if bsps.shape != (rows, cols) or bsps.ndim != 2:
+                raise PolarDiagramException("`bsps` has incorrect shape")
 
         # Sort wind angles and the corresponding order of rows in bsps
         wa_res, bsps = zip(*sorted(zip(wa_res, bsps), key=lambda x: x[0]))
@@ -822,9 +824,9 @@ class PolarDiagramTable(PolarDiagram):
                     csv_writer.writerows(rows)
 
                 csv_writer.writerow(["PolarDiagramTable"])
-                csv_writer.writerow(["Wind speed resolution:"])
+                csv_writer.writerow(["TWS:"])
                 csv_writer.writerow(self.wind_speeds)
-                csv_writer.writerow(["Wind angle resolution:"])
+                csv_writer.writerow(["TWA:"])
                 csv_writer.writerow(self.wind_angles)
                 csv_writer.writerow(["Boat speeds:"])
                 csv_writer.writerows(self.boat_speeds)
@@ -1335,7 +1337,7 @@ class PolarDiagramTable(PolarDiagram):
         bsp = list(bsp.T)
         wa = [wa] * len(bsp)
         plot_convex_hull(
-            ws, wa, bsp, colors, show_legend, legend_kw, **plot_kw
+            ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw
         )
 
 
@@ -2172,7 +2174,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     Parameters
     ----------
-    pts : array_like, optional
+    pts : array_like of shape (n, 3), optional
         Initial points of the point cloud, given as a sequence of
         points consisting of wind speed, wind angle and boat speed
 
@@ -2186,8 +2188,9 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Defaults to True
 
-    Raises a PolarDiagramException if pts can't be
-    broadcasted to shape (n, 3)
+    Raises a PolarDiagramException
+        - if
+        - if
 
 
     Methods
@@ -2261,9 +2264,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         try:
             self._pts = convert_wind(pts, -1, tw)
         except WindException as we:
-            raise PolarDiagramException(
-                "While converting wind, an error occured"
-            ) from we
+            raise PolarDiagramException("") from we
 
     def __str__(self):
         table = ["   TWS      TWA     BSP\n", "------  -------  ------\n"]
@@ -2362,7 +2363,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Parameters
         ----------
-        new_pts: array_like
+        new_pts: array_like of shape (n, 3)
             New points to be added to the point cloud given as a sequence
             of points consisting of wind speed, wind angle and boat speed
 
@@ -2381,18 +2382,16 @@ class PolarDiagramPointcloud(PolarDiagram):
         try:
             new_pts = convert_wind(new_pts, -1, tw)
         except WindException as we:
-            raise PolarDiagramException(
-                "While converting wind, an error occured"
-            ) from we
+            raise PolarDiagramException("") from we
 
         if not self.points.size:
             self._pts = new_pts
             return
+
         self._pts = np.row_stack((self.points, new_pts))
 
     def get_slices(self, ws):
         """
-
         """
         if isinstance(ws, (int, float)):
             ws = [ws]
