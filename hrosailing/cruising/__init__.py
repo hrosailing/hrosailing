@@ -9,12 +9,17 @@ import numpy as np
 from scipy.spatial import ConvexHull
 
 import hrosailing.polardiagram as pol
+from hrosailing.processing.pipelinecomponents.influencemodel import (
+    InfluenceModel,
+)
 
 # TODO Maybe change some function names
 
 
 # TODO Not yet functional for PolarDiagramMultiSails
-def convex_direction(pd: pol.PolarDiagram, ws, direction):
+def convex_direction(
+    pd: pol.PolarDiagram, ws, direction, im: InfluenceModel = None
+):
     """
 
     """
@@ -52,7 +57,9 @@ def convex_direction(pd: pol.PolarDiagram, ws, direction):
     return [(np.rad2deg(wa[i1]), lambd), (np.rad2deg(wa[i2]), 1 - lambd)]
 
 
-def cruise(pd: pol.PolarDiagram, ws, wa, start, end):
+def cruise(
+    pd: pol.PolarDiagram, ws, wa, start, end, im: InfluenceModel = None
+):
 
     _, _, bsp = pd.get_slices(ws)
     (wa1, lambd1), (wa2, lambd2) = convex_direction(pd, ws, wa)
@@ -69,6 +76,7 @@ def cost_cruise(
     cost_func=None,
     nodes=None,
     quadrature=None,
+    im: InfluenceModel = None,
 ):
     pass
 
@@ -81,5 +89,6 @@ def isocost(
     total_cost=None,
     min_nodes=None,
     quadrature=None,
+    im: InfluenceModel = None,
 ):
     pass
