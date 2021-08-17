@@ -76,8 +76,8 @@ class IDWInterpolator(Interpolator):
         If nothing is passed, it will default to a scaled
         version of ||.||_2
 
-    Raises an InterpolatorException if the inputs are not of the
-    specified or functionally equivalent type
+    Raises an InterpolatorException if the inputs are not
+    of the specified type
 
 
     Methods
@@ -118,11 +118,6 @@ class IDWInterpolator(Interpolator):
         -------
         out : int / float
             Interpolated values at grid_pt
-
-
-        Raises an InterpolatorException
-            - if
-            - if
         """
         pts = w_pts.points
         wts = self._norm(pts[:, :2] - grid_pt)
@@ -180,8 +175,8 @@ class ArithmeticMeanInterpolator(Interpolator):
     params:
         Parameters to be passed to distribution
 
-    Raises an InterpolatorException if the inputs are not of the
-    specified or functionally equivalent type
+    Raises an InterpolatorException if the inputs are not
+    of the specified type
 
 
     Methods
@@ -232,11 +227,6 @@ class ArithmeticMeanInterpolator(Interpolator):
         -------
         out : int / float
             Interpolated values at grid_pt
-
-
-        Raises an InterpolatorException
-            - if
-            - if
         """
         pts = w_pts.points
         dist = self._norm(pts[:, :2] - grid_pt)
@@ -282,8 +272,8 @@ class ImprovedIDWInterpolator(Interpolator):
         If nothing is passed, it will default to a scaled
         version of ||.||_2
 
-    Raises an InterpolatorException if the input is not of the
-    specified or functionally equivalent type
+    Raises an InterpolatorException if the input is not
+    of the specified type
 
 
     Methods
@@ -347,7 +337,6 @@ class ShepardInterpolator(Interpolator):
     Should (only) be used together with the ScalingBall neighbourhood
 
 
-
     Parameters
     ----------
     tol : positive float , optional
@@ -364,9 +353,8 @@ class ShepardInterpolator(Interpolator):
         If nothing is passed, it will default to a scaled
         version of ||.||_2
 
-    Raises an InterpolatorException
-        - if
-        - if
+    Raises an InterpolatorException if inputs are not
+    of the specified types
 
 
     Methods
@@ -413,11 +401,6 @@ class ShepardInterpolator(Interpolator):
         -------
         out : int / float
             Interpolated values at grid_pt
-
-
-        Raises an InterpolatorException
-            - if
-            - if
         """
         pts = w_pts.points
         dist = self._norm(pts[:, :2] - grid_pt)
