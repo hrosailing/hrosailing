@@ -34,16 +34,19 @@ logger.setLevel(logging.INFO)
 class PolarDiagramException(Exception):
     """Custom exception for errors that may appear whilst handling
     polar diagrams"""
+
     pass
 
 
 class FileReadingException(Exception):
     """Custom exception for errors that may appear whilst reading a file"""
+
     pass
 
 
 class FileWritingException(Exception):
     """Custom exception for errors that may appear whilst writing to a file"""
+
     pass
 
 
@@ -122,7 +125,9 @@ def from_csv(csv_path, fmt="hro", tw=True):
             ws_res, wa_res, bsps = _read_extern_format(file, fmt)
             return PolarDiagramTable(ws_res=ws_res, wa_res=wa_res, bsps=bsps)
     except OSError as oe:
-        raise FileReadingException("While reading `csv_path` an error occured") from oe
+        raise FileReadingException(
+            "While reading `csv_path` an error occured"
+        ) from oe
 
 
 def _read_table(csv_reader):
@@ -215,7 +220,9 @@ def depickling(pkl_path):
         with open(pkl_path, "rb") as file:
             return pickle.load(file)
     except OSError as oe:
-        raise FileReadingException("While reading `pkl_path` an error occured") from oe
+        raise FileReadingException(
+            "While reading `pkl_path` an error occured"
+        ) from oe
 
 
 def symmetric_polar_diagram(obj):
@@ -309,7 +316,9 @@ class PolarDiagram(ABC):
             with open(pkl_path, "wb") as file:
                 pickle.dump(self, file)
         except OSError as oe:
-            raise FileWritingException("While writing to `pkl_path` an error occured") from oe
+            raise FileWritingException(
+                "While writing to `pkl_path` an error occured"
+            ) from oe
 
     @abstractmethod
     def to_csv(self, csv_path):
@@ -329,27 +338,12 @@ class PolarDiagram(ABC):
 
         Parameters
         ----------
-        ws : int or float
-            Slice of the polar diagram, given as either
-                - an element of self.wind_speeds for
-                PolarDiagramTable
+        ws : int/float
+            Slice of the polar diagram
 
-                Slice then equals the corresponding
-                column of self.boat_speeds together
-                with the wind angles in self.wind_angles
-
-                Same with PolarDiagramMultiSails
-
-                - as a single wind speed for PolarDiagramCurve
-
-                Slice then equals self(ws, wa), where wa will
-                go through a fixed number of angles between
-                0° and 360°
-
-                - a single wind speed for PolarDiagramPointcloud
-
-                Slice then consists of all rows of self.points
-                with the first entry being equal to ws
+            For a description of what the slice is made of,
+            see the plot_polar()-method of the respective
+            PolarDiagram subclasses
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created
@@ -363,11 +357,8 @@ class PolarDiagram(ABC):
             certain appearences of the plot
 
 
-        Raises a PolarDiagramException if
-            - ws is not in self.wind_speeds
-            for PolarDiagramTable and PolarDiagramMultiSails
-            - there are no rows in self.points with first entry ws
-            for PolarDiagramPointcloud
+        Raises a PolarDiagramException, if the plot_polar()-method
+        of the respective PolarDiagram subclass raises one
         """
         logger.info(
             f"Method 'polar_plot_slice(ws={ws}, ax={ax}, "
@@ -382,27 +373,12 @@ class PolarDiagram(ABC):
 
         Parameters
         ----------
-        ws : int or float
-            Slice of the polar diagram, given as either
-                - an element of self.wind_speeds for
-                PolarDiagramTable
+        ws : int/float
+            Slice of the polar diagram
 
-                Slice then equals the corresponding
-                column of self.boat_speeds together
-                with the wind angles in self.wind_angles
-
-                Same with PolarDiagramMultiSails
-
-                - as a single wind speed for PolarDiagramCurve
-
-                Slice then equals self(ws, wa), where wa will
-                go through a fixed number of angles between
-                0° and 360°
-
-                - a single wind speed for PolarDiagramPointcloud
-
-                Slice then consists of all rows of self.points
-                with the first entry being equal to ws
+            For a description of what the slice is made of,
+            see the plot_flat()-method of the respective
+            PolarDiagram subclass
 
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
@@ -415,12 +391,8 @@ class PolarDiagram(ABC):
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
 
-
-        Raises a PolarDiagramException if
-            - ws is not in self.wind_speeds
-            for PolarDiagramTable and PolarDiagramMultiSails
-            - there are no rows in self.points with first entry ws
-            for PolarDiagramPointcloud
+        Raises a PolarDiagramException, if the plot_flat()-method
+        of the respective PolarDiagram subclass raises one
         """
         logger.info(
             f"Method 'flat_plot_slice(ws={ws}, ax={ax}, "
@@ -474,27 +446,12 @@ class PolarDiagram(ABC):
 
         Parameters
         ----------
-        ws : int or float
-            Slice of the polar diagram, given as either
-                - an element of self.wind_speeds for
-                PolarDiagramTable
+        ws : int/float
+            Slice of the polar diagram
 
-                Slice then equals the corresponding
-                column of self.boat_speeds together
-                with the wind angles in self.wind_angles
-
-                Same with PolarDiagramMultiSails
-
-                - as a single wind speed for PolarDiagramCurve
-
-                Slice then equals self(ws, wa), where wa will
-                go through a fixed number of angles between
-                0° and 360°
-
-                - a single wind speed for PolarDiagramPointcloud
-
-                Slice then consists of all rows of self.points
-                with the first entry being equal to ws
+            For a description of what the slice is made of,
+            see the plot_convex_hull()-method of the respective
+            PolarDiagram subclass
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
@@ -507,12 +464,8 @@ class PolarDiagram(ABC):
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
 
-
-        Raises a PolarDiagramException if
-            - ws is not in self.wind_speeds
-            for PolarDiagramTable and PolarDiagramMultiSails
-            - there are no rows in self.points with first entry ws
-            for PolarDiagramPointcloud
+        Raises a PolarDiagramException, if the plot_convex_hull()-method
+        of the respective PolarDiagram subclass raises one
         """
         logger.info(
             f"Method 'plot_convex_hull_slice(ws={ws}, ax={ax}, "
@@ -831,7 +784,9 @@ class PolarDiagramTable(PolarDiagram):
                 csv_writer.writerow(["Boat speeds:"])
                 csv_writer.writerows(self.boat_speeds)
         except OSError as oe:
-            raise FileWritingException("While writing to `csv_path` an error occured") from oe
+            raise FileWritingException(
+                "While writing to `csv_path` an error occured"
+            ) from oe
 
     def symmetrize(self):
         """Constructs a symmetric version of the
@@ -1698,18 +1653,20 @@ class PolarDiagramCurve(PolarDiagram):
                 csv_writer.writerow(["Radians"] + [str(self.radians)])
                 csv_writer.writerow(["Parameters"] + list(self.parameters))
         except OSError as oe:
-            raise FileWritingException("While writing to `csv_path` an error occured") from oe
+            raise FileWritingException(
+                "While writing to `csv_path` an error occured"
+            ) from oe
 
     def symmetrize(self):
         """
 
         """
+
         def sym_func(w_arr, *params):
             sym_w_arr = w_arr.copy()
             sym_w_arr[:, 1] = 360 - sym_w_arr[:, 1]
-            return (
-                0.5
-                * self.curve(w_arr, *params) + 0.5 * self.curve(sym_w_arr, *params)
+            return 0.5 * self.curve(w_arr, *params) + 0.5 * self.curve(
+                sym_w_arr, *params
             )
 
         return PolarDiagramCurve(
@@ -2328,7 +2285,9 @@ class PolarDiagramPointcloud(PolarDiagram):
                 )
                 csv_writer.writerows(self.points)
         except OSError as oe:
-            raise FileWritingException("While writing to `csv_path` an error occured") from oe
+            raise FileWritingException(
+                "While writing to `csv_path` an error occured"
+            ) from oe
 
     def symmetrize(self):
         """Constructs a symmetric version of the polar diagram,
