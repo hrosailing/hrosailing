@@ -147,16 +147,9 @@ class ODRegressor(Regressor):
             and boat speed
 
         Raises a RegressorException
-            - if data is an empty array
-            - if data contains non-finite entries
-            - if an error in the initialization of
-            scipy.odr.odrpack.Data occurs
-            - if an error in the initialization of
-            scipy.odr.odrpack.ODR occurs
-            - if an error in the method set_job of
-            scipy.odr.odrpack.ODR occurs
-            - if an error in the method run of
-            scipy.odr.odrpack.ODR occurs
+            - if
+            - if
+            - if
         """
         X, y = data[:, :2], data[:, 2]
 
@@ -252,10 +245,9 @@ class LeastSquareRegressor(Regressor):
             a sequence of points consisting of wind speed, wind angle
             and boat speed
 
-        Raises a RegressorException
-            - if data is an empty array
-            - if data contains non-finite entries
-            - if an error in the function scipy.optimize.curve_fit occurs
+        Raises a RegressorException if least-square minimization
+        was not succesful, ie, if scipy.optimize.curve_fit
+        raises a RuntimeError
         """
         X, y = data[:, :2], data[:, 2]
         X = np.ravel(X).T
