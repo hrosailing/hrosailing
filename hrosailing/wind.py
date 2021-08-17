@@ -13,6 +13,7 @@ import numpy as np
 class WindException(Exception):
     """Custom exception for errors that may appear during
     wind conversion or setting wind resolutions"""
+
     pass
 
 
