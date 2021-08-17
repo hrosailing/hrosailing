@@ -77,14 +77,12 @@ class Ball(Neighbourhood):
     """
 
     def __init__(self, norm=None, radius=1):
+        if not isinstance(radius, (int, float)) or radius <= 0:
+            raise NeighbourhoodException("`radius` is not a positive number")
+
         if norm is None:
             norm = scaled(euclidean_norm, [1 / 40, 1 / 360])
-
-        if not isinstance(radius, (int, float)) or radius <= 0:
-            raise NeighbourhoodException(
-                "`radius` needs to be positive number"
-            )
-        if not callable(norm):
+        elif not callable(norm):
             raise NeighbourhoodException("`norm` is not callable")
 
         self._norm = norm
@@ -157,20 +155,16 @@ class ScalingBall(Neighbourhood):
     """
 
     def __init__(self, min_pts, max_pts, norm=None):
-        if norm is None:
-            norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
-
         if not isinstance(min_pts, int) or min_pts <= 0:
-            raise NeighbourhoodException(
-                "`min_pts` needs to be a positive integer"
-            )
+            raise NeighbourhoodException("`min_pts` is not a positive integer")
         if not isinstance(max_pts, int) or max_pts <= 0:
-            raise NeighbourhoodException(
-                "`max_pts` needs to be a positive integer"
-            )
+            raise NeighbourhoodException("`max_pts` is not a positive integer")
         if max_pts <= min_pts:
             raise NeighbourhoodException("`max_pts` is smaller than `min_pts`")
-        if not callable(norm):
+
+        if norm is None:
+            norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
+        elif not callable(norm):
             raise NeighbourhoodException("`norm` is not callable")
 
         self._min_pts = min_pts
@@ -240,7 +234,7 @@ class Ellipsoid(Neighbourhood):
 
     Parameters
     ----------
-    lin_trans: numpy.ndarray with shape (2,2), optional
+    lin_trans: array_like of shape (2,2), optional
         The linear transformation which transforms the
         ball into the given ellipsoid, ie T
 
@@ -259,8 +253,7 @@ class Ellipsoid(Neighbourhood):
         Defaults to 1
 
     Raises a NeighbourhoodException
-        - if the inputs are not of the specified or
-        functionally equivalent types
+        - if the inputs are not of the specified types
         - if lin_trans is not invertible
 
 
@@ -273,22 +266,25 @@ class Ellipsoid(Neighbourhood):
     def __init__(self, lin_trans=None, norm=None, radius=1):
         if lin_trans is None:
             lin_trans = np.eye(2)
-        lin_trans = np.asarray(lin_trans)
+
+        try:
+            lin_trans = np.asarray_chkfinite(lin_trans)
+        except ValueError as ve:
+            raise NeighbourhoodException(
+                "`lin_trans` contains infinite or NaN values"
+            ) from ve
+        if lin_trans.shape != (2, 2):
+            raise NeighbourhoodException("`lin_trans` has incorrect shape")
+        if not np.linalg.det(lin_trans):
+            raise NeighbourhoodException("`lin_trans` is not invertible")
+
         if norm is None:
             norm = scaled(euclidean_norm, [1 / 40, 1 / 360])
+        elif not callable(norm):
+            raise NeighbourhoodException("`norm` is not callable")
 
         if not isinstance(radius, (int, float)) or radius <= 0:
-            raise NeighbourhoodException(
-                "`radius` needs to be positive number"
-            )
-        if lin_trans.shape != (2, 2):
-            raise NeighbourhoodException(
-                "`lin_trans` needs to be a square matrix of size 2"
-            )
-        if not np.linalg.det(lin_trans):
-            raise NeighbourhoodException("`lin_trans` needs to be invertible")
-        if not callable(norm):
-            raise NeighbourhoodException("`norm` is not callable")
+            raise NeighbourhoodException("`radius` is not a positive number")
 
         self._T = np.linalg.inv(lin_trans)
         self._norm = norm
@@ -359,7 +355,7 @@ class Cuboid(Neighbourhood):
 
         if norm is None:
             norm = np.abs
-        if not callable(norm):
+        elif not callable(norm):
             raise NeighbourhoodException("`norm` is not callable")
 
         self._norm = norm
@@ -436,33 +432,30 @@ class Polytope(Neighbourhood):
     def __init__(self, mat=None, b=None):
         if mat is None:
             mat = np.row_stack((np.eye(2), -np.eye(2)))
+
         if b is None:
             b = np.ones(4)
 
+        # NaN's or infinite values can't be handled
         try:
             mat = np.asarray_chkfinite(mat)
         except ValueError as ve:
             raise NeighbourhoodException(
-                "`mat` should only have finite and non-NaN entries"
+                "`mat` contains infinite or NaN values"
             ) from ve
 
         try:
             b = np.asarray_chkfinite(b)
         except ValueError as ve:
             raise NeighbourhoodException(
-                "`b` should only have finite and non-NaN entries"
+                "`b` contains infinite or NaN values"
             ) from ve
 
-        if mat.ndim != 2:
-            raise NeighbourhoodException("`mat` is not 2-dimensional")
-        if b.ndim != 1:
-            raise NeighbourhoodException("`b` is not 1-dimensional")
+        if mat.ndim != 1 or mat.shape[1] != 2:
+            raise NeighbourhoodException("`mat` has incorrect shape")
 
-        if mat.shape[0] != b.shape[0] or mat.shape[1] != 2:
-            raise NeighbourhoodException(
-                "`mat` needs to be a matrix of shape (n, 2) and "
-                "`b` needs to be a vector of shape (n, )"
-            )
+        if b.ndim != 1 or b.shape[0] != mat.shape[0]:
+            raise NeighbourhoodException("`b` has incorrect shape")
 
         self._mat = mat
         self._b = b
