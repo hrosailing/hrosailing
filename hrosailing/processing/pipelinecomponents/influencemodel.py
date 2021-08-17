@@ -16,19 +16,19 @@ class InfluenceModel(ABC):
     """"""
 
     @abstractmethod
-    def remove(self,):
+    def remove(self, data):
         pass
 
     @abstractmethod
-    def add(self, ):
+    def add(self, data):
         pass
 
 
 class LinearCurrentModel(InfluenceModel):
     """"""
 
-    def remove(self,):
+    def remove(self, data):
         pass
 
-    def add(self, ):
+    def add(self, data):
         pass
