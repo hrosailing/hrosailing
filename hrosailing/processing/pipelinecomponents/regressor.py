@@ -267,7 +267,9 @@ class LeastSquareRegressor(Regressor):
                 self.model_func, X, y, p0=self._init_vals, sigma=self._weights
             )
         except RuntimeError as re:
-            raise RegressorException("Least-square minimization was unsuccesful") from re
+            raise RegressorException(
+                "Least-square minimization was unsuccesful"
+            ) from re
 
         logger.info(f"Model-function: {self._func}")
         logger.info(f"Optimal parameters: {self._popt}")
