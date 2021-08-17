@@ -89,12 +89,11 @@ class IDWInterpolator(Interpolator):
 
     def __init__(self, p=2, norm=None):
         if p < 0 or not isinstance(p, int):
-            raise InterpolatorException(
-                "`p` needs to be a nonnegative integer"
-            )
+            raise InterpolatorException("`p` is not a nonnegative integer")
+
         if norm is None:
             norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
-        if not callable(norm):
+        elif not callable(norm):
             raise InterpolatorException("`norm` is not callable")
 
         self._p = p
@@ -194,16 +193,16 @@ class ArithmeticMeanInterpolator(Interpolator):
 
     def __init__(self, *params, s=1, norm=None, distribution=None):
         if not isinstance(s, (int, float)) or s <= 0:
-            raise InterpolatorException("`s` needs to be a positive")
+            raise InterpolatorException("`s` is not a positive number")
 
         if norm is None:
             norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
-        if not callable(norm):
+        elif not callable(norm):
             raise InterpolatorException("`norm` is not callable")
 
         if distribution is None:
             distribution = gauss_potential
-        if not callable(distribution):
+        elif not callable(distribution):
             raise InterpolatorException("`distribution` is not callable")
 
         self._s = s
@@ -297,7 +296,7 @@ class ImprovedIDWInterpolator(Interpolator):
     def __init__(self, norm=None):
         if norm is None:
             norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
-        if not callable(norm):
+        elif not callable(norm):
             raise InterpolatorException("`norm` is not callable")
 
         self._norm = norm
@@ -380,19 +379,17 @@ class ShepardInterpolator(Interpolator):
     def __init__(self, tol=np.finfo(float).eps, slope=0.1, norm=None):
         if norm is None:
             norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
-        if not callable(norm):
+        elif not callable(norm):
             raise InterpolatorException("`norm` is not callable")
 
         if tol <= 0:
-            raise InterpolatorException("`tol` needs to be a positive number")
+            raise InterpolatorException("`tol` is not a positive number")
         if slope <= 0:
-            raise InterpolatorException(
-                "`slope` needs to be a positive number"
-            )
+            raise InterpolatorException("`slope` is not a positive number")
 
+        self._norm = norm
         self._tol = tol
         self._slope = slope
-        self._norm = norm
 
     def __repr__(self):
         return (
