@@ -11,8 +11,8 @@ import numpy as np
 
 
 class WindException(Exception):
-    """"""
-
+    """Custom exception for errors that may appear during
+    wind conversion or setting wind resolutions"""
     pass
 
 
@@ -21,7 +21,7 @@ def apparent_wind_to_true(wind):
 
     Parameters
     ----------
-    wind : array_like
+    wind : array_like of shape (n, 3)
         Wind data given as a sequence of points consisting of wind speed,
         wind angle and boat speed, where the wind speed and wind angle are
         measured as apparent wind
@@ -33,56 +33,55 @@ def apparent_wind_to_true(wind):
         and wind angle now measured as true wind
 
     Raises a WindException
-        - if wind_arr is an empty sequence
-        - if some values in wind_arr are NaN or
-        not finite
+        - if wind is not of the specified type
+        - if wind contains NaNs or infinite values
     """
-    return convert_wind(wind, -1, False)
+    return convert_wind(wind, -1, tw=False, check_finite=True)
 
 
 def true_wind_to_apparent(wind):
     """Converts true wind to apparent wind
 
-        Parameters
-        ----------
-        wind : array_like
-            Wind data given as a sequence of points consisting of wind speed,
-            wind angle and boat speed, where the wind speed and wind angle are
-            measured as true wind
+    Parameters
+    ----------
+    wind : array_like of shape (n, 3)
+        Wind data given as a sequence of points consisting of wind speed,
+        wind angle and boat speed, where the wind speed and wind angle are
+        measured as true wind
 
-        Returns
-        -------
-        out : numpy.ndarray of shape (n, 3)
-            Array containing the same data as wind_arr, but the wind speed
-            and wind angle now measured as apparent wind
+    Returns
+    -------
+    out : numpy.ndarray of shape (n, 3)
+        Array containing the same data as wind_arr, but the wind speed
+        and wind angle now measured as apparent wind
 
-        Raises a WindException
-            - if wind_arr is an empty sequence
-            - if some values in wind_arr are NaN or
-            not finite
-        """
-    return convert_wind(wind, 1, False)
+    Raises a WindException
+        - if wind is not of the specified type
+        - if wind contains NaNs or infinite values
+    """
+    return convert_wind(wind, 1, tw=False, check_finite=True)
 
 
 def convert_wind(wind, sign, tw, check_finite=True):
+    wind = _sanity_checks(wind, check_finite)
     if tw:
         return wind
-    wind = _sanity_checks(wind, check_finite)
 
     ws, wa, bsp = np.hsplit(wind, 3)
     wa_above_180 = wa > 180
     wa = np.deg2rad(wa)
-
     cws = np.sqrt(
         np.square(ws) + np.square(bsp) + sign * 2 * ws * bsp * np.cos(wa)
     )
 
+    # account for computer error
     temp = (ws * np.cos(wa) + sign * bsp) / cws
-    # Account for computer error
     temp[temp > 1] = 1
     temp[temp < -1] = -1
 
     cwa = np.arccos(temp)
+
+    # standartize angles to 0 - 360° inverval
     cwa[wa_above_180] = 360 - np.rad2deg(cwa[wa_above_180])
     cwa[np.logical_not(wa_above_180)] = np.rad2deg(
         cwa[np.logical_not(wa_above_180)]
@@ -97,7 +96,7 @@ def _sanity_checks(wind, check_finite):
             wind = np.asarray_chkfinite(wind)
         except ValueError as ve:
             raise WindException(
-                "`wind contains infinite or NaN values`"
+                "`wind` contains infinite or NaN values"
             ) from ve
     else:
         wind = np.asarray(wind)
@@ -112,9 +111,6 @@ def _sanity_checks(wind, check_finite):
 
 
 def set_resolution(res, speed_or_angle):
-    if speed_or_angle not in {"speed", "angle"}:
-        raise WindException("")
-
     b = speed_or_angle == "speed"
 
     if res is None:
@@ -122,7 +118,7 @@ def set_resolution(res, speed_or_angle):
 
     # TODO Iterable-test really necessary?
     if not isinstance(res, (Iterable, int, float)):
-        raise WindException(f"{res} is neither array_like, int or float")
+        raise WindException("`res` is neither array_like, int or float")
 
     if isinstance(res, Iterable):
         # TODO: Check if contents of array are numbers?
@@ -130,23 +126,24 @@ def set_resolution(res, speed_or_angle):
             res = np.asarray_chkfinite(res)
         except ValueError as ve:
             raise WindException(
-                f"{res} should only have finite and non-NaN entries"
+                "`res` contains infinite or NaN values"
             ) from ve
 
         if res.dtype is object:
-            raise WindException(f"{res} is not array_like")
-        if not res.size:
-            raise WindException("Empty res was passed")
+            raise WindException("`res` is not array_like")
+
+        if not res.size or res.ndim != 1:
+            raise WindException("`res` has incorrect shape")
 
         if len(set(res)) != len(res):
             print(
-                "Warning: Wind resolution contains duplicate data."
+                "Warning: `res` contains duplicate data. "
                 "This may lead to unwanted behaviour"
             )
 
         return res
 
     if res <= 0:
-        raise WindException("Nonpositive resolution stepsize")
+        raise WindException("`res` is nonpositive")
 
     return np.arange(res, 40, res) if b else np.arange(res, 360, res)
