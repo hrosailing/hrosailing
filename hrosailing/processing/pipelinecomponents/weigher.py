@@ -221,7 +221,7 @@ class CylindricMeanWeigher(Weigher):
 
     def __init__(self, radius=1, norm=None):
         if not isinstance(radius, (int, float)) or radius <= 0:
-            raise WeigherException("`radius` needs to be positive number")
+            raise WeigherException("`radius` is not a positive number")
 
         if norm is None:
             norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
@@ -260,7 +260,7 @@ class CylindricMeanWeigher(Weigher):
 
             # in case there are on points in cylinder
             std = np.std(cylinder) or 1
-            mean = np.mean(cylinder) or pt[d-1]
+            mean = np.mean(cylinder) or pt[d - 1]
 
             wts[i] = np.abs(mean - pt[d - 1]) / std
 
@@ -314,10 +314,10 @@ class CylindricMemberWeigher(Weigher):
 
     def __init__(self, radius=1, length=1, norm=None):
         if not isinstance(radius, (int, float)) or radius <= 0:
-            raise WeigherException("`radius´ needs to be positive number")
+            raise WeigherException("`radius´ is not a positive number")
 
         if not isinstance(length, (int, float)) or length < 0:
-            raise WeigherException("`length` needs to be a nonnegative number")
+            raise WeigherException("`length` is not a nonnegative number")
 
         if norm is None:
             norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
