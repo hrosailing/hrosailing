@@ -71,24 +71,28 @@ class PolarPipeline:
         handler: pc.DataHandler,
         weigher: pc.Weigher = None,
         filter_: pc.Filter = None,
+        im: pc.InfluenceModel = None,
     ):
+        if im is not None and not isinstance(im, pc.InfluenceModel):
+            raise PipelineException("`im` is not an InfluenceModel")
         if weigher is None:
             weigher = pc.CylindricMeanWeigher()
         elif not isinstance(weigher, pc.Weigher):
-            raise PipelineException("weigher is not a Weigher")
+            raise PipelineException("`weigher` is not a Weigher")
 
         if filter_ is None:
             filter_ = pc.QuantileFilter()
         elif not isinstance(filter_, pc.Filter):
-            raise PipelineException("filter_ is not a Filter")
+            raise PipelineException("`filter_` is not a Filter")
 
         if not isinstance(extension, PipelineExtension):
-            raise PipelineException("extension is not a PipelineExtension")
+            raise PipelineException("`extension` is not a PipelineExtension")
 
         if not isinstance(handler, pc.DataHandler):
-            raise PipelineException("handler is not a DataHandler")
+            raise PipelineException("`handler` is not a DataHandler")
 
         self.handler = handler
+        self.im = im
         self.weigher = weigher
         self.filter = filter_
         self.extension = extension
@@ -137,14 +141,16 @@ class PolarPipeline:
         if data.shape[1] != 3:
             raise PipelineException("`data` has incorrect shape")
 
-        # check finiteness of weights?
+        if self.im is not None:
+            data = self.im.remove(data)
+
         w_pts = pc.WeightedPoints(data, weigher=self.weigher, tw=tw)
 
         if filtering:
             mask = self.filter.filter(w_pts.weights)
             w_pts = w_pts[mask]
 
-        self.extension.process(w_pts)
+        return self.extension.process(w_pts)
 
 
 class TableExtension(PipelineExtension):
