@@ -21,9 +21,9 @@ from scipy.spatial import ConvexHull
 def plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
     if ax is None:
         ax = plt.axes(projection="polar")
-    _set_polar_directions(ax)
 
-    _prepare_plot(ax, ws, wa, colors, show_legend, legend_kw, **plot_kw)
+    _set_polar_directions(ax)
+    _prepare_plot(ax, ws, colors, show_legend, legend_kw, **plot_kw)
 
     xs, ys = _sort_data(wa, bsp)
     return _plot(ax, xs, ys, **plot_kw)
@@ -33,7 +33,7 @@ def plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
     if ax is None:
         ax = plt.gca()
 
-    _prepare_plot(ax, ws, wa, colors, show_legend, legend_kw, **plot_kw)
+    _prepare_plot(ax, ws, colors, show_legend, legend_kw, **plot_kw)
 
     xs, ys = _sort_data(wa, bsp)
     return _plot(ax, xs, ys, **plot_kw)
@@ -56,11 +56,11 @@ def plot_color_gradient(
 
 
 def plot3d(ws, wa, bsp, ax, **plot_kw):
-    _check_keywords(plot_kw)
-
     if ax is None:
         ax = plt.axes(projection="3d")
+
     _set_3d_labels(ax)
+    _check_keywords(plot_kw)
 
     return ax.plot(ws, wa, bsp, **plot_kw)
 
@@ -68,9 +68,10 @@ def plot3d(ws, wa, bsp, ax, **plot_kw):
 def plot_surface(ws, wa, bsp, ax, colors):
     if ax is None:
         ax = plt.axes(projection="3d")
+
     _set_3d_labels(ax)
 
-    cmap = LinearSegmentedColormap.from_list("custom_cmap", list(colors))
+    cmap = LinearSegmentedColormap.from_list("cmap", list(colors))
     color = cmap((ws - ws.min()) / float((ws - ws.min()).max()))
 
     return ax.plot_surface(ws, wa, bsp, facecolors=color)
@@ -81,12 +82,12 @@ def plot_convex_hull(
 ):
     if ax is None:
         ax = plt.axes(projection="polar")
-    _set_polar_directions(ax)
 
+    _set_polar_directions(ax)
     ls = plot_kw.get("linestyle") or plot_kw.get("ls")
     if ls is None:
         plot_kw["ls"] = "-"
-    _prepare_plot(ax, ws, wa, colors, show_legend, legend_kw, **plot_kw)
+    _prepare_plot(ax, ws, colors, show_legend, legend_kw, **plot_kw)
 
     wa, bsp = _sort_data(wa, bsp)
     xs, ys = _get_convex_hull(wa, bsp)
@@ -94,29 +95,17 @@ def plot_convex_hull(
     return _plot(ax, xs, ys, **plot_kw)
 
 
-def _prepare_plot(ax, ws, wa, colors, show_legend, legend_kw, **plot_kw):
+def _prepare_plot(ax, ws, colors, show_legend, legend_kw, **plot_kw):
     _check_keywords(plot_kw)
 
     if colors is None:
         colors = plot_kw.pop("color", None) or plot_kw.pop("c", None)
-    if isinstance(ws, list):
-        c = _set_color_cycle(ax, ws, colors)
-    else:
-        c = _set_color_cycle(ax, wa, colors)
-    if c is not None:
-        plot_kw["c"] = c
+    _set_color_cycle(ax, ws, colors)
 
     if legend_kw is None:
         legend_kw = {}
     if show_legend:
         _set_legend(ax, ws, colors, label="True Wind Speed", **legend_kw)
-
-    if isinstance(ws, list):
-        c = _set_color_cycle(ax, ws, colors)
-    else:
-        c = _set_color_cycle(ax, wa, colors)
-    if c is not None:
-        plot_kw["c"] = c
 
 
 def _check_keywords(dct):
@@ -128,25 +117,24 @@ def _check_keywords(dct):
         dct["marker"] = "o"
 
 
+def _set_polar_directions(ax):
+    ax.set_theta_zero_location("N")
+    ax.set_theta_direction("clockwise")
+
+
 def _set_3d_labels(ax):
     ax.set_xlabel("True Wind Speed")
     ax.set_ylabel("True Wind Angle")
     ax.set_zlabel("Boat Speed")
 
 
-def _set_polar_directions(ax):
-    ax.set_theta_zero_location("N")
-    ax.set_theta_direction("clockwise")
-
-
 def _set_color_cycle(ax, ws, colors):
     if is_color_like(colors):
-        return colors
-    if colors is None:
-        return "blue"
+        ax.set_prop_cycle("color", [colors])
+        return
 
-    if not isinstance(ws, list):
-        ws = [ws]
+    if colors is None:
+        colors = ["blue"]
 
     n_plots = len(ws)
     n_colors = len(colors)
@@ -160,9 +148,10 @@ def _set_color_cycle(ax, ws, colors):
             if is_color_like(colors[0]):
                 for i, c in enumerate(colors):
                     color_list[i] = c
-            for w, c in colors:
-                i = list(ws).index(w)
-                color_list[i] = c
+            else:
+                for w, c in colors:
+                    i = list(ws).index(w)
+                    color_list[i] = c
         else:
             for i, c in enumerate(colors):
                 color_list[i] = c
@@ -170,6 +159,7 @@ def _set_color_cycle(ax, ws, colors):
         ax.set_prop_cycle("color", color_list)
         return
 
+    # n_colors == 2
     ax.set_prop_cycle("color", _get_colors(colors, ws))
 
 
@@ -180,22 +170,13 @@ def _get_colors(colors, grad):
     grad_min = min(grad)
 
     coeffs = [(g - grad_min) / (grad_max - grad_min) for g in grad]
-
     return [(1 - coeff) * min_color + coeff * max_color for coeff in coeffs]
 
 
 def _set_colormap(ws, colors, ax, label, **legend_kw):
-    min_color = colors[0]
-    max_color = colors[1]
-    ws_min = min(ws)
-    ws_max = max(ws)
-
-    cmap = LinearSegmentedColormap.from_list(
-        "custom_map", [min_color, max_color]
-    )
-
+    cmap = LinearSegmentedColormap.from_list("cmap", [colors[0], colors[1]])
     plt.colorbar(
-        ScalarMappable(norm=Normalize(vmin=ws_min, vmax=ws_max), cmap=cmap),
+        ScalarMappable(norm=Normalize(vmin=min(ws), vmax=max(ws)), cmap=cmap),
         ax=ax,
         **legend_kw,
     ).set_label(label)
@@ -204,13 +185,6 @@ def _set_colormap(ws, colors, ax, label, **legend_kw):
 def _set_legend(ax, ws, colors, label, **legend_kw):
     n_colors = len(colors)
     n_plots = len(ws)
-
-    if n_plots == 1:
-        ax.legend(
-            handles=[
-                Line2D([0], [0], color=colors, lw=1, label=f"TWS {ws[0]}")
-            ]
-        )
 
     if n_plots > n_colors == 2:
         _set_colormap(ws, colors, ax, label, **legend_kw)
@@ -227,7 +201,8 @@ def _set_legend(ax, ws, colors, label, **legend_kw):
                     label=f"TWS {colors[i][0]}",
                 )
                 for i in range(n_colors)
-            ]
+            ],
+            **legend_kw,
         )
         return
 
@@ -235,7 +210,8 @@ def _set_legend(ax, ws, colors, label, **legend_kw):
         handles=[
             Line2D([0], [0], color=colors[i], lw=1, label=f"TWS {ws[i]}")
             for i in range(min(n_plots, n_colors))
-        ]
+        ],
+        **legend_kw,
     )
 
 
@@ -257,7 +233,6 @@ def _sort_data(wa, bsp):
     return xs, ys
 
 
-# TODO: Is there a better way?
 def _plot(ax, xs, ys, **plot_kw):
     for x, y in zip(xs, ys):
         x, y = np.asarray(x), np.asarray(y)
@@ -273,7 +248,8 @@ def _get_convex_hull(wa, bsp):
     ys = []
     for w, b in zip(wa, bsp):
         w, b = np.asarray(w).ravel(), np.asarray(b).ravel()
-        vert = sorted(_convex_hull_polar(np.column_stack((w, b))).vertices)
+        conv = _convex_hull_polar(w, b)
+        vert = sorted(conv.vertices)
         x, y = zip(*([(w[i], b[i]) for i in vert]))
         x = list(x)
         y = list(y)
@@ -285,8 +261,6 @@ def _get_convex_hull(wa, bsp):
     return xs, ys
 
 
-def _convex_hull_polar(pts):
-    polar_pts = np.column_stack(
-        (pts[:, 1] * np.cos(pts[:, 0]), pts[:, 1] * np.sin(pts[:, 0]))
-    )
+def _convex_hull_polar(wa, bsp):
+    polar_pts = np.column_stack((bsp * np.cos(wa), bsp * np.sin(wa)))
     return ConvexHull(polar_pts)
