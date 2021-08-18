@@ -121,6 +121,9 @@ class PolarPipeline:
         """
         data = self.handler.handle(data)
 
+        if self.im is not None:
+            data = self.im.remove_influence(data)
+
         # NaN and infinite values can't normally be handled
         if check_finite:
             try:
@@ -140,9 +143,6 @@ class PolarPipeline:
         # wind angle and boat speed, after handling
         if data.shape[1] != 3:
             raise PipelineException("`data` has incorrect shape")
-
-        if self.im is not None:
-            data = self.im.remove(data)
 
         w_pts = pc.WeightedPoints(data, weigher=self.weigher, tw=tw)
 
