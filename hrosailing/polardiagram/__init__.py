@@ -798,7 +798,6 @@ class PolarDiagramTable(PolarDiagram):
         polar diagram are on one side of the 0° - 180° axis,
         otherwise this can lead to duplicate data, which can
         overwrite or live alongside old data
-
         """
         below_180 = [wa for wa in self.wind_angles if wa <= 180]
         above_180 = [wa for wa in self.wind_angles if wa > 180]
@@ -1298,28 +1297,6 @@ def interpolate():
     pass
 
 
-def _merge_tables(
-    polar_tables: List[PolarDiagramTable],
-) -> (PolarDiagramTable, list):
-    ws = polar_tables[0].wind_speeds
-    wa = polar_tables[0].wind_angles
-    pd = PolarDiagramTable(ws_res=ws, wa_res=wa)
-    members = []
-    for a in wa:
-        subm = []
-        for w in ws:
-            bsp, sail = sorted(
-                [(pt[w, a], i) for i, pt in enumerate(polar_tables)],
-                key=lambda x: -x[0],
-            )[0]
-            pd.change_entries(bsp, w, a)
-            subm.append(sail)
-
-        members.append(subm)
-
-    return pd, members
-
-
 # TODO: Standardize wind angles, such that they are in [0, 360),
 #       because 360° should be equal to 0°
 class PolarDiagramMultiSails(PolarDiagram):
@@ -1408,18 +1385,17 @@ class PolarDiagramMultiSails(PolarDiagram):
 
     @property
     def wind_speeds(self):
-        """Returns a read only version of self._res_wind_speed"""
+        """"""
         return
 
     @property
     def wind_angles(self):
-        """Returns a read only version of self._res_wind_angle"""
+        """"""
         return
 
     @property
     def boat_speeds(self):
-        """Returns a list of pt.boat_speeds for every PolarDiagramTable
-        pt in self._sails"""
+        """"""
         return
 
     def to_csv(self, csv_path):
@@ -1430,16 +1406,22 @@ class PolarDiagramMultiSails(PolarDiagram):
         mirroring each PolarDiagramTable at the 0° - 180° axis and
         returning a new instance. See also the symmetrize()-method
         of the PolarDiagramTable class
+
         Warning
         -------
         Should only be used if all the wind angles of the PolarDiagramTables
         are each on one side of the 0° - 180° axis, otherwise this can lead
         to duplicate data, which can overwrite or live alongside old data
         """
-        pass
+        pds = [pd.symmetrize() for pd in self._tables]
+        return PolarDiagramMultiSails(pds, self._sails)
 
     def get_slices(self, ws):
-        pass
+        members = []
+        for pd in self._tables:
+            ws, wa, bsp = pd.get_slices(ws)
+
+        return ws, wa, bsp, members
 
     def plot_polar(
         self,
@@ -1476,13 +1458,6 @@ class PolarDiagramMultiSails(PolarDiagram):
     def plot_3d(self, ax=None, colors=None):
         pass
 
-    # TODO: Implementation
-    #       Problems: How can we make multiple color
-    #                 gradients for the multiple sails?
-    #                 Different approach?
-    #                 How to handle legend?
-    #                 Multiple legends?
-    #                 Change helper function?
     def plot_color_gradient(
         self,
         ax=None,
@@ -1495,14 +1470,17 @@ class PolarDiagramMultiSails(PolarDiagram):
 
     def plot_convex_hull(
         self,
-        ws_range,
+        ws,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
         legend_kw=None,
         **plot_kw,
     ):
-        pass
+        ws, wa, bsp, members = self.get_slices(ws)
+        plot_convex_hull_multisails(
+            ws, wa, bsp, members, ax, colors, show_legend, legend_kw, **plot_kw
+        )
 
 
 class PolarDiagramCurve(PolarDiagram):
