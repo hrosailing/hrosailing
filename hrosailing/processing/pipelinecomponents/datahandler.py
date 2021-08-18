@@ -94,6 +94,7 @@ class CsvFileHandler(DataHandler):
             ) from ve
 
 
+# TODO also check for other sentences
 class NMEAFileHandler(DataHandler):
     """A data handler to extract data from a text file containing
     certain nmea sentences
@@ -184,7 +185,6 @@ class NMEAFileHandler(DataHandler):
 
                     _process_data(nmea_data, wind_data, stc, bsp, self.mode)
 
-                # TODO better way
                 aw = [data[:3] for data in nmea_data if data[3] == "R"]
                 tw = [data[:3] for data in nmea_data if data[3] != "R"]
                 if not aw:
