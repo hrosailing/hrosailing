@@ -20,10 +20,8 @@ from hrosailing.processing.pipelinecomponents.influencemodel import (
 def convex_direction(
     pd: pol.PolarDiagram, ws, direction, im: InfluenceModel = None
 ):
-    """
-
-    """
-    _, wa, bsp = pd.get_slices(ws)
+    """"""
+    _, wa, bsp, *_ = pd.get_slices(ws)
     bsp = bsp.ravel()
     vert = ConvexHull(
         np.column_stack((bsp * np.cos(wa)), bsp * np.sin(wa))
@@ -60,13 +58,17 @@ def convex_direction(
 def cruise(
     pd: pol.PolarDiagram, ws, wa, start, end, im: InfluenceModel = None
 ):
-
-    _, _, bsp = pd.get_slices(ws)
+    """"""
+    _, _, bsp, *_ = pd.get_slices(ws)
     (wa1, lambd1), (wa2, lambd2) = convex_direction(pd, ws, wa)
     dist = ...
     t1, t2 = ..., ...
 
     return [(wa1, t1), (wa2, t2)]
+
+
+class WeatherModel:
+    pass
 
 
 def cost_cruise(
@@ -76,8 +78,23 @@ def cost_cruise(
     cost_func=None,
     nodes=None,
     quadrature=None,
+    wm: WeatherModel = None,
     im: InfluenceModel = None,
 ):
+    """"""
+    pass
+
+
+def isocrone(
+    pd: pol.PolarDiagram,
+    start,
+    direction,
+    total_cost=None,
+    min_nodes=None,
+    wm: WeatherModel = None,
+    im: InfluenceModel = None,
+):
+    """"""
     pass
 
 
@@ -89,6 +106,8 @@ def isocost(
     total_cost=None,
     min_nodes=None,
     quadrature=None,
+    wm: WeatherModel = None,
     im: InfluenceModel = None,
 ):
+    """"""
     pass
