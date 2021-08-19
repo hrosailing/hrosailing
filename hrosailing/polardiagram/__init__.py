@@ -1301,6 +1301,8 @@ def interpolate():
 
 # TODO: Standardize wind angles, such that they are in [0, 360),
 #       because 360° should be equal to 0°
+
+# TODO: Docstrings
 class PolarDiagramMultiSails(PolarDiagram):
     """A class to represent, visualize and work with
     a polar diagram made up of multiple sets of sails,
