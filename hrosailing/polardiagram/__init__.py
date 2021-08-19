@@ -1417,9 +1417,21 @@ class PolarDiagramMultiSails(PolarDiagram):
         return PolarDiagramMultiSails(pds, self._sails)
 
     def get_slices(self, ws):
-        members = []
+        """"""
+        wa = []
+        temp = []
         for pd in self._tables:
-            ws, wa, bsp = pd.get_slices(ws)
+            ws, w, b = pd.get_slices(ws)
+            wa.append(w)
+            temp.append(b)
+
+        members = [[self._sails[i]] * len(w) for i, w in enumerate(wa)]
+        members = [name for member in members for name in member]
+        wa = [np.asarray(wa).ravel()] * len(ws)
+        bsp = []
+        for i in range(len(ws)):
+            b = np.asarray([b_[:, i] for b_ in temp]).ravel()
+            bsp.append(b)
 
         return ws, wa, bsp, members
 
