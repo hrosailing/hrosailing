@@ -7,11 +7,13 @@ in different forms and functions to manipulate PolarDiagram-objects
 # Author: Valentin F. Dannenberg / Ente
 
 
+from abc import ABC, abstractmethod
 import csv
+import itertools
 import logging.handlers
 import pickle
-from abc import ABC, abstractmethod
 from typing import List
+
 
 from hrosailing.polardiagram.plotting import *
 from hrosailing.wind import WindException, convert_wind, set_resolution
@@ -1425,8 +1427,10 @@ class PolarDiagramMultiSails(PolarDiagram):
             wa.append(w)
             temp.append(b)
 
+        flatten = itertools.chain.from_iterable
         members = [[self._sails[i]] * len(w) for i, w in enumerate(wa)]
-        members = [name for member in members for name in member]
+        members = flatten(members)
+
         wa = [np.asarray(wa).ravel()] * len(ws)
         bsp = []
         for i in range(len(ws)):
@@ -1444,13 +1448,17 @@ class PolarDiagramMultiSails(PolarDiagram):
         legend_kw=None,
         **plot_kw,
     ):
-        for i, pd in self._tables:
+        if ax is None:
+            ax = plt.axes(projection="polar")
+
+        for i, pd in enumerate(self._tables):
             if i == 0 and show_legend:
                 pd.plot_polar(
                     ws, ax, colors, show_legend, legend_kw, **plot_kw
                 )
-            else:
-                pd.plot_polar(ws, ax, colors, False, None, **plot_kw)
+                continue
+
+            pd.plot_polar(ws, ax, colors, False, None, **plot_kw)
 
     def plot_flat(
         self,
@@ -1461,14 +1469,19 @@ class PolarDiagramMultiSails(PolarDiagram):
         legend_kw=None,
         **plot_kw,
     ):
-        for i, pd in self._tables:
+        for i, pd in enumerate(self._tables):
             if i == 0 and show_legend:
                 pd.plot_flat(ws, ax, colors, show_legend, legend_kw, **plot_kw)
-            else:
-                pd.plot_flat(ws, ax, colors, False, None, **plot_kw)
+                continue
+
+            pd.plot_flat(ws, ax, colors, False, None, **plot_kw)
 
     def plot_3d(self, ax=None, colors=None):
-        pass
+        if ax is None:
+            ax = plt.axes(projection="3d")
+
+        for pd in self._tables:
+            pd.plot_3d(ax, colors)
 
     def plot_color_gradient(
         self,

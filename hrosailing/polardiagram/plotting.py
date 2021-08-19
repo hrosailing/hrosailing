@@ -4,9 +4,8 @@ Various functions to plot PolarDiagram objects
 
 # Author: Valentin F. Dannenberg / Ente
 
-
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
 from matplotlib.colors import (
     to_rgb,
     is_color_like,
@@ -91,6 +90,32 @@ def plot_convex_hull(
 
     wa, bsp = _sort_data(wa, bsp)
     xs, ys = _get_convex_hull(wa, bsp)
+
+    return _plot(ax, xs, ys, **plot_kw)
+
+
+def plot_convex_hull_multisails(
+    ws, wa, bsp, members, ax, colors, show_legend, legend_kw, **plot_kw
+):
+    if ax is None:
+        ax = plt.axes(projection="polar")
+
+    _set_polar_directions(ax)
+    ls = plot_kw.get("linestyle") or plot_kw.get("ls")
+    if ls is None:
+        plot_kw["ls"] = "-"
+
+    if colors is None:
+        colors = plot_kw.pop("color") or plot_kw.pop("c") or []
+
+    xs, ys, members = _get_convex_hull_multisails(ws, wa, bsp, members)
+
+    colors = dict(colors)
+    _set_colors_multisails(ax, members, colors)
+    if legend_kw is None:
+        legend_kw = {}
+    if show_legend:
+        _set_legend_multisails(ax, colors, **legend_kw)
 
     return _plot(ax, xs, ys, **plot_kw)
 
@@ -221,13 +246,8 @@ def _sort_data(wa, bsp):
     if not isinstance(bsp, list):
         bsp = [bsp]
 
-    xs, ys = list(
-        zip(
-            *(
-                zip(*sorted(zip(wa, bsp), key=lambda x: x[0]))
-                for wa, bsp in zip(wa, bsp)
-            )
-        )
+    xs, ys = zip(
+        *(zip(*sorted(zip(w, b), key=lambda x: x[0])) for w, b in zip(wa, bsp))
     )
 
     return xs, ys
@@ -247,18 +267,102 @@ def _get_convex_hull(wa, bsp):
     xs = []
     ys = []
     for w, b in zip(wa, bsp):
-        w, b = np.asarray(w).ravel(), np.asarray(b).ravel()
+        w = np.asarray(w).ravel()
+        b = np.asarray(b).ravel()
         conv = _convex_hull_polar(w, b)
         vert = sorted(conv.vertices)
         x, y = zip(*([(w[i], b[i]) for i in vert]))
-        x = list(x)
-        y = list(y)
-        x.append(x[0])
-        y.append(y[0])
+        x = list(x).append(x[0])
+        y = list(y).append(y[0])
         xs.append(x)
         ys.append(y)
 
     return xs, ys
+
+
+def _get_convex_hull_multisails(ws, wa, bsp, members):
+    wa, bsp, members = zip(
+        *(
+            zip(*sorted(zip(w, b, members), key=lambda tup: tup[0]))
+            for w, b in zip(wa, bsp)
+        )
+    )
+    members = members[0]
+    xs = []
+    ys = []
+    membs = []
+    for s, w, b in zip(ws, wa, bsp):
+        w = np.asarray(w)
+        b = np.asarray(b)
+        conv = _convex_hull_polar(w, b)
+        vert = sorted(conv.vertices)
+        x, y, memb = zip(*([(w[i], b[i], members[i]) for i in vert]))
+        x = list(x)
+        x.append(x[0])
+        y = list(y)
+        y.append(y[0])
+        memb = list(memb)
+        memb.append(memb[0])
+        for i in range(len(vert)):
+            xs.append(x[i : i + 2])
+            ys.append(y[i : i + 2])
+            m = memb[i : i + 2]
+            m.append(s)
+            membs.append(m)
+
+    return xs, ys, membs
+
+
+def _set_colors_multisails(ax, members, colors):
+    colorlist = []
+
+    for member in members:
+        if len(set(member[:2])) == 1:
+            color = colors.get(member[0], "blue")
+            if is_color_like(color):
+                colorlist.append(color)
+                continue
+
+            color = dict(color)
+            colorlist.append(color.get(member[2], "blue"))
+            continue
+
+        color = colors.get("neutral", "gray")
+        if is_color_like(color):
+            colorlist.append(color)
+            continue
+
+        color = dict(color)
+        colorlist.append(color.get(member[2], "blue"))
+
+    ax.set_prop_cycle("color", colorlist)
+
+
+def _set_legend_multisails(ax, colors, **legend_kw):
+    handles = []
+    for key in colors:
+        color = colors.get(key, "blue")
+        if is_color_like(color):
+            legend = Line2D([0], [0], color=color, lw=1, label=key)
+            handles.append(legend)
+            continue
+        legends = [
+            Line2D(
+                [0],
+                [0],
+                color=color.get(ws, "blue"),
+                lw=1,
+                label=f"{key} at TWS {ws}",
+            )
+            for ws in color
+        ]
+        handles.append(legends)
+
+    if "neutral" not in colors:
+        legend = Line2D([0], [0], color="gray", lw=1, label="neutral")
+        handles.append(legend)
+
+    ax.legend(handles, **legend_kw)
 
 
 def _convex_hull_polar(wa, bsp):
