@@ -169,7 +169,7 @@ def _set_color_cycle(ax, ws, colors):
 
     if n_plots > n_colors != 2:
         colorlist = ["blue"] * n_plots
-        _set_color_list(colors, colorlist, ws)
+        _set_colorlist(colors, colorlist, ws)
         ax.set_prop_cycle("color", colorlist)
         return
 
@@ -177,12 +177,13 @@ def _set_color_cycle(ax, ws, colors):
     ax.set_prop_cycle("color", _get_colors(colors, ws))
 
 
-def _set_color_list(colors, colorlist, ws):
+def _set_colorlist(colors, colorlist, ws):
     if isinstance(colors[0], tuple):
         if is_color_like(colors[0]):
             for i, c in enumerate(colors):
                 colorlist[i] = c
                 return
+
         for w, c in colors:
             i = list(ws).index(w)
             colorlist[i] = c
