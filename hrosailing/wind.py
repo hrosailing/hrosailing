@@ -71,6 +71,7 @@ def convert_wind(wind, sign, tw, check_finite=True):
     ws, wa, bsp = np.hsplit(wind, 3)
     wa_above_180 = wa > 180
     wa = np.deg2rad(wa)
+
     cws = np.sqrt(
         np.square(ws) + np.square(bsp) + sign * 2 * ws * bsp * np.cos(wa)
     )
@@ -82,17 +83,17 @@ def convert_wind(wind, sign, tw, check_finite=True):
 
     cwa = np.arccos(temp)
 
-    # standartize angles to 0 - 360° inverval
+    # standardize angles to 0 - 360° inverval after conversion
     cwa[wa_above_180] = 360 - np.rad2deg(cwa[wa_above_180])
-    cwa[np.logical_not(wa_above_180)] = np.rad2deg(
-        cwa[np.logical_not(wa_above_180)]
-    )
+    cwa[np.invert(wa_above_180)] = np.rad2deg(cwa[np.invert(wa_above_180)])
 
     return np.column_stack((cws, cwa, bsp))
 
 
 def _sanity_checks(wind, check_finite):
+    # Only check for NaNs and infinite values, if wanted
     if check_finite:
+        # NaNs and infinite values can't be handled
         try:
             wind = np.asarray_chkfinite(wind)
         except ValueError as ve:
@@ -117,13 +118,10 @@ def set_resolution(res, speed_or_angle):
     if res is None:
         return np.arange(2, 42, 2) if b else np.arange(0, 360, 5)
 
-    # TODO Iterable-test really necessary?
-    if not isinstance(res, (Iterable, int, float)):
-        raise WindException("`res` is neither array_like, int or float")
-
     if isinstance(res, Iterable):
         # TODO: Check if contents of array are numbers?
         try:
+            # NaN's and infinite values can't be handled
             res = np.asarray_chkfinite(res)
         except ValueError as ve:
             raise WindException(
