@@ -65,6 +65,7 @@ class CsvFileHandler(DataHandler):
     @staticmethod
     def handle(data):
         """Reads a .csv file and extracts the contained data points
+        The delimiter used in the .csv file
 
         Parameters
         ----------
@@ -124,7 +125,7 @@ class NMEAFileHandler(DataHandler):
 
         self.mode = mode
 
-    def handle(self, data: str):
+    def handle(self, data):
         """Reads a text file containing nmea-sentences and extracts
         data points based on recorded wind speed, wind angle, and speed
         over water
@@ -164,7 +165,7 @@ class NMEAFileHandler(DataHandler):
 
                 nmea_data = []
                 while True:
-                    bsp = pynmea2.parse(stc).data[4]
+                    bsp = float(pynmea2.parse(stc).data[4])
                     stc = next(nmea_stcs, None)
 
                     # eof
@@ -222,7 +223,7 @@ def _process_data(nmea_data, wind_data, stc, bsp, mode):
         wind = np.mean(wind, axis=0)
         nmea_data.append([wind[0], wind[1], bsp, wind_data[0][2]])
     elif mode == "interpolate":
-        bsp2 = pynmea2.parse(stc).data[4]
+        bsp2 = float(pynmea2.parse(stc).data[4])
 
         inter = len(wind_data)
         for i in range(inter):
