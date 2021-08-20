@@ -291,9 +291,6 @@ class ImprovedIDWInterpolator(Interpolator):
 
         self._norm = norm
 
-    def __repr__(self):
-        pass
-
     def interpolate(self, w_pts, grid_pt):
         """Interpolates a given grid_pt according to the
         above described method
