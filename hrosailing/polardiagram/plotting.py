@@ -106,7 +106,7 @@ def plot_convex_hull_multisails(
         plot_kw["ls"] = "-"
 
     if colors is None:
-        colors = plot_kw.pop("color") or plot_kw.pop("c") or []
+        colors = plot_kw.pop("color", None) or plot_kw.pop("c", None) or []
 
     xs, ys, members = _get_convex_hull_multisails(ws, wa, bsp, members)
 
@@ -168,24 +168,28 @@ def _set_color_cycle(ax, ws, colors):
         return
 
     if n_plots > n_colors != 2:
-        color_list = ["blue"] * n_plots
-        if isinstance(colors[0], tuple):
-            if is_color_like(colors[0]):
-                for i, c in enumerate(colors):
-                    color_list[i] = c
-            else:
-                for w, c in colors:
-                    i = list(ws).index(w)
-                    color_list[i] = c
-        else:
-            for i, c in enumerate(colors):
-                color_list[i] = c
-
-        ax.set_prop_cycle("color", color_list)
+        colorlist = ["blue"] * n_plots
+        _set_color_list(colors, colorlist, ws)
+        ax.set_prop_cycle("color", colorlist)
         return
 
     # n_colors == 2
     ax.set_prop_cycle("color", _get_colors(colors, ws))
+
+
+def _set_color_list(colors, colorlist, ws):
+    if isinstance(colors[0], tuple):
+        if is_color_like(colors[0]):
+            for i, c in enumerate(colors):
+                colorlist[i] = c
+                return
+        for w, c in colors:
+            i = list(ws).index(w)
+            colorlist[i] = c
+            return
+
+    for i, c in enumerate(colors):
+        colorlist[i] = c
 
 
 def _get_colors(colors, grad):
@@ -255,7 +259,8 @@ def _sort_data(wa, bsp):
 
 def _plot(ax, xs, ys, **plot_kw):
     for x, y in zip(xs, ys):
-        x, y = np.asarray(x), np.asarray(y)
+        x = np.asarray(x)
+        y = np.asarray(y)
         ax.plot(x, y, **plot_kw)
 
 
@@ -272,8 +277,10 @@ def _get_convex_hull(wa, bsp):
         conv = _convex_hull_polar(w, b)
         vert = sorted(conv.vertices)
         x, y = zip(*([(w[i], b[i]) for i in vert]))
-        x = list(x).append(x[0])
-        y = list(y).append(y[0])
+        x = list(x)
+        x.append(x[0])
+        y = list(y)
+        y.append(y[0])
         xs.append(x)
         ys.append(y)
 
@@ -309,7 +316,6 @@ def _get_convex_hull_multisails(ws, wa, bsp, members):
             m = memb[i : i + 2]
             m.append(s)
             membs.append(m)
-
     return xs, ys, membs
 
 
