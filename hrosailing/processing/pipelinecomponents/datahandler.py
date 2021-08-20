@@ -53,8 +53,8 @@ class ArrayHandler(DataHandler):
 
 class CsvFileHandler(DataHandler):
     """A data handler to extract data from a .csv file
-    with three columns representing wind speed, wind angle, and
-    boat speed respectively
+    with the first three columns representing wind speed, wind angle,
+    and boat speed respectively
 
     Methods
     -------
@@ -94,7 +94,6 @@ class CsvFileHandler(DataHandler):
             ) from ve
 
 
-# TODO also check for other sentences
 class NMEAFileHandler(DataHandler):
     """A data handler to extract data from a text file containing
     certain nmea sentences
@@ -152,17 +151,18 @@ class NMEAFileHandler(DataHandler):
         """
         try:
             with open(data, "r") as file:
-                nmea_data = []
                 nmea_stcs = filter(
                     lambda line: "VHW" in line or "MWV" in line, file
                 )
 
                 stc = next(nmea_stcs, None)
+                # check if file is "empty"
                 if stc is None:
                     raise HandlerException(
                         "`data` doesn't contain any (relevant) nmea sentences"
                     )
 
+                nmea_data = []
                 while True:
                     bsp = pynmea2.parse(stc).data[4]
                     stc = next(nmea_stcs, None)
@@ -179,6 +179,7 @@ class NMEAFileHandler(DataHandler):
                         )
 
                     wind_data = []
+                    # record wind data until next VHW sentence
                     while stc is not None and "VHW" not in stc:
                         _get_wind_data(wind_data, stc)
                         stc = next(nmea_stcs, None)
@@ -187,6 +188,8 @@ class NMEAFileHandler(DataHandler):
 
                 aw = [data[:3] for data in nmea_data if data[3] == "R"]
                 tw = [data[:3] for data in nmea_data if data[3] != "R"]
+
+                # if no apparent wind occurs, return true wind as is
                 if not aw:
                     return tw
 
@@ -215,9 +218,9 @@ def _get_wind_data(wind_data, stc):
 
 def _process_data(nmea_data, wind_data, stc, bsp, mode):
     if mode == "mean":
-        wind_arr = np.array([w[:2] for w in wind_data])
-        wind_arr = np.mean(wind_arr, axis=0)
-        nmea_data.append([wind_arr[0], wind_arr[1], bsp, wind_data[0][2]])
+        wind = np.array([w[:2] for w in wind_data])
+        wind = np.mean(wind, axis=0)
+        nmea_data.append([wind[0], wind[1], bsp, wind_data[0][2]])
     elif mode == "interpolate":
         bsp2 = pynmea2.parse(stc).data[4]
 
