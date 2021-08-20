@@ -1400,19 +1400,26 @@ class PolarDiagramMultiSails(PolarDiagram):
         self._tables = pds
 
     @property
+    def sails(self):
+        return self.sails.copy()
+
+    @property
     def wind_speeds(self):
-        """"""
-        return
+        return self._tables[0].wind_speeds
 
     @property
-    def wind_angles(self):
-        """"""
-        return
+    def tables(self):
+        return self._tables.copy()
 
-    @property
-    def boat_speeds(self):
-        """"""
-        return
+    def __getitem__(self, item) -> PolarDiagramTable:
+        try:
+            index = self.sails.index(item)
+        except ValueError as ve:
+            raise PolarDiagramException(
+                "`item` is not a name of a sail"
+            ) from ve
+
+        return self.tables[index]
 
     def to_csv(self, csv_path):
         pass
