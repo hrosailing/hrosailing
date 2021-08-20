@@ -1433,7 +1433,7 @@ class PolarDiagramMultiSails(PolarDiagram):
 
         flatten = itertools.chain.from_iterable
         members = [[self._sails[i]] * len(w) for i, w in enumerate(wa)]
-        members = flatten(members)
+        members = list(flatten(members))
 
         wa = [np.asarray(wa).ravel()] * len(ws)
         bsp = []
