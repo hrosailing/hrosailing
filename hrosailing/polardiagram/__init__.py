@@ -1421,7 +1421,14 @@ class PolarDiagramMultiSails(PolarDiagram):
 
         return self.tables[index]
 
+    def __str__(self):
+        pass
+
+    def __repr__(self):
+        return f"PolarDiagramMultiSails({self.tables}, {self.sails})"
+
     def to_csv(self, csv_path):
+        """"""
         pass
 
     def symmetrize(self):
@@ -1469,6 +1476,9 @@ class PolarDiagramMultiSails(PolarDiagram):
         legend_kw=None,
         **plot_kw,
     ):
+        """
+
+        """
         if ax is None:
             ax = plt.axes(projection="polar")
 
@@ -1490,6 +1500,9 @@ class PolarDiagramMultiSails(PolarDiagram):
         legend_kw=None,
         **plot_kw,
     ):
+        """
+
+        """
         for i, pd in enumerate(self._tables):
             if i == 0 and show_legend:
                 pd.plot_flat(ws, ax, colors, show_legend, legend_kw, **plot_kw)
@@ -1498,6 +1511,9 @@ class PolarDiagramMultiSails(PolarDiagram):
             pd.plot_flat(ws, ax, colors, False, None, **plot_kw)
 
     def plot_3d(self, ax=None, colors=("blue", "blue")):
+        """
+
+        """
         if ax is None:
             ax = plt.axes(projection="3d")
 
@@ -1512,6 +1528,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         show_legend=False,
         **legend_kw,
     ):
+        """"""
         pass
 
     def plot_convex_hull(
@@ -1523,6 +1540,22 @@ class PolarDiagramMultiSails(PolarDiagram):
         legend_kw=None,
         **plot_kw,
     ):
+        """
+
+        Parameters
+        ----------
+        ws :
+
+        ax :
+
+        colors :
+
+        show_legend :
+
+        legend_kw :
+
+        **plot_kw :
+        """
         ws, wa, bsp, members = self.get_slices(ws)
         plot_convex_hull_multisails(
             ws, wa, bsp, members, ax, colors, show_legend, legend_kw, **plot_kw
