@@ -22,8 +22,7 @@ def plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
         ax = plt.axes(projection="polar")
 
     _set_polar_directions(ax)
-    _prepare_plot(ax, ws, colors, show_legend, legend_kw, **plot_kw)
-
+    _prepare_plot(ax, ws, colors, show_legend, legend_kw, plot_kw)
     xs, ys = _sort_data(wa, bsp)
     return _plot(ax, xs, ys, **plot_kw)
 
@@ -32,7 +31,7 @@ def plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
     if ax is None:
         ax = plt.gca()
 
-    _prepare_plot(ax, ws, colors, show_legend, legend_kw, **plot_kw)
+    _prepare_plot(ax, ws, colors, show_legend, legend_kw, plot_kw)
 
     xs, ys = _sort_data(wa, bsp)
     return _plot(ax, xs, ys, **plot_kw)
@@ -86,7 +85,7 @@ def plot_convex_hull(
     ls = plot_kw.get("linestyle") or plot_kw.get("ls")
     if ls is None:
         plot_kw["ls"] = "-"
-    _prepare_plot(ax, ws, colors, show_legend, legend_kw, **plot_kw)
+    _prepare_plot(ax, ws, colors, show_legend, legend_kw, plot_kw)
 
     wa, bsp = _sort_data(wa, bsp)
     xs, ys = _get_convex_hull(wa, bsp)
@@ -120,7 +119,7 @@ def plot_convex_hull_multisails(
     return _plot(ax, xs, ys, **plot_kw)
 
 
-def _prepare_plot(ax, ws, colors, show_legend, legend_kw, **plot_kw):
+def _prepare_plot(ax, ws, colors, show_legend, legend_kw, plot_kw):
     _check_keywords(plot_kw)
 
     if colors is None:
