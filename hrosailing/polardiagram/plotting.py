@@ -346,6 +346,8 @@ def _set_legend_multisails(ax, colors, **legend_kw):
             legend = Line2D([0], [0], color=color, lw=1, label=key)
             handles.append(legend)
             continue
+
+        color = dict(color)
         legends = [
             Line2D(
                 [0],
@@ -356,13 +358,13 @@ def _set_legend_multisails(ax, colors, **legend_kw):
             )
             for ws in color
         ]
-        handles.append(legends)
+        handles.extend(legends)
 
     if "neutral" not in colors:
         legend = Line2D([0], [0], color="gray", lw=1, label="neutral")
         handles.append(legend)
 
-    ax.legend(handles, **legend_kw)
+    ax.legend(handles=handles, **legend_kw)
 
 
 def _convex_hull_polar(wa, bsp):
