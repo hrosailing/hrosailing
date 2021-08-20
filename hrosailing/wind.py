@@ -119,7 +119,6 @@ def set_resolution(res, speed_or_angle):
         return np.arange(2, 42, 2) if b else np.arange(0, 360, 5)
 
     if isinstance(res, Iterable):
-        # TODO: Check if contents of array are numbers?
         try:
             # NaN's and infinite values can't be handled
             res = np.asarray_chkfinite(res)
