@@ -111,7 +111,7 @@ def plot_convex_hull_multisails(
     xs, ys, members = _get_convex_hull_multisails(ws, wa, bsp, members)
 
     colors = dict(colors)
-    _set_colors_multisails(ax, members, colors)
+    _set_colors_multisails(ax, ws, members, colors)
     if legend_kw is None:
         legend_kw = {}
     if show_legend:
@@ -320,8 +320,9 @@ def _get_convex_hull_multisails(ws, wa, bsp, members):
     return xs, ys, membs
 
 
-def _set_colors_multisails(ax, members, colors):
+def _set_colors_multisails(ax, ws, members, colors):
     colorlist = []
+    n_plots = len(ws)
 
     for member in members:
         if len(set(member[:2])) == 1:
