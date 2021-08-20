@@ -179,7 +179,7 @@ class NMEAFileHandler(DataHandler):
                         )
 
                     wind_data = []
-                    while "VHW" not in stc and stc is not None:
+                    while stc is not None and "VHW" not in stc:
                         _get_wind_data(wind_data, stc)
                         stc = next(nmea_stcs, None)
 
