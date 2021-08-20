@@ -103,6 +103,7 @@ def from_csv(csv_path, fmt="hro", tw=True):
     """
     if fmt not in {"array", "hro", "opencpn", "orc"}:
         raise FileReadingException("`fmt` not implemented")
+
     try:
         with open(csv_path, "r", newline="") as file:
             if fmt == "hro":
@@ -509,6 +510,48 @@ def _get_indices(wind, res):
     return [i for i, w in enumerate(res) if w in wind]
 
 
+def _short_table(table, ws, wa, bsps):
+    table.extend([f"    {float(w):.1f}" for w in ws])
+    table.append("\n-----------")
+    for w in ws:
+        le = len(f"{float(w):.1f}")
+        table.append("  ".ljust(le + 4, "-"))
+    table.append("\n")
+    for i, a in enumerate(wa):
+        a = f"{float(a):.1f}"
+        table.append(a.ljust(11))
+        for j, w in enumerate(ws):
+            le = len(str(w))
+            entry = f"{bsps[i][j]:.2f}".rjust(4 + le)
+            table.append(entry)
+        table.append("\n")
+    return "".join(table)
+
+
+def _long_table(table, ws, wa, bsps):
+    for i, w in enumerate(ws):
+        if i == 5:
+            table.append("  ...")
+        table.append(f"    {float(w):.1f}")
+    table.append("\n-----------")
+    for i, w in enumerate(ws):
+        if i == 5:
+            table.append("  ---")
+        le = len(f"{float(w):.1f}")
+        table.append("  ".ljust(le + 4, "-"))
+    table.append("\n")
+    for i, a in enumerate(wa):
+        a = f"{float(a):.1f}"
+        table.append(a.rjust(11))
+        for j, w in enumerate(ws):
+            if j == 5:
+                table.append("  ...")
+            le = len(str(w))
+            entry = f"{bsps[i][j]:.2f}".rjust(4 + le)
+            table.append(entry)
+        table.append("\n")
+
+
 # TODO: Standardize wind angles, such that they are in [0, 360),
 #       because 360° should be equal to 0°
 class PolarDiagramTable(PolarDiagram):
@@ -666,49 +709,16 @@ class PolarDiagramTable(PolarDiagram):
 
     def __str__(self):
         table = ["  TWA \\ TWS"]
-        bsps = self.boat_speeds
-        if len(self.wind_speeds) <= 15:
-            wind = self.wind_speeds
-            table.extend([f"    {float(ws):.1f}" for ws in wind])
-            table.append("\n-----------")
-            for ws in wind:
-                le = len(f"{float(ws):.1f}")
-                table.append("  ".ljust(le + 4, "-"))
-            table.append("\n")
-            for i, wa in enumerate(self.wind_angles):
-                angle = f"{float(wa):.1f}"
-                table.append(angle.ljust(11))
-                for j, ws in enumerate(wind):
-                    entry = f"{bsps[i][j]:.2f}"
-                    le = len(str(ws))
-                    table.append(entry.rjust(4 + le))
-                table.append("\n")
-            return "".join(table)
+        ws = self.wind_speeds
+        if len(ws) <= 15:
+            _short_table(table, ws, self.wind_angles, self.boat_speeds)
 
-        wind = []
-        wind.extend(self.wind_speeds[:5])
-        wind.extend(self.wind_speeds[-5:])
-        for i, ws in enumerate(wind):
-            if i == 5:
-                table.append("  ...")
-            table.append(f"    {float(ws):.1f}")
-        table.append("\n-----------")
-        for i, ws in enumerate(wind):
-            if i == 5:
-                table.append("  ---")
-            le = len(f"{float(ws):.1f}")
-            table.append("  ".ljust(le + 4, "-"))
-        table.append("\n")
-        for i, wa in enumerate(self.wind_angles):
-            angle = f"{float(wa):.1f}"
-            table.append(angle.rjust(11))
-            for j, ws in enumerate(wind):
-                if j == 5:
-                    table.append("  ...")
-                entry = f"{bsps[i][j]:.2f}"
-                le = len(str(ws))
-                table.append(entry.rjust(4 + le))
-            table.append("\n")
+        else:
+            wind = []
+            wind.extend(ws[:5])
+            wind.extend(ws[-5:])
+            _long_table(table, wind, self.wind_angles, self.boat_speeds)
+
         return "".join(table)
 
     def __repr__(self):
@@ -1480,7 +1490,7 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             pd.plot_flat(ws, ax, colors, False, None, **plot_kw)
 
-    def plot_3d(self, ax=None, colors=None):
+    def plot_3d(self, ax=None, colors=("blue", "blue")):
         if ax is None:
             ax = plt.axes(projection="3d")
 
@@ -1501,7 +1511,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         self,
         ws,
         ax=None,
-        colors=("green", "red"),
+        colors=None,
         show_legend=False,
         legend_kw=None,
         **plot_kw,
@@ -1932,7 +1942,7 @@ class PolarDiagramCurve(PolarDiagram):
             Defaults to ('blue', 'blue')
         """
         logging.info(
-            f"Method 'plot_3d(ws={ws}, ax={ax}, " f"colors={colors})' called"
+            f"Method 'plot_3d(ws={ws}, ax={ax}, colors={colors})' called"
         )
 
         ws, wa, bsp = self.get_slices(ws)
