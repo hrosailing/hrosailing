@@ -1379,7 +1379,9 @@ class PolarDiagramMultiSails(PolarDiagram):
         ws = pds[0].wind_speeds
         for pd in pds:
             if not np.array_equal(ws, pd.wind_speeds):
-                raise PolarDiagramException("")
+                raise PolarDiagramException(
+                    "wind speed resolution of `pds` does not coincide"
+                )
 
         if sails is None:
             sails = [f"Sail {i}" for i in range(len(pds))]
