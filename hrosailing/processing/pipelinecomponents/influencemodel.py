@@ -9,6 +9,7 @@ from abc import ABC, abstractmethod
 
 class InfluenceException(Exception):
     """"""
+
     pass
 
 
