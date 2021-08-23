@@ -521,9 +521,8 @@ def _short_table(table, ws, wa, bsps):
         a = f"{float(a):.1f}"
         table.append(a.ljust(11))
         for j, w in enumerate(ws):
-            le = len(str(w))
-            entry = f"{bsps[i][j]:.2f}".rjust(4 + le)
-            table.append(entry)
+            le = len(f"{float(w):.1f}")
+            table.append(f"{bsps[i][j]:.2f}".rjust(4 + le))
         table.append("\n")
     return "".join(table)
 
@@ -546,9 +545,8 @@ def _long_table(table, ws, wa, bsps):
         for j, w in enumerate(ws):
             if j == 5:
                 table.append("  ...")
-            le = len(str(w))
-            entry = f"{bsps[i][j]:.2f}".rjust(4 + le)
-            table.append(entry)
+            le = len(f"{float(w):.1f}")
+            table.append(f"{bsps[i][j]:.2f}".rjust(4 + le))
         table.append("\n")
 
 
