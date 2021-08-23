@@ -274,7 +274,7 @@ class PolarDiagram(ABC):
     plot_polar(
         ws,
         ax=None,
-        colors=('green', 'red'),
+        colors=("green", "red"),
         show_legend=False,
         legend_kw=None,
         **plot_kw
@@ -282,7 +282,7 @@ class PolarDiagram(ABC):
     plot_flat(
         ws,
         ax=None,
-        colors=('green', 'red'),
+        colors=("green", "red"),
         show_legend=False,
         legend_kw=None,
         **plot_kw
@@ -290,7 +290,7 @@ class PolarDiagram(ABC):
     plot_3d(ax=None, **plot_kw)
     plot_color_gradient(
         ax=None,
-        colors=('green', 'red'),
+        colors=("green", "red"),
         marker=None,
         show_legend=False,
         **legend_kw,
@@ -298,7 +298,7 @@ class PolarDiagram(ABC):
     plot_convex_hull(
         ws,
         ax=None,
-        colors=('green', 'red'),
+        colors=("green", "red"),
         show_legend=False,
         legend_kw=None,
         **plot_kw,
@@ -548,7 +548,7 @@ class PolarDiagramTable(PolarDiagram):
         Returns a read only version of self._res_wind_angle
     boat_speeds
         Returns a read only version of self._boat_speeds
-    to_csv(csv_path, fmt='hro')
+    to_csv(csv_path, fmt="hro")
         Creates a .csv-file with delimiter ',' and the
         following format:
             PolarDiagramTable
@@ -566,7 +566,7 @@ class PolarDiagramTable(PolarDiagram):
     plot_polar(
         ws=None,
         ax=None,
-        colors=('green', 'red'),
+        colors=("green", "red"),
         show_legend=False,
         legend_kw=None,
         **plot_kw,
@@ -575,17 +575,17 @@ class PolarDiagramTable(PolarDiagram):
     plot_flat(
         ws=None,
         ax=None,
-        colors=('green', 'red'),
+        colors=("green", "red"),
         show_legend=False,
         legend_kw=None,
         **plot_kw,
     )
         Creates a cartesian plot of one or more slices of the polar diagram
-    plot_3d(ax=None, colors=('blue', 'blue'))
+    plot_3d(ax=None, colors=("blue", "blue"))
         Creates a 3d plot of the polar diagram
     plot_color_gradient(
         ax=None,
-        colors=('green', 'red'),
+        colors=("green", "red"),
         marker=None,
         show_legend=False,
         **legend_kw,
@@ -595,7 +595,7 @@ class PolarDiagramTable(PolarDiagram):
     plot_convex_hull(
         ws=None,
         ax=None,
-        colors=('green', 'red'),
+        colors=("green", "red"),
         show_legend=False,
         legend_kw=None,
         **plot_kw,
@@ -1336,7 +1336,7 @@ class PolarDiagramMultiSails(PolarDiagram):
     plot_polar(
         ws=None,
         ax=None,
-        colors=('green', 'red'),
+        colors=("green", "red"),
         show_legend=False,
         legend_kw=None,
         **plot_kw,
@@ -1345,17 +1345,17 @@ class PolarDiagramMultiSails(PolarDiagram):
     plot_flat(
         ws=None,
         ax=None,
-        colors=('green', 'red'),
+        colors=("green", "red"),
         show_legend=False,
         legend_kw=None,
         **plot_kw,
     )
         Creates a cartesian plot of one or more slices of the polar diagram
-    plot_3d(ax=None, colors=('blue', 'blue'))
+    plot_3d(ax=None, colors=("blue", "blue"))
         Creates a 3d plot of the polar diagram
     plot_color_gradient(
         ax=None,
-        colors=('green', 'red'),
+        colors=("green", "red"),
         marker=None,
         show_legend=False,
         **legend_kw,
@@ -1365,7 +1365,7 @@ class PolarDiagramMultiSails(PolarDiagram):
     plot_convex_hull(
         ws=None,
         ax=None,
-        colors=('green', 'red'),
+        colors=("green", "red"),
         show_legend=False,
         legend_kw=None,
         **plot_kw,
@@ -1599,7 +1599,7 @@ class PolarDiagramCurve(PolarDiagram):
         ws=None,
         stepsize=None,
         ax=None,
-        colors=('green', 'red'),
+        colors=("green", "red"),
         show_legend=False,
         legend_kw=None,
         **plot_kw,
@@ -1609,7 +1609,7 @@ class PolarDiagramCurve(PolarDiagram):
         ws=None,
         stepsize=None,
         ax=None,
-        colors=('green', 'red'),
+        colors=("green", "red"),
         show_legend=False,
         legend_kw=None,
         **plot_kw,
@@ -1621,7 +1621,7 @@ class PolarDiagramCurve(PolarDiagram):
         ws=None,
         stepsize=None,
         ax=None,
-        colors=('green', 'red'),
+        colors=("green", "red"),
         marker=None,
         show_legend=False,
         **legend_kw,
@@ -1633,7 +1633,7 @@ class PolarDiagramCurve(PolarDiagram):
         ws=None,
         stepsize=None,
         ax=None,
-        colors=('green', 'red'),
+        colors=("green", "red"),
         show_legend=False,
         legend_kw=None,
         **plot_kw,
