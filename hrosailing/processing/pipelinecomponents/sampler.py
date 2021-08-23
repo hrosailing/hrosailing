@@ -105,10 +105,12 @@ def _create_bounds(pts):
 
 class FibonacciSampler(Sampler):
     """A sampler that produces sample points on a moved and scaled version
-     of the spiral (sqrt(x)*cos(x), sqrt(x)*sin(x)), such that the angles
+    of the spiral (sqrt(x)*cos(x), sqrt(x)*sin(x)), such that the angles
     are distributed equidistantly by the inverse golden ratio.
+
     The sample points all lie in the smallest enclosing circle
     of given data points.
+
     Inspired by Álvaro Gonzzález - "Measurement of areas on a sphere using
     Fibonacci and latitude–longitude lattices"
 
@@ -148,11 +150,13 @@ class FibonacciSampler(Sampler):
         # calculate smallest circle containing pts
         x, y, r = make_circle(pts)
         midpoint = np.array([x, y])
+
         # create arc sizes beta and radii of the fibonacci spiral
         golden_ratio = (1 + np.sqrt(5)) / 2
         i = np.arange(1, self._n_samples)
         beta = 2 * np.pi * i * golden_ratio ** (-1)
         radius = np.sqrt(i) / np.sqrt(self._n_samples)
+
         # move and scale fibonacci spiral to the previously calculated circle
         return (
             midpoint[:, None] + radius * np.array([np.cos(beta), np.sin(beta)])
@@ -160,12 +164,15 @@ class FibonacciSampler(Sampler):
 
 
 class ArchimedianSampler(Sampler):
-    """A sampler that produces a number of
-    approximately equidistant sample points on a moved and scaled version of the archimedean spiral
+    """A sampler that produces a number of approximately equidistant
+    sample points on a moved and scaled version of the archimedean spiral
     (x*cos(x), x*sin(x)).
+
     The sample points all lie in the smallest enclosing circle
     of given data points.
-    Inspired by https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2007GC001581
+
+    Inspired by
+    https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2007GC001581
 
     Parameters
     ----------
@@ -235,13 +242,16 @@ class ArchimedianSampler(Sampler):
 # If not, see <http://www.gnu.org/licenses/>.
 
 
-# Data conventions: A point is a pair of floats (x, y). A circle is a triple of floats (center x, center y, radius).
+# Data conventions: A point is a pair of floats (x, y).
+# A circle is a triple of floats (center x, center y, radius).
 
 
-# Returns the smallest circle that encloses all the given points. Runs in expected O(n) time, randomized.
+# Returns the smallest circle that encloses all the given points.
+# Runs in expected O(n) time, randomized.
 # Input: A sequence of pairs of floats or ints, e.g. [(0,5), (3.1,-2.7)].
 # Output: A triple of floats representing a circle.
-# Note: If 0 points are given, None is returned. If 1 point is given, a circle of radius 0 is returned.
+# Note: If 0 points are given, None is returned.
+# If 1 point is given, a circle of radius 0 is returned.
 
 
 def make_circle(pts):
@@ -341,6 +351,7 @@ def _is_in_circle(c, p):
     )
 
 
-# Returns twice the signed area of the triangle defined by (x0, y0), (x1, y1), (x2, y2)
+# Returns twice the signed area of the triangle defined by
+# (x0, y0), (x1, y1), (x2, y2)
 def _cross_product(x0, y0, x1, y1, x2, y2):
     return (x1 - x0) * (y2 - y0) - (y1 - y0) * (x2 - x0)
