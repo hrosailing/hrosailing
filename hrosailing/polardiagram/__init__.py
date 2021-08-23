@@ -53,7 +53,7 @@ class FileWritingException(Exception):
 
 
 def to_csv(csv_path, obj):
-    """See also the to_csv()-method of PolarDiagram
+    """See to_csv()-method of PolarDiagram
 
     Parameters
     ----------
@@ -188,7 +188,7 @@ def _read_array_csv(file):
 
 
 def pickling(pkl_path, obj):
-    """See also the pickling()-method of PolarDiagram
+    """See pickling()-method of PolarDiagram
 
     Parameters
     ----------
@@ -229,7 +229,7 @@ def depickling(pkl_path):
 
 
 def symmetric_polar_diagram(obj):
-    """See also the symmetrize()-method of PolarDiagram
+    """See symmetrize()-method of PolarDiagram
 
     Parameters
     ----------
