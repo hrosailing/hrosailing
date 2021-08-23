@@ -133,10 +133,10 @@ def _prepare_plot(ax, ws, colors, show_legend, legend_kw, plot_kw):
 
 
 def _check_keywords(dct):
-    ls = dct.get("linestyle") or dct.get("ls")
+    ls = dct.pop("linestyle", None) or dct.pop("ls", None)
     if ls is None:
         dct["ls"] = ""
-    marker = dct.get("marker")
+    marker = dct.pop("marker", None)
     if marker is None:
         dct["marker"] = "o"
 
@@ -259,8 +259,6 @@ def _sort_data(wa, bsp):
 
 def _plot(ax, xs, ys, **plot_kw):
     for x, y in zip(xs, ys):
-        x = np.asarray(x)
-        y = np.asarray(y)
         ax.plot(x, y, **plot_kw)
 
 

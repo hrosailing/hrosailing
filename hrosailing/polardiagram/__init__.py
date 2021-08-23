@@ -903,8 +903,10 @@ class PolarDiagramTable(PolarDiagram):
         """
         if ws is None:
             ws = self.wind_speeds
-        if isinstance(ws, (int, float)):
+        elif isinstance(ws, (int, float)):
             ws = [ws]
+        elif isinstance(ws, tuple):
+            ws = [w for w in self.wind_speeds if ws[0] <= w <= ws[1]]
 
         ws = sorted(list(ws))
         if not ws:
@@ -927,10 +929,13 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        ws : Iterable, int or float, optional
+        ws : list, tuple, int or float, optional
             Slices of the polar diagram table, given as either
-                - an Iterable containing only elements of
-                self.wind_speeds
+                - a list (or equivalent iterable) containing only
+                elements of self.wind_speeds
+
+                - a tuple of length 2 specifying an interval of
+                considered wind speeds
 
                 - a single element of self.wind_speeds
 
@@ -1000,8 +1005,10 @@ class PolarDiagramTable(PolarDiagram):
             certain appearences of the plot
 
 
-        Raises a PolarDiagramException if at least one element
-        of ws is not in self.wind_speeds
+        Raises a PolarDiagramException
+            - if at least one element of ws is not in self.wind_speeds
+            - the given interval doesn't contain any slices of the
+            polar diagram
         """
         logger.info(
             f"Method 'polar_plot(ws={ws}, ax={ax}, colors={colors}, "
@@ -1100,8 +1107,10 @@ class PolarDiagramTable(PolarDiagram):
             certain appearences of the plot
 
 
-        Raises a PolarDiagramException if at least one element
-        of ws is not in self.wind_speeds
+        Raises a PolarDiagramException
+            - if at least one element of ws is not in self.wind_speeds
+            - the given interval doesn't contain any slices of the
+            polar diagram
         """
         logger.info(
             f"Method 'flat_plot(ws={ws}, ax={ax}, colors={colors}, "
@@ -2407,13 +2416,15 @@ class PolarDiagramPointcloud(PolarDiagram):
     def get_slices(self, ws):
         """
         """
-        if isinstance(ws, (int, float)):
+        if ws is None:
+            ws = self.wind_speeds
+        elif isinstance(ws, (int, float)):
             ws = [ws]
-        elif isinstance(ws, tuple):
+        elif isinstance(ws, tuple) and len(ws) == 2:
             ws = [w for w in self.wind_speeds if ws[0] <= w <= ws[1]]
 
         if not ws:
-            raise PolarDiagramException(f"No slices were given")
+            raise PolarDiagramException("No slices were given")
 
         wa = []
         bsp = []
@@ -2435,7 +2446,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     def plot_polar(
         self,
-        ws=(0, np.inf),
+        ws=None,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -2446,20 +2457,19 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Parameters
         ----------
-        ws : tuple of length 2, list, int or float, optional
+        ws : list, tuple, int or float, optional
             Slices of the polar diagram given as either
-                - a tuple of two values which
-                represent a lower and upper bound
-                of considered wind speeds
+                - a tuple of length 2 specifying an interval of
+                considered wind speeds
 
-                - a list of specific wind speeds
+                - a list (or equivalent iterable) of specific wind speeds
 
                 - a single wind speed
 
             Slices will then consist of all the rows in self.points
             whose first entry is equal to the values in ws
 
-            Defaults to (0, numpy.inf)
+            Defaults to self.wind_speeds
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
@@ -2530,12 +2540,11 @@ class PolarDiagramPointcloud(PolarDiagram):
         )
 
         ws, wa, bsp = self.get_slices(ws)
-
         plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
     def plot_flat(
         self,
-        ws=(0, np.inf),
+        ws=None,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -2546,20 +2555,19 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Parameters
         ----------
-        ws : tuple of length 2 or list, optional
+        ws : list, tuple, int or float, optional
             Slices of the polar diagram given as either
-                - a tuple of two values which
-                represent a lower and upper bound
-                of considered wind speeds
+                - a tuple of length 2 specifying an interval of
+                considered wind speeds
 
-                - a list of specific wind speeds
+                - a list (or equivalent iterable) of specific wind speeds
 
                 - a single wind speed
 
             Slices will then consist of all the rows in self.points
             whose first entry is equal to the values in ws
 
-            Defaults to (0, np.inf)
+            Defaults to self.wind_speed
 
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
@@ -2634,7 +2642,6 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         ws, wa, bsp = self.get_slices(ws)
         wa = [np.rad2deg(a) for a in wa]
-
         plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
     def plot_3d(self, ax=None, **plot_kw):
@@ -2747,7 +2754,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     def plot_convex_hull(
         self,
-        ws=(0, np.inf),
+        ws=None,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -2759,20 +2766,19 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Parameters
         ----------
-        ws : tuple of length 2 or list, optional
+        ws : list, tuple, int or float, optional
             Slices of the polar diagram given as either
-                - a tuple of two values which
-                represent a lower and upper bound
-                of considered wind speeds
+                - a tuple of length 2 specifying an interval of
+                considered wind speeds
 
-                - a list of specific wind speeds
+                - a list (or equivalent iterable) of specific wind speeds
 
                 - a single wind speed
 
             Slices will then consist of all the rows in self.points
             whose first entry is equal to the values in ws
 
-            Defaults to (0, np.inf)
+            Defaults to self.wind_speed
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
