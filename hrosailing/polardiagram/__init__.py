@@ -1429,7 +1429,16 @@ class PolarDiagramMultiSails(PolarDiagram):
         return self.tables[index]
 
     def __str__(self):
-        pass
+        tables = [str(pd) for pd in self._tables]
+        names = [str(sail) for sail in self._sails]
+        out = []
+        for name, table in zip(names, tables):
+            out.append(name)
+            out.append("\n")
+            out.append(table)
+            out.append("\n\n")
+
+        return "".join(out)
 
     def __repr__(self):
         return f"PolarDiagramMultiSails({self.tables}, {self.sails})"
