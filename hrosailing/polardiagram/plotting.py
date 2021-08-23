@@ -254,7 +254,7 @@ def _sort_data(wa, bsp):
         *(zip(*sorted(zip(w, b), key=lambda x: x[0])) for w, b in zip(wa, bsp))
     )
 
-    return xs, ys
+    return list(xs), list(ys)
 
 
 def _plot(ax, xs, ys, **plot_kw):
@@ -272,6 +272,10 @@ def _get_convex_hull(wa, bsp):
     for w, b in zip(wa, bsp):
         w = np.asarray(w).ravel()
         b = np.asarray(b).ravel()
+        if len(w) < 3:
+            xs.append(w)
+            ys.append(b)
+            continue
         conv = _convex_hull_polar(w, b)
         vert = sorted(conv.vertices)
         x, y = zip(*([(w[i], b[i]) for i in vert]))
