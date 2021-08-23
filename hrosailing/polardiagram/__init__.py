@@ -1653,7 +1653,7 @@ class PolarDiagramCurve(PolarDiagram):
         slices of the polar diagram and creates a polar plot of them
     """
 
-    def __init__(self, f, params, radians=False):
+    def __init__(self, f, *params, radians=False):
         if not callable(f):
             raise PolarDiagramException("`f` is not callable")
 
