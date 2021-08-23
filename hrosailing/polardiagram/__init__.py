@@ -228,7 +228,7 @@ def depickling(pkl_path):
         ) from oe
 
 
-def symmetric_polar_diagram(obj):
+def symmetrize(obj):
     """See symmetrize()-method of PolarDiagram
 
     Parameters
