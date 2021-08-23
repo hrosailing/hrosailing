@@ -407,7 +407,7 @@ class PolarDiagram(ABC):
     @abstractmethod
     def plot_polar(
         self,
-        ws,
+        ws=None,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -419,7 +419,7 @@ class PolarDiagram(ABC):
     @abstractmethod
     def plot_flat(
         self,
-        ws,
+        ws=None,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -480,7 +480,7 @@ class PolarDiagram(ABC):
     @abstractmethod
     def plot_convex_hull(
         self,
-        ws,
+        ws=None,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -862,9 +862,6 @@ class PolarDiagramTable(PolarDiagram):
 
 
         Raises a PolarDiagramException
-            - If ws is not contained in self.wind_speeds
-            - If wa is not contained in self.wind_angles
-            - If new_bsps can't be broadcasted to a fitting shape
         """
         logger.info(
             f"Method 'PolarDiagramTable.change_entries("
@@ -903,7 +900,7 @@ class PolarDiagramTable(PolarDiagram):
             ws = self.wind_speeds
         elif isinstance(ws, (int, float)):
             ws = [ws]
-        elif isinstance(ws, tuple):
+        elif isinstance(ws, tuple) and len(ws) == 2:
             ws = [w for w in self.wind_speeds if ws[0] <= w <= ws[1]]
 
         ws = sorted(list(ws))
@@ -1485,7 +1482,7 @@ class PolarDiagramMultiSails(PolarDiagram):
 
     def plot_polar(
         self,
-        ws,
+        ws=None,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -1509,7 +1506,7 @@ class PolarDiagramMultiSails(PolarDiagram):
 
     def plot_flat(
         self,
-        ws,
+        ws=None,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -1549,7 +1546,7 @@ class PolarDiagramMultiSails(PolarDiagram):
 
     def plot_convex_hull(
         self,
-        ws,
+        ws=None,
         ax=None,
         colors=None,
         show_legend=False,
@@ -1750,11 +1747,17 @@ class PolarDiagramCurve(PolarDiagram):
             wa = np.deg2rad(wa)
         return wa
 
-    def get_slices(self, ws):
+    def get_slices(self, ws, stepsize=None):
+        if ws is None:
+            ws = (0, 20)
+
         if isinstance(ws, (int, float)):
             ws = [ws]
-        elif isinstance(ws, tuple):
-            ws = list(np.linspace(ws[0], ws[1], ws[2]))
+        elif isinstance(ws, tuple) and len(ws) == 2:
+            if stepsize is None:
+                stepsize = ws[1] - ws[0]
+
+            ws = list(np.linspace(ws[0], ws[1], stepsize))
 
         wa = self._get_wind_angles()
         bsp = [self(np.array([w] * 1000), wa) for w in ws]
@@ -1765,7 +1768,8 @@ class PolarDiagramCurve(PolarDiagram):
 
     def plot_polar(
         self,
-        ws=(0, 20, 5),
+        ws=None,
+        stepsize=None,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -1793,7 +1797,10 @@ class PolarDiagramCurve(PolarDiagram):
             takes the given values in ws and wa goes through
             a fixed number of angles between 0° and 360°
 
-            Defaults to (0, 20, 5)
+
+
+        stepsize: int or float, optional
+
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
@@ -1857,14 +1864,15 @@ class PolarDiagramCurve(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
-        ws, wa, bsp = self.get_slices(ws)
+        ws, wa, bsp = self.get_slices(ws, stepsize)
         wa = [wa] * len(ws)
 
         plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
     def plot_flat(
         self,
-        ws=(0, 20, 5),
+        ws=None,
+        stepsize=None,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -1892,7 +1900,9 @@ class PolarDiagramCurve(PolarDiagram):
             takes the given values in ws and wa goes through
             a fixed number of angles between 0° and 360°
 
-            Defaults to (0, 20, 5)
+
+
+        stepsize : int or float, optional
 
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
@@ -1959,12 +1969,12 @@ class PolarDiagramCurve(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
-        ws, wa, bsp = self.get_slices(ws)
+        ws, wa, bsp = self.get_slices(ws, stepsize)
         wa = [np.rad2deg(wa)] * len(ws)
 
         plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
-    def plot_3d(self, ws=(0, 20, 100), ax=None, colors=("blue", "blue")):
+    def plot_3d(self, ws=(0, 20), stepsize=None, ax=None, colors=("blue", "blue")):
         """Creates a 3d plot of a part of the polar diagram
 
         Parameters
@@ -1981,6 +1991,8 @@ class PolarDiagramCurve(PolarDiagram):
             a fixed number of angles between 0° and 360°
 
             Defaults to (0, 20, 100)
+
+        stepsize : int or float, optional
 
         ax : mpl_toolkits.mplot3d.axes3d.Axes3D, optional
             Axes instance where the plot will be created.
@@ -2001,7 +2013,7 @@ class PolarDiagramCurve(PolarDiagram):
             f"Method 'plot_3d(ws={ws}, ax={ax}, colors={colors})' called"
         )
 
-        ws, wa, bsp = self.get_slices(ws)
+        ws, wa, bsp = self.get_slices(ws, stepsize)
         bsp = np.array(bsp)
         ws, wa = np.meshgrid(ws, wa)
         bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
@@ -2010,7 +2022,8 @@ class PolarDiagramCurve(PolarDiagram):
 
     def plot_color_gradient(
         self,
-        ws=(0, 20, 100),
+        ws=(0, 20),
+        stepsize=None,
         ax=None,
         colors=("green", "red"),
         marker=None,
@@ -2035,6 +2048,8 @@ class PolarDiagramCurve(PolarDiagram):
             a fixed number of angles between 0° and 360°
 
             Defaults to (0, 20, 100)
+
+        stepsize : int or float, optional
 
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
@@ -2094,7 +2109,8 @@ class PolarDiagramCurve(PolarDiagram):
 
     def plot_convex_hull(
         self,
-        ws=(0, 20, 5),
+        ws=None,
+        stepsize=None,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -2123,7 +2139,9 @@ class PolarDiagramCurve(PolarDiagram):
             takes the given values in ws and wa goes through
             a fixed number of angles between 0° and 360°
 
-            Defaults to (0, 20, 5)
+
+
+        stepsize : int or float, optional
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
@@ -2187,7 +2205,7 @@ class PolarDiagramCurve(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
-        ws, wa, bsp = self.get_slices(ws)
+        ws, wa, bsp = self.get_slices(ws, stepsize)
 
         plot_convex_hull(
             ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw
