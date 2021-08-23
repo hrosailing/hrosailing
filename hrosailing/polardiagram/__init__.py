@@ -829,7 +829,8 @@ class PolarDiagramTable(PolarDiagram):
                 return [list(res).index(wind)]
             except ValueError:
                 raise PolarDiagramException(
-                    f"{wind} is not contained in {res}")
+                    f"{wind} is not contained in {res}"
+                )
 
         wind = set(wind)
         if not wind:
@@ -894,9 +895,7 @@ class PolarDiagramTable(PolarDiagram):
         return np.deg2rad(self.wind_angles)
 
     def get_slices(self, ws=None):
-        """
-
-        """
+        """ """
         if ws is None:
             ws = self.wind_speeds
         elif isinstance(ws, (int, float)):
@@ -1490,9 +1489,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         legend_kw=None,
         **plot_kw,
     ):
-        """
-
-        """
+        """ """
         if ax is None:
             ax = plt.axes(projection="polar")
 
@@ -1514,9 +1511,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         legend_kw=None,
         **plot_kw,
     ):
-        """
-
-        """
+        """ """
         for i, pd in enumerate(self._tables):
             if i == 0 and show_legend:
                 pd.plot_flat(ws, ax, colors, show_legend, legend_kw, **plot_kw)
@@ -1525,9 +1520,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             pd.plot_flat(ws, ax, colors, False, None, **plot_kw)
 
     def plot_3d(self, ax=None, colors=("blue", "blue")):
-        """
-
-        """
+        """ """
         if ax is None:
             ax = plt.axes(projection="3d")
 
@@ -1727,9 +1720,7 @@ class PolarDiagramCurve(PolarDiagram):
             ) from oe
 
     def symmetrize(self):
-        """
-
-        """
+        """ """
 
         def sym_func(w_arr, *params):
             sym_w_arr = w_arr.copy()
@@ -1975,7 +1966,9 @@ class PolarDiagramCurve(PolarDiagram):
 
         plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
-    def plot_3d(self, ws=(0, 20), stepsize=None, ax=None, colors=("blue", "blue")):
+    def plot_3d(
+        self, ws=(0, 20), stepsize=None, ax=None, colors=("blue", "blue")
+    ):
         """Creates a 3d plot of a part of the polar diagram
 
         Parameters
@@ -2015,7 +2008,7 @@ class PolarDiagramCurve(PolarDiagram):
         )
 
         ws, wa, bsp = self.get_slices(ws, stepsize)
-        bsp = np.array(bsp)
+        bsp = np.array(bsp).T
         ws, wa = np.meshgrid(ws, wa)
         bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
 
@@ -2441,8 +2434,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         self._pts = np.row_stack((self.points, new_pts))
 
     def get_slices(self, ws):
-        """
-        """
+        """ """
         if ws is None:
             ws = self.wind_speeds
         elif isinstance(ws, (int, float)):
