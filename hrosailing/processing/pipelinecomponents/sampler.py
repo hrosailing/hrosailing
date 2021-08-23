@@ -108,7 +108,9 @@ class FibonacciSampler(Sampler):
     (sqrt(x)*cos(x), sqrt(x)*sin(x)), such that the angles
     are distributed equidistantly by the inverse golden ratio.
     The sample points all lie in the smallest enclosing circle
-    of given data points
+    of given data points.
+    Inspired by Álvaro Gonzzález - "Measurement of areas on a sphere using
+    Fibonacci and latitude–longitude lattices"
 
     Parameters
     ----------
@@ -160,7 +162,8 @@ class ArchimedianSampler(Sampler):
     approximately equidistant sample points on a moved and scaled version of the archimedean spiral
     (x*cos(x), x*sin(x)).
     The sample points all lie in the smallest enclosing circle
-    of given data points
+    of given data points.
+    Inspired by https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2007GC001581
 
     Parameters
     ----------
