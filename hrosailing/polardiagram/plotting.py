@@ -53,6 +53,7 @@ def plot_color_gradient(
     return ax.scatter(ws, wa, marker=marker, c=colors)
 
 
+# TODO Fix axes ticks and labels
 def plot3d(ws, wa, bsp, ax, **plot_kw):
     if ax is None:
         ax = plt.axes(projection="3d")
@@ -63,6 +64,7 @@ def plot3d(ws, wa, bsp, ax, **plot_kw):
     return ax.plot(ws, wa, bsp, **plot_kw)
 
 
+# TODO Fix axes ticks and labels
 def plot_surface(ws, wa, bsp, ax, colors):
     if ax is None:
         ax = plt.axes(projection="3d")
@@ -321,9 +323,9 @@ def _get_convex_hull_multisails(ws, wa, bsp, members):
     return xs, ys, membs
 
 
+# TODO Finish color api
 def _set_colors_multisails(ax, ws, members, colors):
     colorlist = []
-    n_plots = len(ws)
 
     for member in members:
         if len(set(member[:2])) == 1:
