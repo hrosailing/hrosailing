@@ -2206,6 +2206,7 @@ class PolarDiagramCurve(PolarDiagram):
         )
 
         ws, wa, bsp = self.get_slices(ws, stepsize)
+        wa = [wa] * len(ws)
 
         plot_convex_hull(
             ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw
