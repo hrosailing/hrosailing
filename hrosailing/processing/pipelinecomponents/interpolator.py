@@ -236,7 +236,7 @@ class ArithmeticMeanInterpolator(Interpolator):
 
         wts = w_pts.weights
         wts = self._distr(dist, wts, *self._params)
-        return self._s * np.average(pts, axis=0, weights=wts)
+        return self._s * np.average(pts[:, 2], weights=wts)
 
 
 def gauss_potential(distances, weights, *params):
