@@ -103,7 +103,7 @@ class WeightedPoints:
     def __init__(self, pts, wts=None, weigher=None, tw=True, _checks=True):
         if _checks:
             try:
-                pts = convert_wind(pts, tw, False)
+                pts = convert_wind(pts, 0, tw=tw, check_finite=False)
             except WindException as we:
                 raise WeightedPointsException("") from we
 
@@ -136,16 +136,16 @@ class WeightedPoints:
 
 
 def _set_weights(pts, weigher, wts, _checks):
-    shape = pts.shape
+    shape = pts.shape[0]
 
     if wts is None:
-        return _sanity_checks(weigher.weigh(pts), shape[0])
+        return _sanity_checks(weigher.weigh(pts), shape)
 
     if isinstance(wts, (int, float)):
-        return np.array([wts] * shape[0])
+        return np.array([wts] * shape)
 
     if _checks:
-        return _sanity_checks(wts, shape[0])
+        return _sanity_checks(wts, shape)
 
     return wts
 
