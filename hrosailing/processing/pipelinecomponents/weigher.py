@@ -118,7 +118,7 @@ class WeightedPoints:
             raise WeightedPointsException("`weigher` is not a Weigher")
 
         try:
-            self._wts = _set_weights(self._pts, weigher, wts, _checks)
+            self._wts = _set_weights(self.points, weigher, wts, _checks)
         except WeigherException as we:
             raise WeightedPointsException(
                 "During weighing an error occured"
