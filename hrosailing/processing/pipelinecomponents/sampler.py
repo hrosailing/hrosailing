@@ -103,22 +103,63 @@ def _create_bounds(pts):
     wa_bound = (np.amin(pts[:, 1]), np.amax(pts[:, 1]))
     return ws_bound, wa_bound
 
-
-# TODO
 class FibonacciSampler(Sampler):
-    """"""
+    """A sampler that produces sample points on a moved and scaled version of the spiral
+    (sqrt(x)*cos(x), sqrt(x)*sin(x)), such that the angles
+    are distributed equidistantly by the inverse golden ratio.
+    The sample points all lie in the smallest enclosing circle
+    of given data points
+
+    Parameters
+    ----------
+    n_samples : positive int
+        Amount of samples that will be produced by the sampler
+
+    Raises SamplerException if input is not of specified type
+
+
+    Methods
+    -------
+    sample(self, pts):
+        Produces samples according to the above described procedure
+    """
 
     def __init__(self, n_samples):
-        self._no_samples = n_samples
+        if not isinstance(n_samples, int) or n_samples <= 0:
+            raise SamplerException("`n_samples`is not a positive integer")
+
+        self._n_samples = n_samples
 
     def sample(self, pts):
-        pass
+        """Produces samples according to the above described procedure
+
+        Parameters
+        ----------
+        pts : array_like of shape (n, 2)
+            Points in whose convex hull the produced samples will lie
+
+        Returns
+        -------
+        samples : numpy.ndarray of shape (n_samples, 2)
+            samples produced by the above described method
+        """
+        #calculate smallest circle containing pts
+        x, y, r = make_circle(pts)
+        midpoint = np.array([x, y])
+        #create arc sizes beta and radii of the fibonacci spiral
+        golden_ratio = (1 + np.sqrt(5)) / 2
+        i = np.arange(1, self._n_samples)
+        beta = 2 * np.pi * i * golden_ratio ** (-1)
+        radius = np.sqrt(i) / np.sqrt(self._n_samples)
+        #move and scale fibonacci spiral to the previously calculated circle
+        return (midpoint[:, None] + radius* np.array([np.cos(beta), np.sin(beta)])).transpose()
 
 
 class ArchimedianSampler(Sampler):
     """A sampler that produces a number of
-    approximately equidistant sample points on the archimedean spiral
-    (x*cos(x), x*sin(x)), which all lie in the smallest enclosing circle
+    approximately equidistant sample points on a moved and scaled version of the archimedean spiral
+    (x*cos(x), x*sin(x)).
+    The sample points all lie in the smallest enclosing circle
     of given data points
 
     Parameters
