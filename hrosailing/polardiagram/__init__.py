@@ -490,66 +490,6 @@ class PolarDiagram(ABC):
         pass
 
 
-def _get_indices(wind, res):
-    if wind is None:
-        return range(len(res))
-
-    if isinstance(wind, (int, float)):
-        try:
-            return [list(res).index(wind)]
-        except ValueError:
-            raise PolarDiagramException(f"{wind} is not contained in {res}")
-
-    wind = set(wind)
-    if not wind:
-        raise PolarDiagramException("Empty slice-list was passed")
-
-    if not wind.issubset(set(res)):
-        raise PolarDiagramException(f"{wind} is not a subset of {res}")
-
-    return [i for i, w in enumerate(res) if w in wind]
-
-
-def _short_table(table, ws, wa, bsps):
-    table.extend([f"    {float(w):.1f}" for w in ws])
-    table.append("\n-----------")
-    for w in ws:
-        le = len(f"{float(w):.1f}")
-        table.append("  ".ljust(le + 4, "-"))
-    table.append("\n")
-    for i, a in enumerate(wa):
-        a = f"{float(a):.1f}"
-        table.append(a.ljust(11))
-        for j, w in enumerate(ws):
-            le = len(f"{float(w):.1f}")
-            table.append(f"{bsps[i][j]:.2f}".rjust(4 + le))
-        table.append("\n")
-    return "".join(table)
-
-
-def _long_table(table, ws, wa, bsps):
-    for i, w in enumerate(ws):
-        if i == 5:
-            table.append("  ...")
-        table.append(f"    {float(w):.1f}")
-    table.append("\n-----------")
-    for i, w in enumerate(ws):
-        if i == 5:
-            table.append("  ---")
-        le = len(f"{float(w):.1f}")
-        table.append("  ".ljust(le + 4, "-"))
-    table.append("\n")
-    for i, a in enumerate(wa):
-        a = f"{float(a):.1f}"
-        table.append(a.rjust(11))
-        for j, w in enumerate(ws):
-            if j == 5:
-                table.append("  ...")
-            le = len(f"{float(w):.1f}")
-            table.append(f"{bsps[i][j]:.2f}".rjust(4 + le))
-        table.append("\n")
-
-
 # TODO: Standardize wind angles, such that they are in [0, 360),
 #       because 360° should be equal to 0°
 class PolarDiagramTable(PolarDiagram):
@@ -709,15 +649,53 @@ class PolarDiagramTable(PolarDiagram):
         table = ["  TWA \\ TWS"]
         ws = self.wind_speeds
         if len(ws) <= 15:
-            _short_table(table, ws, self.wind_angles, self.boat_speeds)
+            self._short_table(table, ws)
 
         else:
             wind = []
             wind.extend(ws[:5])
             wind.extend(ws[-5:])
-            _long_table(table, wind, self.wind_angles, self.boat_speeds)
+            self._long_table(table, wind)
 
         return "".join(table)
+
+    def _short_table(self, table, wind):
+        bsps = self.boat_speeds
+        table.extend([f"    {float(ws):.1f}" for ws in wind])
+        table.append("\n-----------")
+        for ws in wind:
+            le = len(f"{float(ws):.1f}")
+            table.append("  ".ljust(le + 4, "-"))
+        table.append("\n")
+        for i, wa in enumerate(self.wind_angles):
+            table.append(f"{float(wa):.1f}".ljust(11))
+            for j, ws in enumerate(wind):
+                le = len(f"{float(ws):.1f}")
+                table.append(f"{bsps[i][j]:.2f}".rjust(4 + le))
+            table.append("\n")
+        return "".join(table)
+
+    def _long_table(self, table, wind):
+        bsps = self.boat_speeds
+        for i, ws in enumerate(wind):
+            if i == 5:
+                table.append("  ...")
+            table.append(f"    {float(ws):.1f}")
+        table.append("\n-----------")
+        for i, ws in enumerate(wind):
+            if i == 5:
+                table.append("  ---")
+            le = len(f"{float(ws):.1f}")
+            table.append("  ".ljust(le + 4, "-"))
+        table.append("\n")
+        for i, wa in enumerate(self.wind_angles):
+            table.append(f"{float(wa):.1f}".rjust(11))
+            for j, ws in enumerate(wind):
+                if j == 5:
+                    table.append("  ...")
+                le = len(f"{float(ws):.1f}")
+                table.append(f"{bsps[i][j]:.2f}".rjust(4 + le))
+            table.append("\n")
 
     def __repr__(self):
         return (
@@ -727,8 +705,8 @@ class PolarDiagramTable(PolarDiagram):
 
     def __getitem__(self, key):
         ws, wa = key
-        col = _get_indices(ws, self.wind_speeds)
-        row = _get_indices(wa, self.wind_angles)
+        col = self._get_indices(ws, "speed")
+        row = self._get_indices(wa, "angle")
         return self.boat_speeds[row, col]
 
     @property
@@ -772,7 +750,7 @@ class PolarDiagramTable(PolarDiagram):
         """
         logger.info(f"Method '.to_csv({csv_path}, fmt={fmt})' called")
 
-        if fmt not in {"hro", "opencpn", "orc"}:
+        if fmt not in {"hro", "opencpn"}:
             raise PolarDiagramException("`fmt` not implemented")
 
         try:
@@ -839,6 +817,29 @@ class PolarDiagramTable(PolarDiagram):
             ws_res=self.wind_speeds, wa_res=wa_res, bsps=bsps
         )
 
+    def _get_indices(self, wind, speed_or_angle):
+        b = speed_or_angle == "speed"
+        res = self.wind_speeds if b else self.wind_angles
+
+        if wind is None:
+            return range(len(res))
+
+        if isinstance(wind, (int, float)):
+            try:
+                return [list(res).index(wind)]
+            except ValueError:
+                raise PolarDiagramException(
+                    f"{wind} is not contained in {res}")
+
+        wind = set(wind)
+        if not wind:
+            raise PolarDiagramException("Empty slice-list was passed")
+
+        if not wind.issubset(set(res)):
+            raise PolarDiagramException(f"{wind} is not a subset of {res}")
+
+        return [i for i, w in enumerate(res) if w in wind]
+
     def change_entries(self, new_bsps, ws=None, wa=None):
         """Changes specified entries in the table
 
@@ -877,8 +878,8 @@ class PolarDiagramTable(PolarDiagram):
         if new_bsps.dtype is object:
             raise PolarDiagramException("`new_bsps` is not array_like")
 
-        ws_ind = _get_indices(ws, self.wind_speeds)
-        wa_ind = _get_indices(wa, self.wind_angles)
+        ws_ind = self._get_indices(ws, "speed")
+        wa_ind = self._get_indices(wa, "angle")
 
         if new_bsps.shape != (len(wa_ind), len(ws_ind)):
             raise PolarDiagramException("`new_bsps` has incorrect shape")
@@ -907,7 +908,7 @@ class PolarDiagramTable(PolarDiagram):
         if not ws:
             raise PolarDiagramException("No slices were given")
 
-        ind = _get_indices(ws, self.wind_speeds)
+        ind = self._get_indices(ws, "speed")
         wa = self._get_radians()
         return ws, wa, self.boat_speeds[:, ind]
 
