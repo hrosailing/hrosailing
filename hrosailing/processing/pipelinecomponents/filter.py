@@ -1,10 +1,9 @@
 """
-Defines a baseclass for filters used in the
-processing.processing.PolarPipeline class,
-that can be used to create custom filters for use.
+Contains the baseclass for Filters used in the PolarPipeline class,
+that can also be used to create custom Filters.
 
-Also contains two predefinied and usable filters,
-the QuantileFilter and the BoundFilter
+Also contains two predefinied and usable filters, the QuantileFilter
+and the BoundFilter.
 """
 
 # Author: Valentin F. Dannenberg / Ente

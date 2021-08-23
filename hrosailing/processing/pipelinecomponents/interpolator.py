@@ -1,9 +1,9 @@
 """
-Defines a baseclass for Interpolators used in the
-processing.processing.PolarPipeline class,
-that can be used to create custom Interpolators for use.
+Contains the baseclass for Interpolators used in the TableExtension
+and PointcloudExtension class, that can also be used to create custom
+Interpolators.
 
-Also contains various predefined and usable Interpolators
+Also contains various predefined and usable interpolators
 """
 
 # Author Valentin F. Dannenberg / Ente

@@ -1,7 +1,7 @@
 """
-Defines a baseclass for neighbourhoods used in the
-processing.processing.PolarPipeline class,
-taht can be used to create custom neighbourhoods for use.
+Contains the baseclass for Neighbourhoods used in the TableExtension and
+PointcloudExtension class, that can also be used to create custom
+Neighbourhoods.
 
 Also contains various predefined and usable neighbourhoods
 """

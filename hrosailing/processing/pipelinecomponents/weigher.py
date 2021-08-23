@@ -1,13 +1,10 @@
 """
-Defines a baseclass for weighers used in the
-processing.processing.PolarPipeline class,
-that can be used to create custom weighers for use.
+Contains the baseclass for Weighers used in the PolarPipeline class,
+that can also be used to create custom Weighers.
 
-Also contains two predefined and useable weighers,
-the CylindricMeanWeigher and the CylindricMemberWeigher,
-aswell as the WeightedPoints class, used to
-represent data points together with their
-respective weights
+Also contains two predefined and useable weighers, the CylindricMeanWeigher
+and the CylindricMemberWeigher, aswell as the WeightedPoints class, used to
+represent data points together with their respective weights
 """
 
 # Author: Valentin F. Dannenberg / Ente

@@ -1,9 +1,8 @@
 """
-Defines a baseclass for samplers used in the
-processing.processing.PolarPipeline class,
-that can be used to create custom sampler for use.
+Contains the baseclass for Samplers used in the PointcloudExtension class,
+that can also be used to create custom Samplers.
 
-Also contains various predefined and usable samplers
+Also contains various predefined and usable samplers.
 """
 
 # Author: Valentin F. Dannenberg / Ente, Robert Schüler
@@ -103,9 +102,10 @@ def _create_bounds(pts):
     wa_bound = (np.amin(pts[:, 1]), np.amax(pts[:, 1]))
     return ws_bound, wa_bound
 
+
 class FibonacciSampler(Sampler):
-    """A sampler that produces sample points on a moved and scaled version of the spiral
-    (sqrt(x)*cos(x), sqrt(x)*sin(x)), such that the angles
+    """A sampler that produces sample points on a moved and scaled version
+     of the spiral (sqrt(x)*cos(x), sqrt(x)*sin(x)), such that the angles
     are distributed equidistantly by the inverse golden ratio.
     The sample points all lie in the smallest enclosing circle
     of given data points.
@@ -145,16 +145,18 @@ class FibonacciSampler(Sampler):
         samples : numpy.ndarray of shape (n_samples, 2)
             samples produced by the above described method
         """
-        #calculate smallest circle containing pts
+        # calculate smallest circle containing pts
         x, y, r = make_circle(pts)
         midpoint = np.array([x, y])
-        #create arc sizes beta and radii of the fibonacci spiral
+        # create arc sizes beta and radii of the fibonacci spiral
         golden_ratio = (1 + np.sqrt(5)) / 2
         i = np.arange(1, self._n_samples)
         beta = 2 * np.pi * i * golden_ratio ** (-1)
         radius = np.sqrt(i) / np.sqrt(self._n_samples)
-        #move and scale fibonacci spiral to the previously calculated circle
-        return (midpoint[:, None] + radius* np.array([np.cos(beta), np.sin(beta)])).transpose()
+        # move and scale fibonacci spiral to the previously calculated circle
+        return (
+            midpoint[:, None] + radius * np.array([np.cos(beta), np.sin(beta)])
+        ).transpose()
 
 
 class ArchimedianSampler(Sampler):
@@ -210,8 +212,8 @@ class ArchimedianSampler(Sampler):
         return (midpoint[:, None] + r / beta[-1] * spiral).transpose()
 
 
-###### The following code has been copied from an extern source ########
-###### and changed a bit                                        ########
+# The following code has been copied from an extern source ########
+# and changed a bit                                        ########
 
 # Smallest enclosing circle
 #
