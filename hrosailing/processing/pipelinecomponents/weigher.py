@@ -216,7 +216,7 @@ class CylindricMeanWeigher(Weigher):
         Weigh given points according to the method described above
     """
 
-    def __init__(self, radius=1, norm=None):
+    def __init__(self, radius=0.05, norm=None):
         if not isinstance(radius, (int, float)) or radius <= 0:
             raise WeigherException("`radius` is not a positive number")
 
@@ -308,7 +308,7 @@ class CylindricMemberWeigher(Weigher):
         Weigh given points according to the method described above
     """
 
-    def __init__(self, radius=1, length=1, norm=None):
+    def __init__(self, radius=0.05, length=0.05, norm=None):
         if not isinstance(radius, (int, float)) or radius <= 0:
             raise WeigherException("`radius´ is not a positive number")
 
