@@ -2420,8 +2420,6 @@ class PolarDiagramCurve(PolarDiagram):
         )
 
 
-# TODO: Standardize wind angles, such that they are in [0, 360),
-#       because 360° should be equal to 0°
 class PolarDiagramPointcloud(PolarDiagram):
     """A class to represent, visualize and work with a polar diagram
     given by a point cloud
