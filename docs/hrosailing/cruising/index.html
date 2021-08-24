@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.10.0" />
+<meta name="generator" content="pdoc 0.9.2" />
 <title>hrosailing.cruising API documentation</title>
 <meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -31,25 +31,31 @@
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="hrosailing.cruising.convex_direction"><code class="name flex">
-<span>def <span class="ident">convex_direction</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, ws, direction)</span>
+<span>def <span class="ident">convex_direction</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, ws, direction, im: <a title="hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel" href="../processing/pipelinecomponents/influencemodel.html#hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a> = None)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 <dt id="hrosailing.cruising.cost_cruise"><code class="name flex">
-<span>def <span class="ident">cost_cruise</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, start, end, cost_func=None, nodes=None, quadrature=None)</span>
+<span>def <span class="ident">cost_cruise</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, start, end, cost_func=None, nodes=None, quadrature=None, wm: <a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a> = None, im: <a title="hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel" href="../processing/pipelinecomponents/influencemodel.html#hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a> = None)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 <dt id="hrosailing.cruising.cruise"><code class="name flex">
-<span>def <span class="ident">cruise</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, ws, wa, start, end)</span>
+<span>def <span class="ident">cruise</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, ws, wa, start, end, im: <a title="hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel" href="../processing/pipelinecomponents/influencemodel.html#hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a> = None)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 <dt id="hrosailing.cruising.isocost"><code class="name flex">
-<span>def <span class="ident">isocost</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, start, direction, cost_func=None, total_cost=None, min_nodes=None, quadrature=None)</span>
+<span>def <span class="ident">isocost</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, start, direction, cost_func=None, total_cost=None, min_nodes=None, quadrature=None, wm: <a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a> = None, im: <a title="hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel" href="../processing/pipelinecomponents/influencemodel.html#hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a> = None)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hrosailing.cruising.isocrone"><code class="name flex">
+<span>def <span class="ident">isocrone</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, start, direction, total_cost=None, min_nodes=None, wm: <a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a> = None, im: <a title="hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel" href="../processing/pipelinecomponents/influencemodel.html#hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a> = None)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -57,6 +63,15 @@
 </dl>
 </section>
 <section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="hrosailing.cruising.WeatherModel"><code class="flex name class">
+<span>class <span class="ident">WeatherModel</span></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -76,13 +91,21 @@
 <li><code><a title="hrosailing.cruising.cost_cruise" href="#hrosailing.cruising.cost_cruise">cost_cruise</a></code></li>
 <li><code><a title="hrosailing.cruising.cruise" href="#hrosailing.cruising.cruise">cruise</a></code></li>
 <li><code><a title="hrosailing.cruising.isocost" href="#hrosailing.cruising.isocost">isocost</a></code></li>
+<li><code><a title="hrosailing.cruising.isocrone" href="#hrosailing.cruising.isocrone">isocrone</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a></code></h4>
+</li>
 </ul>
 </li>
 </ul>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
 </footer>
 </body>
 </html>
