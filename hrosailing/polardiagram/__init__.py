@@ -490,8 +490,6 @@ class PolarDiagram(ABC):
         pass
 
 
-# TODO: Standardize wind angles, such that they are in [0, 360),
-#       because 360° should be equal to 0°
 class PolarDiagramTable(PolarDiagram):
     """A class to represent, visualize and work with
     a polar diagram in the form of a table.
@@ -615,6 +613,9 @@ class PolarDiagramTable(PolarDiagram):
             wa_res = set_resolution(wa_res, "angle")
         except WindException as we:
             raise PolarDiagramException("") from we
+
+        # standardize wind angles to the interval [0, 360)
+        wa_res %= 360
 
         rows, cols = len(wa_res), len(ws_res)
         if bsps is None:
@@ -1297,9 +1298,6 @@ class PolarDiagramTable(PolarDiagram):
 def interpolate():
     pass
 
-
-# TODO: Standardize wind angles, such that they are in [0, 360),
-#       because 360° should be equal to 0°
 
 # TODO: Docstrings
 class PolarDiagramMultiSails(PolarDiagram):
@@ -2309,9 +2307,12 @@ class PolarDiagramPointcloud(PolarDiagram):
             return
 
         try:
-            self._pts = convert_wind(pts, -1, tw)
+            pts = convert_wind(pts, -1, tw)
         except WindException as we:
             raise PolarDiagramException("") from we
+        pts[:, 1] %= 360
+
+        self._pts = pts
 
     def __str__(self):
         table = ["   TWS      TWA     BSP\n", "------  -------  ------\n"]
