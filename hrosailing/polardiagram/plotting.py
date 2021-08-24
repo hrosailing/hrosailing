@@ -69,9 +69,9 @@ def plot_surface(ws, wa, bsp, ax, **plot_kw):
 
     _set_3d_labels(ax)
 
-    colors = plot_kw.get("color") or plot_kw.get("c") or "blue"
+    colors = plot_kw.get("color") or plot_kw.get("c") or ("green", "red")
     if not isinstance(colors, (list, tuple)):
-        colors = [colors]
+        colors = [colors, colors]
 
     cmap = LinearSegmentedColormap.from_list("cmap", list(colors))
     color = cmap((ws - ws.min()) / float((ws - ws.min()).max()))
