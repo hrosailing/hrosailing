@@ -53,7 +53,6 @@ def plot_color_gradient(
     return ax.scatter(ws, wa, marker=marker, c=colors)
 
 
-# TODO Fix axes ticks and labels
 def plot3d(ws, wa, bsp, ax, **plot_kw):
     if ax is None:
         ax = plt.axes(projection="3d")
@@ -64,14 +63,15 @@ def plot3d(ws, wa, bsp, ax, **plot_kw):
     return ax.plot(ws, wa, bsp, **plot_kw)
 
 
-# TODO Fix axes ticks and labels
 def plot_surface(ws, wa, bsp, ax, **plot_kw):
     if ax is None:
         ax = plt.axes(projection="3d")
 
     _set_3d_labels(ax)
 
-    colors = plot_kw.get("color") or plot_kw.get("c")
+    colors = plot_kw.get("color") or plot_kw.get("c") or "blue"
+    if not isinstance(colors, (list, tuple)):
+        colors = [colors]
 
     cmap = LinearSegmentedColormap.from_list("cmap", list(colors))
     color = cmap((ws - ws.min()) / float((ws - ws.min()).max()))
@@ -151,9 +151,10 @@ def _set_polar_directions(ax):
 
 
 def _set_3d_labels(ax):
-    ax.set_xlabel("True Wind Speed")
-    ax.set_ylabel("True Wind Angle")
-    ax.set_zlabel("Boat Speed")
+    ax.set_xlabel("TWS")
+    ax.set_ylabel("Polar plane: TWA / BSP ")
+    ax.yaxis.set_ticklabels([])
+    ax.zaxis.set_ticklabels([])
 
 
 def _set_color_cycle(ax, ws, colors):
