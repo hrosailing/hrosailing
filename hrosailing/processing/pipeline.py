@@ -286,11 +286,11 @@ def _extract_wind(pts, n, threshhold):
 
     for w in range(w_start, w_end + n, n):
         if w == w_start:
-            mask = pts >= w_min & pts <= w
+            mask = np.logical_and(w >= pts, pts >= w_min)
         elif w == w_end:
-            mask = pts >= w & pts <= w_max
+            mask = np.logical_and(w_max >= pts, pts >= w)
         else:
-            mask = pts >= w - n & pts <= w
+            mask = np.logical_and(w >= pts, pts >= w - n)
 
         if len(pts[mask]) >= threshhold:
             res.append(w)
