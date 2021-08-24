@@ -131,7 +131,7 @@ class NMEAFileHandler(DataHandler):
         over water
         Function looks for sentences of type:
             - MWV for wind data
-            - VHW for speed over water
+            - VHW for speed trough water
 
         Parameters
         ----------
