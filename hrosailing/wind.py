@@ -112,22 +112,6 @@ def _sanity_checks(wind, check_finite):
     return wind
 
 
-def standardize_angles(wa):
-    try:
-        wa = np.asarray_chkfinite(wa)
-    except ValueError as ve:
-        raise WindException("`wa` contains infinite or NaN values") from ve
-
-    if wa.dtype is object:
-        raise WindException("`wa` is not array_like")
-
-    wa %= 360
-    wa_below_0 = wa < 0
-    wa[wa_below_0] = 360 - wa[wa_below_0]
-
-    return wa
-
-
 def set_resolution(res, speed_or_angle):
     b = speed_or_angle == "speed"
 
