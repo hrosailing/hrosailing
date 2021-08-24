@@ -137,7 +137,7 @@ class ArithmeticMeanInterpolator(Interpolator):
 
     First the distance of the independent variables of all considered
     points and of the to interpolate point is calculated, ie
-    || p[:d-1] - inter[d-1] ||
+    || p[:2] - grid_pt ||
     Then using a distribution, new weights are calculated based on
     the old weights, the previously calculated distances and other
     parameters depending on the distribution
@@ -259,7 +259,7 @@ class ImprovedIDWInterpolator(Interpolator):
     point grid_pt which is to be interpolated.
     For all considered measured points let d_pt be the same as
     in IDWInterpolator. If d_pt <= r/3 we set w_pt = 1 / d_pt.
-    Otherwise we set w_pt = 27 / (4 * r) * (d / r - 1)^2
+    Otherwise we set w_pt = 27 / (4 * r) * (d_pt / r - 1)^2
 
     The resulting value on grid_pt will then be calculated the same
     way as in IDWInterpolator
