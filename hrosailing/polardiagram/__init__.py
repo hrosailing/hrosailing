@@ -576,7 +576,7 @@ class PolarDiagramTable(PolarDiagram):
         **plot_kw,
     )
         Creates a cartesian plot of one or more slices of the polar diagram
-    plot_3d(ax=None, colors=("blue", "blue"))
+    plot_3d(ax=None, **plot_kw)
         Creates a 3d plot of the polar diagram
     plot_color_gradient(
         ax=None,
@@ -1117,6 +1117,20 @@ class PolarDiagramTable(PolarDiagram):
             a suitable axes
 
         plot_kw : Keyword arguments, optional
+            Keyword arguments to change certain appearences of the plot
+
+            Only the `color`/`c` keyword is used, the rest
+            are only supported to be consistent with the
+            plot_3d()-method of PolarDiagram and PolarDiagrampointcloud
+
+            The value of the `color`/`c` should be either a tuple or list
+            of matplotlib supported color_like entries, if the 3d-plot
+            should be plotted with a color gradient of those colors,
+            or a single color_like value, if the 3d-plot should be plotted
+            with a single color.
+
+            If nothing is passed the `color`/`c` keyword defaults
+            to ("green", "red")
         """
         logger.info(f"Method 'plot_3d(ax={ax}, **plot_kw={plot_kw})' called")
 
@@ -1339,7 +1353,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         **plot_kw,
     )
         Creates a cartesian plot of one or more slices of the polar diagram
-    plot_3d(ax=None, colors=("blue", "blue"))
+    plot_3d(ax=None, **plot_kw)
         Creates a 3d plot of the polar diagram
     plot_color_gradient(
         ax=None,
@@ -1603,7 +1617,7 @@ class PolarDiagramCurve(PolarDiagram):
         **plot_kw,
     )
         Creates a cartesian plot of one or more slices of the polar diagram
-    plot_3d(ws=None, stepsize=None, ax=None, colors=('blue', 'blue'))
+    plot_3d(ws=None, stepsize=None, ax=None, **plot_kw)
         Creates a 3d plot of a part of the polar diagram
     plot_color_gradient(
         ws=None,
@@ -1979,7 +1993,20 @@ class PolarDiagramCurve(PolarDiagram):
             a suitable axes
 
         plot_kw : Keyword arguments, optional
+            Keyword arguments to change certain appearences of the plot
 
+            Only the `color`/`c` keyword is used, the rest
+            are only supported to be consistent with the
+            plot_3d()-method of PolarDiagram and PolarDiagrampointcloud
+
+            The value of the `color`/`c` should be either a tuple or list
+            of matplotlib supported color_like entries, if the 3d-plot
+            should be plotted with a color gradient of those colors,
+            or a single color_like value, if the 3d-plot should be plotted
+            with a single color.
+
+            If nothing is passed the `color`/`c` keyword defaults
+            to ("green", "red")
         """
         logging.info(
             f"Method 'plot_3d(ws={ws}, ax={ax}, **plot_kw={plot_kw})' called"
