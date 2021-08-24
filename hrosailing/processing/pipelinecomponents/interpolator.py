@@ -241,8 +241,7 @@ class ArithmeticMeanInterpolator(Interpolator):
 
 def gauss_potential(distances, weights, *params):
     alpha = params[0]
-    beta = params[1]
-    return beta * np.exp(-alpha * weights * distances)
+    return np.exp(-alpha * weights * distances)
 
 
 class ImprovedIDWInterpolator(Interpolator):

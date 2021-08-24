@@ -168,7 +168,7 @@ class TableExtension(PipelineExtension):
             raise PipelineException("`neighbourhood` is not a Neighbourhood")
 
         if interpolator is None:
-            interpolator = pc.ArithmeticMeanInterpolator(1, 1)
+            interpolator = pc.ArithmeticMeanInterpolator(1)
         elif not isinstance(interpolator, pc.Interpolator):
             raise PipelineException("`interpolator` is not an Interpolator")
 
@@ -232,7 +232,7 @@ class PointcloudExtension(PipelineExtension):
             raise PipelineException("`neighbourhood` is not a Neighbourhood")
 
         if interpolator is None:
-            interpolator = pc.ArithmeticMeanInterpolator(1, 1)
+            interpolator = pc.ArithmeticMeanInterpolator(1)
         elif not isinstance(interpolator, pc.Interpolator):
             raise PipelineException("`interpolator` is not an Interpolator")
 
