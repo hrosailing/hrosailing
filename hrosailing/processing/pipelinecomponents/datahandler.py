@@ -91,7 +91,7 @@ class CsvFileHandler(DataHandler):
             ) from oe
         except ValueError as ve:
             raise HandlerException(
-                "While evaluating data points in `data` an error occured"
+                "While evaluating data points in `data`, an error occured"
             ) from ve
 
 
