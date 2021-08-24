@@ -1938,7 +1938,7 @@ class PolarDiagramCurve(PolarDiagram):
             ws = [ws]
         elif isinstance(ws, tuple) and len(ws) == 2:
             if stepsize is None:
-                stepsize = ws[1] - ws[0]
+                stepsize = int(round(ws[1] - ws[0]))
 
             if stepsize <= 0:
                 raise PolarDiagramException("`stepsize` is nonpositive")
@@ -2649,34 +2649,57 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         self._pts = np.row_stack((self.points, new_pts))
 
-    def get_slices(self, ws):
-        """ """
-        if ws is None:
-            ws = self.wind_speeds
-        elif isinstance(ws, (int, float)):
-            ws = [ws]
-        elif isinstance(ws, tuple) and len(ws) == 2:
-            ws = [w for w in self.wind_speeds if ws[0] <= w <= ws[1]]
-
-        ws = list(ws)
-        if not ws:
-            raise PolarDiagramException("No slices were given")
-
+    def _get_points(self, ws, range_):
         wa = []
         bsp = []
+        cloud = self.points
         for w in ws:
-            pts = self.points[self.points[:, 0] == w][:, 1:]
+            if not isinstance(w, tuple):
+                w = (w - range_, w + range_)
+
+            pts = cloud[
+                np.logical_and(w[1] >= cloud[:, 0], cloud[:, 0] >= w[0])
+            ][:, 1:]
             if not pts.size:
                 raise PolarDiagramException(
-                    f"No points with wind speed={w} found"
+                    f"No points with wind speed in range {w} found"
                 )
+
             wa.append(np.deg2rad(pts[:, 0]))
             bsp.append(pts[:, 1])
 
-        if not wa or not bsp:
+        if not wa:
             raise PolarDiagramException(
                 "There are no slices in the given range `ws`"
             )
+
+        return wa, bsp
+
+    def get_slices(self, ws, stepsize=None, range_=None):
+        """"""
+        if ws is None:
+            ws = self.wind_speeds
+            ws = (min(ws), max(ws))
+
+        if isinstance(ws, (int, float)):
+            ws = [ws]
+        elif isinstance(ws, tuple) and len(ws) == 2:
+            if stepsize is None:
+                stepsize = int(round(ws[1] - ws[0]))
+            elif stepsize <= 0:
+                raise PolarDiagramException("`stepsize` is nonpositive")
+
+            ws = np.linspace(ws[0], ws[1], stepsize)
+
+        if range_ is None:
+            range_ = 1
+        elif range_ <= 0:
+            raise PolarDiagramException("`range_` is nonpositive")
+
+        wa, bsp = self._get_points(ws, range_)
+        ws = [(w[1] + w[0]) / 2 if isinstance(w, tuple) else w for w in ws]
+        if len(ws) != len(set(ws)):
+            print("Something placeholder")
 
         return ws, wa, bsp
 
