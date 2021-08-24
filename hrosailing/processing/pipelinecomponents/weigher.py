@@ -256,7 +256,7 @@ class CylindricMeanWeigher(Weigher):
 
             # in case there are on points in cylinder
             std = np.std(cylinder) or 1
-            mean = np.mean(cylinder) or pt[2]
+            mean = np.mean(cylinder)
 
             wts[i] = np.abs(mean - pt[2]) / std
 
