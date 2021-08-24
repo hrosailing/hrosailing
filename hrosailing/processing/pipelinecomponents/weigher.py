@@ -103,7 +103,7 @@ class WeightedPoints:
     def __init__(self, pts, wts=None, weigher=None, tw=True, _checks=True):
         if _checks:
             try:
-                pts = convert_wind(pts, 0, tw=tw, check_finite=False)
+                pts = convert_wind(pts, -1, tw=tw, check_finite=False)
             except WindException as we:
                 raise WeightedPointsException("") from we
 
