@@ -2449,6 +2449,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         elif isinstance(ws, tuple) and len(ws) == 2:
             ws = [w for w in self.wind_speeds if ws[0] <= w <= ws[1]]
 
+        ws = list(ws)
         if not ws:
             raise PolarDiagramException("No slices were given")
 
