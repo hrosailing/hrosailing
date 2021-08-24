@@ -1108,7 +1108,7 @@ class PolarDiagramTable(PolarDiagram):
         wa = [np.rad2deg(wa)] * len(bsp)
         plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
-    def plot_3d(self, ax=None, colors=("blue", "blue")):
+    def plot_3d(self, ax=None, **plot_kw):
         """Creates a 3d plot of the polar diagram
 
         Parameters
@@ -1119,21 +1119,14 @@ class PolarDiagramTable(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors : tuple of length 2, optional
-            Colors which specify the color gradient with
-            which the polar diagram will be plotted.
-
-            If no color gradient is desired, set both elements
-            to the same color
-
-            Defaults to ("blue", "blue")
+        plot_kw : Keyword arguments, optional
         """
-        logger.info(f"Method 'plot_3d(ax={ax}, colors={colors})' called")
+        logger.info(f"Method 'plot_3d(ax={ax}, **plot_kw={plot_kw})' called")
 
         ws, wa = np.meshgrid(self.wind_speeds, self._get_radians())
         bsp = self.boat_speeds
         bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
-        plot_surface(ws, wa, bsp, ax, colors)
+        plot_surface(ws, wa, bsp, ax, **plot_kw)
 
     def plot_color_gradient(
         self,
@@ -1502,13 +1495,13 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             pd.plot_flat(ws, ax, colors, False, None, **plot_kw)
 
-    def plot_3d(self, ax=None, colors=("blue", "blue")):
+    def plot_3d(self, ax=None, **plot_kw):
         """ """
         if ax is None:
             ax = plt.axes(projection="3d")
 
         for pd in self._tables:
-            pd.plot_3d(ax, colors)
+            pd.plot_3d(ax, **plot_kw)
 
     def plot_color_gradient(
         self,
@@ -1960,7 +1953,7 @@ class PolarDiagramCurve(PolarDiagram):
         plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
     def plot_3d(
-        self, ws=None, stepsize=None, ax=None, colors=("blue", "blue")
+        self, ws=None, stepsize=None, ax=None, **plot_kw
     ):
         """Creates a 3d plot of a part of the polar diagram
 
@@ -1988,17 +1981,11 @@ class PolarDiagramCurve(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors : tuple of length 2, optional
-            Colors which specify the color gradient with
-            which the polar diagram will be plotted.
+        plot_kw : Keyword arguments, optional
 
-            If no color gradient is desired, set both elements
-            to the same color
-
-            Defaults to ("blue", "blue")
         """
         logging.info(
-            f"Method 'plot_3d(ws={ws}, ax={ax}, colors={colors})' called"
+            f"Method 'plot_3d(ws={ws}, ax={ax}, **plot_kw={plot_kw})' called"
         )
 
         if stepsize is None:
@@ -2009,7 +1996,7 @@ class PolarDiagramCurve(PolarDiagram):
         ws, wa = np.meshgrid(ws, wa)
         bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
 
-        plot_surface(ws, wa, bsp, ax, colors)
+        plot_surface(ws, wa, bsp, ax, **plot_kw)
 
     def plot_color_gradient(
         self,
@@ -2474,6 +2461,8 @@ class PolarDiagramPointcloud(PolarDiagram):
     def plot_polar(
         self,
         ws=None,
+        stepsize=None,
+        range_=None,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -2497,6 +2486,10 @@ class PolarDiagramPointcloud(PolarDiagram):
             whose first entry is equal to the values in `ws`
 
             Defaults to self.wind_speeds
+
+        stepsize :
+
+        range_ :
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
@@ -2570,6 +2563,8 @@ class PolarDiagramPointcloud(PolarDiagram):
     def plot_flat(
         self,
         ws=None,
+        stepsize=None,
+        range_=None,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -2593,6 +2588,10 @@ class PolarDiagramPointcloud(PolarDiagram):
             whose first entry is equal to the values in `ws`
 
             Defaults to self.wind_speeds
+
+        stepsize :
+
+        range_ :
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
@@ -2774,6 +2773,8 @@ class PolarDiagramPointcloud(PolarDiagram):
     def plot_convex_hull(
         self,
         ws=None,
+        stepsize=None,
+        range_=None,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -2798,6 +2799,10 @@ class PolarDiagramPointcloud(PolarDiagram):
             whose first entry is equal to the values in `ws`
 
             Defaults to self.wind_speeds
+
+        stepsize :
+
+        range_ :
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
