@@ -65,11 +65,13 @@ def plot3d(ws, wa, bsp, ax, **plot_kw):
 
 
 # TODO Fix axes ticks and labels
-def plot_surface(ws, wa, bsp, ax, colors):
+def plot_surface(ws, wa, bsp, ax, **plot_kw):
     if ax is None:
         ax = plt.axes(projection="3d")
 
     _set_3d_labels(ax)
+
+    colors = plot_kw.get("color") or plot_kw.get("c")
 
     cmap = LinearSegmentedColormap.from_list("cmap", list(colors))
     color = cmap((ws - ws.min()) / float((ws - ws.min()).max()))
