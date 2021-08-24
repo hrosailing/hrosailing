@@ -244,9 +244,6 @@ def symmetrize(obj):
     return obj.symmetrize()
 
 
-# TODO Add support for format strings in plot methods?
-
-
 class PolarDiagram(ABC):
     """Base class for all polardiagram classes
 
