@@ -248,24 +248,23 @@ class CylindricMeanWeigher(Weigher):
             Normalized weights of the input points
         """
         shape = pts.shape
-        d = shape[1]
         wts = np.zeros(shape[0])
 
         for i, pt in enumerate(pts):
-            mask = self._norm(pts[:, : d - 1] - pt[: d - 1]) <= self._radius
-            cylinder = pts[mask][:, d - 1]
+            mask = self._norm(pts[:, :2] - pt[:2]) <= self._radius
+            cylinder = pts[mask][:, 2]
 
             # in case there are on points in cylinder
             std = np.std(cylinder) or 1
-            mean = np.mean(cylinder) or pt[d - 1]
+            mean = np.mean(cylinder) or pt[2]
 
-            wts[i] = np.abs(mean - pt[d - 1]) / std
+            wts[i] = np.abs(mean - pt[2]) / std
 
         logger.info(f"Mean (non-normalized) weight: {np.mean(wts)}")
         logger.info(f"Maximum (non-normalized) weight: {np.max(wts)}")
         logger.info(f"Minimum (non-normalized) weight: {np.min(wts)}")
 
-        wts = wts / max(wts)
+        wts = 1 - wts / max(wts)
 
         logger.info(f"Mean (normalized) weight: {np.mean(wts)}")
         logger.info(f"Final (normalized) weights calculated for {pts}: {wts}")
