@@ -1751,8 +1751,26 @@ class PolarDiagramMultiSails(PolarDiagram):
         colors : tuple, optional
 
         show_legend : bool, optional
+            Specifies wether or not a legend will be shown next to the plot
+
+            The type of legend depends on the color options
+                - If the slices are plotted with a
+                color gradient, a matplotlib.colorbar.Colorbar
+                object will be created and assigned to ax.
+
+                - Otherwise a matplotlib.legend.Legend
+                will be created and assigned to ax.
+
+            Defaults to False
 
         legend_kw : dict, optional
+            Keyword arguments to be passed to either the
+            matplotlib.colorbar.Colorbar or matplotlib.legend.Legend
+            classes to change position and appearence of the legend
+
+            Will only be used if show_legend is True
+
+            If nothing is passed it will default to {}
 
         plot_kw : Keyword arguments
             Keyword arguments that will be passed to the
@@ -1983,7 +2001,7 @@ class PolarDiagramCurve(PolarDiagram):
             Slices of the polar diagram given as either
                 - a tuple of length 2, specifying an interval of
                 considered wind speeds. The amount of slices taken
-                from that interval will be determined by the parameter
+                from that interval are determined by the parameter
                 `stepsize`
 
                 - an iterable of specific wind speeds
@@ -2087,7 +2105,7 @@ class PolarDiagramCurve(PolarDiagram):
             Slices of the polar diagram given as either
                 - a tuple of length 2, specifying an interval of
                 considered wind speeds. The amount of slices taken
-                from that interval will be determined by the parameter
+                from that interval are determined by the parameter
                 `stepsize`
 
                 - an iterable of specific wind speeds
@@ -2352,7 +2370,7 @@ class PolarDiagramCurve(PolarDiagram):
             Slices of the polar diagram given as either
                 - a tuple of length 2, specifying an interval of
                 considered wind speeds. The amount of slices taken
-                from that interval will be determined by the parameter
+                from that interval are determined by the parameter
                 `stepsize`
 
                 - an iterable of specific wind speeds
@@ -2706,8 +2724,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         elif isinstance(ws, tuple) and len(ws) == 2:
             if stepsize is None:
                 stepsize = int(round(ws[1] - ws[0]))
-            elif stepsize <= 0:
-                raise PolarDiagramException("`stepsize` is nonpositive")
+
+            if stepsize <= 0 or not isinstance(stepsize, int):
+                raise PolarDiagramException("`stepsize` is not a positive integer")
 
             ws = np.linspace(ws[0], ws[1], stepsize)
 
@@ -2741,20 +2760,41 @@ class PolarDiagramPointcloud(PolarDiagram):
         ws : tuple of length 2, iterable , int or float, optional
             Slices of the polar diagram given as either
                 - a tuple of length 2 specifying an interval of
-                considered wind speeds
+                considered wind speeds. The amount of slices taken
+                from that interval are determined by the parameter
+                `stepsize`
 
-                - an iterable of specific wind speeds
+                - an iterable of tuples of length 2 and int/float values
+                which will be interpreted as individual slices.
+                If a w in `ws` is an int or float, the given interval
+                will be determined by the parameter `range_`. If it is
+                a tuple, it will be interpreted as an inverval as is
 
-                - a single wind speed
+                - a single wind speed. The given interval is then
+                determined by the parameter `range_`
 
-            Slices will then consist of all the rows in self.points
-            whose first entry is equal to the values in `ws`
+            A slice then consists of all rows in self.wind_speeds whose
+            first entry lies in the interval given by w in `ws`
 
-            Defaults to self.wind_speeds
+            If nothing is passed, it will default to
+            (min(self.wind_speeds), max(self.wind_speeds))
 
-        stepsize :
+        stepsize : positive int, optional
+            Specfies the amount of slices taken from the given
+            interval in `ws`
 
-        range_ :
+            Will only be used if `ws` is a tuple of length 2
+
+            If nothing is passed it will default to int(round(ws[1] - ws[0]))
+
+        range_ : positive int or float, optional
+            Used to convert and int or float w in `ws` to the interval
+            (w - range_, w + range_
+
+            Will only be used if `ws` is int or float or
+            if any w in `ws` is an int or float
+
+            If nothing is passed, it will default to 1
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
@@ -2843,20 +2883,41 @@ class PolarDiagramPointcloud(PolarDiagram):
         ws : tuple of length 2, iterable , int or float, optional
             Slices of the polar diagram given as either
                 - a tuple of length 2 specifying an interval of
-                considered wind speeds
+                considered wind speeds. The amount of slices taken
+                from that interval are determined by the parameter
+                `stepsize`
 
-                - an iterable of specific wind speeds
+                - an iterable of tuples of length 2 and int/float values
+                which will be interpreted as individual slices.
+                If a w in `ws` is an int or float, the given interval
+                will be determined by the parameter `range_`. If it is
+                a tuple, it will be interpreted as an inverval as is
 
-                - a single wind speed
+                - a single wind speed. The given interval is then
+                determined by the parameter `range_`
 
-            Slices will then consist of all the rows in self.points
-            whose first entry is equal to the values in `ws`
+            A slice then consists of all rows in self.wind_speeds whose
+            first entry lies in the interval given by w in `ws`
 
-            Defaults to self.wind_speeds
+            If nothing is passed, it will default to
+            (min(self.wind_speeds), max(self.wind_speeds))
 
-        stepsize :
+        stepsize : positive int, optional
+            Specfies the amount of slices taken from the given
+            interval in `ws`
 
-        range_ :
+            Will only be used if `ws` is a tuple of length 2
+
+            If nothing is passed it will default to int(round(ws[1] - ws[0]))
+
+        range_ : positive int or float, optional
+            Used to convert and int or float w in `ws` to the interval
+            (w - range_, w + range_
+
+            Will only be used if `ws` is int or float or
+            if any w in `ws` is an int or float
+
+            If nothing is passed, it will default to 1
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
@@ -3061,7 +3122,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         ws : tuple of length 2, iterable , int or float, optional
             Slices of the polar diagram given as either
                 - a tuple of length 2 specifying an interval of
-                considered wind speeds
+                considered wind speeds. The amount of slices taken
+                from that interval are determined by the parameter
+                `stepsize`
 
                 - an iterable of specific wind speeds
 
@@ -3072,9 +3135,20 @@ class PolarDiagramPointcloud(PolarDiagram):
 
             Defaults to self.wind_speeds
 
-        stepsize :
+        stepsize : positive int, optional
+            Specfies the amount of slices taken from the given
+            interval in `ws`
 
-        range_ :
+            Will only be used if `ws` is a tuple of length 2
+
+            Defaults to int(round(ws[1] - ws[0]))
+
+        range_ : positive int or float, optional
+
+            Will only be used if `ws` is int or float or
+            if any w in `ws` is an int or float
+
+            Defaults to 1
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
