@@ -64,10 +64,7 @@ and array conversion is handeled by the pipeline itself</p>
 <dd>
 <div class="desc"><p>A data handler to extract data from a .csv file
 with the first three columns representing wind speed, wind angle,
-and boat speed respectively</p>
-<h2 id="methods">Methods</h2>
-<p>handle(self, data)
-Reads a .csv file and extracts the contained data points</p></div>
+and boat speed respectively</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.datahandler.DataHandler" href="#hrosailing.processing.pipelinecomponents.datahandler.DataHandler">DataHandler</a></li>
@@ -91,13 +88,12 @@ The delimiter used in the .csv file</p>
 <dt><strong><code>out</code></strong> :&ensp;<code>list</code> of <code>lists</code> of <code>length 3</code></dt>
 <dd>&nbsp;</dd>
 <dt><code>Raises a <a title="hrosailing.processing.pipelinecomponents.datahandler.HandlerException" href="#hrosailing.processing.pipelinecomponents.datahandler.HandlerException">HandlerException</a></code></dt>
-<dd>
+<dd>&nbsp;</dd>
+</dl>
 <ul>
 <li>if an error occurs whilst reading</li>
 <li>if an error occurs whilst evaluating the data points</li>
-</ul>
-</dd>
-</dl></div>
+</ul></div>
 </dd>
 </dl>
 </dd>
@@ -151,19 +147,20 @@ certain nmea sentences</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>mode</code></strong> :&ensp;<code>string</code>, optional</dt>
-<dd>In the case where there is more recorded wind data than speed data,
-specifies how to handle the surplus
-- "interpolate": handles the surplus by taking
-convex combinations of two recorded speed datas
-together with the recorded wind data "between" those
-two points to create multiple data points
-- "mean": handles the surplus by taking the mean
-of the wind data "belonging" to a given speed data
-to create a singe data point
-Defaults to "interpolate"</dd>
+<dd>
+<p>In the case where there is more recorded wind data than speed data,
+specifies how to handle the surplus</p>
+<ul>
+<li>"interpolate": handles the surplus by taking convex combinations
+of two recorded speed datas together with the recorded wind data
+"between" those two points to create multiple data points</li>
+<li>"mean": handles the surplus by taking the mean of the wind data
+"belonging" to a given speed data to create a singe data point</li>
+</ul>
+<p>Defaults to "interpolate"</p>
+</dd>
 </dl>
-<h2 id="methods">Methods</h2>
-<p>handle(self, data)</p></div>
+<p>Raises a HandlerException if</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.datahandler.DataHandler" href="#hrosailing.processing.pipelinecomponents.datahandler.DataHandler">DataHandler</a></li>
@@ -177,10 +174,12 @@ Defaults to "interpolate"</dd>
 <dd>
 <div class="desc"><p>Reads a text file containing nmea-sentences and extracts
 data points based on recorded wind speed, wind angle, and speed
-over water
-Function looks for sentences of type:
-- MWV for wind data
-- VHW for speed trough water</p>
+over water</p>
+<p>Function looks for sentences of type:</p>
+<ul>
+<li>MWV for wind data</li>
+<li>VHW for speed trough water</li>
+</ul>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>data</code></strong> :&ensp;<code>path-like</code></dt>
@@ -191,16 +190,15 @@ Function looks for sentences of type:
 <dt><strong><code>out</code></strong> :&ensp;<code>list</code> of <code>lists</code> of <code>length 3</code></dt>
 <dd>&nbsp;</dd>
 <dt><code>Raises a <a title="hrosailing.processing.pipelinecomponents.datahandler.HandlerException" href="#hrosailing.processing.pipelinecomponents.datahandler.HandlerException">HandlerException</a></code></dt>
-<dd>
+<dd>&nbsp;</dd>
+</dl>
 <ul>
 <li>if <code>data</code> doesn't contain relevant nmea senteces</li>
 <li>if nmea senteces are not sorted</li>
 <li>if an error occurs whilst reading</li>
 <li>if an error occurs whilst parsing of the nmea senteces</li>
 <li>if an error occurs during conversion of apperant wind</li>
-</ul>
-</dd>
-</dl></div>
+</ul></div>
 </dd>
 </dl>
 </dd>

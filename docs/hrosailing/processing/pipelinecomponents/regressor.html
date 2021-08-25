@@ -133,12 +133,7 @@ that are passed to the scipy.odr.ODR class</p>
 <p>Maximum number of iterations done by scipy.odr.ODR.</p>
 <p>Defaults to 1000</p>
 </dd>
-</dl>
-<h2 id="methods">Methods</h2>
-<p>model_func
-optimal_params
-set_weight(self, X_weights, y_weights)
-fit(self, data)</p></div>
+</dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.regressor.Regressor" href="#hrosailing.processing.pipelinecomponents.regressor.Regressor">Regressor</a></li>
@@ -172,10 +167,12 @@ be fitted, given as
 a sequence of points consisting of wind speed, wind angle
 and boat speed</dd>
 </dl>
-<p>Raises a RegressorException
-- if
-- if
-- if</p></div>
+<p>Raises a RegressorException</p>
+<ul>
+<li>if</li>
+<li>if</li>
+<li>if</li>
+</ul></div>
 </dd>
 <dt id="hrosailing.processing.pipelinecomponents.regressor.ODRegressor.set_weights"><code class="name flex">
 <span>def <span class="ident">set_weights</span></span>(<span>self, X_weights, y_weights)</span>
@@ -191,10 +188,10 @@ and boat speed</dd>
 <dd>
 <div class="desc"><p>Base class for all regressor classes</p>
 <h2 id="abstract-methods">Abstract Methods</h2>
-<p>model_func
-optimal_params
-set_weights(self, X_weights, y_weights)
-fit(self, data)</p></div>
+<p>model_func</p>
+<p>optimal_params</p>
+<p>set_weights(self, X_weights, y_weights)</p>
+<p>fit(self, data)</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>abc.ABC</li>

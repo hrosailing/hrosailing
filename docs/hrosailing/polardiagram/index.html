@@ -74,14 +74,15 @@ instance contained in it</p>
 <dt><strong><code>csv_path</code></strong> :&ensp;<code>path-like</code></dt>
 <dd>Path to a .csv file</dd>
 <dt><strong><code>fmt</code></strong> :&ensp;<code>string</code></dt>
-<dd>The "format" of the .csv file.
-- hro: format created by the to_csv-method of the
-PolarDiagram class
-- orc: format found at
-<code>ORC &lt;https://jieter.github.io/orc-data/site/&gt;</code><em>
-- opencpn: format created by <code>OpenCPN Polar Plugin
-&lt;https://opencpn.org/OpenCPN/plugins/polar.html&gt;</code></em>
-- array</dd>
+<dd>
+<p>The "format" of the .csv file.</p>
+<ul>
+<li>hro: format created by the to_csv-method of the PolarDiagram class</li>
+<li>orc: format found at <a href="https://jieter.github.io/orc-data/site/">ORC</a></li>
+<li>opencpn: format created by <a href="https://opencpn.org/OpenCPN/plugins/polar.html">OpenCPN Polar Plugin</a></li>
+<li>array</li>
+</ul>
+</dd>
 <dt><strong><code>tw</code></strong> :&ensp;<code>bool</code></dt>
 <dd>
 <p>Specifies if wind data in file should be viewed as true wind</p>
@@ -185,49 +186,36 @@ PolarDiagram class
 </code></dt>
 <dd>
 <div class="desc"><p>Base class for all polardiagram classes</p>
-<h2 id="methods">Methods</h2>
-<p>pickling(pkl_path)
-Writes PolarDiagram instance to a .pkl file
-polar_plot_slice(ws, ax=None, <strong>plot_kw)
-Creates a polar plot
-of a given slice of the
-polar diagram
-flat_plot_slice(ws, ax=None, </strong>plot_kw)
-Creates a cartesian plot of a given slice of the
-polar diagram
-plot_convex_hull_slice(ws, ax=None, **plot_kw)
-Computes the convex hull of a given slice of the
-polar diagram and creates a polar plot of it</p>
 <h2 id="abstract-methods">Abstract Methods</h2>
-<p>to_csv(csv_path)
-symmetrize()
-get_slices(ws)
-plot_polar(
+<p>to_csv(csv_path)</p>
+<p>symmetrize()</p>
+<p>get_slices(ws)</p>
+<p>plot_polar(
 ws,
 ax=None,
 colors=("green", "red"),
 show_legend=False,
 legend_kw=None,
-<strong>plot_kw
-)
-plot_flat(
+**plot_kw
+)</p>
+<p>plot_flat(
 ws,
 ax=None,
 colors=("green", "red"),
 show_legend=False,
 legend_kw=None,
-</strong>plot_kw
-)
-plot_3d(ax=None, <strong>plot_kw)
-plot_color_gradient(
+**plot_kw
+)</p>
+<p>plot_3d(ax=None, **plot_kw)</p>
+<p>plot_color_gradient(
 ax=None,
 colors=("green", "red"),
 marker=None,
 ms=None,
 show_legend=False,
-</strong>legend_kw,
-)
-plot_convex_hull(
+**legend_kw,
+)</p>
+<p>plot_convex_hull(
 ws,
 ax=None,
 colors=("green", "red"),
@@ -421,70 +409,7 @@ wind speed and wind angle.</dd>
 <p>Specifies if f takes the wind angles to be in radians or degrees</p>
 <p>Defaults to False</p>
 </dd>
-</dl>
-<h2 id="methods">Methods</h2>
-<p>curve
-Returns a read only version of self._f
-parameters
-Returns a read only version of self._params
-radians
-Returns a read only version of self._rad
-to_csv(csv_path)
-Creates a .csv-file with delimiter ':' and the
-following format:
-PolarDiagramCurve
-Function: self.curve
-Radians: self.rad
-Parameters: self.parameters
-symmetrize()
-get_slices(ws)
-plot_polar(
-ws=None,
-stepsize=None,
-ax=None,
-colors=("green", "red"),
-show_legend=False,
-legend_kw=None,
-<strong>plot_kw,
-)
-Creates a polar plot of one or more slices of the polar diagram
-plot_flat(
-ws=None,
-stepsize=None,
-ax=None,
-colors=("green", "red"),
-show_legend=False,
-legend_kw=None,
-</strong>plot_kw,
-)
-Creates a cartesian plot of one or more slices of the polar diagram
-plot_3d(ws=None, stepsize=None, ax=None, <strong>plot_kw)
-Creates a 3d plot of a part of the polar diagram
-plot_color_gradient(
-ws=None,
-stepsize=None,
-ax=None,
-colors=("green", "red"),
-marker=None,
-ms=None,
-show_legend=False,
-</strong>legend_kw,
-)
-Creates a 'wind speed
-vs. wind angle' color gradient
-plot of a part of the polar diagram with respect to the
-respective boat speeds
-plot_convex_hull(
-ws=None,
-stepsize=None,
-ax=None,
-colors=("green", "red"),
-show_legend=False,
-legend_kw=None,
-**plot_kw,
-)
-Computes the (seperate) convex hull of one or more
-slices of the polar diagram and creates a polar plot of them</p></div>
+</dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.polardiagram.PolarDiagram" href="#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a></li>
@@ -631,15 +556,14 @@ slices of the polar diagram and creates a polar plot of them</p>
 <dl>
 <dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Slices of the polar diagram given as either
-- a tuple of length 2, specifying an interval of
-considered wind speeds. The amount of slices taken
-from that interval will be determined by the parameter
-<code>stepsize</code></p>
-<pre><code>- an iterable of specific wind speeds
-
-- a single wind speed
-</code></pre>
+<p>Slices of the polar diagram given as either</p>
+<ul>
+<li>a tuple of length 2, specifying an interval of considered
+wind speeds. The amount of slices taken from that interval are
+determined by the parameter <code>stepsize</code></li>
+<li>an iterable of specific wind speeds</li>
+<li>a single wind speed</li>
+</ul>
 <p>Slices will then equal self(w, wa) where w goes through
 the given values in <code>ws</code> and wa goes through a fixed
 number of angles between 0° and 360°</p>
@@ -661,34 +585,33 @@ a suitable axes</p>
 <dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
-slices. There are four options
-- If as many or more colors as slices are passed,
-each slice will be plotted in the specified color</p>
-<pre><code>- If exactly 2 colors are passed, the slices will
-be plotted with a color gradient consiting of the
-two colors
-
-- If more than 2 colors but less than slices are passed,
+slices. There are four options:</p>
+<ul>
+<li>If as many or more colors as slices are passed,
+each slice will be plotted in the specified color</li>
+<li>If exactly 2 colors are passed, the slices will be plotted
+with a color gradient consiting of the two colors</li>
+<li>If more than 2 colors but less than slices are passed,
 the first n_color slices will be plotted in the specified
 colors, and the rest will be plotted in the default color
-'blue'
-
-Alternatively one can specify certain slices
+"blue"</li>
+<li>Alternatively one can specify certain slices
 to be plotted in a certain color by passing
-a tuple of (ws, color) pairs
-</code></pre>
+a tuple of (ws, color) pairs</li>
+</ul>
 <p>Defaults to ("green", "red")</p>
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
 <p>Specifies wether or not a legend will be shown next to the plot</p>
-<p>The type of legend depends on the color options
-- If the slices are plotted with a
-color gradient, a matplotlib.colorbar.Colorbar
-object will be created and assigned to ax.</p>
-<pre><code>- Otherwise a matplotlib.legend.Legend
-will be created and assigned to ax.
-</code></pre>
+<p>The type of legend depends on the color options</p>
+<ul>
+<li>If the slices are plotted with a color gradient,
+a matplotlib.colorbar.Colorbar object will be created
+and assigned to ax.</li>
+<li>Otherwise a matplotlib.legend.Legend object will be created
+and assigned to ax.</li>
+</ul>
 <p>Defaults to False</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
@@ -714,15 +637,14 @@ certain appearences of the plot</dd>
 <dl>
 <dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Slices of the polar diagram given as either
-- a tuple of length 2, specifying an interval of
-considered wind speeds. The amount of slices taken
-from that interval will be determined by the parameter
-<code>stepsize</code></p>
-<pre><code>- an iterable of specific wind speeds
-
-- a single wind speed
-</code></pre>
+<p>Slices of the polar diagram given as either</p>
+<ul>
+<li>a tuple of length 2, specifying an interval of considered
+wind speeds. The amount of slices taken from that interval are
+determined by the parameter <code>stepsize</code></li>
+<li>an iterable of specific wind speeds</li>
+<li>a single wind speed</li>
+</ul>
 <p>Slices will then equal self(w, wa) where w goes through
 the given values in <code>ws</code> and wa goes through a fixed
 number of angles between 0° and 360°</p>
@@ -744,34 +666,33 @@ a suitable axes</p>
 <dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
-slices. There are four options
-- If as many or more colors as slices are passed,
-each slice will be plotted in the specified color</p>
-<pre><code>- If exactly 2 colors are passed, the slices will
-be plotted with a color gradient consiting of the
-two colors
-
-- If more than 2 colors but less than slices are passed,
+slices. There are four options:</p>
+<ul>
+<li>If as many or more colors as slices are passed,
+each slice will be plotted in the specified color</li>
+<li>If exactly 2 colors are passed, the slices will be plotted
+with a color gradient consiting of the two colors</li>
+<li>If more than 2 colors but less than slices are passed,
 the first n_color slices will be plotted in the specified
 colors, and the rest will be plotted in the default color
-'blue'
-
-Alternatively one can specify certain slices
+"blue"</li>
+<li>Alternatively one can specify certain slices
 to be plotted in a certain color by passing
-a tuple of (ws, color) pairs
-</code></pre>
+a tuple of (ws, color) pairs</li>
+</ul>
 <p>Defaults to ("green", "red")</p>
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
 <p>Specifies wether or not a legend will be shown next to the plot</p>
-<p>The type of legend depends on the color options
-- If the slices are plotted with a
-color gradient, a matplotlib.colorbar.Colorbar
-object will be created and assigned to ax.</p>
-<pre><code>- Otherwise a matplotlib.legend.Legend
-will be created and assigned to ax.
-</code></pre>
+<p>The type of legend depends on the color options</p>
+<ul>
+<li>If the slices are plotted with a color gradient,
+a matplotlib.colorbar.Colorbar object will be created
+and assigned to ax.</li>
+<li>Otherwise a matplotlib.legend.Legend object will be created
+and assigned to ax.</li>
+</ul>
 <p>Defaults to False</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
@@ -797,15 +718,14 @@ certain appearences of the plot</dd>
 <dl>
 <dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Slices of the polar diagram given as either
-- a tuple of length 2, specifying an interval of
-considered wind speeds. The amount of slices taken
-from that interval will be determined by the parameter
-<code>stepsize</code></p>
-<pre><code>- an iterable of specific wind speeds
-
-- a single wind speed
-</code></pre>
+<p>Slices of the polar diagram given as either</p>
+<ul>
+<li>a tuple of length 2, specifying an interval of considered
+wind speeds. The amount of slices taken from that interval are
+determined by the parameter <code>stepsize</code></li>
+<li>an iterable of specific wind speeds</li>
+<li>a single wind speed</li>
+</ul>
 <p>Slices will then equal self(w, wa) where w goes through
 the given values in <code>ws</code> and wa goes through a fixed
 number of angles between 0° and 360°</p>
@@ -827,34 +747,33 @@ a suitable axes</p>
 <dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
-slices. There are four options
-- If as many or more colors as slices are passed,
-each slice will be plotted in the specified color</p>
-<pre><code>- If exactly 2 colors are passed, the slices will
-be plotted with a color gradient consiting of the
-two colors
-
-- If more than 2 colors but less than slices are passed,
+slices. There are four options:</p>
+<ul>
+<li>If as many or more colors as slices are passed,
+each slice will be plotted in the specified color</li>
+<li>If exactly 2 colors are passed, the slices will be plotted
+with a color gradient consiting of the two colors</li>
+<li>If more than 2 colors but less than slices are passed,
 the first n_color slices will be plotted in the specified
 colors, and the rest will be plotted in the default color
-'blue'
-
-Alternatively one can specify certain slices
+"blue"</li>
+<li>Alternatively one can specify certain slices
 to be plotted in a certain color by passing
-a tuple of (ws, color) pairs
-</code></pre>
+a tuple of (ws, color) pairs</li>
+</ul>
 <p>Defaults to ("green", "red")</p>
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
 <p>Specifies wether or not a legend will be shown next to the plot</p>
-<p>The type of legend depends on the color options
-- If the slices are plotted with a
-color gradient, a matplotlib.colorbar.Colorbar
-object will be created and assigned to ax.</p>
-<pre><code>- Otherwise a matplotlib.legend.Legend
-will be created and assigned to ax.
-</code></pre>
+<p>The type of legend depends on the color options</p>
+<ul>
+<li>If the slices are plotted with a color gradient,
+a matplotlib.colorbar.Colorbar object will be created
+and assigned to ax.</li>
+<li>Otherwise a matplotlib.legend.Legend object will be created
+and assigned to ax.</li>
+</ul>
 <p>Defaults to False</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
@@ -882,11 +801,12 @@ certain appearences of the plot</dd>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a .csv file with delimiter ':' and the
-following format:
-PolarDiagramCurve
-Function: self.curve.<strong>name</strong>
+following format:</p>
+<pre><code>PolarDiagramCurve
+Function: self.curve.__name__
 Radians: self.rad
-Parameters: self.parameters</p>
+Parameters: self.parameters
+</code></pre>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>csv_path</code></strong> :&ensp;<code>path-like</code></dt>
@@ -935,60 +855,7 @@ represented by a PolarDiagramTable</p>
 <dt><strong><code>sails</code></strong> :&ensp;<code>Iterable</code>, optional</dt>
 <dd>&nbsp;</dd>
 </dl>
-<p>Raises a PolarDiagramException if</p>
-<h2 id="methods">Methods</h2>
-<p>wind_speeds
-Returns a read only version of self._res_wind_speed
-wind_angles
-Returns a read only version of self._res_wind_angle
-boat_speeds
-Returns a list of pt.boat_speeds for every PolarDiagramTable
-pt in self._sails
-to_csv(csv_path)</p>
-<p>symmetrize()
-Constructs a symmetric version of the polar diagram, by
-mirroring each PolarDiagramTable
-at the 0° - 180° axis
-and returning a new instance
-get_slices(ws)
-plot_polar(
-ws=None,
-ax=None,
-colors=("green", "red"),
-show_legend=False,
-legend_kw=None,
-<strong>plot_kw,
-)
-Creates a polar plot of one or more slices of the polar diagram
-plot_flat(
-ws=None,
-ax=None,
-colors=("green", "red"),
-show_legend=False,
-legend_kw=None,
-</strong>plot_kw,
-)
-Creates a cartesian plot of one or more slices of the polar diagram
-plot_3d(ax=None, <strong>plot_kw)
-Creates a 3d plot of the polar diagram
-plot_color_gradient(
-ax=None,
-colors=("green", "red"),
-marker=None,
-ms=None,
-show_legend=False,
-</strong>legend_kw,
-)
-plot_convex_hull(
-ws=None,
-ax=None,
-colors=("green", "red"),
-show_legend=False,
-legend_kw=None,
-**plot_kw,
-)
-Computes the (seperate) convex hull of one or more
-slices of the polar diagram and creates a polar plot of them</p></div>
+<p>Raises a PolarDiagramException if</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.polardiagram.PolarDiagram" href="#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a></li>
@@ -1062,13 +929,13 @@ slices of the polar diagram and creates a polar plot of them</p>
 <dl>
 <dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Slices of the polar diagram table, given as either
-- a tuple of length 2 specifying an interval of
-considered wind speeds</p>
-<pre><code>- an iterable containing only elements of self.wind_speeds
-
-- a single element of self.wind_speeds
-</code></pre>
+<p>Slices of the polar diagram table, given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of considered
+wind speeds</li>
+<li>an iterable containing only elements of self.wind_speeds</li>
+<li>a single element of self.wind_speeds</li>
+</ul>
 <p>The slices are then equal to the corresponding
 columns of the table together with self.wind_angles</p>
 <p>If nothing it passed, it will default to self.wind_speeds</p>
@@ -1118,13 +985,13 @@ of ws is not in self.wind_speeds</p></div>
 <dl>
 <dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Slices of the polar diagram table, given as either
-- a tuple of length 2 specifying an interval of
-considered wind speeds</p>
-<pre><code>- an iterable containing only elements of self.wind_speeds
-
-- a single element of self.wind_speeds
-</code></pre>
+<p>Slices of the polar diagram table, given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of considered
+wind speeds</li>
+<li>an iterable containing only elements of self.wind_speeds</li>
+<li>a single element of self.wind_speeds</li>
+</ul>
 <p>The slices are then equal to the corresponding
 columns of the table together with self.wind_angles</p>
 <p>If nothing it passed, it will default to self.wind_speeds</p>
@@ -1138,34 +1005,33 @@ a suitable axes</p>
 <dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
-slices. There are four options
-- If as many or more colors as slices are passed,
-each slice will be plotted in the specified color</p>
-<pre><code>- If exactly 2 colors are passed, the slices will
-be plotted with a color gradient consiting of the
-two colors
-
-- If more than 2 colors but less than slices are passed,
+slices. There are four options:</p>
+<ul>
+<li>If as many or more colors as slices are passed,
+each slice will be plotted in the specified color</li>
+<li>If exactly 2 colors are passed, the slices will be plotted
+with a color gradient consiting of the two colors</li>
+<li>If more than 2 colors but less than slices are passed,
 the first n_color slices will be plotted in the specified
 colors, and the rest will be plotted in the default color
-'blue'
-
-Alternatively one can specify certain slices
+"blue"</li>
+<li>Alternatively one can specify certain slices
 to be plotted in a certain color by passing
-a tuple of (ws, color) pairs
-</code></pre>
+a tuple of (ws, color) pairs</li>
+</ul>
 <p>Defaults to ("green", "red")</p>
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
 <p>Specifies wether or not a legend will be shown next to the plot</p>
-<p>The type of legend depends on the color options
-- If the slices are plotted with a
-color gradient, a matplotlib.colorbar.Colorbar
-object will be created and assigned to ax.</p>
-<pre><code>- Otherwise a matplotlib.legend.Legend
-will be created and assigned to ax.
-</code></pre>
+<p>The type of legend depends on the color options</p>
+<ul>
+<li>If the slices are plotted with a color gradient,
+a matplotlib.colorbar.Colorbar object will be created
+and assigned to ax.</li>
+<li>Otherwise a matplotlib.legend.Legend object will be created
+and assigned to ax.</li>
+</ul>
 <p>Defaults to False</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
@@ -1181,10 +1047,11 @@ classes to change position and appearence of the legend</p>
 matplotlib.axes.Axes.plot function, to change
 certain appearences of the plot</dd>
 </dl>
-<p>Raises a PolarDiagramException
-- if at least one element of ws is not in self.wind_speeds
-- the given interval doesn't contain any slices of the
-polar diagram</p></div>
+<p>Raises a PolarDiagramException</p>
+<ul>
+<li>if at least one element of ws is not in self.wind_speeds</li>
+<li>the given interval doesn't contain any slices of the polar diagram</li>
+</ul></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramMultiSails.plot_polar"><code class="name flex">
 <span>def <span class="ident">plot_polar</span></span>(<span>self, ws=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
@@ -1195,13 +1062,13 @@ polar diagram</p></div>
 <dl>
 <dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Slices of the polar diagram table, given as either
-- a tuple of length 2 specifying an interval of
-considered wind speeds</p>
-<pre><code>- an iterable containing only elements of self.wind_speeds
-
-- a single element of self.wind_speeds
-</code></pre>
+<p>Slices of the polar diagram table, given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of considered
+wind speeds</li>
+<li>an iterable containing only elements of self.wind_speeds</li>
+<li>a single element of self.wind_speeds</li>
+</ul>
 <p>The slices are then equal to the corresponding
 columns of the table together with self.wind_angles</p>
 <p>If nothing it passed, it will default to self.wind_speeds</p>
@@ -1215,34 +1082,33 @@ a suitable axes</p>
 <dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
-slices. There are four options
-- If as many or more colors as slices are passed,
-each slice will be plotted in the specified color</p>
-<pre><code>- If exactly 2 colors are passed, the slices will
-be plotted with a color gradient consiting of the
-two colors
-
-- If more than 2 colors but less than slices are passed,
+slices. There are four options:</p>
+<ul>
+<li>If as many or more colors as slices are passed,
+each slice will be plotted in the specified color</li>
+<li>If exactly 2 colors are passed, the slices will be plotted
+with a color gradient consiting of the two colors</li>
+<li>If more than 2 colors but less than slices are passed,
 the first n_color slices will be plotted in the specified
 colors, and the rest will be plotted in the default color
-'blue'
-
-Alternatively one can specify certain slices
+"blue"</li>
+<li>Alternatively one can specify certain slices
 to be plotted in a certain color by passing
-a tuple of (ws, color) pairs
-</code></pre>
+a tuple of (ws, color) pairs</li>
+</ul>
 <p>Defaults to ("green", "red")</p>
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
 <p>Specifies wether or not a legend will be shown next to the plot</p>
-<p>The type of legend depends on the color options
-- If the slices are plotted with a
-color gradient, a matplotlib.colorbar.Colorbar
-object will be created and assigned to ax.</p>
-<pre><code>- Otherwise a matplotlib.legend.Legend
-will be created and assigned to ax.
-</code></pre>
+<p>The type of legend depends on the color options</p>
+<ul>
+<li>If the slices are plotted with a color gradient,
+a matplotlib.colorbar.Colorbar object will be created
+and assigned to ax.</li>
+<li>Otherwise a matplotlib.legend.Legend object will be created
+and assigned to ax.</li>
+</ul>
 <p>Defaults to False</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
@@ -1258,10 +1124,11 @@ classes to change position and appearence of the legend</p>
 matplotlib.axes.Axes.plot function, to change
 certain appearences of the plot</dd>
 </dl>
-<p>Raises a PolarDiagramException
-- if at least one element of ws is not in self.wind_speeds
-- the given interval doesn't contain any slices of the
-polar diagram</p></div>
+<p>Raises a PolarDiagramException</p>
+<ul>
+<li>if at least one element of ws is not in self.wind_speeds</li>
+<li>the given interval doesn't contain any slices of the polar diagram</li>
+</ul></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramMultiSails.symmetrize"><code class="name flex">
 <span>def <span class="ident">symmetrize</span></span>(<span>self)</span>
@@ -1318,67 +1185,11 @@ as an empty point cloud</p>
 <p>Defaults to True</p>
 </dd>
 </dl>
-<p>Raises a PolarDiagramException
-- if
-- if</p>
-<h2 id="methods">Methods</h2>
-<p>wind_speeds
-Returns all unique wind speeds in the point cloud
-wind_angles
-Returns all unique wind angles in the point cloud
-points
-Returns a read only version
-of self._pts
-to_csv(csv_path)
-Creates a .csv-file with delimiter ',' and the
-following format:
-PolarDiagramPointcloud
-True wind speed: , True wind angle: , Boat speed:
-self.get_points
-symmetrize()
-add_points(new_pts)
-Adds additional points to the point cloud
-get_slices(ws)
-polar_plot(
-ws=None,
-ax=None,
-colors=("green", "red"),
-show_legend=False,
-legend_kw=None,
-<strong>plot_kw,
-)
-Creates a polar plot of one or more slices of the polar diagram
-flat_plot(
-ws=None,
-ax=None,
-colors=("green", "red"),
-show_legend=False,
-legend_kw=None,
-</strong>plot_kw,
-)
-Creates a cartesian plot of one or more slices of the polar diagram
-plot_3d(ax=None, <strong>plot_kw)
-Creates a 3d plot of the polar diagram
-plot_color_gradient(
-ax=None,
-colors=("green", "red"),
-marker=None,
-ms=None,
-show_legend=False,
-</strong>legend_kw
-)
-Creates a 'wind speed vs. wind angle' color gradient plot
-of the polar diagram with respect to the respective boat speeds
-plot_convex_hull(
-ws=None,
-ax=None,
-colors=("green", "red"),
-show_legend=False,
-legend_kw=None,
-**plot_kw,
-)
-Computes the (seperate) convex hull of one or more
-slices of the polar diagram and creates a polar plot of them</p></div>
+<p>Raises a PolarDiagramException</p>
+<ul>
+<li>if</li>
+<li>if</li>
+</ul></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.polardiagram.PolarDiagram" href="#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a></li>
@@ -1511,21 +1322,38 @@ slices of the polar diagram and creates a polar plot of them</p>
 <dl>
 <dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable , int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Slices of the polar diagram given as either
-- a tuple of length 2 specifying an interval of
-considered wind speeds</p>
-<pre><code>- an iterable of specific wind speeds
-
-- a single wind speed
-</code></pre>
-<p>Slices will then consist of all the rows in self.points
-whose first entry is equal to the values in <code>ws</code></p>
-<p>Defaults to self.wind_speeds</p>
+<p>Slices of the polar diagram given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of considered
+wind speeds. The amount of slices taken from that interval are
+determined by the parameter <code>stepsize</code></li>
+<li>an iterable of tuples of length 2 and int/float values
+which will be interpreted as individual slices. If a w in <code>ws</code>
+is an int or float, the given interval will be determined by
+the
+parameter <code>range_</code>. If it is a tuple, it will be interpreted
+as an inverval as is</li>
+<li>a single wind speed. The given interval is then determined by
+the parameter <code>range_</code></li>
+</ul>
+<p>A slice then consists of all rows in self.wind_speeds whose
+first entry lies in the interval given by w in <code>ws</code></p>
+<p>If nothing is passed, it will default to
+(min(self.wind_speeds), max(self.wind_speeds)</p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
-<dd>&nbsp;</dd>
+<dd>
+<p>Specfies the amount of slices taken from the given
+interval in <code>ws</code></p>
+<p>Will only be used if <code>ws</code> is a tuple of length 2</p>
+<p>Defaults to int(round(ws[1] - ws[0]))</p>
+</dd>
 <dt><strong><code>range_</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
-<dd>&nbsp;</dd>
+<dd>
+<p>Will only be used if <code>ws</code> is int or float or
+if any w in <code>ws</code> is an int or float</p>
+<p>Defaults to 1</p>
+</dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
 <dd>
 <p>Axes instance where the plot will be created.</p>
@@ -1535,34 +1363,33 @@ a suitable axes</p>
 <dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
-slices. There are four options
-- If as many or more colors as slices are passed,
-each slice will be plotted in the specified color</p>
-<pre><code>- If exactly 2 colors are passed, the slices will
-be plotted with a color gradient consiting of the
-two colors
-
-- If more than 2 colors but less than slices are passed,
+slices. There are four options:</p>
+<ul>
+<li>If as many or more colors as slices are passed,
+each slice will be plotted in the specified color</li>
+<li>If exactly 2 colors are passed, the slices will be plotted
+with a color gradient consiting of the two colors</li>
+<li>If more than 2 colors but less than slices are passed,
 the first n_color slices will be plotted in the specified
 colors, and the rest will be plotted in the default color
-'blue'
-
-Alternatively one can specify certain slices
+"blue"</li>
+<li>Alternatively one can specify certain slices
 to be plotted in a certain color by passing
-a tuple of (ws, color) pairs
-</code></pre>
+a tuple of (ws, color) pairs</li>
+</ul>
 <p>Defaults to ("green", "red")</p>
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
 <p>Specifies wether or not a legend will be shown next to the plot</p>
-<p>The type of legend depends on the color options
-- If the slices are plotted with a
-color gradient, a matplotlib.colorbar.Colorbar
-object will be created and assigned to ax.</p>
-<pre><code>- Otherwise a matplotlib.legend.Legend
-will be created and assigned to ax.
-</code></pre>
+<p>The type of legend depends on the color options</p>
+<ul>
+<li>If the slices are plotted with a color gradient,
+a matplotlib.colorbar.Colorbar object will be created
+and assigned to ax.</li>
+<li>Otherwise a matplotlib.legend.Legend object will be created
+and assigned to ax.</li>
+</ul>
 <p>Defaults to False</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
@@ -1592,21 +1419,40 @@ is equal to w</p></div>
 <dl>
 <dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable , int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Slices of the polar diagram given as either
-- a tuple of length 2 specifying an interval of
-considered wind speeds</p>
-<pre><code>- an iterable of specific wind speeds
-
-- a single wind speed
-</code></pre>
-<p>Slices will then consist of all the rows in self.points
-whose first entry is equal to the values in <code>ws</code></p>
-<p>Defaults to self.wind_speeds</p>
+<p>Slices of the polar diagram given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of considered
+wind speeds. The amount of slices taken from that interval are
+determined by the parameter <code>stepsize</code></li>
+<li>an iterable of tuples of length 2 and int/float values
+which will be interpreted as individual slices. If a w in <code>ws</code>
+is an int or float, the given interval will be determined by
+the
+parameter <code>range_</code>. If it is a tuple, it will be interpreted
+as an inverval as is</li>
+<li>a single wind speed. The given interval is then determined by
+the parameter <code>range_</code></li>
+</ul>
+<p>A slice then consists of all rows in self.wind_speeds whose
+first entry lies in the interval given by w in <code>ws</code></p>
+<p>If nothing is passed, it will default to
+(min(self.wind_speeds), max(self.wind_speeds)</p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
-<dd>&nbsp;</dd>
+<dd>
+<p>Specfies the amount of slices taken from the given
+interval in <code>ws</code></p>
+<p>Will only be used if <code>ws</code> is a tuple of length 2</p>
+<p>If nothing is passed it will default to int(round(ws[1] - ws[0]))</p>
+</dd>
 <dt><strong><code>range_</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
-<dd>&nbsp;</dd>
+<dd>
+<p>Used to convert and int or float w in <code>ws</code> to the interval
+(w - range_, w + range_</p>
+<p>Will only be used if <code>ws</code> is int or float or
+if any w in <code>ws</code> is an int or float</p>
+<p>If nothing is passed, it will default to 1</p>
+</dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
 <dd>
 <p>Axes instance where the plot will be created.</p>
@@ -1616,34 +1462,33 @@ a suitable axes</p>
 <dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
-slices. There are four options
-- If as many or more colors as slices are passed,
-each slice will be plotted in the specified color</p>
-<pre><code>- If exactly 2 colors are passed, the slices will
-be plotted with a color gradient consiting of the
-two colors
-
-- If more than 2 colors but less than slices are passed,
+slices. There are four options:</p>
+<ul>
+<li>If as many or more colors as slices are passed,
+each slice will be plotted in the specified color</li>
+<li>If exactly 2 colors are passed, the slices will be plotted
+with a color gradient consiting of the two colors</li>
+<li>If more than 2 colors but less than slices are passed,
 the first n_color slices will be plotted in the specified
 colors, and the rest will be plotted in the default color
-'blue'
-
-Alternatively one can specify certain slices
+"blue"</li>
+<li>Alternatively one can specify certain slices
 to be plotted in a certain color by passing
-a tuple of (ws, color) pairs
-</code></pre>
+a tuple of (ws, color) pairs</li>
+</ul>
 <p>Defaults to ("green", "red")</p>
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
 <p>Specifies wether or not a legend will be shown next to the plot</p>
-<p>The type of legend depends on the color options
-- If the slices are plotted with a
-color gradient, a matplotlib.colorbar.Colorbar
-object will be created and assigned to ax.</p>
-<pre><code>- Otherwise a matplotlib.legend.Legend
-will be created and assigned to ax.
-</code></pre>
+<p>The type of legend depends on the color options</p>
+<ul>
+<li>If the slices are plotted with a color gradient,
+a matplotlib.colorbar.Colorbar object will be created
+and assigned to ax.</li>
+<li>Otherwise a matplotlib.legend.Legend object will be created
+and assigned to ax.</li>
+</ul>
 <p>Defaults to False</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
@@ -1673,21 +1518,40 @@ is equal to w</p></div>
 <dl>
 <dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable , int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Slices of the polar diagram given as either
-- a tuple of length 2 specifying an interval of
-considered wind speeds</p>
-<pre><code>- an iterable of specific wind speeds
-
-- a single wind speed
-</code></pre>
-<p>Slices will then consist of all the rows in self.points
-whose first entry is equal to the values in <code>ws</code></p>
-<p>Defaults to self.wind_speeds</p>
+<p>Slices of the polar diagram given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of considered
+wind speeds. The amount of slices taken from that interval are
+determined by the parameter <code>stepsize</code></li>
+<li>an iterable of tuples of length 2 and int/float values
+which will be interpreted as individual slices. If a w in <code>ws</code>
+is an int or float, the given interval will be determined by
+the
+parameter <code>range_</code>. If it is a tuple, it will be interpreted
+as an inverval as is</li>
+<li>a single wind speed. The given interval is then determined by
+the parameter <code>range_</code></li>
+</ul>
+<p>A slice then consists of all rows in self.wind_speeds whose
+first entry lies in the interval given by w in <code>ws</code></p>
+<p>If nothing is passed, it will default to
+(min(self.wind_speeds), max(self.wind_speeds))</p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
-<dd>&nbsp;</dd>
+<dd>
+<p>Specfies the amount of slices taken from the given
+interval in <code>ws</code></p>
+<p>Will only be used if <code>ws</code> is a tuple of length 2</p>
+<p>If nothing is passed it will default to int(round(ws[1] - ws[0]))</p>
+</dd>
 <dt><strong><code>range_</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
-<dd>&nbsp;</dd>
+<dd>
+<p>Used to convert and int or float w in <code>ws</code> to the interval
+(w - range_, w + range_</p>
+<p>Will only be used if <code>ws</code> is int or float or
+if any w in <code>ws</code> is an int or float</p>
+<p>If nothing is passed, it will default to 1</p>
+</dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
 <dd>
 <p>Axes instance where the plot will be created.</p>
@@ -1697,34 +1561,33 @@ a suitable axes</p>
 <dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
-slices. There are four options
-- If as many or more colors as slices are passed,
-each slice will be plotted in the specified color</p>
-<pre><code>- If exactly 2 colors are passed, the slices will
-be plotted with a color gradient consiting of the
-two colors
-
-- If more than 2 colors but less than slices are passed,
+slices. There are four options:</p>
+<ul>
+<li>If as many or more colors as slices are passed,
+each slice will be plotted in the specified color</li>
+<li>If exactly 2 colors are passed, the slices will be plotted
+with a color gradient consiting of the two colors</li>
+<li>If more than 2 colors but less than slices are passed,
 the first n_color slices will be plotted in the specified
 colors, and the rest will be plotted in the default color
-'blue'
-
-Alternatively one can specify certain slices
+"blue"</li>
+<li>Alternatively one can specify certain slices
 to be plotted in a certain color by passing
-a tuple of (ws, color) pairs
-</code></pre>
+a tuple of (ws, color) pairs</li>
+</ul>
 <p>Defaults to ("green", "red")</p>
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
 <p>Specifies wether or not a legend will be shown next to the plot</p>
-<p>The type of legend depends on the color options
-- If the slices are plotted with a
-color gradient, a matplotlib.colorbar.Colorbar
-object will be created and assigned to ax.</p>
-<pre><code>- Otherwise a matplotlib.legend.Legend
-will be created and assigned to ax.
-</code></pre>
+<p>The type of legend depends on the color options</p>
+<ul>
+<li>If the slices are plotted with a color gradient,
+a matplotlib.colorbar.Colorbar object will be created
+and assigned to ax.</li>
+<li>Otherwise a matplotlib.legend.Legend object will be created
+and assigned to ax.</li>
+</ul>
 <p>Defaults to False</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
@@ -1762,10 +1625,11 @@ that might overwrite or live alongside old points</p></div>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a .csv file with delimiter ',' and the
-following format:
-PolarDiagramPointcloud
+following format:</p>
+<pre><code>PolarDiagramPointcloud
 True wind speed ,True wind angle ,Boat speed
-self.points</p>
+self.points
+</code></pre>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>csv_path</code></strong> :&ensp;<code>path-like</code></dt>
@@ -1826,73 +1690,12 @@ the table</p>
 numpy.zeros((rdim, cdim))</p>
 </dd>
 </dl>
-<p>Raises a PolarDiagramException
-- if bsps can't be broadcasted
-to a fitting shape
-- if bsps is not of dimension 2
-- if bsps is an empty array</p>
-<h2 id="methods">Methods</h2>
-<p>wind_speeds
-Returns a read only version of self._res_wind_speed
-wind_angles
-Returns a read only version of self._res_wind_angle
-boat_speeds
-Returns a read only version of self._boat_speeds
-to_csv(csv_path, fmt="hro")
-Creates a .csv-file with delimiter ',' and the
-following format:
-PolarDiagramTable
-Wind speed resolution:
-self.wind_speeds
-Wind angle resolution:
-self.wind_angles
-Boat speeds:
-self.boat_speeds
-symmetrize()
-Constructs a symmetric version of the polar diagram, by mirroring it
-at the 0° - 180° axis and returning a new instance
-change_entries(data, ws=None, wa=None, tw=True)
-Changes specified entries in the table
-plot_polar(
-ws=None,
-ax=None,
-colors=("green", "red"),
-show_legend=False,
-legend_kw=None,
-<strong>plot_kw,
-)
-Creates a polar plot of one or more slices of the polar diagram
-plot_flat(
-ws=None,
-ax=None,
-colors=("green", "red"),
-show_legend=False,
-legend_kw=None,
-</strong>plot_kw,
-)
-Creates a cartesian plot of one or more slices of the polar diagram
-plot_3d(ax=None, <strong>plot_kw)
-Creates a 3d plot of the polar diagram
-plot_color_gradient(
-ax=None,
-colors=("green", "red"),
-marker=None,
-ms=None,
-show_legend=False,
-</strong>legend_kw,
-)
-Creates a 'wind speed vs. wind angle' color gradient plot
-of the polar diagram with respect to the respective boat speeds
-plot_convex_hull(
-ws=None,
-ax=None,
-colors=("green", "red"),
-show_legend=False,
-legend_kw=None,
-**plot_kw,
-)
-Computes the (seperate) convex hull of one or more
-slices of the polar diagram and creates a polar plot of them</p></div>
+<p>Raises a PolarDiagramException</p>
+<ul>
+<li>if bsps can't be broadcasted to a fitting shape</li>
+<li>if bsps is not of dimension 2</li>
+<li>if bsps is an empty array</li>
+</ul></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.polardiagram.PolarDiagram" href="#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a></li>
@@ -2033,13 +1836,13 @@ slices of the polar diagram and creates a polar plot of them</p>
 <dl>
 <dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Slices of the polar diagram table, given as either
-- a tuple of length 2 specifying an interval of
-considered wind speeds</p>
-<pre><code>- an iterable containing only elements of self.wind_speeds
-
-- a single element of self.wind_speeds
-</code></pre>
+<p>Slices of the polar diagram table, given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of considered
+wind speeds</li>
+<li>an iterable containing only elements of self.wind_speeds</li>
+<li>a single element of self.wind_speeds</li>
+</ul>
 <p>The slices are then equal to the corresponding
 columns of the table together with self.wind_angles</p>
 <p>If nothing it passed, it will default to self.wind_speeds</p>
@@ -2053,34 +1856,33 @@ a suitable axes</p>
 <dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
-slices. There are four options
-- If as many or more colors as slices are passed,
-each slice will be plotted in the specified color</p>
-<pre><code>- If exactly 2 colors are passed, the slices will
-be plotted with a color gradient consiting of the
-two colors
-
-- If more than 2 colors but less than slices are passed,
+slices. There are four options:</p>
+<ul>
+<li>If as many or more colors as slices are passed,
+each slice will be plotted in the specified color</li>
+<li>If exactly 2 colors are passed, the slices will be plotted
+with a color gradient consiting of the two colors</li>
+<li>If more than 2 colors but less than slices are passed,
 the first n_color slices will be plotted in the specified
 colors, and the rest will be plotted in the default color
-'blue'
-
-Alternatively one can specify certain slices
+"blue"</li>
+<li>Alternatively one can specify certain slices
 to be plotted in a certain color by passing
-a tuple of (ws, color) pairs
-</code></pre>
+a tuple of (ws, color) pairs</li>
+</ul>
 <p>Defaults to ("green", "red")</p>
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
 <p>Specifies wether or not a legend will be shown next to the plot</p>
-<p>The type of legend depends on the color options
-- If the slices are plotted with a
-color gradient, a matplotlib.colorbar.Colorbar
-object will be created and assigned to ax.</p>
-<pre><code>- Otherwise a matplotlib.legend.Legend
-will be created and assigned to ax.
-</code></pre>
+<p>The type of legend depends on the color options</p>
+<ul>
+<li>If the slices are plotted with a color gradient,
+a matplotlib.colorbar.Colorbar object will be created
+and assigned to ax.</li>
+<li>Otherwise a matplotlib.legend.Legend object will be created
+and assigned to ax.</li>
+</ul>
 <p>Defaults to False</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
@@ -2096,8 +1898,11 @@ classes to change position and appearence of the legend</p>
 matplotlib.axes.Axes.plot function, to change
 certain appearences of the plot</dd>
 </dl>
-<p>Raises a PolarDiagramException if at least one element
-of ws is not in self.wind_speeds</p></div>
+<p>Raises a PolarDiagramException</p>
+<ul>
+<li>if at least one element of ws is not in self.wind_speeds</li>
+<li>the given interval doesn't contain any slices of the polar diagram</li>
+</ul></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.plot_flat"><code class="name flex">
 <span>def <span class="ident">plot_flat</span></span>(<span>self, ws=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
@@ -2108,13 +1913,13 @@ of ws is not in self.wind_speeds</p></div>
 <dl>
 <dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Slices of the polar diagram table, given as either
-- a tuple of length 2 specifying an interval of
-considered wind speeds</p>
-<pre><code>- an iterable containing only elements of self.wind_speeds
-
-- a single element of self.wind_speeds
-</code></pre>
+<p>Slices of the polar diagram table, given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of considered
+wind speeds</li>
+<li>an iterable containing only elements of self.wind_speeds</li>
+<li>a single element of self.wind_speeds</li>
+</ul>
 <p>The slices are then equal to the corresponding
 columns of the table together with self.wind_angles</p>
 <p>If nothing it passed, it will default to self.wind_speeds</p>
@@ -2128,34 +1933,33 @@ a suitable axes</p>
 <dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
-slices. There are four options
-- If as many or more colors as slices are passed,
-each slice will be plotted in the specified color</p>
-<pre><code>- If exactly 2 colors are passed, the slices will
-be plotted with a color gradient consiting of the
-two colors
-
-- If more than 2 colors but less than slices are passed,
+slices. There are four options:</p>
+<ul>
+<li>If as many or more colors as slices are passed,
+each slice will be plotted in the specified color</li>
+<li>If exactly 2 colors are passed, the slices will be plotted
+with a color gradient consiting of the two colors</li>
+<li>If more than 2 colors but less than slices are passed,
 the first n_color slices will be plotted in the specified
 colors, and the rest will be plotted in the default color
-'blue'
-
-Alternatively one can specify certain slices
+"blue"</li>
+<li>Alternatively one can specify certain slices
 to be plotted in a certain color by passing
-a tuple of (ws, color) pairs
-</code></pre>
+a tuple of (ws, color) pairs</li>
+</ul>
 <p>Defaults to ("green", "red")</p>
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
 <p>Specifies wether or not a legend will be shown next to the plot</p>
-<p>The type of legend depends on the color options
-- If the slices are plotted with a
-color gradient, a matplotlib.colorbar.Colorbar
-object will be created and assigned to ax.</p>
-<pre><code>- Otherwise a matplotlib.legend.Legend
-will be created and assigned to ax.
-</code></pre>
+<p>The type of legend depends on the color options</p>
+<ul>
+<li>If the slices are plotted with a color gradient,
+a matplotlib.colorbar.Colorbar object will be created
+and assigned to ax.</li>
+<li>Otherwise a matplotlib.legend.Legend object will be created
+and assigned to ax.</li>
+</ul>
 <p>Defaults to False</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
@@ -2171,10 +1975,11 @@ classes to change position and appearence of the legend</p>
 matplotlib.axes.Axes.plot function, to change
 certain appearences of the plot</dd>
 </dl>
-<p>Raises a PolarDiagramException
-- if at least one element of ws is not in self.wind_speeds
-- the given interval doesn't contain any slices of the
-polar diagram</p></div>
+<p>Raises a PolarDiagramException</p>
+<ul>
+<li>if at least one element of ws is not in self.wind_speeds</li>
+<li>the given interval doesn't contain any slices of the polar diagram</li>
+</ul></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.plot_polar"><code class="name flex">
 <span>def <span class="ident">plot_polar</span></span>(<span>self, ws=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
@@ -2185,13 +1990,13 @@ polar diagram</p></div>
 <dl>
 <dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Slices of the polar diagram table, given as either
-- a tuple of length 2 specifying an interval of
-considered wind speeds</p>
-<pre><code>- an iterable containing only elements of self.wind_speeds
-
-- a single element of self.wind_speeds
-</code></pre>
+<p>Slices of the polar diagram table, given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of
+considered wind speeds</li>
+<li>an iterable containing only elements of self.wind_speeds</li>
+<li>a single element of self.wind_speeds</li>
+</ul>
 <p>The slices are then equal to the corresponding
 columns of the table together with self.wind_angles</p>
 <p>If nothing it passed, it will default to self.wind_speeds</p>
@@ -2205,34 +2010,33 @@ a suitable axes</p>
 <dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
-slices. There are four options
-- If as many or more colors as slices are passed,
-each slice will be plotted in the specified color</p>
-<pre><code>- If exactly 2 colors are passed, the slices will
-be plotted with a color gradient consiting of the
-two colors
-
-- If more than 2 colors but less than slices are passed,
+slices. There are four options:</p>
+<ul>
+<li>If as many or more colors as slices are passed,
+each slice will be plotted in the specified color</li>
+<li>If exactly 2 colors are passed, the slices will be plotted
+with a color gradient consiting of the two colors</li>
+<li>If more than 2 colors but less than slices are passed,
 the first n_color slices will be plotted in the specified
 colors, and the rest will be plotted in the default color
-'blue'
-
-Alternatively one can specify certain slices
+"blue"</li>
+<li>Alternatively one can specify certain slices
 to be plotted in a certain color by passing
-a tuple of (ws, color) pairs
-</code></pre>
+a tuple of (ws, color) pairs</li>
+</ul>
 <p>Defaults to ("green", "red")</p>
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
 <p>Specifies wether or not a legend will be shown next to the plot</p>
-<p>The type of legend depends on the color options
-- If the slices are plotted with a
-color gradient, a matplotlib.colorbar.Colorbar
-object will be created and assigned to ax.</p>
-<pre><code>- Otherwise a matplotlib.legend.Legend
-will be created and assigned to ax.
-</code></pre>
+<p>The type of legend depends on the color options</p>
+<ul>
+<li>If the slices are plotted with a color gradient,
+a matplotlib.colorbar.Colorbar object will be created
+and assigned to ax.</li>
+<li>Otherwise a matplotlib.legend.Legend object will be created
+and assigned to ax.</li>
+</ul>
 <p>Defaults to False</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
@@ -2248,10 +2052,11 @@ classes to change position and appearence of the legend</p>
 matplotlib.axes.Axes.plot function, to change
 certain appearences of the plot</dd>
 </dl>
-<p>Raises a PolarDiagramException
-- if at least one element of ws is not in self.wind_speeds
-- the given interval doesn't contain any slices of the
-polar diagram</p></div>
+<p>Raises a PolarDiagramException</p>
+<ul>
+<li>if at least one element of ws is not in self.wind_speeds</li>
+<li>the given interval doesn't contain any slices of the polar diagram</li>
+</ul></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.symmetrize"><code class="name flex">
 <span>def <span class="ident">symmetrize</span></span>(<span>self)</span>
@@ -2271,14 +2076,15 @@ overwrite or live alongside old data</p></div>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a .csv file with delimiter ',' and the
-following format:
-PolarDiagramTable
+following format:</p>
+<pre><code>PolarDiagramTable
 Wind speed resolution:
 self.wind_speeds
 Wind angle resolution:
 self.wind_angles
 Boat speeds:
-self.boat_speeds</p>
+self.boat_speeds
+</code></pre>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>csv_path</code></strong> :&ensp;<code>path-like</code></dt>
@@ -2286,10 +2092,12 @@ self.boat_speeds</p>
 <dt><strong><code>fmt</code></strong> :&ensp;<code>string</code></dt>
 <dd>&nbsp;</dd>
 </dl>
-<p>Raises a FileWritingException
-- inputs are not of the specified types
-- if an error occurs whilst writing
-- unknown format was specified</p></div>
+<p>Raises a FileWritingException</p>
+<ul>
+<li>inputs are not of the specified types</li>
+<li>if an error occurs whilst writing</li>
+<li>unknown format was specified</li>
+</ul></div>
 </dd>
 </dl>
 <h3>Inherited members</h3>
