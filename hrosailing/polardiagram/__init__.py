@@ -289,6 +289,7 @@ class PolarDiagram(ABC):
         ax=None,
         colors=("green", "red"),
         marker=None,
+        ms=None,
         show_legend=False,
         **legend_kw,
     )
@@ -435,6 +436,7 @@ class PolarDiagram(ABC):
         ax=None,
         colors=("green", "red"),
         marker=None,
+        ms=None,
         show_legend=False,
         **legend_kw,
     ):
@@ -582,6 +584,7 @@ class PolarDiagramTable(PolarDiagram):
         ax=None,
         colors=("green", "red"),
         marker=None,
+        ms=None,
         show_legend=False,
         **legend_kw,
     )
@@ -1144,6 +1147,7 @@ class PolarDiagramTable(PolarDiagram):
         ax=None,
         colors=("green", "red"),
         marker=None,
+        ms=None,
         show_legend=False,
         **legend_kw,
     ):
@@ -1168,6 +1172,12 @@ class PolarDiagramTable(PolarDiagram):
             Markerstyle for the created scatter plot
 
             If nothing is passed, it will default to "o"
+
+        ms : float or array_like of fitting shape, optional
+            Marker size in points**2
+
+            If nothing is passed, it will use the default of
+            the matplotlib.pyplot.scatter function
 
         show_legend : bool, optional
             Specifies wether or not a legend will be shown next
@@ -1197,7 +1207,7 @@ class PolarDiagramTable(PolarDiagram):
         wa = wa.ravel()
         bsp = self.boat_speeds.ravel()
         plot_color_gradient(
-            ws, wa, bsp, ax, colors, marker, show_legend, **legend_kw
+            ws, wa, bsp, ax, colors, marker, ms, show_legend, **legend_kw
         )
 
     def plot_convex_hull(
@@ -1359,6 +1369,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         ax=None,
         colors=("green", "red"),
         marker=None,
+        ms=None,
         show_legend=False,
         **legend_kw,
     )
@@ -1695,6 +1706,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         self,
         ax=None,
         colors=("green", "red"),
+        ms=None,
         marker=None,
         show_legend=False,
         **legend_kw,
@@ -1825,6 +1837,7 @@ class PolarDiagramCurve(PolarDiagram):
         ax=None,
         colors=("green", "red"),
         marker=None,
+        ms=None,
         show_legend=False,
         **legend_kw,
     )
@@ -2227,6 +2240,7 @@ class PolarDiagramCurve(PolarDiagram):
         ax=None,
         colors=("green", "red"),
         marker=None,
+        ms=None,
         show_legend=False,
         **legend_kw,
     ):
@@ -2269,6 +2283,12 @@ class PolarDiagramCurve(PolarDiagram):
 
             If nothing is passed, it will default to "o"
 
+        ms : float or array_like of fitting shape, optional
+            Marker size in points**2
+
+            If nothing is passed, it will use the default of
+            the matplotlib.pyplot.scatter function
+
         show_legend : bool, optional
             Specifies wether or not a legend will be shown next
             to the plot
@@ -2308,6 +2328,7 @@ class PolarDiagramCurve(PolarDiagram):
             ax,
             colors,
             marker,
+            ms,
             show_legend,
             **legend_kw,
         )
@@ -2487,6 +2508,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         ax=None,
         colors=("green", "red"),
         marker=None,
+        ms=None,
         show_legend=False,
         **legend_kw
     )
@@ -2947,6 +2969,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         ax=None,
         colors=("green", "red"),
         marker=None,
+        ms=None,
         show_legend=False,
         **legend_kw,
     ):
@@ -2971,6 +2994,12 @@ class PolarDiagramPointcloud(PolarDiagram):
             Markerstyle for the created scatter plot
 
             If nothing is passed, it will default to "o"
+
+        ms : float or array_like of fitting shape, optional
+            Marker size in points**2
+
+            If nothing is passed, it will use the default of
+            the matplotlib.pyplot.scatter function
 
         show_legend : bool, optional
             Specifies wether or not a legend will be shown next
@@ -3010,7 +3039,7 @@ class PolarDiagramPointcloud(PolarDiagram):
                 "Point cloud contains no points"
             ) from ie
         plot_color_gradient(
-            ws, wa, bsp, ax, colors, marker, show_legend, **legend_kw
+            ws, wa, bsp, ax, colors, marker, ms, show_legend, **legend_kw
         )
 
     def plot_convex_hull(

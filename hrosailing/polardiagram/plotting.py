@@ -1,5 +1,5 @@
 """
-Various functions to plot PolarDiagram objects
+Contains various helper functions to plot polar diagrams in a number of ways
 """
 
 # Author: Valentin F. Dannenberg / Ente
@@ -38,7 +38,7 @@ def plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
 
 
 def plot_color_gradient(
-    ws, wa, bsp, ax, colors, marker, show_legend, **legend_kw
+    ws, wa, bsp, ax, colors, marker, ms, show_legend, **legend_kw
 ):
     if ax is None:
         ax = plt.gca()
@@ -50,7 +50,7 @@ def plot_color_gradient(
 
     colors = _get_colors(colors, bsp)
 
-    return ax.scatter(ws, wa, marker=marker, c=colors)
+    return ax.scatter(ws, wa, s=ms, marker=marker, c=colors)
 
 
 def plot3d(ws, wa, bsp, ax, **plot_kw):
