@@ -55,11 +55,6 @@ class CsvFileHandler(DataHandler):
     """A data handler to extract data from a .csv file
     with the first three columns representing wind speed, wind angle,
     and boat speed respectively
-
-    Methods
-    -------
-    handle(self, data)
-        Reads a .csv file and extracts the contained data points
     """
 
     @staticmethod
@@ -78,8 +73,9 @@ class CsvFileHandler(DataHandler):
 
 
         Raises a HandlerException
-            - if an error occurs whilst reading
-            - if an error occurs whilst evaluating the data points
+
+        - if an error occurs whilst reading
+        - if an error occurs whilst evaluating the data points
         """
         try:
             with open(data, "r", newline="") as file:
@@ -104,19 +100,17 @@ class NMEAFileHandler(DataHandler):
     mode : string, optional
         In the case where there is more recorded wind data than speed data,
         specifies how to handle the surplus
-            - "interpolate": handles the surplus by taking
-            convex combinations of two recorded speed datas
-            together with the recorded wind data "between" those
-            two points to create multiple data points
-            - "mean": handles the surplus by taking the mean
-            of the wind data "belonging" to a given speed data
-            to create a singe data point
+
+        - "interpolate": handles the surplus by taking convex combinations
+        of two recorded speed datas together with the recorded wind data
+        "between" those two points to create multiple data points
+        - "mean": handles the surplus by taking the mean of the wind data
+        "belonging" to a given speed data to create a singe data point
+
         Defaults to "interpolate"
 
 
-    Methods
-    -------
-    handle(self, data)
+    Raises a HandlerException if
     """
 
     def __init__(self, mode="interpolate"):
@@ -129,9 +123,11 @@ class NMEAFileHandler(DataHandler):
         """Reads a text file containing nmea-sentences and extracts
         data points based on recorded wind speed, wind angle, and speed
         over water
+
         Function looks for sentences of type:
-            - MWV for wind data
-            - VHW for speed trough water
+
+        - MWV for wind data
+        - VHW for speed trough water
 
         Parameters
         ----------
@@ -144,11 +140,12 @@ class NMEAFileHandler(DataHandler):
 
 
         Raises a HandlerException
-            - if `data` doesn't contain relevant nmea senteces
-            - if nmea senteces are not sorted
-            - if an error occurs whilst reading
-            - if an error occurs whilst parsing of the nmea senteces
-            - if an error occurs during conversion of apperant wind
+
+        - if `data` doesn't contain relevant nmea senteces
+        - if nmea senteces are not sorted
+        - if an error occurs whilst reading
+        - if an error occurs whilst parsing of the nmea senteces
+        - if an error occurs during conversion of apperant wind
         """
         try:
             with open(data, "r") as file:

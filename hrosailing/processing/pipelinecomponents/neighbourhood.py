@@ -67,13 +67,9 @@ class Ball(Neighbourhood):
 
         Defaults to 1
 
+
     Raises a NeighbourhoodException if inputs are not
     of the specified types
-
-    Methods
-    -------
-    is_contained_in(self, pts)
-        Checks given points for membership.
     """
 
     def __init__(self, norm=None, radius=1):
@@ -143,15 +139,11 @@ class ScalingBall(Neighbourhood):
         If nothing is passed, it will default to a scaled version
         of ||.||_2
 
+
     Raises a NeighbourhoodException
-        - if inputs are not of the specified types
-        - if max_pts is smaller or equal to min_pts
 
-
-    Methods
-    -------
-    is_contained_in(self, pts)
-        Checks given points for membership.
+     - if inputs are not of the specified types
+     - if max_pts is smaller or equal to min_pts
     """
 
     def __init__(self, min_pts, max_pts, norm=None):
@@ -207,7 +199,7 @@ class ScalingBall(Neighbourhood):
             self._n_pts = pts.shape[0]
             self._area = ConvexHull(pts).volume
             self._radius = np.sqrt(
-                self._avg * self._area / (np.pi, *self._n_pts)
+                self._avg * self._area / (np.pi * self._n_pts)
             )
 
             self._first_call = False
@@ -252,15 +244,11 @@ class Ellipsoid(Neighbourhood):
 
         Defaults to 1
 
+
     Raises a NeighbourhoodException
-        - if the inputs are not of the specified types
-        - if lin_trans is not invertible
 
-
-    Methods
-    -------
-    is_contained_in(self, pts)
-        Checks given points for membership.
+    - if the inputs are not of the specified types
+    - if lin_trans is not invertible
     """
 
     def __init__(self, lin_trans=None, norm=None, radius=1):
@@ -337,14 +325,9 @@ class Cuboid(Neighbourhood):
 
         If nothing is passed, it will default to (1,1)
 
+
     Raises a NeighbourhoodException if inputs are not of the
     specified types
-
-
-    Methods
-    -------
-    is_contained_in(self, pts)
-        Checks given points for membership.
     """
 
     def __init__(self, norm=None, dimensions=None):
@@ -412,20 +395,16 @@ class Polytope(Neighbourhood):
 
         If nothing is passed, it will default to (1,...,1)
 
+
     Raises a NeighbourhoodException
-        - if inputs are not of the specified types
-        - mat or b contain NaN or infinite values
+
+    - if inputs are not of the specified types
+    - mat or b contain NaN or infinite values
 
     Warning
     -------
     Does not check wether the polytope given by mat and b is a polytope,
     ie if P is actually bounded
-
-
-    Methods
-    -------
-    is_contained_in(self, pts)
-        Checks given points for membership.
     """
 
     def __init__(self, mat=None, b=None):
