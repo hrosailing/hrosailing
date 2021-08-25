@@ -49,8 +49,11 @@ class Regressor(ABC):
     Abstract Methods
     ----------------
     model_func
+
     optimal_params
+
     set_weights(self, X_weights, y_weights)
+
     fit(self, data)
     """
 
@@ -95,14 +98,6 @@ class ODRegressor(Regressor):
         Maximum number of iterations done by scipy.odr.ODR.
 
         Defaults to 1000
-
-
-    Methods
-    -------
-    model_func
-    optimal_params
-    set_weight(self, X_weights, y_weights)
-    fit(self, data)
     """
 
     def __init__(self, model_func, init_values=None, max_it=1000):
@@ -146,9 +141,10 @@ class ODRegressor(Regressor):
             and boat speed
 
         Raises a RegressorException
-            - if
-            - if
-            - if
+
+        - if
+        - if
+        - if
         """
         X, y = data[:, :2], data[:, 2]
 

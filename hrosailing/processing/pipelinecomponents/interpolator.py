@@ -76,15 +76,9 @@ class IDWInterpolator(Interpolator):
         If nothing is passed, it will default to a scaled
         version of ||.||_2
 
+
     Raises an InterpolatorException if the inputs are not
     of the specified type
-
-
-    Methods
-    -------
-    interpolate(w_pts, grid_pt)
-        Interpolates a given grid_pt according to the
-        above described method
     """
 
     def __init__(self, p=2, norm=None):
@@ -175,15 +169,9 @@ class ArithmeticMeanInterpolator(Interpolator):
     params:
         Parameters to be passed to distribution
 
+
     Raises an InterpolatorException if the inputs are not
     of the specified type
-
-
-    Methods
-    -------
-    interpolate(self, w_pts, grid_pt)
-        Interpolates a given grid_pt according to the
-        above described method
     """
 
     def __init__(self, *params, s=1, norm=None, distribution=None):
@@ -271,15 +259,9 @@ class ImprovedIDWInterpolator(Interpolator):
         If nothing is passed, it will default to a scaled
         version of ||.||_2
 
+
     Raises an InterpolatorException if the input is not
     of the specified type
-
-
-    Methods
-    -------
-    interpolate(self, w_pts, grid_pt)
-        Interpolates a given grid_pt according to the
-        above described method
     """
 
     def __init__(self, norm=None):
@@ -308,8 +290,9 @@ class ImprovedIDWInterpolator(Interpolator):
             Interpolated values at grid_pt
 
         Raises an InterpolatorException
-            - if
-            - if
+
+        - if
+        - if
         """
         pts = w_pts.points
         dist = self._norm(pts[:, :2] - grid_pt)
@@ -349,15 +332,9 @@ class ShepardInterpolator(Interpolator):
         If nothing is passed, it will default to a scaled
         version of ||.||_2
 
+
     Raises an InterpolatorException if inputs are not
     of the specified types
-
-
-    Methods
-    -------
-    interpolate(self, w_pts, grid_pt)
-        Interpolates a given grid_pt according to the
-        above described method
     """
 
     def __init__(self, tol=np.finfo(float).eps, slope=0.1, norm=None):

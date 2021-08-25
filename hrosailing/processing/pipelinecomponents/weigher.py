@@ -91,13 +91,8 @@ class WeightedPoints:
         Defaults to True
 
     Raises a WeightedPointsException
-        -
 
-
-    Methods
-    -------
-    points
-    weights
+    -
     """
 
     def __init__(self, pts, wts=None, weigher=None, tw=True, _checks=True):
@@ -207,13 +202,8 @@ class CylindricMeanWeigher(Weigher):
 
         If nothing is passed, it will default to ||.||_2
 
+
     Raises a WeigherException if inputs are not of the specified types
-
-
-    Methods
-    -------
-    weigh(self, pts)
-        Weigh given points according to the method described above
     """
 
     def __init__(self, radius=0.05, norm=None):
@@ -300,12 +290,8 @@ class CylindricMemberWeigher(Weigher):
 
         If nothing is passed, it will default to ||.||_2
 
-    Raises a WeigherException if inputs are not of the specified types
 
-    Methods
-    -------
-    weigh(self, pts)
-        Weigh given points according to the method described above
+    Raises a WeigherException if inputs are not of the specified types
     """
 
     def __init__(self, radius=0.05, length=0.05, norm=None):

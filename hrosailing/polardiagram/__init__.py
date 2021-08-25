@@ -79,13 +79,11 @@ def from_csv(csv_path, fmt="hro", tw=True):
 
     fmt : string
         The "format" of the .csv file.
-                - hro: format created by the to_csv-method of the
-                PolarDiagram class
-                - orc: format found at
-                `ORC <https://jieter.github.io/orc-data/site/>`_
-                - opencpn: format created by `OpenCPN Polar Plugin
-                <https://opencpn.org/OpenCPN/plugins/polar.html>`_
-                - array
+
+        - hro: format created by the to_csv-method of the PolarDiagram class
+        - orc: format found at [ORC](https://jieter.github.io/orc-data/site/)
+        - opencpn: format created by [OpenCPN Polar Plugin](https://opencpn.org/OpenCPN/plugins/polar.html)
+        - array
 
     tw : bool
         Specifies if wind data in file should be viewed as true wind
@@ -247,27 +245,14 @@ def symmetrize(obj):
 class PolarDiagram(ABC):
     """Base class for all polardiagram classes
 
-
-    Methods
-    -------
-    pickling(pkl_path)
-        Writes PolarDiagram instance to a .pkl file
-    polar_plot_slice(ws, ax=None, **plot_kw)
-        Creates a polar plot  of a given slice of the
-        polar diagram
-    flat_plot_slice(ws, ax=None, **plot_kw)
-        Creates a cartesian plot of a given slice of the
-        polar diagram
-    plot_convex_hull_slice(ws, ax=None, **plot_kw)
-        Computes the convex hull of a given slice of the
-        polar diagram and creates a polar plot of it
-
-
     Abstract Methods
     ----------------
     to_csv(csv_path)
+
     symmetrize()
+
     get_slices(ws)
+
     plot_polar(
         ws,
         ax=None,
@@ -276,6 +261,7 @@ class PolarDiagram(ABC):
         legend_kw=None,
         **plot_kw
     )
+
     plot_flat(
         ws,
         ax=None,
@@ -284,7 +270,9 @@ class PolarDiagram(ABC):
         legend_kw=None,
         **plot_kw
     )
+
     plot_3d(ax=None, **plot_kw)
+
     plot_color_gradient(
         ax=None,
         colors=("green", "red"),
@@ -293,6 +281,7 @@ class PolarDiagram(ABC):
         show_legend=False,
         **legend_kw,
     )
+
     plot_convex_hull(
         ws,
         ax=None,
@@ -531,75 +520,10 @@ class PolarDiagramTable(PolarDiagram):
         numpy.zeros((rdim, cdim))
 
     Raises a PolarDiagramException
-        - if bsps can't be broadcasted
-        to a fitting shape
-        - if bsps is not of dimension 2
-        - if bsps is an empty array
 
-
-    Methods
-    -------
-    wind_speeds
-        Returns a read only version of self._res_wind_speed
-    wind_angles
-        Returns a read only version of self._res_wind_angle
-    boat_speeds
-        Returns a read only version of self._boat_speeds
-    to_csv(csv_path, fmt="hro")
-        Creates a .csv-file with delimiter ',' and the
-        following format:
-            PolarDiagramTable
-            Wind speed resolution:
-            self.wind_speeds
-            Wind angle resolution:
-            self.wind_angles
-            Boat speeds:
-            self.boat_speeds
-    symmetrize()
-        Constructs a symmetric version of the polar diagram, by mirroring it
-        at the 0° - 180° axis and returning a new instance
-    change_entries(data, ws=None, wa=None, tw=True)
-        Changes specified entries in the table
-    plot_polar(
-        ws=None,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw,
-    )
-        Creates a polar plot of one or more slices of the polar diagram
-    plot_flat(
-        ws=None,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw,
-    )
-        Creates a cartesian plot of one or more slices of the polar diagram
-    plot_3d(ax=None, **plot_kw)
-        Creates a 3d plot of the polar diagram
-    plot_color_gradient(
-        ax=None,
-        colors=("green", "red"),
-        marker=None,
-        ms=None,
-        show_legend=False,
-        **legend_kw,
-    )
-        Creates a 'wind speed vs. wind angle' color gradient plot
-        of the polar diagram with respect to the respective boat speeds
-    plot_convex_hull(
-        ws=None,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw,
-    )
-        Computes the (seperate) convex hull of one or more
-        slices of the polar diagram and creates a polar plot of them
+    - if bsps can't be broadcasted to a fitting shape
+    - if bsps is not of dimension 2
+     - if bsps is an empty array
     """
 
     def __init__(self, ws_res=None, wa_res=None, bsps=None):
@@ -728,6 +652,7 @@ class PolarDiagramTable(PolarDiagram):
     def to_csv(self, csv_path, fmt="hro"):
         """Creates a .csv file with delimiter ',' and the
         following format:
+
             PolarDiagramTable
             Wind speed resolution:
             self.wind_speeds
@@ -745,9 +670,10 @@ class PolarDiagramTable(PolarDiagram):
 
 
         Raises a FileWritingException
-            - inputs are not of the specified types
-            - if an error occurs whilst writing
-            - unknown format was specified
+
+        - inputs are not of the specified types
+        - if an error occurs whilst writing
+        - unknown format was specified
         """
         logger.info(f"Method '.to_csv({csv_path}, fmt={fmt})' called")
 
@@ -927,12 +853,11 @@ class PolarDiagramTable(PolarDiagram):
         ----------
         ws : tuple of length 2, iterable, int or float, optional
             Slices of the polar diagram table, given as either
-                - a tuple of length 2 specifying an interval of
+
+            - a tuple of length 2 specifying an interval of
                 considered wind speeds
-
-                - an iterable containing only elements of self.wind_speeds
-
-                - a single element of self.wind_speeds
+            - an iterable containing only elements of self.wind_speeds
+            - a single element of self.wind_speeds
 
             The slices are then equal to the corresponding
             columns of the table together with self.wind_angles
@@ -947,22 +872,19 @@ class PolarDiagramTable(PolarDiagram):
 
         colors : tuple, optional
             Specifies the colors to be used for the different
-            slices. There are four options
-                - If as many or more colors as slices are passed,
-                each slice will be plotted in the specified color
+            slices. There are four options:
 
-                - If exactly 2 colors are passed, the slices will
-                be plotted with a color gradient consiting of the
-                two colors
-
-                - If more than 2 colors but less than slices are passed,
-                the first n_color slices will be plotted in the specified
-                colors, and the rest will be plotted in the default color
-                'blue'
-
-                Alternatively one can specify certain slices
-                to be plotted in a certain color by passing
-                a tuple of (ws, color) pairs
+            - If as many or more colors as slices are passed,
+            each slice will be plotted in the specified color
+            - If exactly 2 colors are passed, the slices will be plotted
+            with a color gradient consiting of the two colors
+            - If more than 2 colors but less than slices are passed,
+            the first n_color slices will be plotted in the specified
+            colors, and the rest will be plotted in the default color
+            "blue"
+            - Alternatively one can specify certain slices
+            to be plotted in a certain color by passing
+            a tuple of (ws, color) pairs
 
             Defaults to ("green", "red")
 
@@ -970,12 +892,12 @@ class PolarDiagramTable(PolarDiagram):
             Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
-                - If the slices are plotted with a
-                color gradient, a matplotlib.colorbar.Colorbar
-                object will be created and assigned to ax.
 
-                - Otherwise a matplotlib.legend.Legend
-                will be created and assigned to ax.
+            - If the slices are plotted with a color gradient,
+            a matplotlib.colorbar.Colorbar object will be created
+            and assigned to ax.
+            - Otherwise a matplotlib.legend.Legend object will be created
+            and assigned to ax.
 
             Defaults to False
 
@@ -995,9 +917,9 @@ class PolarDiagramTable(PolarDiagram):
 
 
         Raises a PolarDiagramException
-            - if at least one element of ws is not in self.wind_speeds
-            - the given interval doesn't contain any slices of the
-            polar diagram
+
+        - if at least one element of ws is not in self.wind_speeds
+        - the given interval doesn't contain any slices of the polar diagram
         """
         logger.info(
             f"Method 'polar_plot(ws={ws}, ax={ax}, colors={colors}, "
@@ -1025,12 +947,11 @@ class PolarDiagramTable(PolarDiagram):
         ----------
         ws : tuple of length 2, iterable, int or float, optional
             Slices of the polar diagram table, given as either
-                - a tuple of length 2 specifying an interval of
-                considered wind speeds
 
-                - an iterable containing only elements of self.wind_speeds
-
-                - a single element of self.wind_speeds
+            - a tuple of length 2 specifying an interval of considered
+            wind speeds
+            - an iterable containing only elements of self.wind_speeds
+            - a single element of self.wind_speeds
 
             The slices are then equal to the corresponding
             columns of the table together with self.wind_angles
@@ -1045,22 +966,19 @@ class PolarDiagramTable(PolarDiagram):
 
         colors : tuple, optional
             Specifies the colors to be used for the different
-            slices. There are four options
-                - If as many or more colors as slices are passed,
-                each slice will be plotted in the specified color
+            slices. There are four options:
 
-                - If exactly 2 colors are passed, the slices will
-                be plotted with a color gradient consiting of the
-                two colors
-
-                - If more than 2 colors but less than slices are passed,
-                the first n_color slices will be plotted in the specified
-                colors, and the rest will be plotted in the default color
-                'blue'
-
-                Alternatively one can specify certain slices
-                to be plotted in a certain color by passing
-                a tuple of (ws, color) pairs
+            - If as many or more colors as slices are passed,
+            each slice will be plotted in the specified color
+            - If exactly 2 colors are passed, the slices will be plotted
+            with a color gradient consiting of the two colors
+            - If more than 2 colors but less than slices are passed,
+            the first n_color slices will be plotted in the specified
+            colors, and the rest will be plotted in the default color
+            "blue"
+            - Alternatively one can specify certain slices
+            to be plotted in a certain color by passing
+            a tuple of (ws, color) pairs
 
             Defaults to ("green", "red")
 
@@ -1068,12 +986,12 @@ class PolarDiagramTable(PolarDiagram):
             Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
-                - If the slices are plotted with a
-                color gradient, a matplotlib.colorbar.Colorbar
-                object will be created and assigned to ax.
 
-                - Otherwise a matplotlib.legend.Legend
-                will be created and assigned to ax.
+            - If the slices are plotted with a color gradient,
+            a matplotlib.colorbar.Colorbar object will be created
+            and assigned to ax.
+            - Otherwise a matplotlib.legend.Legend object will be created
+            and assigned to ax.
 
             Defaults to False
 
@@ -1093,9 +1011,9 @@ class PolarDiagramTable(PolarDiagram):
 
 
         Raises a PolarDiagramException
-            - if at least one element of ws is not in self.wind_speeds
-            - the given interval doesn't contain any slices of the
-            polar diagram
+
+        - if at least one element of ws is not in self.wind_speeds
+        - the given interval doesn't contain any slices of the polar diagram
         """
         logger.info(
             f"Method 'flat_plot(ws={ws}, ax={ax}, colors={colors}, "
@@ -1226,12 +1144,11 @@ class PolarDiagramTable(PolarDiagram):
         ----------
         ws : tuple of length 2, iterable, int or float, optional
             Slices of the polar diagram table, given as either
-                - a tuple of length 2 specifying an interval of
-                considered wind speeds
 
-                - an iterable containing only elements of self.wind_speeds
-
-                - a single element of self.wind_speeds
+            - a tuple of length 2 specifying an interval of considered
+            wind speeds
+            - an iterable containing only elements of self.wind_speeds
+            - a single element of self.wind_speeds
 
             The slices are then equal to the corresponding
             columns of the table together with self.wind_angles
@@ -1246,22 +1163,19 @@ class PolarDiagramTable(PolarDiagram):
 
         colors : tuple, optional
             Specifies the colors to be used for the different
-            slices. There are four options
-                - If as many or more colors as slices are passed,
-                each slice will be plotted in the specified color
+            slices. There are four options:
 
-                - If exactly 2 colors are passed, the slices will
-                be plotted with a color gradient consiting of the
-                two colors
-
-                - If more than 2 colors but less than slices are passed,
-                the first n_color slices will be plotted in the specified
-                colors, and the rest will be plotted in the default color
-                'blue'
-
-                Alternatively one can specify certain slices
-                to be plotted in a certain color by passing
-                a tuple of (ws, color) pairs
+            - If as many or more colors as slices are passed,
+            each slice will be plotted in the specified color
+            - If exactly 2 colors are passed, the slices will be plotted
+            with a color gradient consiting of the two colors
+            - If more than 2 colors but less than slices are passed,
+            the first n_color slices will be plotted in the specified
+            colors, and the rest will be plotted in the default color
+            "blue"
+            - Alternatively one can specify certain slices
+            to be plotted in a certain color by passing
+            a tuple of (ws, color) pairs
 
             Defaults to ("green", "red")
 
@@ -1269,12 +1183,12 @@ class PolarDiagramTable(PolarDiagram):
             Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
-                - If the slices are plotted with a
-                color gradient, a matplotlib.colorbar.Colorbar
-                object will be created and assigned to ax.
 
-                - Otherwise a matplotlib.legend.Legend
-                will be created and assigned to ax.
+            - If the slices are plotted with a color gradient,
+            a matplotlib.colorbar.Colorbar object will be created
+            and assigned to ax.
+            - Otherwise a matplotlib.legend.Legend object will be created
+            and assigned to ax.
 
             Defaults to False
 
@@ -1292,8 +1206,10 @@ class PolarDiagramTable(PolarDiagram):
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
 
-        Raises a PolarDiagramException if at least one element
-        of ws is not in self.wind_speeds
+        Raises a PolarDiagramException
+
+        - if at least one element of ws is not in self.wind_speeds
+        - the given interval doesn't contain any slices of the polar diagram
         """
         logger.info(
             f"Method 'plot_convex_hull(ws={ws}, ax={ax}, colors={colors},"
@@ -1327,62 +1243,6 @@ class PolarDiagramMultiSails(PolarDiagram):
 
 
     Raises a PolarDiagramException if
-
-
-    Methods
-    -------
-    wind_speeds
-        Returns a read only version of self._res_wind_speed
-    wind_angles
-        Returns a read only version of self._res_wind_angle
-    boat_speeds
-        Returns a list of pt.boat_speeds for every PolarDiagramTable
-        pt in self._sails
-    to_csv(csv_path)
-
-    symmetrize()
-        Constructs a symmetric version of the polar diagram, by
-        mirroring each PolarDiagramTable  at the 0° - 180° axis
-        and returning a new instance
-    get_slices(ws)
-    plot_polar(
-        ws=None,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw,
-    )
-        Creates a polar plot of one or more slices of the polar diagram
-    plot_flat(
-        ws=None,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw,
-    )
-        Creates a cartesian plot of one or more slices of the polar diagram
-    plot_3d(ax=None, **plot_kw)
-        Creates a 3d plot of the polar diagram
-    plot_color_gradient(
-        ax=None,
-        colors=("green", "red"),
-        marker=None,
-        ms=None,
-        show_legend=False,
-        **legend_kw,
-    )
-    plot_convex_hull(
-        ws=None,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw,
-    )
-        Computes the (seperate) convex hull of one or more
-        slices of the polar diagram and creates a polar plot of them
     """
 
     def __init__(self, pds: List[PolarDiagramTable], sails: List[str] = None):
@@ -1491,12 +1351,11 @@ class PolarDiagramMultiSails(PolarDiagram):
         ----------
         ws : tuple of length 2, iterable, int or float, optional
             Slices of the polar diagram table, given as either
-                - a tuple of length 2 specifying an interval of
-                considered wind speeds
 
-                - an iterable containing only elements of self.wind_speeds
-
-                - a single element of self.wind_speeds
+            - a tuple of length 2 specifying an interval of considered
+            wind speeds
+            - an iterable containing only elements of self.wind_speeds
+            - a single element of self.wind_speeds
 
             The slices are then equal to the corresponding
             columns of the table together with self.wind_angles
@@ -1511,22 +1370,19 @@ class PolarDiagramMultiSails(PolarDiagram):
 
         colors : tuple, optional
             Specifies the colors to be used for the different
-            slices. There are four options
-                - If as many or more colors as slices are passed,
-                each slice will be plotted in the specified color
+            slices. There are four options:
 
-                - If exactly 2 colors are passed, the slices will
-                be plotted with a color gradient consiting of the
-                two colors
-
-                - If more than 2 colors but less than slices are passed,
-                the first n_color slices will be plotted in the specified
-                colors, and the rest will be plotted in the default color
-                'blue'
-
-                Alternatively one can specify certain slices
-                to be plotted in a certain color by passing
-                a tuple of (ws, color) pairs
+            - If as many or more colors as slices are passed,
+            each slice will be plotted in the specified color
+            - If exactly 2 colors are passed, the slices will be plotted
+            with a color gradient consiting of the two colors
+            - If more than 2 colors but less than slices are passed,
+            the first n_color slices will be plotted in the specified
+            colors, and the rest will be plotted in the default color
+            "blue"
+            - Alternatively one can specify certain slices
+            to be plotted in a certain color by passing
+            a tuple of (ws, color) pairs
 
             Defaults to ("green", "red")
 
@@ -1534,12 +1390,12 @@ class PolarDiagramMultiSails(PolarDiagram):
             Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
-                - If the slices are plotted with a
-                color gradient, a matplotlib.colorbar.Colorbar
-                object will be created and assigned to ax.
 
-                - Otherwise a matplotlib.legend.Legend
-                will be created and assigned to ax.
+            - If the slices are plotted with a color gradient,
+            a matplotlib.colorbar.Colorbar object will be created
+            and assigned to ax.
+            - Otherwise a matplotlib.legend.Legend object will be created
+            and assigned to ax.
 
             Defaults to False
 
@@ -1559,9 +1415,9 @@ class PolarDiagramMultiSails(PolarDiagram):
 
 
         Raises a PolarDiagramException
-            - if at least one element of ws is not in self.wind_speeds
-            - the given interval doesn't contain any slices of the
-            polar diagram
+
+        - if at least one element of ws is not in self.wind_speeds
+        - the given interval doesn't contain any slices of the polar diagram
         """
         if ax is None:
             ax = plt.axes(projection="polar")
@@ -1590,12 +1446,11 @@ class PolarDiagramMultiSails(PolarDiagram):
         ----------
         ws : tuple of length 2, iterable, int or float, optional
             Slices of the polar diagram table, given as either
-                - a tuple of length 2 specifying an interval of
-                considered wind speeds
 
-                - an iterable containing only elements of self.wind_speeds
-
-                - a single element of self.wind_speeds
+            - a tuple of length 2 specifying an interval of considered
+            wind speeds
+            - an iterable containing only elements of self.wind_speeds
+            - a single element of self.wind_speeds
 
             The slices are then equal to the corresponding
             columns of the table together with self.wind_angles
@@ -1610,22 +1465,19 @@ class PolarDiagramMultiSails(PolarDiagram):
 
         colors : tuple, optional
             Specifies the colors to be used for the different
-            slices. There are four options
-                - If as many or more colors as slices are passed,
-                each slice will be plotted in the specified color
+            slices. There are four options:
 
-                - If exactly 2 colors are passed, the slices will
-                be plotted with a color gradient consiting of the
-                two colors
-
-                - If more than 2 colors but less than slices are passed,
-                the first n_color slices will be plotted in the specified
-                colors, and the rest will be plotted in the default color
-                'blue'
-
-                Alternatively one can specify certain slices
-                to be plotted in a certain color by passing
-                a tuple of (ws, color) pairs
+            - If as many or more colors as slices are passed,
+            each slice will be plotted in the specified color
+            - If exactly 2 colors are passed, the slices will be plotted
+            with a color gradient consiting of the two colors
+            - If more than 2 colors but less than slices are passed,
+            the first n_color slices will be plotted in the specified
+            colors, and the rest will be plotted in the default color
+            "blue"
+            - Alternatively one can specify certain slices
+            to be plotted in a certain color by passing
+            a tuple of (ws, color) pairs
 
             Defaults to ("green", "red")
 
@@ -1633,12 +1485,12 @@ class PolarDiagramMultiSails(PolarDiagram):
             Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
-                - If the slices are plotted with a
-                color gradient, a matplotlib.colorbar.Colorbar
-                object will be created and assigned to ax.
 
-                - Otherwise a matplotlib.legend.Legend
-                will be created and assigned to ax.
+            - If the slices are plotted with a color gradient,
+            a matplotlib.colorbar.Colorbar object will be created
+            and assigned to ax.
+            - Otherwise a matplotlib.legend.Legend object will be created
+            and assigned to ax.
 
             Defaults to False
 
@@ -1658,9 +1510,9 @@ class PolarDiagramMultiSails(PolarDiagram):
 
 
         Raises a PolarDiagramException
-            - if at least one element of ws is not in self.wind_speeds
-            - the given interval doesn't contain any slices of the
-            polar diagram
+
+        - if at least one element of ws is not in self.wind_speeds
+        - the given interval doesn't contain any slices of the polar diagram
         """
         for i, pd in enumerate(self._tables):
             if i == 0 and show_legend:
@@ -1730,12 +1582,11 @@ class PolarDiagramMultiSails(PolarDiagram):
         ----------
         ws : tuple of length 2, iterable, int or float, optional
             Slices of the polar diagram table, given as either
-                - a tuple of length 2 specifying an interval of
-                considered wind speeds
 
-                - an iterable containing only elements of self.wind_speeds
-
-                - a single element of self.wind_speeds
+            - a tuple of length 2 specifying an interval of considered
+            wind speeds
+            - an iterable containing only elements of self.wind_speeds
+            - a single element of self.wind_speeds
 
             The slices are then equal to the corresponding
             columns of the table together with self.wind_angles
@@ -1808,71 +1659,6 @@ class PolarDiagramCurve(PolarDiagram):
         Specifies if f takes the wind angles to be in radians or degrees
 
         Defaults to False
-
-
-    Methods
-    -------
-    curve
-        Returns a read only version of self._f
-    parameters
-        Returns a read only version of self._params
-    radians
-        Returns a read only version of self._rad
-    to_csv(csv_path)
-        Creates a .csv-file with delimiter ':' and the
-        following format:
-            PolarDiagramCurve
-            Function: self.curve
-            Radians: self.rad
-            Parameters: self.parameters
-    symmetrize()
-    get_slices(ws)
-    plot_polar(
-        ws=None,
-        stepsize=None,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw,
-    )
-        Creates a polar plot of one or more slices of the polar diagram
-    plot_flat(
-        ws=None,
-        stepsize=None,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw,
-    )
-        Creates a cartesian plot of one or more slices of the polar diagram
-    plot_3d(ws=None, stepsize=None, ax=None, **plot_kw)
-        Creates a 3d plot of a part of the polar diagram
-    plot_color_gradient(
-        ws=None,
-        stepsize=None,
-        ax=None,
-        colors=("green", "red"),
-        marker=None,
-        ms=None,
-        show_legend=False,
-        **legend_kw,
-    )
-        Creates a 'wind speed  vs. wind angle' color gradient
-        plot of a part of the polar diagram with respect to the
-        respective boat speeds
-    plot_convex_hull(
-        ws=None,
-        stepsize=None,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw,
-    )
-        Computes the (seperate) convex hull of one or more
-        slices of the polar diagram and creates a polar plot of them
     """
 
     def __init__(self, f, *params, radians=False):
@@ -1915,6 +1701,7 @@ class PolarDiagramCurve(PolarDiagram):
     def to_csv(self, csv_path):
         """Creates a .csv file with delimiter ':' and the
         following format:
+
             PolarDiagramCurve
             Function: self.curve.__name__
             Radians: self.rad
@@ -1999,14 +1786,12 @@ class PolarDiagramCurve(PolarDiagram):
         ----------
         ws : tuple of length 2, iterable, int or float, optional
             Slices of the polar diagram given as either
-                - a tuple of length 2, specifying an interval of
-                considered wind speeds. The amount of slices taken
-                from that interval are determined by the parameter
-                `stepsize`
 
-                - an iterable of specific wind speeds
-
-                - a single wind speed
+            - a tuple of length 2, specifying an interval of considered
+            wind speeds. The amount of slices taken from that interval are
+            determined by the parameter `stepsize`
+            - an iterable of specific wind speeds
+            - a single wind speed
 
             Slices will then equal self(w, wa) where w goes through
             the given values in `ws` and wa goes through a fixed
@@ -2030,35 +1815,33 @@ class PolarDiagramCurve(PolarDiagram):
 
         colors : tuple, optional
             Specifies the colors to be used for the different
-            slices. There are four options
-                - If as many or more colors as slices are passed,
-                each slice will be plotted in the specified color
+            slices. There are four options:
 
-                - If exactly 2 colors are passed, the slices will
-                be plotted with a color gradient consiting of the
-                two colors
-
-                - If more than 2 colors but less than slices are passed,
-                the first n_color slices will be plotted in the specified
-                colors, and the rest will be plotted in the default color
-                'blue'
-
-                Alternatively one can specify certain slices
-                to be plotted in a certain color by passing
-                a tuple of (ws, color) pairs
+            - If as many or more colors as slices are passed,
+            each slice will be plotted in the specified color
+            - If exactly 2 colors are passed, the slices will be plotted
+            with a color gradient consiting of the two colors
+            - If more than 2 colors but less than slices are passed,
+            the first n_color slices will be plotted in the specified
+            colors, and the rest will be plotted in the default color
+            "blue"
+            - Alternatively one can specify certain slices
+            to be plotted in a certain color by passing
+            a tuple of (ws, color) pairs
 
             Defaults to ("green", "red")
+
 
         show_legend : bool, optional
             Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
-                - If the slices are plotted with a
-                color gradient, a matplotlib.colorbar.Colorbar
-                object will be created and assigned to ax.
 
-                - Otherwise a matplotlib.legend.Legend
-                will be created and assigned to ax.
+            - If the slices are plotted with a color gradient,
+            a matplotlib.colorbar.Colorbar object will be created
+            and assigned to ax.
+            - Otherwise a matplotlib.legend.Legend object will be created
+            and assigned to ax.
 
             Defaults to False
 
@@ -2103,14 +1886,12 @@ class PolarDiagramCurve(PolarDiagram):
         ----------
         ws : tuple of length 2, iterable, int or float, optional
             Slices of the polar diagram given as either
-                - a tuple of length 2, specifying an interval of
-                considered wind speeds. The amount of slices taken
-                from that interval are determined by the parameter
-                `stepsize`
 
-                - an iterable of specific wind speeds
-
-                - a single wind speed
+            - a tuple of length 2, specifying an interval of considered
+            wind speeds. The amount of slices taken from that interval are
+            determined by the parameter `stepsize`
+            - an iterable of specific wind speeds
+            - a single wind speed
 
             Slices will then equal self(w, wa) where w goes through
             the given values in `ws` and wa goes through a fixed
@@ -2134,22 +1915,19 @@ class PolarDiagramCurve(PolarDiagram):
 
         colors : tuple, optional
             Specifies the colors to be used for the different
-            slices. There are four options
-                - If as many or more colors as slices are passed,
-                each slice will be plotted in the specified color
+            slices. There are four options:
 
-                - If exactly 2 colors are passed, the slices will
-                be plotted with a color gradient consiting of the
-                two colors
-
-                - If more than 2 colors but less than slices are passed,
-                the first n_color slices will be plotted in the specified
-                colors, and the rest will be plotted in the default color
-                'blue'
-
-                Alternatively one can specify certain slices
-                to be plotted in a certain color by passing
-                a tuple of (ws, color) pairs
+            - If as many or more colors as slices are passed,
+            each slice will be plotted in the specified color
+            - If exactly 2 colors are passed, the slices will be plotted
+            with a color gradient consiting of the two colors
+            - If more than 2 colors but less than slices are passed,
+            the first n_color slices will be plotted in the specified
+            colors, and the rest will be plotted in the default color
+            "blue"
+            - Alternatively one can specify certain slices
+            to be plotted in a certain color by passing
+            a tuple of (ws, color) pairs
 
             Defaults to ("green", "red")
 
@@ -2157,12 +1935,12 @@ class PolarDiagramCurve(PolarDiagram):
             Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
-                - If the slices are plotted with a
-                color gradient, a matplotlib.colorbar.Colorbar
-                object will be created and assigned to ax.
 
-                - Otherwise a matplotlib.legend.Legend
-                will be created and assigned to ax.
+            - If the slices are plotted with a color gradient,
+            a matplotlib.colorbar.Colorbar object will be created
+            and assigned to ax.
+            - Otherwise a matplotlib.legend.Legend object will be created
+            and assigned to ax.
 
             Defaults to False
 
@@ -2368,14 +2146,12 @@ class PolarDiagramCurve(PolarDiagram):
         ----------
         ws : tuple of length 2, iterable, int or float, optional
             Slices of the polar diagram given as either
-                - a tuple of length 2, specifying an interval of
-                considered wind speeds. The amount of slices taken
-                from that interval are determined by the parameter
-                `stepsize`
 
-                - an iterable of specific wind speeds
-
-                - a single wind speed
+            - a tuple of length 2, specifying an interval of considered
+            wind speeds. The amount of slices taken from that interval are
+            determined by the parameter `stepsize`
+            - an iterable of specific wind speeds
+            - a single wind speed
 
             Slices will then equal self(w, wa) where w goes through
             the given values in `ws` and wa goes through a fixed
@@ -2399,22 +2175,19 @@ class PolarDiagramCurve(PolarDiagram):
 
         colors : tuple, optional
             Specifies the colors to be used for the different
-            slices. There are four options
-                - If as many or more colors as slices are passed,
-                each slice will be plotted in the specified color
+            slices. There are four options:
 
-                - If exactly 2 colors are passed, the slices will
-                be plotted with a color gradient consiting of the
-                two colors
-
-                - If more than 2 colors but less than slices are passed,
-                the first n_color slices will be plotted in the specified
-                colors, and the rest will be plotted in the default color
-                'blue'
-
-                Alternatively one can specify certain slices
-                to be plotted in a certain color by passing
-                a tuple of (ws, color) pairs
+            - If as many or more colors as slices are passed,
+            each slice will be plotted in the specified color
+            - If exactly 2 colors are passed, the slices will be plotted
+            with a color gradient consiting of the two colors
+            - If more than 2 colors but less than slices are passed,
+            the first n_color slices will be plotted in the specified
+            colors, and the rest will be plotted in the default color
+            "blue"
+            - Alternatively one can specify certain slices
+            to be plotted in a certain color by passing
+            a tuple of (ws, color) pairs
 
             Defaults to ("green", "red")
 
@@ -2422,12 +2195,12 @@ class PolarDiagramCurve(PolarDiagram):
             Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
-                - If the slices are plotted with a
-                color gradient, a matplotlib.colorbar.Colorbar
-                object will be created and assigned to ax.
 
-                - Otherwise a matplotlib.legend.Legend
-                will be created and assigned to ax.
+            - If the slices are plotted with a color gradient,
+            a matplotlib.colorbar.Colorbar object will be created
+            and assigned to ax.
+            - Otherwise a matplotlib.legend.Legend object will be created
+            and assigned to ax.
 
             Defaults to False
 
@@ -2480,68 +2253,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         Defaults to True
 
     Raises a PolarDiagramException
-        - if
-        - if
 
-
-    Methods
-    -------
-    wind_speeds
-        Returns all unique wind speeds in the point cloud
-    wind_angles
-        Returns all unique wind angles in the point cloud
-    points
-        Returns a read only version  of self._pts
-    to_csv(csv_path)
-        Creates a .csv-file with delimiter ',' and the
-        following format:
-            PolarDiagramPointcloud
-            True wind speed: , True wind angle: , Boat speed:
-            self.get_points
-    symmetrize()
-    add_points(new_pts)
-        Adds additional points to the point cloud
-    get_slices(ws)
-    polar_plot(
-        ws=None,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw,
-    )
-        Creates a polar plot of one or more slices of the polar diagram
-    flat_plot(
-        ws=None,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw,
-    )
-        Creates a cartesian plot of one or more slices of the polar diagram
-    plot_3d(ax=None, **plot_kw)
-        Creates a 3d plot of the polar diagram
-    plot_color_gradient(
-        ax=None,
-        colors=("green", "red"),
-        marker=None,
-        ms=None,
-        show_legend=False,
-        **legend_kw
-    )
-        Creates a 'wind speed vs. wind angle' color gradient plot
-        of the polar diagram with respect to the respective boat speeds
-    plot_convex_hull(
-        ws=None,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw,
-    )
-        Computes the (seperate) convex hull of one or more
-        slices of the polar diagram and creates a polar plot of them
+    - if
+    - if
     """
 
     def __init__(self, pts=None, tw=True):
@@ -2601,6 +2315,7 @@ class PolarDiagramPointcloud(PolarDiagram):
     def to_csv(self, csv_path):
         """Creates a .csv file with delimiter ',' and the
         following format:
+
             PolarDiagramPointcloud
             True wind speed ,True wind angle ,Boat speed
             self.points
@@ -2759,19 +2474,17 @@ class PolarDiagramPointcloud(PolarDiagram):
         ----------
         ws : tuple of length 2, iterable , int or float, optional
             Slices of the polar diagram given as either
-                - a tuple of length 2 specifying an interval of
-                considered wind speeds. The amount of slices taken
-                from that interval are determined by the parameter
-                `stepsize`
 
-                - an iterable of tuples of length 2 and int/float values
-                which will be interpreted as individual slices.
-                If a w in `ws` is an int or float, the given interval
-                will be determined by the parameter `range_`. If it is
-                a tuple, it will be interpreted as an inverval as is
-
-                - a single wind speed. The given interval is then
-                determined by the parameter `range_`
+            - a tuple of length 2 specifying an interval of considered
+            wind speeds. The amount of slices taken from that interval are
+            determined by the parameter `stepsize`
+            - an iterable of tuples of length 2 and int/float values
+            which will be interpreted as individual slices. If a w in `ws`
+            is an int or float, the given interval will be determined by
+            the  parameter `range_`. If it is a tuple, it will be interpreted
+            as an inverval as is
+            - a single wind speed. The given interval is then determined by
+            the parameter `range_`
 
             A slice then consists of all rows in self.wind_speeds whose
             first entry lies in the interval given by w in `ws`
@@ -2804,22 +2517,19 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         colors : tuple, optional
             Specifies the colors to be used for the different
-            slices. There are four options
-                - If as many or more colors as slices are passed,
-                each slice will be plotted in the specified color
+            slices. There are four options:
 
-                - If exactly 2 colors are passed, the slices will
-                be plotted with a color gradient consiting of the
-                two colors
-
-                - If more than 2 colors but less than slices are passed,
-                the first n_color slices will be plotted in the specified
-                colors, and the rest will be plotted in the default color
-                'blue'
-
-                Alternatively one can specify certain slices
-                to be plotted in a certain color by passing
-                a tuple of (ws, color) pairs
+            - If as many or more colors as slices are passed,
+            each slice will be plotted in the specified color
+            - If exactly 2 colors are passed, the slices will be plotted
+            with a color gradient consiting of the two colors
+            - If more than 2 colors but less than slices are passed,
+            the first n_color slices will be plotted in the specified
+            colors, and the rest will be plotted in the default color
+            "blue"
+            - Alternatively one can specify certain slices
+            to be plotted in a certain color by passing
+            a tuple of (ws, color) pairs
 
             Defaults to ("green", "red")
 
@@ -2827,12 +2537,12 @@ class PolarDiagramPointcloud(PolarDiagram):
             Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
-                - If the slices are plotted with a
-                color gradient, a matplotlib.colorbar.Colorbar
-                object will be created and assigned to ax.
 
-                - Otherwise a matplotlib.legend.Legend
-                will be created and assigned to ax.
+            - If the slices are plotted with a color gradient,
+            a matplotlib.colorbar.Colorbar object will be created
+            and assigned to ax.
+            - Otherwise a matplotlib.legend.Legend object will be created
+            and assigned to ax.
 
             Defaults to False
 
@@ -2882,25 +2592,23 @@ class PolarDiagramPointcloud(PolarDiagram):
         ----------
         ws : tuple of length 2, iterable , int or float, optional
             Slices of the polar diagram given as either
-                - a tuple of length 2 specifying an interval of
-                considered wind speeds. The amount of slices taken
-                from that interval are determined by the parameter
-                `stepsize`
 
-                - an iterable of tuples of length 2 and int/float values
-                which will be interpreted as individual slices.
-                If a w in `ws` is an int or float, the given interval
-                will be determined by the parameter `range_`. If it is
-                a tuple, it will be interpreted as an inverval as is
-
-                - a single wind speed. The given interval is then
-                determined by the parameter `range_`
+            - a tuple of length 2 specifying an interval of considered
+            wind speeds. The amount of slices taken from that interval are
+            determined by the parameter `stepsize`
+            - an iterable of tuples of length 2 and int/float values
+            which will be interpreted as individual slices. If a w in `ws`
+            is an int or float, the given interval will be determined by
+            the  parameter `range_`. If it is a tuple, it will be interpreted
+            as an inverval as is
+            - a single wind speed. The given interval is then determined by
+            the parameter `range_`
 
             A slice then consists of all rows in self.wind_speeds whose
             first entry lies in the interval given by w in `ws`
 
             If nothing is passed, it will default to
-            (min(self.wind_speeds), max(self.wind_speeds))
+            (min(self.wind_speeds), max(self.wind_speeds)
 
         stepsize : positive int, optional
             Specfies the amount of slices taken from the given
@@ -2927,22 +2635,19 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         colors : tuple, optional
             Specifies the colors to be used for the different
-            slices. There are four options
-                - If as many or more colors as slices are passed,
-                each slice will be plotted in the specified color
+            slices. There are four options:
 
-                - If exactly 2 colors are passed, the slices will
-                be plotted with a color gradient consiting of the
-                two colors
-
-                - If more than 2 colors but less than slices are passed,
-                the first n_color slices will be plotted in the specified
-                colors, and the rest will be plotted in the default color
-                'blue'
-
-                Alternatively one can specify certain slices
-                to be plotted in a certain color by passing
-                a tuple of (ws, color) pairs
+            - If as many or more colors as slices are passed,
+            each slice will be plotted in the specified color
+            - If exactly 2 colors are passed, the slices will be plotted
+            with a color gradient consiting of the two colors
+            - If more than 2 colors but less than slices are passed,
+            the first n_color slices will be plotted in the specified
+            colors, and the rest will be plotted in the default color
+            "blue"
+            - Alternatively one can specify certain slices
+            to be plotted in a certain color by passing
+            a tuple of (ws, color) pairs
 
             Defaults to ("green", "red")
 
@@ -2950,12 +2655,12 @@ class PolarDiagramPointcloud(PolarDiagram):
             Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
-                - If the slices are plotted with a
-                color gradient, a matplotlib.colorbar.Colorbar
-                object will be created and assigned to ax.
 
-                - Otherwise a matplotlib.legend.Legend
-                will be created and assigned to ax.
+            - If the slices are plotted with a color gradient,
+            a matplotlib.colorbar.Colorbar object will be created
+            and assigned to ax.
+            - Otherwise a matplotlib.legend.Legend object will be created
+            and assigned to ax.
 
             Defaults to False
 
@@ -3121,19 +2826,23 @@ class PolarDiagramPointcloud(PolarDiagram):
         ----------
         ws : tuple of length 2, iterable , int or float, optional
             Slices of the polar diagram given as either
-                - a tuple of length 2 specifying an interval of
-                considered wind speeds. The amount of slices taken
-                from that interval are determined by the parameter
-                `stepsize`
 
-                - an iterable of specific wind speeds
+            - a tuple of length 2 specifying an interval of considered
+            wind speeds. The amount of slices taken from that interval are
+            determined by the parameter `stepsize`
+            - an iterable of tuples of length 2 and int/float values
+            which will be interpreted as individual slices. If a w in `ws`
+            is an int or float, the given interval will be determined by
+            the  parameter `range_`. If it is a tuple, it will be interpreted
+            as an inverval as is
+            - a single wind speed. The given interval is then determined by
+            the parameter `range_`
 
-                - a single wind speed
+            A slice then consists of all rows in self.wind_speeds whose
+            first entry lies in the interval given by w in `ws`
 
-            Slices will then consist of all the rows in self.points
-            whose first entry is equal to the values in `ws`
-
-            Defaults to self.wind_speeds
+            If nothing is passed, it will default to
+            (min(self.wind_speeds), max(self.wind_speeds)
 
         stepsize : positive int, optional
             Specfies the amount of slices taken from the given
@@ -3158,22 +2867,19 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         colors : tuple, optional
             Specifies the colors to be used for the different
-            slices. There are four options
-                - If as many or more colors as slices are passed,
-                each slice will be plotted in the specified color
+            slices. There are four options:
 
-                - If exactly 2 colors are passed, the slices will
-                be plotted with a color gradient consiting of the
-                two colors
-
-                - If more than 2 colors but less than slices are passed,
-                the first n_color slices will be plotted in the specified
-                colors, and the rest will be plotted in the default color
-                'blue'
-
-                Alternatively one can specify certain slices
-                to be plotted in a certain color by passing
-                a tuple of (ws, color) pairs
+            - If as many or more colors as slices are passed,
+            each slice will be plotted in the specified color
+            - If exactly 2 colors are passed, the slices will be plotted
+            with a color gradient consiting of the two colors
+            - If more than 2 colors but less than slices are passed,
+            the first n_color slices will be plotted in the specified
+            colors, and the rest will be plotted in the default color
+            "blue"
+            - Alternatively one can specify certain slices
+            to be plotted in a certain color by passing
+            a tuple of (ws, color) pairs
 
             Defaults to ("green", "red")
 
@@ -3181,12 +2887,12 @@ class PolarDiagramPointcloud(PolarDiagram):
             Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
-                - If the slices are plotted with a
-                color gradient, a matplotlib.colorbar.Colorbar
-                object will be created and assigned to ax.
 
-                - Otherwise a matplotlib.legend.Legend
-                will be created and assigned to ax.
+            - If the slices are plotted with a color gradient,
+            a matplotlib.colorbar.Colorbar object will be created
+            and assigned to ax.
+            - Otherwise a matplotlib.legend.Legend object will be created
+            and assigned to ax.
 
             Defaults to False
 

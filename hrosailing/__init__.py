@@ -8,7 +8,7 @@ __pdoc__ = {
     "hrosailing.processing.modelfunctions": False,
     "hrosailing.wind.set_resolution": False,
     "hrosailing.wind.convert_wind": False,
-    "hrosailing.processing.processing.PolarPipeline.__call__": True,
+    "hrosailing.processing.pipeline.PolarPipeline.__call__": True,
     "hrosailing.processing.pipelinecomponents.interpolator.gauss_potential": False,
     "hrosailing.processing.pipelinecomponents.interpolator.scaled": False,
     "hrosailing.processing.pipelinecomponents.interpolator.euclidean_norm": False,
@@ -17,4 +17,5 @@ __pdoc__ = {
     "hrosailing.processing.pipelinecomponents.sampler.make_circle": False,
     "hrosailing.processing.pipelinecomponents.weigher.euclidean_norm": False,
     "hrosailing.processing.pipelinecomponents.weigher.scaled": False,
+
 }

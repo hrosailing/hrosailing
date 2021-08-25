@@ -47,13 +47,8 @@ class UniformRandomSampler(Sampler):
     n_samples : positive int
         Amount of samples that will be produced by the sampler
 
+
     Raises SamplerException if input is not of specified type
-
-
-    Methods
-    -------
-    sample(self, pts):
-        Produces samples according to the above described procedure
     """
 
     def __init__(self, n_samples):
@@ -119,13 +114,8 @@ class FibonacciSampler(Sampler):
     n_samples : positive int
         Amount of samples that will be produced by the sampler
 
+
     Raises SamplerException if input is not of specified type
-
-
-    Methods
-    -------
-    sample(self, pts):
-        Produces samples according to the above described procedure
     """
 
     def __init__(self, n_samples):
@@ -179,13 +169,8 @@ class ArchimedianSampler(Sampler):
     n_samples : positive int
         Amount of samples that will be produced by the sampler
 
+
     Raises SamplerException if input is not of specified type
-
-
-    Methods
-    -------
-    sample(self, pts):
-        Produces samples according to the above described procedure
     """
 
     def __init__(self, n_samples):

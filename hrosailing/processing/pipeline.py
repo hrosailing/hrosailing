@@ -53,16 +53,15 @@ class PolarPipeline:
     Parameters
     ----------
     extension: PipelineExtension
+
     handler : DataHandler
+
     weigher : Weigher, optional
+
     filter_ : Filter, optional
 
+
     Raises a PipelineException
-
-
-    Methods
-    -------
-    __call__(self, data, tw=True, filtering=True)
     """
 
     def __init__(
@@ -107,7 +106,7 @@ class PolarPipeline:
         """
         Parameters
         ----------
-        data :
+        data : FooBar
 
         check_finite : bool, optional
 

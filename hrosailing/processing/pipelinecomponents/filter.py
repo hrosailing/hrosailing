@@ -65,13 +65,8 @@ class QuantileFilter(Filter):
 
         Defaults to 25
 
+
     Raises a FilterException, if percent is not in the interval [0, 100]
-
-
-    Methods
-    -------
-    filter(self, wts)
-        Filters a set of points given by their resp. weights
     """
 
     def __init__(self, percent=50):
@@ -126,12 +121,8 @@ class BoundFilter(Filter):
 
         Defaults to 0.5
 
-    Raises a FilterException if lower_bound is greater than upper_bound
 
-    Methods
-    -------
-    filter(self, wts)
-        Filters a set of points given by their resp. weights
+    Raises a FilterException if lower_bound is greater than upper_bound
     """
 
     def __init__(self, upper_bound=1, lower_bound=0.5):
