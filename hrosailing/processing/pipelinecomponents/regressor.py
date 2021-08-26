@@ -176,7 +176,7 @@ class ODRegressor(Regressor):
         logger.info(f"Sum of squared residuals: {ssr}")
         logger.info(f"Explained sum of squared residuals: {sse}")
         logger.info(f"Total sum of squared residuals: {sst}")
-        logger.info(f"Sum of squared errors delta: {out.sum_square.delta}")
+        logger.info(f"Sum of squared errors delta: {out.sum_square_delta}")
         logger.info(f"Sum of squared error eps: {out.sum_square_eps}")
         logger.info(f"R^2: {sse / sst}")
         logger.info(f"Degrees of freedom: {dof}")
