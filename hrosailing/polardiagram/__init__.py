@@ -2445,7 +2445,9 @@ class PolarDiagramPointcloud(PolarDiagram):
                 stepsize = int(round(ws[1] - ws[0]))
 
             if stepsize <= 0 or not isinstance(stepsize, int):
-                raise PolarDiagramException("`stepsize` is not a positive integer")
+                raise PolarDiagramException(
+                    "`stepsize` is not a positive integer"
+                )
 
             ws = np.linspace(ws[0], ws[1], stepsize)
 
