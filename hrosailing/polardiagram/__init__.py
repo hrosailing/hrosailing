@@ -524,6 +524,13 @@ class PolarDiagramTable(PolarDiagram):
     - if bsps can't be broadcasted to a fitting shape
     - if bsps is not of dimension 2
      - if bsps is an empty array
+
+
+     Usage Example
+     -------------
+
+        >>> pd = PolarDiagramTable()
+        >>> print(pd)
     """
 
     def __init__(self, ws_res=None, wa_res=None, bsps=None):
@@ -1645,12 +1652,9 @@ class PolarDiagramCurve(PolarDiagram):
     ----------
     f : function
         Curve/surface that describes the polar diagram, given as
-        a function, with the signature f(x, *params) -> y,
-        where x is a numpy.ndarray of shape (n, 2)
-        which corresponds to pairs of wind speed and wind angle
-        and y is a numpy.ndarray of shape (n, ) or (n, 1)
-        which corresponds to the boat speed at the resp.
-        wind speed and wind angle.
+        a function, with the signature f(ws, wa, *params) -> bsp,
+        where ws and wa should be array_like of shape (n,).
+        should then also be an array_like of shape (n,)
 
     params : tuple or Sequence
         Optimal parameters for f
@@ -1681,7 +1685,7 @@ class PolarDiagramCurve(PolarDiagram):
         )
 
     def __call__(self, ws, wa):
-        return self.curve(np.column_stack((ws, wa)), *self.parameters)
+        return self.curve(ws, wa, *self.parameters)
 
     @property
     def curve(self):
