@@ -185,7 +185,7 @@ class TableExtension(PipelineExtension):
             i_points, w_pts, self.neighbourhood, self.interpolator
         )
 
-        bsp = np.asarray(bsp).reshape(len(wa_res), len(ws_res))
+        bsp = np.asarray(bsp)[:, 2].reshape(len(wa_res), len(ws_res))
 
         return pol.PolarDiagramTable(ws_res=ws_res, wa_res=wa_res, bsps=bsp)
 
@@ -300,11 +300,13 @@ def _interpolate_points(i_points, w_pts, neighbourhood, interpolator):
 
     for i_pt in i_points:
         mask = neighbourhood.is_contained_in(w_pts.points[:, :2] - i_pt)
+
         if not np.any(mask):
             raise PipelineException(
                 f"No points were contained in the neighbourhood of "
                 f"{i_pt}. Interpolation not possible"
             )
+
         interpol = interpolator.interpolate(w_pts[mask], i_pt)
         interpol_pt = np.array(list(i_pt) + [interpol])
         pts.append(interpol_pt)
