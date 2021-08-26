@@ -191,7 +191,7 @@ class TableExtension(PipelineExtension):
 class CurveExtension(PipelineExtension):
     """"""
 
-    def __init__(self, regressor: pc.Regressor = None):
+    def __init__(self, regressor: pc.Regressor = None, radians=False):
         if regressor is None:
             # initial values chosen by prior work of Stefan Simon
             regressor = pc.ODRegressor(
@@ -202,13 +202,18 @@ class CurveExtension(PipelineExtension):
             raise PipelineException("`regressor` is not a Regressor")
 
         self.regressor = regressor
+        self.radians = radians
 
     def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramCurve:
         """"""
+        if self.radians:
+            w_pts.points[:, 1] = np.deg2rad(w_pts.points[:, 1])
+
         self.regressor.fit(w_pts.points)
 
         return pol.PolarDiagramCurve(
-            self.regressor.model_func, *self.regressor.optimal_params
+            self.regressor.model_func, *self.regressor.optimal_params,
+            radians=self.radians
         )
 
 
