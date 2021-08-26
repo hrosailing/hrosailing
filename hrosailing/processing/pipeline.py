@@ -193,6 +193,7 @@ class CurveExtension(PipelineExtension):
 
     def __init__(self, regressor: pc.Regressor = None):
         if regressor is None:
+            # initial values chosen by prior work of Stefan Simon
             regressor = pc.ODRegressor(
                 model_func=mf.tws_s_s_dt_twa_gauss_comb,
                 init_values=(0.25, 10, 1.7, 0, 1.9, 30, 17.6, 0),
