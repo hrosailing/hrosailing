@@ -263,7 +263,9 @@ class PointcloudExtension(PipelineExtension):
                     f"No points where contained in the neighbourhood of "
                     f"{s_pt}. Interpolation not possible"
                 )
-            pts.append(self.interpolator.interpolate(w_pts[mask], s_pt))
+            interpol_res =  self.interpolator.interpolate(w_pts[mask], s_pt)
+            interpol_pt = np.array(list(s_pt) + [interpol_res])
+            pts.append(interpol_pt)
 
         return pol.PolarDiagramPointcloud(pts=pts)
 
