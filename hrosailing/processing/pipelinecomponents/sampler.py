@@ -74,7 +74,7 @@ class UniformRandomSampler(Sampler):
             samples produced by the above described method
         """
         rng = np.random.default_rng()
-        proj_pts = pts[:,:2]
+        proj_pts = pts[:, :2]
         ineqs = ConvexHull(proj_pts).equations
         samples = []
         ws_bound, wa_bound = _create_bounds(pts)
