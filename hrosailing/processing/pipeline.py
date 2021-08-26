@@ -177,17 +177,19 @@ class TableExtension(PipelineExtension):
 
     def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramTable:
         """"""
-        w_res = _set_wind_resolution(self.w_res, w_pts.points)
-        bsp = _interpolate_grid_points(
-            w_res, w_pts, self.neighbourhood, self.interpolator
+        ws_res, wa_res = _set_wind_resolution(self.w_res, w_pts.points)
+        ws, wa = np.meshgrid(ws_res, wa_res)
+
+        i_points = np.column_stack((ws.ravel(), wa.ravel()))
+        bsp = _interpolate_points(
+            i_points, w_pts, self.neighbourhood, self.interpolator
         )
 
-        return pol.PolarDiagramTable(
-            ws_res=w_res[0], wa_res=w_res[1], bsps=bsp
-        )
+        bsp = np.asarray(bsp).reshape(len(wa_res), len(ws_res))
+
+        return pol.PolarDiagramTable(ws_res=ws_res, wa_res=wa_res, bsps=bsp)
 
 
-# TODO Add options for radians
 class CurveExtension(PipelineExtension):
     """"""
 
@@ -212,8 +214,9 @@ class CurveExtension(PipelineExtension):
         self.regressor.fit(w_pts.points)
 
         return pol.PolarDiagramCurve(
-            self.regressor.model_func, *self.regressor.optimal_params,
-            radians=self.radians
+            self.regressor.model_func,
+            *self.regressor.optimal_params,
+            radians=self.radians,
         )
 
 
@@ -248,24 +251,9 @@ class PointcloudExtension(PipelineExtension):
     def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramPointcloud:
         """"""
         sample_pts = self.sampler.sample(w_pts.points)
-        pts = []
-
-        logger.info(
-            f"Beginning to interpolate sample_pts with {self.interpolator}"
+        pts = _interpolate_points(
+            sample_pts, w_pts, self.neighbourhood, self.interpolator
         )
-
-        for s_pt in sample_pts:
-            mask = self.neighbourhood.is_contained_in(
-                w_pts.points[:, :2] - s_pt
-            )
-            if not np.any(mask):
-                raise PipelineException(
-                    f"No points where contained in the neighbourhood of "
-                    f"{s_pt}. Interpolation not possible"
-                )
-            interpol_res =  self.interpolator.interpolate(w_pts[mask], s_pt)
-            interpol_pt = np.array(list(s_pt) + [interpol_res])
-            pts.append(interpol_pt)
 
         return pol.PolarDiagramPointcloud(pts=pts)
 
@@ -305,21 +293,20 @@ def _extract_wind(pts, n, threshhold):
     return res
 
 
-def _interpolate_grid_points(w_res, w_pts, nhood, ipol):
-    ws_res, wa_res = w_res
-    bsp = np.zeros((len(wa_res), len(ws_res)))
+def _interpolate_points(i_points, w_pts, neighbourhood, interpolator):
+    pts = []
 
-    logger.info(f"Beginning to interpolate `w_res` with {ipol}")
+    logger.info(f"Beginning to interpolate `w_res` with {interpolator}")
 
-    for i, ws in enumerate(ws_res):
-        for j, wa in enumerate(wa_res):
-            grid_point = np.array([ws, wa])
-            mask = nhood.is_contained_in(w_pts.points[:, :2] - grid_point)
-            if not np.any(mask):
-                raise PipelineException(
-                    f"No points were contained in the neighbourhood of "
-                    f"{grid_point}. Interpolation not possible"
-                )
-            bsp[j, i] = ipol.interpolate(w_pts[mask], grid_point)
+    for i_pt in i_points:
+        mask = neighbourhood.is_contained_in(w_pts.points[:, :2] - i_pt)
+        if not np.any(mask):
+            raise PipelineException(
+                f"No points were contained in the neighbourhood of "
+                f"{i_pt}. Interpolation not possible"
+            )
+        interpol = interpolator.interpolate(w_pts[mask], i_pt)
+        interpol_pt = np.array(list(i_pt) + [interpol])
+        pts.append(interpol_pt)
 
-    return bsp
+    return pts
