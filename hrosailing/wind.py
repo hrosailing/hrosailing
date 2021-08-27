@@ -5,7 +5,7 @@ Functions to convert wind from apparent to true and vice versa
 # Author: Valentin F. Dannenberg / Ente
 
 
-from typing import Iterable
+from collections.abc import Iterable
 
 import numpy as np
 
@@ -64,7 +64,24 @@ def true_wind_to_apparent(wind):
 
 
 def convert_wind(wind, sign, tw, check_finite=True):
-    wind = _sanity_checks(wind, check_finite)
+    # Only check for NaNs and infinite values, if wanted
+    if check_finite:
+        # NaNs and infinite values can't be handled
+        try:
+            wind = np.asarray_chkfinite(wind)
+        except ValueError as ve:
+            raise WindException(
+                "`wind` contains infinite or NaN values"
+            ) from ve
+    else:
+        wind = np.asarray(wind)
+
+    if wind.dtype is object:
+        raise WindException("`wind` is not array_like")
+
+    if wind.shape[1] != 3 or wind.ndim != 2:
+        raise WindException("`wind` has incorrect shape")
+
     if tw:
         return wind
 
@@ -88,28 +105,6 @@ def convert_wind(wind, sign, tw, check_finite=True):
     cwa[np.invert(wa_above_180)] = np.rad2deg(cwa[np.invert(wa_above_180)])
 
     return np.column_stack((cws, cwa, bsp))
-
-
-def _sanity_checks(wind, check_finite):
-    # Only check for NaNs and infinite values, if wanted
-    if check_finite:
-        # NaNs and infinite values can't be handled
-        try:
-            wind = np.asarray_chkfinite(wind)
-        except ValueError as ve:
-            raise WindException(
-                "`wind` contains infinite or NaN values"
-            ) from ve
-    else:
-        wind = np.asarray(wind)
-
-    if wind.dtype is object:
-        raise WindException("`wind` is not array_like")
-
-    if wind.shape[1] != 3 or wind.ndim != 2:
-        raise WindException("`wind` has incorrect shape")
-
-    return wind
 
 
 def set_resolution(res, speed_or_angle):
