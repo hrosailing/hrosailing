@@ -51,6 +51,7 @@ class ArrayHandler(DataHandler):
         return data
 
 
+# TODO Error handling
 class CsvFileHandler(DataHandler):
     """A data handler to extract data from a .csv file
     with the first three columns representing wind speed, wind angle,
@@ -58,7 +59,7 @@ class CsvFileHandler(DataHandler):
     """
 
     @staticmethod
-    def handle(data):
+    def handle(data, **pandas_kw):
         """Reads a .csv file and extracts the contained data points
         The delimiter used in the .csv file
 
@@ -67,28 +68,17 @@ class CsvFileHandler(DataHandler):
         data : path-like
             Path to a .csv file
 
+        pandas_kw :
+
         Returns
         -------
-        out : list of lists of length 3
+        out : pandas.Dataframe
 
 
         Raises a HandlerException
-
-        - if an error occurs whilst reading
-        - if an error occurs whilst evaluating the data points
         """
-        try:
-            with open(data, "r", newline="") as file:
-                csv_reader = csv.reader(file)
-                return [[eval(pt) for pt in row[:3]] for row in csv_reader]
-        except OSError as oe:
-            raise HandlerException(
-                "While reading `data` an error occured"
-            ) from oe
-        except ValueError as ve:
-            raise HandlerException(
-                "While evaluating data points in `data`, an error occured"
-            ) from ve
+        from pandas import read_csv
+        return read_csv(data, **pandas_kw)
 
 
 class NMEAFileHandler(DataHandler):
@@ -108,7 +98,6 @@ class NMEAFileHandler(DataHandler):
         "belonging" to a given speed data to create a singe data point
 
         Defaults to "interpolate"
-
 
     Raises a HandlerException if
     """
