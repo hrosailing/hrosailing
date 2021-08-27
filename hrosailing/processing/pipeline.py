@@ -8,6 +8,7 @@ polar diagram from "raw" data
 
 import logging.handlers
 from abc import ABC, abstractmethod
+from typing import Optional
 
 import numpy as np
 
@@ -70,28 +71,10 @@ class PolarPipeline:
         self,
         extension: PipelineExtension,
         handler: pc.DataHandler,
-        weigher: pc.Weigher = None,
-        filter_: pc.Filter = None,
-        im: pc.InfluenceModel = None,
+        weigher: pc.Weigher = pc.CylindricMeanWeigher(),
+        filter_: pc.Filter = pc.QuantileFilter(),
+        im: Optional[pc.InfluenceModel] = None,
     ):
-        if im is not None and not isinstance(im, pc.InfluenceModel):
-            raise PipelineException("`im` is not an InfluenceModel")
-        if weigher is None:
-            weigher = pc.CylindricMeanWeigher()
-        elif not isinstance(weigher, pc.Weigher):
-            raise PipelineException("`weigher` is not a Weigher")
-
-        if filter_ is None:
-            filter_ = pc.QuantileFilter()
-        elif not isinstance(filter_, pc.Filter):
-            raise PipelineException("`filter_` is not a Filter")
-
-        if not isinstance(extension, PipelineExtension):
-            raise PipelineException("`extension` is not a PipelineExtension")
-
-        if not isinstance(handler, pc.DataHandler):
-            raise PipelineException("`handler` is not a DataHandler")
-
         self.handler = handler
         self.im = im
         self.weigher = weigher
@@ -160,19 +143,9 @@ class TableExtension(PipelineExtension):
     def __init__(
         self,
         w_res=None,
-        neighbourhood: pc.Neighbourhood = None,
-        interpolator: pc.Interpolator = None,
+        neighbourhood: pc.Neighbourhood = pc.Ball(),
+        interpolator: pc.Interpolator = pc.ArithmeticMeanInterpolator(1),
     ):
-        if neighbourhood is None:
-            neighbourhood = pc.Ball()
-        elif not isinstance(neighbourhood, pc.Neighbourhood):
-            raise PipelineException("`neighbourhood` is not a Neighbourhood")
-
-        if interpolator is None:
-            interpolator = pc.ArithmeticMeanInterpolator(1)
-        elif not isinstance(interpolator, pc.Interpolator):
-            raise PipelineException("`interpolator` is not an Interpolator")
-
         self.w_res = w_res
         self.neighbourhood = neighbourhood
         self.interpolator = interpolator
@@ -195,16 +168,14 @@ class TableExtension(PipelineExtension):
 class CurveExtension(PipelineExtension):
     """"""
 
-    def __init__(self, regressor: pc.Regressor = None, radians=False):
-        if regressor is None:
-            # initial values chosen by prior work of Stefan Simon
-            regressor = pc.ODRegressor(
-                model_func=mf.tws_s_s_dt_twa_gauss_comb,
-                init_values=(0.25, 10, 1.7, 0, 1.9, 30, 17.6, 0),
-            )
-        elif not isinstance(regressor, pc.Regressor):
-            raise PipelineException("`regressor` is not a Regressor")
-
+    def __init__(
+        self,
+        regressor: pc.Regressor = pc.ODRegressor(
+            model_func=mf.tws_s_s_dt_twa_gauss_comb,
+            init_values=(0.25, 10, 1.7, 0, 1.9, 30, 17.6, 0),
+        ),
+        radians=False,
+    ):
         self.regressor = regressor
         self.radians = radians
 
@@ -227,25 +198,10 @@ class PointcloudExtension(PipelineExtension):
 
     def __init__(
         self,
-        sampler: pc.Sampler = None,
-        neighbourhood: pc.Neighbourhood = None,
-        interpolator: pc.Interpolator = None,
+        sampler: pc.Sampler = pc.UniformRandomSampler(1440),
+        neighbourhood: pc.Neighbourhood = pc.Ball(),
+        interpolator: pc.Interpolator = pc.ArithmeticMeanInterpolator(1),
     ):
-        if sampler is None:
-            sampler = pc.UniformRandomSampler(500)
-        elif not isinstance(sampler, pc.Sampler):
-            raise PipelineException("`sampler` is not a Sampler")
-
-        if neighbourhood is None:
-            neighbourhood = pc.Ball()
-        elif not isinstance(neighbourhood, pc.Neighbourhood):
-            raise PipelineException("`neighbourhood` is not a Neighbourhood")
-
-        if interpolator is None:
-            interpolator = pc.ArithmeticMeanInterpolator(1)
-        elif not isinstance(interpolator, pc.Interpolator):
-            raise PipelineException("`interpolator` is not an Interpolator")
-
         self.sampler = sampler
         self.neighbourhood = neighbourhood
         self.interpolator = interpolator
@@ -303,6 +259,7 @@ def _interpolate_points(i_points, w_pts, neighbourhood, interpolator):
     for i_pt in i_points:
         mask = neighbourhood.is_contained_in(w_pts.points[:, :2] - i_pt)
 
+        # neighbourhood possibly to "small" for data
         if not np.any(mask):
             raise PipelineException(
                 f"No points were contained in the neighbourhood of "

@@ -78,6 +78,7 @@ class CsvFileHandler(DataHandler):
         Raises a HandlerException
         """
         from pandas import read_csv
+
         return read_csv(data, **pandas_kw)
 
 

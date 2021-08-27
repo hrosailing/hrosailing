@@ -2750,16 +2750,10 @@ class PolarDiagramPointcloud(PolarDiagram):
         """
         logger.info(f"Method 'plot_3d(ax={ax}, **plot_kw={plot_kw})' called")
 
-        try:
-            ws, wa, bsp = (
-                self.points[:, 0],
-                self.points[:, 1],
-                self.points[:, 2],
-            )
-        except IndexError as ie:
-            raise PolarDiagramException(
-                "Point cloud contains no points"
-            ) from ie
+        if not self.points.size:
+            raise PolarDiagramException("Point cloud contains no points")
+
+        ws, wa, bsp = (self.points[:, 0], self.points[:, 1], self.points[:, 2])
 
         wa = np.deg2rad(wa)
         bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
@@ -2829,16 +2823,11 @@ class PolarDiagramPointcloud(PolarDiagram):
             f"**legend_kw={legend_kw})' called"
         )
 
-        try:
-            ws, wa, bsp = (
-                self.points[:, 0],
-                self.points[:, 1],
-                self.points[:, 2],
-            )
-        except IndexError as ie:
-            raise PolarDiagramException(
-                "Point cloud contains no points"
-            ) from ie
+        if not self.points.size:
+            raise PolarDiagramException("Point cloud contains no points")
+
+        ws, wa, bsp = (self.points[:, 0], self.points[:, 1], self.points[:, 2])
+
         plot_color_gradient(
             ws, wa, bsp, ax, colors, marker, ms, show_legend, **legend_kw
         )

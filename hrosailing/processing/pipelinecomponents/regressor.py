@@ -9,8 +9,9 @@ and the LeastSquareRegressor.
 # Author: Valentin F. Dannenberg / Ente
 
 
-import logging.handlers
 from abc import ABC, abstractmethod
+import logging.handlers
+from typing import Callable
 
 import numpy as np
 from scipy.odr.odrpack import Data, Model, ODR, OdrError
@@ -100,10 +101,7 @@ class ODRegressor(Regressor):
         Defaults to 1000
     """
 
-    def __init__(self, model_func, init_values=None, max_it=1000):
-        if not callable(model_func):
-            raise RegressorException("`model_func` is not callable")
-
+    def __init__(self, model_func: Callable, init_values=None, max_it=1000):
         def odr_model_func(params, x):
             tws = x[0, :]
             twa = x[1, :]
@@ -208,9 +206,7 @@ class LeastSquareRegressor(Regressor):
         Defaults to None
     """
 
-    def __init__(self, model_func, init_vals=None):
-        if not callable(model_func):
-            raise RegressorException("`model_func` is not callable")
+    def __init__(self, model_func: Callable, init_vals=None):
 
         self._func = model_func
         self._init_vals = init_vals

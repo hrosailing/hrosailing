@@ -10,6 +10,7 @@ Also contains various predefined and usable neighbourhoods
 
 
 from abc import ABC, abstractmethod
+from typing import Callable
 
 import numpy as np
 from scipy.spatial import ConvexHull
@@ -72,14 +73,13 @@ class Ball(Neighbourhood):
     of the specified types
     """
 
-    def __init__(self, norm=None, radius=1):
-        if not isinstance(radius, (int, float)) or radius <= 0:
-            raise NeighbourhoodException("`radius` is not a positive number")
-
-        if norm is None:
-            norm = scaled(euclidean_norm, [1 / 40, 1 / 360])
-        elif not callable(norm):
-            raise NeighbourhoodException("`norm` is not callable")
+    def __init__(
+        self,
+        norm: Callable = scaled(euclidean_norm, [1 / 40, 1 / 360]),
+        radius=1,
+    ):
+        if radius <= 0:
+            raise NeighbourhoodException("`radius` is not positive")
 
         self._norm = norm
         self._radius = radius
@@ -105,7 +105,7 @@ class Ball(Neighbourhood):
         Raises a NeighbourhoodException if the input is not
         of the specified type
         """
-        pts = _sanity_check(pts)
+        pts = np.asarray(pts)
         return self._norm(pts) <= self._radius
 
 
@@ -146,18 +146,19 @@ class ScalingBall(Neighbourhood):
      - if max_pts is smaller or equal to min_pts
     """
 
-    def __init__(self, min_pts, max_pts, norm=None):
-        if not isinstance(min_pts, int) or min_pts <= 0:
-            raise NeighbourhoodException("`min_pts` is not a positive integer")
-        if not isinstance(max_pts, int) or max_pts <= 0:
-            raise NeighbourhoodException("`max_pts` is not a positive integer")
+    def __init__(
+        self,
+        min_pts,
+        max_pts,
+        norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360)),
+    ):
+
+        if min_pts <= 0:
+            raise NeighbourhoodException("`min_pts` is not positive")
+        if max_pts <= 0:
+            raise NeighbourhoodException("`max_pts` is not positive")
         if max_pts <= min_pts:
             raise NeighbourhoodException("`max_pts` is smaller than `min_pts`")
-
-        if norm is None:
-            norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
-        elif not callable(norm):
-            raise NeighbourhoodException("`norm` is not callable")
 
         self._min_pts = min_pts
         self._max_pts = max_pts
@@ -193,7 +194,7 @@ class ScalingBall(Neighbourhood):
         """
         if self._first_call:
             # check only in the first call
-            pts = _sanity_check(pts)
+            pts = np.asarray(pts)
 
             # initial guess for suitable radius.
             self._n_pts = pts.shape[0]
@@ -251,7 +252,12 @@ class Ellipsoid(Neighbourhood):
     - if lin_trans is not invertible
     """
 
-    def __init__(self, lin_trans=None, norm=None, radius=1):
+    def __init__(
+        self,
+        lin_trans=None,
+        norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360)),
+        radius=1,
+    ):
         if lin_trans is None:
             lin_trans = np.eye(2)
 
@@ -261,18 +267,15 @@ class Ellipsoid(Neighbourhood):
             raise NeighbourhoodException(
                 "`lin_trans` contains infinite or NaN values"
             ) from ve
+
         if lin_trans.shape != (2, 2):
             raise NeighbourhoodException("`lin_trans` has incorrect shape")
+
         if not np.linalg.det(lin_trans):
-            raise NeighbourhoodException("`lin_trans` is not invertible")
+            raise NeighbourhoodException("`lin_trans` is singular")
 
-        if norm is None:
-            norm = scaled(euclidean_norm, [1 / 40, 1 / 360])
-        elif not callable(norm):
-            raise NeighbourhoodException("`norm` is not callable")
-
-        if not isinstance(radius, (int, float)) or radius <= 0:
-            raise NeighbourhoodException("`radius` is not a positive number")
+        if radius <= 0:
+            raise NeighbourhoodException("`radius` is not positive")
 
         self._T = np.linalg.inv(lin_trans)
         self._norm = norm
@@ -302,7 +305,7 @@ class Ellipsoid(Neighbourhood):
         Raises a NeighbourhoodException if the input is not
         of the specified type
         """
-        pts = _sanity_check(pts)
+        pts = np.asarray(pts)
 
         # transform the ellipsoid to a ball
         pts = (self._T @ pts.T).T
@@ -330,16 +333,15 @@ class Cuboid(Neighbourhood):
     specified types
     """
 
-    def __init__(self, norm=None, dimensions=None):
+    def __init__(
+        self,
+        norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360)),
+        dimensions=None,
+    ):
         if dimensions is None:
             dimensions = (1, 1)
-        if len(dimensions) != 2:
+        elif len(dimensions) != 2:
             raise NeighbourhoodException("`dimensions` is not of length 2")
-
-        if norm is None:
-            norm = np.abs
-        elif not callable(norm):
-            raise NeighbourhoodException("`norm` is not callable")
 
         self._norm = norm
         self._size = dimensions
@@ -365,7 +367,6 @@ class Cuboid(Neighbourhood):
         Raises a NeighbourhoodException if the input is not
         of the specified type
         """
-        pts = _sanity_check(pts)
         mask = (
             np.ones((pts.shape[0],), dtype=bool)
             & (self._norm(pts[:, 0]) <= self._size[0])
@@ -459,17 +460,9 @@ class Polytope(Neighbourhood):
         Raises a NeighbourhoodException if the input is not
         of the specified type
         """
-        pts = _sanity_check(pts)
+        pts = np.asarray(pts)
+
         mask = np.ones((pts.shape[0],), dtype=bool)
         for ineq, bound in zip(self._mat, self._b):
             mask = mask & (ineq @ pts.T <= bound)
         return mask
-
-
-def _sanity_check(pts):
-    pts = np.asarray(pts)
-
-    if pts.shape[1] != 2 or pts.ndim != 2:
-        raise NeighbourhoodException("`pts` has incorrect shape")
-
-    return pts

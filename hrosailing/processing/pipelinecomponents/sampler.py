@@ -8,9 +8,9 @@ Also contains various predefined and usable samplers.
 # Author: Valentin F. Dannenberg / Ente, Robert Schüler
 
 
+from abc import ABC, abstractmethod
 import math
 import random
-from abc import ABC, abstractmethod
 
 import numpy as np
 from scipy.spatial import ConvexHull
@@ -52,8 +52,8 @@ class UniformRandomSampler(Sampler):
     """
 
     def __init__(self, n_samples):
-        if not isinstance(n_samples, int) or n_samples <= 0:
-            raise SamplerException("`n_samples`is not a positive integer")
+        if n_samples <= 0:
+            raise SamplerException("`n_samples`is not positive")
 
         self._n_samples = n_samples
 
@@ -119,8 +119,8 @@ class FibonacciSampler(Sampler):
     """
 
     def __init__(self, n_samples):
-        if not isinstance(n_samples, int) or n_samples <= 0:
-            raise SamplerException("`n_samples`is not a positive integer")
+        if n_samples <= 0:
+            raise SamplerException("`n_samples` is not positive")
 
         self._n_samples = n_samples
 
@@ -174,8 +174,8 @@ class ArchimedianSampler(Sampler):
     """
 
     def __init__(self, n_samples):
-        if not isinstance(n_samples, int) or n_samples <= 0:
-            raise SamplerException("`n_samples` is not a positive integer")
+        if n_samples <= 0:
+            raise SamplerException("`n_samples` is not positive")
 
         self._n_samples = n_samples
 

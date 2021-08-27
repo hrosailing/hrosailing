@@ -10,6 +10,7 @@ Also contains various predefined and usable interpolators
 
 
 from abc import ABC, abstractmethod
+from typing import Callable
 
 import numpy as np
 
@@ -81,14 +82,11 @@ class IDWInterpolator(Interpolator):
     of the specified type
     """
 
-    def __init__(self, p=2, norm=None):
-        if p < 0 or not isinstance(p, int):
-            raise InterpolatorException("`p` is not a nonnegative integer")
-
-        if norm is None:
-            norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
-        elif not callable(norm):
-            raise InterpolatorException("`norm` is not callable")
+    def __init__(
+        self, p=2, norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360))
+    ):
+        if p < 0:
+            raise InterpolatorException("`p` is not nonnegative")
 
         self._p = p
         self._norm = norm
@@ -123,6 +121,11 @@ class IDWInterpolator(Interpolator):
         wts /= np.sum(wts)
 
         return wts @ pts[:, 2]
+
+
+def gauss_potential(distances, weights, *params):
+    alpha = params[0]
+    return np.exp(-alpha * weights * distances)
 
 
 class ArithmeticMeanInterpolator(Interpolator):
@@ -174,19 +177,15 @@ class ArithmeticMeanInterpolator(Interpolator):
     of the specified type
     """
 
-    def __init__(self, *params, s=1, norm=None, distribution=None):
-        if not isinstance(s, (int, float)) or s <= 0:
-            raise InterpolatorException("`s` is not a positive number")
-
-        if norm is None:
-            norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
-        elif not callable(norm):
-            raise InterpolatorException("`norm` is not callable")
-
-        if distribution is None:
-            distribution = gauss_potential
-        elif not callable(distribution):
-            raise InterpolatorException("`distribution` is not callable")
+    def __init__(
+        self,
+        *params,
+        s=1,
+        norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360)),
+        distribution: Callable = gauss_potential,
+    ):
+        if s <= 0:
+            raise InterpolatorException("`s` is not positive")
 
         self._s = s
         self._norm = norm
@@ -227,11 +226,6 @@ class ArithmeticMeanInterpolator(Interpolator):
         return self._s * np.average(pts[:, 2], weights=wts)
 
 
-def gauss_potential(distances, weights, *params):
-    alpha = params[0]
-    return np.exp(-alpha * weights * distances)
-
-
 class ImprovedIDWInterpolator(Interpolator):
     """An improved inverse distance interpolator, based
     on the work of Shepard, "A two-dimensional interpolation
@@ -264,12 +258,9 @@ class ImprovedIDWInterpolator(Interpolator):
     of the specified type
     """
 
-    def __init__(self, norm=None):
-        if norm is None:
-            norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
-        elif not callable(norm):
-            raise InterpolatorException("`norm` is not callable")
-
+    def __init__(
+        self, norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360))
+    ):
         self._norm = norm
 
     def interpolate(self, w_pts, grid_pt):
@@ -337,16 +328,16 @@ class ShepardInterpolator(Interpolator):
     of the specified types
     """
 
-    def __init__(self, tol=np.finfo(float).eps, slope=0.1, norm=None):
-        if norm is None:
-            norm = scaled(euclidean_norm, (1 / 40, 1 / 360))
-        elif not callable(norm):
-            raise InterpolatorException("`norm` is not callable")
-
+    def __init__(
+        self,
+        tol=np.finfo(float).eps,
+        slope=0.1,
+        norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360)),
+    ):
         if tol <= 0:
-            raise InterpolatorException("`tol` is not a positive number")
+            raise InterpolatorException("`tol` is not positive")
         if slope <= 0:
-            raise InterpolatorException("`slope` is not a positive number")
+            raise InterpolatorException("`slope` is not positive")
 
         self._norm = norm
         self._tol = tol
