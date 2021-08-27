@@ -526,11 +526,29 @@ class PolarDiagramTable(PolarDiagram):
      - if bsps is an empty array
 
 
-     Usage Example
-     -------------
+     Examples
+     --------
+        >>> pd = PolarDiagramTable(ws_res = [6, 8, 10, 12, 14],
+        ...                        wa_res = [52, 60, 75, 90, 110, 120, 135])
+        >>> print(pd)
+          TWA \ TWS    6.0    8.0    10.0    12.0    14.0
+        -----------  -----  -----  ------  ------  ------
+        52.0          0.00   0.00    0.00    0.00    0.00
+        60.0          0.00   0.00    0.00    0.00    0.00
+        75.0          0.00   0.00    0.00    0.00    0.00
+        90.0          0.00   0.00    0.00    0.00    0.00
+        110.0         0.00   0.00    0.00    0.00    0.00
+        120.0         0.00   0.00    0.00    0.00    0.00
+        135.0         0.00   0.00    0.00    0.00    0.00
 
         >>> pd = PolarDiagramTable()
-        >>> print(pd)
+        >>> pd.wind_speeds
+        [ 2  4  6  8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40]
+        >>> pd.wind_angles
+        [  0   5  10  15  20  25  30  35  40  45  50  55  60  65  70  75  80  85
+          90  95 100 105 110 115 120 125 130 135 140 145 150 155 160 165 170 175
+         180 185 190 195 200 205 210 215 220 225 230 235 240 245 250 255 260 265
+         270 275 280 285 290 295 300 305 310 315 320 325 330 335 340 345 350 355]
     """
 
     def __init__(self, ws_res=None, wa_res=None, bsps=None):
@@ -720,6 +738,16 @@ class PolarDiagramTable(PolarDiagram):
         polar diagram are on one side of the 0° - 180° axis,
         otherwise this can lead to duplicate data, which can
         overwrite or live alongside old data
+
+        Examples
+        --------
+            >>> pd = PolarDiagramTable(ws_res = [6, 8, 10, 12, 14],
+            ...                        wa_res = [52, 60, 75, 90, 110, 120, 135])
+            >>> sym_pd = pd.symmetrize()
+            >>> print(sym_pd.wind_speeds)
+            [ 6  8 10 12 14]
+            >>> print(sym_pd.wind_angles)
+            [ 52  60  75  90 110 120 135 225 240 250 270 285 300 308]
         """
         below_180 = [wa for wa in self.wind_angles if wa <= 180]
         above_180 = [wa for wa in self.wind_angles if wa > 180]
@@ -743,6 +771,7 @@ class PolarDiagramTable(PolarDiagram):
             mid = wa_res.index(180) or wa_res.index(180.0)
             del wa_res[mid]
             bsps = np.row_stack((bsps[:mid, :], bsps[mid + 1 :, :]))
+
         if 0 in self.wind_angles:
             bsps = bsps[:-1, :]
             wa_res = wa_res[:-1]

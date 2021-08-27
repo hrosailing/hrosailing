@@ -156,7 +156,25 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramTable",
 "url":1,
-"doc":"A class to represent, visualize and work with a polar diagram in the form of a table. Parameters      ws_res : array_like or positive int/float, optional Wind speeds that will correspond to the columns of the table Can either be a sequence of length cdim or an int/float value If a number num is passed, numpy.arange(num, 40, num) will be assigned to ws_res If nothing is passed, it will default to numpy.arange(2, 42, 2) wa_res : array_like or positive int/float, optional Wind angles that will correspond to the rows of the table. Should be between 0\u00b0 and 360\u00b0 Can either be sequence of length rdim or an int/float value If a number num is passed, numpy.arange(num, 360, num) will be assigned to wa_res If nothing is passed, it will default to numpy.arange(0, 360, 5) bsps : array_like, optional Boatspeeds that will correspond to the entries of the table Should be broadcastable to the shape (rdim, cdim) If nothing is passed it will default to numpy.zeros rdim, cdim Raises a PolarDiagramException - if bsps can't be broadcasted to a fitting shape - if bsps is not of dimension 2 - if bsps is an empty array"
+"doc":"A class to represent, visualize and work with a polar diagram in the form of a table. Parameters      ws_res : array_like or positive int/float, optional Wind speeds that will correspond to the columns of the table Can either be a sequence of length cdim or an int/float value If a number num is passed, numpy.arange(num, 40, num) will be assigned to ws_res If nothing is passed, it will default to numpy.arange(2, 42, 2) wa_res : array_like or positive int/float, optional Wind angles that will correspond to the rows of the table. Should be between 0\u00b0 and 360\u00b0 Can either be sequence of length rdim or an int/float value If a number num is passed, numpy.arange(num, 360, num) will be assigned to wa_res If nothing is passed, it will default to numpy.arange(0, 360, 5) bsps : array_like, optional Boatspeeds that will correspond to the entries of the table Should be broadcastable to the shape (rdim, cdim) If nothing is passed it will default to numpy.zeros rdim, cdim Raises a PolarDiagramException - if bsps can't be broadcasted to a fitting shape - if bsps is not of dimension 2 - if bsps is an empty array Examples     >>> pd = PolarDiagramTable(ws_res = [6, 8, 10, 12, 14],  . wa_res = [52, 60, 75, 90, 110, 120, 135]) >>> print(pd) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 0.00 0.00 0.00 0.00 0.00 60.0 0.00 0.00 0.00 0.00 0.00 75.0 0.00 0.00 0.00 0.00 0.00 90.0 0.00 0.00 0.00 0.00 0.00 110.0 0.00 0.00 0.00 0.00 0.00 120.0 0.00 0.00 0.00 0.00 0.00 135.0 0.00 0.00 0.00 0.00 0.00 >>> pd = PolarDiagramTable() >>> pd.wind_speeds [ 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40] >>> pd.wind_angles [ 0 5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100 105 110 115 120 125 130 135 140 145 150 155 160 165 170 175 180 185 190 195 200 205 210 215 220 225 230 235 240 245 250 255 260 265 270 275 280 285 290 295 300 305 310 315 320 325 330 335 340 345 350 355]"
+},
+{
+"ref":"hrosailing.polardiagram.PolarDiagramTable.__str__",
+"url":1,
+"doc":"Return str(self).",
+"func":1
+},
+{
+"ref":"hrosailing.polardiagram.PolarDiagramTable.__repr__",
+"url":1,
+"doc":"Return repr(self).",
+"func":1
+},
+{
+"ref":"hrosailing.polardiagram.PolarDiagramTable.__getitem__",
+"url":1,
+"doc":"",
+"func":1
 },
 {
 "ref":"hrosailing.polardiagram.PolarDiagramTable.wind_angles",
@@ -182,7 +200,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramTable.symmetrize",
 "url":1,
-"doc":"Constructs a symmetric version of the polar diagram, by mirroring it at the 0\u00b0 - 180\u00b0 axis and returning a new instance Warning    - Should only be used if all the wind angles of the initial polar diagram are on one side of the 0\u00b0 - 180\u00b0 axis, otherwise this can lead to duplicate data, which can overwrite or live alongside old data",
+"doc":"Constructs a symmetric version of the polar diagram, by mirroring it at the 0\u00b0 - 180\u00b0 axis and returning a new instance Warning    - Should only be used if all the wind angles of the initial polar diagram are on one side of the 0\u00b0 - 180\u00b0 axis, otherwise this can lead to duplicate data, which can overwrite or live alongside old data Examples     >>> pd = PolarDiagramTable(ws_res = [6, 8, 10, 12, 14],  . wa_res = [52, 60, 75, 90, 110, 120, 135]) >>> sym_pd = pd.symmetrize() >>> print(sym_pd.wind_speeds) [ 6 8 10 12 14] >>> print(sym_pd.wind_angles) [ 52 60 75 90 110 120 135 225 240 250 270 285 300 308]",
 "func":1
 },
 {
@@ -278,6 +296,24 @@ INDEX=[
 "doc":""
 },
 {
+"ref":"hrosailing.polardiagram.PolarDiagramMultiSails.__getitem__",
+"url":1,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.polardiagram.PolarDiagramMultiSails.__str__",
+"url":1,
+"doc":"Return str(self).",
+"func":1
+},
+{
+"ref":"hrosailing.polardiagram.PolarDiagramMultiSails.__repr__",
+"url":1,
+"doc":"Return repr(self).",
+"func":1
+},
+{
 "ref":"hrosailing.polardiagram.PolarDiagramMultiSails.to_csv",
 "url":1,
 "doc":"",
@@ -352,7 +388,19 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramCurve",
 "url":1,
-"doc":"A class to represent, visualize and work with a polar diagram given by a fitted curve/surface. Parameters      f : function Curve/surface that describes the polar diagram, given as a function, with the signature f(x,  params) -> y, where x is a numpy.ndarray of shape (n, 2) which corresponds to pairs of wind speed and wind angle and y is a numpy.ndarray of shape (n, ) or (n, 1) which corresponds to the boat speed at the resp. wind speed and wind angle. params : tuple or Sequence Optimal parameters for f radians : bool, optional Specifies if f takes the wind angles to be in radians or degrees Defaults to False"
+"doc":"A class to represent, visualize and work with a polar diagram given by a fitted curve/surface. Parameters      f : function Curve/surface that describes the polar diagram, given as a function, with the signature f(ws, wa,  params) -> bsp, where ws and wa should be array_like of shape (n,). should then also be an array_like of shape (n,) params : tuple or Sequence Optimal parameters for f radians : bool, optional Specifies if f takes the wind angles to be in radians or degrees Defaults to False"
+},
+{
+"ref":"hrosailing.polardiagram.PolarDiagramCurve.__repr__",
+"url":1,
+"doc":"Return repr(self).",
+"func":1
+},
+{
+"ref":"hrosailing.polardiagram.PolarDiagramCurve.__call__",
+"url":1,
+"doc":"Call self as a function.",
+"func":1
 },
 {
 "ref":"hrosailing.polardiagram.PolarDiagramCurve.curve",
@@ -445,6 +493,18 @@ INDEX=[
 "ref":"hrosailing.polardiagram.PolarDiagramPointcloud",
 "url":1,
 "doc":"A class to represent, visualize and work with a polar diagram given by a point cloud Parameters      pts : array_like of shape (n, 3), optional Initial points of the point cloud, given as a sequence of points consisting of wind speed, wind angle and boat speed If nothing is passed, the point cloud will be initialized as an empty point cloud tw : bool, optional Specifies if the given wind data should be viewed as true wind If False, wind data will be converted to true wind Defaults to True Raises a PolarDiagramException - if - if"
+},
+{
+"ref":"hrosailing.polardiagram.PolarDiagramPointcloud.__str__",
+"url":1,
+"doc":"Return str(self).",
+"func":1
+},
+{
+"ref":"hrosailing.polardiagram.PolarDiagramPointcloud.__repr__",
+"url":1,
+"doc":"Return repr(self).",
+"func":1
 },
 {
 "ref":"hrosailing.polardiagram.PolarDiagramPointcloud.wind_speeds",
@@ -980,6 +1040,12 @@ INDEX=[
 "doc":"A class to weigh data points and represent them together with their respective weights Parameters      pts : array_like of shape (n, 3) Points that will be weight or paired with given weights wts : int, float or array_like of shape (n, ), optional If the weights of the points are known beforehand, they can be given as an argument. If weights are passed, they will be assigned to the points and no further weighing will take place If a scalar is passed, the points will all be assigned the same weight Defaults to None weigher : Weigher, optional Instance of a Weigher class, which will weigh the points Will only be used if weights is None If nothing is passed, it will default to CylindricMeanWeigher() tw : bool, optional Specifies if the given wind data should be viewed as true wind If False, wind data will be converted to true wind Defaults to True Raises a WeightedPointsException -"
 },
 {
+"ref":"hrosailing.processing.pipelinecomponents.weigher.WeightedPoints.__getitem__",
+"url":11,
+"doc":"",
+"func":1
+},
+{
 "ref":"hrosailing.processing.pipelinecomponents.weigher.WeightedPoints.points",
 "url":11,
 "doc":""
@@ -1011,6 +1077,12 @@ INDEX=[
 "doc":"A weigher that weighs given points according to the following procedure: For a given point p and points pts we look at all the points pt in pts such that  pt[:d-1] - p[:d-1] <= r Then we take the mean m_p and standard deviation std_p of the dth component of all those points and set w_p = | m_p - p[d-1] | / std_p Parameters      radius : positive int or float, optional The radius of the considered cylinder, with infinite height, ie r Defaults to 1 norm : function or callable, optional Norm with which to evaluate the distances, ie  . If nothing is passed, it will default to  . _2 Raises a WeigherException if inputs are not of the specified types"
 },
 {
+"ref":"hrosailing.processing.pipelinecomponents.weigher.CylindricMeanWeigher.__repr__",
+"url":11,
+"doc":"Return repr(self).",
+"func":1
+},
+{
 "ref":"hrosailing.processing.pipelinecomponents.weigher.CylindricMeanWeigher.weigh",
 "url":11,
 "doc":"Weigh given points according to the method described above Parameters      pts : numpy.ndarray of shape (n, 3) Points to be weight Returns    - wts : numpy.ndarray of shape (n, ) Normalized weights of the input points",
@@ -1020,6 +1092,12 @@ INDEX=[
 "ref":"hrosailing.processing.pipelinecomponents.weigher.CylindricMemberWeigher",
 "url":11,
 "doc":"A weigher that weighs given points according to the following procedure: For a given point p and points pts we look at all the points pt in pts such that |pt[0] - p[0]| <= h and  pt[1:] - p[1:] <= r Call the set of all such points P, then w_p =  P - 1 Parameters      radius : positive int or float, optional The radius of the considered cylinder, ie r Defaults to 1 length : nonnegative int of float, optional The height of the considered cylinder, ie h If length is 0, the cylinder is a d-1 dimensional ball Defaults to 1 norm : function or callable, optional Norm with which to evaluate the distances, ie  . If nothing is passed, it will default to  . _2 Raises a WeigherException if inputs are not of the specified types"
+},
+{
+"ref":"hrosailing.processing.pipelinecomponents.weigher.CylindricMemberWeigher.__repr__",
+"url":11,
+"doc":"Return repr(self).",
+"func":1
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.weigher.CylindricMemberWeigher.weigh",
@@ -1153,7 +1231,7 @@ INDEX=[
 {
 "ref":"hrosailing.processing.pipelinecomponents.datahandler.CsvFileHandler.handle",
 "url":13,
-"doc":"Reads a .csv file and extracts the contained data points The delimiter used in the .csv file Parameters      data : path-like Path to a .csv file Returns    - out : list of lists of length 3 Raises a HandlerException - if an error occurs whilst reading - if an error occurs whilst evaluating the data points",
+"doc":"Reads a .csv file and extracts the contained data points The delimiter used in the .csv file Parameters      data : path-like Path to a .csv file pandas_kw : Returns    - out : pandas.Dataframe Raises a HandlerException",
 "func":1
 },
 {
