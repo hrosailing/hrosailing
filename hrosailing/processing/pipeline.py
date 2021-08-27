@@ -47,6 +47,8 @@ class PipelineExtension(ABC):
         pass
 
 
+# TODO Add an optional "transforming" step to maybe integrate scikits
+#      preprocessing into PolarPipeline
 class PolarPipeline:
     """A Pipeline class to create polar diagrams from raw data
 
