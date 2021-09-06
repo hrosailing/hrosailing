@@ -2461,7 +2461,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         return wa, bsp
 
-    def get_slices(self, ws, stepsize=None, range_=None):
+    def get_slices(self, ws, stepsize=None, range_=1):
         """"""
         if ws is None:
             ws = self.wind_speeds
@@ -2480,9 +2480,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
             ws = np.linspace(ws[0], ws[1], stepsize)
 
-        if range_ is None:
-            range_ = 1
-        elif range_ <= 0:
+        if range_ <= 0:
             raise PolarDiagramException("`range_` is nonpositive")
 
         wa, bsp = self._get_points(ws, range_)
@@ -2607,7 +2605,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
-        ws, wa, bsp = self.get_slices(ws)
+        ws, wa, bsp = self.get_slices(ws, stepsize, range_)
         plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
     def plot_flat(
@@ -2724,7 +2722,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
-        ws, wa, bsp = self.get_slices(ws)
+        ws, wa, bsp = self.get_slices(ws, stepsize, range_)
         wa = [np.rad2deg(a) for a in wa]
         plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
@@ -2946,7 +2944,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
-        ws, wa, bsp = self.get_slices(ws)
+        ws, wa, bsp = self.get_slices(ws, stepsize, range_)
 
         plot_convex_hull(
             ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw
