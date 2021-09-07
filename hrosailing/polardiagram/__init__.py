@@ -15,7 +15,7 @@ import pickle
 from typing import List
 
 
-from hrosailing.polardiagram.plotting import *
+from ._plotting import *
 from hrosailing.wind import WindException, convert_wind, set_resolution
 
 logging.basicConfig(
