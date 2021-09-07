@@ -6,7 +6,6 @@ from .wind import true_wind_to_apparent, apparent_wind_to_true
 __pdoc__ = {
     "hrosailing.wind.set_resolution": False,
     "hrosailing.wind.convert_wind": False,
-    "hrosailing.polardiagram.plotting": False,
     "hrosailing.polardiagram.PolarDiagramTable.__getitem__": True,
     "hrosailing.polardiagram.PolarDiagramTable.__str__": True,
     "hrosailing.polardiagram.PolarDiagramTable.__repr__": True,
@@ -17,7 +16,6 @@ __pdoc__ = {
     "hrosailing.polardiagram.PolarDiagramCurve.__call__": True,
     "hrosailing.polardiagram.PolarDiagramPointcloud.__str__": True,
     "hrosailing.polardiagram.PolarDiagramPointcloud.__repr__": True,
-    "hrosailing.processing.modelfunctions": False,
     "hrosailing.processing.pipeline.PolarPipeline.__call__": True,
     "hrosailing.processing.pipelinecomponents.interpolator.gauss_potential": False,
     "hrosailing.processing.pipelinecomponents.interpolator.scaled": False,
