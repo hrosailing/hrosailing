@@ -141,6 +141,8 @@ def _check_keywords(dct):
     ls = dct.pop("linestyle", None) or dct.pop("ls", None)
     if ls is None:
         dct["ls"] = ""
+    else:
+        dct["ls"] = ls
     marker = dct.get("marker", None)
     if marker is None:
         dct["marker"] = "o"
