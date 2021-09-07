@@ -53,14 +53,15 @@ def plot_color_gradient(
     return ax.scatter(ws, wa, s=ms, marker=marker, c=colors)
 
 
-def plot3d(ws, wa, bsp, ax, **plot_kw):
+def plot3d(ws, wa, bsp, ax, colors,  **plot_kw):
     if ax is None:
         ax = plt.axes(projection="3d")
 
     _set_3d_labels(ax)
-    _check_keywords(plot_kw)
+    print(colors)
+    cmap = LinearSegmentedColormap.from_list("cmap", [colors[0], colors[1]])
 
-    return ax.plot(ws, wa, bsp, **plot_kw)
+    return ax.scatter(ws, wa, bsp, c=ws, cmap=cmap, **plot_kw)
 
 
 def plot_surface(ws, wa, bsp, ax, **plot_kw):

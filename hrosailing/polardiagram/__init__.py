@@ -2726,7 +2726,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         wa = [np.rad2deg(a) for a in wa]
         plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
-    def plot_3d(self, ax=None, **plot_kw):
+    def plot_3d(self, ax=None, colors=("green", "red"), **plot_kw):
         """Creates a 3d plot of the polar diagram
 
         Parameters
@@ -2736,6 +2736,8 @@ class PolarDiagramPointcloud(PolarDiagram):
 
             If nothing is passed, the function will create
             a suitable axes
+
+        colors :
 
         plot_kw : Keyword arguments
             Keyword arguments that will be passed to the
@@ -2755,7 +2757,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         wa = np.deg2rad(wa)
         bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
-        plot3d(ws, wa, bsp, ax, **plot_kw)
+        plot3d(ws, wa, bsp, ax, colors, **plot_kw)
 
     def plot_color_gradient(
         self,
