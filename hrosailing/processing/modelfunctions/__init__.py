@@ -8,53 +8,55 @@
 from ._models2d import *
 
 
-def tws_times_twa(tws, twa, scal):
-    tws = np.asarray(tws)
-    twa = np.asarray(twa)
-    return scal * tws * twa
+def ws_times_wa(ws, wa, scal):
+    ws = np.asarray(ws)
+    wa = np.asarray(wa)
+    return scal * ws * wa
 
 
-def tws_concave_dt_twa(tws, twa, *args):
-    tws = np.asarray(tws)
-    twa = np.asarray(twa)
+def ws_concave_dt_wa(ws, wa, *params):
+    ws = np.asarray(ws)
+    wa = np.asarray(wa)
     return (
-        concave_function(tws, args[0], args[1], args[2])
-        + inverted_shifted_parabola(twa, args[3], args[4], args[5])
-        + tws_times_twa(tws, twa, args[6])
+        concave_function(ws, params[0], params[1], params[2])
+        + inverted_shifted_parabola(wa, params[3], params[4], params[5])
+        + ws_times_wa(ws, wa, params[6])
     )
 
 
-def tws_twa_s_dt(tws, twa, *args):
-    tws = np.asarray(tws)
-    twa = np.asarray(twa)
+def ws_wa_s_dt(ws, wa, *params):
+    ws = np.asarray(ws)
+    wa = np.asarray(wa)
     return (
-        s_shaped(tws, args[0], args[1], args[2], args[3], downturn=True)
-        + s_shaped(twa, args[4], args[5], args[6], args[7], downturn=True)
-        + tws_times_twa(tws, twa, args[8])
+        s_shaped(ws, params[0], params[1], params[2], params[3], downturn=True)
+        + s_shaped(
+            wa, params[4], params[5], params[6], params[7], downturn=True
+        )
+        + ws_times_wa(ws, wa, params[8])
     )
 
 
-def tws_s_dt_twa_gauss(tws, twa, *args):
-    tws = np.asarray(tws)
-    twa = np.asarray(twa)
+def ws_s_dt_wa_gauss(ws, wa, *params):
+    ws = np.asarray(ws)
+    wa = np.asarray(wa)
     return s_shaped(
-        tws, args[0], args[1], args[2], args[3], downturn=True
-    ) + gaussian_model(twa, args[4], args[5], args[6])
+        ws, params[0], params[1], params[2], params[3], downturn=True
+    ) + gaussian_model(wa, params[4], params[5], params[6])
 
 
-def tws_s_s_dt_twa_gauss_comb(tws, twa, *args):
-    tws = np.asarray(tws)
-    twa = np.asarray(twa)
+def ws_s_s_dt_wa_gauss_comb(ws, wa, *params):
+    ws = np.asarray(ws)
+    wa = np.asarray(wa)
     return (
-        s_shaped(tws, args[0], args[1], args[2], args[3], downturn=True)
-        + gaussian_model(twa, args[4], args[5], args[6])
-        + tws_times_twa(tws, twa, args[7])
+        s_shaped(ws, params[0], params[1], params[2], params[3], downturn=True)
+        + gaussian_model(wa, params[4], params[5], params[6])
+        + ws_times_wa(ws, wa, params[7])
     )
 
 
-def tws_s_twa_gauss(tws, twa, *args):
-    tws = np.asarray(tws)
-    twa = np.asarray(twa)
-    return s_shaped(tws, args[0], args[1], args[2], args[3]) + gaussian_model(
-        twa, args[4], args[5], args[6]
-    )
+def ws_s_wa_gauss(ws, wa, *params):
+    ws = np.asarray(ws)
+    wa = np.asarray(wa)
+    return s_shaped(
+        ws, params[0], params[1], params[2], params[3]
+    ) + gaussian_model(wa, params[4], params[5], params[6])
