@@ -1,27 +1,27 @@
-from hrosailing.processing.pipelinecomponents.datahandler import (
+from .datahandler import (
     DataHandler,
     ArrayHandler,
     CsvFileHandler,
     NMEAFileHandler,
 )
 
-from hrosailing.processing.pipelinecomponents.filter import (
+from .filter import (
     Filter,
     BoundFilter,
     QuantileFilter,
 )
-from hrosailing.processing.pipelinecomponents.influencemodel import (
+from .influencemodel import (
     InfluenceModel,
     LinearCurrentModel,
 )
-from hrosailing.processing.pipelinecomponents.interpolator import (
+from .interpolator import (
     Interpolator,
     IDWInterpolator,
     ImprovedIDWInterpolator,
     ArithmeticMeanInterpolator,
     ShepardInterpolator,
 )
-from hrosailing.processing.pipelinecomponents.neighbourhood import (
+from .neighbourhood import (
     Neighbourhood,
     Ball,
     ScalingBall,
@@ -29,18 +29,18 @@ from hrosailing.processing.pipelinecomponents.neighbourhood import (
     Cuboid,
     Polytope,
 )
-from hrosailing.processing.pipelinecomponents.regressor import (
+from .regressor import (
     Regressor,
     ODRegressor,
     LeastSquareRegressor,
 )
-from hrosailing.processing.pipelinecomponents.sampler import (
+from .sampler import (
     Sampler,
     UniformRandomSampler,
     FibonacciSampler,
     ArchimedianSampler,
 )
-from hrosailing.processing.pipelinecomponents.weigher import (
+from .weigher import (
     WeightedPoints,
     Weigher,
     CylindricMeanWeigher,
