@@ -588,32 +588,30 @@ class PolarDiagramTable(PolarDiagram):
 
         rows, cols = len(wa_res), len(ws_res)
         if bsps is None:
-            bsps = np.zeros((rows, cols))
-        else:
-            # NaN's and infinite values can't be handled
-            try:
-                bsps = np.asarray_chkfinite(bsps, float)
-            except ValueError as ve:
-                raise PolarDiagramException(
-                    "`bsps` contains infinite or NaN values"
-                ) from ve
+            self._boat_speeds = np.zeros((rows, cols))
+            self._res_wind_speed = ws_res.sort()
+            self._res_wind_angle = wa_res.sort()
+            return
 
-            # Non array_like `bsps` are not allowed
-            if bsps.dtype is object:
-                raise PolarDiagramException("`bsps` is not array_like")
+        # NaN's and infinite values can't be handled
+        bsps = np.asarray_chkfinite(bsps, float)
 
-            if bsps.shape != (rows, cols) or bsps.ndim != 2:
-                raise PolarDiagramException("`bsps` has incorrect shape")
+        # Non array_like `bsps` are not allowed
+        if bsps.dtype is object:
+            raise PolarDiagramException("`bsps` is not array_like")
+
+        if bsps.shape != (rows, cols) or bsps.ndim != 2:
+            raise PolarDiagramException("`bsps` has incorrect shape")
 
         # Sort wind angles and the corresponding order of rows in bsps
         wa_res, bsps = zip(*sorted(zip(wa_res, bsps), key=lambda x: x[0]))
-        self._res_wind_angle = np.asarray(wa_res)
-        bsps = np.asarray(bsps, float)
+        self._res_wind_angle = np.array(wa_res)
+        bsps = np.array(bsps, float)
 
         # Sort wind speeds and the corresponding order of columns in bsps
         ws_res, bsps = zip(*sorted(zip(ws_res, bsps.T), key=lambda x: x[0]))
-        self._res_wind_speed = np.asarray(ws_res)
-        self._boat_speeds = np.asarray(bsps, float).T
+        self._res_wind_speed = np.array(ws_res)
+        self._boat_speeds = np.array(bsps, float).T
 
     def __str__(self):
         """"""
