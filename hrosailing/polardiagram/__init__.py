@@ -2504,10 +2504,9 @@ class PolarDiagramPointcloud(PolarDiagram):
             self._pts = np.array([])
             return
 
-        try:
-            pts = convert_wind(pts, -1, tw)
-        except WindException as we:
-            raise PolarDiagramException("") from we
+        pts = convert_wind(pts, -1, tw)
+
+        # standardize wind angles to the interval [0, 360)
         pts[:, 1] %= 360
 
         self._pts = pts
@@ -2608,6 +2607,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         sym_pts = self.points
         sym_pts[:, 1] = 360 - sym_pts[:, 1]
         pts = np.row_stack((self.points, sym_pts))
+
         return PolarDiagramPointcloud(pts=pts)
 
     def add_points(self, new_pts, tw=True):
