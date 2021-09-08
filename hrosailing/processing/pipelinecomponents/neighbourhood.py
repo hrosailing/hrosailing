@@ -353,7 +353,7 @@ class Cuboid(Neighbourhood):
         """Checks given points for membership.
 
         Parameters
-         ----------
+        ----------
         pts : array_like of shape (n, 2)
             Points that will be checked for membership
 
@@ -446,7 +446,7 @@ class Polytope(Neighbourhood):
         """Checks given points for membership.
 
         Parameters
-         ----------
+        ----------
         pts : array_like of shape (n, 2)
             Points that will be checked for membership
 
