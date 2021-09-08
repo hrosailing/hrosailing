@@ -773,11 +773,9 @@ class PolarDiagramTable(PolarDiagram):
 
         # deleting multiple 180° and 0° occurences in the table
         if 180 in self.wind_angles:
-            wa_res = list(wa_res)
-            mid = wa_res.index(180) or wa_res.index(180.0)
-            del wa_res[mid]
+            mid = np.where(wa_res == 180)[0][0]
+            wa_res = np.delete(wa_res, mid)
             bsps = np.row_stack((bsps[:mid, :], bsps[mid + 1 :, :]))
-
         if 0 in self.wind_angles:
             bsps = bsps[:-1, :]
             wa_res = wa_res[:-1]
@@ -787,8 +785,7 @@ class PolarDiagramTable(PolarDiagram):
         )
 
     def _get_indices(self, wind, speed_or_angle):
-        b = speed_or_angle == "speed"
-        res = self.wind_speeds if b else self.wind_angles
+        res = self.wind_speeds if speed_or_angle == "speed" else self.wind_angles
 
         if wind is None:
             return range(len(res))
@@ -796,10 +793,10 @@ class PolarDiagramTable(PolarDiagram):
         if isinstance(wind, (int, float)):
             try:
                 return [list(res).index(wind)]
-            except ValueError:
+            except ValueError as ve:
                 raise PolarDiagramException(
                     f"{wind} is not contained in {res}"
-                )
+                ) from ve
 
         wind = set(wind)
         if not wind:
