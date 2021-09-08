@@ -1,5 +1,5 @@
-import hrosailing.processing.pipelinecomponents
-import hrosailing.processing.modelfunctions
+import pipelinecomponents
+import modelfunctions
 
 from .pipeline import (
     PolarPipeline,
