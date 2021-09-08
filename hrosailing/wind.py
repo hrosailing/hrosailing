@@ -34,9 +34,7 @@ def apparent_wind_to_true(wind):
         Array containing the same data as wind_arr, but the wind speed
         and wind angle now measured as true wind
 
-    Raises a WindException
-        - if wind is not of the specified type
-        - if wind contains NaNs or infinite values
+    Raises a WindException if wind contains NaNs or infinite values
     """
     return convert_wind(wind, -1, tw=False, check_finite=True)
 
@@ -57,9 +55,7 @@ def true_wind_to_apparent(wind):
         Array containing the same data as wind_arr, but the wind speed
         and wind angle now measured as apparent wind
 
-    Raises a WindException
-        - if wind is not of the specified type
-        - if wind contains NaNs or infinite values
+    Raises a WindException if wind contains NaNs or infinite values
     """
     return convert_wind(wind, 1, tw=False, check_finite=True)
 
@@ -101,7 +97,7 @@ def convert_wind(wind, sign, tw, check_finite=True):
 
     cwa = np.arccos(temp)
 
-    # standardize angles to 0 - 360° inverval after conversion
+    # standardize angles to [0, 360) inverval after conversion
     cwa[wa_above_180] = 360 - np.rad2deg(cwa[wa_above_180])
     cwa[np.invert(wa_above_180)] = np.rad2deg(cwa[np.invert(wa_above_180)])
 
