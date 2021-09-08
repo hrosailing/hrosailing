@@ -13,6 +13,7 @@ import itertools
 import logging.handlers
 import pickle
 from typing import List
+import warnings
 
 
 from ._plotting import *
@@ -596,6 +597,7 @@ class PolarDiagramTable(PolarDiagram):
         self._boat_speeds = np.asarray(bsps, float).T
 
     def __str__(self):
+        """"""
         table = ["  TWA \\ TWS"]
         ws = self.wind_speeds
         if len(ws) <= 15:
@@ -648,12 +650,14 @@ class PolarDiagramTable(PolarDiagram):
             table.append("\n")
 
     def __repr__(self):
+        """"""
         return (
             f"PolarDiagramTable(ws_res={self.wind_speeds}, "
             f"wa_res={self.wind_angles}, bsps={self.boat_speeds})"
         )
 
     def __getitem__(self, key):
+        """"""
         ws, wa = key
         col = self._get_indices(ws, "speed")
         row = self._get_indices(wa, "angle")
@@ -741,8 +745,10 @@ class PolarDiagramTable(PolarDiagram):
 
         Examples
         --------
-            >>> pd = PolarDiagramTable(ws_res = [6, 8, 10, 12, 14],
-            ...                        wa_res = [52, 60, 75, 90, 110, 120, 135])
+            >>> pd = PolarDiagramTable(
+            ...     ws_res = [6, 8, 10, 12, 14],
+            ...     wa_res = [52, 60, 75, 90, 110, 120, 135]
+            ... )
             >>> sym_pd = pd.symmetrize()
             >>> print(sym_pd.wind_speeds)
             [ 6  8 10 12 14]
@@ -752,9 +758,9 @@ class PolarDiagramTable(PolarDiagram):
         below_180 = [wa for wa in self.wind_angles if wa <= 180]
         above_180 = [wa for wa in self.wind_angles if wa > 180]
         if below_180 and above_180:
-            print(
-                "Warning: There are wind angles on both sides of the "
-                "0° - 180° axis. This might result in duplicate data, "
+            warnings.warn(
+                "There are wind angles on both sides of the 0° - 180° axis. "
+                "This might result in duplicate data, "
                 "which can overwrite or live alongside old data"
             )
 
@@ -854,11 +860,8 @@ class PolarDiagramTable(PolarDiagram):
                 mask[i, j] = True
         self._boat_speeds[mask] = new_bsps.flat
 
-    def _get_radians(self):
-        return np.deg2rad(self.wind_angles)
-
     def get_slices(self, ws=None):
-        """ """
+        """"""
         if ws is None:
             ws = self.wind_speeds
         elif isinstance(ws, (int, float)):
@@ -871,7 +874,7 @@ class PolarDiagramTable(PolarDiagram):
             raise PolarDiagramException("No slices were given")
 
         ind = self._get_indices(ws, "speed")
-        wa = self._get_radians()
+        wa = np.deg2rad(self.wind_angles)
         return ws, wa, self.boat_speeds[:, ind]
 
     def plot_polar(
@@ -1091,9 +1094,11 @@ class PolarDiagramTable(PolarDiagram):
         """
         logger.info(f"Method 'plot_3d(ax={ax}, **plot_kw={plot_kw})' called")
 
-        ws, wa = np.meshgrid(self.wind_speeds, self._get_radians())
+        wa = np.deg2rad(self.wind_angles)
+        ws, wa = np.meshgrid(self.wind_speeds, wa)
         bsp = self.boat_speeds
         bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
+
         plot_surface(ws, wa, bsp, ax, **plot_kw)
 
     def plot_color_gradient(
@@ -1308,6 +1313,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         return self._tables.copy()
 
     def __getitem__(self, item) -> PolarDiagramTable:
+        """"""
         try:
             index = self.sails.index(item)
         except ValueError as ve:
@@ -1318,6 +1324,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         return self.tables[index]
 
     def __str__(self):
+        """"""
         tables = [str(pd) for pd in self._tables]
         names = [str(sail) for sail in self._sails]
         out = []
@@ -1330,6 +1337,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         return "".join(out)
 
     def __repr__(self):
+        """"""
         return f"PolarDiagramMultiSails({self.tables}, {self.sails})"
 
     def to_csv(self, csv_path):
@@ -1708,12 +1716,14 @@ class PolarDiagramCurve(PolarDiagram):
         self._rad = radians
 
     def __repr__(self):
+        """"""
         return (
             f"PolarDiagramCurve(f={self._f.__name__},"
             f"{self._params}, radians={self._rad})"
         )
 
     def __call__(self, ws, wa):
+        """"""
         return self.curve(ws, wa, *self.parameters)
 
     @property
@@ -1775,13 +1785,8 @@ class PolarDiagramCurve(PolarDiagram):
             sym_func, self.parameters, radians=self.radians
         )
 
-    def _get_wind_angles(self):
-        wa = np.linspace(0, 360, 1000)
-        if self.radians:
-            wa = np.deg2rad(wa)
-        return wa
-
     def get_slices(self, ws, stepsize=None):
+        """"""
         if ws is None:
             ws = (0, 20)
 
@@ -1796,8 +1801,12 @@ class PolarDiagramCurve(PolarDiagram):
 
             ws = list(np.linspace(ws[0], ws[1], stepsize))
 
-        wa = self._get_wind_angles()
+        wa = np.linspace(0, 360, 1000)
+        if self.radians:
+            wa = np.deg2rad(wa)
+
         bsp = [self(np.array([w] * 1000), wa) for w in ws]
+
         if not self.radians:
             wa = np.deg2rad(wa)
 
@@ -2309,6 +2318,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         self._pts = pts
 
     def __str__(self):
+        """"""
         table = ["   TWS      TWA     BSP\n", "------  -------  ------\n"]
         for point in self.points:
             for i in range(3):
@@ -2324,6 +2334,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         return "".join(table)
 
     def __repr__(self):
+        """"""
         return f"PolarDiagramPointcloud(pts={self.points})"
 
     @property
@@ -2338,6 +2349,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     @property
     def boat_speeds(self):
+        """"""
         return self.points[:, 2]
 
     @property
@@ -2392,9 +2404,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         below_180 = [wa for wa in self.wind_angles if wa <= 180]
         above_180 = [wa for wa in self.wind_angles if wa > 180]
         if below_180 and above_180:
-            print(
-                "Warning: There are wind angles on both sides of the "
-                "0° - 180° axis. This might result in duplicate data, "
+            warnings.warn(
+                "There are wind angles on both sides of the 0° - 180° axis. "
+                "This might result in duplicate data, "
                 "which can overwrite or live alongside old data"
             )
 
@@ -2484,9 +2496,13 @@ class PolarDiagramPointcloud(PolarDiagram):
             raise PolarDiagramException("`range_` is nonpositive")
 
         wa, bsp = self._get_points(ws, range_)
+
         ws = [(w[1] + w[0]) / 2 if isinstance(w, tuple) else w for w in ws]
         if len(ws) != len(set(ws)):
-            print("Something placeholder")
+            print(
+                "Warning: There are duplicate slices. This might cause "
+                "unwanted behaviour"
+            )
 
         return ws, wa, bsp
 
@@ -2751,7 +2767,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         logger.info(f"Method 'plot_3d(ax={ax}, **plot_kw={plot_kw})' called")
 
         if not self.points.size:
-            raise PolarDiagramException("Point cloud contains no points")
+            raise PolarDiagramException("Can't create 3d plot of empty point cloud")
 
         ws, wa, bsp = (self.points[:, 0], self.points[:, 1], self.points[:, 2])
 
@@ -2824,7 +2840,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         )
 
         if not self.points.size:
-            raise PolarDiagramException("Point cloud contains no points")
+            raise PolarDiagramException("Can't create color gradient plot of empty point cloud")
 
         ws, wa, bsp = (self.points[:, 0], self.points[:, 1], self.points[:, 2])
 
