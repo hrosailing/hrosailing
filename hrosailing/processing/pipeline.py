@@ -13,8 +13,8 @@ from typing import Optional
 import numpy as np
 
 import hrosailing.polardiagram as pol
-import hrosailing.processing.modelfunctions as mf
-import hrosailing.processing.pipelinecomponents as pc
+from modelfunctions import ws_s_s_dt_wa_gauss_comb
+import pipelinecomponents as pc
 from hrosailing.wind import set_resolution
 
 logging.basicConfig(
@@ -171,7 +171,7 @@ class CurveExtension(PipelineExtension):
     def __init__(
         self,
         regressor: pc.Regressor = pc.ODRegressor(
-            model_func=mf.ws_s_s_dt_wa_gauss_comb,
+            model_func=ws_s_s_dt_wa_gauss_comb,
             init_values=(0.25, 10, 1.7, 0, 1.9, 30, 17.6, 0),
         ),
         radians: bool = False,
