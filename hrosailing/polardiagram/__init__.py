@@ -1001,16 +1001,17 @@ class PolarDiagramTable(PolarDiagram):
         if new_bsps.dtype is object:
             raise PolarDiagramException("`new_bsps` is not array_like")
 
-        ws_ind = self._get_indices(ws, "speed")
-        wa_ind = self._get_indices(wa, "angle")
+        ws = self._get_indices(ws, "speed")
+        wa = self._get_indices(wa, "angle")
 
-        if new_bsps.shape != (len(wa_ind), len(ws_ind)):
+        if new_bsps.shape != (len(wa), len(ws)):
             raise PolarDiagramException("`new_bsps` has incorrect shape")
 
         mask = np.zeros(self.boat_speeds.shape, dtype=bool)
-        for i in wa_ind:
-            for j in ws_ind:
+        for i in wa:
+            for j in ws:
                 mask[i, j] = True
+
         self._boat_speeds[mask] = new_bsps.flat
 
     def get_slices(self, ws=None):
