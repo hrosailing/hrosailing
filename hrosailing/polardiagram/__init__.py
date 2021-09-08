@@ -2691,8 +2691,8 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         ws = [(w[1] + w[0]) / 2 if isinstance(w, tuple) else w for w in ws]
         if len(ws) != len(set(ws)):
-            print(
-                "Warning: There are duplicate slices. This might cause "
+            warnings.warn(
+                "There are duplicate slices. This might cause "
                 "unwanted behaviour"
             )
 
