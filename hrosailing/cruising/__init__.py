@@ -9,9 +9,7 @@ import numpy as np
 from scipy.spatial import ConvexHull
 
 import hrosailing.polardiagram as pol
-from hrosailing.processing.pipelinecomponents.influencemodel import (
-    InfluenceModel,
-)
+from hrosailing.processing.pipelinecomponents import InfluenceModel
 
 # TODO Maybe change some function names
 

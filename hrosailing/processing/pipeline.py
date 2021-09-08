@@ -13,8 +13,8 @@ from typing import Optional
 import numpy as np
 
 import hrosailing.polardiagram as pol
-from modelfunctions import ws_s_s_dt_wa_gauss_comb
-import pipelinecomponents as pc
+from hrosailing.processing.modelfunctions import ws_s_s_dt_wa_gauss_comb
+import hrosailing.processing.pipelinecomponents as pc
 from hrosailing.wind import set_resolution
 
 logging.basicConfig(
