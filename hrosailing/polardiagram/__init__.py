@@ -2631,10 +2631,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         """
         logger.info(f"Method 'add_points(new_pts{new_pts}, tw={tw})' called")
 
-        try:
-            new_pts = convert_wind(new_pts, -1, tw)
-        except WindException as we:
-            raise PolarDiagramException("") from we
+        new_pts = convert_wind(new_pts, -1, tw)
 
         if not self.points.size:
             self._pts = new_pts
