@@ -34,7 +34,6 @@ def apparent_wind_to_true(wind):
         Array containing the same data as wind_arr, but the wind speed
         and wind angle now measured as true wind
 
-    Raises a WindException if wind contains NaNs or infinite values
     """
     return convert_wind(wind, -1, tw=False, _check_finite=True)
 
@@ -55,7 +54,6 @@ def true_wind_to_apparent(wind):
         Array containing the same data as wind_arr, but the wind speed
         and wind angle now measured as apparent wind
 
-    Raises a WindException if wind contains NaNs or infinite values
     """
     return convert_wind(wind, 1, tw=False, _check_finite=True)
 
