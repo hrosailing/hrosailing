@@ -298,6 +298,7 @@ class ImprovedIDWInterpolator(Interpolator):
         return wts @ pts[:, 2]
 
 
+# Shouldn't be used just yet
 class ShepardInterpolator(Interpolator):
     """A full featured inverse distance interpolator, based
     on the work of Shepard, "A two-dimensional interpolation
@@ -423,36 +424,36 @@ def _include_direction(pts, grid_pt, dist, wts):
 
 
 def _determine_slope(pts, grid_pt, dist, wts, nhood, norm, slope):
-    a = np.zeros(pts.shape[0])
-    b = np.zeros(pts.shape[0])
+    xderiv = np.zeros(pts.shape[0])
+    yderiv = np.zeros(pts.shape[0])
 
     for i, pt in enumerate(pts):
-        ptsi = np.delete(pts, i, axis=0)
-        mask = nhood.is_contained_in(ptsi - pt)
-        ptsi = ptsi[mask]
-        disti = norm(ptsi - pt)
-        wtsi = np.delete(wts, i)[mask]
-        ai = (
-            wtsi
-            * (ptsi[:, 2] - pt[:, 2])
-            * (ptsi[:, 0] - pt[:, 0])
-            / np.square(disti)
+        pts_i = np.delete(pts, i, axis=0)
+        mask = nhood.is_contained_in(pts_i - pt)
+        pts_i = pts_i[mask]
+        dist_i = norm(pts_i - pt)
+        wts_i = np.delete(wts, i)[mask]
+        xderiv_i = (
+            wts_i
+            * (pts_i[:, 2] - pt[:, 2])
+            * (pts_i[:, 0] - pt[:, 0])
+            / np.square(dist_i)
         )
-        a[i] = np.sum(ai) / np.sum(wtsi)
-        bi = (
-            wtsi
-            * (ptsi[:, 2] - pt[:, 2])
-            * (ptsi[:, 1] - pt[:, 1])
-            / np.square(disti)
+        xderiv[i] = np.sum(xderiv_i) / np.sum(wts_i)
+        yderiv_i = (
+            wts_i
+            * (pts_i[:, 2] - pt[:, 2])
+            * (pts_i[:, 1] - pt[:, 1])
+            / np.square(dist_i)
         )
-        b[i] = np.sum(bi) / np.sum(wtsi)
+        yderiv[i] = np.sum(yderiv_i) / np.sum(wts_i)
 
-    v = (
+    dim_of_dist = (
         slope
         * (np.max(pts[:, 2]) - np.min(pts[:, 2]))
-        / np.sqrt(np.max(np.square(a) + np.square(b)))
+        / np.sqrt(np.max(np.square(xderiv) + np.square(yderiv)))
     )
 
-    return (a * (grid_pt[0] - pts[:, 0]) + b * (grid_pt[1] - pts[:, 1])) * (
-        v / (v + dist)
-    )
+    return (
+        xderiv * (grid_pt[0] - pts[:, 0]) + yderiv * (grid_pt[1] - pts[:, 1])
+    ) * (dim_of_dist / (dim_of_dist + dist))
