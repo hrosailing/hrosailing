@@ -580,11 +580,8 @@ class PolarDiagramTable(PolarDiagram):
             f"bsps={bsps})' called"
         )
 
-        try:
-            ws_res = set_resolution(ws_res, "speed")
-            wa_res = set_resolution(wa_res, "angle")
-        except WindException as we:
-            raise PolarDiagramException("") from we
+        ws_res = set_resolution(ws_res, "speed")
+        wa_res = set_resolution(wa_res, "angle")
 
         # standardize wind angles to the interval [0, 360)
         wa_res %= 360
@@ -1113,6 +1110,29 @@ class PolarDiagramTable(PolarDiagram):
 
         - if at least one element of ws is not in self.wind_speeds
         - the given interval doesn't contain any slices of the polar diagram
+
+
+        Examples
+        --------
+            >>> import matplotlib.pyplot as plt
+            >>> pd = from_csv("src/polar_diagrams/orc/A-35.csv", fmt="orc")
+            >>> pd.plot_polar(
+            ...     ws=[6, 8], show_legend=True, ls="-", lw=1.5, marker=""
+            ... )
+            >>> plt.show()
+
+        .. image:: /examples/table_plot_polar.png
+
+        Can also be combined with symmetrize() like so to achieve
+        a symmetric plot
+
+            >>> pd.symmetrize().plot_polar(
+            ...     ws=[6, 8], show_legend=True, ls="-", lw=1.5, marker=""
+            ... )
+            >>> plt.show()
+
+        .. image:: /examples/sym_table_plot_polar.png
+
         """
         logger.info(
             f"Method 'polar_plot(ws={ws}, ax={ax}, colors={colors}, "
@@ -1207,6 +1227,29 @@ class PolarDiagramTable(PolarDiagram):
 
         - if at least one element of ws is not in self.wind_speeds
         - the given interval doesn't contain any slices of the polar diagram
+
+
+        Examples
+        --------
+            >>> import matplotlib.pyplot as plt
+            >>> pd = from_csv("src/polar_diagrams/orc/A-35.csv", fmt="orc")
+            >>> pd.plot_flat(
+            ...     ws=[6, 8], show_legend=True, ls="-", lw=1.5, marker=""
+            ... )
+            >>> plt.show()
+
+        .. image:: /examples/table_plot_flat.png
+
+        Can also be combined with symmetrize() like so to achieve
+        a symmetric plot
+
+            >>> pd.symmetrize().plot_flat(
+            ...     ws=[6, 8], show_legend=True, ls="-", lw=1.5, marker=""
+            ... )
+            >>> plt.show()
+
+        .. image:: /examples/sym_table_plot_flat.png
+
         """
         logger.info(
             f"Method 'flat_plot(ws={ws}, ax={ax}, colors={colors}, "
