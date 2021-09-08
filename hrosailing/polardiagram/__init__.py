@@ -17,7 +17,7 @@ import warnings
 
 
 from ._plotting import *
-from hrosailing.wind import WindException, convert_wind, set_resolution
+from hrosailing.wind import convert_wind, set_resolution
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)s: %(message)s",
@@ -35,20 +35,13 @@ logger.setLevel(logging.INFO)
 
 
 class PolarDiagramException(Exception):
-    """Custom exception for errors that may appear whilst handling
-    polar diagrams"""
+    """"""
 
     pass
 
 
 class FileReadingException(Exception):
-    """Custom exception for errors that may appear whilst reading a file"""
-
-    pass
-
-
-class FileWritingException(Exception):
-    """Custom exception for errors that may appear whilst writing to a file"""
+    """"""
 
     pass
 
@@ -96,40 +89,33 @@ def from_csv(csv_path, fmt="hro", tw=True):
     out : PolarDiagram
         PolarDiagram instance contained in the .csv file
 
-    Raises a FileReadingException
-        - if an unknown format was specified
-        - if an error occurs whilst reading
+    Raises a FileReadingException if an unknown format was specified
     """
     if fmt not in {"array", "hro", "opencpn", "orc"}:
         raise FileReadingException("`fmt` not implemented")
 
-    try:
-        with open(csv_path, "r", newline="") as file:
-            if fmt == "hro":
-                csv_reader = csv.reader(file, delimiter=",")
-                first_row = next(csv_reader)[0]
-                if first_row not in {
-                    "PolarDiagramTable",
-                    "PolarDiagramPointcloud",
-                }:
-                    raise FileReadingException(
-                        f"hro-format for {first_row} not implemented"
-                    )
-                if first_row == "PolarDiagramTable":
-                    ws_res, wa_res, bsps = _read_table(csv_reader)
-                    return PolarDiagramTable(
-                        ws_res=ws_res, wa_res=wa_res, bsps=bsps
-                    )
+    with open(csv_path, "r", newline="") as file:
+        if fmt == "hro":
+            csv_reader = csv.reader(file, delimiter=",")
+            first_row = next(csv_reader)[0]
+            if first_row not in {
+                "PolarDiagramTable",
+                "PolarDiagramPointcloud",
+            }:
+                raise FileReadingException(
+                    f"hro-format for {first_row} not implemented"
+                )
+            if first_row == "PolarDiagramTable":
+                ws_res, wa_res, bsps = _read_table(csv_reader)
+                return PolarDiagramTable(
+                    ws_res=ws_res, wa_res=wa_res, bsps=bsps
+                )
 
-                pts = _read_pointcloud(csv_reader)
-                return PolarDiagramPointcloud(pts=pts, tw=tw)
+            pts = _read_pointcloud(csv_reader)
+            return PolarDiagramPointcloud(pts=pts, tw=tw)
 
-            ws_res, wa_res, bsps = _read_extern_format(file, fmt)
-            return PolarDiagramTable(ws_res=ws_res, wa_res=wa_res, bsps=bsps)
-    except OSError as oe:
-        raise FileReadingException(
-            "While reading `csv_path` an error occured"
-        ) from oe
+        ws_res, wa_res, bsps = _read_extern_format(file, fmt)
+        return PolarDiagramTable(ws_res=ws_res, wa_res=wa_res, bsps=bsps)
 
 
 def _read_table(csv_reader):
@@ -196,8 +182,6 @@ def pickling(pkl_path, obj):
 
     obj : PolarDiagram
         PolarDiagram instance which will be written to .csv file
-
-    Raises a FileWritingException if an error occurs whilst writing
     """
     obj.pickling(pkl_path)
 
@@ -215,16 +199,9 @@ def depickling(pkl_path):
     -------
     out : PolarDiagram
         PolarDiagram instance contained in the .pkl file
-
-    Raises a FileReadingException if an error occurs whilst reading
     """
-    try:
-        with open(pkl_path, "rb") as file:
-            return pickle.load(file)
-    except OSError as oe:
-        raise FileReadingException(
-            "While reading `pkl_path` an error occured"
-        ) from oe
+    with open(pkl_path, "rb") as file:
+        return pickle.load(file)
 
 
 def symmetrize(obj):
@@ -300,16 +277,9 @@ class PolarDiagram(ABC):
         ----------
         pkl_path: path-like
             Path to a .pkl file or where a new .pkl file will be created
-
-        Raises a FileWritingException if an error occurs whilst writing
         """
-        try:
-            with open(pkl_path, "wb") as file:
-                pickle.dump(self, file)
-        except OSError as oe:
-            raise FileWritingException(
-                "While writing to `pkl_path` an error occured"
-            ) from oe
+        with open(pkl_path, "wb") as file:
+            pickle.dump(self, file)
 
     @abstractmethod
     def to_csv(self, csv_path):
@@ -764,27 +734,22 @@ class PolarDiagramTable(PolarDiagram):
         if fmt not in {"hro", "opencpn"}:
             raise PolarDiagramException("`fmt` not implemented")
 
-        try:
-            with open(csv_path, "w", newline="") as file:
-                csv_writer = csv.writer(file, delimiter=",")
-                if fmt == "opencpn":
-                    csv_writer.writerow(["TWA\\TWS"] + self.wind_speeds)
-                    rows = np.column_stack(
-                        (self.wind_angles, self.boat_speeds)
-                    )
-                    csv_writer.writerows(rows)
+        with open(csv_path, "w", newline="") as file:
+            csv_writer = csv.writer(file, delimiter=",")
+            if fmt == "opencpn":
+                csv_writer.writerow(["TWA\\TWS"] + self.wind_speeds)
+                rows = np.column_stack(
+                    (self.wind_angles, self.boat_speeds)
+                )
+                csv_writer.writerows(rows)
 
-                csv_writer.writerow(["PolarDiagramTable"])
-                csv_writer.writerow(["TWS:"])
-                csv_writer.writerow(self.wind_speeds)
-                csv_writer.writerow(["TWA:"])
-                csv_writer.writerow(self.wind_angles)
-                csv_writer.writerow(["Boat speeds:"])
-                csv_writer.writerows(self.boat_speeds)
-        except OSError as oe:
-            raise FileWritingException(
-                "While writing to `csv_path` an error occured"
-            ) from oe
+            csv_writer.writerow(["PolarDiagramTable"])
+            csv_writer.writerow(["TWS:"])
+            csv_writer.writerow(self.wind_speeds)
+            csv_writer.writerow(["TWA:"])
+            csv_writer.writerow(self.wind_angles)
+            csv_writer.writerow(["Boat speeds:"])
+            csv_writer.writerows(self.boat_speeds)
 
     def symmetrize(self):
         """Constructs a symmetric version of the
@@ -986,13 +951,10 @@ class PolarDiagramTable(PolarDiagram):
             f"new_bsps={new_bsps}, ws={ws}, wa={wa}) called"
         )
 
-        try:
-            new_bsps = np.asarray_chkfinite(new_bsps)
-        except ValueError as ve:
-            raise PolarDiagramException(
-                "`new_bsps` contains infinite or NaN values"
-            ) from ve
+        # NaN's and infinite values can't be handled
+        new_bsps = np.asarray_chkfinite(new_bsps)
 
+        # non array_like input is not allowed
         if new_bsps.dtype is object:
             raise PolarDiagramException("`new_bsps` is not array_like")
 
@@ -1954,20 +1916,15 @@ class PolarDiagramCurve(PolarDiagram):
         """
         logger.info(f"Method '.to_csv({csv_path})' called")
 
-        try:
-            with open(csv_path, "w", newline="") as file:
-                csv_writer = csv.writer(file, delimiter=":")
-                csv_writer.writerow(["PolarDiagramCurve"])
-                csv_writer.writerow(["Function"] + [self.curve.__name__])
-                csv_writer.writerow(["Radians"] + [str(self.radians)])
-                csv_writer.writerow(["Parameters"] + list(self.parameters))
-        except OSError as oe:
-            raise FileWritingException(
-                "While writing to `csv_path` an error occured"
-            ) from oe
+        with open(csv_path, "w", newline="") as file:
+            csv_writer = csv.writer(file, delimiter=":")
+            csv_writer.writerow(["PolarDiagramCurve"])
+            csv_writer.writerow(["Function"] + [self.curve.__name__])
+            csv_writer.writerow(["Radians"] + [str(self.radians)])
+            csv_writer.writerow(["Parameters"] + list(self.parameters))
 
     def symmetrize(self):
-        """ """
+        """"""
 
         def sym_func(w_arr, *params):
             sym_w_arr = w_arr.copy()
@@ -2568,18 +2525,13 @@ class PolarDiagramPointcloud(PolarDiagram):
         """
         logger.info(f"Method '.to_csv({csv_path})' called")
 
-        try:
-            with open(csv_path, "w", newline="") as file:
-                csv_writer = csv.writer(file, delimiter=",")
-                csv_writer.writerow(["PolarDiagramPointcloud"])
-                csv_writer.writerow(
-                    ["True wind speed ", "True wind angle ", "Boat speed "]
-                )
-                csv_writer.writerows(self.points)
-        except OSError as oe:
-            raise FileWritingException(
-                "While writing to `csv_path` an error occured"
-            ) from oe
+        with open(csv_path, "w", newline="") as file:
+            csv_writer = csv.writer(file, delimiter=",")
+            csv_writer.writerow(["PolarDiagramPointcloud"])
+            csv_writer.writerow(
+                ["True wind speed ", "True wind angle ", "Boat speed "]
+            )
+            csv_writer.writerows(self.points)
 
     def symmetrize(self):
         """Constructs a symmetric version of the polar diagram,
@@ -2677,10 +2629,8 @@ class PolarDiagramPointcloud(PolarDiagram):
             if stepsize is None:
                 stepsize = int(round(ws[1] - ws[0]))
 
-            if stepsize <= 0 or not isinstance(stepsize, int):
-                raise PolarDiagramException(
-                    "`stepsize` is not a positive integer"
-                )
+            if stepsize <= 0:
+                raise PolarDiagramException("`stepsize` is not positive")
 
             ws = np.linspace(ws[0], ws[1], stepsize)
 
