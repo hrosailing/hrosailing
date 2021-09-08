@@ -4,14 +4,12 @@
 
 # Author: Valentin F. Dannenberg / Ente
 
-
-import csv
 from abc import ABC, abstractmethod
 
 import numpy as np
 import pynmea2
 
-from hrosailing.wind import apparent_wind_to_true, WindException
+from hrosailing.wind import apparent_wind_to_true
 
 
 class HandlerException(Exception):
@@ -137,64 +135,51 @@ class NMEAFileHandler(DataHandler):
         - if an error occurs whilst parsing of the nmea senteces
         - if an error occurs during conversion of apperant wind
         """
-        try:
-            with open(data, "r") as file:
-                nmea_stcs = filter(
-                    lambda line: "VHW" in line or "MWV" in line, file
+        with open(data, "r") as file:
+            nmea_stcs = filter(
+                lambda line: "VHW" in line or "MWV" in line, file
+            )
+
+            stc = next(nmea_stcs, None)
+            # check if file is "empty"
+            if stc is None:
+                raise HandlerException(
+                    "`data` doesn't contain any (relevant) nmea sentences"
                 )
 
+            nmea_data = []
+            while True:
+                bsp = float(pynmea2.parse(stc).data[4])
                 stc = next(nmea_stcs, None)
-                # check if file is "empty"
+
+                # eof
                 if stc is None:
+                    break
+
+                # check if nmea sentences is "sorted"
+                if "VHW" in stc:
                     raise HandlerException(
-                        "`data` doesn't contain any (relevant) nmea sentences"
+                        "No wind records in between speed records. "
+                        "Parsing not possible"
                     )
 
-                nmea_data = []
-                while True:
-                    bsp = float(pynmea2.parse(stc).data[4])
+                wind_data = []
+                # record wind data until next VHW sentence
+                while stc is not None and "VHW" not in stc:
+                    _get_wind_data(wind_data, stc)
                     stc = next(nmea_stcs, None)
 
-                    # eof
-                    if stc is None:
-                        break
+                _process_data(nmea_data, wind_data, stc, bsp, self.mode)
 
-                    # check if nmea sentences is "sorted"
-                    if "VHW" in stc:
-                        raise HandlerException(
-                            "No wind records in between speed records. "
-                            "Parsing not possible"
-                        )
+            aw = [data[:3] for data in nmea_data if data[3] == "R"]
+            tw = [data[:3] for data in nmea_data if data[3] != "R"]
 
-                    wind_data = []
-                    # record wind data until next VHW sentence
-                    while stc is not None and "VHW" not in stc:
-                        _get_wind_data(wind_data, stc)
-                        stc = next(nmea_stcs, None)
+            # if no apparent wind occurs, return true wind as is
+            if not aw:
+                return tw
 
-                    _process_data(nmea_data, wind_data, stc, bsp, self.mode)
-
-                aw = [data[:3] for data in nmea_data if data[3] == "R"]
-                tw = [data[:3] for data in nmea_data if data[3] != "R"]
-
-                # if no apparent wind occurs, return true wind as is
-                if not aw:
-                    return tw
-
-                aw = apparent_wind_to_true(aw)
-                return tw.extend(aw)
-        except OSError as oe:
-            raise HandlerException(
-                "While reading `data` an error occured"
-            ) from oe
-        except pynmea2.ParseError as pe:
-            raise HandlerException(
-                f"During parsing of {stc}, an error occured"
-            ) from pe
-        except WindException as we:
-            raise HandlerException(
-                "While converting wind, an error occured"
-            ) from we
+            aw = apparent_wind_to_true(aw)
+            return tw.extend(aw)
 
 
 def _get_wind_data(wind_data, stc):
