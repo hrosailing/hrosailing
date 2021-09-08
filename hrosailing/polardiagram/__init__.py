@@ -1648,12 +1648,12 @@ class PolarDiagramMultiSails(PolarDiagram):
             Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
-                - If the slices are plotted with a
-                color gradient, a matplotlib.colorbar.Colorbar
-                object will be created and assigned to ax.
 
-                - Otherwise a matplotlib.legend.Legend
-                will be created and assigned to ax.
+            - If the slices are plotted with a
+            color gradient, a matplotlib.colorbar.Colorbar
+            object will be created and assigned to ax.
+            - Otherwise a matplotlib.legend.Legend
+            will be created and assigned to ax.
 
             Defaults to False
 
