@@ -785,7 +785,9 @@ class PolarDiagramTable(PolarDiagram):
         )
 
     def _get_indices(self, wind, speed_or_angle):
-        res = self.wind_speeds if speed_or_angle == "speed" else self.wind_angles
+        res = (
+            self.wind_speeds if speed_or_angle == "speed" else self.wind_angles
+        )
 
         if wind is None:
             return range(len(res))
@@ -2764,7 +2766,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         logger.info(f"Method 'plot_3d(ax={ax}, **plot_kw={plot_kw})' called")
 
         if not self.points.size:
-            raise PolarDiagramException("Can't create 3d plot of empty point cloud")
+            raise PolarDiagramException(
+                "Can't create 3d plot of empty point cloud"
+            )
 
         ws, wa, bsp = (self.points[:, 0], self.points[:, 1], self.points[:, 2])
 
@@ -2837,7 +2841,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         )
 
         if not self.points.size:
-            raise PolarDiagramException("Can't create color gradient plot of empty point cloud")
+            raise PolarDiagramException(
+                "Can't create color gradient plot of empty point cloud"
+            )
 
         ws, wa, bsp = (self.points[:, 0], self.points[:, 1], self.points[:, 2])
 
