@@ -16,7 +16,7 @@ from typing import Callable
 
 import numpy as np
 
-from hrosailing.wind import convert_wind, WindException
+from hrosailing.wind import convert_wind
 
 
 logging.basicConfig(
@@ -237,14 +237,6 @@ class CylindricMemberWeigher(Weigher):
         return wts
 
 
-class WeightedPointsException(Exception):
-    """Custom exception for errors that may appear whilst
-    working with the WeightedPoints class
-    """
-
-    pass
-
-
 class WeightedPoints:
     """A class to weigh data points and represent them together
     with their respective weights
@@ -293,19 +285,11 @@ class WeightedPoints:
         _checks=True,
     ):
         if _checks:
-            try:
-                pts = convert_wind(pts, -1, tw=tw, check_finite=False)
-            except WindException as we:
-                raise WeightedPointsException("") from we
+            pts = convert_wind(pts, -1, tw=tw, check_finite=True)
 
         self._pts = pts
 
-        try:
-            self._wts = _set_weights(self.points, weigher, wts, _checks)
-        except WeigherException as we:
-            raise WeightedPointsException(
-                "During weighing an error occured"
-            ) from we
+        self._wts = _set_weights(self.points, weigher, wts, _checks)
 
     def __getitem__(self, mask):
         return WeightedPoints(
