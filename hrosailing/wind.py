@@ -36,7 +36,7 @@ def apparent_wind_to_true(wind):
 
     Raises a WindException if wind contains NaNs or infinite values
     """
-    return convert_wind(wind, -1, tw=False, check_finite=True)
+    return convert_wind(wind, -1, tw=False, _check_finite=True)
 
 
 def true_wind_to_apparent(wind):
@@ -57,19 +57,14 @@ def true_wind_to_apparent(wind):
 
     Raises a WindException if wind contains NaNs or infinite values
     """
-    return convert_wind(wind, 1, tw=False, check_finite=True)
+    return convert_wind(wind, 1, tw=False, _check_finite=True)
 
 
-def convert_wind(wind, sign, tw, check_finite=True):
+def convert_wind(wind, sign, tw, _check_finite=True):
     # Only check for NaNs and infinite values, if wanted
-    if check_finite:
+    if _check_finite:
         # NaNs and infinite values can't be handled
-        try:
-            wind = np.asarray_chkfinite(wind)
-        except ValueError as ve:
-            raise WindException(
-                "`wind` contains infinite or NaN values"
-            ) from ve
+        wind = np.asarray_chkfinite(wind)
     else:
         wind = np.asarray(wind)
 
@@ -111,13 +106,8 @@ def set_resolution(res, speed_or_angle):
         return np.arange(2, 42, 2) if b else np.arange(0, 360, 5)
 
     if isinstance(res, Iterable):
-        try:
-            # NaN's and infinite values can't be handled
-            res = np.asarray_chkfinite(res)
-        except ValueError as ve:
-            raise WindException(
-                "`res` contains infinite or NaN values"
-            ) from ve
+        # NaN's and infinite values can't be handled
+        res = np.asarray_chkfinite(res)
 
         if res.dtype is object:
             raise WindException("`res` is not array_like")
