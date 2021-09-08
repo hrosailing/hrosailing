@@ -6,6 +6,7 @@ Functions to convert wind from apparent to true and vice versa
 
 
 from collections.abc import Iterable
+import warnings
 
 import numpy as np
 
@@ -129,8 +130,8 @@ def set_resolution(res, speed_or_angle):
             raise WindException("`res` has incorrect shape")
 
         if len(set(res)) != len(res):
-            print(
-                "Warning: `res` contains duplicate data. "
+            warnings.warn(
+                "`res` contains duplicate data. "
                 "This may lead to unwanted behaviour"
             )
 
