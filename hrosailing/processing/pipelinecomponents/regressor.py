@@ -129,7 +129,7 @@ class ODRegressor(Regressor):
     def fit(self, data):
         """Fits the model function to the given data, ie calculates
         the optimal parameters to minimize an objective
-        function based on the data, see also `ODRPACK <https://docs.scipy.org/doc/external/odrpack_guide.pdf>`_
+        function based on the data, see also [ODRPACK](https://docs.scipy.org/doc/external/odrpack_guide.pdf)
 
         Parameters
         ----------
