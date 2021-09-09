@@ -98,8 +98,7 @@ calculated weights based on the formula
 </dl>
 <p>params:
 Parameters to be passed to distribution</p>
-<p>Raises an InterpolatorException if the inputs are not
-of the specified type</p></div>
+<p>Raises an InterpolatorInitializationException if s is nonpositive</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.interpolator.Interpolator" href="#hrosailing.processing.pipelinecomponents.interpolator.Interpolator">Interpolator</a></li>
@@ -153,8 +152,7 @@ or if grid_pt is already a measured point pt<em>, it will equal pt</em>[2]</p>
 version of ||.||_2</p>
 </dd>
 </dl>
-<p>Raises an InterpolatorException if the inputs are not
-of the specified type</p></div>
+<p>Raises an InterpolatorInitializationException if p is negative</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.interpolator.Interpolator" href="#hrosailing.processing.pipelinecomponents.interpolator.Interpolator">Interpolator</a></li>
@@ -208,9 +206,7 @@ way as in IDWInterpolator</p>
 <p>If nothing is passed, it will default to a scaled
 version of ||.||_2</p>
 </dd>
-</dl>
-<p>Raises an InterpolatorException if the input is not
-of the specified type</p></div>
+</dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.interpolator.Interpolator" href="#hrosailing.processing.pipelinecomponents.interpolator.Interpolator">Interpolator</a></li>
@@ -235,13 +231,7 @@ above described method</p>
 <dl>
 <dt><strong><code>out</code></strong> :&ensp;<code>int / float</code></dt>
 <dd>Interpolated values at grid_pt</dd>
-<dt><code>Raises an <a title="hrosailing.processing.pipelinecomponents.interpolator.InterpolatorException" href="#hrosailing.processing.pipelinecomponents.interpolator.InterpolatorException">InterpolatorException</a></code></dt>
-<dd>&nbsp;</dd>
-</dl>
-<ul>
-<li>if</li>
-<li>if</li>
-</ul></div>
+</dl></div>
 </dd>
 </dl>
 </dd>
@@ -273,13 +263,13 @@ above described method</p>
 </dd>
 </dl>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.interpolator.InterpolatorException"><code class="flex name class">
-<span>class <span class="ident">InterpolatorException</span></span>
+<dt id="hrosailing.processing.pipelinecomponents.interpolator.InterpolatorInitializationException"><code class="flex name class">
+<span>class <span class="ident">InterpolatorInitializationException</span></span>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Custom exception for errors that may appear whilst
-working with the Interpolator class and subclasses</p></div>
+<div class="desc"><p>Exception raised if an error occurs during
+initialization of an Interpolator</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>
@@ -307,8 +297,11 @@ function for irregulary-spaced data"</p>
 version of ||.||_2</p>
 </dd>
 </dl>
-<p>Raises an InterpolatorException if inputs are not
-of the specified types</p></div>
+<p>Raises an InterpolatorInitializationException</p>
+<ul>
+<li>if tol is nonpositive</li>
+<li>if slope is nonpositive</li>
+</ul></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.interpolator.Interpolator" href="#hrosailing.processing.pipelinecomponents.interpolator.Interpolator">Interpolator</a></li>
@@ -436,7 +429,7 @@ setTimeout(() => input.focus(), 100);
 </ul>
 </li>
 <li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.interpolator.InterpolatorException" href="#hrosailing.processing.pipelinecomponents.interpolator.InterpolatorException">InterpolatorException</a></code></h4>
+<h4><code><a title="hrosailing.processing.pipelinecomponents.interpolator.InterpolatorInitializationException" href="#hrosailing.processing.pipelinecomponents.interpolator.InterpolatorInitializationException">InterpolatorInitializationException</a></code></h4>
 </li>
 <li>
 <h4><code><a title="hrosailing.processing.pipelinecomponents.interpolator.ShepardInterpolator" href="#hrosailing.processing.pipelinecomponents.interpolator.ShepardInterpolator">ShepardInterpolator</a></code></h4>

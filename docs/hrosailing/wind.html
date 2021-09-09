@@ -87,13 +87,24 @@ and wind angle now measured as apparent wind</dd>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="hrosailing.wind.WindException"><code class="flex name class">
-<span>class <span class="ident">WindException</span></span>
+<dt id="hrosailing.wind.ResolutionSettingException"><code class="flex name class">
+<span>class <span class="ident">ResolutionSettingException</span></span>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Custom exception for errors that may appear during
-wind conversion or setting wind resolutions</p></div>
+<div class="desc"></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="hrosailing.wind.WindConversionException"><code class="flex name class">
+<span>class <span class="ident">WindConversionException</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>
@@ -180,7 +191,10 @@ setTimeout(() => input.focus(), 100);
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="hrosailing.wind.WindException" href="#hrosailing.wind.WindException">WindException</a></code></h4>
+<h4><code><a title="hrosailing.wind.ResolutionSettingException" href="#hrosailing.wind.ResolutionSettingException">ResolutionSettingException</a></code></h4>
+</li>
+<li>
+<h4><code><a title="hrosailing.wind.WindConversionException" href="#hrosailing.wind.WindConversionException">WindConversionException</a></code></h4>
 </li>
 </ul>
 </li>

@@ -88,7 +88,7 @@ The delimiter used in the .csv file</p>
 <dl>
 <dt><strong><code>out</code></strong> :&ensp;<code>pandas.Dataframe</code></dt>
 <dd>&nbsp;</dd>
-<dt><code>Raises a <a title="hrosailing.processing.pipelinecomponents.datahandler.HandlerException" href="#hrosailing.processing.pipelinecomponents.datahandler.HandlerException">HandlerException</a></code></dt>
+<dt><code>Raises a HandlerException</code></dt>
 <dd>&nbsp;</dd>
 </dl></div>
 </dd>
@@ -121,13 +121,26 @@ The delimiter used in the .csv file</p>
 </dd>
 </dl>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.datahandler.HandlerException"><code class="flex name class">
-<span>class <span class="ident">HandlerException</span></span>
+<dt id="hrosailing.processing.pipelinecomponents.datahandler.HandleException"><code class="flex name class">
+<span>class <span class="ident">HandleException</span></span>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Custom exception for errors that may appear whilst
-working with the DataHandler class and subclasses</p></div>
+<div class="desc"><p>Exception raised if an error occurs during
+calling of the .handle() method</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="hrosailing.processing.pipelinecomponents.datahandler.HandlerInitializationException"><code class="flex name class">
+<span>class <span class="ident">HandlerInitializationException</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Exception raised if an error occurs during
+initialization of a DataHandler</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>
@@ -157,7 +170,8 @@ of two recorded speed datas together with the recorded wind data
 <p>Defaults to "interpolate"</p>
 </dd>
 </dl>
-<p>Raises a HandlerException if</p></div>
+<p>Raises a HandlerInitializationException if mode is not one of
+the above choices</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.datahandler.DataHandler" href="#hrosailing.processing.pipelinecomponents.datahandler.DataHandler">DataHandler</a></li>
@@ -186,15 +200,12 @@ over water</p>
 <dl>
 <dt><strong><code>out</code></strong> :&ensp;<code>list</code> of <code>lists</code> of <code>length 3</code></dt>
 <dd>&nbsp;</dd>
-<dt><code>Raises a <a title="hrosailing.processing.pipelinecomponents.datahandler.HandlerException" href="#hrosailing.processing.pipelinecomponents.datahandler.HandlerException">HandlerException</a></code></dt>
+<dt><code>Raises a <a title="hrosailing.processing.pipelinecomponents.datahandler.HandleException" href="#hrosailing.processing.pipelinecomponents.datahandler.HandleException">HandleException</a></code></dt>
 <dd>&nbsp;</dd>
 </dl>
 <ul>
 <li>if <code>data</code> doesn't contain relevant nmea senteces</li>
 <li>if nmea senteces are not sorted</li>
-<li>if an error occurs whilst reading</li>
-<li>if an error occurs whilst parsing of the nmea senteces</li>
-<li>if an error occurs during conversion of apperant wind</li>
 </ul></div>
 </dd>
 </dl>
@@ -285,7 +296,10 @@ setTimeout(() => input.focus(), 100);
 </ul>
 </li>
 <li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.datahandler.HandlerException" href="#hrosailing.processing.pipelinecomponents.datahandler.HandlerException">HandlerException</a></code></h4>
+<h4><code><a title="hrosailing.processing.pipelinecomponents.datahandler.HandleException" href="#hrosailing.processing.pipelinecomponents.datahandler.HandleException">HandleException</a></code></h4>
+</li>
+<li>
+<h4><code><a title="hrosailing.processing.pipelinecomponents.datahandler.HandlerInitializationException" href="#hrosailing.processing.pipelinecomponents.datahandler.HandlerInitializationException">HandlerInitializationException</a></code></h4>
 </li>
 <li>
 <h4><code><a title="hrosailing.processing.pipelinecomponents.datahandler.NMEAFileHandler" href="#hrosailing.processing.pipelinecomponents.datahandler.NMEAFileHandler">NMEAFileHandler</a></code></h4>

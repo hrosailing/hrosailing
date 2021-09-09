@@ -59,7 +59,8 @@ weight is outside an interval given by a lower and upper bound</p>
 <p>Defaults to 0.5</p>
 </dd>
 </dl>
-<p>Raises a FilterException if lower_bound is greater than upper_bound</p></div>
+<p>Raises a FilterInitializationException if
+lower_bound is greater than upper_bound</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.filter.Filter" href="#hrosailing.processing.pipelinecomponents.filter.Filter">Filter</a></li>
@@ -114,13 +115,13 @@ depending on their resp. weight</dd>
 </dd>
 </dl>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.filter.FilterException"><code class="flex name class">
-<span>class <span class="ident">FilterException</span></span>
+<dt id="hrosailing.processing.pipelinecomponents.filter.FilterInitializationException"><code class="flex name class">
+<span>class <span class="ident">FilterInitializationException</span></span>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Custom exception for errors that may appear whilst
-working with the Filter class and subclasses</p></div>
+<div class="desc"><p>Exception raised if an error occurs during
+initialization of a Filter</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>
@@ -142,7 +143,8 @@ resp. weight lies above a certain quantile</p>
 <p>Defaults to 25</p>
 </dd>
 </dl>
-<p>Raises a FilterException, if percent is not in the interval [0, 100]</p></div>
+<p>Raises a FilterInitializationException, if percent
+is not in the interval [0, 100]</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.filter.Filter" href="#hrosailing.processing.pipelinecomponents.filter.Filter">Filter</a></li>
@@ -251,7 +253,7 @@ setTimeout(() => input.focus(), 100);
 </ul>
 </li>
 <li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.filter.FilterException" href="#hrosailing.processing.pipelinecomponents.filter.FilterException">FilterException</a></code></h4>
+<h4><code><a title="hrosailing.processing.pipelinecomponents.filter.FilterInitializationException" href="#hrosailing.processing.pipelinecomponents.filter.FilterInitializationException">FilterInitializationException</a></code></h4>
 </li>
 <li>
 <h4><code><a title="hrosailing.processing.pipelinecomponents.filter.QuantileFilter" href="#hrosailing.processing.pipelinecomponents.filter.QuantileFilter">QuantileFilter</a></code></h4>

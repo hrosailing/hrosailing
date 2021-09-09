@@ -20,7 +20,7 @@ INDEX=[
 {
 "ref":"hrosailing",
 "url":0,
-"doc":""
+"doc":"Getting Started        - Index   - Usage Example       -"
 },
 {
 "ref":"hrosailing.polardiagram",
@@ -483,7 +483,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramPointcloud",
 "url":1,
-"doc":"A class to represent, visualize and work with a polar diagram given by a point cloud Parameters      pts : array_like of shape (n, 3), optional Initial points of the point cloud, given as a sequence of points consisting of wind speed, wind angle and boat speed If nothing is passed, the point cloud will be initialized as an empty point cloud tw : bool, optional Specifies if the given wind data should be viewed as true wind If False, wind data will be converted to true wind Defaults to True Raises a PolarDiagramException - if - if"
+"doc":"A class to represent, visualize and work with a polar diagram given by a point cloud Parameters      pts : array_like of shape (n, 3), optional Initial points of the point cloud, given as a sequence of points consisting of wind speed, wind angle and boat speed If nothing is passed, the point cloud will be initialized as an empty point cloud tw : bool, optional Specifies if the given wind data should be viewed as true wind If False, wind data will be converted to true wind Defaults to True"
 },
 {
 "ref":"hrosailing.polardiagram.PolarDiagramPointcloud.__str__",
@@ -520,7 +520,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramPointcloud.to_csv",
 "url":1,
-"doc":"Creates a .csv file with delimiter ',' and the following format: PolarDiagramPointcloud True wind speed ,True wind angle ,Boat speed self.points Parameters      csv_path : path-like Path to a .csv-file or where a new .csv file will be created Raises a FileWritingException if an error occurs whilst writing",
+"doc":"Creates a .csv file with delimiter ',' and the following format: PolarDiagramPointcloud True wind speed ,True wind angle ,Boat speed self.points Parameters      csv_path : path-like Path to a .csv-file or where a new .csv file will be created",
 "func":1
 },
 {
@@ -532,7 +532,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramPointcloud.add_points",
 "url":1,
-"doc":"Adds additional points to the point cloud Parameters      new_pts: array_like of shape (n, 3) New points to be added to the point cloud given as a sequence of points consisting of wind speed, wind angle and boat speed tw : bool, optional Specifies if the given wind data should be viewed as true wind If False, wind data will be converted to true wind Defaults to True Raises a PolarDiagramException",
+"doc":"Adds additional points to the point cloud Parameters      new_pts: array_like of shape (n, 3) New points to be added to the point cloud given as a sequence of points consisting of wind speed, wind angle and boat speed tw : bool, optional Specifies if the given wind data should be viewed as true wind If False, wind data will be converted to true wind Defaults to True",
 "func":1
 },
 {
@@ -601,9 +601,14 @@ INDEX=[
 "doc":"Functions to convert wind from apparent to true and vice versa"
 },
 {
-"ref":"hrosailing.wind.WindException",
+"ref":"hrosailing.wind.WindConversionException",
 "url":2,
-"doc":"Custom exception for errors that may appear during wind conversion or setting wind resolutions"
+"doc":""
+},
+{
+"ref":"hrosailing.wind.ResolutionSettingException",
+"url":2,
+"doc":""
 },
 {
 "ref":"hrosailing.wind.apparent_wind_to_true",
@@ -737,7 +742,7 @@ INDEX=[
 {
 "ref":"hrosailing.processing.pipeline.PolarPipeline",
 "url":6,
-"doc":"A Pipeline class to create polar diagrams from raw data Parameters      extension: PipelineExtension handler : DataHandler weigher : Weigher, optional filter_ : Filter, optional Raises a PipelineException"
+"doc":"A Pipeline class to create polar diagrams from raw data Parameters      extension: PipelineExtension handler : DataHandler weigher : Weigher, optional filter_ : Filter, optional"
 },
 {
 "ref":"hrosailing.processing.pipeline.PolarPipeline.__call__",
@@ -871,7 +876,7 @@ INDEX=[
 {
 "ref":"hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor.fit",
 "url":8,
-"doc":"Fits the model function to the given data, ie calculates the optimal parameters to minimize the sum of the squares of the residuals, see also  least squares   _ Parameters      data : array_like of shape (n, 3) Data to which the model function will be fitted, given as a sequence of points consisting of wind speed, wind angle and boat speed Raises a RegressorException if least-square minimization was not succesful, ie, if scipy.optimize.curve_fit raises a RuntimeError",
+"doc":"Fits the model function to the given data, ie calculates the optimal parameters to minimize the sum of the squares of the residuals, see also [least squares](https: docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html) Parameters      data : array_like of shape (n, 3) Data to which the model function will be fitted, given as a sequence of points consisting of wind speed, wind angle and boat speed Raises a RegressorException if least-square minimization was not succesful, ie, if scipy.optimize.curve_fit raises a RuntimeError",
 "func":1
 },
 {
@@ -890,9 +895,9 @@ INDEX=[
 "doc":"dummy"
 },
 {
-"ref":"hrosailing.processing.pipelinecomponents.interpolator.InterpolatorException",
+"ref":"hrosailing.processing.pipelinecomponents.interpolator.InterpolatorInitializationException",
 "url":9,
-"doc":"Custom exception for errors that may appear whilst working with the Interpolator class and subclasses"
+"doc":"Exception raised if an error occurs during initialization of an Interpolator"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.interpolator.Interpolator",
@@ -908,7 +913,7 @@ INDEX=[
 {
 "ref":"hrosailing.processing.pipelinecomponents.interpolator.IDWInterpolator",
 "url":9,
-"doc":"Basic inverse distance interpolator, based on the work of Shepard, \"A two-dimensional interpolation function for irregulary-spaced data\" For a given point grid_pt, that is to be interpolated, we calculate the distances d_pt =  grid-pt - pt[:2] for all considered measured points. Then we set the weights of a point pt to be w_pt = 1 / d_pt^p, for some nonnegative integer p The interpolated value on grid_pt then equals (\u03a3 w_pt pt[2]) / \u03a3 w_pt or if grid_pt is already a measured point pt , it will equal pt [2] Parameters      p : nonnegative int, optional Defaults to 2 norm : function or callable, optional Norm with which to calculate the distances, ie  . If nothing is passed, it will default to a scaled version of  . _2 Raises an InterpolatorException if the inputs are not of the specified type"
+"doc":"Basic inverse distance interpolator, based on the work of Shepard, \"A two-dimensional interpolation function for irregulary-spaced data\" For a given point grid_pt, that is to be interpolated, we calculate the distances d_pt =  grid-pt - pt[:2] for all considered measured points. Then we set the weights of a point pt to be w_pt = 1 / d_pt^p, for some nonnegative integer p The interpolated value on grid_pt then equals (\u03a3 w_pt pt[2]) / \u03a3 w_pt or if grid_pt is already a measured point pt , it will equal pt [2] Parameters      p : nonnegative int, optional Defaults to 2 norm : function or callable, optional Norm with which to calculate the distances, ie  . If nothing is passed, it will default to a scaled version of  . _2 Raises an InterpolatorInitializationException if p is negative"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.interpolator.IDWInterpolator.interpolate",
@@ -924,7 +929,7 @@ INDEX=[
 {
 "ref":"hrosailing.processing.pipelinecomponents.interpolator.ArithmeticMeanInterpolator",
 "url":9,
-"doc":"An Interpolator that gets the interpolated value according to the following procedure First the distance of the independent variables of all considered points and of the to interpolate point is calculated, ie  p[:2] - grid_pt  Then using a distribution, new weights are calculated based on the old weights, the previously calculated distances and other parameters depending on the distribution The value of the dependent variable of the interpolated point then equals s  (\u03a3 w_p  p) / \u03a3 w_p where s is an additional scaling factor In fact it is a more general approach to the inverse distance interpolator Parameters      s : positive int or float, optional Scaling factor for the arithmetic mean, Defaults to 1 norm : function or callable, optional Norm with which to calculate the distances, ie  . If nothing is passed, it will default to a scaled version of  . _2 distribution : function or callable, optional Function with which to calculate the updated weights. Should have the signature f(distances, old_weights,  parameters) -> new_weights If nothing is passed, it will default to gauss_potential, which calculated weights based on the formula \u03b2  exp(-\u03b1  old_weights  distances) params: Parameters to be passed to distribution Raises an InterpolatorException if the inputs are not of the specified type"
+"doc":"An Interpolator that gets the interpolated value according to the following procedure First the distance of the independent variables of all considered points and of the to interpolate point is calculated, ie  p[:2] - grid_pt  Then using a distribution, new weights are calculated based on the old weights, the previously calculated distances and other parameters depending on the distribution The value of the dependent variable of the interpolated point then equals s  (\u03a3 w_p  p) / \u03a3 w_p where s is an additional scaling factor In fact it is a more general approach to the inverse distance interpolator Parameters      s : positive int or float, optional Scaling factor for the arithmetic mean, Defaults to 1 norm : function or callable, optional Norm with which to calculate the distances, ie  . If nothing is passed, it will default to a scaled version of  . _2 distribution : function or callable, optional Function with which to calculate the updated weights. Should have the signature f(distances, old_weights,  parameters) -> new_weights If nothing is passed, it will default to gauss_potential, which calculated weights based on the formula \u03b2  exp(-\u03b1  old_weights  distances) params: Parameters to be passed to distribution Raises an InterpolatorInitializationException if s is nonpositive"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.interpolator.ArithmeticMeanInterpolator.interpolate",
@@ -935,18 +940,18 @@ INDEX=[
 {
 "ref":"hrosailing.processing.pipelinecomponents.interpolator.ImprovedIDWInterpolator",
 "url":9,
-"doc":"An improved inverse distance interpolator, based on the work of Shepard, \"A two-dimensional interpolation function for irregulary-spaced data\" Instead of setting the weights as the normal inverse distance to some power, we set the weights in the following way: Let r be the radius of the ScalingBall with the center being some point grid_pt which is to be interpolated. For all considered measured points let d_pt be the same as in IDWInterpolator. If d_pt <= r/3 we set w_pt = 1 / d_pt. Otherwise we set w_pt = 27 / (4  r)  (d_pt / r - 1)^2 The resulting value on grid_pt will then be calculated the same way as in IDWInterpolator Parameters      norm : function or callable, optional Norm with which to calculate the distances, ie  . If nothing is passed, it will default to a scaled version of  . _2 Raises an InterpolatorException if the input is not of the specified type"
+"doc":"An improved inverse distance interpolator, based on the work of Shepard, \"A two-dimensional interpolation function for irregulary-spaced data\" Instead of setting the weights as the normal inverse distance to some power, we set the weights in the following way: Let r be the radius of the ScalingBall with the center being some point grid_pt which is to be interpolated. For all considered measured points let d_pt be the same as in IDWInterpolator. If d_pt <= r/3 we set w_pt = 1 / d_pt. Otherwise we set w_pt = 27 / (4  r)  (d_pt / r - 1)^2 The resulting value on grid_pt will then be calculated the same way as in IDWInterpolator Parameters      norm : function or callable, optional Norm with which to calculate the distances, ie  . If nothing is passed, it will default to a scaled version of  . _2"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.interpolator.ImprovedIDWInterpolator.interpolate",
 "url":9,
-"doc":"Interpolates a given grid_pt according to the above described method Parameters      w_pts : WeightedPoints Considered measured points grid_pt : numpy.ndarray of shape (2,) Point that is to be interpolated Returns    - out : int / float Interpolated values at grid_pt Raises an InterpolatorException - if - if",
+"doc":"Interpolates a given grid_pt according to the above described method Parameters      w_pts : WeightedPoints Considered measured points grid_pt : numpy.ndarray of shape (2,) Point that is to be interpolated Returns    - out : int / float Interpolated values at grid_pt",
 "func":1
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.interpolator.ShepardInterpolator",
 "url":9,
-"doc":"A full featured inverse distance interpolator, based on the work of Shepard, \"A two-dimensional interpolation function for irregulary-spaced data\" Parameters      tol : positive float , optional Defautls to numpy.finfo(float).eps slope: positive float, optional Defaults to 0.1 norm : function or callable, optional Norm with which to calculate the distances, ie  . If nothing is passed, it will default to a scaled version of  . _2 Raises an InterpolatorException if inputs are not of the specified types"
+"doc":"A full featured inverse distance interpolator, based on the work of Shepard, \"A two-dimensional interpolation function for irregulary-spaced data\" Parameters      tol : positive float , optional Defautls to numpy.finfo(float).eps slope: positive float, optional Defaults to 0.1 norm : function or callable, optional Norm with which to calculate the distances, ie  . If nothing is passed, it will default to a scaled version of  . _2 Raises an InterpolatorInitializationException - if tol is nonpositive - if slope is nonpositive"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.interpolator.ShepardInterpolator.interpolate",
@@ -960,9 +965,9 @@ INDEX=[
 "doc":"Contains the baseclass for Filters used in the PolarPipeline class, that can also be used to create custom Filters. Also contains two predefinied and usable filters, the QuantileFilter and the BoundFilter."
 },
 {
-"ref":"hrosailing.processing.pipelinecomponents.filter.FilterException",
+"ref":"hrosailing.processing.pipelinecomponents.filter.FilterInitializationException",
 "url":10,
-"doc":"Custom exception for errors that may appear whilst working with the Filter class and subclasses"
+"doc":"Exception raised if an error occurs during initialization of a Filter"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.filter.Filter",
@@ -978,7 +983,7 @@ INDEX=[
 {
 "ref":"hrosailing.processing.pipelinecomponents.filter.QuantileFilter",
 "url":10,
-"doc":"A filter that filteres all points based on if their resp. weight lies above a certain quantile Parameters      percent: int or float, optional The quantile to be calculated Defaults to 25 Raises a FilterException, if percent is not in the interval [0, 100]"
+"doc":"A filter that filteres all points based on if their resp. weight lies above a certain quantile Parameters      percent: int or float, optional The quantile to be calculated Defaults to 25 Raises a FilterInitializationException, if percent is not in the interval [0, 100]"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.filter.QuantileFilter.filter",
@@ -989,7 +994,7 @@ INDEX=[
 {
 "ref":"hrosailing.processing.pipelinecomponents.filter.BoundFilter",
 "url":10,
-"doc":"A filter that filters all points based on if their weight is outside an interval given by a lower and upper bound Parameters      upper_bound : int or float, optional The upper bound for the filter Defaults to 1 lower_bound : int or float, optional The lower bound for the filter Defaults to 0.5 Raises a FilterException if lower_bound is greater than upper_bound"
+"doc":"A filter that filters all points based on if their weight is outside an interval given by a lower and upper bound Parameters      upper_bound : int or float, optional The upper bound for the filter Defaults to 1 lower_bound : int or float, optional The lower bound for the filter Defaults to 0.5 Raises a FilterInitializationException if lower_bound is greater than upper_bound"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.filter.BoundFilter.filter",
@@ -1057,9 +1062,14 @@ INDEX=[
 "doc":"dummy"
 },
 {
-"ref":"hrosailing.processing.pipelinecomponents.weigher.WeigherException",
+"ref":"hrosailing.processing.pipelinecomponents.weigher.WeigherInitializationException",
 "url":12,
-"doc":"Custom exception for errors that may appear whilst working with the Weigher class and subclasses"
+"doc":"Exception raised if an error occurs during initialization of a Weigher"
+},
+{
+"ref":"hrosailing.processing.pipelinecomponents.weigher.WeighingException",
+"url":12,
+"doc":"Exception raised if an error occurs during the calling of the .weigh() method"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.weigher.Weigher",
@@ -1075,7 +1085,7 @@ INDEX=[
 {
 "ref":"hrosailing.processing.pipelinecomponents.weigher.CylindricMeanWeigher",
 "url":12,
-"doc":"A weigher that weighs given points according to the following procedure: For a given point p and points pts we look at all the points pt in pts such that  pt[:d-1] - p[:d-1] <= r Then we take the mean m_p and standard deviation std_p of the dth component of all those points and set w_p = | m_p - p[d-1] | / std_p Parameters      radius : positive int or float, optional The radius of the considered cylinder, with infinite height, ie r Defaults to 1 norm : function or callable, optional Norm with which to evaluate the distances, ie  . If nothing is passed, it will default to  . _2 Raises a WeigherException if inputs are not of the specified types"
+"doc":"A weigher that weighs given points according to the following procedure: For a given point p and points pts we look at all the points pt in pts such that  pt[:d-1] - p[:d-1] <= r Then we take the mean m_p and standard deviation std_p of the dth component of all those points and set w_p = | m_p - p[d-1] | / std_p Parameters      radius : positive int or float, optional The radius of the considered cylinder, with infinite height, ie r Defaults to 0.05 norm : function or callable, optional Norm with which to evaluate the distances, ie  . If nothing is passed, it will default to  . _2 Raises a WeigherInitializationException if radius is nonpositive"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.weigher.CylindricMeanWeigher.__repr__",
@@ -1092,7 +1102,7 @@ INDEX=[
 {
 "ref":"hrosailing.processing.pipelinecomponents.weigher.CylindricMemberWeigher",
 "url":12,
-"doc":"A weigher that weighs given points according to the following procedure: For a given point p and points pts we look at all the points pt in pts such that |pt[0] - p[0]| <= h and  pt[1:] - p[1:] <= r Call the set of all such points P, then w_p =  P - 1 Parameters      radius : positive int or float, optional The radius of the considered cylinder, ie r Defaults to 1 length : nonnegative int of float, optional The height of the considered cylinder, ie h If length is 0, the cylinder is a d-1 dimensional ball Defaults to 1 norm : function or callable, optional Norm with which to evaluate the distances, ie  . If nothing is passed, it will default to  . _2 Raises a WeigherException if inputs are not of the specified types"
+"doc":"A weigher that weighs given points according to the following procedure: For a given point p and points pts we look at all the points pt in pts such that |pt[0] - p[0]| <= h and  pt[1:] - p[1:] <= r Call the set of all such points P, then w_p =  P - 1 Parameters      radius : positive int or float, optional The radius of the considered cylinder, ie r Defaults to 0.05 length : nonnegative int of float, optional The height of the considered cylinder, ie h If length is 0, the cylinder is a d-1 dimensional ball Defaults to 0.05 norm : function or callable, optional Norm with which to evaluate the distances, ie  . If nothing is passed, it will default to  . _2 Raises a WeigherInitializationException - if radius is nonpositive - if length is negative"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.weigher.CylindricMemberWeigher.__repr__",
@@ -1109,7 +1119,7 @@ INDEX=[
 {
 "ref":"hrosailing.processing.pipelinecomponents.weigher.WeightedPoints",
 "url":12,
-"doc":"A class to weigh data points and represent them together with their respective weights Parameters      pts : array_like of shape (n, 3) Points that will be weight or paired with given weights wts : int, float or array_like of shape (n, ), optional If the weights of the points are known beforehand, they can be given as an argument. If weights are passed, they will be assigned to the points and no further weighing will take place If a scalar is passed, the points will all be assigned the same weight Defaults to None weigher : Weigher, optional Instance of a Weigher class, which will weigh the points Will only be used if weights is None If nothing is passed, it will default to CylindricMeanWeigher() tw : bool, optional Specifies if the given wind data should be viewed as true wind If False, wind data will be converted to true wind Defaults to True Raises a WeightedPointsException -"
+"doc":"A class to weigh data points and represent them together with their respective weights Parameters      pts : array_like of shape (n, 3) Points that will be weight or paired with given weights wts : int, float or array_like of shape (n, ), optional If the weights of the points are known beforehand, they can be given as an argument. If weights are passed, they will be assigned to the points and no further weighing will take place If a scalar is passed, the points will all be assigned the same weight Defaults to None weigher : Weigher, optional Instance of a Weigher class, which will weigh the points Will only be used if weights is None If nothing is passed, it will default to CylindricMeanWeigher() tw : bool, optional Specifies if the given wind data should be viewed as true wind If False, wind data will be converted to true wind Defaults to True"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.weigher.WeightedPoints.__getitem__",
@@ -1143,9 +1153,9 @@ INDEX=[
 "doc":"dummy"
 },
 {
-"ref":"hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException",
+"ref":"hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodInitializationException",
 "url":13,
-"doc":"Custom exception for errors that may appear whilst working with the Neighbourhood class and subclasses"
+"doc":"Exception raised if an error occurs during initialization of a Neighbourhood"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood",
@@ -1161,56 +1171,56 @@ INDEX=[
 {
 "ref":"hrosailing.processing.pipelinecomponents.neighbourhood.Ball",
 "url":13,
-"doc":"A class to describe a closed 2-dimensional ball centered around the origin, ie { x in R^2 :  x <= r } Parameters      norm : function or callable, optional The norm for which the ball is described, ie  . If nothing is passed, it will default to a scaled version of  . _2 radius : positive int or float, optional The radius of the ball, ie r Defaults to 1 Raises a NeighbourhoodException if inputs are not of the specified types"
+"doc":"A class to describe a closed 2-dimensional ball centered around the origin, ie { x in R^2 :  x <= r } Parameters      norm : function or callable, optional The norm for which the ball is described, ie  . If nothing is passed, it will default to a scaled version of  . _2 radius : positive int or float, optional The radius of the ball, ie r Defaults to 0.05 Raises a NeighbourhoodInitializationException if radius is nonpositive"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.neighbourhood.Ball.is_contained_in",
 "url":13,
-"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood Raises a NeighbourhoodException if the input is not of the specified type",
+"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
 "func":1
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.neighbourhood.ScalingBall",
 "url":13,
-"doc":"A class to represent a closed 2-dimensional ball centered around the origin, ie { x in R^2 :  x <= r }, where the radius r will be dynamically determined, such that there are always a certain amount of given points contained in the ball Parameters      min_pts : positive int The minimal amount of certain given points that should be contained in the scaling ball max_pts : positive int The \"maximal\" amount of certain given points that should be contained in the scaling ball. Mostly used for initial guess of a \"good\" radius. Also to guarantee that on average, the scaling ball will contain (min_pts + max_pts) / 2 points of certain given points It is also unlikely that the scaling ball will contain more than max_pts points norm : function or callable, optional The norm for which the scaling ball is described, ie  . If nothing is passed, it will default to a scaled version of  . _2 Raises a NeighbourhoodException - if inputs are not of the specified types - if max_pts is smaller or equal to min_pts"
+"doc":"A class to represent a closed 2-dimensional ball centered around the origin, ie { x in R^2 :  x <= r }, where the radius r will be dynamically determined, such that there are always a certain amount of given points contained in the ball Parameters      min_pts : positive int The minimal amount of certain given points that should be contained in the scaling ball max_pts : positive int The \"maximal\" amount of certain given points that should be contained in the scaling ball. Mostly used for initial guess of a \"good\" radius. Also to guarantee that on average, the scaling ball will contain (min_pts + max_pts) / 2 points of certain given points It is also unlikely that the scaling ball will contain more than max_pts points norm : function or callable, optional The norm for which the scaling ball is described, ie  . If nothing is passed, it will default to a scaled version of  . _2 Raises a NeighbourhoodInitializationException - if min_pts or max_pts are nonpositive - if max_pts is less than or equal to min_pts"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.neighbourhood.ScalingBall.is_contained_in",
 "url":13,
-"doc":"Checks given points for membership, and scales ball so that at least min_pts points are contained in it Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood Raises a NeighbourhoodException if the input is not of the specified type",
+"doc":"Checks given points for membership, and scales ball so that at least min_pts points are contained in it Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
 "func":1
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.neighbourhood.Ellipsoid",
 "url":13,
-"doc":"A class to represent a closed d-dimensional ellipsoid centered around the origin, ie T(B), where T is an invertible linear transformation, and B is a closed d-dimensional ball, centered around the origin. It will be represented using the equivalent formulation: { x in R^2 :  T^-1 x <= r } Parameters      lin_trans: array_like of shape (2,2), optional The linear transformation which transforms the ball into the given ellipsoid, ie T If nothing is passed, it will default to I_2, the 2x2 unit matrix, ie the ellipsoid will be a ball norm : function or callable, optional The norm for which the ellipsoid is described, ie  . If nothing is passed, it will default to a scaled version of  . _2 radius : positive int or float, optional The radius of the ellipsoid, ie r Defaults to 1 Raises a NeighbourhoodException - if the inputs are not of the specified types - if lin_trans is not invertible"
+"doc":"A class to represent a closed d-dimensional ellipsoid centered around the origin, ie T(B), where T is an invertible linear transformation, and B is a closed d-dimensional ball, centered around the origin. It will be represented using the equivalent formulation: { x in R^2 :  T^-1 x <= r } Parameters      lin_trans: array_like of shape (2,2), optional The linear transformation which transforms the ball into the given ellipsoid, ie T If nothing is passed, it will default to I_2, the 2x2 unit matrix, ie the ellipsoid will be a ball norm : function or callable, optional The norm for which the ellipsoid is described, ie  . If nothing is passed, it will default to a scaled version of  . _2 radius : positive int or float, optional The radius of the ellipsoid, ie r Defaults to 0.05 Raises a NeighbourhoodInitializationException - if radius is nonpositive - if lin_trans is not a (2,2)-array or is not invertible"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.neighbourhood.Ellipsoid.is_contained_in",
 "url":13,
-"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood Raises a NeighbourhoodException if the input is not of the specified type",
+"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
 "func":1
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.neighbourhood.Cuboid",
 "url":13,
-"doc":"A class to represent a d-dimensional closed cuboid, ie { x in R^2 : |x_i| <= b_i, i=1,2 } Parameters      norm : function or callable, optional The 1-d norm used to measure the length of the x_i, ie |.| If nothing is passed, it will default to the absolute value |.| dimensions: tuple of length 2, optional The 'length' of the 'sides' of the cuboid, ie the b_i If nothing is passed, it will default to (1,1) Raises a NeighbourhoodException if inputs are not of the specified types"
+"doc":"A class to represent a d-dimensional closed cuboid, ie { x in R^2 : |x_i| <= b_i, i=1,2 } Parameters      norm : function or callable, optional The 1-d norm used to measure the length of the x_i, ie |.| If nothing is passed, it will default to the absolute value |.| dimensions: subscriptable of length 2, optional The 'length' of the 'sides' of the cuboid, ie the b_i If nothing is passed, it will default to (0.05, 0.05) Raises a NeighbourhoodInitializationException if dimensions is not of length 2"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.neighbourhood.Cuboid.is_contained_in",
 "url":13,
-"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood Raises a NeighbourhoodException if the input is not of the specified type",
+"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
 "func":1
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.neighbourhood.Polytope",
 "url":13,
-"doc":"A class to represent a general 2-dimensional polytope, ie the convex hull P = conv(x_1,  ., x_n) of some n points x_1 , ., x_n or equivalent as the (bounded) intersection of m half spaces P = { x in R^2 : Ax <= b } Parameters      mat: array_like of shape (m, 2), optional matrix to represent the normal vectors a_i of the half spaces, ie A = (a_1,  . , a_m)^t If nothing is passed, it will default to (I_2, -I_2)^t, where I_d is the d-dimensional unit matrix b: array_like of shape (m, ), optional vector to represent the  . b_i of the half spaces, ie b = (b_1,  . , b_m)^t If nothing is passed, it will default to (1, .,1) Raises a NeighbourhoodException - if inputs are not of the specified types - mat or b contain NaN or infinite values Warning    - Does not check wether the polytope given by mat and b is a polytope, ie if P is actually bounded"
+"doc":"A class to represent a general 2-dimensional polytope, ie the convex hull P = conv(x_1,  ., x_n) of some n points x_1 , ., x_n or equivalent as the (bounded) intersection of m half spaces P = { x in R^2 : Ax <= b } Parameters      mat: array_like of shape (m, 2), optional matrix to represent the normal vectors a_i of the half spaces, ie A = (a_1,  . , a_m)^t If nothing is passed, it will default to (I_2, -I_2)^t, where I_d is the d-dimensional unit matrix b: array_like of shape (m, ), optional vector to represent the  . b_i of the half spaces, ie b = (b_1,  . , b_m)^t If nothing is passed, it will default to (0.05, .,0.05) Raises a NeighbourhoodException if mat and b are not of matching shape Warning    - Does not check wether the polytope given by mat and b is a polytope, ie if P is actually bounded"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.neighbourhood.Polytope.is_contained_in",
 "url":13,
-"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood Raises a NeighbourhoodException if the input is not of the specified type",
+"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
 "func":1
 },
 {
@@ -1219,9 +1229,14 @@ INDEX=[
 "doc":""
 },
 {
-"ref":"hrosailing.processing.pipelinecomponents.datahandler.HandlerException",
+"ref":"hrosailing.processing.pipelinecomponents.datahandler.HandlerInitializationException",
 "url":14,
-"doc":"Custom exception for errors that may appear whilst working with the DataHandler class and subclasses"
+"doc":"Exception raised if an error occurs during initialization of a DataHandler"
+},
+{
+"ref":"hrosailing.processing.pipelinecomponents.datahandler.HandleException",
+"url":14,
+"doc":"Exception raised if an error occurs during calling of the .handle() method"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.datahandler.DataHandler",
@@ -1259,12 +1274,12 @@ INDEX=[
 {
 "ref":"hrosailing.processing.pipelinecomponents.datahandler.NMEAFileHandler",
 "url":14,
-"doc":"A data handler to extract data from a text file containing certain nmea sentences Parameters     - mode : string, optional In the case where there is more recorded wind data than speed data, specifies how to handle the surplus - \"interpolate\": handles the surplus by taking convex combinations of two recorded speed datas together with the recorded wind data \"between\" those two points to create multiple data points - \"mean\": handles the surplus by taking the mean of the wind data \"belonging\" to a given speed data to create a singe data point Defaults to \"interpolate\" Raises a HandlerException if"
+"doc":"A data handler to extract data from a text file containing certain nmea sentences Parameters     - mode : string, optional In the case where there is more recorded wind data than speed data, specifies how to handle the surplus - \"interpolate\": handles the surplus by taking convex combinations of two recorded speed datas together with the recorded wind data \"between\" those two points to create multiple data points - \"mean\": handles the surplus by taking the mean of the wind data \"belonging\" to a given speed data to create a singe data point Defaults to \"interpolate\" Raises a HandlerInitializationException if mode is not one of the above choices"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.datahandler.NMEAFileHandler.handle",
 "url":14,
-"doc":"Reads a text file containing nmea-sentences and extracts data points based on recorded wind speed, wind angle, and speed over water Function looks for sentences of type: - MWV for wind data - VHW for speed trough water Parameters      data : path-like Path to a text file, containing nmea-0183 sentences Returns    - out : list of lists of length 3 Raises a HandlerException - if  data doesn't contain relevant nmea senteces - if nmea senteces are not sorted - if an error occurs whilst reading - if an error occurs whilst parsing of the nmea senteces - if an error occurs during conversion of apperant wind",
+"doc":"Reads a text file containing nmea-sentences and extracts data points based on recorded wind speed, wind angle, and speed over water Function looks for sentences of type: - MWV for wind data - VHW for speed trough water Parameters      data : path-like Path to a text file, containing nmea-0183 sentences Returns    - out : list of lists of length 3 Raises a HandleException - if  data doesn't contain relevant nmea senteces - if nmea senteces are not sorted",
 "func":1
 },
 {
@@ -1273,9 +1288,9 @@ INDEX=[
 "doc":"Contains the baseclass for Samplers used in the PointcloudExtension class, that can also be used to create custom Samplers. Also contains various predefined and usable samplers."
 },
 {
-"ref":"hrosailing.processing.pipelinecomponents.sampler.SamplerException",
+"ref":"hrosailing.processing.pipelinecomponents.sampler.SamplerInitializationException",
 "url":15,
-"doc":"Custom exception for errors that may appear whilst working with the Sampler class and subclasses"
+"doc":"Exception raised if an error occurs during initialization of a Sampler"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.sampler.Sampler",
@@ -1291,7 +1306,7 @@ INDEX=[
 {
 "ref":"hrosailing.processing.pipelinecomponents.sampler.UniformRandomSampler",
 "url":15,
-"doc":"A sampler that produces a number of uniformly distributed samples, which all lie in the convex hull of certain given points Parameters      n_samples : positive int Amount of samples that will be produced by the sampler Raises SamplerException if input is not of specified type"
+"doc":"A sampler that produces a number of uniformly distributed samples, which all lie in the convex hull of certain given points Parameters      n_samples : positive int Amount of samples that will be produced by the sampler Raises SamplerInitializationException if n_samples is nonpositive"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.sampler.UniformRandomSampler.sample",
@@ -1302,7 +1317,7 @@ INDEX=[
 {
 "ref":"hrosailing.processing.pipelinecomponents.sampler.FibonacciSampler",
 "url":15,
-"doc":"A sampler that produces sample points on a moved and scaled version of the spiral (sqrt(x) cos(x), sqrt(x) sin(x , such that the angles are distributed equidistantly by the inverse golden ratio. The sample points all lie in the smallest enclosing circle of given data points. Inspired by \u00c1lvaro Gonzz\u00e1lez - \"Measurement of areas on a sphere using Fibonacci and latitude\u2013longitude lattices\" Parameters      n_samples : positive int Amount of samples that will be produced by the sampler Raises SamplerException if input is not of specified type"
+"doc":"A sampler that produces sample points on a moved and scaled version of the spiral (sqrt(x) cos(x), sqrt(x) sin(x , such that the angles are distributed equidistantly by the inverse golden ratio. The sample points all lie in the smallest enclosing circle of given data points. Inspired by \u00c1lvaro Gonzz\u00e1lez - \"Measurement of areas on a sphere using Fibonacci and latitude\u2013longitude lattices\" Parameters      n_samples : positive int Amount of samples that will be produced by the sampler Raises SamplerInitializationException if n_samples is nonpositive"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.sampler.FibonacciSampler.sample",
@@ -1313,7 +1328,7 @@ INDEX=[
 {
 "ref":"hrosailing.processing.pipelinecomponents.sampler.ArchimedianSampler",
 "url":15,
-"doc":"A sampler that produces a number of approximately equidistant sample points on a moved and scaled version of the archimedean spiral (x cos(x), x sin(x . The sample points all lie in the smallest enclosing circle of given data points. Inspired by https: agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2007GC001581 Parameters      n_samples : positive int Amount of samples that will be produced by the sampler Raises SamplerException if input is not of specified type"
+"doc":"A sampler that produces a number of approximately equidistant sample points on a moved and scaled version of the archimedean spiral (x cos(x), x sin(x . The sample points all lie in the smallest enclosing circle of given data points. Inspired by https: agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2007GC001581 Parameters      n_samples : positive int Amount of samples that will be produced by the sampler Raises SamplerInitializationException if n_samples is nonpositive"
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.sampler.ArchimedianSampler.sample",

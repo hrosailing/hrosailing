@@ -68,7 +68,7 @@ w_p = | m_p - p[d-1] | / std_p</p>
 <dt><strong><code>radius</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
 <p>The radius of the considered cylinder, with infinite height, ie r</p>
-<p>Defaults to 1</p>
+<p>Defaults to 0.05</p>
 </dd>
 <dt><strong><code>norm</code></strong> :&ensp;<code>function</code> or <code>callable</code>, optional</dt>
 <dd>
@@ -76,7 +76,7 @@ w_p = | m_p - p[d-1] | / std_p</p>
 <p>If nothing is passed, it will default to ||.||_2</p>
 </dd>
 </dl>
-<p>Raises a WeigherException if inputs are not of the specified types</p></div>
+<p>Raises a WeigherInitializationException if radius is nonpositive</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.weigher.Weigher" href="#hrosailing.processing.pipelinecomponents.weigher.Weigher">Weigher</a></li>
@@ -124,13 +124,13 @@ we look at all the points pt in pts such that
 <dt><strong><code>radius</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
 <p>The radius of the considered cylinder, ie r</p>
-<p>Defaults to 1</p>
+<p>Defaults to 0.05</p>
 </dd>
 <dt><strong><code>length</code></strong> :&ensp;<code>nonnegative int</code> of <code>float</code>, optional</dt>
 <dd>
 <p>The height of the considered cylinder, ie h</p>
 <p>If length is 0, the cylinder is a d-1 dimensional ball</p>
-<p>Defaults to 1</p>
+<p>Defaults to 0.05</p>
 </dd>
 <dt><strong><code>norm</code></strong> :&ensp;<code>function</code> or <code>callable</code>, optional</dt>
 <dd>
@@ -138,7 +138,11 @@ we look at all the points pt in pts such that
 <p>If nothing is passed, it will default to ||.||_2</p>
 </dd>
 </dl>
-<p>Raises a WeigherException if inputs are not of the specified types</p></div>
+<p>Raises a WeigherInitializationException</p>
+<ul>
+<li>if radius is nonpositive</li>
+<li>if length is negative</li>
+</ul></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.weigher.Weigher" href="#hrosailing.processing.pipelinecomponents.weigher.Weigher">Weigher</a></li>
@@ -196,13 +200,26 @@ we look at all the points pt in pts such that
 </dd>
 </dl>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.weigher.WeigherException"><code class="flex name class">
-<span>class <span class="ident">WeigherException</span></span>
+<dt id="hrosailing.processing.pipelinecomponents.weigher.WeigherInitializationException"><code class="flex name class">
+<span>class <span class="ident">WeigherInitializationException</span></span>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Custom exception for errors that may appear whilst
-working with the Weigher class and subclasses</p></div>
+<div class="desc"><p>Exception raised if an error occurs during
+initialization of a Weigher</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="hrosailing.processing.pipelinecomponents.weigher.WeighingException"><code class="flex name class">
+<span>class <span class="ident">WeighingException</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Exception raised if an error occurs during the calling
+of the .weigh() method</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>
@@ -242,9 +259,7 @@ the same weight</p>
 <p>If False, wind data will be converted to true wind</p>
 <p>Defaults to True</p>
 </dd>
-</dl>
-<p>Raises a WeightedPointsException</p>
-<p>-</p></div>
+</dl></div>
 <h3>Instance variables</h3>
 <dl>
 <dt id="hrosailing.processing.pipelinecomponents.weigher.WeightedPoints.points"><code class="name">var <span class="ident">points</span></code></dt>
@@ -360,7 +375,10 @@ setTimeout(() => input.focus(), 100);
 </ul>
 </li>
 <li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.weigher.WeigherException" href="#hrosailing.processing.pipelinecomponents.weigher.WeigherException">WeigherException</a></code></h4>
+<h4><code><a title="hrosailing.processing.pipelinecomponents.weigher.WeigherInitializationException" href="#hrosailing.processing.pipelinecomponents.weigher.WeigherInitializationException">WeigherInitializationException</a></code></h4>
+</li>
+<li>
+<h4><code><a title="hrosailing.processing.pipelinecomponents.weigher.WeighingException" href="#hrosailing.processing.pipelinecomponents.weigher.WeighingException">WeighingException</a></code></h4>
 </li>
 <li>
 <h4><code><a title="hrosailing.processing.pipelinecomponents.weigher.WeightedPoints" href="#hrosailing.processing.pipelinecomponents.weigher.WeightedPoints">WeightedPoints</a></code></h4>

@@ -97,7 +97,7 @@ polar diagram from "raw" data</p>
 </dd>
 <dt id="hrosailing.processing.pipeline.PointcloudExtension"><code class="flex name class">
 <span>class <span class="ident">PointcloudExtension</span></span>
-<span>(</span><span>sampler: <a title="hrosailing.processing.pipelinecomponents.sampler.Sampler" href="pipelinecomponents/sampler.html#hrosailing.processing.pipelinecomponents.sampler.Sampler">Sampler</a> = UniformRandomSampler(no_samples=1440), neighbourhood: <a title="hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood" href="pipelinecomponents/neighbourhood.html#hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a> = Ball(norm=scaled_norm, radius=1), interpolator: <a title="hrosailing.processing.pipelinecomponents.interpolator.Interpolator" href="pipelinecomponents/interpolator.html#hrosailing.processing.pipelinecomponents.interpolator.Interpolator">Interpolator</a> = ArithmeticMeanInterpolator(*params=(1,), s=1, norm=scaled_norm, distribution=&lt;function gauss_potential&gt;))</span>
+<span>(</span><span>sampler: <a title="hrosailing.processing.pipelinecomponents.sampler.Sampler" href="pipelinecomponents/sampler.html#hrosailing.processing.pipelinecomponents.sampler.Sampler">Sampler</a> = UniformRandomSampler(no_samples=2000), neighbourhood: <a title="hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood" href="pipelinecomponents/neighbourhood.html#hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a> = Ball(norm=scaled_norm, radius=0.05), interpolator: <a title="hrosailing.processing.pipelinecomponents.interpolator.Interpolator" href="pipelinecomponents/interpolator.html#hrosailing.processing.pipelinecomponents.interpolator.Interpolator">Interpolator</a> = ArithmeticMeanInterpolator(*params=(50,), s=1, norm=scaled_norm, distribution=&lt;function gauss_potential&gt;))</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -132,8 +132,7 @@ polar diagram from "raw" data</p>
 <dd>&nbsp;</dd>
 <dt><strong><code>filter_</code></strong> :&ensp;<code>Filter</code>, optional</dt>
 <dd>&nbsp;</dd>
-</dl>
-<p>Raises a PipelineException</p></div>
+</dl></div>
 <h3>Methods</h3>
 <dl>
 <dt id="hrosailing.processing.pipeline.PolarPipeline.__call__"><code class="name flex">
@@ -161,7 +160,7 @@ polar diagram from "raw" data</p>
 </dd>
 <dt id="hrosailing.processing.pipeline.TableExtension"><code class="flex name class">
 <span>class <span class="ident">TableExtension</span></span>
-<span>(</span><span>w_res=None, neighbourhood: <a title="hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood" href="pipelinecomponents/neighbourhood.html#hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a> = Ball(norm=scaled_norm, radius=1), interpolator: <a title="hrosailing.processing.pipelinecomponents.interpolator.Interpolator" href="pipelinecomponents/interpolator.html#hrosailing.processing.pipelinecomponents.interpolator.Interpolator">Interpolator</a> = ArithmeticMeanInterpolator(*params=(1,), s=1, norm=scaled_norm, distribution=&lt;function gauss_potential&gt;))</span>
+<span>(</span><span>w_res=None, neighbourhood: <a title="hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood" href="pipelinecomponents/neighbourhood.html#hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a> = Ball(norm=scaled_norm, radius=0.05), interpolator: <a title="hrosailing.processing.pipelinecomponents.interpolator.Interpolator" href="pipelinecomponents/interpolator.html#hrosailing.processing.pipelinecomponents.interpolator.Interpolator">Interpolator</a> = ArithmeticMeanInterpolator(*params=(1,), s=1, norm=scaled_norm, distribution=&lt;function gauss_potential&gt;))</span>
 </code></dt>
 <dd>
 <div class="desc"></div>

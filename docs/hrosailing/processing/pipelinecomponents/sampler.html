@@ -62,7 +62,7 @@ of given data points.</p>
 <dt><strong><code>n_samples</code></strong> :&ensp;<code>positive int</code></dt>
 <dd>Amount of samples that will be produced by the sampler</dd>
 </dl>
-<p>Raises SamplerException if input is not of specified type</p></div>
+<p>Raises SamplerInitializationException if n_samples is nonpositive</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.sampler.Sampler" href="#hrosailing.processing.pipelinecomponents.sampler.Sampler">Sampler</a></li>
@@ -105,7 +105,7 @@ Fibonacci and latitude–longitude lattices"</p>
 <dt><strong><code>n_samples</code></strong> :&ensp;<code>positive int</code></dt>
 <dd>Amount of samples that will be produced by the sampler</dd>
 </dl>
-<p>Raises SamplerException if input is not of specified type</p></div>
+<p>Raises SamplerInitializationException if n_samples is nonpositive</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.sampler.Sampler" href="#hrosailing.processing.pipelinecomponents.sampler.Sampler">Sampler</a></li>
@@ -158,13 +158,13 @@ Fibonacci and latitude–longitude lattices"</p>
 </dd>
 </dl>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.sampler.SamplerException"><code class="flex name class">
-<span>class <span class="ident">SamplerException</span></span>
+<dt id="hrosailing.processing.pipelinecomponents.sampler.SamplerInitializationException"><code class="flex name class">
+<span>class <span class="ident">SamplerInitializationException</span></span>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Custom exception for errors that may appear whilst
-working with the Sampler class and subclasses</p></div>
+<div class="desc"><p>Exception raised if an error occurs during
+initialization of a Sampler</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>
@@ -183,7 +183,7 @@ which all lie in the convex hull of certain given points</p>
 <dt><strong><code>n_samples</code></strong> :&ensp;<code>positive int</code></dt>
 <dd>Amount of samples that will be produced by the sampler</dd>
 </dl>
-<p>Raises SamplerException if input is not of specified type</p></div>
+<p>Raises SamplerInitializationException if n_samples is nonpositive</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.sampler.Sampler" href="#hrosailing.processing.pipelinecomponents.sampler.Sampler">Sampler</a></li>
@@ -300,7 +300,7 @@ setTimeout(() => input.focus(), 100);
 </ul>
 </li>
 <li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.sampler.SamplerException" href="#hrosailing.processing.pipelinecomponents.sampler.SamplerException">SamplerException</a></code></h4>
+<h4><code><a title="hrosailing.processing.pipelinecomponents.sampler.SamplerInitializationException" href="#hrosailing.processing.pipelinecomponents.sampler.SamplerInitializationException">SamplerInitializationException</a></code></h4>
 </li>
 <li>
 <h4><code><a title="hrosailing.processing.pipelinecomponents.sampler.UniformRandomSampler" href="#hrosailing.processing.pipelinecomponents.sampler.UniformRandomSampler">UniformRandomSampler</a></code></h4>

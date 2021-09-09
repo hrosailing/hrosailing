@@ -53,7 +53,7 @@ Neighbourhoods.</p>
 <dl>
 <dt id="hrosailing.processing.pipelinecomponents.neighbourhood.Ball"><code class="flex name class">
 <span>class <span class="ident">Ball</span></span>
-<span>(</span><span>norm: Callable = &lt;function scaled.&lt;locals&gt;.scaled_norm&gt;, radius=1)</span>
+<span>(</span><span>norm: Callable = &lt;function scaled.&lt;locals&gt;.scaled_norm&gt;, radius=0.05)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>A class to describe a closed 2-dimensional ball
@@ -69,11 +69,10 @@ of ||.||_2</p>
 <dt><strong><code>radius</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
 <p>The radius of the ball, ie r</p>
-<p>Defaults to 1</p>
+<p>Defaults to 0.05</p>
 </dd>
 </dl>
-<p>Raises a NeighbourhoodException if inputs are not
-of the specified types</p></div>
+<p>Raises a NeighbourhoodInitializationException if radius is nonpositive</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a></li>
@@ -96,17 +95,13 @@ of the specified types</p></div>
 <dt><strong><code>mask</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (n, )</code></dt>
 <dd>Boolean array describing which of the input points
 is a member of the neighbourhood</dd>
-<dt><code>Raises a <a title="hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException" href="#hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException">NeighbourhoodException</a> if the input is not</code></dt>
-<dd>&nbsp;</dd>
-<dt><code>of the specified type</code></dt>
-<dd>&nbsp;</dd>
 </dl></div>
 </dd>
 </dl>
 </dd>
 <dt id="hrosailing.processing.pipelinecomponents.neighbourhood.Cuboid"><code class="flex name class">
 <span>class <span class="ident">Cuboid</span></span>
-<span>(</span><span>norm: Callable = &lt;function scaled.&lt;locals&gt;.scaled_norm&gt;, dimensions=None)</span>
+<span>(</span><span>norm: Callable = &lt;function scaled.&lt;locals&gt;.scaled_norm&gt;, dimensions=(0.05, 0.05))</span>
 </code></dt>
 <dd>
 <div class="desc"><p : R_2="R^2" _="&lt;" _x_i_="|x_i|" in x>A class to represent a d-dimensional closed cuboid, ie</p>
@@ -117,14 +112,13 @@ is a member of the neighbourhood</dd>
 <p>The 1-d norm used to measure the length of the x_i, ie |.|</p>
 <p>If nothing is passed, it will default to the absolute value |.|</p>
 </dd>
-<dt><strong><code>dimensions</code></strong> :&ensp;<code>tuple</code> of <code>length 2</code>, optional</dt>
+<dt><strong><code>dimensions</code></strong> :&ensp;<code>subscriptable</code> of <code>length 2</code>, optional</dt>
 <dd>
 <p>The 'length' of the 'sides' of the cuboid, ie the b_i</p>
-<p>If nothing is passed, it will default to (1,1)</p>
+<p>If nothing is passed, it will default to (0.05, 0.05)</p>
 </dd>
 </dl>
-<p>Raises a NeighbourhoodException if inputs are not of the
-specified types</p></div>
+<p>Raises a NeighbourhoodInitializationException if dimensions is not of length 2</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a></li>
@@ -147,17 +141,13 @@ specified types</p></div>
 <dt><strong><code>mask</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (n, )</code></dt>
 <dd>Boolean array describing which of the input points
 is a member of the neighbourhood</dd>
-<dt><code>Raises a <a title="hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException" href="#hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException">NeighbourhoodException</a> if the input is not</code></dt>
-<dd>&nbsp;</dd>
-<dt><code>of the specified type</code></dt>
-<dd>&nbsp;</dd>
 </dl></div>
 </dd>
 </dl>
 </dd>
 <dt id="hrosailing.processing.pipelinecomponents.neighbourhood.Ellipsoid"><code class="flex name class">
 <span>class <span class="ident">Ellipsoid</span></span>
-<span>(</span><span>lin_trans=None, norm: Callable = &lt;function scaled.&lt;locals&gt;.scaled_norm&gt;, radius=1)</span>
+<span>(</span><span>lin_trans=None, norm: Callable = &lt;function scaled.&lt;locals&gt;.scaled_norm&gt;, radius=0.05)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>A class to represent a closed d-dimensional ellipsoid
@@ -183,13 +173,13 @@ version of ||.||_2</p>
 <dt><strong><code>radius</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
 <p>The radius of the ellipsoid, ie r</p>
-<p>Defaults to 1</p>
+<p>Defaults to 0.05</p>
 </dd>
 </dl>
-<p>Raises a NeighbourhoodException</p>
+<p>Raises a NeighbourhoodInitializationException</p>
 <ul>
-<li>if the inputs are not of the specified types</li>
-<li>if lin_trans is not invertible</li>
+<li>if radius is nonpositive</li>
+<li>if lin_trans is not a (2,2)-array or is not invertible</li>
 </ul></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -212,10 +202,6 @@ Points that will be checked for membership</p>
 <dt><strong><code>mask</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (n, )</code></dt>
 <dd>Boolean array describing which of the input points
 is a member of the neighbourhood</dd>
-<dt><code>Raises a <a title="hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException" href="#hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException">NeighbourhoodException</a> if the input is not</code></dt>
-<dd>&nbsp;</dd>
-<dt><code>of the specified type</code></dt>
-<dd>&nbsp;</dd>
 </dl></div>
 </dd>
 </dl>
@@ -249,13 +235,13 @@ is a member of the neighbourhood</dd>
 </dd>
 </dl>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException"><code class="flex name class">
-<span>class <span class="ident">NeighbourhoodException</span></span>
+<dt id="hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodInitializationException"><code class="flex name class">
+<span>class <span class="ident">NeighbourhoodInitializationException</span></span>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Custom exception for errors that may appear whilst
-working with the Neighbourhood class and subclasses</p></div>
+<div class="desc"><p>Exception raised if an error occurs during
+initialization of a Neighbourhood</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>
@@ -264,7 +250,12 @@ working with the Neighbourhood class and subclasses</p></div>
 </dd>
 <dt id="hrosailing.processing.pipelinecomponents.neighbourhood.Polytope"><code class="flex name class">
 <span>class <span class="ident">Polytope</span></span>
-<span>(</span><span>mat=None, b=None)</span>
+<span>(</span><span>mat=array([[ 1.,
+0.],
+[ 0.,
+1.],
+[-1., -0.],
+[-0., -1.]]), b=array([0.05, 0.05, 0.05, 0.05]))</span>
 </code></dt>
 <dd>
 <div class="desc"><p>A class to represent a general 2-dimensional polytope, ie the
@@ -284,14 +275,10 @@ where I_d is the d-dimensional unit matrix</p>
 <dd>
 <p>vector to represent the &hellip; b_i of the half spaces, ie
 b = (b_1, &hellip; , b_m)^t</p>
-<p>If nothing is passed, it will default to (1,&hellip;,1)</p>
+<p>If nothing is passed, it will default to (0.05,&hellip;,0.05)</p>
 </dd>
 </dl>
-<p>Raises a NeighbourhoodException</p>
-<ul>
-<li>if inputs are not of the specified types</li>
-<li>mat or b contain NaN or infinite values</li>
-</ul>
+<p>Raises a NeighbourhoodException if mat and b are not of matching shape</p>
 <h2 id="warning">Warning</h2>
 <p>Does not check wether the polytope given by mat and b is a polytope,
 ie if P is actually bounded</p></div>
@@ -317,10 +304,6 @@ ie if P is actually bounded</p></div>
 <dt><strong><code>mask</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (n, )</code></dt>
 <dd>Boolean array describing which of the input points
 is a member of the neighbourhood</dd>
-<dt><code>Raises a <a title="hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException" href="#hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException">NeighbourhoodException</a> if the input is not</code></dt>
-<dd>&nbsp;</dd>
-<dt><code>of the specified type</code></dt>
-<dd>&nbsp;</dd>
 </dl></div>
 </dd>
 </dl>
@@ -357,10 +340,10 @@ more than max_pts points</p>
 of ||.||_2</p>
 </dd>
 </dl>
-<p>Raises a NeighbourhoodException</p>
+<p>Raises a NeighbourhoodInitializationException</p>
 <ul>
-<li>if inputs are not of the specified types</li>
-<li>if max_pts is smaller or equal to min_pts</li>
+<li>if min_pts or max_pts are nonpositive</li>
+<li>if max_pts is less than or equal to min_pts</li>
 </ul></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -385,10 +368,6 @@ ball so that at least min_pts points are contained in it</p>
 <dt><strong><code>mask</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (n, )</code></dt>
 <dd>Boolean array describing which of the input points
 is a member of the neighbourhood</dd>
-<dt><code>Raises a <a title="hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException" href="#hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException">NeighbourhoodException</a> if the input is not</code></dt>
-<dd>&nbsp;</dd>
-<dt><code>of the specified type</code></dt>
-<dd>&nbsp;</dd>
 </dl></div>
 </dd>
 </dl>
@@ -491,7 +470,7 @@ setTimeout(() => input.focus(), 100);
 </ul>
 </li>
 <li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException" href="#hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodException">NeighbourhoodException</a></code></h4>
+<h4><code><a title="hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodInitializationException" href="#hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodInitializationException">NeighbourhoodInitializationException</a></code></h4>
 </li>
 <li>
 <h4><code><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Polytope" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Polytope">Polytope</a></code></h4>
