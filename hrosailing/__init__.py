@@ -1,3 +1,18 @@
+"""
+Getting Started
+---------------
+
+
+
+Index
+-----
+
+
+
+Usage Example
+-------------
+"""
+
 import hrosailing.cruising
 import hrosailing.polardiagram
 import hrosailing.processing
