@@ -70,7 +70,9 @@ class QuantileFilter(Filter):
 
     def __init__(self, percent=50):
         if percent < 0 or percent > 100:
-            raise FilterInitializationException("`percent` is not between 0 and 100")
+            raise FilterInitializationException(
+                "`percent` is not between 0 and 100"
+            )
 
         self._percent = percent
 

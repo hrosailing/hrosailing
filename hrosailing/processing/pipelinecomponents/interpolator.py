@@ -322,7 +322,9 @@ class ShepardInterpolator(Interpolator):
         if tol <= 0:
             raise InterpolatorInitializationException("`tol` is not positive")
         if slope <= 0:
-            raise InterpolatorInitializationException("`slope` is not positive")
+            raise InterpolatorInitializationException(
+                "`slope` is not positive"
+            )
 
         self._norm = norm
         self._tol = tol

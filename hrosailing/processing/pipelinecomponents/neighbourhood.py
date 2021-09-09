@@ -76,7 +76,9 @@ class Ball(Neighbourhood):
         radius=0.05,
     ):
         if radius <= 0:
-            raise NeighbourhoodInitializationException("`radius` is not positive")
+            raise NeighbourhoodInitializationException(
+                "`radius` is not positive"
+            )
 
         self._norm = norm
         self._radius = radius
@@ -147,11 +149,17 @@ class ScalingBall(Neighbourhood):
     ):
 
         if min_pts <= 0:
-            raise NeighbourhoodInitializationException("`min_pts` is not positive")
+            raise NeighbourhoodInitializationException(
+                "`min_pts` is not positive"
+            )
         if max_pts <= 0:
-            raise NeighbourhoodInitializationException("`max_pts` is not positive")
+            raise NeighbourhoodInitializationException(
+                "`max_pts` is not positive"
+            )
         if max_pts <= min_pts:
-            raise NeighbourhoodInitializationException("`max_pts` is smaller than `min_pts`")
+            raise NeighbourhoodInitializationException(
+                "`max_pts` is smaller than `min_pts`"
+            )
 
         self._min_pts = min_pts
         self._max_pts = max_pts
@@ -252,13 +260,19 @@ class Ellipsoid(Neighbourhood):
         lin_trans = np.asarray_chkfinite(lin_trans)
 
         if lin_trans.shape != (2, 2):
-            raise NeighbourhoodInitializationException("`lin_trans` has incorrect shape")
+            raise NeighbourhoodInitializationException(
+                "`lin_trans` has incorrect shape"
+            )
 
         if not np.linalg.det(lin_trans):
-            raise NeighbourhoodInitializationException("`lin_trans` is singular")
+            raise NeighbourhoodInitializationException(
+                "`lin_trans` is singular"
+            )
 
         if radius <= 0:
-            raise NeighbourhoodInitializationException("`radius` is not positive")
+            raise NeighbourhoodInitializationException(
+                "`radius` is not positive"
+            )
 
         # invert lin_trans in initialization to later
         # transform ellipsoid to a ball
@@ -321,7 +335,9 @@ class Cuboid(Neighbourhood):
         dimensions=(0.05, 0.05),
     ):
         if len(dimensions) != 2:
-            raise NeighbourhoodInitializationException("`dimensions` is not of length 2")
+            raise NeighbourhoodInitializationException(
+                "`dimensions` is not of length 2"
+            )
 
         self._norm = norm
         self._size = dimensions
@@ -383,17 +399,21 @@ class Polytope(Neighbourhood):
     """
 
     def __init__(
-        self, mat=np.row_stack((np.eye(2), -np.eye(2))), b=0.05*np.ones(4)
+        self, mat=np.row_stack((np.eye(2), -np.eye(2))), b=0.05 * np.ones(4)
     ):
         # NaN's or infinite values can't be handled
         mat = np.asarray_chkfinite(mat)
         b = np.asarray_chkfinite(b)
 
         if mat.ndim != 2 or mat.shape[1] != 2:
-            raise NeighbourhoodInitializationException("`mat` has incorrect shape")
+            raise NeighbourhoodInitializationException(
+                "`mat` has incorrect shape"
+            )
 
         if b.ndim != 1 or b.shape[0] != mat.shape[0]:
-            raise NeighbourhoodInitializationException("`b` has incorrect shape")
+            raise NeighbourhoodInitializationException(
+                "`b` has incorrect shape"
+            )
 
         self._mat = mat
         self._b = b
