@@ -32,12 +32,10 @@ logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)
 
 
-class FilterException(Exception):
-    """Custom exception for errors that may appear whilst
-    working with the Filter class and subclasses
+class FilterInitializationException(Exception):
+    """Exception raised if an error occurs during
+    initialization of a Filter
     """
-
-    pass
 
 
 class Filter(ABC):
@@ -66,12 +64,13 @@ class QuantileFilter(Filter):
         Defaults to 25
 
 
-    Raises a FilterException, if percent is not in the interval [0, 100]
+    Raises a FilterInitializationException, if percent
+    is not in the interval [0, 100]
     """
 
     def __init__(self, percent=50):
         if percent < 0 or percent > 100:
-            raise FilterException("`percent` is not between 0 and 100")
+            raise FilterInitializationException("`percent` is not between 0 and 100")
 
         self._percent = percent
 
@@ -122,12 +121,13 @@ class BoundFilter(Filter):
         Defaults to 0.5
 
 
-    Raises a FilterException if lower_bound is greater than upper_bound
+    Raises a FilterInitializationException if
+    lower_bound is greater than upper_bound
     """
 
     def __init__(self, upper_bound=1, lower_bound=0.5):
         if upper_bound < lower_bound:
-            raise FilterException(
+            raise FilterInitializationException(
                 "`upper_bound` is smaller than `lower_bound`"
             )
 
