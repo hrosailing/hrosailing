@@ -16,12 +16,10 @@ import numpy as np
 from scipy.spatial import ConvexHull
 
 
-class SamplerException(Exception):
-    """Custom exception for errors that may appear whilst
-    working with the Sampler class and subclasses
+class SamplerInitializationException(Exception):
+    """Exception raised if an error occurs during
+    initialization of a Sampler
     """
-
-    pass
 
 
 class Sampler(ABC):
@@ -48,12 +46,12 @@ class UniformRandomSampler(Sampler):
         Amount of samples that will be produced by the sampler
 
 
-    Raises SamplerException if input is not of specified type
+    Raises SamplerInitializationException if n_samples is nonpositive
     """
 
     def __init__(self, n_samples):
         if n_samples <= 0:
-            raise SamplerException("`n_samples`is not positive")
+            raise SamplerInitializationException("`n_samples`is not positive")
 
         self._n_samples = n_samples
 
@@ -115,12 +113,12 @@ class FibonacciSampler(Sampler):
         Amount of samples that will be produced by the sampler
 
 
-    Raises SamplerException if input is not of specified type
+    Raises SamplerInitializationException if n_samples is nonpositive
     """
 
     def __init__(self, n_samples):
         if n_samples <= 0:
-            raise SamplerException("`n_samples` is not positive")
+            raise SamplerInitializationException("`n_samples` is not positive")
 
         self._n_samples = n_samples
 
@@ -170,12 +168,12 @@ class ArchimedianSampler(Sampler):
         Amount of samples that will be produced by the sampler
 
 
-    Raises SamplerException if input is not of specified type
+    Raises SamplerInitializationException if n_samples is nonpositive
     """
 
     def __init__(self, n_samples):
         if n_samples <= 0:
-            raise SamplerException("`n_samples` is not positive")
+            raise SamplerInitializationException("`n_samples` is not positive")
 
         self._n_samples = n_samples
 
