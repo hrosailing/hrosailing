@@ -90,7 +90,7 @@ class CylindricMeanWeigher(Weigher):
     radius : positive int or float, optional
         The radius of the considered cylinder, with infinite height, ie r
 
-        Defaults to 1
+        Defaults to 0.05
 
     norm : function or callable, optional
         Norm with which to evaluate the distances, ie ||.||
@@ -170,14 +170,14 @@ class CylindricMemberWeigher(Weigher):
     radius : positive int or float, optional
         The radius of the considered cylinder, ie r
 
-        Defaults to 1
+        Defaults to 0.05
 
     length : nonnegative int of float, optional
         The height of the considered cylinder, ie h
 
         If length is 0, the cylinder is a d-1 dimensional ball
 
-        Defaults to 1
+        Defaults to 0.05
 
     norm : function or callable, optional
         Norm with which to evaluate the distances, ie ||.||
@@ -189,8 +189,6 @@ class CylindricMemberWeigher(Weigher):
 
     - if radius is nonpositive
     - if length is negative
-
-
     """
 
     def __init__(
