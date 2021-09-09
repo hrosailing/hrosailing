@@ -30,15 +30,10 @@ def euclidean_norm(vec):
     return np.linalg.norm(vec, axis=1)
 
 
-class InterpolatorException(Exception):
-    """Custom exception for errors that may appear whilst
-    working with the Interpolator class and subclasses
+class InterpolatorInitializationException(Exception):
+    """Exception raised if an error occurs during
+    initialization of an Interpolator
     """
-
-    pass
-
-
-# TODO Improve docstrings
 
 
 class Interpolator(ABC):
@@ -80,15 +75,14 @@ class IDWInterpolator(Interpolator):
         version of ||.||_2
 
 
-    Raises an InterpolatorException if the inputs are not
-    of the specified type
+    Raises an InterpolatorInitializationException if p is negative
     """
 
     def __init__(
         self, p=2, norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360))
     ):
         if p < 0:
-            raise InterpolatorException("`p` is not nonnegative")
+            raise InterpolatorInitializationException("`p` is negative")
 
         self._p = p
         self._norm = norm
@@ -175,8 +169,7 @@ class ArithmeticMeanInterpolator(Interpolator):
         Parameters to be passed to distribution
 
 
-    Raises an InterpolatorException if the inputs are not
-    of the specified type
+    Raises an InterpolatorInitializationException if s is nonpositive
     """
 
     def __init__(
@@ -187,7 +180,7 @@ class ArithmeticMeanInterpolator(Interpolator):
         distribution: Callable = gauss_potential,
     ):
         if s <= 0:
-            raise InterpolatorException("`s` is not positive")
+            raise InterpolatorInitializationException("`s` is not positive")
 
         self._s = s
         self._norm = norm
@@ -252,10 +245,6 @@ class ImprovedIDWInterpolator(Interpolator):
 
         If nothing is passed, it will default to a scaled
         version of ||.||_2
-
-
-    Raises an InterpolatorException if the input is not
-    of the specified type
     """
 
     def __init__(
@@ -279,11 +268,6 @@ class ImprovedIDWInterpolator(Interpolator):
         -------
         out : int / float
             Interpolated values at grid_pt
-
-        Raises an InterpolatorException
-
-        - if
-        - if
         """
         pts = w_pts.points
         dist = self._norm(pts[:, :2] - grid_pt)
@@ -322,8 +306,10 @@ class ShepardInterpolator(Interpolator):
         version of ||.||_2
 
 
-    Raises an InterpolatorException if inputs are not
-    of the specified types
+    Raises an InterpolatorInitializationException
+
+    - if tol is nonpositive
+    - if slope is nonpositive
     """
 
     def __init__(
@@ -334,9 +320,9 @@ class ShepardInterpolator(Interpolator):
         norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360)),
     ):
         if tol <= 0:
-            raise InterpolatorException("`tol` is not positive")
+            raise InterpolatorInitializationException("`tol` is not positive")
         if slope <= 0:
-            raise InterpolatorException("`slope` is not positive")
+            raise InterpolatorInitializationException("`slope` is not positive")
 
         self._norm = norm
         self._tol = tol
