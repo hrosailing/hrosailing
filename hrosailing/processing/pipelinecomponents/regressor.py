@@ -227,7 +227,7 @@ class LeastSquareRegressor(Regressor):
     def fit(self, data):
         """Fits the model function to the given data, ie calculates
         the optimal parameters to minimize the sum of the squares of
-        the residuals, see also `least squares <https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html>`_
+        the residuals, see also [least squares](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html)
 
         Parameters
         ----------
