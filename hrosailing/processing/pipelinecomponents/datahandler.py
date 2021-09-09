@@ -12,12 +12,16 @@ import pynmea2
 from hrosailing.wind import apparent_wind_to_true
 
 
-class HandlerException(Exception):
-    """Custom exception for errors that may appear whilst
-    working with the DataHandler class and subclasses
+class HandlerInitializationException(Exception):
+    """Exception raised if an error occurs during
+    initialization of a DataHandler
     """
 
-    pass
+
+class HandleException(Exception):
+    """Exception raised if an error occurs during
+    calling of the .handle() method
+    """
 
 
 class DataHandler(ABC):
@@ -98,12 +102,13 @@ class NMEAFileHandler(DataHandler):
 
         Defaults to "interpolate"
 
-    Raises a HandlerException if
+    Raises a HandlerInitializationException if mode is not one of
+    the above choices
     """
 
     def __init__(self, mode="interpolate"):
         if mode not in {"mean", "interpolate"}:
-            raise HandlerException("`mode` not implemented")
+            raise HandlerInitializationException("`mode` not implemented")
 
         self.mode = mode
 
@@ -127,13 +132,10 @@ class NMEAFileHandler(DataHandler):
         out : list of lists of length 3
 
 
-        Raises a HandlerException
+        Raises a HandleException
 
         - if `data` doesn't contain relevant nmea senteces
         - if nmea senteces are not sorted
-        - if an error occurs whilst reading
-        - if an error occurs whilst parsing of the nmea senteces
-        - if an error occurs during conversion of apperant wind
         """
         with open(data, "r") as file:
             nmea_stcs = filter(
@@ -143,7 +145,7 @@ class NMEAFileHandler(DataHandler):
             stc = next(nmea_stcs, None)
             # check if file is "empty"
             if stc is None:
-                raise HandlerException(
+                raise HandleException(
                     "`data` doesn't contain any (relevant) nmea sentences"
                 )
 
@@ -158,7 +160,7 @@ class NMEAFileHandler(DataHandler):
 
                 # check if nmea sentences is "sorted"
                 if "VHW" in stc:
-                    raise HandlerException(
+                    raise HandleException(
                         "No wind records in between speed records. "
                         "Parsing not possible"
                     )
