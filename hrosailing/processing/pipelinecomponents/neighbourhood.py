@@ -66,17 +66,16 @@ class Ball(Neighbourhood):
     radius : positive int or float, optional
         The radius of the ball, ie r
 
-        Defaults to 1
+        Defaults to 0.05
 
 
-    Raises a NeighbourhoodException if inputs are not
-    of the specified types
+    Raises a NeighbourhoodException if radius is nonpositive
     """
 
     def __init__(
         self,
         norm: Callable = scaled(euclidean_norm, [1 / 40, 1 / 360]),
-        radius=1,
+        radius=0.05,
     ):
         if radius <= 0:
             raise NeighbourhoodException("`radius` is not positive")
@@ -100,10 +99,6 @@ class Ball(Neighbourhood):
         mask : numpy.ndarray of shape (n, )
             Boolean array describing which of the input points
             is a member of the neighbourhood
-
-
-        Raises a NeighbourhoodException if the input is not
-        of the specified type
         """
         pts = np.asarray(pts)
         return self._norm(pts) <= self._radius
@@ -142,8 +137,8 @@ class ScalingBall(Neighbourhood):
 
     Raises a NeighbourhoodException
 
-     - if inputs are not of the specified types
-     - if max_pts is smaller or equal to min_pts
+     - if min_pts or max_pts are nonpositive
+     - if max_pts is less than or equal to min_pts
     """
 
     def __init__(
@@ -187,13 +182,8 @@ class ScalingBall(Neighbourhood):
         mask : numpy.ndarray of shape (n, )
             Boolean array describing which of the input points
             is a member of the neighbourhood
-
-
-        Raises a NeighbourhoodException if the input is not
-        of the specified type
         """
         if self._first_call:
-            # check only in the first call
             pts = np.asarray(pts)
 
             # initial guess for suitable radius.
@@ -243,30 +233,25 @@ class Ellipsoid(Neighbourhood):
     radius : positive int or float, optional
         The radius of the ellipsoid, ie r
 
-        Defaults to 1
+        Defaults to 0.05
 
 
     Raises a NeighbourhoodException
 
-    - if the inputs are not of the specified types
-    - if lin_trans is not invertible
+    - if radius is nonpositive
+    - if lin_trans is not a (2,2)-array or is not invertible
     """
 
     def __init__(
         self,
         lin_trans=None,
         norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360)),
-        radius=1,
+        radius=0.05,
     ):
         if lin_trans is None:
             lin_trans = np.eye(2)
 
-        try:
-            lin_trans = np.asarray_chkfinite(lin_trans)
-        except ValueError as ve:
-            raise NeighbourhoodException(
-                "`lin_trans` contains infinite or NaN values"
-            ) from ve
+        lin_trans = np.asarray_chkfinite(lin_trans)
 
         if lin_trans.shape != (2, 2):
             raise NeighbourhoodException("`lin_trans` has incorrect shape")
@@ -277,7 +262,10 @@ class Ellipsoid(Neighbourhood):
         if radius <= 0:
             raise NeighbourhoodException("`radius` is not positive")
 
+        # invert lin_trans in initialization to later
+        # transform ellipsoid to a ball
         self._T = np.linalg.inv(lin_trans)
+
         self._norm = norm
         self._radius = radius
 
@@ -300,15 +288,12 @@ class Ellipsoid(Neighbourhood):
         mask : numpy.ndarray of shape (n, )
             Boolean array describing which of the input points
             is a member of the neighbourhood
-
-
-        Raises a NeighbourhoodException if the input is not
-        of the specified type
         """
         pts = np.asarray(pts)
 
         # transform the ellipsoid to a ball
         pts = (self._T @ pts.T).T
+
         return self._norm(pts) <= self._radius
 
 
@@ -323,24 +308,21 @@ class Cuboid(Neighbourhood):
 
         If nothing is passed, it will default to the absolute value |.|
 
-    dimensions: tuple of length 2, optional
+    dimensions: subscriptable of length 2, optional
         The 'length' of the 'sides' of the cuboid, ie the b_i
 
-        If nothing is passed, it will default to (1,1)
+        If nothing is passed, it will default to (0.05, 0.05)
 
 
-    Raises a NeighbourhoodException if inputs are not of the
-    specified types
+    Raises a NeighbourhoodException if dimensions is not of length 2
     """
 
     def __init__(
         self,
         norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360)),
-        dimensions=None,
+        dimensions=(0.05, 0.05),
     ):
-        if dimensions is None:
-            dimensions = (1, 1)
-        elif len(dimensions) != 2:
+        if len(dimensions) != 2:
             raise NeighbourhoodException("`dimensions` is not of length 2")
 
         self._norm = norm
@@ -362,10 +344,6 @@ class Cuboid(Neighbourhood):
         mask : numpy.ndarray of shape (n, )
             Boolean array describing which of the input points
             is a member of the neighbourhood
-
-
-        Raises a NeighbourhoodException if the input is not
-        of the specified type
         """
         mask = (
             np.ones((pts.shape[0],), dtype=bool)
@@ -394,13 +372,11 @@ class Polytope(Neighbourhood):
         vector to represent the ... b_i of the half spaces, ie
         b = (b_1, ... , b_m)^t
 
-        If nothing is passed, it will default to (1,...,1)
+        If nothing is passed, it will default to (0.05,...,0.05)
 
 
-    Raises a NeighbourhoodException
+    Raises a NeighbourhoodException if mat and b are not of matching shape
 
-    - if inputs are not of the specified types
-    - mat or b contain NaN or infinite values
 
     Warning
     -------
@@ -408,29 +384,14 @@ class Polytope(Neighbourhood):
     ie if P is actually bounded
     """
 
-    def __init__(self, mat=None, b=None):
-        if mat is None:
-            mat = np.row_stack((np.eye(2), -np.eye(2)))
-
-        if b is None:
-            b = np.ones(4)
-
+    def __init__(
+        self, mat=np.row_stack((np.eye(2), -np.eye(2))), b=0.05*np.ones(4)
+    ):
         # NaN's or infinite values can't be handled
-        try:
-            mat = np.asarray_chkfinite(mat)
-        except ValueError as ve:
-            raise NeighbourhoodException(
-                "`mat` contains infinite or NaN values"
-            ) from ve
+        mat = np.asarray_chkfinite(mat)
+        b = np.asarray_chkfinite(b)
 
-        try:
-            b = np.asarray_chkfinite(b)
-        except ValueError as ve:
-            raise NeighbourhoodException(
-                "`b` contains infinite or NaN values"
-            ) from ve
-
-        if mat.ndim != 1 or mat.shape[1] != 2:
+        if mat.ndim != 2 or mat.shape[1] != 2:
             raise NeighbourhoodException("`mat` has incorrect shape")
 
         if b.ndim != 1 or b.shape[0] != mat.shape[0]:
@@ -455,10 +416,6 @@ class Polytope(Neighbourhood):
         mask : numpy.ndarray of shape (n, )
             Boolean array describing which of the input points
             is a member of the neighbourhood
-
-
-        Raises a NeighbourhoodException if the input is not
-        of the specified type
         """
         pts = np.asarray(pts)
 
