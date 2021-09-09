@@ -49,12 +49,15 @@ def euclidean_norm(vec):
     return np.linalg.norm(vec, axis=1)
 
 
-class WeigherException(Exception):
-    """Custom exception for errors that may appear whilst
-    working with the Weigher class and subclasses
+class WeigherInitializationException(Exception):
+    """Exception raised if an error occurs during
+    initialization of a Weigher
     """
 
-    pass
+
+class WeighingException(Exception):
+    """Exception raised if an error occurs during the calling
+    of the .weigh() method"""
 
 
 class Weigher(ABC):
@@ -95,7 +98,7 @@ class CylindricMeanWeigher(Weigher):
         If nothing is passed, it will default to ||.||_2
 
 
-    Raises a WeigherException if radius is nonpositive
+    Raises a WeigherInitializationException if radius is nonpositive
     """
 
     def __init__(
@@ -104,7 +107,7 @@ class CylindricMeanWeigher(Weigher):
         norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360)),
     ):
         if radius <= 0:
-            raise WeigherException("`radius` is not positive")
+            raise WeigherInitializationException("`radius` is not positive")
 
         self._radius = radius
         self._norm = norm
@@ -182,7 +185,7 @@ class CylindricMemberWeigher(Weigher):
         If nothing is passed, it will default to ||.||_2
 
 
-    Raises a WeigherException
+    Raises a WeigherInitializationException
 
     - if radius is nonpositive
     - if length is negative
@@ -197,10 +200,10 @@ class CylindricMemberWeigher(Weigher):
         norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360)),
     ):
         if radius <= 0:
-            raise WeigherException("`radius´ is not positive")
+            raise WeigherInitializationException("`radius´ is not positive")
 
         if length < 0:
-            raise WeigherException("`length` is not nonnegative")
+            raise WeigherInitializationException("`length` is not nonnegative")
 
         self._radius = radius
         self._length = length
@@ -291,7 +294,14 @@ class WeightedPoints:
 
         self._pts = pts
 
-        self._wts = _set_weights(self.points, weigher, wts, _checks)
+        shape = pts.shape[0]
+
+        if wts is None:
+            self._wts = _sanity_checks(weigher.weigh(pts), shape)
+        elif isinstance(wts, (int, float)):
+            self._wts = np.array([wts] * shape)
+        elif _checks:
+            self._wts = _sanity_checks(wts, shape)
 
     def __getitem__(self, mask):
         return WeightedPoints(
@@ -307,28 +317,13 @@ class WeightedPoints:
         return self._wts.copy()
 
 
-def _set_weights(pts, weigher, wts, _checks):
-    shape = pts.shape[0]
-
-    if wts is None:
-        return _sanity_checks(weigher.weigh(pts), shape)
-
-    if isinstance(wts, (int, float)):
-        return np.array([wts] * shape)
-
-    if _checks:
-        return _sanity_checks(wts, shape)
-
-    return wts
-
-
 def _sanity_checks(wts, shape):
     wts = np.asarray(wts)
 
     if wts.dtype is object:
-        raise WeigherException("`wts` is not array_like")
+        raise WeighingException("`wts` is not array_like")
 
     if wts.shape != (shape,):
-        raise WeigherException("`wts` has incorrect shape")
+        raise WeighingException("`wts` has incorrect shape")
 
     return wts
