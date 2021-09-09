@@ -95,7 +95,7 @@ class CylindricMeanWeigher(Weigher):
         If nothing is passed, it will default to ||.||_2
 
 
-    Raises a WeigherException if inputs are not of the specified types
+    Raises a WeigherException if radius is nonpositive
     """
 
     def __init__(
@@ -182,7 +182,12 @@ class CylindricMemberWeigher(Weigher):
         If nothing is passed, it will default to ||.||_2
 
 
-    Raises a WeigherException if inputs are not of the specified types
+    Raises a WeigherException
+
+    - if radius is nonpositive
+    - if length is negative
+
+
     """
 
     def __init__(
@@ -271,9 +276,6 @@ class WeightedPoints:
 
         Defaults to True
 
-    Raises a WeightedPointsException
-
-    -
     """
 
     def __init__(
@@ -285,7 +287,7 @@ class WeightedPoints:
         _checks=True,
     ):
         if _checks:
-            pts = convert_wind(pts, -1, tw=tw, check_finite=True)
+            pts = convert_wind(pts, -1, tw=tw, _check_finite=True)
 
         self._pts = pts
 
