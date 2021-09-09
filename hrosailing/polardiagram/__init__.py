@@ -37,13 +37,9 @@ logger.setLevel(logging.INFO)
 class PolarDiagramException(Exception):
     """"""
 
-    pass
-
 
 class FileReadingException(Exception):
     """"""
-
-    pass
 
 
 def to_csv(csv_path, obj):
@@ -56,6 +52,7 @@ def to_csv(csv_path, obj):
 
     obj : PolarDiagram
         PolarDiagram instance which will be written to .csv file
+
 
     Raises a FileWritingException if an error occurs whilst writing
     """
@@ -88,6 +85,7 @@ def from_csv(csv_path, fmt="hro", tw=True):
     -------
     out : PolarDiagram
         PolarDiagram instance contained in the .csv file
+
 
     Raises a FileReadingException if an unknown format was specified
     """
@@ -352,6 +350,7 @@ class PolarDiagram(ABC):
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
 
+
         Raises a PolarDiagramException, if the plot_flat()-method
         of the respective PolarDiagram subclass raises one
         """
@@ -426,6 +425,7 @@ class PolarDiagram(ABC):
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
 
+
         Raises a PolarDiagramException, if the plot_convex_hull()-method
         of the respective PolarDiagram subclass raises one
         """
@@ -489,6 +489,7 @@ class PolarDiagramTable(PolarDiagram):
 
         If nothing is passed it will default to
         numpy.zeros((rdim, cdim))
+
 
     Raises a PolarDiagramException
 
@@ -738,9 +739,7 @@ class PolarDiagramTable(PolarDiagram):
             csv_writer = csv.writer(file, delimiter=",")
             if fmt == "opencpn":
                 csv_writer.writerow(["TWA\\TWS"] + self.wind_speeds)
-                rows = np.column_stack(
-                    (self.wind_angles, self.boat_speeds)
-                )
+                rows = np.column_stack((self.wind_angles, self.boat_speeds))
                 csv_writer.writerows(rows)
 
             csv_writer.writerow(["PolarDiagramTable"])
@@ -1404,6 +1403,7 @@ class PolarDiagramTable(PolarDiagram):
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
 
+
         Raises a PolarDiagramException
 
         - if at least one element of ws is not in self.wind_speeds
@@ -1829,6 +1829,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
 
+
         Raises a PolarDiagramException if at least one element
         of ws is not in self.wind_speeds
         """
@@ -1911,6 +1912,7 @@ class PolarDiagramCurve(PolarDiagram):
         ----------
         csv_path : path-like
             Path to a .csv file or where a new .csv file will be created
+
 
         Raises a FileWritingException if an error occurs whilst writing
         """
@@ -2445,11 +2447,6 @@ class PolarDiagramPointcloud(PolarDiagram):
         If False, wind data will be converted to true wind
 
         Defaults to True
-
-    Raises a PolarDiagramException
-
-    - if
-    - if
     """
 
     def __init__(self, pts=None, tw=True):
@@ -2520,8 +2517,6 @@ class PolarDiagramPointcloud(PolarDiagram):
         ----------
         csv_path : path-like
             Path to a .csv-file or where a new .csv file will be created
-
-        Raises a FileWritingException if an error occurs whilst writing
         """
         logger.info(f"Method '.to_csv({csv_path})' called")
 
@@ -2577,9 +2572,6 @@ class PolarDiagramPointcloud(PolarDiagram):
             If False, wind data will be converted to true wind
 
             Defaults to True
-
-        Raises a PolarDiagramException
-
         """
         logger.info(f"Method 'add_points(new_pts{new_pts}, tw={tw})' called")
 
