@@ -62,9 +62,6 @@ class PolarPipeline:
     weigher : Weigher, optional
 
     filter_ : Filter, optional
-
-
-    Raises a PipelineException
     """
 
     def __init__(
@@ -110,12 +107,7 @@ class PolarPipeline:
 
         # NaN and infinite values can't normally be handled
         if check_finite:
-            try:
-                data = np.asarray_chkfinite(data, float)
-            except ValueError as ve:
-                raise PipelineException(
-                    "`data` contains infinite or NaN values"
-                ) from ve
+            data = np.asarray_chkfinite(data, float)
         else:
             data = np.asarray(data, float)
 
@@ -198,9 +190,9 @@ class PointcloudExtension(PipelineExtension):
 
     def __init__(
         self,
-        sampler: pc.Sampler = pc.UniformRandomSampler(1440),
+        sampler: pc.Sampler = pc.UniformRandomSampler(2000),
         neighbourhood: pc.Neighbourhood = pc.Ball(),
-        interpolator: pc.Interpolator = pc.ArithmeticMeanInterpolator(1),
+        interpolator: pc.Interpolator = pc.ArithmeticMeanInterpolator(50),
     ):
         self.sampler = sampler
         self.neighbourhood = neighbourhood
