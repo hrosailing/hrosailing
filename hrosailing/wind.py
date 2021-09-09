@@ -11,11 +11,12 @@ import warnings
 import numpy as np
 
 
-class WindException(Exception):
-    """Custom exception for errors that may appear during
-    wind conversion or setting wind resolutions"""
+class WindConversionException(Exception):
+    """"""
 
-    pass
+
+class ResolutionSettingException(Exception):
+    """"""
 
 
 def apparent_wind_to_true(wind):
@@ -67,10 +68,10 @@ def convert_wind(wind, sign, tw, _check_finite=True):
         wind = np.asarray(wind)
 
     if wind.dtype is object:
-        raise WindException("`wind` is not array_like")
+        raise WindConversionException("`wind` is not array_like")
 
     if wind.shape[1] != 3 or wind.ndim != 2:
-        raise WindException("`wind` has incorrect shape")
+        raise WindConversionException("`wind` has incorrect shape")
 
     if tw:
         return wind
@@ -108,10 +109,10 @@ def set_resolution(res, speed_or_angle):
         res = np.asarray_chkfinite(res)
 
         if res.dtype is object:
-            raise WindException("`res` is not array_like")
+            raise ResolutionSettingException("`res` is not array_like")
 
         if not res.size or res.ndim != 1:
-            raise WindException("`res` has incorrect shape")
+            raise ResolutionSettingException("`res` has incorrect shape")
 
         if len(set(res)) != len(res):
             warnings.warn(
@@ -122,6 +123,6 @@ def set_resolution(res, speed_or_angle):
         return res
 
     if res <= 0:
-        raise WindException("`res` is nonpositive")
+        raise ResolutionSettingException("`res` is nonpositive")
 
     return np.arange(res, 40, res) if b else np.arange(res, 360, res)
