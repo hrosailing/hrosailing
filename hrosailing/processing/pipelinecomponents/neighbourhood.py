@@ -29,12 +29,10 @@ def euclidean_norm(vec):
     return np.linalg.norm(vec, axis=1)
 
 
-class NeighbourhoodException(Exception):
-    """Custom exception for errors that may appear whilst
-    working with the Neighbourhood class and subclasses
+class NeighbourhoodInitializationException(Exception):
+    """Exception raised if an error occurs during
+    initialization of a Neighbourhood
     """
-
-    pass
 
 
 class Neighbourhood(ABC):
@@ -69,7 +67,7 @@ class Ball(Neighbourhood):
         Defaults to 0.05
 
 
-    Raises a NeighbourhoodException if radius is nonpositive
+    Raises a NeighbourhoodInitializationException if radius is nonpositive
     """
 
     def __init__(
@@ -78,7 +76,7 @@ class Ball(Neighbourhood):
         radius=0.05,
     ):
         if radius <= 0:
-            raise NeighbourhoodException("`radius` is not positive")
+            raise NeighbourhoodInitializationException("`radius` is not positive")
 
         self._norm = norm
         self._radius = radius
@@ -135,7 +133,7 @@ class ScalingBall(Neighbourhood):
         of ||.||_2
 
 
-    Raises a NeighbourhoodException
+    Raises a NeighbourhoodInitializationException
 
      - if min_pts or max_pts are nonpositive
      - if max_pts is less than or equal to min_pts
@@ -149,11 +147,11 @@ class ScalingBall(Neighbourhood):
     ):
 
         if min_pts <= 0:
-            raise NeighbourhoodException("`min_pts` is not positive")
+            raise NeighbourhoodInitializationException("`min_pts` is not positive")
         if max_pts <= 0:
-            raise NeighbourhoodException("`max_pts` is not positive")
+            raise NeighbourhoodInitializationException("`max_pts` is not positive")
         if max_pts <= min_pts:
-            raise NeighbourhoodException("`max_pts` is smaller than `min_pts`")
+            raise NeighbourhoodInitializationException("`max_pts` is smaller than `min_pts`")
 
         self._min_pts = min_pts
         self._max_pts = max_pts
@@ -236,7 +234,7 @@ class Ellipsoid(Neighbourhood):
         Defaults to 0.05
 
 
-    Raises a NeighbourhoodException
+    Raises a NeighbourhoodInitializationException
 
     - if radius is nonpositive
     - if lin_trans is not a (2,2)-array or is not invertible
@@ -254,13 +252,13 @@ class Ellipsoid(Neighbourhood):
         lin_trans = np.asarray_chkfinite(lin_trans)
 
         if lin_trans.shape != (2, 2):
-            raise NeighbourhoodException("`lin_trans` has incorrect shape")
+            raise NeighbourhoodInitializationException("`lin_trans` has incorrect shape")
 
         if not np.linalg.det(lin_trans):
-            raise NeighbourhoodException("`lin_trans` is singular")
+            raise NeighbourhoodInitializationException("`lin_trans` is singular")
 
         if radius <= 0:
-            raise NeighbourhoodException("`radius` is not positive")
+            raise NeighbourhoodInitializationException("`radius` is not positive")
 
         # invert lin_trans in initialization to later
         # transform ellipsoid to a ball
@@ -314,7 +312,7 @@ class Cuboid(Neighbourhood):
         If nothing is passed, it will default to (0.05, 0.05)
 
 
-    Raises a NeighbourhoodException if dimensions is not of length 2
+    Raises a NeighbourhoodInitializationException if dimensions is not of length 2
     """
 
     def __init__(
@@ -323,7 +321,7 @@ class Cuboid(Neighbourhood):
         dimensions=(0.05, 0.05),
     ):
         if len(dimensions) != 2:
-            raise NeighbourhoodException("`dimensions` is not of length 2")
+            raise NeighbourhoodInitializationException("`dimensions` is not of length 2")
 
         self._norm = norm
         self._size = dimensions
@@ -392,10 +390,10 @@ class Polytope(Neighbourhood):
         b = np.asarray_chkfinite(b)
 
         if mat.ndim != 2 or mat.shape[1] != 2:
-            raise NeighbourhoodException("`mat` has incorrect shape")
+            raise NeighbourhoodInitializationException("`mat` has incorrect shape")
 
         if b.ndim != 1 or b.shape[0] != mat.shape[0]:
-            raise NeighbourhoodException("`b` has incorrect shape")
+            raise NeighbourhoodInitializationException("`b` has incorrect shape")
 
         self._mat = mat
         self._b = b
