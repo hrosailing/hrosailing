@@ -151,20 +151,15 @@ class FibonacciSampler(Sampler):
         i = np.arange(1, ub_n_samples)
         beta = 2 * np.pi * i * golden_ratio ** (-1)
         radius = np.sqrt(i / ub_n_samples)
-        big_spiral = radius * np.array([np.cos(beta), np.sin(beta)])
+        base_spiral = radius * np.array([np.cos(beta), np.sin(beta)])
 
         # move and scale fibonacci spiral to the previously calculated circle
         # use binary search to rescale until number of sample points
         # in the convex hull meets the condition
 
-        import matplotlib.pyplot as plt
-
-        def generate_sample(t):
-            spiral = (midpoint[:, None] + t * big_spiral).transpose()
-            mask = np.all((ineqs[:, :2] @ spiral.T).T <= -ineqs[:, 2], axis=1)
-            return spiral[mask]
-
-        return _binary_rescale(self._n_samples, generate_sample, r)
+        return _binary_rescale(
+            self._n_samples, _sample_generator(base_spiral, midpoint, ineqs), r
+        )
 
 
 class ArchimedianSampler(Sampler):
@@ -206,16 +201,30 @@ class ArchimedianSampler(Sampler):
         samples : numpy.ndarray of shape (n_samples, 2)
             samples produced by the above described method
         """
+
+        # calculate enclosing circle
         x, y, r = make_circle(pts)
         midpoint = np.array([x, y])
+
+        # compute convex hull and its volume
+        ch = ConvexHull(pts)
+        vol = _convex_hull_volume(ch)
+        ineqs = ch.equations
+
+        ub_n_samples = int(np.pi * self._n_samples / vol) + 10
+
+        # estimate upper bounds for spiral points needed
+        # and simultaniously create arc values
         beta = [0]
-        for _ in range(self._n_samples):
+        for _ in range(ub_n_samples):
             beta.append(beta[-1] + 8 / (beta[-1] + 2))
 
         beta = np.array(beta)
-        spiral = beta * np.array([np.cos(beta), np.sin(beta)])
+        base_spiral = beta * np.array([np.cos(beta), np.sin(beta)])
 
-        return (midpoint[:, None] + r / beta[-1] * spiral).transpose()
+        return _binary_rescale(
+            self._n_samples, _sample_generator(base_spiral, midpoint, ineqs), r
+        )
 
 
 def _triangle_volume(a, b, c):
@@ -253,6 +262,18 @@ def _binary_rescale(n_samples, generate_sample, start_value):
         sample = generate_sample(t)
 
     return sample
+
+
+def _sample_generator(base_set, midpoint, ineqs):
+    # creates a function which generates samples as a scaled base_set
+    # translated in midpoint and forfilling the
+    # inequalities ineqs
+    def generate_sample(t):
+        spiral = (midpoint[:, None] + t * base_set).transpose()
+        mask = np.all((ineqs[:, :2] @ spiral.T).T <= -ineqs[:, 2], axis=1)
+        return spiral[mask]
+
+    return generate_sample
 
 
 # The following code has been copied from an extern source ########
