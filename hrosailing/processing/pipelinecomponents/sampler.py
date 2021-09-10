@@ -77,12 +77,8 @@ class UniformRandomSampler(Sampler):
         samples = []
         ws_bound, wa_bound = _create_bounds(pts)
         while len(samples) < self._n_samples:
-            ws = rng.uniform(
-                ws_bound[0], ws_bound[1], self._n_samples - len(samples)
-            )
-            wa = rng.uniform(
-                wa_bound[0], wa_bound[1], self._n_samples - len(samples)
-            )
+            ws = rng.uniform(ws_bound[0], ws_bound[1], self._n_samples - len(samples))
+            wa = rng.uniform(wa_bound[0], wa_bound[1], self._n_samples - len(samples))
             wind = np.column_stack((ws, wa))
             mask = np.all((ineqs[:, :2] @ wind.T).T <= -ineqs[:, 2], axis=1)
             samples.extend(wind[mask])
@@ -139,47 +135,32 @@ class FibonacciSampler(Sampler):
         x, y, r = make_circle(pts)
         midpoint = np.array([x, y])
 
-        # calculate an upper bound to the number of points needed for the spiral to fill the convex hull with self._n_samples points
+        # calculate an upper bound to the number of points needed for the
+        # spiral to fill the convex hull with self._n_samples points
         ch = ConvexHull(pts)
         vol = _convex_hull_volume(ch)
-        ub_n_samples = int(np.pi*self._n_samples/vol) + 10
+        ineqs = ch.equations
+        ub_n_samples = int(np.pi * self._n_samples / vol) + 10
 
         # create big fibonacci spiral
         golden_ratio = (1 + np.sqrt(5)) / 2
         i = np.arange(1, ub_n_samples)
         beta = 2 * np.pi * i * golden_ratio ** (-1)
-        radius = np.sqrt(i/ub_n_samples)
+        radius = np.sqrt(i / ub_n_samples)
         big_spiral = radius * np.array([np.cos(beta), np.sin(beta)])
 
         # move and scale fibonacci spiral to the previously calculated circle
-        # use binary search to rescale until number of sample points in the convex hull meets the condition
-        lb = 0
-        ub = None
-        t = r
-        ineqs = ch.equations
+        # use binary search to rescale until number of sample points
+        # in the convex hull meets the condition
 
         import matplotlib.pyplot as plt
-        def generate_sample():
+
+        def generate_sample(t):
             spiral = (midpoint[:, None] + t * big_spiral).transpose()
             mask = np.all((ineqs[:, :2] @ spiral.T).T <= -ineqs[:, 2], axis=1)
             return spiral[mask]
 
-        sample = generate_sample()
-
-        while len(sample) != self._n_samples:
-            if len(sample) > self._n_samples:
-                #if there are too many points in the convex hull, make the spiral bigger
-                lb = t
-            else:
-                #if there are too few points in the convex hull, make the spiral smaller
-                ub = t
-            if ub is None:
-                t *= 2
-            else:
-                t = (ub+lb)/2
-            sample = generate_sample()
-
-        return sample
+        return _binary_rescale(self._n_samples, generate_sample, r)
 
 
 class ArchimedianSampler(Sampler):
@@ -232,16 +213,41 @@ class ArchimedianSampler(Sampler):
 
         return (midpoint[:, None] + r / beta[-1] * spiral).transpose()
 
-def _triangle_volume(a,b,c):
-    #computes volume of triangle a,b,c
-    return 1/2 * abs(np.linalg.det(np.column_stack([b-a, c-a])))
+
+def _triangle_volume(a, b, c):
+    # computes volume of triangle a,b,c
+    return 1 / 2 * abs(np.linalg.det(np.column_stack([b - a, c - a])))
+
 
 def _convex_hull_volume(ch):
-    #computes the volume of the convex hull of the points pts
-    simplices = np.column_stack((np.repeat(ch.vertices[0], ch.nsimplex),
-                                 ch.simplices))
+    # computes the volume of the convex hull of the points pts
+    simplices = np.column_stack((np.repeat(ch.vertices[0], ch.nsimplex), ch.simplices))
     tets = ch.points[simplices]
     return np.sum([_triangle_volume(tet[0], tet[1], tet[2]) for tet in tets])
+
+
+def _binary_rescale(n_samples, generate_sample, start_value):
+    # performs binary search to create a sample
+    # of size n_samples by calling generate_sample(t),
+    # where t is the parameter modified
+    lb = 0
+    ub = None
+    t = start_value
+    sample = generate_sample(t)
+
+    while len(sample) != n_samples:
+        if len(sample) > n_samples:
+            lb = t
+        else:
+            ub = t
+        if ub is None:
+            t *= 2
+        else:
+            t = (ub + lb) / 2
+        sample = generate_sample(t)
+
+    return sample
+
 
 # The following code has been copied from an extern source ########
 # and changed a bit                                        ########
@@ -330,9 +336,7 @@ def _make_circle_two_points(pts, p, q):
             right = c
 
     return (
-        left
-        if (right is None or (left is not None and left[2] <= right[2]))
-        else right
+        left if (right is None or (left is not None and left[2] <= right[2])) else right
     )
 
 
@@ -369,10 +373,7 @@ _EPSILON = 1e-12
 
 
 def _is_in_circle(c, p):
-    return (
-        c is not None
-        and math.hypot(p[0] - c[0], p[1] - c[1]) < c[2] + _EPSILON
-    )
+    return c is not None and math.hypot(p[0] - c[0], p[1] - c[1]) < c[2] + _EPSILON
 
 
 # Returns twice the signed area of the triangle defined by
