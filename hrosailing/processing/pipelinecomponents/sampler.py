@@ -139,16 +139,47 @@ class FibonacciSampler(Sampler):
         x, y, r = make_circle(pts)
         midpoint = np.array([x, y])
 
-        # create arc sizes beta and radii of the fibonacci spiral
+        # calculate an upper bound to the number of points needed for the spiral to fill the convex hull with self._n_samples points
+        ch = ConvexHull(pts)
+        vol = _convex_hull_volume(ch)
+        ub_n_samples = int(np.pi*self._n_samples/vol) + 10
+
+        # create big fibonacci spiral
         golden_ratio = (1 + np.sqrt(5)) / 2
-        i = np.arange(1, self._n_samples)
+        i = np.arange(1, ub_n_samples)
         beta = 2 * np.pi * i * golden_ratio ** (-1)
-        radius = np.sqrt(i) / np.sqrt(self._n_samples)
+        radius = np.sqrt(i/ub_n_samples)
+        big_spiral = radius * np.array([np.cos(beta), np.sin(beta)])
 
         # move and scale fibonacci spiral to the previously calculated circle
-        return (
-            midpoint[:, None] + radius * np.array([np.cos(beta), np.sin(beta)])
-        ).transpose()
+        # use binary search to rescale until number of sample points in the convex hull meets the condition
+        lb = 0
+        ub = None
+        t = r
+        ineqs = ch.equations
+
+        import matplotlib.pyplot as plt
+        def generate_sample():
+            spiral = (midpoint[:, None] + t * big_spiral).transpose()
+            mask = np.all((ineqs[:, :2] @ spiral.T).T <= -ineqs[:, 2], axis=1)
+            return spiral[mask]
+
+        sample = generate_sample()
+
+        while len(sample) != self._n_samples:
+            if len(sample) > self._n_samples:
+                #if there are too many points in the convex hull, make the spiral bigger
+                lb = t
+            else:
+                #if there are too few points in the convex hull, make the spiral smaller
+                ub = t
+            if ub is None:
+                t *= 2
+            else:
+                t = (ub+lb)/2
+            sample = generate_sample()
+
+        return sample
 
 
 class ArchimedianSampler(Sampler):
@@ -201,6 +232,16 @@ class ArchimedianSampler(Sampler):
 
         return (midpoint[:, None] + r / beta[-1] * spiral).transpose()
 
+def _triangle_volume(a,b,c):
+    #computes volume of triangle a,b,c
+    return 1/2 * abs(np.linalg.det(np.column_stack([b-a, c-a])))
+
+def _convex_hull_volume(ch):
+    #computes the volume of the convex hull of the points pts
+    simplices = np.column_stack((np.repeat(ch.vertices[0], ch.nsimplex),
+                                 ch.simplices))
+    tets = ch.points[simplices]
+    return np.sum([_triangle_volume(tet[0], tet[1], tet[2]) for tet in tets])
 
 # The following code has been copied from an extern source ########
 # and changed a bit                                        ########
