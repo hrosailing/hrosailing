@@ -32,10 +32,10 @@ def convex_direction(
     direction = np.deg2rad(direction)
     edge = sorted(
         [
-            (i, abs(wa[i] - direction), members[i] if members else 0)
+            (i, abs(wa[i] - direction), members[i] if members else "Main Sail")
             for i in vert
         ],
-        key=lambda x: x[1],
+        key=lambda triple: triple[1],
     )
     edge = edge[:2]
 
@@ -44,6 +44,7 @@ def convex_direction(
         return [(np.rad2deg(wa[i]), 1, edge[0][2])]
 
     i1, i2 = edge[0][0], edge[1][0]
+
     # if direction lies on an edge of the polar diagram, which
     # is also an edge of the convex hull, we can sail straight
     # in direction.
