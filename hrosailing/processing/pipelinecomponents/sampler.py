@@ -77,8 +77,12 @@ class UniformRandomSampler(Sampler):
         samples = []
         ws_bound, wa_bound = _create_bounds(pts)
         while len(samples) < self._n_samples:
-            ws = rng.uniform(ws_bound[0], ws_bound[1], self._n_samples - len(samples))
-            wa = rng.uniform(wa_bound[0], wa_bound[1], self._n_samples - len(samples))
+            ws = rng.uniform(
+                ws_bound[0], ws_bound[1], self._n_samples - len(samples)
+            )
+            wa = rng.uniform(
+                wa_bound[0], wa_bound[1], self._n_samples - len(samples)
+            )
             wind = np.column_stack((ws, wa))
             mask = np.all((ineqs[:, :2] @ wind.T).T <= -ineqs[:, 2], axis=1)
             samples.extend(wind[mask])
@@ -221,7 +225,9 @@ def _triangle_volume(a, b, c):
 
 def _convex_hull_volume(ch):
     # computes the volume of the convex hull of the points pts
-    simplices = np.column_stack((np.repeat(ch.vertices[0], ch.nsimplex), ch.simplices))
+    simplices = np.column_stack(
+        (np.repeat(ch.vertices[0], ch.nsimplex), ch.simplices)
+    )
     tets = ch.points[simplices]
     return np.sum([_triangle_volume(tet[0], tet[1], tet[2]) for tet in tets])
 
@@ -336,7 +342,9 @@ def _make_circle_two_points(pts, p, q):
             right = c
 
     return (
-        left if (right is None or (left is not None and left[2] <= right[2])) else right
+        left
+        if (right is None or (left is not None and left[2] <= right[2]))
+        else right
     )
 
 
@@ -373,7 +381,10 @@ _EPSILON = 1e-12
 
 
 def _is_in_circle(c, p):
-    return c is not None and math.hypot(p[0] - c[0], p[1] - c[1]) < c[2] + _EPSILON
+    return (
+        c is not None
+        and math.hypot(p[0] - c[0], p[1] - c[1]) < c[2] + _EPSILON
+    )
 
 
 # Returns twice the signed area of the triangle defined by
