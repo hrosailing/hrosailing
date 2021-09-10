@@ -300,6 +300,8 @@ class WeightedPoints:
             self._wts = np.array([wts] * shape)
         elif _checks:
             self._wts = _sanity_checks(wts, shape)
+        else:
+            self._wts = wts
 
     def __getitem__(self, mask):
         return WeightedPoints(
