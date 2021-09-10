@@ -164,7 +164,7 @@ class CurveExtension(PipelineExtension):
         self,
         regressor: pc.Regressor = pc.ODRegressor(
             model_func=ws_s_s_dt_wa_gauss_comb,
-            init_values=(0.25, 10, 1.7, 0, 1.9, 30, 17.6, 0),
+            init_values=(0.25, 10, 1.7, 0, 1.9, 30, 17.6, 0, 1.9, 30, 17.6, 0),
         ),
         radians: bool = False,
     ):
