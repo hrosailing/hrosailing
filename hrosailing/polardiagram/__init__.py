@@ -493,9 +493,7 @@ class PolarDiagramTable(PolarDiagram):
 
     Raises a PolarDiagramException
 
-    - if bsps can't be broadcasted to a fitting shape
-    - if bsps is not of dimension 2
-     - if bsps is an empty array
+    - if bsps is not array_like or of a fitting shape
 
 
      Examples
@@ -599,44 +597,6 @@ class PolarDiagramTable(PolarDiagram):
 
         return "".join(table)
 
-    def _short_table(self, table, wind):
-        bsps = self.boat_speeds
-        table.extend([f"    {float(ws):.1f}" for ws in wind])
-        table.append("\n-----------")
-        for ws in wind:
-            le = len(f"{float(ws):.1f}")
-            table.append("  ".ljust(le + 4, "-"))
-        table.append("\n")
-        for i, wa in enumerate(self.wind_angles):
-            table.append(f"{float(wa):.1f}".ljust(11))
-            for j, ws in enumerate(wind):
-                le = len(f"{float(ws):.1f}")
-                table.append(f"{bsps[i][j]:.2f}".rjust(4 + le))
-            table.append("\n")
-        return "".join(table)
-
-    def _long_table(self, table, wind):
-        bsps = self.boat_speeds
-        for i, ws in enumerate(wind):
-            if i == 5:
-                table.append("  ...")
-            table.append(f"    {float(ws):.1f}")
-        table.append("\n-----------")
-        for i, ws in enumerate(wind):
-            if i == 5:
-                table.append("  ---")
-            le = len(f"{float(ws):.1f}")
-            table.append("  ".ljust(le + 4, "-"))
-        table.append("\n")
-        for i, wa in enumerate(self.wind_angles):
-            table.append(f"{float(wa):.1f}".rjust(11))
-            for j, ws in enumerate(wind):
-                if j == 5:
-                    table.append("  ...")
-                le = len(f"{float(ws):.1f}")
-                table.append(f"{bsps[i][j]:.2f}".rjust(4 + le))
-            table.append("\n")
-
     def __repr__(self):
         """"""
         return (
@@ -686,11 +646,7 @@ class PolarDiagramTable(PolarDiagram):
         fmt : string
 
 
-        Raises a FileWritingException
-
-        - inputs are not of the specified types
-        - if an error occurs whilst writing
-        - unknown format was specified
+        Raises a FileWritingException if an unknown format was specified
 
         Examples
         --------
@@ -823,31 +779,6 @@ class PolarDiagramTable(PolarDiagram):
         return PolarDiagramTable(
             ws_res=self.wind_speeds, wa_res=wa_res, bsps=bsps
         )
-
-    def _get_indices(self, wind, speed_or_angle):
-        res = (
-            self.wind_speeds if speed_or_angle == "speed" else self.wind_angles
-        )
-
-        if wind is None:
-            return range(len(res))
-
-        if isinstance(wind, (int, float)):
-            try:
-                return [list(res).index(wind)]
-            except ValueError as ve:
-                raise PolarDiagramException(
-                    f"{wind} is not contained in {res}"
-                ) from ve
-
-        wind = set(wind)
-        if not wind:
-            raise PolarDiagramException("Empty slice-list was passed")
-
-        if not wind.issubset(set(res)):
-            raise PolarDiagramException(f"{wind} is not a subset of {res}")
-
-        return [i for i, w in enumerate(res) if w in wind]
 
     def change_entries(self, new_bsps, ws=None, wa=None):
         """Changes specified entries in the table
@@ -1099,6 +1030,8 @@ class PolarDiagramTable(PolarDiagram):
             f"plot_kw={plot_kw})' called"
         )
 
+        self._check_plot_kw(plot_kw)
+
         ws, wa, bsp = self.get_slices(ws)
         bsp = list(bsp.T)
         wa = [wa] * len(bsp)
@@ -1216,12 +1149,14 @@ class PolarDiagramTable(PolarDiagram):
             f"plot_kw={plot_kw})' called"
         )
 
+        self._check_plot_kw(plot_kw)
+
         ws, wa, bsp = self.get_slices(ws)
         bsp = list(bsp.T)
         wa = [np.rad2deg(wa)] * len(bsp)
         plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
-    def plot_3d(self, ax=None, **plot_kw):
+    def plot_3d(self, ax=None, colors=("green", "red")):
         """Creates a 3d plot of the polar diagram
 
         Parameters
@@ -1232,30 +1167,16 @@ class PolarDiagramTable(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        plot_kw : Keyword arguments, optional
-            Keyword arguments to change certain appearences of the plot
-
-            Only the `color`/`c` keyword is used, the rest
-            are only supported to be consistent with the
-            plot_3d()-method of PolarDiagram and PolarDiagrampointcloud
-
-            The value of the `color`/`c` should be either a tuple or list
-            of matplotlib supported color_like entries, if the 3d-plot
-            should be plotted with a color gradient of those colors,
-            or a single color_like value, if the 3d-plot should be plotted
-            with a single color.
-
-            If nothing is passed the `color`/`c` keyword defaults
-            to ("green", "red")
+        colors
         """
-        logger.info(f"Method 'plot_3d(ax={ax}, **plot_kw={plot_kw})' called")
+        logger.info(f"Method 'plot_3d(ax={ax}, colors={colors})' called")
 
         wa = np.deg2rad(self.wind_angles)
         ws, wa = np.meshgrid(self.wind_speeds, wa)
         bsp = self.boat_speeds
         bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
 
-        plot_surface(ws, wa, bsp, ax, **plot_kw)
+        plot_surface(ws, wa, bsp, ax, colors)
 
     def plot_color_gradient(
         self,
@@ -1421,6 +1342,77 @@ class PolarDiagramTable(PolarDiagram):
         plot_convex_hull(
             ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw
         )
+
+    def _short_table(self, table, wind):
+        bsps = self.boat_speeds
+        table.extend([f"    {float(ws):.1f}" for ws in wind])
+        table.append("\n-----------")
+        for ws in wind:
+            le = len(f"{float(ws):.1f}")
+            table.append("  ".ljust(le + 4, "-"))
+        table.append("\n")
+        for i, wa in enumerate(self.wind_angles):
+            table.append(f"{float(wa):.1f}".ljust(11))
+            for j, ws in enumerate(wind):
+                le = len(f"{float(ws):.1f}")
+                table.append(f"{bsps[i][j]:.2f}".rjust(4 + le))
+            table.append("\n")
+        return "".join(table)
+
+    def _long_table(self, table, wind):
+        bsps = self.boat_speeds
+        for i, ws in enumerate(wind):
+            if i == 5:
+                table.append("  ...")
+            table.append(f"    {float(ws):.1f}")
+        table.append("\n-----------")
+        for i, ws in enumerate(wind):
+            if i == 5:
+                table.append("  ---")
+            le = len(f"{float(ws):.1f}")
+            table.append("  ".ljust(le + 4, "-"))
+        table.append("\n")
+        for i, wa in enumerate(self.wind_angles):
+            table.append(f"{float(wa):.1f}".rjust(11))
+            for j, ws in enumerate(wind):
+                if j == 5:
+                    table.append("  ...")
+                le = len(f"{float(ws):.1f}")
+                table.append(f"{bsps[i][j]:.2f}".rjust(4 + le))
+            table.append("\n")
+
+    def _get_indices(self, wind, speed_or_angle):
+        res = (
+            self.wind_speeds if speed_or_angle == "speed" else self.wind_angles
+        )
+
+        if wind is None:
+            return range(len(res))
+
+        if isinstance(wind, (int, float)):
+            try:
+                return [list(res).index(wind)]
+            except ValueError as ve:
+                raise PolarDiagramException(
+                    f"{wind} is not contained in {res}"
+                ) from ve
+
+        wind = set(wind)
+        if not wind:
+            raise PolarDiagramException("Empty slice-list was passed")
+
+        if not wind.issubset(set(res)):
+            raise PolarDiagramException(f"{wind} is not a subset of {res}")
+
+        return [i for i, w in enumerate(res) if w in wind]
+
+    @staticmethod
+    def _check_plot_kw(plot_kw):
+        ls = plot_kw.pop("linestyle", None) or plot_kw.pop("ls", None)
+        if ls is None:
+            plot_kw["ls"] = "-"
+        else:
+            plot_kw["ls"] = ls
 
 
 def interpolate():
@@ -1722,7 +1714,7 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             pd.plot_flat(ws, ax, colors, False, None, **plot_kw)
 
-    def plot_3d(self, ax=None, **plot_kw):
+    def plot_3d(self, ax=None, colors=("green", "red")):
         """Creates a 3d plot of the polar diagram
 
         Parameters
@@ -1733,27 +1725,13 @@ class PolarDiagramMultiSails(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        plot_kw : Keyword arguments, optional
-            Keyword arguments to change certain appearences of the plot
-
-            Only the `color`/`c` keyword is used, the rest
-            are only supported to be consistent with the
-            plot_3d()-method of PolarDiagram and PolarDiagrampointcloud
-
-            The value of the `color`/`c` should be either a tuple or list
-            of matplotlib supported color_like entries, if the 3d-plot
-            should be plotted with a color gradient of those colors,
-            or a single color_like value, if the 3d-plot should be plotted
-            with a single color.
-
-            If nothing is passed the `color`/`c` keyword defaults
-            to ("green", "red")
+        colors
         """
         if ax is None:
             ax = plt.axes(projection="3d")
 
         for pd in self._tables:
-            pd.plot_3d(ax, **plot_kw)
+            pd.plot_3d(ax, colors)
 
     def plot_color_gradient(
         self,
@@ -2061,6 +2039,8 @@ class PolarDiagramCurve(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
+        self._check_plot_kw(plot_kw)
+
         ws, wa, bsp = self.get_slices(ws, stepsize)
         wa = [wa] * len(ws)
 
@@ -2163,12 +2143,16 @@ class PolarDiagramCurve(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
+        self._check_plot_kw(plot_kw)
+
         ws, wa, bsp = self.get_slices(ws, stepsize)
         wa = [np.rad2deg(wa)] * len(ws)
 
         plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
-    def plot_3d(self, ws=None, stepsize=None, ax=None, **plot_kw):
+    def plot_3d(
+        self, ws=None, stepsize=None, ax=None, colors=("green", "red")
+    ):
         """Creates a 3d plot of a part of the polar diagram
 
         Parameters
@@ -2195,24 +2179,10 @@ class PolarDiagramCurve(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        plot_kw : Keyword arguments, optional
-            Keyword arguments to change certain appearences of the plot
-
-            Only the `color`/`c` keyword is used, the rest
-            are only supported to be consistent with the
-            plot_3d()-method of PolarDiagram and PolarDiagrampointcloud
-
-            The value of the `color`/`c` should be either a tuple or list
-            of matplotlib supported color_like entries, if the 3d-plot
-            should be plotted with a color gradient of those colors,
-            or a single color_like value, if the 3d-plot should be plotted
-            with a single color.
-
-            If nothing is passed the `color`/`c` keyword defaults
-            to ("green", "red")
+        colors :
         """
         logging.info(
-            f"Method 'plot_3d(ws={ws}, ax={ax}, **plot_kw={plot_kw})' called"
+            f"Method 'plot_3d(ws={ws}, ax={ax}, colors={colors})' called"
         )
 
         if stepsize is None:
@@ -2223,7 +2193,7 @@ class PolarDiagramCurve(PolarDiagram):
         ws, wa = np.meshgrid(ws, wa)
         bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
 
-        plot_surface(ws, wa, bsp, ax, **plot_kw)
+        plot_surface(ws, wa, bsp, ax, colors)
 
     def plot_color_gradient(
         self,
@@ -2427,6 +2397,14 @@ class PolarDiagramCurve(PolarDiagram):
             ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw
         )
 
+    @staticmethod
+    def _check_plot_kw(plot_kw):
+        ls = plot_kw.pop("linestyle", None) or plot_kw.pop("ls", None)
+        if ls is None:
+            plot_kw["ls"] = "-"
+        else:
+            plot_kw["ls"] = ls
+
 
 class PolarDiagramPointcloud(PolarDiagram):
     """A class to represent, visualize and work with a polar diagram
@@ -2583,32 +2561,6 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         self._pts = np.row_stack((self.points, new_pts))
 
-    def _get_points(self, ws, range_):
-        wa = []
-        bsp = []
-        cloud = self.points
-        for w in ws:
-            if not isinstance(w, tuple):
-                w = (w - range_, w + range_)
-
-            pts = cloud[
-                np.logical_and(w[1] >= cloud[:, 0], cloud[:, 0] >= w[0])
-            ][:, 1:]
-            if not pts.size:
-                raise PolarDiagramException(
-                    f"No points with wind speed in range {w} found"
-                )
-
-            wa.append(np.deg2rad(pts[:, 0]))
-            bsp.append(pts[:, 1])
-
-        if not wa:
-            raise PolarDiagramException(
-                "There are no slices in the given range `ws`"
-            )
-
-        return wa, bsp
-
     def get_slices(self, ws, stepsize=None, range_=1):
         """"""
         if ws is None:
@@ -2755,6 +2707,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
+        self._check_plot_kw(plot_kw)
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
         plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
@@ -2872,6 +2825,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
+        self._check_plot_kw(plot_kw)
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
         wa = [np.rad2deg(a) for a in wa]
         plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
@@ -3105,3 +3059,40 @@ class PolarDiagramPointcloud(PolarDiagram):
         plot_convex_hull(
             ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw
         )
+
+    def _get_points(self, ws, range_):
+        wa = []
+        bsp = []
+        cloud = self.points
+        for w in ws:
+            if not isinstance(w, tuple):
+                w = (w - range_, w + range_)
+
+            pts = cloud[
+                np.logical_and(w[1] >= cloud[:, 0], cloud[:, 0] >= w[0])
+            ][:, 1:]
+            if not pts.size:
+                raise PolarDiagramException(
+                    f"No points with wind speed in range {w} found"
+                )
+
+            wa.append(np.deg2rad(pts[:, 0]))
+            bsp.append(pts[:, 1])
+
+        if not wa:
+            raise PolarDiagramException(
+                "There are no slices in the given range `ws`"
+            )
+
+        return wa, bsp
+
+    @staticmethod
+    def _check_plot_kw(plot_kw):
+        ls = plot_kw.pop("linestyle", None) or plot_kw.pop("ls", None)
+        if ls is None:
+            plot_kw["ls"] = ""
+        else:
+            plot_kw["ls"] = ls
+
+        if plot_kw.get("marker", None) is None:
+            plot_kw["marker"] = "."
