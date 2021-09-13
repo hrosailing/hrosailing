@@ -9,6 +9,7 @@ polar diagram from "raw" data
 import logging.handlers
 from abc import ABC, abstractmethod
 from typing import Optional
+import warnings
 
 import numpy as np
 
@@ -243,20 +244,30 @@ def _extract_wind(pts, n, threshhold):
     return res
 
 
+class InterpolationWarning(Warning):
+    pass
+
+
 def _interpolate_points(i_points, w_pts, neighbourhood, interpolator):
     pts = []
+
+    _warning_flag = True
 
     logger.info(f"Beginning to interpolate `w_res` with {interpolator}")
 
     for i_pt in i_points:
         mask = neighbourhood.is_contained_in(w_pts.points[:, :2] - i_pt)
 
-        # neighbourhood possibly to "small" for data
         if not np.any(mask):
-            raise PipelineException(
-                f"No points were contained in the neighbourhood of "
-                f"{i_pt}. Interpolation not possible"
-            )
+            if _warning_flag:
+                warnings.warn(
+                    "Neighbourhood possibly to 'small', or"
+                    "chosen resolution not fitting for data. "
+                    "Interpolation will not lead to complete results",
+                    category=InterpolationWarning,
+                )
+                _warning_flag = False
+            pts.append(0)
 
         interpol = interpolator.interpolate(w_pts[mask], i_pt)
         interpol_pt = np.array(list(i_pt) + [interpol])
