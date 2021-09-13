@@ -10,6 +10,7 @@ and the LeastSquareRegressor.
 
 
 from abc import ABC, abstractmethod
+import inspect
 import logging.handlers
 from typing import Callable
 
@@ -137,26 +138,17 @@ class ODRegressor(Regressor):
             Data to which the model function will  be fitted, given as
             a sequence of points consisting of wind speed, wind angle
             and boat speed
-
-        Raises a RegressorException
-
-        - if
-        - if
-        - if
         """
         X, y = data[:, :2], data[:, 2]
 
-        try:
-            odr_data = Data(
-                (X[:, 0], X[:, 1]), y, wd=self._weights_X, we=self._weights_y
-            )
-            odr = ODR(
-                odr_data, self._model, beta0=self._init_vals, maxit=self._maxit
-            )
-            odr.set_job(fit_type=2)
-            out = odr.run()
-        except (ValueError, OdrError) as err:
-            raise RegressorException("Regression was unsuccessful") from err
+        odr_data = Data(
+            (X[:, 0], X[:, 1]), y, wd=self._weights_X, we=self._weights_y
+        )
+        odr = ODR(
+            odr_data, self._model, beta0=self._init_vals, maxit=self._maxit
+        )
+        odr.set_job(fit_type=2)
+        out = odr.run()
 
         self._popt = out.beta
 
@@ -209,6 +201,25 @@ class LeastSquareRegressor(Regressor):
     def __init__(self, model_func: Callable, init_vals=None):
 
         self._func = model_func
+
+        def fitting_func(wind, *params):
+            wind = np.asarray(wind)
+            ws, wa = wind[:, 0], wind[:, 1]
+            return model_func(ws, wa, *params)
+
+        sig = inspect.signature(model_func)
+        args = [
+            p.name for p in sig.parameters.values()
+            if p.kind in [inspect.Parameter.POSITIONAL_OR_KEYWORD,
+                          inspect.Parameter.POSITIONAL_ONLY]
+        ]
+
+        if init_vals is None and len(args) < 3:
+            init_vals = _determine_params(fitting_func)
+        elif init_vals is None:
+            init_vals = tuple(1 for _ in range(len(args)))
+
+        self._fitting_func = fitting_func
         self._init_vals = init_vals
         self._popt = None
         self._weights = None
@@ -235,28 +246,17 @@ class LeastSquareRegressor(Regressor):
             Data to which the model function will be fitted, given as
             a sequence of points consisting of wind speed, wind angle
             and boat speed
-
-        Raises a RegressorException if least-square minimization
-        was not succesful, ie, if scipy.optimize.curve_fit
-        raises a RuntimeError
         """
         X, y = data[:, :2], data[:, 2]
-        X = np.ravel(X).T
-        y = np.ravel(y).T
 
-        try:
-            self._popt, _ = curve_fit(
-                self.model_func, X, y, p0=self._init_vals, sigma=self._weights
-            )
-        except RuntimeError as re:
-            raise RegressorException(
-                "Least-square minimization was unsuccesful"
-            ) from re
+        self._popt, _ = curve_fit(
+            self._fitting_func, X, y, p0=self._init_vals, sigma=self._weights
+        )
 
         logger.info(f"Model-function: {self._func}")
         logger.info(f"Optimal parameters: {self._popt}")
 
-        sr = np.square(self._func(X, *self._popt) - y)
+        sr = np.square(self._func(X[:, 0], X[:, 1], *self._popt) - y)
         ssr = np.sum(sr)
         mean = np.mean(y)
         sse = np.sum(np.square(y - mean))
@@ -278,3 +278,16 @@ class LeastSquareRegressor(Regressor):
         logger.info(f"F_emp ={(sse / indep_vars) / (sst / dof)}")
         logger.info(f"χ^2: {chi_squared}")
         logger.info(f"χ^2_red: {chi_squared / dof}")
+
+
+# TODO better approach
+def _determine_params(func):
+    params = []
+    while True:
+        try:
+            func(np.array([[0, 0]]), *params)
+            break
+        except IndexError:
+            params.append(1)
+
+    return params

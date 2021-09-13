@@ -9,6 +9,8 @@ from ._models2d import *
 
 
 def ws_times_wa(ws, wa, scal):
+    ws = np.asarray(ws)
+    wa = np.asarray(wa)
     return scal * ws * wa
 
 
@@ -19,7 +21,7 @@ def ws_concave_dt_wa(ws, wa, *params):
         concave_function(ws, params[0], params[1], params[2])
         + inverted_shifted_parabola(wa, params[3], params[4], params[5])
         + ws_times_wa(ws, wa, params[6])
-        + inverted_shifted_parabola(360 - wa, params[7], params[8], params[9])
+        + inverted_shifted_parabola(360 - wa, params[7], params[8],  params[9])
         + ws_times_wa(ws, 360 - wa, params[10])
     )
 
