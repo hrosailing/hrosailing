@@ -90,7 +90,7 @@ def plot_convex_hull(
     ax.set_theta_zero_location("N")
     ax.set_theta_direction("clockwise")
 
-    ls = plot_kw.pop("linestyle") or plot_kw.pop("ls")
+    ls = plot_kw.pop("linestyle", None) or plot_kw.pop("ls", None)
     if ls is None:
         plot_kw["ls"] = "-"
     else:
