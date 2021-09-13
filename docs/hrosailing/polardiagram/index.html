@@ -407,12 +407,6 @@ should then also be an array_like of shape (n,)</dd>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="hrosailing.polardiagram.PolarDiagramCurve.__repr__"><code class="name flex">
-<span>def <span class="ident">__repr__</span></span>(<span>self)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
 <dt id="hrosailing.polardiagram.PolarDiagramCurve.get_slices"><code class="name flex">
 <span>def <span class="ident">get_slices</span></span>(<span>self, ws, stepsize=None)</span>
 </code></dt>
@@ -420,7 +414,7 @@ should then also be an array_like of shape (n,)</dd>
 <div class="desc"></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramCurve.plot_3d"><code class="name flex">
-<span>def <span class="ident">plot_3d</span></span>(<span>self, ws=None, stepsize=None, ax=None, **plot_kw)</span>
+<span>def <span class="ident">plot_3d</span></span>(<span>self, ws=None, stepsize=None, ax=None, colors=('green', 'red'))</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a 3d plot of a part of the polar diagram</p>
@@ -447,21 +441,8 @@ interval in <code>ws</code></p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code>, optional</dt>
-<dd>
-<p>Keyword arguments to change certain appearences of the plot</p>
-<p>Only the <code>color</code>/<code>c</code> keyword is used, the rest
-are only supported to be consistent with the
-plot_3d()-method of PolarDiagram and PolarDiagrampointcloud</p>
-<p>The value of the <code>color</code>/<code>c</code> should be either a tuple or list
-of matplotlib supported color_like entries, if the 3d-plot
-should be plotted with a color gradient of those colors,
-or a single color_like value, if the 3d-plot should be plotted
-with a single color.</p>
-<p>If nothing is passed the <code>color</code>/<code>c</code> keyword defaults
-to ("green", "red")</p>
-</dd>
-</dl></div>
+</dl>
+<p>colors :</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramCurve.plot_color_gradient"><code class="name flex">
 <span>def <span class="ident">plot_color_gradient</span></span>(<span>self, ws=None, stepsize=None, ax=None, colors=('green', 'red'), marker=None, ms=None, show_legend=False, **legend_kw)</span>
@@ -864,18 +845,6 @@ represented by a PolarDiagramTable</p>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="hrosailing.polardiagram.PolarDiagramMultiSails.__repr__"><code class="name flex">
-<span>def <span class="ident">__repr__</span></span>(<span>self)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="hrosailing.polardiagram.PolarDiagramMultiSails.__str__"><code class="name flex">
-<span>def <span class="ident">__str__</span></span>(<span>self)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
 <dt id="hrosailing.polardiagram.PolarDiagramMultiSails.get_slices"><code class="name flex">
 <span>def <span class="ident">get_slices</span></span>(<span>self, ws)</span>
 </code></dt>
@@ -883,7 +852,7 @@ represented by a PolarDiagramTable</p>
 <div class="desc"></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramMultiSails.plot_3d"><code class="name flex">
-<span>def <span class="ident">plot_3d</span></span>(<span>self, ax=None, **plot_kw)</span>
+<span>def <span class="ident">plot_3d</span></span>(<span>self, ax=None, colors=('green', 'red'))</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a 3d plot of the polar diagram</p>
@@ -895,20 +864,8 @@ represented by a PolarDiagramTable</p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code>, optional</dt>
-<dd>
-<p>Keyword arguments to change certain appearences of the plot</p>
-<p>Only the <code>color</code>/<code>c</code> keyword is used, the rest
-are only supported to be consistent with the
-plot_3d()-method of PolarDiagram and PolarDiagrampointcloud</p>
-<p>The value of the <code>color</code>/<code>c</code> should be either a tuple or list
-of matplotlib supported color_like entries, if the 3d-plot
-should be plotted with a color gradient of those colors,
-or a single color_like value, if the 3d-plot should be plotted
-with a single color.</p>
-<p>If nothing is passed the <code>color</code>/<code>c</code> keyword defaults
-to ("green", "red")</p>
-</dd>
+<dt><strong><code>colors</code></strong></dt>
+<dd>&nbsp;</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramMultiSails.plot_color_gradient"><code class="name flex">
@@ -1210,18 +1167,6 @@ as an empty point cloud</p>
 </dl>
 <h3>Methods</h3>
 <dl>
-<dt id="hrosailing.polardiagram.PolarDiagramPointcloud.__repr__"><code class="name flex">
-<span>def <span class="ident">__repr__</span></span>(<span>self)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="hrosailing.polardiagram.PolarDiagramPointcloud.__str__"><code class="name flex">
-<span>def <span class="ident">__str__</span></span>(<span>self)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.add_points"><code class="name flex">
 <span>def <span class="ident">add_points</span></span>(<span>self, new_pts, tw=True)</span>
 </code></dt>
@@ -1699,9 +1644,7 @@ numpy.zeros((rdim, cdim))</p>
 </dl>
 <p>Raises a PolarDiagramException</p>
 <ul>
-<li>if bsps can't be broadcasted to a fitting shape</li>
-<li>if bsps is not of dimension 2</li>
-<li>if bsps is an empty array</li>
+<li>if bsps is not array_like or of a fitting shape</li>
 </ul>
 <p>Examples</p>
 <hr>
@@ -1773,18 +1716,6 @@ numpy.zeros((rdim, cdim))</p>
 <dl>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.__getitem__"><code class="name flex">
 <span>def <span class="ident">__getitem__</span></span>(<span>self, key)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="hrosailing.polardiagram.PolarDiagramTable.__repr__"><code class="name flex">
-<span>def <span class="ident">__repr__</span></span>(<span>self)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="hrosailing.polardiagram.PolarDiagramTable.__str__"><code class="name flex">
-<span>def <span class="ident">__str__</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -1891,7 +1822,7 @@ where new boat speeds will be inserted</p>
 <div class="desc"></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.plot_3d"><code class="name flex">
-<span>def <span class="ident">plot_3d</span></span>(<span>self, ax=None, **plot_kw)</span>
+<span>def <span class="ident">plot_3d</span></span>(<span>self, ax=None, colors=('green', 'red'))</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a 3d plot of the polar diagram</p>
@@ -1903,20 +1834,8 @@ where new boat speeds will be inserted</p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code>, optional</dt>
-<dd>
-<p>Keyword arguments to change certain appearences of the plot</p>
-<p>Only the <code>color</code>/<code>c</code> keyword is used, the rest
-are only supported to be consistent with the
-plot_3d()-method of PolarDiagram and PolarDiagrampointcloud</p>
-<p>The value of the <code>color</code>/<code>c</code> should be either a tuple or list
-of matplotlib supported color_like entries, if the 3d-plot
-should be plotted with a color gradient of those colors,
-or a single color_like value, if the 3d-plot should be plotted
-with a single color.</p>
-<p>If nothing is passed the <code>color</code>/<code>c</code> keyword defaults
-to ("green", "red")</p>
-</dd>
+<dt><strong><code>colors</code></strong></dt>
+<dd>&nbsp;</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.plot_color_gradient"><code class="name flex">
@@ -2298,12 +2217,7 @@ self.boat_speeds
 <dt><strong><code>fmt</code></strong> :&ensp;<code>string</code></dt>
 <dd>&nbsp;</dd>
 </dl>
-<p>Raises a FileWritingException</p>
-<ul>
-<li>inputs are not of the specified types</li>
-<li>if an error occurs whilst writing</li>
-<li>unknown format was specified</li>
-</ul>
+<p>Raises a FileWritingException if an unknown format was specified</p>
 <h2 id="examples">Examples</h2>
 <pre><code>&gt;&gt;&gt; pd = PolarDiagramTable(
 ...     bsps=[
@@ -2456,7 +2370,6 @@ setTimeout(() => input.focus(), 100);
 <h4><code><a title="hrosailing.polardiagram.PolarDiagramCurve" href="#hrosailing.polardiagram.PolarDiagramCurve">PolarDiagramCurve</a></code></h4>
 <ul class="two-column">
 <li><code><a title="hrosailing.polardiagram.PolarDiagramCurve.__call__" href="#hrosailing.polardiagram.PolarDiagramCurve.__call__">__call__</a></code></li>
-<li><code><a title="hrosailing.polardiagram.PolarDiagramCurve.__repr__" href="#hrosailing.polardiagram.PolarDiagramCurve.__repr__">__repr__</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramCurve.curve" href="#hrosailing.polardiagram.PolarDiagramCurve.curve">curve</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramCurve.get_slices" href="#hrosailing.polardiagram.PolarDiagramCurve.get_slices">get_slices</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramCurve.parameters" href="#hrosailing.polardiagram.PolarDiagramCurve.parameters">parameters</a></code></li>
@@ -2477,8 +2390,6 @@ setTimeout(() => input.focus(), 100);
 <h4><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails" href="#hrosailing.polardiagram.PolarDiagramMultiSails">PolarDiagramMultiSails</a></code></h4>
 <ul class="two-column">
 <li><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails.__getitem__" href="#hrosailing.polardiagram.PolarDiagramMultiSails.__getitem__">__getitem__</a></code></li>
-<li><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails.__repr__" href="#hrosailing.polardiagram.PolarDiagramMultiSails.__repr__">__repr__</a></code></li>
-<li><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails.__str__" href="#hrosailing.polardiagram.PolarDiagramMultiSails.__str__">__str__</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails.get_slices" href="#hrosailing.polardiagram.PolarDiagramMultiSails.get_slices">get_slices</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails.plot_3d" href="#hrosailing.polardiagram.PolarDiagramMultiSails.plot_3d">plot_3d</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails.plot_color_gradient" href="#hrosailing.polardiagram.PolarDiagramMultiSails.plot_color_gradient">plot_color_gradient</a></code></li>
@@ -2495,8 +2406,6 @@ setTimeout(() => input.focus(), 100);
 <li>
 <h4><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud" href="#hrosailing.polardiagram.PolarDiagramPointcloud">PolarDiagramPointcloud</a></code></h4>
 <ul class="two-column">
-<li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.__repr__" href="#hrosailing.polardiagram.PolarDiagramPointcloud.__repr__">__repr__</a></code></li>
-<li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.__str__" href="#hrosailing.polardiagram.PolarDiagramPointcloud.__str__">__str__</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.add_points" href="#hrosailing.polardiagram.PolarDiagramPointcloud.add_points">add_points</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.boat_speeds" href="#hrosailing.polardiagram.PolarDiagramPointcloud.boat_speeds">boat_speeds</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.get_slices" href="#hrosailing.polardiagram.PolarDiagramPointcloud.get_slices">get_slices</a></code></li>
@@ -2516,8 +2425,6 @@ setTimeout(() => input.focus(), 100);
 <h4><code><a title="hrosailing.polardiagram.PolarDiagramTable" href="#hrosailing.polardiagram.PolarDiagramTable">PolarDiagramTable</a></code></h4>
 <ul class="two-column">
 <li><code><a title="hrosailing.polardiagram.PolarDiagramTable.__getitem__" href="#hrosailing.polardiagram.PolarDiagramTable.__getitem__">__getitem__</a></code></li>
-<li><code><a title="hrosailing.polardiagram.PolarDiagramTable.__repr__" href="#hrosailing.polardiagram.PolarDiagramTable.__repr__">__repr__</a></code></li>
-<li><code><a title="hrosailing.polardiagram.PolarDiagramTable.__str__" href="#hrosailing.polardiagram.PolarDiagramTable.__str__">__str__</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramTable.boat_speeds" href="#hrosailing.polardiagram.PolarDiagramTable.boat_speeds">boat_speeds</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramTable.change_entries" href="#hrosailing.polardiagram.PolarDiagramTable.change_entries">change_entries</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramTable.get_slices" href="#hrosailing.polardiagram.PolarDiagramTable.get_slices">get_slices</a></code></li>

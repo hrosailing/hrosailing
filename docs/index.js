@@ -20,7 +20,7 @@ INDEX=[
 {
 "ref":"hrosailing",
 "url":0,
-"doc":"Getting Started        - Index   - Usage Example       -"
+"doc":"The Python package hrosailing provides classes and functions   polar diagrams   sailing   from data  . pipeline  . machine learning  . modular   Getting Started        - References      "
 },
 {
 "ref":"hrosailing.polardiagram",
@@ -147,19 +147,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramTable",
 "url":1,
-"doc":"A class to represent, visualize and work with a polar diagram in the form of a table. Parameters      ws_res : array_like or positive int/float, optional Wind speeds that will correspond to the columns of the table Can either be a sequence of length cdim or an int/float value If a number num is passed, numpy.arange(num, 40, num) will be assigned to ws_res If nothing is passed, it will default to numpy.arange(2, 42, 2) wa_res : array_like or positive int/float, optional Wind angles that will correspond to the rows of the table. Should be between 0\u00b0 and 360\u00b0 Can either be sequence of length rdim or an int/float value If a number num is passed, numpy.arange(num, 360, num) will be assigned to wa_res If nothing is passed, it will default to numpy.arange(0, 360, 5) bsps : array_like, optional Boatspeeds that will correspond to the entries of the table Should be broadcastable to the shape (rdim, cdim) If nothing is passed it will default to numpy.zeros rdim, cdim Raises a PolarDiagramException - if bsps can't be broadcasted to a fitting shape - if bsps is not of dimension 2 - if bsps is an empty array Examples     >>> pd = PolarDiagramTable() >>> pd.wind_speeds [ 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40] >>> pd.wind_angles [ 0 5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100 105 110 115 120 125 130 135 140 145 150 155 160 165 170 175 180 185 190 195 200 205 210 215 220 225 230 235 240 245 250 255 260 265 270 275 280 285 290 295 300 305 310 315 320 325 330 335 340 345 350 355] >>> pd = PolarDiagramTable(ws_res = [6, 8, 10, 12, 14],  . wa_res = [52, 60, 75, 90, 110, 120, 135]) >>> print(pd) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 0.00 0.00 0.00 0.00 0.00 60.0 0.00 0.00 0.00 0.00 0.00 75.0 0.00 0.00 0.00 0.00 0.00 90.0 0.00 0.00 0.00 0.00 0.00 110.0 0.00 0.00 0.00 0.00 0.00 120.0 0.00 0.00 0.00 0.00 0.00 135.0 0.00 0.00 0.00 0.00 0.00 >>> pd = PolarDiagramTable(  . bsps=[  . [5.33, 6.32, 6.96, 7.24, 7.35],  . [5.64, 6.61, 7.14, 7.42, 7.56],  . [5.89, 6.82, 7.28, 7.59, 7.84],  . [5.92, 6.98, 7.42, 7.62, 7.93],  . [5.98, 7.07, 7.59, 8.02, 8.34],  . [5.8, 6.95, 7.51, 7.98, 8.52],  . [5.2, 6.41, 7.19, 7.66, 8.14]  . ],  . ws_res=[6, 8, 10, 12, 14],  . wa_res=[52, 60, 75, 90, 110, 120, 135],  . ) >>> print(pd) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 5.33 6.32 6.96 7.24 7.35 60.0 5.64 6.61 7.14 7.42 7.56 75.0 5.89 6.82 7.28 7.59 7.84 90.0 5.92 6.98 7.42 7.62 7.93 110.0 5.98 7.07 7.59 8.02 8.34 120.0 5.80 6.95 7.51 7.98 8.52 135.0 5.20 6.41 7.19 7.66 8.14"
-},
-{
-"ref":"hrosailing.polardiagram.PolarDiagramTable.__str__",
-"url":1,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.polardiagram.PolarDiagramTable.__repr__",
-"url":1,
-"doc":"",
-"func":1
+"doc":"A class to represent, visualize and work with a polar diagram in the form of a table. Parameters      ws_res : array_like or positive int/float, optional Wind speeds that will correspond to the columns of the table Can either be a sequence of length cdim or an int/float value If a number num is passed, numpy.arange(num, 40, num) will be assigned to ws_res If nothing is passed, it will default to numpy.arange(2, 42, 2) wa_res : array_like or positive int/float, optional Wind angles that will correspond to the rows of the table. Should be between 0\u00b0 and 360\u00b0 Can either be sequence of length rdim or an int/float value If a number num is passed, numpy.arange(num, 360, num) will be assigned to wa_res If nothing is passed, it will default to numpy.arange(0, 360, 5) bsps : array_like, optional Boatspeeds that will correspond to the entries of the table Should be broadcastable to the shape (rdim, cdim) If nothing is passed it will default to numpy.zeros rdim, cdim Raises a PolarDiagramException - if bsps is not array_like or of a fitting shape Examples     >>> pd = PolarDiagramTable() >>> pd.wind_speeds [ 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40] >>> pd.wind_angles [ 0 5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100 105 110 115 120 125 130 135 140 145 150 155 160 165 170 175 180 185 190 195 200 205 210 215 220 225 230 235 240 245 250 255 260 265 270 275 280 285 290 295 300 305 310 315 320 325 330 335 340 345 350 355] >>> pd = PolarDiagramTable(ws_res = [6, 8, 10, 12, 14],  . wa_res = [52, 60, 75, 90, 110, 120, 135]) >>> print(pd) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 0.00 0.00 0.00 0.00 0.00 60.0 0.00 0.00 0.00 0.00 0.00 75.0 0.00 0.00 0.00 0.00 0.00 90.0 0.00 0.00 0.00 0.00 0.00 110.0 0.00 0.00 0.00 0.00 0.00 120.0 0.00 0.00 0.00 0.00 0.00 135.0 0.00 0.00 0.00 0.00 0.00 >>> pd = PolarDiagramTable(  . bsps=[  . [5.33, 6.32, 6.96, 7.24, 7.35],  . [5.64, 6.61, 7.14, 7.42, 7.56],  . [5.89, 6.82, 7.28, 7.59, 7.84],  . [5.92, 6.98, 7.42, 7.62, 7.93],  . [5.98, 7.07, 7.59, 8.02, 8.34],  . [5.8, 6.95, 7.51, 7.98, 8.52],  . [5.2, 6.41, 7.19, 7.66, 8.14]  . ],  . ws_res=[6, 8, 10, 12, 14],  . wa_res=[52, 60, 75, 90, 110, 120, 135],  . ) >>> print(pd) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 5.33 6.32 6.96 7.24 7.35 60.0 5.64 6.61 7.14 7.42 7.56 75.0 5.89 6.82 7.28 7.59 7.84 90.0 5.92 6.98 7.42 7.62 7.93 110.0 5.98 7.07 7.59 8.02 8.34 120.0 5.80 6.95 7.51 7.98 8.52 135.0 5.20 6.41 7.19 7.66 8.14"
 },
 {
 "ref":"hrosailing.polardiagram.PolarDiagramTable.__getitem__",
@@ -185,7 +173,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramTable.to_csv",
 "url":1,
-"doc":"Creates a .csv file with delimiter ',' and the following format: PolarDiagramTable Wind speed resolution: self.wind_speeds Wind angle resolution: self.wind_angles Boat speeds: self.boat_speeds Parameters      csv_path : path-like Path to a .csv file or where a new .csv file will be created fmt : string Raises a FileWritingException - inputs are not of the specified types - if an error occurs whilst writing - unknown format was specified Examples     >>> pd = PolarDiagramTable(  . bsps=[  . [5.33, 6.32, 6.96, 7.24, 7.35],  . [5.64, 6.61, 7.14, 7.42, 7.56],  . [5.89, 6.82, 7.28, 7.59, 7.84],  . [5.92, 6.98, 7.42, 7.62, 7.93],  . [5.98, 7.07, 7.59, 8.02, 8.34],  . [5.8, 6.95, 7.51, 7.98, 8.52],  . [5.2, 6.41, 7.19, 7.66, 8.14]  . ],  . ws_res=[6, 8, 10, 12, 14],  . wa_res=[52, 60, 75, 90, 110, 120, 135],  . ) >>> print(pd) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 5.33 6.32 6.96 7.24 7.35 60.0 5.64 6.61 7.14 7.42 7.56 75.0 5.89 6.82 7.28 7.59 7.84 90.0 5.92 6.98 7.42 7.62 7.93 110.0 5.98 7.07 7.59 8.02 8.34 120.0 5.80 6.95 7.51 7.98 8.52 135.0 5.20 6.41 7.19 7.66 8.14 >>> pd.to_csv(\"example.csv\") >>> pd2 = from_csv(\"example.csv\") >>> print(pd2) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 5.33 6.32 6.96 7.24 7.35 60.0 5.64 6.61 7.14 7.42 7.56 75.0 5.89 6.82 7.28 7.59 7.84 90.0 5.92 6.98 7.42 7.62 7.93 110.0 5.98 7.07 7.59 8.02 8.34 120.0 5.80 6.95 7.51 7.98 8.52 135.0 5.20 6.41 7.19 7.66 8.14",
+"doc":"Creates a .csv file with delimiter ',' and the following format: PolarDiagramTable Wind speed resolution: self.wind_speeds Wind angle resolution: self.wind_angles Boat speeds: self.boat_speeds Parameters      csv_path : path-like Path to a .csv file or where a new .csv file will be created fmt : string Raises a FileWritingException if an unknown format was specified Examples     >>> pd = PolarDiagramTable(  . bsps=[  . [5.33, 6.32, 6.96, 7.24, 7.35],  . [5.64, 6.61, 7.14, 7.42, 7.56],  . [5.89, 6.82, 7.28, 7.59, 7.84],  . [5.92, 6.98, 7.42, 7.62, 7.93],  . [5.98, 7.07, 7.59, 8.02, 8.34],  . [5.8, 6.95, 7.51, 7.98, 8.52],  . [5.2, 6.41, 7.19, 7.66, 8.14]  . ],  . ws_res=[6, 8, 10, 12, 14],  . wa_res=[52, 60, 75, 90, 110, 120, 135],  . ) >>> print(pd) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 5.33 6.32 6.96 7.24 7.35 60.0 5.64 6.61 7.14 7.42 7.56 75.0 5.89 6.82 7.28 7.59 7.84 90.0 5.92 6.98 7.42 7.62 7.93 110.0 5.98 7.07 7.59 8.02 8.34 120.0 5.80 6.95 7.51 7.98 8.52 135.0 5.20 6.41 7.19 7.66 8.14 >>> pd.to_csv(\"example.csv\") >>> pd2 = from_csv(\"example.csv\") >>> print(pd2) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 5.33 6.32 6.96 7.24 7.35 60.0 5.64 6.61 7.14 7.42 7.56 75.0 5.89 6.82 7.28 7.59 7.84 90.0 5.92 6.98 7.42 7.62 7.93 110.0 5.98 7.07 7.59 8.02 8.34 120.0 5.80 6.95 7.51 7.98 8.52 135.0 5.20 6.41 7.19 7.66 8.14",
 "func":1
 },
 {
@@ -221,7 +209,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramTable.plot_3d",
 "url":1,
-"doc":"Creates a 3d plot of the polar diagram Parameters      ax : mpl_toolkits.mplot3d.axes3d.Axes3D, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes plot_kw : Keyword arguments, optional Keyword arguments to change certain appearences of the plot Only the  color / c keyword is used, the rest are only supported to be consistent with the plot_3d()-method of PolarDiagram and PolarDiagrampointcloud The value of the  color / c should be either a tuple or list of matplotlib supported color_like entries, if the 3d-plot should be plotted with a color gradient of those colors, or a single color_like value, if the 3d-plot should be plotted with a single color. If nothing is passed the  color / c keyword defaults to (\"green\", \"red\")",
+"doc":"Creates a 3d plot of the polar diagram Parameters      ax : mpl_toolkits.mplot3d.axes3d.Axes3D, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors",
 "func":1
 },
 {
@@ -293,18 +281,6 @@ INDEX=[
 "func":1
 },
 {
-"ref":"hrosailing.polardiagram.PolarDiagramMultiSails.__str__",
-"url":1,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.polardiagram.PolarDiagramMultiSails.__repr__",
-"url":1,
-"doc":"",
-"func":1
-},
-{
 "ref":"hrosailing.polardiagram.PolarDiagramMultiSails.to_csv",
 "url":1,
 "doc":"",
@@ -337,7 +313,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramMultiSails.plot_3d",
 "url":1,
-"doc":"Creates a 3d plot of the polar diagram Parameters      ax : mpl_toolkits.mplot3d.axes3d.Axes3D, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes plot_kw : Keyword arguments, optional Keyword arguments to change certain appearences of the plot Only the  color / c keyword is used, the rest are only supported to be consistent with the plot_3d()-method of PolarDiagram and PolarDiagrampointcloud The value of the  color / c should be either a tuple or list of matplotlib supported color_like entries, if the 3d-plot should be plotted with a color gradient of those colors, or a single color_like value, if the 3d-plot should be plotted with a single color. If nothing is passed the  color / c keyword defaults to (\"green\", \"red\")",
+"doc":"Creates a 3d plot of the polar diagram Parameters      ax : mpl_toolkits.mplot3d.axes3d.Axes3D, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors",
 "func":1
 },
 {
@@ -380,12 +356,6 @@ INDEX=[
 "ref":"hrosailing.polardiagram.PolarDiagramCurve",
 "url":1,
 "doc":"A class to represent, visualize and work with a polar diagram given by a fitted curve/surface. Parameters      f : function Curve/surface that describes the polar diagram, given as a function, with the signature f(ws, wa,  params) -> bsp, where ws and wa should be array_like of shape (n,). should then also be an array_like of shape (n,) params : tuple or Sequence Optimal parameters for f radians : bool, optional Specifies if f takes the wind angles to be in radians or degrees Defaults to False"
-},
-{
-"ref":"hrosailing.polardiagram.PolarDiagramCurve.__repr__",
-"url":1,
-"doc":"",
-"func":1
 },
 {
 "ref":"hrosailing.polardiagram.PolarDiagramCurve.__call__",
@@ -441,7 +411,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramCurve.plot_3d",
 "url":1,
-"doc":"Creates a 3d plot of a part of the polar diagram Parameters      ws : tuple of length 2, optional A region of the polar diagram given as an interval of wind speeds Slices will then equal self(w, wa) where w goes through the given values in  ws and wa goes through a fixed number of angles between 0\u00b0 and 360\u00b0 If nothing is passed, it will default to (0, 20) stepsize : positive int or float, optional Specfies the amount of slices taken from the given interval in  ws If nothing is passed, it will default to 100 ax : mpl_toolkits.mplot3d.axes3d.Axes3D, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes plot_kw : Keyword arguments, optional Keyword arguments to change certain appearences of the plot Only the  color / c keyword is used, the rest are only supported to be consistent with the plot_3d()-method of PolarDiagram and PolarDiagrampointcloud The value of the  color / c should be either a tuple or list of matplotlib supported color_like entries, if the 3d-plot should be plotted with a color gradient of those colors, or a single color_like value, if the 3d-plot should be plotted with a single color. If nothing is passed the  color / c keyword defaults to (\"green\", \"red\")",
+"doc":"Creates a 3d plot of a part of the polar diagram Parameters      ws : tuple of length 2, optional A region of the polar diagram given as an interval of wind speeds Slices will then equal self(w, wa) where w goes through the given values in  ws and wa goes through a fixed number of angles between 0\u00b0 and 360\u00b0 If nothing is passed, it will default to (0, 20) stepsize : positive int or float, optional Specfies the amount of slices taken from the given interval in  ws If nothing is passed, it will default to 100 ax : mpl_toolkits.mplot3d.axes3d.Axes3D, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors :",
 "func":1
 },
 {
@@ -484,18 +454,6 @@ INDEX=[
 "ref":"hrosailing.polardiagram.PolarDiagramPointcloud",
 "url":1,
 "doc":"A class to represent, visualize and work with a polar diagram given by a point cloud Parameters      pts : array_like of shape (n, 3), optional Initial points of the point cloud, given as a sequence of points consisting of wind speed, wind angle and boat speed If nothing is passed, the point cloud will be initialized as an empty point cloud tw : bool, optional Specifies if the given wind data should be viewed as true wind If False, wind data will be converted to true wind Defaults to True"
-},
-{
-"ref":"hrosailing.polardiagram.PolarDiagramPointcloud.__str__",
-"url":1,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.polardiagram.PolarDiagramPointcloud.__repr__",
-"url":1,
-"doc":"",
-"func":1
 },
 {
 "ref":"hrosailing.polardiagram.PolarDiagramPointcloud.wind_speeds",
@@ -784,6 +742,11 @@ INDEX=[
 "func":1
 },
 {
+"ref":"hrosailing.processing.pipeline.InterpolationWarning",
+"url":6,
+"doc":"Base class for warning categories."
+},
+{
 "ref":"hrosailing.processing.pipelinecomponents",
 "url":7,
 "doc":""
@@ -849,7 +812,7 @@ INDEX=[
 {
 "ref":"hrosailing.processing.pipelinecomponents.regressor.ODRegressor.fit",
 "url":8,
-"doc":"Fits the model function to the given data, ie calculates the optimal parameters to minimize an objective function based on the data, see also [ODRPACK](https: docs.scipy.org/doc/external/odrpack_guide.pdf) Parameters      data : array_like of shape (n, 3) Data to which the model function will be fitted, given as a sequence of points consisting of wind speed, wind angle and boat speed Raises a RegressorException - if - if - if",
+"doc":"Fits the model function to the given data, ie calculates the optimal parameters to minimize an objective function based on the data, see also [ODRPACK](https: docs.scipy.org/doc/external/odrpack_guide.pdf) Parameters      data : array_like of shape (n, 3) Data to which the model function will be fitted, given as a sequence of points consisting of wind speed, wind angle and boat speed",
 "func":1
 },
 {
@@ -876,7 +839,7 @@ INDEX=[
 {
 "ref":"hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor.fit",
 "url":8,
-"doc":"Fits the model function to the given data, ie calculates the optimal parameters to minimize the sum of the squares of the residuals, see also [least squares](https: docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html) Parameters      data : array_like of shape (n, 3) Data to which the model function will be fitted, given as a sequence of points consisting of wind speed, wind angle and boat speed Raises a RegressorException if least-square minimization was not succesful, ie, if scipy.optimize.curve_fit raises a RuntimeError",
+"doc":"Fits the model function to the given data, ie calculates the optimal parameters to minimize the sum of the squares of the residuals, see also [least squares](https: docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html) Parameters      data : array_like of shape (n, 3) Data to which the model function will be fitted, given as a sequence of points consisting of wind speed, wind angle and boat speed",
 "func":1
 },
 {
@@ -1088,12 +1051,6 @@ INDEX=[
 "doc":"A weigher that weighs given points according to the following procedure: For a given point p and points pts we look at all the points pt in pts such that  pt[:d-1] - p[:d-1] <= r Then we take the mean m_p and standard deviation std_p of the dth component of all those points and set w_p = | m_p - p[d-1] | / std_p Parameters      radius : positive int or float, optional The radius of the considered cylinder, with infinite height, ie r Defaults to 0.05 norm : function or callable, optional Norm with which to evaluate the distances, ie  . If nothing is passed, it will default to  . _2 Raises a WeigherInitializationException if radius is nonpositive"
 },
 {
-"ref":"hrosailing.processing.pipelinecomponents.weigher.CylindricMeanWeigher.__repr__",
-"url":12,
-"doc":"Return repr(self).",
-"func":1
-},
-{
 "ref":"hrosailing.processing.pipelinecomponents.weigher.CylindricMeanWeigher.weigh",
 "url":12,
 "doc":"Weigh given points according to the method described above Parameters      pts : numpy.ndarray of shape (n, 3) Points to be weight Returns    - wts : numpy.ndarray of shape (n, ) Normalized weights of the input points",
@@ -1105,12 +1062,6 @@ INDEX=[
 "doc":"A weigher that weighs given points according to the following procedure: For a given point p and points pts we look at all the points pt in pts such that |pt[0] - p[0]| <= h and  pt[1:] - p[1:] <= r Call the set of all such points P, then w_p =  P - 1 Parameters      radius : positive int or float, optional The radius of the considered cylinder, ie r Defaults to 0.05 length : nonnegative int of float, optional The height of the considered cylinder, ie h If length is 0, the cylinder is a d-1 dimensional ball Defaults to 0.05 norm : function or callable, optional Norm with which to evaluate the distances, ie  . If nothing is passed, it will default to  . _2 Raises a WeigherInitializationException - if radius is nonpositive - if length is negative"
 },
 {
-"ref":"hrosailing.processing.pipelinecomponents.weigher.CylindricMemberWeigher.__repr__",
-"url":12,
-"doc":"Return repr(self).",
-"func":1
-},
-{
 "ref":"hrosailing.processing.pipelinecomponents.weigher.CylindricMemberWeigher.weigh",
 "url":12,
 "doc":"Weigh given points according to the method described above Parameters      pts : numpy.ndarray of shape (n, 3) Points to be weight Returns    - wts : numpy.ndarray of shape (n, ) Normalized weights of the input points",
@@ -1120,12 +1071,6 @@ INDEX=[
 "ref":"hrosailing.processing.pipelinecomponents.weigher.WeightedPoints",
 "url":12,
 "doc":"A class to weigh data points and represent them together with their respective weights Parameters      pts : array_like of shape (n, 3) Points that will be weight or paired with given weights wts : int, float or array_like of shape (n, ), optional If the weights of the points are known beforehand, they can be given as an argument. If weights are passed, they will be assigned to the points and no further weighing will take place If a scalar is passed, the points will all be assigned the same weight Defaults to None weigher : Weigher, optional Instance of a Weigher class, which will weigh the points Will only be used if weights is None If nothing is passed, it will default to CylindricMeanWeigher() tw : bool, optional Specifies if the given wind data should be viewed as true wind If False, wind data will be converted to true wind Defaults to True"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.weigher.WeightedPoints.__getitem__",
-"url":12,
-"doc":"",
-"func":1
 },
 {
 "ref":"hrosailing.processing.pipelinecomponents.weigher.WeightedPoints.points",
