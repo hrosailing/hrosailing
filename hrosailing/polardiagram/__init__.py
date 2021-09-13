@@ -2596,7 +2596,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         self,
         ws=None,
         stepsize=None,
-        range_=None,
+        range_=1,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -2642,7 +2642,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Will only be used if `ws` is int or float or
             if any w in `ws` is an int or float
 
-            If nothing is passed, it will default to 1
+            Defaults to 1
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
@@ -2706,7 +2706,6 @@ class PolarDiagramPointcloud(PolarDiagram):
             f"show_legend={show_legend}, legend_kw={legend_kw}, "
             f"**plot_kw={plot_kw})' called"
         )
-
         self._check_plot_kw(plot_kw)
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
         plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
@@ -2715,7 +2714,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         self,
         ws=None,
         stepsize=None,
-        range_=None,
+        range_=1,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -2761,7 +2760,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Will only be used if `ws` is int or float or
             if any w in `ws` is an int or float
 
-            If nothing is passed, it will default to 1
+            Defaults to 1
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
@@ -2944,7 +2943,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         self,
         ws=None,
         stepsize=None,
-        range_=None,
+        range_=1,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -3095,4 +3094,4 @@ class PolarDiagramPointcloud(PolarDiagram):
             plot_kw["ls"] = ls
 
         if plot_kw.get("marker", None) is None:
-            plot_kw["marker"] = "."
+            plot_kw["marker"] = "o"
