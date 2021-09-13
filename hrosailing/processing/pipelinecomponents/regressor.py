@@ -209,9 +209,13 @@ class LeastSquareRegressor(Regressor):
 
         sig = inspect.signature(model_func)
         args = [
-            p.name for p in sig.parameters.values()
-            if p.kind in [inspect.Parameter.POSITIONAL_OR_KEYWORD,
-                          inspect.Parameter.POSITIONAL_ONLY]
+            p.name
+            for p in sig.parameters.values()
+            if p.kind
+            in [
+                inspect.Parameter.POSITIONAL_OR_KEYWORD,
+                inspect.Parameter.POSITIONAL_ONLY,
+            ]
         ]
 
         if init_vals is None and len(args) < 3:
