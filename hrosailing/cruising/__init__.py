@@ -42,17 +42,15 @@ def convex_direction(
     for left, right in zip(vert, vert[1:]):
         if wa[left] <= direction <= wa[right]:
             i1, i2 = left, right
-            edge = [
-                Direction(wa[i1], 1, sails[i1] if sails else None),
-                Direction(wa[i2], 1, sails[i2] if sails else None),
-            ]
+            edge = [Direction(wa[i1], 1), Direction(wa[i2], 1)]
             break
     else:
         i1, i2 = vert[0], vert[-1]
-        edge = [
-            Direction(wa[i1], 1, sails[i1] if sails else None),
-            Direction(wa[i2], 1, sails[i2] if sails else None),
-        ]
+        edge = [Direction(wa[i1], 1), Direction(wa[i2], 1)]
+
+    if sails:
+        edge[0].sail = sails[i1]
+        edge[1].sail = sails[i2]
 
     if edge[0] == direction:
         return [edge[0]]
@@ -107,7 +105,7 @@ class WeatherModel:
     pass
 
 
-def cost_cruise(
+def sail_cost(
     pd: pol.PolarDiagram,
     start,
     end,
