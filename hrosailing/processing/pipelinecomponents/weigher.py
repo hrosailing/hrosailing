@@ -22,18 +22,10 @@ from hrosailing.wind import convert_wind
 logging.basicConfig(
     format="%(asctime)s %(levelname)s: %(message)s",
     level=logging.INFO,
-    filename="hrosailing/logging/processing.log",
+    handlers=[logging.handlers.TimedRotatingFileHandler("hrosailing/logging/processing.log", when="midnight")]
 )
-
-LOG_FILE = "hrosailing/logging/processing.log"
 
 logger = logging.getLogger(__name__)
-file_handler = logging.handlers.TimedRotatingFileHandler(
-    LOG_FILE, when="midnight"
-)
-file_handler.setLevel(logging.INFO)
-logger.addHandler(file_handler)
-logger.setLevel(logging.INFO)
 
 
 def scaled(norm, scal):

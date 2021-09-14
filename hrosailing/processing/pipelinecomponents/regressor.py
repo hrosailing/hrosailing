@@ -15,25 +15,17 @@ import logging.handlers
 from typing import Callable
 
 import numpy as np
-from scipy.odr.odrpack import Data, Model, ODR, OdrError
+from scipy.odr.odrpack import Data, Model, ODR
 from scipy.optimize import curve_fit
 
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)s: %(message)s",
     level=logging.INFO,
-    filename="hrosailing/logging/processing.log",
+    handlers=[logging.handlers.TimedRotatingFileHandler("hrosailing/logging/processing.log", when="midnight")]
 )
-
-LOG_FILE = "hrosailing/logging/processing.log"
 
 logger = logging.getLogger(__name__)
-file_handler = logging.handlers.TimedRotatingFileHandler(
-    LOG_FILE, when="midnight"
-)
-file_handler.setLevel(logging.INFO)
-logger.addHandler(file_handler)
-logger.setLevel(logging.INFO)
 
 
 class RegressorException(Exception):
