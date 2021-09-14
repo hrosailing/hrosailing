@@ -23,7 +23,11 @@ from hrosailing.wind import convert_wind, set_resolution
 logging.basicConfig(
     format="%(asctime)s %(levelname)s: %(message)s",
     level=logging.INFO,
-    handlers=[logging.handlers.TimedRotatingFileHandler("hrosailing/logging/processing.log", when="midnight")]
+    handlers=[
+        logging.handlers.TimedRotatingFileHandler(
+            "hrosailing/logging/processing.log", when="midnight"
+        )
+    ],
 )
 
 logger = logging.getLogger(__name__)
