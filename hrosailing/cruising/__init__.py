@@ -20,6 +20,17 @@ class Direction:
     proportion: float
     sail: Optional[str] = None
 
+    def __str__(self):
+        out = (
+            f"Sail with an angle of {self.angle} to the wind for "
+            f"{self.proportion} percent of the time"
+        )
+
+        if self.sail:
+            out += f", while hissing {self.sail}"
+
+        return out
+
 
 def convex_direction(
     pd: pol.PolarDiagram, ws, direction, im: Optional[InfluenceModel] = None
