@@ -22,7 +22,11 @@ from scipy.optimize import curve_fit
 logging.basicConfig(
     format="%(asctime)s %(levelname)s: %(message)s",
     level=logging.INFO,
-    handlers=[logging.handlers.TimedRotatingFileHandler("hrosailing/logging/processing.log", when="midnight")]
+    handlers=[
+        logging.handlers.TimedRotatingFileHandler(
+            "hrosailing/logging/processing.log", when="midnight"
+        )
+    ],
 )
 
 logger = logging.getLogger(__name__)
@@ -166,9 +170,9 @@ class ODRegressor(Regressor):
             f"R^2_corr: {sse / sst - indep_vars * (1 - sse / sst) / dof}"
         )
         logger.info(f"F_emp ={(sse / indep_vars) / (sst / dof)}")
-        logger.info(f"Quasi-χ^2: {out.res_var}")
-        logger.info(f"χ^2_min: {chi_squared}")
-        logger.info(f"Reduced χ^2_min: {chi_squared / dof}")
+        logger.info(f"Quasi-chi^2: {out.res_var}")
+        logger.info(f"chi^2_min: {chi_squared}")
+        logger.info(f"Reduced chi^2_min: {chi_squared / dof}")
 
 
 class LeastSquareRegressor(Regressor):
@@ -272,8 +276,8 @@ class LeastSquareRegressor(Regressor):
             f"R^2_corr: {sse / sst - indep_vars * (1 - sse / sst) / dof}"
         )
         logger.info(f"F_emp ={(sse / indep_vars) / (sst / dof)}")
-        logger.info(f"χ^2: {chi_squared}")
-        logger.info(f"χ^2_red: {chi_squared / dof}")
+        logger.info(f"chi^2: {chi_squared}")
+        logger.info(f"chi^2_red: {chi_squared / dof}")
 
 
 # TODO better approach
