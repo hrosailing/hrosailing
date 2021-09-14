@@ -4,6 +4,7 @@
 
 # Author: Valentin F. Dannenberg / Ente
 
+from bisect import bisect_left
 import dataclasses
 from typing import Optional
 
@@ -112,8 +113,43 @@ def cruise(
     return [(d1.angle, t1), (d2.angle, t2)]
 
 
+class WeatherException(Exception):
+    """"""
+
+
 class WeatherModel:
-    pass
+    def __init__(self, data, times, lats, lons, attrs):
+        self._times = times
+        self._lats = lats
+        self._lons = lons
+        self._attrs = attrs
+        self._data = data
+
+    def get_weather(self, time, lat, lon):
+        time_idx = bisect_left(self._times, time)
+        lat_idx = bisect_left(self._lats, lat)
+        lon_idx = bisect_left(self._lons, lon)
+
+        if any(
+            [
+                time_idx == len(self._times),
+                lat_idx == len(self._lats),
+                lon_idx == len(self._lons),
+            ]
+        ):
+            raise WeatherException(
+                "As Prof. Oak said, there is a time and place for everything"
+            )
+
+        g = np.meshgrid(
+            [time_idx, time_idx + 1],
+            [lat_idx, lat_idx + 1],
+            [lon_idx, lon_idx + 1],
+        )
+        idxs = np.vstack(tuple(map(np.ravel, g))).T
+
+        mean = np.mean([self._data[i, j, k, :] for i, j, k in idxs], axis=0)
+        return {attr: val for attr, val in zip(self._attrs, mean)}
 
 
 def sail_cost(
