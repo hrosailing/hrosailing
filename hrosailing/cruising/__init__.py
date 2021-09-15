@@ -178,54 +178,60 @@ def cost_cruise(
     **kwargs,
 ):
     """
-    This method computes the total cost for traveling
-    from a start position to an end position for a given cost density function
-    cost and absolute function abs_cost.
-    The costs also depend on the weather forecast data,
-    organized by a WeatherModel
+    Computes the total cost for traveling
+    from a start position to an end position
 
     To be precise, it calculates
+    for a given cost density function
+    cost and absolute function abs_cost
 
     int_0^l cost(s, t(s)) ds + abs_cost(t(l), l),
 
     where s is the distance travelled,
     l is the total distance from start to end
     and t(s) is the time travelled
-    t(s) is the solution of the ivp t(0) = 0, dt/ds = 1/bsp(s,t)
+    t(s) is the solution of the initial value problem
+    t(0) = 0, dt/ds = 1/bsp(s,t).
+
+    The costs also depend on the weather forecast data,
+    organized by a WeatherModel
     Distances are computed using the mercator projection
 
     Parameter
     ----------
 
-    :param pd:
+    pd: PolarDiagram
         polar diagram of the vessel
-    :param start:
+    start: tuple of two floats
         coordinates of the starting point
-    :param end:
+    end: tuple of two floats
         coordinates of the end point
-    :param start_time:
+    start_time: datetime.datetime
         the time at which the traveling starts
-    :param cost_fun_dens:
+    cost_fun_dens: datetime.datetime, float, float, WeatherModel -> float
         function giving a cost density for given time t, lattitude lat,
         longitude long and WeatherModel wm
         cost_fun_dens(t,lat,long,wm) corresponds to costs(s,t) above
         default: None
-    :param cost_fun_abs:
+    cost_fun_abs: float, float -> float
         corresponds to abs_costs above
         default: lambda total_t, total_s: total_t
-    :param integration_method:
+    integration_method: (n,) array, (n,) array -> float
         function that takes samples y, x and computes an approximative integral
         is only used if cost_fun_dens is not None
         default: scipy.integrate.trapezoid
-    :param wm:
+    wm: WeatherModel
         The WeatherModel used
-    :param im:
+    im: InfluenceModel
         The InfluenceModel used to consider additional influences
         on the boat speed
-    :param kwargs:
+    kwargs:
         keyword arguments which will be redirected to scipy.integrate.solve_ivp
         in order to solve the initial value problem described above
-    :return:
+    Returns
+    -------
+    out : float
+        the total cost calculated as described above
     """
 
     # TODO: default value handling for wm and im
