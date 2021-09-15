@@ -9,14 +9,16 @@ in different forms and functions to manipulate PolarDiagram-objects
 
 from abc import ABC, abstractmethod
 import csv
+import inspect
 import itertools
 import logging.handlers
 import pickle
-from typing import List
+from typing import List, Optional
 import warnings
 
 
 from ._plotting import *
+from hrosailing.pipelinecomponents import Interpolator
 from hrosailing.wind import convert_wind, set_resolution
 
 
@@ -25,7 +27,7 @@ logging.basicConfig(
     level=logging.INFO,
     handlers=[
         logging.handlers.TimedRotatingFileHandler(
-            "hrosailing/logging/processing.log", when="midnight"
+            "hrosailing/logging/pipeline.log", when="midnight"
         )
     ],
 )
@@ -603,11 +605,14 @@ class PolarDiagramTable(PolarDiagram):
             f"wa_res={self.wind_angles}, bsps={self.boat_speeds})"
         )
 
+    def __call__(self, ws, wa, interpolator: Optional[Interpolator] = None):
+        pass
+
     def __getitem__(self, key):
         """"""
         ws, wa = key
-        col = self._get_indices(ws, "speed")
-        row = self._get_indices(wa, "angle")
+        col = self._get_indices(np.atleast_1d(ws), "speed")
+        row = self._get_indices(np.atleast_1d(wa), "angle")
         return self.boat_speeds[row, col]
 
     @property
@@ -887,8 +892,8 @@ class PolarDiagramTable(PolarDiagram):
         if new_bsps.dtype is object:
             raise PolarDiagramException("`new_bsps` is not array_like")
 
-        ws = self._get_indices(ws, "speed")
-        wa = self._get_indices(wa, "angle")
+        ws = self._get_indices(np.atleast_1d(ws), "speed")
+        wa = self._get_indices(np.atleast_1d(wa), "angle")
 
         if new_bsps.shape != (len(wa), len(ws)):
             raise PolarDiagramException("`new_bsps` has incorrect shape")
@@ -1003,12 +1008,12 @@ class PolarDiagramTable(PolarDiagram):
 
         Examples
         --------
-            >>> import matplotlib.pyplot as plt
+            >>> import matplotlib.pyplot as pyplot
             >>> pd = from_csv("src/polar_diagrams/orc/A-35.csv", fmt="orc")
             >>> pd.plot_polar(
             ...     ws=[6, 8], show_legend=True, ls="-", lw=1.5, marker=""
             ... )
-            >>> plt.show()
+            >>> pyplot.show()
 
         .. image:: /examples/table_plot_polar.png
 
@@ -1018,7 +1023,7 @@ class PolarDiagramTable(PolarDiagram):
             >>> pd.symmetrize().plot_polar(
             ...     ws=[6, 8], show_legend=True, ls="-", lw=1.5, marker=""
             ... )
-            >>> plt.show()
+            >>> pyplot.show()
 
         .. image:: /examples/sym_table_plot_polar.png
 
@@ -1122,12 +1127,12 @@ class PolarDiagramTable(PolarDiagram):
 
         Examples
         --------
-            >>> import matplotlib.pyplot as plt
+            >>> import matplotlib.pyplot as pyplot
             >>> pd = from_csv("src/polar_diagrams/orc/A-35.csv", fmt="orc")
             >>> pd.plot_flat(
             ...     ws=[6, 8], show_legend=True, ls="-", lw=1.5, marker=""
             ... )
-            >>> plt.show()
+            >>> pyplot.show()
 
         .. image:: /examples/table_plot_flat.png
 
@@ -1137,7 +1142,7 @@ class PolarDiagramTable(PolarDiagram):
             >>> pd.symmetrize().plot_flat(
             ...     ws=[6, 8], show_legend=True, ls="-", lw=1.5, marker=""
             ... )
-            >>> plt.show()
+            >>> pyplot.show()
 
         .. image:: /examples/sym_table_plot_flat.png
 
@@ -1388,20 +1393,12 @@ class PolarDiagramTable(PolarDiagram):
         if wind is None:
             return range(len(res))
 
-        if isinstance(wind, (int, float)):
-            try:
-                return [list(res).index(wind)]
-            except ValueError as ve:
-                raise PolarDiagramException(
-                    f"{wind} is not contained in {res}"
-                ) from ve
-
         wind = set(wind)
         if not wind:
             raise PolarDiagramException("Empty slice-list was passed")
 
         if not wind.issubset(set(res)):
-            raise PolarDiagramException(f"{wind} is not a subset of {res}")
+            raise PolarDiagramException(f"{wind} is not contained in {res}")
 
         return [i for i, w in enumerate(res) if w in wind]
 
@@ -1412,10 +1409,6 @@ class PolarDiagramTable(PolarDiagram):
             plot_kw["ls"] = "-"
         else:
             plot_kw["ls"] = ls
-
-
-def interpolate():
-    pass
 
 
 # TODO: Docstrings
@@ -1980,7 +1973,7 @@ class PolarDiagramCurve(PolarDiagram):
 
             If nothing is passed, it will default to ws[1] - ws[0]
 
-        ax : matplotlib.axes.Axes, optional
+        ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
 
             If nothing is passed, the function will create
@@ -2003,7 +1996,6 @@ class PolarDiagramCurve(PolarDiagram):
             a tuple of (ws, color) pairs
 
             Defaults to ("green", "red")
-
 
         show_legend : bool, optional
             Specifies wether or not a legend will be shown next to the plot
@@ -2332,7 +2324,7 @@ class PolarDiagramCurve(PolarDiagram):
 
             If nothing is passed, it will default to ws[1] - ws[0]
 
-        ax : matplotlib.axes.Axes, optional
+        ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
 
             If nothing is passed, the function will create
@@ -2461,6 +2453,9 @@ class PolarDiagramPointcloud(PolarDiagram):
     def __repr__(self):
         """"""
         return f"PolarDiagramPointcloud(pts={self.points})"
+
+    def __call__(self, ws, wa, interpolator=None):
+        pass
 
     @property
     def wind_speeds(self):
