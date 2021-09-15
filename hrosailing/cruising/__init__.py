@@ -1,5 +1,5 @@
 """
-
+Functions for navigation and weather routing using PPDs
 """
 
 # Author: Valentin Dannenberg & Robert Schueler

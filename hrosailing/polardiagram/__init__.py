@@ -1,7 +1,5 @@
 """
-Classes to represent polar diagrams in various different forms
-as well as small functions to save / load PolarDiagram-objects to files
-in different forms and functions to manipulate PolarDiagram-objects
+PolarDiagram classes to work with and represent PPDs in various forms
 """
 
 # Author: Valentin Dannenberg

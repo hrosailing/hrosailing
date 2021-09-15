@@ -1,3 +1,8 @@
+"""
+Components for the PolarPipeline and PipelineExtension
+classes among other things.
+"""
+
 from .datahandler import (
     DataHandler,
     ArrayHandler,

@@ -1,4 +1,5 @@
 """
+Pipeline to create PPDs from raw data
 """
 
 # Author: Valentin Dannenberg
