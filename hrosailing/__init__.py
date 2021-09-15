@@ -3,14 +3,27 @@ The Python package hrosailing provides classes and functions ....
 polar diagrams .... sailing .... from data ... pipeline ... machine learning
 ... modular ....
 
+Installation
+------------
+hrosailing can be installed using `pip install hrosailing`. It requires
+Python ..., aswell as numpy ..., matplotlib ... and scipy ... to run.
 
 Getting Started
 ---------------
 
+Contributing
+------------
 
-References
-----------
+License
+-------
+
+Authors
+-------
+Valentin Dannenberg (valentin.dannenberg2@uni-rostock.de)
+
+Robert Schueler (robert.schueler2@uni-rostock.de)
 """
+
 
 # Tell users if hard depencencies are missing
 hard_dependencies = ("numpy", "matplotlib", "scipy")
@@ -33,25 +46,13 @@ from ._version import __version__
 
 version = __version__
 
+from ._pdoc import pdoc
+
+__pdoc__ = pdoc
+
 
 import hrosailing.cruising
-import hrosailing.polardiagram
 import hrosailing.pipeline
+import hrosailing.pipelinecomponents
+import hrosailing.polardiagram
 from .wind import true_wind_to_apparent, apparent_wind_to_true
-
-__pdoc__ = {
-    "hrosailing.wind.set_resolution": False,
-    "hrosailing.wind.convert_wind": False,
-    "hrosailing.polardiagram.PolarDiagramTable.__getitem__": True,
-    "hrosailing.polardiagram.PolarDiagramMultiSails.__getitem__": True,
-    "hrosailing.polardiagram.PolarDiagramCurve.__call__": True,
-    "hrosailing.pipeline.pipeline.PolarPipeline.__call__": True,
-    "hrosailing.pipeline.pipelinecomponents.interpolator.gauss_potential": False,
-    "hrosailing.pipeline.pipelinecomponents.interpolator.scaled": False,
-    "hrosailing.pipeline.pipelinecomponents.interpolator.euclidean_norm": False,
-    "hrosailing.pipeline.pipelinecomponents.neighbourhood.euclidean_norm": False,
-    "hrosailing.pipeline.pipelinecomponents.neighbourhood.scaled": False,
-    "hrosailing.pipeline.pipelinecomponents.sampler.make_circle": False,
-    "hrosailing.pipeline.pipelinecomponents.weigher.euclidean_norm": False,
-    "hrosailing.pipeline.pipelinecomponents.weigher.scaled": False,
-}
