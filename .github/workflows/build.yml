@@ -49,7 +49,7 @@ jobs:
 
       - name: setup pyenv
         id: pyenv_installation
-        uses: 'grabielfalcao/pyenv-action@v7'
+        uses: 'gabrielfalcao/pyenv-action@v7'
         
       - name: debug pyenv
         run: echo ${{ steps.pyenv_installation.outputs.pyenv_root }}
