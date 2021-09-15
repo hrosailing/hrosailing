@@ -5,6 +5,7 @@
 # Author: Valentin Dannenberg
 
 from abc import ABC, abstractmethod
+from decimal import Decimal
 
 import numpy as np
 import pynmea2 as pynmea
@@ -157,15 +158,26 @@ class NMEAFileHandler(DataHandler):
                     zip(parsed.fields, parsed.data),
                 )
 
-                for field, data in nmea_attr:
+                for field, val in nmea_attr:
                     name = field[0]
                     len_ = len(data_dict[name])
                     if len_ == ndata:
-                        data_dict[name].append(data)
+                        data_dict[name].append(
+                            eval(val)
+                            if len(field) == 3
+                            and field[2] in {int, float, Decimal}
+                            else val
+                        )
                         ndata += 1
                     else:
                         data_dict[name].extend(
-                            [None] * (ndata - len_ - 1) + [data]
+                            [None] * (ndata - len_ - 1)
+                            + [
+                                eval(val)
+                                if len(field) == 3
+                                and field[2] in {int, float, Decimal}
+                                else val
+                            ]
                         )
 
                 for attr in self._attr_filter:
