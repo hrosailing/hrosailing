@@ -36,7 +36,7 @@ version = __version__
 
 import hrosailing.cruising
 import hrosailing.polardiagram
-import hrosailing.processing
+import hrosailing.pipeline
 from .wind import true_wind_to_apparent, apparent_wind_to_true
 
 __pdoc__ = {
@@ -45,13 +45,13 @@ __pdoc__ = {
     "hrosailing.polardiagram.PolarDiagramTable.__getitem__": True,
     "hrosailing.polardiagram.PolarDiagramMultiSails.__getitem__": True,
     "hrosailing.polardiagram.PolarDiagramCurve.__call__": True,
-    "hrosailing.processing.pipeline.PolarPipeline.__call__": True,
-    "hrosailing.processing.pipelinecomponents.interpolator.gauss_potential": False,
-    "hrosailing.processing.pipelinecomponents.interpolator.scaled": False,
-    "hrosailing.processing.pipelinecomponents.interpolator.euclidean_norm": False,
-    "hrosailing.processing.pipelinecomponents.neighbourhood.euclidean_norm": False,
-    "hrosailing.processing.pipelinecomponents.neighbourhood.scaled": False,
-    "hrosailing.processing.pipelinecomponents.sampler.make_circle": False,
-    "hrosailing.processing.pipelinecomponents.weigher.euclidean_norm": False,
-    "hrosailing.processing.pipelinecomponents.weigher.scaled": False,
+    "hrosailing.pipeline.pipeline.PolarPipeline.__call__": True,
+    "hrosailing.pipeline.pipelinecomponents.interpolator.gauss_potential": False,
+    "hrosailing.pipeline.pipelinecomponents.interpolator.scaled": False,
+    "hrosailing.pipeline.pipelinecomponents.interpolator.euclidean_norm": False,
+    "hrosailing.pipeline.pipelinecomponents.neighbourhood.euclidean_norm": False,
+    "hrosailing.pipeline.pipelinecomponents.neighbourhood.scaled": False,
+    "hrosailing.pipeline.pipelinecomponents.sampler.make_circle": False,
+    "hrosailing.pipeline.pipelinecomponents.weigher.euclidean_norm": False,
+    "hrosailing.pipeline.pipelinecomponents.weigher.scaled": False,
 }

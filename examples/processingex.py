@@ -8,7 +8,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-import hrosailing.processing.pipelinecomponents as pc
+import hrosailing.pipelinecomponents.pipelinecomponents as pc
 
 
 def visualize_ball():

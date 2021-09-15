@@ -14,8 +14,10 @@ import warnings
 import numpy as np
 
 import hrosailing.polardiagram as pol
-from hrosailing.processing.modelfunctions import ws_s_s_dt_wa_gauss_comb
-import hrosailing.processing.pipelinecomponents as pc
+from hrosailing.pipelinecomponents.modelfunctions import (
+    ws_s_s_dt_wa_gauss_comb,
+)
+import hrosailing.pipelinecomponents as pc
 from hrosailing.wind import set_resolution
 
 
@@ -24,7 +26,7 @@ logging.basicConfig(
     level=logging.INFO,
     handlers=[
         logging.handlers.TimedRotatingFileHandler(
-            "hrosailing/logging/processing.log", when="midnight"
+            "hrosailing/logging/pipeline.log", when="midnight"
         )
     ],
 )
@@ -46,8 +48,6 @@ class PipelineExtension(ABC):
         pass
 
 
-# TODO Add an optional "transforming" step to maybe integrate scikits
-#      preprocessing into PolarPipeline
 class PolarPipeline:
     """A Pipeline class to create polar diagrams from raw data
 
@@ -219,7 +219,6 @@ def _set_wind_resolution(w_res, pts):
     return set_resolution(ws_res, "speed"), set_resolution(wa_res, "angle")
 
 
-# TODO Better approach?
 def _extract_wind(pts, n, threshhold):
     w_max = round(pts.max())
     w_min = round(pts.min())

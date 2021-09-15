@@ -7,9 +7,9 @@
 from abc import ABC, abstractmethod
 
 import numpy as np
-import pynmea2
+import pynmea2 as pynmea
 
-from hrosailing.wind import apparent_wind_to_true
+from hrosailing.wind import convert_wind
 
 
 class HandlerInitializationException(Exception):
@@ -48,12 +48,10 @@ class ArrayHandler(DataHandler):
     Only needed for general layout of the pipeline
     """
 
-    @staticmethod
-    def handle(data):
+    def handle(self, data):
         return data
 
 
-# TODO Error handling
 class CsvFileHandler(DataHandler):
     """A data handler to extract data from a .csv file
     with the first three columns representing wind speed, wind angle,
@@ -76,12 +74,12 @@ class CsvFileHandler(DataHandler):
         -------
         out : pandas.Dataframe
 
-
-        Raises a HandlerException
         """
         from pandas import read_csv
 
-        return read_csv(data, **pandas_kw)
+        df = read_csv(data, **pandas_kw)
+
+        return df
 
 
 class NMEAFileHandler(DataHandler):
@@ -90,6 +88,10 @@ class NMEAFileHandler(DataHandler):
 
     Parameters
     ---------
+    sentences : Iterable of Strings,
+
+    attributes : Iterable of Strings,
+
     mode : string, optional
         In the case where there is more recorded wind data than speed data,
         specifies how to handle the surplus
@@ -106,21 +108,30 @@ class NMEAFileHandler(DataHandler):
     the above choices
     """
 
-    def __init__(self, mode="interpolate"):
+    def __init__(self, sentences, attributes, mode="interpolate"):
         if mode not in {"mean", "interpolate"}:
             raise HandlerInitializationException("`mode` not implemented")
 
+        sentences = list(sentences)
+        attributes = list(attributes)
+
+        if "MWV" not in sentences:
+            sentences.append("MWV")
+
+        if "Wind speed" not in attributes:
+            attributes.append("Wind speed")
+        elif "Wind angle" not in attributes:
+            attributes.append("Wind angle")
+        elif "Reference" not in attributes:
+            attributes.append("Reference")
+
+        self._nmea_filter = sentences
+        self._attr_filter = attributes
         self.mode = mode
 
     def handle(self, data):
         """Reads a text file containing nmea-sentences and extracts
-        data points based on recorded wind speed, wind angle, and speed
-        over water
-
-        Function looks for sentences of type:
-
-        - MWV for wind data
-        - VHW for speed trough water
+        data points
 
         Parameters
         ----------
@@ -129,63 +140,64 @@ class NMEAFileHandler(DataHandler):
 
         Returns
         -------
-        out : list of lists of length 3
-
-
-        Raises a HandleException
-
-        - if `data` doesn't contain relevant nmea senteces
-        - if nmea senteces are not sorted
+        data_dict : dict
         """
+        data_dict = {attr: [] for attr in self._attr_filter}
+        ndata = 0
+
         with open(data, "r") as file:
             nmea_stcs = filter(
-                lambda line: "VHW" in line or "MWV" in line, file
+                lambda line: any([abbr in line for abbr in self._nmea_filter]),
+                file,
             )
 
-            stc = next(nmea_stcs, None)
-            # check if file is "empty"
-            if stc is None:
-                raise HandleException(
-                    "`data` doesn't contain any (relevant) nmea sentences"
+            for stc in nmea_stcs:
+                parsed = pynmea.parse(stc)
+                nmea_attr = filter(
+                    lambda pair: any(
+                        [attr == pair[0][0] for attr in self._attr_filter]
+                    ),
+                    zip(parsed.fields, parsed.data),
                 )
 
-            nmea_data = []
-            while True:
-                bsp = float(pynmea2.parse(stc).data[4])
-                stc = next(nmea_stcs, None)
+                for field, data in nmea_attr:
+                    name = field[0]
+                    len_ = len(data_dict[name])
+                    if len_ == ndata:
+                        data_dict[name].append(data)
+                        ndata += 1
+                    else:
+                        data_dict[name].extend(
+                            [None] * (ndata - len_ - 1) + [data]
+                        )
 
-                # eof
-                if stc is None:
-                    break
+                for attr in self._attr_filter:
+                    len_ = len(data_dict[attr])
+                    data_dict[attr].extend([None] * (ndata - len_ - 1))
 
-                # check if nmea sentences is "sorted"
-                if "VHW" in stc:
-                    raise HandleException(
-                        "No wind records in between speed records. "
-                        "Parsing not possible"
-                    )
+        # wa = data_dict.get("Wind Angle")
+        # ws = data_dict.get("Wind Speed")
+        # bsp = data_dict.get("Speed over ground knots") or data_dict.get("Speed over water knots")
+        # ref = data_dict.get("Reference")
+        #
+        # aw = [[s, a, b] for s, a, b, r in zip(ws, wa, bsp, ref) if all([s, a, b, r]) and r == "R"]
+        # if aw:
+        #     cw = convert_wind(aw, -1, False, _check_finite=True)
+        #
+        # ws, wa = zip(*[w[:2] for w in cw if r else [None, None]])
+        #
+        # data_dict["Wind Speed"] = list(x)
+        # data_dict["Wind Angle"] = list(y)
 
-                wind_data = []
-                # record wind data until next VHW sentence
-                while stc is not None and "VHW" not in stc:
-                    _get_wind_data(wind_data, stc)
-                    stc = next(nmea_stcs, None)
+        return data_dict
 
-                _process_data(nmea_data, wind_data, stc, bsp, self.mode)
 
-            aw = [data[:3] for data in nmea_data if data[3] == "R"]
-            tw = [data[:3] for data in nmea_data if data[3] != "R"]
-
-            # if no apparent wind occurs, return true wind as is
-            if not aw:
-                return tw
-
-            aw = apparent_wind_to_true(aw)
-            return tw.extend(aw)
+def _handle_surplus_data(data_dict, mode):
+    pass
 
 
 def _get_wind_data(wind_data, stc):
-    wind = pynmea2.parse(stc)
+    wind = pynmea.parse(stc)
     wind_data.append(
         [float(wind.wind_speed), float(wind.wind_angle), wind.reference]
     )
@@ -197,7 +209,7 @@ def _process_data(nmea_data, wind_data, stc, bsp, mode):
         wind = np.mean(wind, axis=0)
         nmea_data.append([wind[0], wind[1], bsp, wind_data[0][2]])
     elif mode == "interpolate":
-        bsp2 = float(pynmea2.parse(stc).data[4])
+        bsp2 = float(pynmea.parse(stc).data[4])
 
         inter = len(wind_data)
         for i in range(inter):

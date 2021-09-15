@@ -7,20 +7,22 @@ from .datahandler import (
 
 from .filter import (
     Filter,
-    BoundFilter,
     QuantileFilter,
+    BoundFilter,
 )
+
 from .influencemodel import (
     InfluenceModel,
     LinearCurrentModel,
 )
+
 from .interpolator import (
     Interpolator,
     IDWInterpolator,
-    ImprovedIDWInterpolator,
     ArithmeticMeanInterpolator,
-    ShepardInterpolator,
+    ImprovedIDWInterpolator,
 )
+
 from .neighbourhood import (
     Neighbourhood,
     Ball,
@@ -29,17 +31,20 @@ from .neighbourhood import (
     Cuboid,
     Polytope,
 )
+
 from .regressor import (
     Regressor,
     ODRegressor,
     LeastSquareRegressor,
 )
+
 from .sampler import (
     Sampler,
     UniformRandomSampler,
-    FibonacciSampler,
     ArchimedianSampler,
+    FibonacciSampler,
 )
+
 from .weigher import (
     WeightedPoints,
     Weigher,
