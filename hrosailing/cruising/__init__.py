@@ -17,6 +17,7 @@ from hrosailing.pipelinecomponents import InfluenceModel
 
 @dataclasses.dataclass
 class Direction:
+    """Dataclass to """
     angle: float
     proportion: float
     sail: Optional[str] = None
@@ -131,6 +132,7 @@ class WeatherException(Exception):
 
 
 class WeatherModel:
+    """"""
     def __init__(self, data, times, lats, lons, attrs):
         self._times = times
         self._lats = lats
@@ -174,24 +176,23 @@ def cost_cruise(
     quadrature=None,
     wm: WeatherModel = None,
     im: Optional[InfluenceModel] = None,
-    influence_data: Optional[dict] = None,
 ):
     """"""
     pass
 
 
-def isocrone(
-    pd: pol.PolarDiagram,
-    start,
-    direction,
-    total_cost=None,
-    min_nodes=None,
-    wm: WeatherModel = None,
-    im: Optional[InfluenceModel] = None,
-    influence_data: Optional[dict] = None,
-):
-    """"""
-    pass
+# def isocrone(
+#     pd: pol.PolarDiagram,
+#     start,
+#     direction,
+#     total_cost=None,
+#     min_nodes=None,
+#     wm: WeatherModel = None,
+#     im: Optional[InfluenceModel] = None,
+#     influence_data: Optional[dict] = None,
+# ):
+#     """"""
+#     pass
 
 
 def isocost(
@@ -204,7 +205,6 @@ def isocost(
     quadrature=None,
     wm: WeatherModel = None,
     im: Optional[InfluenceModel] = None,
-    influence_data: Optional[dict] = None,
 ):
     """"""
     pass
