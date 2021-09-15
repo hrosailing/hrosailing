@@ -88,12 +88,6 @@ instance contained in it</p>
 <dd>&nbsp;</dd>
 </dl></div>
 </dd>
-<dt id="hrosailing.polardiagram.interpolate"><code class="name flex">
-<span>def <span class="ident">interpolate</span></span>(<span>)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
 <dt id="hrosailing.polardiagram.pickling"><code class="name flex">
 <span>def <span class="ident">pickling</span></span>(<span>pkl_path, obj)</span>
 </code></dt>
@@ -538,7 +532,7 @@ wind speed interval</p>
 <p>Will only be used if <code>ws</code> is a tuple of length 2</p>
 <p>If nothing is passed, it will default to ws[1] - ws[0]</p>
 </dd>
-<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
 <dd>
 <p>Axes instance where the plot will be created.</p>
 <p>If nothing is passed, the function will create
@@ -700,7 +694,7 @@ wind speed interval</p>
 <p>Will only be used if <code>ws</code> is a tuple of length 2</p>
 <p>If nothing is passed, it will default to ws[1] - ws[0]</p>
 </dd>
-<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
 <dd>
 <p>Axes instance where the plot will be created.</p>
 <p>If nothing is passed, the function will create
@@ -1266,7 +1260,7 @@ and appearence of the legend.</p>
 in the point cloud</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.plot_convex_hull"><code class="name flex">
-<span>def <span class="ident">plot_convex_hull</span></span>(<span>self, ws=None, stepsize=None, range_=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+<span>def <span class="ident">plot_convex_hull</span></span>(<span>self, ws=None, stepsize=None, range_=1, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Computes the (seperate) convex hull of one or more
@@ -1364,7 +1358,7 @@ there are no rows in self.points whose first entry
 is equal to w</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.plot_flat"><code class="name flex">
-<span>def <span class="ident">plot_flat</span></span>(<span>self, ws=None, stepsize=None, range_=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+<span>def <span class="ident">plot_flat</span></span>(<span>self, ws=None, stepsize=None, range_=1, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a cartesian plot of one or more slices of the polar diagram</p>
@@ -1404,7 +1398,7 @@ interval in <code>ws</code></p>
 (w - range_, w + range_</p>
 <p>Will only be used if <code>ws</code> is int or float or
 if any w in <code>ws</code> is an int or float</p>
-<p>If nothing is passed, it will default to 1</p>
+<p>Defaults to 1</p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
 <dd>
@@ -1463,7 +1457,7 @@ there are no rows in self.points whose first entry
 is equal to w</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.plot_polar"><code class="name flex">
-<span>def <span class="ident">plot_polar</span></span>(<span>self, ws=None, stepsize=None, range_=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+<span>def <span class="ident">plot_polar</span></span>(<span>self, ws=None, stepsize=None, range_=1, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a polar plot of one or more slices of the polar diagram</p>
@@ -1503,7 +1497,7 @@ interval in <code>ws</code></p>
 (w - range_, w + range_</p>
 <p>Will only be used if <code>ws</code> is int or float or
 if any w in <code>ws</code> is an int or float</p>
-<p>If nothing is passed, it will default to 1</p>
+<p>Defaults to 1</p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
 <dd>
@@ -2041,12 +2035,12 @@ certain appearences of the plot</dd>
 <li>the given interval doesn't contain any slices of the polar diagram</li>
 </ul>
 <h2 id="examples">Examples</h2>
-<pre><code>&gt;&gt;&gt; import matplotlib.pyplot as plt
+<pre><code>&gt;&gt;&gt; import matplotlib.pyplot as pyplot
 &gt;&gt;&gt; pd = from_csv("src/polar_diagrams/orc/A-35.csv", fmt="orc")
 &gt;&gt;&gt; pd.plot_flat(
 ...     ws=[6, 8], show_legend=True, ls="-", lw=1.5, marker=""
 ... )
-&gt;&gt;&gt; plt.show()
+&gt;&gt;&gt; pyplot.show()
 </code></pre>
 <p><img alt="" src="/examples/table_plot_flat.png"></p>
 <p>Can also be combined with symmetrize() like so to achieve
@@ -2054,7 +2048,7 @@ a symmetric plot</p>
 <pre><code>&gt;&gt;&gt; pd.symmetrize().plot_flat(
 ...     ws=[6, 8], show_legend=True, ls="-", lw=1.5, marker=""
 ... )
-&gt;&gt;&gt; plt.show()
+&gt;&gt;&gt; pyplot.show()
 </code></pre>
 <p><img alt="" src="/examples/sym_table_plot_flat.png"></p></div>
 </dd>
@@ -2135,12 +2129,12 @@ certain appearences of the plot</dd>
 <li>the given interval doesn't contain any slices of the polar diagram</li>
 </ul>
 <h2 id="examples">Examples</h2>
-<pre><code>&gt;&gt;&gt; import matplotlib.pyplot as plt
+<pre><code>&gt;&gt;&gt; import matplotlib.pyplot as pyplot
 &gt;&gt;&gt; pd = from_csv("src/polar_diagrams/orc/A-35.csv", fmt="orc")
 &gt;&gt;&gt; pd.plot_polar(
 ...     ws=[6, 8], show_legend=True, ls="-", lw=1.5, marker=""
 ... )
-&gt;&gt;&gt; plt.show()
+&gt;&gt;&gt; pyplot.show()
 </code></pre>
 <p><img alt="" src="/examples/table_plot_polar.png"></p>
 <p>Can also be combined with symmetrize() like so to achieve
@@ -2148,7 +2142,7 @@ a symmetric plot</p>
 <pre><code>&gt;&gt;&gt; pd.symmetrize().plot_polar(
 ...     ws=[6, 8], show_legend=True, ls="-", lw=1.5, marker=""
 ... )
-&gt;&gt;&gt; plt.show()
+&gt;&gt;&gt; pyplot.show()
 </code></pre>
 <p><img alt="" src="/examples/sym_table_plot_polar.png"></p></div>
 </dd>
@@ -2335,10 +2329,9 @@ setTimeout(() => input.focus(), 100);
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
-<ul class="two-column">
+<ul class="">
 <li><code><a title="hrosailing.polardiagram.depickling" href="#hrosailing.polardiagram.depickling">depickling</a></code></li>
 <li><code><a title="hrosailing.polardiagram.from_csv" href="#hrosailing.polardiagram.from_csv">from_csv</a></code></li>
-<li><code><a title="hrosailing.polardiagram.interpolate" href="#hrosailing.polardiagram.interpolate">interpolate</a></code></li>
 <li><code><a title="hrosailing.polardiagram.pickling" href="#hrosailing.polardiagram.pickling">pickling</a></code></li>
 <li><code><a title="hrosailing.polardiagram.symmetrize" href="#hrosailing.polardiagram.symmetrize">symmetrize</a></code></li>
 <li><code><a title="hrosailing.polardiagram.to_csv" href="#hrosailing.polardiagram.to_csv">to_csv</a></code></li>

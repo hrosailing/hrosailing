@@ -1,20 +1,19 @@
 URLS=[
 "hrosailing/index.html",
 "hrosailing/polardiagram/index.html",
+"hrosailing/pipeline/index.html",
+"hrosailing/pipelinecomponents/index.html",
+"hrosailing/pipelinecomponents/modelfunctions/index.html",
+"hrosailing/pipelinecomponents/regressor.html",
+"hrosailing/pipelinecomponents/interpolator.html",
+"hrosailing/pipelinecomponents/filter.html",
+"hrosailing/pipelinecomponents/influencemodel.html",
+"hrosailing/pipelinecomponents/weigher.html",
+"hrosailing/pipelinecomponents/neighbourhood.html",
+"hrosailing/pipelinecomponents/datahandler.html",
+"hrosailing/pipelinecomponents/sampler.html",
 "hrosailing/wind.html",
-"hrosailing/cruising/index.html",
-"hrosailing/processing/index.html",
-"hrosailing/processing/modelfunctions/index.html",
-"hrosailing/processing/pipeline.html",
-"hrosailing/processing/pipelinecomponents/index.html",
-"hrosailing/processing/pipelinecomponents/regressor.html",
-"hrosailing/processing/pipelinecomponents/interpolator.html",
-"hrosailing/processing/pipelinecomponents/filter.html",
-"hrosailing/processing/pipelinecomponents/influencemodel.html",
-"hrosailing/processing/pipelinecomponents/weigher.html",
-"hrosailing/processing/pipelinecomponents/neighbourhood.html",
-"hrosailing/processing/pipelinecomponents/datahandler.html",
-"hrosailing/processing/pipelinecomponents/sampler.html"
+"hrosailing/cruising/index.html"
 ];
 INDEX=[
 {
@@ -197,13 +196,13 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramTable.plot_polar",
 "url":1,
-"doc":"Creates a polar plot of one or more slices of the polar diagram Parameters      ws : tuple of length 2, iterable, int or float, optional Slices of the polar diagram table, given as either - a tuple of length 2 specifying an interval of considered wind speeds - an iterable containing only elements of self.wind_speeds - a single element of self.wind_speeds The slices are then equal to the corresponding columns of the table together with self.wind_angles If nothing it passed, it will default to self.wind_speeds ax : matplotlib.projections.polar.PolarAxes, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors : tuple, optional Specifies the colors to be used for the different slices. There are four options: - If as many or more colors as slices are passed, each slice will be plotted in the specified color - If exactly 2 colors are passed, the slices will be plotted with a color gradient consiting of the two colors - If more than 2 colors but less than slices are passed, the first n_color slices will be plotted in the specified colors, and the rest will be plotted in the default color \"blue\" - Alternatively one can specify certain slices to be plotted in a certain color by passing a tuple of (ws, color) pairs Defaults to (\"green\", \"red\") show_legend : bool, optional Specifies wether or not a legend will be shown next to the plot The type of legend depends on the color options - If the slices are plotted with a color gradient, a matplotlib.colorbar.Colorbar object will be created and assigned to ax. - Otherwise a matplotlib.legend.Legend object will be created and assigned to ax. Defaults to False legend_kw : dict, optional Keyword arguments to be passed to either the matplotlib.colorbar.Colorbar or matplotlib.legend.Legend classes to change position and appearence of the legend Will only be used if show_legend is True If nothing is passed it will default to {} plot_kw : Keyword arguments Keyword arguments that will be passed to the matplotlib.axes.Axes.plot function, to change certain appearences of the plot Raises a PolarDiagramException - if at least one element of ws is not in self.wind_speeds - the given interval doesn't contain any slices of the polar diagram Examples     >>> import matplotlib.pyplot as plt >>> pd = from_csv(\"src/polar_diagrams/orc/A-35.csv\", fmt=\"orc\") >>> pd.plot_polar(  . ws=[6, 8], show_legend=True, ls=\"-\", lw=1.5, marker=  . ) >>> plt.show()  image /examples/table_plot_polar.png Can also be combined with symmetrize() like so to achieve a symmetric plot >>> pd.symmetrize().plot_polar(  . ws=[6, 8], show_legend=True, ls=\"-\", lw=1.5, marker=  . ) >>> plt.show()  image /examples/sym_table_plot_polar.png",
+"doc":"Creates a polar plot of one or more slices of the polar diagram Parameters      ws : tuple of length 2, iterable, int or float, optional Slices of the polar diagram table, given as either - a tuple of length 2 specifying an interval of considered wind speeds - an iterable containing only elements of self.wind_speeds - a single element of self.wind_speeds The slices are then equal to the corresponding columns of the table together with self.wind_angles If nothing it passed, it will default to self.wind_speeds ax : matplotlib.projections.polar.PolarAxes, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors : tuple, optional Specifies the colors to be used for the different slices. There are four options: - If as many or more colors as slices are passed, each slice will be plotted in the specified color - If exactly 2 colors are passed, the slices will be plotted with a color gradient consiting of the two colors - If more than 2 colors but less than slices are passed, the first n_color slices will be plotted in the specified colors, and the rest will be plotted in the default color \"blue\" - Alternatively one can specify certain slices to be plotted in a certain color by passing a tuple of (ws, color) pairs Defaults to (\"green\", \"red\") show_legend : bool, optional Specifies wether or not a legend will be shown next to the plot The type of legend depends on the color options - If the slices are plotted with a color gradient, a matplotlib.colorbar.Colorbar object will be created and assigned to ax. - Otherwise a matplotlib.legend.Legend object will be created and assigned to ax. Defaults to False legend_kw : dict, optional Keyword arguments to be passed to either the matplotlib.colorbar.Colorbar or matplotlib.legend.Legend classes to change position and appearence of the legend Will only be used if show_legend is True If nothing is passed it will default to {} plot_kw : Keyword arguments Keyword arguments that will be passed to the matplotlib.axes.Axes.plot function, to change certain appearences of the plot Raises a PolarDiagramException - if at least one element of ws is not in self.wind_speeds - the given interval doesn't contain any slices of the polar diagram Examples     >>> import matplotlib.pyplot as pyplot >>> pd = from_csv(\"src/polar_diagrams/orc/A-35.csv\", fmt=\"orc\") >>> pd.plot_polar(  . ws=[6, 8], show_legend=True, ls=\"-\", lw=1.5, marker=  . ) >>> pyplot.show()  image /examples/table_plot_polar.png Can also be combined with symmetrize() like so to achieve a symmetric plot >>> pd.symmetrize().plot_polar(  . ws=[6, 8], show_legend=True, ls=\"-\", lw=1.5, marker=  . ) >>> pyplot.show()  image /examples/sym_table_plot_polar.png",
 "func":1
 },
 {
 "ref":"hrosailing.polardiagram.PolarDiagramTable.plot_flat",
 "url":1,
-"doc":"Creates a cartesian plot of one or more slices of the polar diagram Parameters      ws : tuple of length 2, iterable, int or float, optional Slices of the polar diagram table, given as either - a tuple of length 2 specifying an interval of considered wind speeds - an iterable containing only elements of self.wind_speeds - a single element of self.wind_speeds The slices are then equal to the corresponding columns of the table together with self.wind_angles If nothing it passed, it will default to self.wind_speeds ax : matplotlib.axes.Axes, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors : tuple, optional Specifies the colors to be used for the different slices. There are four options: - If as many or more colors as slices are passed, each slice will be plotted in the specified color - If exactly 2 colors are passed, the slices will be plotted with a color gradient consiting of the two colors - If more than 2 colors but less than slices are passed, the first n_color slices will be plotted in the specified colors, and the rest will be plotted in the default color \"blue\" - Alternatively one can specify certain slices to be plotted in a certain color by passing a tuple of (ws, color) pairs Defaults to (\"green\", \"red\") show_legend : bool, optional Specifies wether or not a legend will be shown next to the plot The type of legend depends on the color options - If the slices are plotted with a color gradient, a matplotlib.colorbar.Colorbar object will be created and assigned to ax. - Otherwise a matplotlib.legend.Legend object will be created and assigned to ax. Defaults to False legend_kw : dict, optional Keyword arguments to be passed to either the matplotlib.colorbar.Colorbar or matplotlib.legend.Legend classes to change position and appearence of the legend Will only be used if show_legend is True If nothing is passed it will default to {} plot_kw : Keyword arguments Keyword arguments that will be passed to the matplotlib.axes.Axes.plot function, to change certain appearences of the plot Raises a PolarDiagramException - if at least one element of ws is not in self.wind_speeds - the given interval doesn't contain any slices of the polar diagram Examples     >>> import matplotlib.pyplot as plt >>> pd = from_csv(\"src/polar_diagrams/orc/A-35.csv\", fmt=\"orc\") >>> pd.plot_flat(  . ws=[6, 8], show_legend=True, ls=\"-\", lw=1.5, marker=  . ) >>> plt.show()  image /examples/table_plot_flat.png Can also be combined with symmetrize() like so to achieve a symmetric plot >>> pd.symmetrize().plot_flat(  . ws=[6, 8], show_legend=True, ls=\"-\", lw=1.5, marker=  . ) >>> plt.show()  image /examples/sym_table_plot_flat.png",
+"doc":"Creates a cartesian plot of one or more slices of the polar diagram Parameters      ws : tuple of length 2, iterable, int or float, optional Slices of the polar diagram table, given as either - a tuple of length 2 specifying an interval of considered wind speeds - an iterable containing only elements of self.wind_speeds - a single element of self.wind_speeds The slices are then equal to the corresponding columns of the table together with self.wind_angles If nothing it passed, it will default to self.wind_speeds ax : matplotlib.axes.Axes, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors : tuple, optional Specifies the colors to be used for the different slices. There are four options: - If as many or more colors as slices are passed, each slice will be plotted in the specified color - If exactly 2 colors are passed, the slices will be plotted with a color gradient consiting of the two colors - If more than 2 colors but less than slices are passed, the first n_color slices will be plotted in the specified colors, and the rest will be plotted in the default color \"blue\" - Alternatively one can specify certain slices to be plotted in a certain color by passing a tuple of (ws, color) pairs Defaults to (\"green\", \"red\") show_legend : bool, optional Specifies wether or not a legend will be shown next to the plot The type of legend depends on the color options - If the slices are plotted with a color gradient, a matplotlib.colorbar.Colorbar object will be created and assigned to ax. - Otherwise a matplotlib.legend.Legend object will be created and assigned to ax. Defaults to False legend_kw : dict, optional Keyword arguments to be passed to either the matplotlib.colorbar.Colorbar or matplotlib.legend.Legend classes to change position and appearence of the legend Will only be used if show_legend is True If nothing is passed it will default to {} plot_kw : Keyword arguments Keyword arguments that will be passed to the matplotlib.axes.Axes.plot function, to change certain appearences of the plot Raises a PolarDiagramException - if at least one element of ws is not in self.wind_speeds - the given interval doesn't contain any slices of the polar diagram Examples     >>> import matplotlib.pyplot as pyplot >>> pd = from_csv(\"src/polar_diagrams/orc/A-35.csv\", fmt=\"orc\") >>> pd.plot_flat(  . ws=[6, 8], show_legend=True, ls=\"-\", lw=1.5, marker=  . ) >>> pyplot.show()  image /examples/table_plot_flat.png Can also be combined with symmetrize() like so to achieve a symmetric plot >>> pd.symmetrize().plot_flat(  . ws=[6, 8], show_legend=True, ls=\"-\", lw=1.5, marker=  . ) >>> pyplot.show()  image /examples/sym_table_plot_flat.png",
 "func":1
 },
 {
@@ -246,12 +245,6 @@ INDEX=[
 "ref":"hrosailing.polardiagram.PolarDiagramTable.plot_convex_hull_slice",
 "url":1,
 "doc":"Computes the convex hull of a given slice of the polar diagram and creates a polar plot of it Parameters      ws : int/float Slice of the polar diagram For a description of what the slice is made of, see the plot_convex_hull()-method of the respective PolarDiagram subclass ax : matplotlib.projections.polar.PolarAxes, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes plot_kw : Keyword arguments Keyword arguments that will be passed to the matplotlib.axes.Axes.plot function, to change certain appearences of the plot Raises a PolarDiagramException, if the plot_convex_hull()-method of the respective PolarDiagram subclass raises one",
-"func":1
-},
-{
-"ref":"hrosailing.polardiagram.interpolate",
-"url":1,
-"doc":"",
 "func":1
 },
 {
@@ -399,7 +392,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramCurve.plot_polar",
 "url":1,
-"doc":"Creates a polar plot of one or more slices of the polar diagram Parameters      ws : tuple of length 2, iterable, int or float, optional Slices of the polar diagram given as either - a tuple of length 2, specifying an interval of considered wind speeds. The amount of slices taken from that interval are determined by the parameter  stepsize - an iterable of specific wind speeds - a single wind speed Slices will then equal self(w, wa) where w goes through the given values in  ws and wa goes through a fixed number of angles between 0\u00b0 and 360\u00b0 If nothing is passed, it will default to (0, 20) stepsize : positive int or float, optional Specfies the amount of slices taken from the given wind speed interval Will only be used if  ws is a tuple of length 2 If nothing is passed, it will default to ws[1] - ws[0] ax : matplotlib.axes.Axes, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors : tuple, optional Specifies the colors to be used for the different slices. There are four options: - If as many or more colors as slices are passed, each slice will be plotted in the specified color - If exactly 2 colors are passed, the slices will be plotted with a color gradient consiting of the two colors - If more than 2 colors but less than slices are passed, the first n_color slices will be plotted in the specified colors, and the rest will be plotted in the default color \"blue\" - Alternatively one can specify certain slices to be plotted in a certain color by passing a tuple of (ws, color) pairs Defaults to (\"green\", \"red\") show_legend : bool, optional Specifies wether or not a legend will be shown next to the plot The type of legend depends on the color options - If the slices are plotted with a color gradient, a matplotlib.colorbar.Colorbar object will be created and assigned to ax. - Otherwise a matplotlib.legend.Legend object will be created and assigned to ax. Defaults to False legend_kw : dict, optional Keyword arguments to be passed to either the matplotlib.colorbar.Colorbar or matplotlib.legend.Legend classes to change position and appearence of the legend Will only be used if show_legend is True If nothing is passed it will default to {} plot_kw : Keyword arguments Keyword arguments that will be passed to the matplotlib.axes.Axes.plot function, to change certain appearences of the plot",
+"doc":"Creates a polar plot of one or more slices of the polar diagram Parameters      ws : tuple of length 2, iterable, int or float, optional Slices of the polar diagram given as either - a tuple of length 2, specifying an interval of considered wind speeds. The amount of slices taken from that interval are determined by the parameter  stepsize - an iterable of specific wind speeds - a single wind speed Slices will then equal self(w, wa) where w goes through the given values in  ws and wa goes through a fixed number of angles between 0\u00b0 and 360\u00b0 If nothing is passed, it will default to (0, 20) stepsize : positive int or float, optional Specfies the amount of slices taken from the given wind speed interval Will only be used if  ws is a tuple of length 2 If nothing is passed, it will default to ws[1] - ws[0] ax : matplotlib.projections.polar.PolarAxes, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors : tuple, optional Specifies the colors to be used for the different slices. There are four options: - If as many or more colors as slices are passed, each slice will be plotted in the specified color - If exactly 2 colors are passed, the slices will be plotted with a color gradient consiting of the two colors - If more than 2 colors but less than slices are passed, the first n_color slices will be plotted in the specified colors, and the rest will be plotted in the default color \"blue\" - Alternatively one can specify certain slices to be plotted in a certain color by passing a tuple of (ws, color) pairs Defaults to (\"green\", \"red\") show_legend : bool, optional Specifies wether or not a legend will be shown next to the plot The type of legend depends on the color options - If the slices are plotted with a color gradient, a matplotlib.colorbar.Colorbar object will be created and assigned to ax. - Otherwise a matplotlib.legend.Legend object will be created and assigned to ax. Defaults to False legend_kw : dict, optional Keyword arguments to be passed to either the matplotlib.colorbar.Colorbar or matplotlib.legend.Legend classes to change position and appearence of the legend Will only be used if show_legend is True If nothing is passed it will default to {} plot_kw : Keyword arguments Keyword arguments that will be passed to the matplotlib.axes.Axes.plot function, to change certain appearences of the plot",
 "func":1
 },
 {
@@ -423,7 +416,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramCurve.plot_convex_hull",
 "url":1,
-"doc":"Computes the (seperate) convex hull of one or more slices of the polar diagram and creates a polar plot of them Parameters      ws : tuple of length 2, iterable, int or float, optional Slices of the polar diagram given as either - a tuple of length 2, specifying an interval of considered wind speeds. The amount of slices taken from that interval are determined by the parameter  stepsize - an iterable of specific wind speeds - a single wind speed Slices will then equal self(w, wa) where w goes through the given values in  ws and wa goes through a fixed number of angles between 0\u00b0 and 360\u00b0 If nothing is passed, it will default to (0, 20) stepsize : positive int or float, optional Specfies the amount of slices taken from the given wind speed interval Will only be used if  ws is a tuple of length 2 If nothing is passed, it will default to ws[1] - ws[0] ax : matplotlib.axes.Axes, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors : tuple, optional Specifies the colors to be used for the different slices. There are four options: - If as many or more colors as slices are passed, each slice will be plotted in the specified color - If exactly 2 colors are passed, the slices will be plotted with a color gradient consiting of the two colors - If more than 2 colors but less than slices are passed, the first n_color slices will be plotted in the specified colors, and the rest will be plotted in the default color \"blue\" - Alternatively one can specify certain slices to be plotted in a certain color by passing a tuple of (ws, color) pairs Defaults to (\"green\", \"red\") show_legend : bool, optional Specifies wether or not a legend will be shown next to the plot The type of legend depends on the color options - If the slices are plotted with a color gradient, a matplotlib.colorbar.Colorbar object will be created and assigned to ax. - Otherwise a matplotlib.legend.Legend object will be created and assigned to ax. Defaults to False legend_kw : dict, optional Keyword arguments to be passed to either the matplotlib.colorbar.Colorbar or matplotlib.legend.Legend classes to change position and appearence of the legend Will only be used if show_legend is True If nothing is passed it will default to {} plot_kw : Keyword arguments Keyword arguments that will be passed to the matplotlib.axes.Axes.plot function, to change certain appearences of the plot",
+"doc":"Computes the (seperate) convex hull of one or more slices of the polar diagram and creates a polar plot of them Parameters      ws : tuple of length 2, iterable, int or float, optional Slices of the polar diagram given as either - a tuple of length 2, specifying an interval of considered wind speeds. The amount of slices taken from that interval are determined by the parameter  stepsize - an iterable of specific wind speeds - a single wind speed Slices will then equal self(w, wa) where w goes through the given values in  ws and wa goes through a fixed number of angles between 0\u00b0 and 360\u00b0 If nothing is passed, it will default to (0, 20) stepsize : positive int or float, optional Specfies the amount of slices taken from the given wind speed interval Will only be used if  ws is a tuple of length 2 If nothing is passed, it will default to ws[1] - ws[0] ax : matplotlib.projections.polar.PolarAxes, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors : tuple, optional Specifies the colors to be used for the different slices. There are four options: - If as many or more colors as slices are passed, each slice will be plotted in the specified color - If exactly 2 colors are passed, the slices will be plotted with a color gradient consiting of the two colors - If more than 2 colors but less than slices are passed, the first n_color slices will be plotted in the specified colors, and the rest will be plotted in the default color \"blue\" - Alternatively one can specify certain slices to be plotted in a certain color by passing a tuple of (ws, color) pairs Defaults to (\"green\", \"red\") show_legend : bool, optional Specifies wether or not a legend will be shown next to the plot The type of legend depends on the color options - If the slices are plotted with a color gradient, a matplotlib.colorbar.Colorbar object will be created and assigned to ax. - Otherwise a matplotlib.legend.Legend object will be created and assigned to ax. Defaults to False legend_kw : dict, optional Keyword arguments to be passed to either the matplotlib.colorbar.Colorbar or matplotlib.legend.Legend classes to change position and appearence of the legend Will only be used if show_legend is True If nothing is passed it will default to {} plot_kw : Keyword arguments Keyword arguments that will be passed to the matplotlib.axes.Axes.plot function, to change certain appearences of the plot",
 "func":1
 },
 {
@@ -502,13 +495,13 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramPointcloud.plot_polar",
 "url":1,
-"doc":"Creates a polar plot of one or more slices of the polar diagram Parameters      ws : tuple of length 2, iterable , int or float, optional Slices of the polar diagram given as either - a tuple of length 2 specifying an interval of considered wind speeds. The amount of slices taken from that interval are determined by the parameter  stepsize - an iterable of tuples of length 2 and int/float values which will be interpreted as individual slices. If a w in  ws is an int or float, the given interval will be determined by the parameter  range_ . If it is a tuple, it will be interpreted as an inverval as is - a single wind speed. The given interval is then determined by the parameter  range_ A slice then consists of all rows in self.wind_speeds whose first entry lies in the interval given by w in  ws If nothing is passed, it will default to (min(self.wind_speeds), max(self.wind_speeds stepsize : positive int, optional Specfies the amount of slices taken from the given interval in  ws Will only be used if  ws is a tuple of length 2 If nothing is passed it will default to int(round(ws[1] - ws[0] range_ : positive int or float, optional Used to convert and int or float w in  ws to the interval (w - range_, w + range_ Will only be used if  ws is int or float or if any w in  ws is an int or float If nothing is passed, it will default to 1 ax : matplotlib.projections.polar.PolarAxes, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors : tuple, optional Specifies the colors to be used for the different slices. There are four options: - If as many or more colors as slices are passed, each slice will be plotted in the specified color - If exactly 2 colors are passed, the slices will be plotted with a color gradient consiting of the two colors - If more than 2 colors but less than slices are passed, the first n_color slices will be plotted in the specified colors, and the rest will be plotted in the default color \"blue\" - Alternatively one can specify certain slices to be plotted in a certain color by passing a tuple of (ws, color) pairs Defaults to (\"green\", \"red\") show_legend : bool, optional Specifies wether or not a legend will be shown next to the plot The type of legend depends on the color options - If the slices are plotted with a color gradient, a matplotlib.colorbar.Colorbar object will be created and assigned to ax. - Otherwise a matplotlib.legend.Legend object will be created and assigned to ax. Defaults to False legend_kw : dict, optional Keyword arguments to be passed to either the matplotlib.colorbar.Colorbar or matplotlib.legend.Legend classes to change position and appearence of the legend Will only be used if show_legend is True If nothing is passed it will default to {} plot_kw : Keyword arguments Keyword arguments that will be passed to the matplotlib.axes.Axes.plot function, to change certain appearences of the plot Raises a PolarDiagramException if ws is given as a single value or a list and there is a value w in ws, such that there are no rows in self.points whose first entry is equal to w",
+"doc":"Creates a polar plot of one or more slices of the polar diagram Parameters      ws : tuple of length 2, iterable , int or float, optional Slices of the polar diagram given as either - a tuple of length 2 specifying an interval of considered wind speeds. The amount of slices taken from that interval are determined by the parameter  stepsize - an iterable of tuples of length 2 and int/float values which will be interpreted as individual slices. If a w in  ws is an int or float, the given interval will be determined by the parameter  range_ . If it is a tuple, it will be interpreted as an inverval as is - a single wind speed. The given interval is then determined by the parameter  range_ A slice then consists of all rows in self.wind_speeds whose first entry lies in the interval given by w in  ws If nothing is passed, it will default to (min(self.wind_speeds), max(self.wind_speeds stepsize : positive int, optional Specfies the amount of slices taken from the given interval in  ws Will only be used if  ws is a tuple of length 2 If nothing is passed it will default to int(round(ws[1] - ws[0] range_ : positive int or float, optional Used to convert and int or float w in  ws to the interval (w - range_, w + range_ Will only be used if  ws is int or float or if any w in  ws is an int or float Defaults to 1 ax : matplotlib.projections.polar.PolarAxes, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors : tuple, optional Specifies the colors to be used for the different slices. There are four options: - If as many or more colors as slices are passed, each slice will be plotted in the specified color - If exactly 2 colors are passed, the slices will be plotted with a color gradient consiting of the two colors - If more than 2 colors but less than slices are passed, the first n_color slices will be plotted in the specified colors, and the rest will be plotted in the default color \"blue\" - Alternatively one can specify certain slices to be plotted in a certain color by passing a tuple of (ws, color) pairs Defaults to (\"green\", \"red\") show_legend : bool, optional Specifies wether or not a legend will be shown next to the plot The type of legend depends on the color options - If the slices are plotted with a color gradient, a matplotlib.colorbar.Colorbar object will be created and assigned to ax. - Otherwise a matplotlib.legend.Legend object will be created and assigned to ax. Defaults to False legend_kw : dict, optional Keyword arguments to be passed to either the matplotlib.colorbar.Colorbar or matplotlib.legend.Legend classes to change position and appearence of the legend Will only be used if show_legend is True If nothing is passed it will default to {} plot_kw : Keyword arguments Keyword arguments that will be passed to the matplotlib.axes.Axes.plot function, to change certain appearences of the plot Raises a PolarDiagramException if ws is given as a single value or a list and there is a value w in ws, such that there are no rows in self.points whose first entry is equal to w",
 "func":1
 },
 {
 "ref":"hrosailing.polardiagram.PolarDiagramPointcloud.plot_flat",
 "url":1,
-"doc":"Creates a cartesian plot of one or more slices of the polar diagram Parameters      ws : tuple of length 2, iterable , int or float, optional Slices of the polar diagram given as either - a tuple of length 2 specifying an interval of considered wind speeds. The amount of slices taken from that interval are determined by the parameter  stepsize - an iterable of tuples of length 2 and int/float values which will be interpreted as individual slices. If a w in  ws is an int or float, the given interval will be determined by the parameter  range_ . If it is a tuple, it will be interpreted as an inverval as is - a single wind speed. The given interval is then determined by the parameter  range_ A slice then consists of all rows in self.wind_speeds whose first entry lies in the interval given by w in  ws If nothing is passed, it will default to (min(self.wind_speeds), max(self.wind_speeds) stepsize : positive int, optional Specfies the amount of slices taken from the given interval in  ws Will only be used if  ws is a tuple of length 2 If nothing is passed it will default to int(round(ws[1] - ws[0] range_ : positive int or float, optional Used to convert and int or float w in  ws to the interval (w - range_, w + range_ Will only be used if  ws is int or float or if any w in  ws is an int or float If nothing is passed, it will default to 1 ax : matplotlib.projections.polar.PolarAxes, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors : tuple, optional Specifies the colors to be used for the different slices. There are four options: - If as many or more colors as slices are passed, each slice will be plotted in the specified color - If exactly 2 colors are passed, the slices will be plotted with a color gradient consiting of the two colors - If more than 2 colors but less than slices are passed, the first n_color slices will be plotted in the specified colors, and the rest will be plotted in the default color \"blue\" - Alternatively one can specify certain slices to be plotted in a certain color by passing a tuple of (ws, color) pairs Defaults to (\"green\", \"red\") show_legend : bool, optional Specifies wether or not a legend will be shown next to the plot The type of legend depends on the color options - If the slices are plotted with a color gradient, a matplotlib.colorbar.Colorbar object will be created and assigned to ax. - Otherwise a matplotlib.legend.Legend object will be created and assigned to ax. Defaults to False legend_kw : dict, optional Keyword arguments to be passed to either the matplotlib.colorbar.Colorbar or matplotlib.legend.Legend classes to change position and appearence of the legend Will only be used if show_legend is True If nothing is passed it will default to {} plot_kw : Keyword arguments Keyword arguments that will be passed to the matplotlib.axes.Axes.plot function, to change certain appearences of the plot Raises a PolarDiagramException if ws is given as a single value or a list and there is a value w in ws, such that there are no rows in self.points whose first entry is equal to w",
+"doc":"Creates a cartesian plot of one or more slices of the polar diagram Parameters      ws : tuple of length 2, iterable , int or float, optional Slices of the polar diagram given as either - a tuple of length 2 specifying an interval of considered wind speeds. The amount of slices taken from that interval are determined by the parameter  stepsize - an iterable of tuples of length 2 and int/float values which will be interpreted as individual slices. If a w in  ws is an int or float, the given interval will be determined by the parameter  range_ . If it is a tuple, it will be interpreted as an inverval as is - a single wind speed. The given interval is then determined by the parameter  range_ A slice then consists of all rows in self.wind_speeds whose first entry lies in the interval given by w in  ws If nothing is passed, it will default to (min(self.wind_speeds), max(self.wind_speeds) stepsize : positive int, optional Specfies the amount of slices taken from the given interval in  ws Will only be used if  ws is a tuple of length 2 If nothing is passed it will default to int(round(ws[1] - ws[0] range_ : positive int or float, optional Used to convert and int or float w in  ws to the interval (w - range_, w + range_ Will only be used if  ws is int or float or if any w in  ws is an int or float Defaults to 1 ax : matplotlib.projections.polar.PolarAxes, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors : tuple, optional Specifies the colors to be used for the different slices. There are four options: - If as many or more colors as slices are passed, each slice will be plotted in the specified color - If exactly 2 colors are passed, the slices will be plotted with a color gradient consiting of the two colors - If more than 2 colors but less than slices are passed, the first n_color slices will be plotted in the specified colors, and the rest will be plotted in the default color \"blue\" - Alternatively one can specify certain slices to be plotted in a certain color by passing a tuple of (ws, color) pairs Defaults to (\"green\", \"red\") show_legend : bool, optional Specifies wether or not a legend will be shown next to the plot The type of legend depends on the color options - If the slices are plotted with a color gradient, a matplotlib.colorbar.Colorbar object will be created and assigned to ax. - Otherwise a matplotlib.legend.Legend object will be created and assigned to ax. Defaults to False legend_kw : dict, optional Keyword arguments to be passed to either the matplotlib.colorbar.Colorbar or matplotlib.legend.Legend classes to change position and appearence of the legend Will only be used if show_legend is True If nothing is passed it will default to {} plot_kw : Keyword arguments Keyword arguments that will be passed to the matplotlib.axes.Axes.plot function, to change certain appearences of the plot Raises a PolarDiagramException if ws is given as a single value or a list and there is a value w in ws, such that there are no rows in self.points whose first entry is equal to w",
 "func":1
 },
 {
@@ -554,736 +547,759 @@ INDEX=[
 "func":1
 },
 {
-"ref":"hrosailing.wind",
+"ref":"hrosailing.pipeline",
 "url":2,
+"doc":"A Pipeline class to automate getting a polar diagram from \"raw\" data"
+},
+{
+"ref":"hrosailing.pipeline.PipelineException",
+"url":2,
+"doc":""
+},
+{
+"ref":"hrosailing.pipeline.PipelineExtension",
+"url":2,
+"doc":""
+},
+{
+"ref":"hrosailing.pipeline.PipelineExtension.process",
+"url":2,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipeline.PolarPipeline",
+"url":2,
+"doc":"A Pipeline class to create polar diagrams from raw data Parameters      extension: PipelineExtension handler : DataHandler weigher : Weigher, optional filter_ : Filter, optional"
+},
+{
+"ref":"hrosailing.pipeline.TableExtension",
+"url":2,
+"doc":""
+},
+{
+"ref":"hrosailing.pipeline.TableExtension.process",
+"url":2,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipeline.CurveExtension",
+"url":2,
+"doc":""
+},
+{
+"ref":"hrosailing.pipeline.CurveExtension.process",
+"url":2,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipeline.PointcloudExtension",
+"url":2,
+"doc":""
+},
+{
+"ref":"hrosailing.pipeline.PointcloudExtension.process",
+"url":2,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipeline.InterpolationWarning",
+"url":2,
+"doc":"Base class for warning categories."
+},
+{
+"ref":"hrosailing.pipelinecomponents",
+"url":3,
+"doc":""
+},
+{
+"ref":"hrosailing.pipelinecomponents.modelfunctions",
+"url":4,
+"doc":""
+},
+{
+"ref":"hrosailing.pipelinecomponents.modelfunctions.ws_times_wa",
+"url":4,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.modelfunctions.ws_concave_dt_wa",
+"url":4,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.modelfunctions.ws_wa_s_dt",
+"url":4,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.modelfunctions.ws_s_dt_wa_gauss",
+"url":4,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.modelfunctions.ws_s_s_dt_wa_gauss_comb",
+"url":4,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.modelfunctions.ws_s_wa_gauss",
+"url":4,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor",
+"url":5,
+"doc":"Contains the baseclass for Regressors used in the CurveExtension class, that can also be used to create custom Regressors. Also contains two predefined and usable regressors, the ODRegressor and the LeastSquareRegressor."
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.RegressorException",
+"url":5,
+"doc":"Custom exception for errors that may appear whilst working with the Regressor class and subclasses"
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.Regressor",
+"url":5,
+"doc":"Base class for all regressor classes Abstract Methods         model_func optimal_params set_weights(self, X_weights, y_weights) fit(self, data)"
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.Regressor.model_func",
+"url":5,
+"doc":""
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.Regressor.optimal_params",
+"url":5,
+"doc":""
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.Regressor.fit",
+"url":5,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.Regressor.set_weights",
+"url":5,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.ODRegressor",
+"url":5,
+"doc":"An orthogonal distance regressor based on scipy.odr.odrpack Parameters      model_func : function The function which describes the model and is to be fitted. The function signature should be f(ws, wa,  params) -> bsp, where ws and wa are numpy.ndarrays resp. and params is a sequence of parameters that will be fitted init_values : array_like, optional Inital guesses for the optimal parameters of model_func that are passed to the scipy.odr.ODR class Defaults to None max_it : int, optional Maximum number of iterations done by scipy.odr.ODR. Defaults to 1000"
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.ODRegressor.model_func",
+"url":5,
+"doc":""
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.ODRegressor.optimal_params",
+"url":5,
+"doc":""
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.ODRegressor.set_weights",
+"url":5,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.ODRegressor.fit",
+"url":5,
+"doc":"Fits the model function to the given data, ie calculates the optimal parameters to minimize an objective function based on the data, see also [ODRPACK](https: docs.scipy.org/doc/external/odrpack_guide.pdf) Parameters      data : array_like of shape (n, 3) Data to which the model function will be fitted, given as a sequence of points consisting of wind speed, wind angle and boat speed",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.LeastSquareRegressor",
+"url":5,
+"doc":"A least square regressor based on scipy.optimize.curve_fit Parameters      model_func : function or callable The function which describes the model and is to be fitted. The function signature should be f(ws, wa,  params) -> bsp, where ws and wa are numpy.ndarrays resp. and params is a sequence of parameters that will be fitted init_vals : array_like ,optional Inital guesses for the optimal parameters of model_func that are passed to scipy.optimize.curve_fit Defaults to None"
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.model_func",
+"url":5,
+"doc":""
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.optimal_params",
+"url":5,
+"doc":""
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.set_weights",
+"url":5,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.fit",
+"url":5,
+"doc":"Fits the model function to the given data, ie calculates the optimal parameters to minimize the sum of the squares of the residuals, see also [least squares](https: docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html) Parameters      data : array_like of shape (n, 3) Data to which the model function will be fitted, given as a sequence of points consisting of wind speed, wind angle and boat speed",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.interpolator",
+"url":6,
+"doc":"Contains the baseclass for Interpolators used in the TableExtension and PointcloudExtension class, that can also be used to create custom Interpolators. Also contains various predefined and usable interpolators"
+},
+{
+"ref":"hrosailing.pipelinecomponents.interpolator.scaled",
+"url":6,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.interpolator.euclidean_norm",
+"url":6,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.interpolator.InterpolatorInitializationException",
+"url":6,
+"doc":"Exception raised if an error occurs during initialization of an Interpolator"
+},
+{
+"ref":"hrosailing.pipelinecomponents.interpolator.Interpolator",
+"url":6,
+"doc":"Base class for all Interpolator classes Abstract Methods         interpolate(self, w_pts)"
+},
+{
+"ref":"hrosailing.pipelinecomponents.interpolator.Interpolator.interpolate",
+"url":6,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.interpolator.IDWInterpolator",
+"url":6,
+"doc":"Basic inverse distance interpolator, based on the work of Shepard, \"A two-dimensional interpolation function for irregulary-spaced data\" For a given point grid_pt, that is to be interpolated, we calculate the distances d_pt =  grid-pt - pt[:2] for all considered measured points. Then we set the weights of a point pt to be w_pt = 1 / d_pt^p, for some nonnegative integer p The interpolated value on grid_pt then equals (\u03a3 w_pt pt[2]) / \u03a3 w_pt or if grid_pt is already a measured point pt , it will equal pt [2] Parameters      p : nonnegative int, optional Defaults to 2 norm : function or callable, optional Norm with which to calculate the distances, ie  . If nothing is passed, it will default to a scaled version of  . _2 Raises an InterpolatorInitializationException if p is negative"
+},
+{
+"ref":"hrosailing.pipelinecomponents.interpolator.IDWInterpolator.interpolate",
+"url":6,
+"doc":"Interpolates a given grid_pt according to the above described method Parameters      w_pts : WeightedPoints Considered measured points grid_pt : numpy.ndarray of shape (2,) Point that is to be interpolated Returns    - out : int / float Interpolated values at grid_pt",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.interpolator.gauss_potential",
+"url":6,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.interpolator.ArithmeticMeanInterpolator",
+"url":6,
+"doc":"An Interpolator that gets the interpolated value according to the following procedure First the distance of the independent variables of all considered points and of the to interpolate point is calculated, ie  p[:2] - grid_pt  Then using a distribution, new weights are calculated based on the old weights, the previously calculated distances and other parameters depending on the distribution The value of the dependent variable of the interpolated point then equals s  (\u03a3 w_p  p) / \u03a3 w_p where s is an additional scaling factor In fact it is a more general approach to the inverse distance interpolator Parameters      s : positive int or float, optional Scaling factor for the arithmetic mean, Defaults to 1 norm : function or callable, optional Norm with which to calculate the distances, ie  . If nothing is passed, it will default to a scaled version of  . _2 distribution : function or callable, optional Function with which to calculate the updated weights. Should have the signature f(distances, old_weights,  parameters) -> new_weights If nothing is passed, it will default to gauss_potential, which calculated weights based on the formula \u03b2  exp(-\u03b1  old_weights  distances) params: Parameters to be passed to distribution Raises an InterpolatorInitializationException if s is nonpositive"
+},
+{
+"ref":"hrosailing.pipelinecomponents.interpolator.ArithmeticMeanInterpolator.interpolate",
+"url":6,
+"doc":"Interpolates a given grid_pt according to the above described method Parameters      w_pts : WeightedPoints Considered measured points grid_pt : numpy.ndarray of shape (2,) Point that is to be interpolated Returns    - out : int / float Interpolated values at grid_pt",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.interpolator.ImprovedIDWInterpolator",
+"url":6,
+"doc":"An improved inverse distance interpolator, based on the work of Shepard, \"A two-dimensional interpolation function for irregulary-spaced data\" Instead of setting the weights as the normal inverse distance to some power, we set the weights in the following way: Let r be the radius of the ScalingBall with the center being some point grid_pt which is to be interpolated. For all considered measured points let d_pt be the same as in IDWInterpolator. If d_pt <= r/3 we set w_pt = 1 / d_pt. Otherwise we set w_pt = 27 / (4  r)  (d_pt / r - 1)^2 The resulting value on grid_pt will then be calculated the same way as in IDWInterpolator Parameters      norm : function or callable, optional Norm with which to calculate the distances, ie  . If nothing is passed, it will default to a scaled version of  . _2"
+},
+{
+"ref":"hrosailing.pipelinecomponents.interpolator.ImprovedIDWInterpolator.interpolate",
+"url":6,
+"doc":"Interpolates a given grid_pt according to the above described method Parameters      w_pts : WeightedPoints Considered measured points grid_pt : numpy.ndarray of shape (2,) Point that is to be interpolated Returns    - out : int / float Interpolated values at grid_pt",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.interpolator.ShepardInterpolator",
+"url":6,
+"doc":"A full featured inverse distance interpolator, based on the work of Shepard, \"A two-dimensional interpolation function for irregulary-spaced data\" Parameters      tol : positive float , optional Defautls to numpy.finfo(float).eps slope: positive float, optional Defaults to 0.1 norm : function or callable, optional Norm with which to calculate the distances, ie  . If nothing is passed, it will default to a scaled version of  . _2 Raises an InterpolatorInitializationException - if tol is nonpositive - if slope is nonpositive"
+},
+{
+"ref":"hrosailing.pipelinecomponents.interpolator.ShepardInterpolator.interpolate",
+"url":6,
+"doc":"Interpolates a given grid_pt according to the above described method Parameters      w_pts : WeightedPoints Considered measured points grid_pt : numpy.ndarray of shape (2,) Point that is to be interpolated Returns    - out : int / float Interpolated values at grid_pt",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.filter",
+"url":7,
+"doc":"Contains the baseclass for Filters used in the PolarPipeline class, that can also be used to create custom Filters. Also contains two predefinied and usable filters, the QuantileFilter and the BoundFilter."
+},
+{
+"ref":"hrosailing.pipelinecomponents.filter.FilterInitializationException",
+"url":7,
+"doc":"Exception raised if an error occurs during initialization of a Filter"
+},
+{
+"ref":"hrosailing.pipelinecomponents.filter.Filter",
+"url":7,
+"doc":"Base class for all filter classes Abstract Methods         filter(self, weights)"
+},
+{
+"ref":"hrosailing.pipelinecomponents.filter.Filter.filter",
+"url":7,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.filter.QuantileFilter",
+"url":7,
+"doc":"A filter that filteres all points based on if their resp. weight lies above a certain quantile Parameters      percent: int or float, optional The quantile to be calculated Defaults to 25 Raises a FilterInitializationException, if percent is not in the interval [0, 100]"
+},
+{
+"ref":"hrosailing.pipelinecomponents.filter.QuantileFilter.filter",
+"url":7,
+"doc":"Filters a set of points given by their resp. weights according to the above described method Parameters      wts : numpy.ndarray of shape (n, ) Weights of the points that are to be filtered, given as a sequence of scalars Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing with points are filtered depending on their resp. weight",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.filter.BoundFilter",
+"url":7,
+"doc":"A filter that filters all points based on if their weight is outside an interval given by a lower and upper bound Parameters      upper_bound : int or float, optional The upper bound for the filter Defaults to 1 lower_bound : int or float, optional The lower bound for the filter Defaults to 0.5 Raises a FilterInitializationException if lower_bound is greater than upper_bound"
+},
+{
+"ref":"hrosailing.pipelinecomponents.filter.BoundFilter.filter",
+"url":7,
+"doc":"Filters a set of points given by their resp. weights according to the above described method Parameters      wts : numpy.ndarray of shape (n, ) Weights of the points that are to be filtered, given as a sequence of scalars Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing with points are filtered depending on their resp. weight",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.influencemodel",
+"url":8,
+"doc":""
+},
+{
+"ref":"hrosailing.pipelinecomponents.influencemodel.InfluenceModel",
+"url":8,
+"doc":""
+},
+{
+"ref":"hrosailing.pipelinecomponents.influencemodel.InfluenceModel.remove_influence",
+"url":8,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.influencemodel.InfluenceModel.add_influence",
+"url":8,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.influencemodel.LinearCurrentModel",
+"url":8,
+"doc":""
+},
+{
+"ref":"hrosailing.pipelinecomponents.influencemodel.LinearCurrentModel.remove_influence",
+"url":8,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.influencemodel.LinearCurrentModel.add_influence",
+"url":8,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.weigher",
+"url":9,
+"doc":"Contains the baseclass for Weighers used in the PolarPipeline class, that can also be used to create custom Weighers. Also contains two predefined and useable weighers, the CylindricMeanWeigher and the CylindricMemberWeigher, aswell as the WeightedPoints class, used to represent data points together with their respective weights"
+},
+{
+"ref":"hrosailing.pipelinecomponents.weigher.scaled",
+"url":9,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.weigher.euclidean_norm",
+"url":9,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.weigher.WeigherInitializationException",
+"url":9,
+"doc":"Exception raised if an error occurs during initialization of a Weigher"
+},
+{
+"ref":"hrosailing.pipelinecomponents.weigher.WeighingException",
+"url":9,
+"doc":"Exception raised if an error occurs during the calling of the .weigh() method"
+},
+{
+"ref":"hrosailing.pipelinecomponents.weigher.Weigher",
+"url":9,
+"doc":"Base class for all weigher classes Abstract Methods         weight(self, pts)"
+},
+{
+"ref":"hrosailing.pipelinecomponents.weigher.Weigher.weigh",
+"url":9,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.weigher.CylindricMeanWeigher",
+"url":9,
+"doc":"A weigher that weighs given points according to the following procedure: For a given point p and points pts we look at all the points pt in pts such that  pt[:d-1] - p[:d-1] <= r Then we take the mean m_p and standard deviation std_p of the dth component of all those points and set w_p = | m_p - p[d-1] | / std_p Parameters      radius : positive int or float, optional The radius of the considered cylinder, with infinite height, ie r Defaults to 0.05 norm : function or callable, optional Norm with which to evaluate the distances, ie  . If nothing is passed, it will default to  . _2 Raises a WeigherInitializationException if radius is nonpositive"
+},
+{
+"ref":"hrosailing.pipelinecomponents.weigher.CylindricMeanWeigher.weigh",
+"url":9,
+"doc":"Weigh given points according to the method described above Parameters      pts : numpy.ndarray of shape (n, 3) Points to be weight Returns    - wts : numpy.ndarray of shape (n, ) Normalized weights of the input points",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.weigher.CylindricMemberWeigher",
+"url":9,
+"doc":"A weigher that weighs given points according to the following procedure: For a given point p and points pts we look at all the points pt in pts such that |pt[0] - p[0]| <= h and  pt[1:] - p[1:] <= r Call the set of all such points P, then w_p =  P - 1 Parameters      radius : positive int or float, optional The radius of the considered cylinder, ie r Defaults to 0.05 length : nonnegative int of float, optional The height of the considered cylinder, ie h If length is 0, the cylinder is a d-1 dimensional ball Defaults to 0.05 norm : function or callable, optional Norm with which to evaluate the distances, ie  . If nothing is passed, it will default to  . _2 Raises a WeigherInitializationException - if radius is nonpositive - if length is negative"
+},
+{
+"ref":"hrosailing.pipelinecomponents.weigher.CylindricMemberWeigher.weigh",
+"url":9,
+"doc":"Weigh given points according to the method described above Parameters      pts : numpy.ndarray of shape (n, 3) Points to be weight Returns    - wts : numpy.ndarray of shape (n, ) Normalized weights of the input points",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.weigher.WeightedPoints",
+"url":9,
+"doc":"A class to weigh data points and represent them together with their respective weights Parameters      pts : array_like of shape (n, 3) Points that will be weight or paired with given weights wts : int, float or array_like of shape (n, ), optional If the weights of the points are known beforehand, they can be given as an argument. If weights are passed, they will be assigned to the points and no further weighing will take place If a scalar is passed, the points will all be assigned the same weight Defaults to None weigher : Weigher, optional Instance of a Weigher class, which will weigh the points Will only be used if weights is None If nothing is passed, it will default to CylindricMeanWeigher() tw : bool, optional Specifies if the given wind data should be viewed as true wind If False, wind data will be converted to true wind Defaults to True"
+},
+{
+"ref":"hrosailing.pipelinecomponents.weigher.WeightedPoints.points",
+"url":9,
+"doc":""
+},
+{
+"ref":"hrosailing.pipelinecomponents.weigher.WeightedPoints.weights",
+"url":9,
+"doc":""
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood",
+"url":10,
+"doc":"Contains the baseclass for Neighbourhoods used in the TableExtension and PointcloudExtension class, that can also be used to create custom Neighbourhoods. Also contains various predefined and usable neighbourhoods"
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.scaled",
+"url":10,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.euclidean_norm",
+"url":10,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.NeighbourhoodInitializationException",
+"url":10,
+"doc":"Exception raised if an error occurs during initialization of a Neighbourhood"
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.Neighbourhood",
+"url":10,
+"doc":"Base class for all neighbourhood classes Abstract Methods         is_contained_in(self, pts)"
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.Neighbourhood.is_contained_in",
+"url":10,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.Ball",
+"url":10,
+"doc":"A class to describe a closed 2-dimensional ball centered around the origin, ie { x in R^2 :  x <= r } Parameters      norm : function or callable, optional The norm for which the ball is described, ie  . If nothing is passed, it will default to a scaled version of  . _2 radius : positive int or float, optional The radius of the ball, ie r Defaults to 0.05 Raises a NeighbourhoodInitializationException if radius is nonpositive"
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.Ball.is_contained_in",
+"url":10,
+"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.ScalingBall",
+"url":10,
+"doc":"A class to represent a closed 2-dimensional ball centered around the origin, ie { x in R^2 :  x <= r }, where the radius r will be dynamically determined, such that there are always a certain amount of given points contained in the ball Parameters      min_pts : positive int The minimal amount of certain given points that should be contained in the scaling ball max_pts : positive int The \"maximal\" amount of certain given points that should be contained in the scaling ball. Mostly used for initial guess of a \"good\" radius. Also to guarantee that on average, the scaling ball will contain (min_pts + max_pts) / 2 points of certain given points It is also unlikely that the scaling ball will contain more than max_pts points norm : function or callable, optional The norm for which the scaling ball is described, ie  . If nothing is passed, it will default to a scaled version of  . _2 Raises a NeighbourhoodInitializationException - if min_pts or max_pts are nonpositive - if max_pts is less than or equal to min_pts"
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.ScalingBall.is_contained_in",
+"url":10,
+"doc":"Checks given points for membership, and scales ball so that at least min_pts points are contained in it Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.Ellipsoid",
+"url":10,
+"doc":"A class to represent a closed d-dimensional ellipsoid centered around the origin, ie T(B), where T is an invertible linear transformation, and B is a closed d-dimensional ball, centered around the origin. It will be represented using the equivalent formulation: { x in R^2 :  T^-1 x <= r } Parameters      lin_trans: array_like of shape (2,2), optional The linear transformation which transforms the ball into the given ellipsoid, ie T If nothing is passed, it will default to I_2, the 2x2 unit matrix, ie the ellipsoid will be a ball norm : function or callable, optional The norm for which the ellipsoid is described, ie  . If nothing is passed, it will default to a scaled version of  . _2 radius : positive int or float, optional The radius of the ellipsoid, ie r Defaults to 0.05 Raises a NeighbourhoodInitializationException - if radius is nonpositive - if lin_trans is not a (2,2)-array or is not invertible"
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.Ellipsoid.is_contained_in",
+"url":10,
+"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.Cuboid",
+"url":10,
+"doc":"A class to represent a d-dimensional closed cuboid, ie { x in R^2 : |x_i| <= b_i, i=1,2 } Parameters      norm : function or callable, optional The 1-d norm used to measure the length of the x_i, ie |.| If nothing is passed, it will default to the absolute value |.| dimensions: subscriptable of length 2, optional The 'length' of the 'sides' of the cuboid, ie the b_i If nothing is passed, it will default to (0.05, 0.05) Raises a NeighbourhoodInitializationException if dimensions is not of length 2"
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.Cuboid.is_contained_in",
+"url":10,
+"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.Polytope",
+"url":10,
+"doc":"A class to represent a general 2-dimensional polytope, ie the convex hull P = conv(x_1,  ., x_n) of some n points x_1 , ., x_n or equivalent as the (bounded) intersection of m half spaces P = { x in R^2 : Ax <= b } Parameters      mat: array_like of shape (m, 2), optional matrix to represent the normal vectors a_i of the half spaces, ie A = (a_1,  . , a_m)^t If nothing is passed, it will default to (I_2, -I_2)^t, where I_d is the d-dimensional unit matrix b: array_like of shape (m, ), optional vector to represent the  . b_i of the half spaces, ie b = (b_1,  . , b_m)^t If nothing is passed, it will default to (0.05, .,0.05) Raises a NeighbourhoodException if mat and b are not of matching shape Warning    - Does not check wether the polytope given by mat and b is a polytope, ie if P is actually bounded"
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.Polytope.is_contained_in",
+"url":10,
+"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler",
+"url":11,
+"doc":""
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.HandlerInitializationException",
+"url":11,
+"doc":"Exception raised if an error occurs during initialization of a DataHandler"
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.HandleException",
+"url":11,
+"doc":"Exception raised if an error occurs during calling of the .handle() method"
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.DataHandler",
+"url":11,
+"doc":"Base class for all datahandler classes Abstract Methods         handle(self, data)"
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.DataHandler.handle",
+"url":11,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.ArrayHandler",
+"url":11,
+"doc":"A data handler to handle data, given as an array_like sequence. Doesn't really do anything since error handling and array conversion is handeled by the pipeline itself Only needed for general layout of the pipeline"
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.ArrayHandler.handle",
+"url":11,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.CsvFileHandler",
+"url":11,
+"doc":"A data handler to extract data from a .csv file with the first three columns representing wind speed, wind angle, and boat speed respectively"
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.CsvFileHandler.handle",
+"url":11,
+"doc":"Reads a .csv file and extracts the contained data points The delimiter used in the .csv file Parameters      data : path-like Path to a .csv file Returns    -",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.NMEAFileHandler",
+"url":11,
+"doc":"A data handler to extract data from a text file containing certain nmea sentences Parameters     - sentences : Iterable of Strings, attributes : Iterable of Strings, mode : string, optional In the case where there is more recorded wind data than speed data, specifies how to handle the surplus - \"interpolate\": handles the surplus by taking convex combinations of two recorded speed datas together with the recorded wind data \"between\" those two points to create multiple data points - \"mean\": handles the surplus by taking the mean of the wind data \"belonging\" to a given speed data to create a singe data point Defaults to \"interpolate\" Raises a HandlerInitializationException if mode is not one of the above choices"
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.NMEAFileHandler.handle",
+"url":11,
+"doc":"Reads a text file containing nmea-sentences and extracts data points Parameters      data : path-like Path to a text file, containing nmea-0183 sentences Returns    - data_dict : dict",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler",
+"url":12,
+"doc":"Contains the baseclass for Samplers used in the PointcloudExtension class, that can also be used to create custom Samplers. Also contains various predefined and usable samplers."
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler.SamplerInitializationException",
+"url":12,
+"doc":"Exception raised if an error occurs during initialization of a Sampler"
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler.Sampler",
+"url":12,
+"doc":"Base class for all sampler classes Abstract Methods         sample(self, pts)"
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler.Sampler.sample",
+"url":12,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler.UniformRandomSampler",
+"url":12,
+"doc":"A sampler that produces a number of uniformly distributed samples, which all lie in the convex hull of certain given points Parameters      n_samples : positive int Amount of samples that will be produced by the sampler Raises SamplerInitializationException if n_samples is nonpositive"
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler.UniformRandomSampler.sample",
+"url":12,
+"doc":"Produces samples according to the above described procedure Parameters      pts : array_like of shape (n, 2) Points in whose convex hull the produced samples will lie Returns    - samples : numpy.ndarray of shape (n_samples, 2) samples produced by the above described method",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler.FibonacciSampler",
+"url":12,
+"doc":"A sampler that produces sample points on a moved and scaled version of the spiral (sqrt(x) cos(x), sqrt(x) sin(x , such that the angles are distributed equidistantly by the inverse golden ratio. The sample points all lie in the smallest enclosing circle of given data points. Inspired by \u00c1lvaro Gonzz\u00e1lez - \"Measurement of areas on a sphere using Fibonacci and latitude\u2013longitude lattices\" Parameters      n_samples : positive int Amount of samples that will be produced by the sampler Raises SamplerInitializationException if n_samples is nonpositive"
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler.FibonacciSampler.sample",
+"url":12,
+"doc":"Produces samples according to the above described procedure Parameters      pts : array_like of shape (n, 2) Points in whose convex hull the produced samples will lie Returns    - samples : numpy.ndarray of shape (n_samples, 2) samples produced by the above described method",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler.ArchimedianSampler",
+"url":12,
+"doc":"A sampler that produces a number of approximately equidistant sample points on a moved and scaled version of the archimedean spiral (x cos(x), x sin(x . The sample points all lie in the smallest enclosing circle of given data points. Inspired by https: agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2007GC001581 Parameters      n_samples : positive int Amount of samples that will be produced by the sampler Raises SamplerInitializationException if n_samples is nonpositive"
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler.ArchimedianSampler.sample",
+"url":12,
+"doc":"Produces samples according to the above described procedure Parameters      pts : array_like of shape (n, 2) Points in whose convex hull the produced samples will lie Returns    - samples : numpy.ndarray of shape (n_samples, 2) samples produced by the above described method",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler.make_circle",
+"url":12,
+"doc":"",
+"func":1
+},
+{
+"ref":"hrosailing.wind",
+"url":13,
 "doc":"Functions to convert wind from apparent to true and vice versa"
 },
 {
 "ref":"hrosailing.wind.WindConversionException",
-"url":2,
+"url":13,
 "doc":""
 },
 {
 "ref":"hrosailing.wind.ResolutionSettingException",
-"url":2,
+"url":13,
 "doc":""
 },
 {
 "ref":"hrosailing.wind.apparent_wind_to_true",
-"url":2,
+"url":13,
 "doc":"Converts apparent wind to true wind Parameters      wind : array_like of shape (n, 3) Wind data given as a sequence of points consisting of wind speed, wind angle and boat speed, where the wind speed and wind angle are measured as apparent wind Returns    - out : numpy.ndarray of shape (n, 3) Array containing the same data as wind_arr, but the wind speed and wind angle now measured as true wind",
 "func":1
 },
 {
 "ref":"hrosailing.wind.true_wind_to_apparent",
-"url":2,
+"url":13,
 "doc":"Converts true wind to apparent wind Parameters      wind : array_like of shape (n, 3) Wind data given as a sequence of points consisting of wind speed, wind angle and boat speed, where the wind speed and wind angle are measured as true wind Returns    - out : numpy.ndarray of shape (n, 3) Array containing the same data as wind_arr, but the wind speed and wind angle now measured as apparent wind",
 "func":1
 },
 {
 "ref":"hrosailing.wind.convert_wind",
-"url":2,
+"url":13,
 "doc":"dummy"
 },
 {
 "ref":"hrosailing.wind.set_resolution",
-"url":2,
+"url":13,
 "doc":"dummy"
 },
 {
 "ref":"hrosailing.cruising",
-"url":3,
+"url":14,
+"doc":""
+},
+{
+"ref":"hrosailing.cruising.Direction",
+"url":14,
+"doc":"Direction(angle: float, proportion: float, sail: Union[str, NoneType] = None)"
+},
+{
+"ref":"hrosailing.cruising.Direction.angle",
+"url":14,
+"doc":""
+},
+{
+"ref":"hrosailing.cruising.Direction.proportion",
+"url":14,
+"doc":""
+},
+{
+"ref":"hrosailing.cruising.Direction.sail",
+"url":14,
 "doc":""
 },
 {
 "ref":"hrosailing.cruising.convex_direction",
-"url":3,
+"url":14,
 "doc":"",
 "func":1
 },
 {
 "ref":"hrosailing.cruising.cruise",
-"url":3,
+"url":14,
 "doc":"",
 "func":1
 },
 {
-"ref":"hrosailing.cruising.WeatherModel",
-"url":3,
+"ref":"hrosailing.cruising.WeatherException",
+"url":14,
 "doc":""
 },
 {
+"ref":"hrosailing.cruising.WeatherModel",
+"url":14,
+"doc":""
+},
+{
+"ref":"hrosailing.cruising.WeatherModel.get_weather",
+"url":14,
+"doc":"",
+"func":1
+},
+{
 "ref":"hrosailing.cruising.cost_cruise",
-"url":3,
+"url":14,
 "doc":"",
 "func":1
 },
 {
 "ref":"hrosailing.cruising.isocrone",
-"url":3,
+"url":14,
 "doc":"",
 "func":1
 },
 {
 "ref":"hrosailing.cruising.isocost",
-"url":3,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing",
-"url":4,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.modelfunctions",
-"url":5,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.modelfunctions.ws_times_wa",
-"url":5,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.modelfunctions.ws_concave_dt_wa",
-"url":5,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.modelfunctions.ws_wa_s_dt",
-"url":5,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.modelfunctions.ws_s_dt_wa_gauss",
-"url":5,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.modelfunctions.ws_s_s_dt_wa_gauss_comb",
-"url":5,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.modelfunctions.ws_s_wa_gauss",
-"url":5,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipeline",
-"url":6,
-"doc":"A Pipeline class to automate getting a polar diagram from \"raw\" data"
-},
-{
-"ref":"hrosailing.processing.pipeline.PipelineException",
-"url":6,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.pipeline.PipelineExtension",
-"url":6,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.pipeline.PipelineExtension.process",
-"url":6,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipeline.PolarPipeline",
-"url":6,
-"doc":"A Pipeline class to create polar diagrams from raw data Parameters      extension: PipelineExtension handler : DataHandler weigher : Weigher, optional filter_ : Filter, optional"
-},
-{
-"ref":"hrosailing.processing.pipeline.PolarPipeline.__call__",
-"url":6,
-"doc":"Parameters      data : FooBar check_finite : bool, optional tw : bool, optional filtering : bool, optional Returns    - out : PolarDiagram",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipeline.TableExtension",
-"url":6,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.pipeline.TableExtension.process",
-"url":6,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipeline.CurveExtension",
-"url":6,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.pipeline.CurveExtension.process",
-"url":6,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipeline.PointcloudExtension",
-"url":6,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.pipeline.PointcloudExtension.process",
-"url":6,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipeline.InterpolationWarning",
-"url":6,
-"doc":"Base class for warning categories."
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents",
-"url":7,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.regressor",
-"url":8,
-"doc":"Contains the baseclass for Regressors used in the CurveExtension class, that can also be used to create custom Regressors. Also contains two predefined and usable regressors, the ODRegressor and the LeastSquareRegressor."
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.regressor.RegressorException",
-"url":8,
-"doc":"Custom exception for errors that may appear whilst working with the Regressor class and subclasses"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.regressor.Regressor",
-"url":8,
-"doc":"Base class for all regressor classes Abstract Methods         model_func optimal_params set_weights(self, X_weights, y_weights) fit(self, data)"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.regressor.Regressor.model_func",
-"url":8,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.regressor.Regressor.optimal_params",
-"url":8,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.regressor.Regressor.fit",
-"url":8,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.regressor.Regressor.set_weights",
-"url":8,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.regressor.ODRegressor",
-"url":8,
-"doc":"An orthogonal distance regressor based on scipy.odr.odrpack Parameters      model_func : function The function which describes the model and is to be fitted. The function signature should be f(ws, wa,  params) -> bsp, where ws and wa are numpy.ndarrays resp. and params is a sequence of parameters that will be fitted init_values : array_like, optional Inital guesses for the optimal parameters of model_func that are passed to the scipy.odr.ODR class Defaults to None max_it : int, optional Maximum number of iterations done by scipy.odr.ODR. Defaults to 1000"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.regressor.ODRegressor.model_func",
-"url":8,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.regressor.ODRegressor.optimal_params",
-"url":8,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.regressor.ODRegressor.set_weights",
-"url":8,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.regressor.ODRegressor.fit",
-"url":8,
-"doc":"Fits the model function to the given data, ie calculates the optimal parameters to minimize an objective function based on the data, see also [ODRPACK](https: docs.scipy.org/doc/external/odrpack_guide.pdf) Parameters      data : array_like of shape (n, 3) Data to which the model function will be fitted, given as a sequence of points consisting of wind speed, wind angle and boat speed",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor",
-"url":8,
-"doc":"A least square regressor based on scipy.optimize.curve_fit Parameters      model_func : function or callable The function which describes the model and is to be fitted. The function signature should be f(ws, wa,  params) -> bsp, where ws and wa are numpy.ndarrays resp. and params is a sequence of parameters that will be fitted init_vals : array_like ,optional Inital guesses for the optimal parameters of model_func that are passed to scipy.optimize.curve_fit Defaults to None"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor.model_func",
-"url":8,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor.optimal_params",
-"url":8,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor.set_weights",
-"url":8,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor.fit",
-"url":8,
-"doc":"Fits the model function to the given data, ie calculates the optimal parameters to minimize the sum of the squares of the residuals, see also [least squares](https: docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html) Parameters      data : array_like of shape (n, 3) Data to which the model function will be fitted, given as a sequence of points consisting of wind speed, wind angle and boat speed",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.interpolator",
-"url":9,
-"doc":"Contains the baseclass for Interpolators used in the TableExtension and PointcloudExtension class, that can also be used to create custom Interpolators. Also contains various predefined and usable interpolators"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.interpolator.scaled",
-"url":9,
-"doc":"dummy"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.interpolator.euclidean_norm",
-"url":9,
-"doc":"dummy"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.interpolator.InterpolatorInitializationException",
-"url":9,
-"doc":"Exception raised if an error occurs during initialization of an Interpolator"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.interpolator.Interpolator",
-"url":9,
-"doc":"Base class for all Interpolator classes Abstract Methods         interpolate(self, w_pts)"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.interpolator.Interpolator.interpolate",
-"url":9,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.interpolator.IDWInterpolator",
-"url":9,
-"doc":"Basic inverse distance interpolator, based on the work of Shepard, \"A two-dimensional interpolation function for irregulary-spaced data\" For a given point grid_pt, that is to be interpolated, we calculate the distances d_pt =  grid-pt - pt[:2] for all considered measured points. Then we set the weights of a point pt to be w_pt = 1 / d_pt^p, for some nonnegative integer p The interpolated value on grid_pt then equals (\u03a3 w_pt pt[2]) / \u03a3 w_pt or if grid_pt is already a measured point pt , it will equal pt [2] Parameters      p : nonnegative int, optional Defaults to 2 norm : function or callable, optional Norm with which to calculate the distances, ie  . If nothing is passed, it will default to a scaled version of  . _2 Raises an InterpolatorInitializationException if p is negative"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.interpolator.IDWInterpolator.interpolate",
-"url":9,
-"doc":"Interpolates a given grid_pt according to the above described method Parameters      w_pts : WeightedPoints Considered measured points grid_pt : numpy.ndarray of shape (2,) Point that is to be interpolated Returns    - out : int / float Interpolated values at grid_pt",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.interpolator.gauss_potential",
-"url":9,
-"doc":"dummy"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.interpolator.ArithmeticMeanInterpolator",
-"url":9,
-"doc":"An Interpolator that gets the interpolated value according to the following procedure First the distance of the independent variables of all considered points and of the to interpolate point is calculated, ie  p[:2] - grid_pt  Then using a distribution, new weights are calculated based on the old weights, the previously calculated distances and other parameters depending on the distribution The value of the dependent variable of the interpolated point then equals s  (\u03a3 w_p  p) / \u03a3 w_p where s is an additional scaling factor In fact it is a more general approach to the inverse distance interpolator Parameters      s : positive int or float, optional Scaling factor for the arithmetic mean, Defaults to 1 norm : function or callable, optional Norm with which to calculate the distances, ie  . If nothing is passed, it will default to a scaled version of  . _2 distribution : function or callable, optional Function with which to calculate the updated weights. Should have the signature f(distances, old_weights,  parameters) -> new_weights If nothing is passed, it will default to gauss_potential, which calculated weights based on the formula \u03b2  exp(-\u03b1  old_weights  distances) params: Parameters to be passed to distribution Raises an InterpolatorInitializationException if s is nonpositive"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.interpolator.ArithmeticMeanInterpolator.interpolate",
-"url":9,
-"doc":"Interpolates a given grid_pt according to the above described method Parameters      w_pts : WeightedPoints Considered measured points grid_pt : numpy.ndarray of shape (2,) Point that is to be interpolated Returns    - out : int / float Interpolated values at grid_pt",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.interpolator.ImprovedIDWInterpolator",
-"url":9,
-"doc":"An improved inverse distance interpolator, based on the work of Shepard, \"A two-dimensional interpolation function for irregulary-spaced data\" Instead of setting the weights as the normal inverse distance to some power, we set the weights in the following way: Let r be the radius of the ScalingBall with the center being some point grid_pt which is to be interpolated. For all considered measured points let d_pt be the same as in IDWInterpolator. If d_pt <= r/3 we set w_pt = 1 / d_pt. Otherwise we set w_pt = 27 / (4  r)  (d_pt / r - 1)^2 The resulting value on grid_pt will then be calculated the same way as in IDWInterpolator Parameters      norm : function or callable, optional Norm with which to calculate the distances, ie  . If nothing is passed, it will default to a scaled version of  . _2"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.interpolator.ImprovedIDWInterpolator.interpolate",
-"url":9,
-"doc":"Interpolates a given grid_pt according to the above described method Parameters      w_pts : WeightedPoints Considered measured points grid_pt : numpy.ndarray of shape (2,) Point that is to be interpolated Returns    - out : int / float Interpolated values at grid_pt",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.interpolator.ShepardInterpolator",
-"url":9,
-"doc":"A full featured inverse distance interpolator, based on the work of Shepard, \"A two-dimensional interpolation function for irregulary-spaced data\" Parameters      tol : positive float , optional Defautls to numpy.finfo(float).eps slope: positive float, optional Defaults to 0.1 norm : function or callable, optional Norm with which to calculate the distances, ie  . If nothing is passed, it will default to a scaled version of  . _2 Raises an InterpolatorInitializationException - if tol is nonpositive - if slope is nonpositive"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.interpolator.ShepardInterpolator.interpolate",
-"url":9,
-"doc":"Interpolates a given grid_pt according to the above described method Parameters      w_pts : WeightedPoints Considered measured points grid_pt : numpy.ndarray of shape (2,) Point that is to be interpolated Returns    - out : int / float Interpolated values at grid_pt",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.filter",
-"url":10,
-"doc":"Contains the baseclass for Filters used in the PolarPipeline class, that can also be used to create custom Filters. Also contains two predefinied and usable filters, the QuantileFilter and the BoundFilter."
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.filter.FilterInitializationException",
-"url":10,
-"doc":"Exception raised if an error occurs during initialization of a Filter"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.filter.Filter",
-"url":10,
-"doc":"Base class for all filter classes Abstract Methods         filter(self, weights)"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.filter.Filter.filter",
-"url":10,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.filter.QuantileFilter",
-"url":10,
-"doc":"A filter that filteres all points based on if their resp. weight lies above a certain quantile Parameters      percent: int or float, optional The quantile to be calculated Defaults to 25 Raises a FilterInitializationException, if percent is not in the interval [0, 100]"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.filter.QuantileFilter.filter",
-"url":10,
-"doc":"Filters a set of points given by their resp. weights according to the above described method Parameters      wts : numpy.ndarray of shape (n, ) Weights of the points that are to be filtered, given as a sequence of scalars Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing with points are filtered depending on their resp. weight",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.filter.BoundFilter",
-"url":10,
-"doc":"A filter that filters all points based on if their weight is outside an interval given by a lower and upper bound Parameters      upper_bound : int or float, optional The upper bound for the filter Defaults to 1 lower_bound : int or float, optional The lower bound for the filter Defaults to 0.5 Raises a FilterInitializationException if lower_bound is greater than upper_bound"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.filter.BoundFilter.filter",
-"url":10,
-"doc":"Filters a set of points given by their resp. weights according to the above described method Parameters      wts : numpy.ndarray of shape (n, ) Weights of the points that are to be filtered, given as a sequence of scalars Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing with points are filtered depending on their resp. weight",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.influencemodel",
-"url":11,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.influencemodel.InfluenceException",
-"url":11,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel",
-"url":11,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel.remove_influence",
-"url":11,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel.add_influence",
-"url":11,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.influencemodel.LinearCurrentModel",
-"url":11,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.influencemodel.LinearCurrentModel.remove_influence",
-"url":11,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.influencemodel.LinearCurrentModel.add_influence",
-"url":11,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.weigher",
-"url":12,
-"doc":"Contains the baseclass for Weighers used in the PolarPipeline class, that can also be used to create custom Weighers. Also contains two predefined and useable weighers, the CylindricMeanWeigher and the CylindricMemberWeigher, aswell as the WeightedPoints class, used to represent data points together with their respective weights"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.weigher.scaled",
-"url":12,
-"doc":"dummy"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.weigher.euclidean_norm",
-"url":12,
-"doc":"dummy"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.weigher.WeigherInitializationException",
-"url":12,
-"doc":"Exception raised if an error occurs during initialization of a Weigher"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.weigher.WeighingException",
-"url":12,
-"doc":"Exception raised if an error occurs during the calling of the .weigh() method"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.weigher.Weigher",
-"url":12,
-"doc":"Base class for all weigher classes Abstract Methods         weight(self, pts)"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.weigher.Weigher.weigh",
-"url":12,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.weigher.CylindricMeanWeigher",
-"url":12,
-"doc":"A weigher that weighs given points according to the following procedure: For a given point p and points pts we look at all the points pt in pts such that  pt[:d-1] - p[:d-1] <= r Then we take the mean m_p and standard deviation std_p of the dth component of all those points and set w_p = | m_p - p[d-1] | / std_p Parameters      radius : positive int or float, optional The radius of the considered cylinder, with infinite height, ie r Defaults to 0.05 norm : function or callable, optional Norm with which to evaluate the distances, ie  . If nothing is passed, it will default to  . _2 Raises a WeigherInitializationException if radius is nonpositive"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.weigher.CylindricMeanWeigher.weigh",
-"url":12,
-"doc":"Weigh given points according to the method described above Parameters      pts : numpy.ndarray of shape (n, 3) Points to be weight Returns    - wts : numpy.ndarray of shape (n, ) Normalized weights of the input points",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.weigher.CylindricMemberWeigher",
-"url":12,
-"doc":"A weigher that weighs given points according to the following procedure: For a given point p and points pts we look at all the points pt in pts such that |pt[0] - p[0]| <= h and  pt[1:] - p[1:] <= r Call the set of all such points P, then w_p =  P - 1 Parameters      radius : positive int or float, optional The radius of the considered cylinder, ie r Defaults to 0.05 length : nonnegative int of float, optional The height of the considered cylinder, ie h If length is 0, the cylinder is a d-1 dimensional ball Defaults to 0.05 norm : function or callable, optional Norm with which to evaluate the distances, ie  . If nothing is passed, it will default to  . _2 Raises a WeigherInitializationException - if radius is nonpositive - if length is negative"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.weigher.CylindricMemberWeigher.weigh",
-"url":12,
-"doc":"Weigh given points according to the method described above Parameters      pts : numpy.ndarray of shape (n, 3) Points to be weight Returns    - wts : numpy.ndarray of shape (n, ) Normalized weights of the input points",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.weigher.WeightedPoints",
-"url":12,
-"doc":"A class to weigh data points and represent them together with their respective weights Parameters      pts : array_like of shape (n, 3) Points that will be weight or paired with given weights wts : int, float or array_like of shape (n, ), optional If the weights of the points are known beforehand, they can be given as an argument. If weights are passed, they will be assigned to the points and no further weighing will take place If a scalar is passed, the points will all be assigned the same weight Defaults to None weigher : Weigher, optional Instance of a Weigher class, which will weigh the points Will only be used if weights is None If nothing is passed, it will default to CylindricMeanWeigher() tw : bool, optional Specifies if the given wind data should be viewed as true wind If False, wind data will be converted to true wind Defaults to True"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.weigher.WeightedPoints.points",
-"url":12,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.weigher.WeightedPoints.weights",
-"url":12,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.neighbourhood",
-"url":13,
-"doc":"Contains the baseclass for Neighbourhoods used in the TableExtension and PointcloudExtension class, that can also be used to create custom Neighbourhoods. Also contains various predefined and usable neighbourhoods"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.neighbourhood.scaled",
-"url":13,
-"doc":"dummy"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.neighbourhood.euclidean_norm",
-"url":13,
-"doc":"dummy"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodInitializationException",
-"url":13,
-"doc":"Exception raised if an error occurs during initialization of a Neighbourhood"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood",
-"url":13,
-"doc":"Base class for all neighbourhood classes Abstract Methods         is_contained_in(self, pts)"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood.is_contained_in",
-"url":13,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.neighbourhood.Ball",
-"url":13,
-"doc":"A class to describe a closed 2-dimensional ball centered around the origin, ie { x in R^2 :  x <= r } Parameters      norm : function or callable, optional The norm for which the ball is described, ie  . If nothing is passed, it will default to a scaled version of  . _2 radius : positive int or float, optional The radius of the ball, ie r Defaults to 0.05 Raises a NeighbourhoodInitializationException if radius is nonpositive"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.neighbourhood.Ball.is_contained_in",
-"url":13,
-"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.neighbourhood.ScalingBall",
-"url":13,
-"doc":"A class to represent a closed 2-dimensional ball centered around the origin, ie { x in R^2 :  x <= r }, where the radius r will be dynamically determined, such that there are always a certain amount of given points contained in the ball Parameters      min_pts : positive int The minimal amount of certain given points that should be contained in the scaling ball max_pts : positive int The \"maximal\" amount of certain given points that should be contained in the scaling ball. Mostly used for initial guess of a \"good\" radius. Also to guarantee that on average, the scaling ball will contain (min_pts + max_pts) / 2 points of certain given points It is also unlikely that the scaling ball will contain more than max_pts points norm : function or callable, optional The norm for which the scaling ball is described, ie  . If nothing is passed, it will default to a scaled version of  . _2 Raises a NeighbourhoodInitializationException - if min_pts or max_pts are nonpositive - if max_pts is less than or equal to min_pts"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.neighbourhood.ScalingBall.is_contained_in",
-"url":13,
-"doc":"Checks given points for membership, and scales ball so that at least min_pts points are contained in it Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.neighbourhood.Ellipsoid",
-"url":13,
-"doc":"A class to represent a closed d-dimensional ellipsoid centered around the origin, ie T(B), where T is an invertible linear transformation, and B is a closed d-dimensional ball, centered around the origin. It will be represented using the equivalent formulation: { x in R^2 :  T^-1 x <= r } Parameters      lin_trans: array_like of shape (2,2), optional The linear transformation which transforms the ball into the given ellipsoid, ie T If nothing is passed, it will default to I_2, the 2x2 unit matrix, ie the ellipsoid will be a ball norm : function or callable, optional The norm for which the ellipsoid is described, ie  . If nothing is passed, it will default to a scaled version of  . _2 radius : positive int or float, optional The radius of the ellipsoid, ie r Defaults to 0.05 Raises a NeighbourhoodInitializationException - if radius is nonpositive - if lin_trans is not a (2,2)-array or is not invertible"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.neighbourhood.Ellipsoid.is_contained_in",
-"url":13,
-"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.neighbourhood.Cuboid",
-"url":13,
-"doc":"A class to represent a d-dimensional closed cuboid, ie { x in R^2 : |x_i| <= b_i, i=1,2 } Parameters      norm : function or callable, optional The 1-d norm used to measure the length of the x_i, ie |.| If nothing is passed, it will default to the absolute value |.| dimensions: subscriptable of length 2, optional The 'length' of the 'sides' of the cuboid, ie the b_i If nothing is passed, it will default to (0.05, 0.05) Raises a NeighbourhoodInitializationException if dimensions is not of length 2"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.neighbourhood.Cuboid.is_contained_in",
-"url":13,
-"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.neighbourhood.Polytope",
-"url":13,
-"doc":"A class to represent a general 2-dimensional polytope, ie the convex hull P = conv(x_1,  ., x_n) of some n points x_1 , ., x_n or equivalent as the (bounded) intersection of m half spaces P = { x in R^2 : Ax <= b } Parameters      mat: array_like of shape (m, 2), optional matrix to represent the normal vectors a_i of the half spaces, ie A = (a_1,  . , a_m)^t If nothing is passed, it will default to (I_2, -I_2)^t, where I_d is the d-dimensional unit matrix b: array_like of shape (m, ), optional vector to represent the  . b_i of the half spaces, ie b = (b_1,  . , b_m)^t If nothing is passed, it will default to (0.05, .,0.05) Raises a NeighbourhoodException if mat and b are not of matching shape Warning    - Does not check wether the polytope given by mat and b is a polytope, ie if P is actually bounded"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.neighbourhood.Polytope.is_contained_in",
-"url":13,
-"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.datahandler",
-"url":14,
-"doc":""
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.datahandler.HandlerInitializationException",
-"url":14,
-"doc":"Exception raised if an error occurs during initialization of a DataHandler"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.datahandler.HandleException",
-"url":14,
-"doc":"Exception raised if an error occurs during calling of the .handle() method"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.datahandler.DataHandler",
-"url":14,
-"doc":"Base class for all datahandler classes Abstract Methods         handle(self, data)"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.datahandler.DataHandler.handle",
 "url":14,
 "doc":"",
 "func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.datahandler.ArrayHandler",
-"url":14,
-"doc":"A data handler to handle data, given as an array_like sequence. Doesn't really do anything since error handling and array conversion is handeled by the pipeline itself Only needed for general layout of the pipeline"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.datahandler.ArrayHandler.handle",
-"url":14,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.datahandler.CsvFileHandler",
-"url":14,
-"doc":"A data handler to extract data from a .csv file with the first three columns representing wind speed, wind angle, and boat speed respectively"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.datahandler.CsvFileHandler.handle",
-"url":14,
-"doc":"Reads a .csv file and extracts the contained data points The delimiter used in the .csv file Parameters      data : path-like Path to a .csv file pandas_kw : Returns    - out : pandas.Dataframe Raises a HandlerException",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.datahandler.NMEAFileHandler",
-"url":14,
-"doc":"A data handler to extract data from a text file containing certain nmea sentences Parameters     - mode : string, optional In the case where there is more recorded wind data than speed data, specifies how to handle the surplus - \"interpolate\": handles the surplus by taking convex combinations of two recorded speed datas together with the recorded wind data \"between\" those two points to create multiple data points - \"mean\": handles the surplus by taking the mean of the wind data \"belonging\" to a given speed data to create a singe data point Defaults to \"interpolate\" Raises a HandlerInitializationException if mode is not one of the above choices"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.datahandler.NMEAFileHandler.handle",
-"url":14,
-"doc":"Reads a text file containing nmea-sentences and extracts data points based on recorded wind speed, wind angle, and speed over water Function looks for sentences of type: - MWV for wind data - VHW for speed trough water Parameters      data : path-like Path to a text file, containing nmea-0183 sentences Returns    - out : list of lists of length 3 Raises a HandleException - if  data doesn't contain relevant nmea senteces - if nmea senteces are not sorted",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.sampler",
-"url":15,
-"doc":"Contains the baseclass for Samplers used in the PointcloudExtension class, that can also be used to create custom Samplers. Also contains various predefined and usable samplers."
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.sampler.SamplerInitializationException",
-"url":15,
-"doc":"Exception raised if an error occurs during initialization of a Sampler"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.sampler.Sampler",
-"url":15,
-"doc":"Base class for all sampler classes Abstract Methods         sample(self, pts)"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.sampler.Sampler.sample",
-"url":15,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.sampler.UniformRandomSampler",
-"url":15,
-"doc":"A sampler that produces a number of uniformly distributed samples, which all lie in the convex hull of certain given points Parameters      n_samples : positive int Amount of samples that will be produced by the sampler Raises SamplerInitializationException if n_samples is nonpositive"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.sampler.UniformRandomSampler.sample",
-"url":15,
-"doc":"Produces samples according to the above described procedure Parameters      pts : array_like of shape (n, 2) Points in whose convex hull the produced samples will lie Returns    - samples : numpy.ndarray of shape (n_samples, 2) samples produced by the above described method",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.sampler.FibonacciSampler",
-"url":15,
-"doc":"A sampler that produces sample points on a moved and scaled version of the spiral (sqrt(x) cos(x), sqrt(x) sin(x , such that the angles are distributed equidistantly by the inverse golden ratio. The sample points all lie in the smallest enclosing circle of given data points. Inspired by \u00c1lvaro Gonzz\u00e1lez - \"Measurement of areas on a sphere using Fibonacci and latitude\u2013longitude lattices\" Parameters      n_samples : positive int Amount of samples that will be produced by the sampler Raises SamplerInitializationException if n_samples is nonpositive"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.sampler.FibonacciSampler.sample",
-"url":15,
-"doc":"Produces samples according to the above described procedure Parameters      pts : array_like of shape (n, 2) Points in whose convex hull the produced samples will lie Returns    - samples : numpy.ndarray of shape (n_samples, 2) samples produced by the above described method",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.sampler.ArchimedianSampler",
-"url":15,
-"doc":"A sampler that produces a number of approximately equidistant sample points on a moved and scaled version of the archimedean spiral (x cos(x), x sin(x . The sample points all lie in the smallest enclosing circle of given data points. Inspired by https: agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2007GC001581 Parameters      n_samples : positive int Amount of samples that will be produced by the sampler Raises SamplerInitializationException if n_samples is nonpositive"
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.sampler.ArchimedianSampler.sample",
-"url":15,
-"doc":"Produces samples according to the above described procedure Parameters      pts : array_like of shape (n, 2) Points in whose convex hull the produced samples will lie Returns    - samples : numpy.ndarray of shape (n_samples, 2) samples produced by the above described method",
-"func":1
-},
-{
-"ref":"hrosailing.processing.pipelinecomponents.sampler.make_circle",
-"url":15,
-"doc":"dummy"
 }
 ]

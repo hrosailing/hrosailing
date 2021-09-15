@@ -33,31 +33,31 @@
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="hrosailing.cruising.convex_direction"><code class="name flex">
-<span>def <span class="ident">convex_direction</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, ws, direction, im: Union[<a title="hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel" href="../processing/pipelinecomponents/influencemodel.html#hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>, NoneType] = None)</span>
+<span>def <span class="ident">convex_direction</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, ws, direction, im: Union[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>, NoneType] = None, influence_data: Union[dict, NoneType] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 <dt id="hrosailing.cruising.cost_cruise"><code class="name flex">
-<span>def <span class="ident">cost_cruise</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, start, end, cost_func=None, nodes=None, quadrature=None, wm: <a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a> = None, im: Union[<a title="hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel" href="../processing/pipelinecomponents/influencemodel.html#hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>, NoneType] = None)</span>
+<span>def <span class="ident">cost_cruise</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, start, end, cost_func=None, nodes=None, quadrature=None, wm: <a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a> = None, im: Union[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>, NoneType] = None, influence_data: Union[dict, NoneType] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 <dt id="hrosailing.cruising.cruise"><code class="name flex">
-<span>def <span class="ident">cruise</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, ws, wa, start, end, im: Union[<a title="hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel" href="../processing/pipelinecomponents/influencemodel.html#hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>, NoneType] = None)</span>
+<span>def <span class="ident">cruise</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, ws, wdir, start, end, im: Union[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>, NoneType] = None, influence_data: Union[dict, NoneType] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 <dt id="hrosailing.cruising.isocost"><code class="name flex">
-<span>def <span class="ident">isocost</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, start, direction, cost_func=None, total_cost=None, min_nodes=None, quadrature=None, wm: <a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a> = None, im: Union[<a title="hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel" href="../processing/pipelinecomponents/influencemodel.html#hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>, NoneType] = None)</span>
+<span>def <span class="ident">isocost</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, start, direction, cost_func=None, total_cost=None, min_nodes=None, quadrature=None, wm: <a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a> = None, im: Union[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>, NoneType] = None, influence_data: Union[dict, NoneType] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 <dt id="hrosailing.cruising.isocrone"><code class="name flex">
-<span>def <span class="ident">isocrone</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, start, direction, total_cost=None, min_nodes=None, wm: <a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a> = None, im: Union[<a title="hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel" href="../processing/pipelinecomponents/influencemodel.html#hrosailing.processing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>, NoneType] = None)</span>
+<span>def <span class="ident">isocrone</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, start, direction, total_cost=None, min_nodes=None, wm: <a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a> = None, im: Union[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>, NoneType] = None, influence_data: Union[dict, NoneType] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -67,11 +67,55 @@
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="hrosailing.cruising.WeatherModel"><code class="flex name class">
-<span>class <span class="ident">WeatherModel</span></span>
+<dt id="hrosailing.cruising.Direction"><code class="flex name class">
+<span>class <span class="ident">Direction</span></span>
+<span>(</span><span>angle: float, proportion: float, sail: Union[str, NoneType] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Direction(angle: float, proportion: float, sail: Union[str, NoneType] = None)</p></div>
+<h3>Class variables</h3>
+<dl>
+<dt id="hrosailing.cruising.Direction.angle"><code class="name">var <span class="ident">angle</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hrosailing.cruising.Direction.proportion"><code class="name">var <span class="ident">proportion</span> : float</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hrosailing.cruising.Direction.sail"><code class="name">var <span class="ident">sail</span> : Union[str, NoneType]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="hrosailing.cruising.WeatherException"><code class="flex name class">
+<span>class <span class="ident">WeatherException</span></span>
+<span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="hrosailing.cruising.WeatherModel"><code class="flex name class">
+<span>class <span class="ident">WeatherModel</span></span>
+<span>(</span><span>data, times, lats, lons, attrs)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<h3>Methods</h3>
+<dl>
+<dt id="hrosailing.cruising.WeatherModel.get_weather"><code class="name flex">
+<span>def <span class="ident">get_weather</span></span>(<span>self, time, lat, lon)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
 </dd>
 </dl>
 </section>
@@ -150,7 +194,21 @@ setTimeout(() => input.focus(), 100);
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
+<h4><code><a title="hrosailing.cruising.Direction" href="#hrosailing.cruising.Direction">Direction</a></code></h4>
+<ul class="">
+<li><code><a title="hrosailing.cruising.Direction.angle" href="#hrosailing.cruising.Direction.angle">angle</a></code></li>
+<li><code><a title="hrosailing.cruising.Direction.proportion" href="#hrosailing.cruising.Direction.proportion">proportion</a></code></li>
+<li><code><a title="hrosailing.cruising.Direction.sail" href="#hrosailing.cruising.Direction.sail">sail</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hrosailing.cruising.WeatherException" href="#hrosailing.cruising.WeatherException">WeatherException</a></code></h4>
+</li>
+<li>
 <h4><code><a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a></code></h4>
+<ul class="">
+<li><code><a title="hrosailing.cruising.WeatherModel.get_weather" href="#hrosailing.cruising.WeatherModel.get_weather">get_weather</a></code></li>
+</ul>
 </li>
 </ul>
 </li>
