@@ -34,7 +34,7 @@ class DataHandler(ABC):
     """
 
     @abstractmethod
-    def handle(self, data):
+    def handle(self, data) -> dict:
         pass
 
 
@@ -48,7 +48,7 @@ class ArrayHandler(DataHandler):
     Only needed for general layout of the pipeline
     """
 
-    def handle(self, data):
+    def handle(self, data) -> dict:
         return data
 
 
@@ -58,8 +58,10 @@ class CsvFileHandler(DataHandler):
     and boat speed respectively
     """
 
-    @staticmethod
-    def handle(data, **pandas_kw):
+    def __init__(self, **pandas_kw):
+        self._pd_kw = pandas_kw
+
+    def handle(self, data) -> dict:
         """Reads a .csv file and extracts the contained data points
         The delimiter used in the .csv file
 
@@ -68,18 +70,13 @@ class CsvFileHandler(DataHandler):
         data : path-like
             Path to a .csv file
 
-        pandas_kw :
-
         Returns
         -------
-        out : pandas.Dataframe
-
         """
         from pandas import read_csv
 
-        df = read_csv(data, **pandas_kw)
-
-        return df
+        df = read_csv(data, **self._pd_kw)
+        return df.to_dict()
 
 
 class NMEAFileHandler(DataHandler):
@@ -129,7 +126,7 @@ class NMEAFileHandler(DataHandler):
         self._attr_filter = attributes
         self.mode = mode
 
-    def handle(self, data):
+    def handle(self, data) -> dict:
         """Reads a text file containing nmea-sentences and extracts
         data points
 
