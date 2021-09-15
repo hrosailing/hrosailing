@@ -38,7 +38,9 @@ class PolarDiagramException(Exception):
 
 
 class FileReadingException(Exception):
-    """"""
+    """Exception raised if non-oserror error occurs,
+     when reading a file
+     """
 
 
 def to_csv(csv_path, obj):
