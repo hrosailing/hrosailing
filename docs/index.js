@@ -19,7 +19,7 @@ INDEX=[
 {
 "ref":"hrosailing",
 "url":0,
-"doc":"The Python package hrosailing provides classes and functions   polar diagrams   sailing   from data  . pipeline  . machine learning  . modular   Getting Started        - References      "
+"doc":"The Python package hrosailing provides classes and functions   polar diagrams   sailing   from data  . pipeline  . machine learning  . modular   Installation       hrosailing can be installed using  pip install hrosailing . It requires Python  . to run. Getting Started        - References      Compatability       - Contributing       License    - Authors    - Valentin Dannenberg (valentin.dannenberg2@uni-rostock.de) Robert Schueler (robert.schueler2@uni-rostock.de)"
 },
 {
 "ref":"hrosailing.polardiagram",
@@ -549,7 +549,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipeline",
 "url":2,
-"doc":"A Pipeline class to automate getting a polar diagram from \"raw\" data"
+"doc":""
 },
 {
 "ref":"hrosailing.pipeline.PipelineException",
