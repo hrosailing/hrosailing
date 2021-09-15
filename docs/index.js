@@ -24,7 +24,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram",
 "url":1,
-"doc":"Classes to represent polar diagrams in various different forms as well as small functions to save / load PolarDiagram-objects to files in different forms and functions to manipulate PolarDiagram-objects"
+"doc":"PolarDiagram classes to work with and represent PPDs in various forms"
 },
 {
 "ref":"hrosailing.polardiagram.PolarDiagramException",
@@ -549,7 +549,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipeline",
 "url":2,
-"doc":""
+"doc":"Pipeline to create PPDs from raw data"
 },
 {
 "ref":"hrosailing.pipeline.PipelineException",
@@ -613,7 +613,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents",
 "url":3,
-"doc":""
+"doc":"Components for the PolarPipeline and PipelineExtension classes among other things."
 },
 {
 "ref":"hrosailing.pipelinecomponents.modelfunctions",
@@ -1234,7 +1234,7 @@ INDEX=[
 {
 "ref":"hrosailing.cruising",
 "url":14,
-"doc":""
+"doc":"Functions for navigation and weather routing using PPDs"
 },
 {
 "ref":"hrosailing.cruising.Direction",
