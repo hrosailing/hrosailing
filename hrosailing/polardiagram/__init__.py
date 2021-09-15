@@ -34,7 +34,8 @@ logger = logging.getLogger(__name__)
 
 
 class PolarDiagramException(Exception):
-    """"""
+    """Exception raised if some nonstandard error occurs,
+    while doing something with polar diagrams"""
 
 
 class FileReadingException(Exception):
