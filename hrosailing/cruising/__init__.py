@@ -17,7 +17,8 @@ from hrosailing.pipelinecomponents import InfluenceModel
 
 @dataclasses.dataclass
 class Direction:
-    """Dataclass to """
+    """Dataclass to"""
+
     angle: float
     proportion: float
     sail: Optional[str] = None
@@ -48,9 +49,7 @@ def convex_direction(
 
     bsp = bsp.ravel()
 
-    polar_pts = np.column_stack(
-        (bsp * np.cos(wa).ravel(), bsp * np.sin(wa).ravel())
-    )
+    polar_pts = np.column_stack((bsp * np.cos(wa).ravel(), bsp * np.sin(wa).ravel()))
     conv = ConvexHull(polar_pts)
     vert = sorted(conv.vertices)
 
@@ -107,9 +106,7 @@ def cruise(
     rhc = _right_handing_course(start, end)
     wdir = _wind_relative_to_north(wdir)
 
-    heading = np.arccos(
-        np.cos(rhc) * np.cos(wdir) + np.sin(rhc) * np.sin(wdir)
-    )
+    heading = np.arccos(np.cos(rhc) * np.cos(wdir) + np.sin(rhc) * np.sin(wdir))
     heading = 180 - np.rad2deg(heading)
     d1, *d2 = convex_direction(pd, ws, heading)
 
@@ -133,6 +130,7 @@ class WeatherException(Exception):
 
 class WeatherModel:
     """"""
+
     def __init__(self, data, times, lats, lons, attrs):
         self._times = times
         self._lats = lats
@@ -171,14 +169,128 @@ def cost_cruise(
     pd: pol.PolarDiagram,
     start,
     end,
-    cost_func=None,
-    nodes=None,
-    quadrature=None,
+    start_time,
+    cost_fun_dens=None,
+    cost_fun_abs=lambda total_t, total_s: total_t,
+    integration_method=trapezoid,
     wm: WeatherModel = None,
     im: Optional[InfluenceModel] = None,
+    **kwargs,
 ):
-    """"""
-    pass
+    """
+    This method computes the total cost for traveling
+    from a start position to an end position for a given cost density function
+    cost and absolute function abs_cost.
+    The costs also depend on the weather forecast data,
+    organized by a WeatherModel
+
+    To be precise, it calculates
+
+    int_0^l cost(s, t(s)) ds + abs_cost(t(l), l),
+
+    where s is the distance travelled,
+    l is the total distance from start to end
+    and t(s) is the time travelled
+    t(s) is the solution of the ivp t(0) = 0, dt/ds = 1/bsp(s,t)
+    Distances are computed using the mercator projection
+
+    Parameter
+    ----------
+
+    :param pd:
+        polar diagram of the vessel
+    :param start:
+        coordinates of the starting point
+    :param end:
+        coordinates of the end point
+    :param start_time:
+        the time at which the traveling starts
+    :param cost_fun_dens:
+        function giving a cost density for given time t, lattitude lat,
+        longitude long and WeatherModel wm
+        cost_fun_dens(t,lat,long,wm) corresponds to costs(s,t) above
+        default: None
+    :param cost_fun_abs:
+        corresponds to abs_costs above
+        default: lambda total_t, total_s: total_t
+    :param integration_method:
+        function that takes samples y, x and computes an approximative integral
+        is only used if cost_fun_dens is not None
+        default: scipy.integrate.trapezoid
+    :param wm:
+        The WeatherModel used
+    :param im:
+        The InfluenceModel used to consider additional influences
+        on the boat speed
+    :param kwargs:
+        keyword arguments which will be redirected to scipy.integrate.solve_ivp
+        in order to solve the initial value problem described above
+    :return:
+    """
+
+    # TODO: default value handling for wm and im
+
+    lat_mp = (start[0] + end[0]) / 2
+    proj_start = _mercator_proj(start, lat_mp)
+    proj_end = _mercator_proj(end, lat_mp)
+    total_s = np.linalg.norm(proj_end - proj_start)
+
+    # define derivative of t by s
+    def dt_ds(s, t):
+        pos = proj_start + s / total_s * (proj_end - proj_start)
+        lat, long = _inverse_mercator_proj(pos, lat_mp)
+        time = start_time + timedelta(hours=t[0])
+        try:
+            weather = wm.get_weather(time, lat, long)
+        except:
+            return 0
+        bsp = im.add_influence(pd, weather)
+        if bsp != 0:
+            return 1 / bsp
+        else:
+            return 0
+
+    t_s = solve_ivp(
+        fun=dt_ds,
+        t_span=(0, np.linalg.norm(proj_start - proj_end)),
+        y0=np.zeros(1),
+        **kwargs,
+    )
+
+    # calculate absolute cost and return it if sufficient
+
+    total_t = t_s.y[0][-1]  # last entry of IVP solution
+    absolute_cost = cost_fun_abs(total_t, total_s)
+
+    if not cost_fun_dens:
+        return absolute_cost
+
+    # calculate the integral described in the doc string
+
+    pos_list = [proj_start + s / total_s * (proj_end - proj_start) for s in t_s.t]
+    lat_long_list = [_inverse_mercator_proj(pos, lat_mp) for pos in pos_list]
+    t_list = [start_time + timedelta(hours=t) for t in t_s.y[0]]
+
+    costs = [
+        cost_fun_dens(t, lat, long, wm) for t, (lat, long) in zip(t_list, lat_long_list)
+    ]
+
+    return absolute_cost + integration_method(costs, t_s.t)
+
+
+def _inverse_mercator_proj(pt, lat_mp):
+    # computes lattitude and longitude of a projected point
+    # where the projection midpoint has lattitude lat_mp
+    x, y = pt / 69
+    return x + lat_mp, 180 / np.pi * np.arcsin(np.tanh(y))
+
+
+def _mercator_proj(pt, lat_mp):
+    # projects a point given as lattitude and longitude tupel using mercator
+    # projection where the projection midponit has lattitude lat_mp
+    lat, long = pt
+    # 69 nautical miles between two lattitudes
+    return 69 * np.array([(lat - lat_mp), np.arcsinh(np.tan(np.pi * long / 180))])
 
 
 # def isocrone(
@@ -247,9 +359,6 @@ def _great_earth_elipsoid_distance(a, b):
     dist = d * (
         1
         + EARTH_FLATTENING
-        * (
-            h_1 * (np.sin(f) * np.cos(g)) ** 2
-            - h_2 * (np.cos(f) * np.sin(g)) ** 2
-        )
+        * (h_1 * (np.sin(f) * np.cos(g)) ** 2 - h_2 * (np.cos(f) * np.sin(g)) ** 2)
     )
     return dist
