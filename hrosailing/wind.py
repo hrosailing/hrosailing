@@ -2,7 +2,7 @@
 Functions to convert wind from apparent to true and vice versa
 """
 
-# Author: Valentin F. Dannenberg / Ente
+# Author: Valentin Dannenberg
 
 
 from collections.abc import Iterable

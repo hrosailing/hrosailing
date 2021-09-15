@@ -7,7 +7,7 @@ and the CylindricMemberWeigher, aswell as the WeightedPoints class, used to
 represent data points together with their respective weights
 """
 
-# Author: Valentin F. Dannenberg / Ente
+# Author: Valentin Dannenberg
 
 
 from abc import ABC, abstractmethod

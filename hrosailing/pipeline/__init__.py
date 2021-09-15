@@ -1,9 +1,7 @@
 """
-A Pipeline class to automate getting a
-polar diagram from "raw" data
 """
 
-# Author: Valentin F. Dannenberg / Ente
+# Author: Valentin Dannenberg
 
 
 import logging.handlers
@@ -102,6 +100,15 @@ class PolarPipeline:
 
         if self.im is not None:
             data = self.im.remove_influence(data)
+        else:
+            ws = data.get("Wind speed")
+            wa = data.get("Wind angle")
+            bsp = (
+                data.get("Speed over ground knots")
+                or data.get("Speed over water knots")
+                or data.get("Boat speed")
+            )
+            data = np.vstack((ws, wa, bsp))
 
         # NaN and infinite values can't normally be handled
         if check_finite:

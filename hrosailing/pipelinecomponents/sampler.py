@@ -5,7 +5,7 @@ that can also be used to create custom Samplers.
 Also contains various predefined and usable samplers.
 """
 
-# Author: Valentin F. Dannenberg / Ente, Robert Schüler
+# Author: Valentin Dannenberg & Robert Schüler
 
 
 from abc import ABC, abstractmethod

@@ -6,7 +6,7 @@ Also contains two predefinied and usable filters, the QuantileFilter
 and the BoundFilter.
 """
 
-# Author: Valentin F. Dannenberg / Ente
+# Author: Valentin Dannenberg
 
 
 import logging.handlers

@@ -2,7 +2,7 @@
 
 """
 
-# Author: Valentin F. Dannenberg / Ente
+# Author: Valentin Dannenberg
 
 from abc import ABC, abstractmethod
 

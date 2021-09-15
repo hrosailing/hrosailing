@@ -6,7 +6,7 @@ Also contains two predefined and usable regressors, the ODRegressor
 and the LeastSquareRegressor.
 """
 
-# Author: Valentin F. Dannenberg / Ente
+# Author: Valentin Dannenberg
 
 
 from abc import ABC, abstractmethod

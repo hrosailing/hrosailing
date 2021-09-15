@@ -2,7 +2,7 @@
 
 """
 
-# Author: Valentin F. Dannenberg / Ente
+# Author: Valentin Dannenberg & Robert Schueler
 
 from bisect import bisect_left
 import dataclasses
@@ -12,7 +12,7 @@ import numpy as np
 from scipy.spatial import ConvexHull
 
 import hrosailing.polardiagram as pol
-from hrosailing.processing.pipelinecomponents import InfluenceModel
+from hrosailing.pipelinecomponents import InfluenceModel
 
 
 @dataclasses.dataclass
@@ -34,13 +34,18 @@ class Direction:
 
 
 def convex_direction(
-    pd: pol.PolarDiagram, ws, direction, im: Optional[InfluenceModel] = None
+    pd: pol.PolarDiagram,
+    ws,
+    direction,
+    im: Optional[InfluenceModel] = None,
+    influence_data: Optional[dict] = None,
 ):
     """"""
     _, wa, bsp, *sails = pd.get_slices(ws)
-    bsp = bsp.ravel()
     if im:
-        bsp = im.add_influence(bsp)
+        bsp = im.add_influence(pd, influence_data)
+
+    bsp = bsp.ravel()
 
     polar_pts = np.column_stack(
         (bsp * np.cos(wa).ravel(), bsp * np.sin(wa).ravel())
@@ -85,27 +90,35 @@ def convex_direction(
 def cruise(
     pd: pol.PolarDiagram,
     ws,
-    wa,
+    wdir,
     start,
     end,
     im: Optional[InfluenceModel] = None,
+    influence_data: Optional[dict] = None,
 ):
     """"""
-    _, slice_wa, bsp, *_ = pd.get_slices(ws)
+    _, wa, bsp, *_ = pd.get_slices(ws)
 
     if im:
-        bsp = im.add_influence(bsp)
+        bsp = im.add_influence(pd, influence_data)
+    bsp = bsp.ravel()
 
-    direction = _right_handing_course(start, end)
+    rhc = _right_handing_course(start, end)
+    wdir = _wind_relative_to_north(wdir)
+
+    heading = np.arccos(
+        np.cos(rhc) * np.cos(wdir) + np.sin(rhc) * np.sin(wdir)
+    )
+    heading = 180 - np.rad2deg(heading)
+    d1, *d2 = convex_direction(pd, ws, heading)
+
     dist = _great_earth_elipsoid_distance(start, end)
 
-    d1, *d2 = convex_direction(pd, ws, direction)
-
-    bsp1 = bsp[np.where(slice_wa == d1.angle)[0][0]]
-    if d1.proportion == 1:
+    bsp1 = bsp[np.where(wa == d1.angle)[0][0]]
+    if not d2:
         return [(d1.angle, dist / bsp1)]
 
-    bsp2 = bsp[np.where(slice_wa == d2.angle)[0][0]]
+    bsp2 = bsp[np.where(wa == d2.angle)[0][0]]
 
     t = dist / (d1.proportion * bsp1 + d2.proportion * bsp2)
     t1, t2 = d1.proportion * t, d2.proportion * t
@@ -152,7 +165,7 @@ class WeatherModel:
         return {attr: val for attr, val in zip(self._attrs, mean)}
 
 
-def sail_cost(
+def cost_cruise(
     pd: pol.PolarDiagram,
     start,
     end,
@@ -161,6 +174,7 @@ def sail_cost(
     quadrature=None,
     wm: WeatherModel = None,
     im: Optional[InfluenceModel] = None,
+    influence_data: Optional[dict] = None,
 ):
     """"""
     pass
@@ -174,6 +188,7 @@ def isocrone(
     min_nodes=None,
     wm: WeatherModel = None,
     im: Optional[InfluenceModel] = None,
+    influence_data: Optional[dict] = None,
 ):
     """"""
     pass
@@ -189,6 +204,7 @@ def isocost(
     quadrature=None,
     wm: WeatherModel = None,
     im: Optional[InfluenceModel] = None,
+    influence_data: Optional[dict] = None,
 ):
     """"""
     pass
@@ -203,6 +219,10 @@ def _right_handing_course(a, b):
     ) * np.cos(b[1])
 
     return np.arccos(numerator / np.sqrt(1 - denominator ** 2))
+
+
+def _wind_relative_to_north(wdir):
+    return wdir
 
 
 EARTH_FLATTENING = 1 / 298.257223563

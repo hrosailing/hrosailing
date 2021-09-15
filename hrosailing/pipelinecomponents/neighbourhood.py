@@ -6,7 +6,7 @@ Neighbourhoods.
 Also contains various predefined and usable neighbourhoods
 """
 
-# Author: Valentin F. Dannenberg / Ente
+# Author: Valentin Dannenberg
 
 
 from abc import ABC, abstractmethod

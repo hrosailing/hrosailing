@@ -2,7 +2,7 @@
 Contains various helper functions to plot polar diagrams in a number of ways
 """
 
-# Author: Valentin F. Dannenberg / Ente
+# Author: Valentin Dannenberg
 
 import numpy as np
 import matplotlib.pyplot as plt

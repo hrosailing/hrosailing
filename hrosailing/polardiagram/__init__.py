@@ -4,7 +4,7 @@ as well as small functions to save / load PolarDiagram-objects to files
 in different forms and functions to manipulate PolarDiagram-objects
 """
 
-# Author: Valentin F. Dannenberg / Ente
+# Author: Valentin Dannenberg
 
 
 from abc import ABC, abstractmethod
