@@ -1239,7 +1239,7 @@ INDEX=[
 {
 "ref":"hrosailing.cruising.Direction",
 "url":14,
-"doc":"Direction(angle: float, proportion: float, sail: Union[str, NoneType] = None)"
+"doc":"Dataclass to"
 },
 {
 "ref":"hrosailing.cruising.Direction.angle",
@@ -1286,12 +1286,6 @@ INDEX=[
 },
 {
 "ref":"hrosailing.cruising.cost_cruise",
-"url":14,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.cruising.isocrone",
 "url":14,
 "doc":"",
 "func":1
