@@ -202,32 +202,43 @@ def cost_cruise(
 
     pd: PolarDiagram
         polar diagram of the vessel
+
     start: tuple of two floats
         coordinates of the starting point
+
     end: tuple of two floats
         coordinates of the end point
+
     start_time: datetime.datetime
         the time at which the traveling starts
-    cost_fun_dens: datetime.datetime, float, float, WeatherModel -> float
-        function giving a cost density for given time t, lattitude lat,
-        longitude long and WeatherModel wm
-        cost_fun_dens(t,lat,long,wm) corresponds to costs(s,t) above
-        default: None
-    cost_fun_abs: float, float -> float
-        corresponds to abs_costs above
-        default: lambda total_t, total_s: total_t
-    integration_method: (n,) array, (n,) array -> float
-        function that takes samples y, x and computes an approximative integral
-        is only used if cost_fun_dens is not None
+
+    cost_fun_dens: callable, optional
+        function giving a cost density for given time as datetime.datetime,
+        lattitude as float, longitude as float and WeatherModel
+        cost_fun_dens(t,lat,long,wm) corresponds to costs(s,t) above.
+        Defaults to None.
+
+    cost_fun_abs: callable, optional
+        corresponds to abs_costs above.
+        Defaults to lambda total_t, total_s: total_t
+
+    integration_method: callable, optional
+        function that takes two (n,) arrays y, x and computes
+        an approximative integral from that.
+        Is only used if cost_fun_dens is not None
         default: scipy.integrate.trapezoid
-    wm: WeatherModel
+
+    wm: WeatherModel, optional
         The WeatherModel used
-    im: InfluenceModel
+
+    im: InfluenceModel, optional
         The InfluenceModel used to consider additional influences
         on the boat speed
+
     kwargs:
         keyword arguments which will be redirected to scipy.integrate.solve_ivp
         in order to solve the initial value problem described above
+
     Returns
     -------
     out : float
