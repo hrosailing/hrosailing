@@ -6,12 +6,12 @@ Functions for navigation and weather routing using PPDs
 
 from bisect import bisect_left
 import dataclasses
+from datetime import timedelta
 from typing import Optional
 
 import numpy as np
-from scipy.spatial import ConvexHull
 from scipy.integrate import solve_ivp, trapezoid
-from datetime import timedelta
+from scipy.spatial import ConvexHull
 
 import hrosailing.polardiagram as pol
 from hrosailing.pipelinecomponents import InfluenceModel
