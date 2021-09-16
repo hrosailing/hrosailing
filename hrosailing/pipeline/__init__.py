@@ -36,15 +36,13 @@ logger = logging.getLogger(__name__)
 class PipelineException(Exception):
     """"""
 
-    pass
-
 
 class PipelineExtension(ABC):
     """"""
 
     @abstractmethod
     def process(self, w_pts: pc.WeightedPoints):
-        pass
+        """"""
 
 
 class PolarPipeline:
