@@ -1452,7 +1452,8 @@ class PolarDiagramMultiSails(PolarDiagram):
             sails = [f"Sail {i}" for i in range(len(pds))]
         elif len(sails) != len(pds):
             raise PolarDiagramInitializationException(
-                "Number of sails is not equal to number of given polar diagrams"
+                "Number of sails is not equal to number of "
+                "given polar diagrams"
             )
 
         self._sails = list(sails)
@@ -1857,7 +1858,8 @@ class PolarDiagramCurve(PolarDiagram):
         sig = inspect.getfullargspec(f)
         if len(sig.args) < 2:
             raise PolarDiagramInitializationException(
-                "`f` might not have the correct signature of f(ws, wa, *params) -> bsp"
+                "`f` might not have the correct signature of "
+                "f(ws, wa, *params) -> bsp"
             )
 
         if ((sig.varargs or sig.varkw) and not params) or len(
