@@ -36,7 +36,14 @@ logger = logging.getLogger(__name__)
 
 class PolarDiagramException(Exception):
     """Exception raised if some nonstandard error occurs,
-    while doing something with polar diagrams"""
+    while doing something with polar diagrams
+    """
+
+
+class PolarDiagramInitializationException(Exception):
+    """Exception raised if an error occurs during
+    initialization of a PolarDiagram
+    """
 
 
 class FileReadingException(Exception):
@@ -570,10 +577,10 @@ class PolarDiagramTable(PolarDiagram):
 
         # Non array_like `bsps` are not allowed
         if bsps.dtype is object:
-            raise PolarDiagramException("`bsps` is not array_like")
+            raise PolarDiagramInitializationException("`bsps` is not array_like")
 
         if bsps.shape != (rows, cols) or bsps.ndim != 2:
-            raise PolarDiagramException("`bsps` has incorrect shape")
+            raise PolarDiagramInitializationException("`bsps` has incorrect shape")
 
         # Sort wind angles and the corresponding order of rows in bsps
         wa_res, bsps = zip(*sorted(zip(wa_res, bsps), key=lambda x: x[0]))
@@ -1433,12 +1440,14 @@ class PolarDiagramMultiSails(PolarDiagram):
         ws = pds[0].wind_speeds
         for pd in pds:
             if not np.array_equal(ws, pd.wind_speeds):
-                raise PolarDiagramException(
+                raise PolarDiagramInitializationException(
                     "wind speed resolution of `pds` does not coincide"
                 )
 
         if sails is None:
             sails = [f"Sail {i}" for i in range(len(pds))]
+        elif len(sails) != len(pds):
+            raise PolarDiagramInitializationException("Number of sails is not equal to number of given polar diagrams")
 
         self._sails = list(sails)
         self._tables = list(pds)
@@ -1832,7 +1841,7 @@ class PolarDiagramCurve(PolarDiagram):
 
     def __init__(self, f, *params, radians=False):
         if not callable(f):
-            raise PolarDiagramException("`f` is not callable")
+            raise PolarDiagramInitializationException("`f` is not callable")
 
         logger.info(
             f"Class 'PolarDiagramCurve(f={f.__name__}, {params}, "
@@ -1841,10 +1850,10 @@ class PolarDiagramCurve(PolarDiagram):
 
         sig = inspect.getfullargspec(f)
         if len(sig.args) < 2:
-            raise PolarDiagramException("`f` might not have the correct signature of f(ws, wa, *params) -> bsp")
+            raise PolarDiagramInitializationException("`f` might not have the correct signature of f(ws, wa, *params) -> bsp")
 
         if ((sig.varargs or sig.varkw) and not params) or len(sig.args) - 2 != len(params):
-            raise PolarDiagramException("`params` is an incorrect amount of parameters for `f`")
+            raise PolarDiagramInitializationException("`params` is an incorrect amount of parameters for `f`")
 
         self._f = f
         self._params = params
