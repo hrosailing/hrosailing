@@ -6,6 +6,7 @@ PolarDiagram classes to work with and represent PPDs in various forms
 
 
 from abc import ABC, abstractmethod
+from ast import literal_eval
 import csv
 import inspect
 import itertools
@@ -120,18 +121,18 @@ def from_csv(csv_path, fmt="hro", tw=True):
 
 def _read_table(csv_reader):
     next(csv_reader)
-    ws_res = [eval(ws) for ws in next(csv_reader)]
+    ws_res = [literal_eval(ws) for ws in next(csv_reader)]
     next(csv_reader)
-    wa_res = [eval(wa) for wa in next(csv_reader)]
+    wa_res = [literal_eval(wa) for wa in next(csv_reader)]
     next(csv_reader)
-    bsps = [[eval(bsp) for bsp in row] for row in csv_reader]
+    bsps = [[literal_eval(bsp) for bsp in row] for row in csv_reader]
 
     return ws_res, wa_res, bsps
 
 
 def _read_pointcloud(csv_reader):
     next(csv_reader)
-    return np.array([[eval(pt) for pt in row] for row in csv_reader])
+    return np.array([[literal_eval(pt) for pt in row] for row in csv_reader])
 
 
 def _read_extern_format(file, fmt):
@@ -147,7 +148,7 @@ def _read_extern_format(file, fmt):
 
 def _read_sail_csv(file, delimiter):
     csv_reader = csv.reader(file, delimiter=delimiter)
-    ws_res = [eval(ws) for ws in next(csv_reader)[1:]]
+    ws_res = [literal_eval(ws) for ws in next(csv_reader)[1:]]
     if delimiter == ";":
         next(csv_reader)
     wa_res, bsps = list(
@@ -156,8 +157,8 @@ def _read_sail_csv(file, delimiter):
                 [
                     (
                         # delete °-symbol in case of opencpn format
-                        eval(row[0].replace("°", "")),
-                        [eval(bsp) if bsp != "" else 0 for bsp in row[1:]],
+                        literal_eval(row[0].replace("°", "")),
+                        [literal_eval(s) if s != "" else 0 for s in row[1:]],
                     )
                     for row in csv_reader
                 ]

@@ -5,6 +5,7 @@
 # Author: Valentin Dannenberg
 
 from abc import ABC, abstractmethod
+from ast import literal_eval
 from decimal import Decimal
 
 import numpy as np
@@ -163,7 +164,7 @@ class NMEAFileHandler(DataHandler):
                     len_ = len(data_dict[name])
                     if len_ == ndata:
                         data_dict[name].append(
-                            eval(val)
+                            literal_eval(val)
                             if len(field) == 3
                             and field[2] in {int, float, Decimal}
                             else val
@@ -173,7 +174,7 @@ class NMEAFileHandler(DataHandler):
                         data_dict[name].extend(
                             [None] * (ndata - len_ - 1)
                             + [
-                                eval(val)
+                                literal_eval(val)
                                 if len(field) == 3
                                 and field[2] in {int, float, Decimal}
                                 else val
