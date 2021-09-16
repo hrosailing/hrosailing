@@ -15,6 +15,7 @@ You can see the documentation here [Documentation](https://vfdannenberg.github.i
 
 <!-- [![Python version](..) -->
 <!-- [![Build Status](..) -->
+[![CodeFactor](https://www.codefactor.io/repository/github/vfdannenberg/hrosailing/badge)](https://www.codefactor.io/repository/github/vfdannenberg/hrosailing)
 <!-- [![Coverage Status](..) -->
 
 ### Installation
