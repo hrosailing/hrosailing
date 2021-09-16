@@ -1,0 +1,32 @@
+name: pr-autoblack
+on: [pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      
+      - name: install black
+        run: pip install black
+      
+      - name: run black --check .
+        run: black -l 79 --check .
+        
+      - name: commit changes to pull request, if needed
+        if: failure()
+        run: |
+          git config --global user.name 'autoblack'
+          git config --global user.email 'autoblack@users.noreply.github.com'
+          git remove set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git remote -v
+          git branch
+          git status
+          black -l 79 .
+          git status
+          git commit -am "fixup: format code with black"
+          git push
+          # git push --force origin
