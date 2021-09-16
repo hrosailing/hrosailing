@@ -1746,8 +1746,8 @@ class PolarDiagramMultiSails(PolarDiagram):
         self,
         ax=None,
         colors=("green", "red"),
-        ms=None,
         marker=None,
+        ms=None,
         show_legend=False,
         **legend_kw,
     ):
