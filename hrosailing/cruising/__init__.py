@@ -51,7 +51,9 @@ def convex_direction(
 
     bsp = bsp.ravel()
 
-    polar_pts = np.column_stack((bsp * np.cos(wa).ravel(), bsp * np.sin(wa).ravel()))
+    polar_pts = np.column_stack(
+        (bsp * np.cos(wa).ravel(), bsp * np.sin(wa).ravel())
+    )
     conv = ConvexHull(polar_pts)
     vert = sorted(conv.vertices)
 
@@ -108,7 +110,9 @@ def cruise(
     rhc = _right_handing_course(start, end)
     wdir = _wind_relative_to_north(wdir)
 
-    heading = np.arccos(np.cos(rhc) * np.cos(wdir) + np.sin(rhc) * np.sin(wdir))
+    heading = np.arccos(
+        np.cos(rhc) * np.cos(wdir) + np.sin(rhc) * np.sin(wdir)
+    )
     heading = 180 - np.rad2deg(heading)
     d1, *d2 = convex_direction(pd, ws, heading)
 
@@ -286,12 +290,15 @@ def cost_cruise(
 
     # calculate the integral described in the doc string
 
-    pos_list = [proj_start + s / total_s * (proj_end - proj_start) for s in t_s.t]
+    pos_list = [
+        proj_start + s / total_s * (proj_end - proj_start) for s in t_s.t
+    ]
     lat_long_list = [_inverse_mercator_proj(pos, lat_mp) for pos in pos_list]
     t_list = [start_time + timedelta(hours=t) for t in t_s.y[0]]
 
     costs = [
-        cost_fun_dens(t, lat, long, wm) for t, (lat, long) in zip(t_list, lat_long_list)
+        cost_fun_dens(t, lat, long, wm)
+        for t, (lat, long) in zip(t_list, lat_long_list)
     ]
 
     return absolute_cost + integration_method(costs, t_s.t)
@@ -309,7 +316,9 @@ def _mercator_proj(pt, lat_mp):
     # projection where the projection midponit has lattitude lat_mp
     lat, long = pt
     # 69 nautical miles between two lattitudes
-    return 69 * np.array([(lat - lat_mp), np.arcsinh(np.tan(np.pi * long / 180))])
+    return 69 * np.array(
+        [(lat - lat_mp), np.arcsinh(np.tan(np.pi * long / 180))]
+    )
 
 
 def isocrone(
@@ -376,6 +385,9 @@ def _great_earth_elipsoid_distance(a, b):
     dist = d * (
         1
         + EARTH_FLATTENING
-        * (h_1 * (np.sin(f) * np.cos(g)) ** 2 - h_2 * (np.cos(f) * np.sin(g)) ** 2)
+        * (
+            h_1 * (np.sin(f) * np.cos(g)) ** 2
+            - h_2 * (np.cos(f) * np.sin(g)) ** 2
+        )
     )
     return dist
