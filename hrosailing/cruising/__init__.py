@@ -75,7 +75,8 @@ def convex_direction(
 
     if edge[0] == direction:
         return [edge[0]]
-    elif edge[1] == direction:
+
+    if edge[1] == direction:
         return [edge[1]]
 
     # direction lies on a common edge of polar diagram and convex hull
@@ -268,10 +269,11 @@ def cost_cruise(
         except:
             return 0
         bsp = im.add_influence(pd, weather)
+
         if bsp != 0:
             return 1 / bsp
-        else:
-            return 0
+
+        return 0
 
     t_s = solve_ivp(
         fun=dt_ds,
