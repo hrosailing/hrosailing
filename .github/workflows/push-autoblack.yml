@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - main
-      
-      
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,13 +13,10 @@ jobs:
       - uses: actions/setup-python@v1
         with:
           python-version: 3.8
-          
       - name: install black
         run: pip install black
-        
       - name: run black --check .
         run: black -l 79 --check .
-        
       - name: commit changes to push, if needed
         if: failure()
         run: |
