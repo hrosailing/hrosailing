@@ -1839,6 +1839,13 @@ class PolarDiagramCurve(PolarDiagram):
             f"radians={radians})' called"
         )
 
+        sig = inspect.getfullargspec(f)
+        if len(sig.args) < 2:
+            raise PolarDiagramException("`f` might not have the correct signature of f(ws, wa, *params) -> bsp")
+
+        if ((sig.varargs or sig.varkw) and not params) or len(sig.args) - 2 != len(params):
+            raise PolarDiagramException("`params` is an incorrect amount of parameters for `f`")
+
         self._f = f
         self._params = params
         self._rad = radians
