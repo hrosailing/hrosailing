@@ -6,9 +6,11 @@ Functions for navigation and weather routing using PPDs
 
 from bisect import bisect_left
 import dataclasses
+from datetime import timedelta
 from typing import Optional
 
 import numpy as np
+from scipy.integrate import solve_ivp, trapezoid
 from scipy.spatial import ConvexHull
 
 import hrosailing.polardiagram as pol
@@ -310,33 +312,33 @@ def _mercator_proj(pt, lat_mp):
     return 69 * np.array([(lat - lat_mp), np.arcsinh(np.tan(np.pi * long / 180))])
 
 
-# def isocrone(
-#     pd: pol.PolarDiagram,
-#     start,
-#     direction,
-#     total_cost=None,
-#     min_nodes=None,
-#     wm: WeatherModel = None,
-#     im: Optional[InfluenceModel] = None,
-#     influence_data: Optional[dict] = None,
-# ):
-#     """"""
-#     pass
-
-
-def isocost(
+def isocrone(
     pd: pol.PolarDiagram,
     start,
     direction,
-    cost_func=None,
     total_cost=None,
     min_nodes=None,
-    quadrature=None,
     wm: WeatherModel = None,
     im: Optional[InfluenceModel] = None,
+    influence_data: Optional[dict] = None,
 ):
     """"""
     pass
+
+
+# def isocost(
+#     pd: pol.PolarDiagram,
+#     start,
+#     direction,
+#     cost_func=None,
+#     total_cost=None,
+#     min_nodes=None,
+#     quadrature=None,
+#     wm: WeatherModel = None,
+#     im: Optional[InfluenceModel] = None,
+# ):
+#     """"""
+#     pass
 
 
 def _right_handing_course(a, b):
