@@ -16,9 +16,9 @@ from typing import List, Optional
 import warnings
 
 
-from ._plotting import *
 from hrosailing.pipelinecomponents import Interpolator
 from hrosailing.wind import convert_wind, set_resolution
+from ._plotting import *
 
 
 logging.basicConfig(
