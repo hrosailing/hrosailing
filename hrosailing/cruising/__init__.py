@@ -323,7 +323,6 @@ def isocrone(
     influence_data: Optional[dict] = None,
 ):
     """"""
-    pass
 
 
 # def isocost(
@@ -338,7 +337,6 @@ def isocrone(
 #     im: Optional[InfluenceModel] = None,
 # ):
 #     """"""
-#     pass
 
 
 def _right_handing_course(a, b):

@@ -284,15 +284,15 @@ class PolarDiagram(ABC):
 
     @abstractmethod
     def to_csv(self, csv_path):
-        pass
+        """"""
 
     @abstractmethod
     def symmetrize(self):
-        pass
+        """"""
 
     @abstractmethod
     def get_slices(self, ws):
-        pass
+        """"""
 
     def plot_polar_slice(self, ws, ax=None, **plot_kw):
         """Creates a polar plot of a given slice of the
@@ -374,7 +374,7 @@ class PolarDiagram(ABC):
         legend_kw=None,
         **plot_kw,
     ):
-        pass
+        """"""
 
     @abstractmethod
     def plot_flat(
@@ -386,11 +386,11 @@ class PolarDiagram(ABC):
         legend_kw=None,
         **plot_kw,
     ):
-        pass
+        """"""
 
     @abstractmethod
     def plot_3d(self):
-        pass
+        """"""
 
     @abstractmethod
     def plot_color_gradient(
@@ -402,7 +402,7 @@ class PolarDiagram(ABC):
         show_legend=False,
         **legend_kw,
     ):
-        pass
+        """"""
 
     def plot_convex_hull_slice(self, ws, ax=None, **plot_kw):
         """Computes the convex hull of a given slice of
@@ -449,7 +449,7 @@ class PolarDiagram(ABC):
         legend_kw=None,
         **plot_kw,
     ):
-        pass
+        """"""
 
 
 class PolarDiagramTable(PolarDiagram):
@@ -608,7 +608,7 @@ class PolarDiagramTable(PolarDiagram):
         )
 
     def __call__(self, ws, wa, interpolator: Optional[Interpolator] = None):
-        pass
+        """"""
 
     def __getitem__(self, key):
         """"""
@@ -1485,7 +1485,6 @@ class PolarDiagramMultiSails(PolarDiagram):
 
     def to_csv(self, csv_path):
         """"""
-        pass
 
     def symmetrize(self):
         """Constructs a symmetric version of the polar diagram, by
@@ -1737,7 +1736,6 @@ class PolarDiagramMultiSails(PolarDiagram):
         **legend_kw,
     ):
         """"""
-        pass
 
     def plot_convex_hull(
         self,
@@ -2457,7 +2455,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         return f"PolarDiagramPointcloud(pts={self.points})"
 
     def __call__(self, ws, wa, interpolator=None):
-        pass
+        """"""
 
     @property
     def wind_speeds(self):

@@ -37,7 +37,7 @@ class DataHandler(ABC):
 
     @abstractmethod
     def handle(self, data) -> dict:
-        pass
+        """"""
 
 
 class ArrayHandler(DataHandler):

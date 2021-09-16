@@ -58,20 +58,20 @@ class Regressor(ABC):
     @property
     @abstractmethod
     def model_func(self):
-        pass
+        """"""
 
     @property
     @abstractmethod
     def optimal_params(self):
-        pass
+        """"""
 
     @abstractmethod
     def fit(self, data):
-        pass
+        """"""
 
     @abstractmethod
     def set_weights(self, X_weights, y_weights):
-        pass
+        """"""
 
 
 class ODRegressor(Regressor):

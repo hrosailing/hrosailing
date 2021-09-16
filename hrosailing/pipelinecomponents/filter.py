@@ -45,7 +45,7 @@ class Filter(ABC):
 
     @abstractmethod
     def filter(self, weights):
-        pass
+        """"""
 
 
 class QuantileFilter(Filter):

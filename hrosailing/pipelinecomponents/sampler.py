@@ -33,7 +33,7 @@ class Sampler(ABC):
 
     @abstractmethod
     def sample(self, pts):
-        pass
+        """"""
 
 
 class UniformRandomSampler(Sampler):

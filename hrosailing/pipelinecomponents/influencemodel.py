@@ -12,11 +12,11 @@ class InfluenceModel(ABC):
 
     @abstractmethod
     def remove_influence(self, data: dict):
-        pass
+        """"""
 
     @abstractmethod
     def add_influence(self, pd, influence_data: dict):
-        pass
+        """"""
 
 
 class LinearCurrentModel(InfluenceModel):
@@ -26,7 +26,7 @@ class LinearCurrentModel(InfluenceModel):
         pass
 
     def remove_influence(self, data: dict):
-        pass
+        """"""
 
     def add_influence(self, pd, influence_data: dict):
-        pass
+        """"""

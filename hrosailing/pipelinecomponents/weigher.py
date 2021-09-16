@@ -67,7 +67,7 @@ class Weigher(ABC):
 
     @abstractmethod
     def weigh(self, pts):
-        pass
+        """"""
 
 
 class CylindricMeanWeigher(Weigher):

@@ -47,7 +47,7 @@ class Interpolator(ABC):
 
     @abstractmethod
     def interpolate(self, w_pts, grid_pt):
-        pass
+        """"""
 
 
 class IDWInterpolator(Interpolator):

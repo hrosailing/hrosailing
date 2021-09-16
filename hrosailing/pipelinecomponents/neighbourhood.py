@@ -46,7 +46,7 @@ class Neighbourhood(ABC):
 
     @abstractmethod
     def is_contained_in(self, pts):
-        pass
+        """"""
 
 
 class Ball(Neighbourhood):
