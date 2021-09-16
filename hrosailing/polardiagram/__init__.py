@@ -577,10 +577,14 @@ class PolarDiagramTable(PolarDiagram):
 
         # Non array_like `bsps` are not allowed
         if bsps.dtype is object:
-            raise PolarDiagramInitializationException("`bsps` is not array_like")
+            raise PolarDiagramInitializationException(
+                "`bsps` is not array_like"
+            )
 
         if bsps.shape != (rows, cols) or bsps.ndim != 2:
-            raise PolarDiagramInitializationException("`bsps` has incorrect shape")
+            raise PolarDiagramInitializationException(
+                "`bsps` has incorrect shape"
+            )
 
         # Sort wind angles and the corresponding order of rows in bsps
         wa_res, bsps = zip(*sorted(zip(wa_res, bsps), key=lambda x: x[0]))
@@ -1447,7 +1451,9 @@ class PolarDiagramMultiSails(PolarDiagram):
         if sails is None:
             sails = [f"Sail {i}" for i in range(len(pds))]
         elif len(sails) != len(pds):
-            raise PolarDiagramInitializationException("Number of sails is not equal to number of given polar diagrams")
+            raise PolarDiagramInitializationException(
+                "Number of sails is not equal to number of given polar diagrams"
+            )
 
         self._sails = list(sails)
         self._tables = list(pds)
@@ -1850,10 +1856,16 @@ class PolarDiagramCurve(PolarDiagram):
 
         sig = inspect.getfullargspec(f)
         if len(sig.args) < 2:
-            raise PolarDiagramInitializationException("`f` might not have the correct signature of f(ws, wa, *params) -> bsp")
+            raise PolarDiagramInitializationException(
+                "`f` might not have the correct signature of f(ws, wa, *params) -> bsp"
+            )
 
-        if ((sig.varargs or sig.varkw) and not params) or len(sig.args) - 2 != len(params):
-            raise PolarDiagramInitializationException("`params` is an incorrect amount of parameters for `f`")
+        if ((sig.varargs or sig.varkw) and not params) or len(
+            sig.args
+        ) - 2 != len(params):
+            raise PolarDiagramInitializationException(
+                "`params` is an incorrect amount of parameters for `f`"
+            )
 
         self._f = f
         self._params = params
