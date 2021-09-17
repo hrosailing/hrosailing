@@ -44,7 +44,7 @@ class Filter(ABC):
     """
 
     @abstractmethod
-    def filter(self, weights):
+    def filter(self, wts):
         """"""
 
 
