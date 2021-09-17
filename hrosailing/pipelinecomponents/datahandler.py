@@ -146,7 +146,7 @@ class NMEAFileHandler(DataHandler):
 
         with open(data, "r", encoding="utf-8") as file:
             nmea_stcs = filter(
-                lambda line: any([abbr in line for abbr in self._nmea_filter]),
+                lambda line: any(abbr in line for abbr in self._nmea_filter),
                 file,
             )
 
@@ -154,7 +154,7 @@ class NMEAFileHandler(DataHandler):
                 parsed = pynmea.parse(stc)
                 nmea_attr = filter(
                     lambda pair: any(
-                        [attr == pair[0][0] for attr in self._attr_filter]
+                        attr == pair[0][0] for attr in self._attr_filter
                     ),
                     zip(parsed.fields, parsed.data),
                 )
