@@ -335,7 +335,8 @@ def _make_circle_two_points(pts, p, q):
         c = _make_circumcircle(p, q, r)
         if c is None:
             continue
-        elif cross > 0.0 and (
+
+        if cross > 0.0 and (
             left is None
             or _cross_product(p[0], p[1], q[0], q[1], c[0], c[1])
             > _cross_product(p[0], p[1], q[0], q[1], left[0], left[1])
