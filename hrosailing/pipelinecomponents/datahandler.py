@@ -144,7 +144,7 @@ class NMEAFileHandler(DataHandler):
         data_dict = {attr: [] for attr in self._attr_filter}
         ndata = 0
 
-        with open(data, "r") as file:
+        with open(data, "r", encoding="utf-8") as file:
             nmea_stcs = filter(
                 lambda line: any([abbr in line for abbr in self._nmea_filter]),
                 file,
