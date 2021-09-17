@@ -7,7 +7,7 @@ Functions for navigation and weather routing using PPDs
 from bisect import bisect_left
 import dataclasses
 from datetime import timedelta
-from typing import Optional
+from typing import List, Optional
 
 import numpy as np
 from scipy.integrate import solve_ivp, trapezoid
@@ -43,7 +43,7 @@ def convex_direction(
     direction,
     im: Optional[InfluenceModel] = None,
     influence_data: Optional[dict] = None,
-):
+) -> List[Direction]:
     """"""
     _, wa, bsp, *sails = pd.get_slices(ws)
     if im:
