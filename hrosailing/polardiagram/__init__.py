@@ -102,7 +102,7 @@ def from_csv(csv_path, fmt="hro", tw=True):
     if fmt not in {"array", "hro", "opencpn", "orc"}:
         raise FileReadingException("`fmt` not implemented")
 
-    with open(csv_path, "r", newline="") as file:
+    with open(csv_path, "r", newline="", encoding="utf-8") as file:
         if fmt == "hro":
             csv_reader = csv.reader(file, delimiter=",")
             first_row = next(csv_reader)[0]
@@ -708,7 +708,7 @@ class PolarDiagramTable(PolarDiagram):
         if fmt not in {"hro", "opencpn"}:
             raise PolarDiagramException("`fmt` not implemented")
 
-        with open(csv_path, "w", newline="") as file:
+        with open(csv_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file, delimiter=",")
             if fmt == "opencpn":
                 csv_writer.writerow(["TWA\\TWS"] + self.wind_speeds)
@@ -1424,7 +1424,6 @@ class PolarDiagramTable(PolarDiagram):
             plot_kw["ls"] = ls
 
 
-# TODO: Docstrings
 class PolarDiagramMultiSails(PolarDiagram):
     """A class to represent, visualize and work with
     a polar diagram made up of multiple sets of sails,
@@ -1918,7 +1917,7 @@ class PolarDiagramCurve(PolarDiagram):
         """
         logger.info(f"Method '.to_csv({csv_path})' called")
 
-        with open(csv_path, "w", newline="") as file:
+        with open(csv_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file, delimiter=":")
             csv_writer.writerow(["PolarDiagramCurve"])
             csv_writer.writerow(["Function"] + [self.curve.__name__])
@@ -2522,7 +2521,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         """
         logger.info(f"Method '.to_csv({csv_path})' called")
 
-        with open(csv_path, "w", newline="") as file:
+        with open(csv_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file, delimiter=",")
             csv_writer.writerow(["PolarDiagramPointcloud"])
             csv_writer.writerow(
