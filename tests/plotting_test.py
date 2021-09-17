@@ -7,8 +7,10 @@
 
 import unittest
 
-import numpy as np
+
 import matplotlib.pyplot as plt
+import numpy as np
+import pytest
 
 import hrosailing.polardiagram as pol
 

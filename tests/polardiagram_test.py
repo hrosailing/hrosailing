@@ -8,6 +8,7 @@
 import unittest
 
 import numpy as np
+import pytest
 
 import hrosailing.polardiagram as pol
 from hrosailing.polardiagram import PolarDiagramException

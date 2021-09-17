@@ -10,7 +10,7 @@ import unittest
 import numpy as np
 
 import hrosailing.polardiagram as pol
-from hrosailing.polardiagram import FileReadingException, FileWritingException
+from hrosailing.polardiagram import FileReadingException
 
 
 class FileReadingTest(unittest.TestCase):
@@ -18,7 +18,7 @@ class FileReadingTest(unittest.TestCase):
         funcs = [pol.from_csv, pol.depickling]
         for i, f in enumerate(funcs):
             with self.subTest(i=i):
-                with self.assertRaises(FileReadingException):
+                with self.assertRaises(OSError):
                     f("nonexistentfile")
 
     def test_from_csv_read_correct_existent_file(self):
@@ -52,9 +52,7 @@ class FileReadingTest(unittest.TestCase):
 
     @staticmethod
     def test_from_csv_format_orc_works_correctly():
-        pd: pol.PolarDiagramTable = pol.from_csv(
-            "tests/testfiles/pd-orc.csv", fmt="orc"
-        )
+        pd = pol.from_csv("tests/testfiles/pd-orc.csv", fmt="orc")
         np.testing.assert_array_equal(
             pd.wind_speeds, np.array([6, 8, 10, 12, 14, 16, 20])
         )
@@ -79,18 +77,14 @@ class FileReadingTest(unittest.TestCase):
 
     @staticmethod
     def test_from_csv_format_opencpn_works_correctly():
-        pd: pol.PolarDiagramTable = pol.from_csv(
-            "tests/testfiles/pd-opencpn.csv", fmt="opencpn"
-        )
+        pd = pol.from_csv("tests/testfiles/pd-opencpn.csv", fmt="opencpn")
         np.testing.assert_array_equal(pd.wind_speeds, np.arange(2, 42, 2))
         np.testing.assert_array_equal(pd.wind_angles, np.arange(5, 185, 5))
         np.testing.assert_array_equal(pd.boat_speeds, np.zeros((36, 20)))
 
     @staticmethod
     def test_from_csv_format_array_works_correctly():
-        pd: pol.PolarDiagramTable = pol.from_csv(
-            "tests/testfiles/pd-array.csv", fmt="array"
-        )
+        pd = pol.from_csv("tests/testfiles/pd-array.csv", fmt="array")
         np.testing.assert_array_equal(
             pd.wind_speeds, np.array([0, 4, 6, 8, 10, 12, 14, 16, 20, 25, 30])
         )

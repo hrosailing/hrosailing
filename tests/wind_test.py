@@ -9,7 +9,7 @@ import unittest
 
 import numpy as np
 
-from hrosailing.wind import set_resolution, WindException
+from hrosailing.wind import set_resolution, ResolutionSettingException
 
 
 class ResolutionTest(unittest.TestCase):
@@ -44,15 +44,11 @@ class ResolutionTest(unittest.TestCase):
                     set_resolution(num, "angle"), np.arange(num, 360, num)
                 )
 
-    def test_resolution_exception_not_iter_int_float(self):
-        with self.assertRaises(WindException):
-            pass
-
     def test_resolution_exception_set_dict(self):
         iters = [{}, set()]
         for i, iter_ in enumerate(iters):
             with self.subTest(i=i):
-                with self.assertRaises(WindException):
+                with self.assertRaises(ResolutionSettingException):
                     set_resolution(iter_, "speed")
                     set_resolution(iter_, "angle")
 
@@ -60,7 +56,7 @@ class ResolutionTest(unittest.TestCase):
         iters = [[], (), np.array([])]
         for i, iter_ in enumerate(iters):
             with self.subTest(i=i):
-                with self.assertRaises(WindException):
+                with self.assertRaises(ResolutionSettingException):
                     set_resolution(iter_, "speed")
                     set_resolution(iter_, "angle")
 
@@ -68,7 +64,7 @@ class ResolutionTest(unittest.TestCase):
         nums = [0, 0.0]
         for i, num in enumerate(nums):
             with self.subTest(i=i):
-                with self.assertRaises(WindException):
+                with self.assertRaises(ResolutionSettingException):
                     set_resolution(num, "speed")
                     set_resolution(num, "angle")
 
@@ -76,7 +72,7 @@ class ResolutionTest(unittest.TestCase):
         nums = [-1, -1.5]
         for i, num in enumerate(nums):
             with self.subTest(i=i):
-                with self.assertRaises(WindException):
+                with self.assertRaises(ResolutionSettingException):
                     set_resolution(num, "speed")
                     set_resolution(num, "angle")
 
