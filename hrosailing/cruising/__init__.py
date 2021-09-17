@@ -262,18 +262,7 @@ def cost_cruise(
     # define derivative of t by s
     def dt_ds(s, t):
         pos = proj_start + s / total_s * (proj_end - proj_start)
-        lat, long = _inverse_mercator_proj(pos, lat_mp)
-        time = start_time + timedelta(hours=t[0])
-        try:
-            weather = wm.get_weather(time, lat, long)
-        except:
-            return 0
-        bsp = im.add_influence(pd, weather)
-
-        if bsp != 0:
-            return 1 / bsp
-
-        return 0
+        _get_inverse_bsp(pd, pos, t, lat_mp, start_time, wm, im)
 
     t_s = solve_ivp(
         fun=dt_ds,
@@ -326,6 +315,7 @@ def _mercator_proj(pt, lat_mp):
 def isocrone(
     pd: pol.PolarDiagram,
     start,
+    start_time,
     direction,
     total_cost=None,
     min_nodes=None,
@@ -334,7 +324,55 @@ def isocrone(
     influence_data: Optional[dict] = None,
 ):
     """"""
+    # estimate first sample points as equidistant points
+    # supposed boat speed is 5 knots
 
+    ub = 5*total_cost
+    lat_mp = start[0]
+    proj_start = _mercator_proj(start, lat_mp)
+    arc = np.pi*(1/2 - direction/180)
+    v_direction = np.array([np.cos(arc), np.sin(arc)])
+
+    def dt_ds(s,t):
+        pos = proj_start + s*v_direction
+        return _get_inverse_bsp(pd, pos, t, lat_mp, start_time, wm, im)
+
+    step_size = 5*total_cost/min_nodes
+    s, t, steps = 0, 0, 0
+
+    # heuristic setting bsp to constant 5 for first guess of step size
+    while t < total_cost or steps < min_nodes:
+        if t >= total_cost:
+            #start process again with smaller step size
+            step_size *= steps/min_nodes
+            s, t, steps = 0, 0, 0
+            continue
+        der = dt_ds(s, t)
+        s += step_size
+        t += der*step_size
+
+    # we end up with s, t such that t >= total_cost and steps > min_nodes
+    # still need to correct the last step such that t == total_cost
+
+    last_t = t - der*step_size
+    off = (total_cost - last_t)/(t - last_t)
+
+    return s - step_size + off
+
+
+def _get_inverse_bsp(pd, pos, t, lat_mp, start_time, wm, im):
+    lat, long = _inverse_mercator_proj(pos, lat_mp)
+    time = start_time + timedelta(hours=t[0])
+    try:
+        weather = wm.get_weather(time, lat, long)
+    except:
+        return 0
+    bsp = im.add_influence(pd, weather)
+
+    if bsp != 0:
+        return 1 / bsp
+
+    return 0
 
 # def isocost(
 #     pd: pol.PolarDiagram,
