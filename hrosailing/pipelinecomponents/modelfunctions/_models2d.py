@@ -38,6 +38,10 @@ def concave_function(x, *params, downturn=True, sat_limit=False):
     if downturn:
         return polynomial_function(x, params[0], params[1], -params[2], deg=2)
 
+    raise ValueError(
+        "At least one of `downturn` and `sat_limit` must be `True`"
+    )
+
 
 def s_shaped(x, *params, downturn=False):
     val = params[2] / (1 + np.exp(params[0] - params[1] * x))
