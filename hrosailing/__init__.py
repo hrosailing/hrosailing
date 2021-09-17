@@ -1,7 +1,3 @@
-from ._doc import doc
-
-__doc__ = doc
-
 # Tell users if hard depencencies are missing
 hard_dependencies = ("numpy", "matplotlib", "scipy")
 missing_dependencies = []
@@ -19,6 +15,18 @@ if missing_dependencies:
     )
 del hard_dependencies, depencency, missing_dependencies
 
+
+import hrosailing.cruising
+import hrosailing.pipeline
+import hrosailing.pipelinecomponents
+import hrosailing.polardiagram
+from .wind import true_wind_to_apparent, apparent_wind_to_true
+
+
+from ._doc import doc
+
+__doc__ = doc
+
 from ._version import __version__
 
 version = __version__
@@ -26,10 +34,3 @@ version = __version__
 from ._pdoc import pdoc
 
 __pdoc__ = pdoc
-
-
-import hrosailing.cruising
-import hrosailing.pipeline
-import hrosailing.pipelinecomponents
-import hrosailing.polardiagram
-from .wind import true_wind_to_apparent, apparent_wind_to_true
