@@ -421,20 +421,20 @@ def _determine_slope(pts, grid_pt, dist, wts, nhood, norm, slope):
         pts_i = pts_i[mask]
         dist_i = norm(pts_i - pt)
         wts_i = np.delete(wts, i)[mask]
-        xderiv_i = (
+        xderiv[i] = np.sum(
             wts_i
             * (pts_i[:, 2] - pt[:, 2])
             * (pts_i[:, 0] - pt[:, 0])
             / np.square(dist_i)
         )
-        xderiv[i] = np.sum(xderiv_i) / np.sum(wts_i)
-        yderiv_i = (
+        xderiv[i] /= np.sum(wts_i)
+        yderiv[i] = np.sum(
             wts_i
             * (pts_i[:, 2] - pt[:, 2])
             * (pts_i[:, 1] - pt[:, 1])
             / np.square(dist_i)
         )
-        yderiv[i] = np.sum(yderiv_i) / np.sum(wts_i)
+        yderiv[i] /= np.sum(wts_i)
 
     dim_of_dist = (
         slope
