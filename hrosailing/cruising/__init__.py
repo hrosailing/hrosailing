@@ -169,7 +169,7 @@ class WeatherModel:
         idxs = np.vstack(tuple(map(np.ravel, g))).T
 
         mean = np.mean([self._data[i, j, k, :] for i, j, k in idxs], axis=0)
-        return  dict(zip(self._attrs, mean))
+        return dict(zip(self._attrs, mean))
 
 
 def cost_cruise(

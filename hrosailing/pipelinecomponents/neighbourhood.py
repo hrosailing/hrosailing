@@ -325,8 +325,6 @@ class Cuboid(Neighbourhood):
 
         If nothing is passed, it will default to (0.05, 0.05)
 
-
-    Raises a NeighbourhoodInitializationException if dimensions is not of length 2
     """
 
     def __init__(
@@ -334,11 +332,6 @@ class Cuboid(Neighbourhood):
         norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360)),
         dimensions=(0.05, 0.05),
     ):
-        if len(dimensions) != 2:
-            raise NeighbourhoodInitializationException(
-                "`dimensions` is not of length 2"
-            )
-
         self._norm = norm
         self._size = dimensions
 
