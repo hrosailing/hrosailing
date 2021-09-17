@@ -142,7 +142,7 @@ class FibonacciSampler(Sampler):
         # calculate an upper bound to the number of points needed for the
         # spiral to fill the convex hull with self._n_samples points
         ch = ConvexHull(pts)
-        vol = _convex_hull_volume(ch)
+        vol = ch.volume
         ineqs = ch.equations
         ub_n_samples = int(np.pi * self._n_samples / vol) + 10
 
@@ -208,7 +208,7 @@ class ArchimedianSampler(Sampler):
 
         # compute convex hull and its volume
         ch = ConvexHull(pts)
-        vol = _convex_hull_volume(ch)
+        vol = ch.volume
         ineqs = ch.equations
 
         ub_n_samples = int(np.pi * self._n_samples / vol) + 10
@@ -225,20 +225,6 @@ class ArchimedianSampler(Sampler):
         return _binary_rescale(
             self._n_samples, _sample_generator(base_spiral, midpoint, ineqs), r
         )
-
-
-def _triangle_volume(a, b, c):
-    # computes volume of triangle a,b,c
-    return 1 / 2 * abs(np.linalg.det(np.column_stack([b - a, c - a])))
-
-
-def _convex_hull_volume(ch):
-    # computes the volume of the convex hull of the points pts
-    simplices = np.column_stack(
-        (np.repeat(ch.vertices[0], ch.nsimplex), ch.simplices)
-    )
-    tets = ch.points[simplices]
-    return np.sum([_triangle_volume(tet[0], tet[1], tet[2]) for tet in tets])
 
 
 def _binary_rescale(n_samples, generate_sample, start_value):
