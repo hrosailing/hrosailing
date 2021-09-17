@@ -15,4 +15,4 @@ jobs:
         python -m pip install --upgrade pip
         pip install pylint
     - name: run pylint
-      run: pylint `ls -R|grep .py$|xargs`
+      run: pylint --rcfile=.pylintrc `ls -R|grep .py$|xargs`
