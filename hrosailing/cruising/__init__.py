@@ -320,7 +320,7 @@ def isocrone(
     total_cost=None,
     min_nodes=None,
     wm: WeatherModel = None,
-    im: Optional[InfluenceModel] = None
+    im: Optional[InfluenceModel] = None,
 ):
     """
     Estimates the maximum distance that can be reached from a given start
@@ -375,35 +375,35 @@ def isocrone(
 
     lat_mp = start[0]
     proj_start = _mercator_proj(start, lat_mp)
-    arc = np.pi*(1/2 - direction/180)
+    arc = np.pi * (1 / 2 - direction / 180)
     v_direction = np.array([np.cos(arc), np.sin(arc)])
 
     def dt_ds(s, t):
-        pos = proj_start + s*v_direction
+        pos = proj_start + s * v_direction
         return _get_inverse_bsp(pd, pos, t, lat_mp, start_time, wm, im)
 
     # supposed boat speed for first estimation is 5 knots
-    step_size = 5*total_cost/min_nodes
+    step_size = 5 * total_cost / min_nodes
     s, t, steps = 0, 0, 0
 
     while t < total_cost or steps < min_nodes:
         if t >= total_cost:
             # start process again with smaller step size
-            step_size *= steps/min_nodes
+            step_size *= steps / min_nodes
             s, t, steps = 0, 0, 0
             continue
         der = dt_ds(s, t)
         s += step_size
-        t += der*step_size
+        t += der * step_size
 
     # we end up with s, t such that t >= total_cost and steps > min_nodes
     # still need to correct the last step such that t == total_cost
 
-    last_t = t - der*step_size
-    off = (total_cost - last_t)/(t - last_t)
+    last_t = t - der * step_size
+    off = (total_cost - last_t) / (t - last_t)
     s = s - step_size + off
 
-    proj_end = proj_start + s*v_direction
+    proj_end = proj_start + s * v_direction
     end = _inverse_mercator_proj(proj_end, lat_mp)
 
     return end, s
@@ -422,6 +422,7 @@ def _get_inverse_bsp(pd, pos, t, lat_mp, start_time, wm, im):
         return 1 / bsp
 
     return 0
+
 
 # def isocost(
 #     pd: pol.PolarDiagram,
