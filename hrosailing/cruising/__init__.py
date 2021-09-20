@@ -259,10 +259,12 @@ def cost_cruise(
     proj_end = _mercator_proj(end, lat_mp)
     total_s = np.linalg.norm(proj_end - proj_start)
 
+    hdt = _right_handing_course(start, end)
+
     # define derivative of t by s
     def dt_ds(s, t):
         pos = proj_start + s / total_s * (proj_end - proj_start)
-        _get_inverse_bsp(pd, pos, t, lat_mp, start_time, wm, im)
+        _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im)
 
     t_s = solve_ivp(
         fun=dt_ds,
@@ -387,8 +389,6 @@ def isocrone(
     # we end up with s, t such that t >= total_cost and steps > min_nodes
     # still need to correct the last step such that t == total_cost
 
-    last_t = t - der * step_size
-    # off = (total_time - last_t) / (t - last_t)
     s = (total_time + der*s - t)/der
 
     proj_end = proj_start + s * v_direction
