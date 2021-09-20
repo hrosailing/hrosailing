@@ -4,8 +4,8 @@
     <img src="logo.png" width=300px height=300px alt="hrosailing">
 </p>
 
-# hrosailing - Sailing made in Rostock
-
+hrosailing - Sailing made in Rostock
+====================================
 
 You can see the documentation here [Documentation](https://vfdannenberg.github.io/hrosailing "hrosailing").
 
@@ -14,7 +14,8 @@ You can see the documentation here [Documentation](https://vfdannenberg.github.i
 `hrosailing` is compatible with ... 
 
 <!-- [![Python version](..) -->
-<!-- [![Build Status](..) -->
+[![Pylint](https://github.com/VFDannenberg/hrosailing/actions/workflows/pylint.yml/badge.svg)](https://github.com/VFDannenberg/hrosailing/actions/workflows/push-pylint.yml)
+<!-- [![Build Status](https://github.com/vfdannenberg/hrosailing/actions/workflows) -->
 [![CodeFactor](https://www.codefactor.io/repository/github/vfdannenberg/hrosailing/badge)](https://www.codefactor.io/repository/github/vfdannenberg/hrosailing)
 <!-- [![Coverage Status](..) -->
 
@@ -28,8 +29,9 @@ The recommended way to install `hrosailing` is with
 <!-- [![PyPI version](..) -->
 <!-- [![PyPI downloads](..) -->
 
-
 ### Examples
+
+
 
 ### Contributing 
 
