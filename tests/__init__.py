@@ -14,7 +14,4 @@ from .plotting_test import (
     pointcloud_plot_suite,
 )
 
-from .writingreading_test import (
-    reading_suite,
-    writing_suite
-)
+from .writingreading_test import reading_suite, writing_suite
