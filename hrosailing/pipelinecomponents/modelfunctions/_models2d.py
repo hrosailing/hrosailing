@@ -1,9 +1,4 @@
-"""
-
-"""
-
-# Author: Valentin F. Dannenberg
-
+# pylint: disable=missing-docstring
 
 import numpy as np
 
