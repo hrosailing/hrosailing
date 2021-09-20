@@ -7,8 +7,8 @@ setuptools.setup(
     name="hrosailing",
     version="0.0.1",
     author="Valentin Dannenberg / Robert Schueler",
-    author_email="valentin.dannen@googlemail.com",
-    description="",
+    author_email="valentin.dannenberg2@uni-rostock.de",
+    description="Python library for Polar (Performance) Diagrams",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/VFDannenberg/hrosailing",
@@ -17,7 +17,11 @@ setuptools.setup(
     },
     classifiers=[
         "Programming Language :: Python :: 3",
-        "Licence :: ",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: Implementation :: PyPy"
+        "License :: ",
         "Operating System :: OS Independent",
     ],
     package_dir={"": "hrosailing"},
