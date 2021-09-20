@@ -14,7 +14,7 @@ You can see the documentation here [Documentation](https://vfdannenberg.github.i
 `hrosailing` is compatible with ... 
 
 <!-- [![Python version](..) -->
-[![Pylint](https://github.com/VFDannenberg/hrosailing/actions/workflows/pylint.yml/badge.svg)](https://github.com/VFDannenberg/hrosailing/actions/workflows/push-pylint.yml)
+[![pylint](https://github.com/VFDannenberg/hrosailing/actions/workflows/push-pylint.yml/badge.svg)](https://github.com/VFDannenberg/hrosailing/actions/workflows/push-pylint.yml)
 <!-- [![Build Status](https://github.com/vfdannenberg/hrosailing/actions/workflows) -->
 [![CodeFactor](https://www.codefactor.io/repository/github/vfdannenberg/hrosailing/badge)](https://www.codefactor.io/repository/github/vfdannenberg/hrosailing)
 <!-- [![Coverage Status](..) -->
