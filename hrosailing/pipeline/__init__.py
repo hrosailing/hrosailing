@@ -79,6 +79,7 @@ class PolarPipeline:
         check_finite: bool = True,
         tw: bool = True,
         filtering: bool = True,
+        n_zeros: int = 500,
     ) -> pol.PolarDiagram:
         """
         Parameters
@@ -90,6 +91,13 @@ class PolarPipeline:
         tw : bool, optional
 
         filtering : bool, optional
+
+        n_zeros: int, optional
+            If not None, describes the number of additional data points
+            at (tws, 0) and (tws, 360) respectively, which are appended
+            to the filtered data.
+            This creates results that look much more like a polar diagram.
+            Defaults to 500.
 
         Returns
         -------
@@ -130,6 +138,26 @@ class PolarPipeline:
         if filtering:
             mask = self.filter.filter(w_pts.weights)
             w_pts = w_pts[mask]
+
+        if n_zeros:
+            bsps = w_pts.points[:,0]
+            tws = np.linspace(min(bsps), max(bsps), n_zeros)
+            zero_angles = np.zeros(n_zeros)
+            full_angles = 360 * np.ones(n_zeros)
+
+            zero_points = np.column_stack(
+                [tws, zero_angles, zero_angles]
+            )
+            full_points = np.column_stack(
+                [tws, full_angles, zero_angles]
+            )
+            new_weights = np.ones(2 * n_zeros)
+
+            w_pts = pc.WeightedPoints(
+                pts=np.concatenate(
+                    [w_pts.points, zero_points, full_points]),
+                wts=np.concatenate([w_pts.weights, new_weights])
+            )
 
         return self.extension.process(w_pts)
 
