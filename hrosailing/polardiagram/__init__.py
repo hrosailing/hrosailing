@@ -83,7 +83,8 @@ def from_csv(csv_path, fmt="hro", tw=True):
 
         - hro: format created by the to_csv-method of the PolarDiagram class
         - orc: format found at [ORC](https://jieter.github.io/orc-data/site/)
-        - opencpn: format created by [OpenCPN Polar Plugin](https://opencpn.org/OpenCPN/plugins/polar.html)
+        - opencpn: format created by
+        [OpenCPN Polar Plugin](https://opencpn.org/OpenCPN/plugins/polar.html)
         - array
 
     tw : bool
@@ -291,15 +292,25 @@ class PolarDiagram(ABC):
 
     @abstractmethod
     def to_csv(self, csv_path):
-        """"""
+        """This method should, given a path, write a .csv file in
+        the location, containing human readable information about the
+        polar diagram object that called the method
+        """
 
     @abstractmethod
     def symmetrize(self):
-        """"""
+        """This method should return a new PolarDiagram object that is a
+        symmetric (i.e. mirrored along the 0 - 180° axis) version of the
+        polar diagram object that called the method
+        """
 
     @abstractmethod
     def get_slices(self, ws):
-        """"""
+        """This method should, given a number of wind speeds, return
+        a list of the given wind speeds as well as wind angles and
+        corresponding boat speeds, that reflect how the vessel behaves at
+        the given wind speeds
+        """
 
     def plot_polar_slice(self, ws, ax=None, **plot_kw):
         """Creates a polar plot of a given slice of the
@@ -381,7 +392,9 @@ class PolarDiagram(ABC):
         legend_kw=None,
         **plot_kw,
     ):
-        """"""
+        """This method should create a polar plot of one or more slices,
+        corresponding to `ws`, of the polar diagram object.
+        """
 
     @abstractmethod
     def plot_flat(
@@ -393,11 +406,13 @@ class PolarDiagram(ABC):
         legend_kw=None,
         **plot_kw,
     ):
-        """"""
+        """This method should create a cartesian plot of one or more slices,
+        corresponding to `ws`, of the polar diagram object
+        """
 
     @abstractmethod
     def plot_3d(self):
-        """"""
+        """This method should create a 3d plot of the polar diagram object"""
 
     @abstractmethod
     def plot_color_gradient(
@@ -409,7 +424,10 @@ class PolarDiagram(ABC):
         show_legend=False,
         **legend_kw,
     ):
-        """"""
+        """This method should create 'wind speed vs. wind angle'
+        color gradient plot of the polar diagram object with respect
+        to the corresponding boat speeds
+        """
 
     def plot_convex_hull_slice(self, ws, ax=None, **plot_kw):
         """Computes the convex hull of a given slice of
@@ -456,7 +474,10 @@ class PolarDiagram(ABC):
         legend_kw=None,
         **plot_kw,
     ):
-        """"""
+        """This method should compute the convex hull of one or multiple
+        slices, corresponding to `ws`, of the polar diagram and then create
+        a polar plot of them
+        """
 
 
 class PolarDiagramTable(PolarDiagram):
@@ -1205,7 +1226,7 @@ class PolarDiagramTable(PolarDiagram):
         **legend_kw,
     ):
         """Creates a 'wind speed vs. wind angle' color gradient plot
-        of the polar diagram with respect to the respective boat speeds
+        of the polar diagram with respect to the corresponding boat speeds
 
         Parameters
         ----------
@@ -1855,17 +1876,13 @@ class PolarDiagramCurve(PolarDiagram):
         )
 
         sig = inspect.getfullargspec(f)
-        if len(sig.args) < 2:
-            raise PolarDiagramInitializationException(
-                "`f` might not have the correct signature of "
-                "f(ws, wa, *params) -> bsp"
-            )
-
         enough_params = True
 
         if (sig.varargs or sig.varkw) and not params:
             enough_params = False
-        elif not (sig.varargs or sig.varkw) and len(sig.args) - 2 != len(params):
+        elif not (sig.varargs or sig.varkw) and len(sig.args) - 2 != len(
+            params
+        ):
             enough_params = False
 
         if not enough_params:
@@ -2232,7 +2249,7 @@ class PolarDiagramCurve(PolarDiagram):
         **legend_kw,
     ):
         """Creates a 'wind speed vs. wind angle' color gradient plot
-        of a part of the polar diagram with respect to the respective
+        of a part of the polar diagram with respect to the corresponding
         boat speeds
 
         Parameters
@@ -2902,7 +2919,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         **legend_kw,
     ):
         """Creates a 'wind speed vs. wind angle' color gradient plot
-        of the polar diagram with respect to the respective boat speeds
+        of the polar diagram with respect to the corresponding boat speeds
 
         Parameters
         ----------
