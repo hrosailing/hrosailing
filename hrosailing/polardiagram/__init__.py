@@ -1861,9 +1861,14 @@ class PolarDiagramCurve(PolarDiagram):
                 "f(ws, wa, *params) -> bsp"
             )
 
-        if ((sig.varargs or sig.varkw) and not params) or len(
-            sig.args
-        ) - 2 != len(params):
+        enough_params = True
+
+        if (sig.varargs or sig.varkw) and not params:
+            enough_params = False
+        elif not (sig.varargs or sig.varkw) and len(sig.args) - 2 != len(params):
+            enough_params = False
+
+        if not enough_params:
             raise PolarDiagramInitializationException(
                 "`params` is an incorrect amount of parameters for `f`"
             )
