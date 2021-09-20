@@ -308,10 +308,12 @@ class WeightedPoints:
 
     @property
     def points(self):
+        """Returns a read-only version of self._pts"""
         return self._pts.copy()
 
     @property
     def weights(self):
+        """Returns a read-only version of self._wts"""
         return self._wts.copy()
 
 
