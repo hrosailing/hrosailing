@@ -1865,7 +1865,9 @@ class PolarDiagramCurve(PolarDiagram):
 
         if (sig.varargs or sig.varkw) and not params:
             enough_params = False
-        elif not (sig.varargs or sig.varkw) and len(sig.args) - 2 != len(params):
+        elif not (sig.varargs or sig.varkw) and len(sig.args) - 2 != len(
+            params
+        ):
             enough_params = False
 
         if not enough_params:
