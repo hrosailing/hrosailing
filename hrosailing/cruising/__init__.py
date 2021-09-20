@@ -6,7 +6,7 @@ Functions for navigation and weather routing using PPDs
 
 from bisect import bisect_left
 import dataclasses
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import List, Optional
 
 import numpy as np
@@ -19,22 +19,28 @@ from hrosailing.pipelinecomponents import InfluenceModel
 
 @dataclasses.dataclass
 class Direction:
-    """Dataclass to"""
+    """Dataclass to represent sections of a sailing maneuver"""
 
+    # Angle to the wind direction in degrees
     angle: float
+
+    # Proportion of time needed to sail into direction
     proportion: float
+
+    # Type/Name of Sail that should be hissed, when
+    # sailing in the direction (if existent)
     sail: Optional[str] = None
 
     def __str__(self):
-        out = (
+        stc = (
             f"Sail with an angle of {self.angle} to the wind for "
-            f"{self.proportion} percent of the time"
+            f"{self.proportion * 100} percent of the time"
         )
 
         if self.sail:
-            out += f", while hissing {self.sail}"
+            stc += f", while hissing {self.sail}"
 
-        return out
+        return stc
 
 
 def convex_direction(
@@ -44,7 +50,49 @@ def convex_direction(
     im: Optional[InfluenceModel] = None,
     influence_data: Optional[dict] = None,
 ) -> List[Direction]:
-    """"""
+    """Given a direction, computes the "fastest" way to sail in
+    that direction, assuming constant wind speed `ws`
+
+    If sailing straight into direction is the fastest way, function
+    returns that direction. Otherwise function returns two directions
+    aswell as their proportions, such that sailing into one direction for
+    a corresponding proportion of a time segment and then into the other
+    direction for a corresponding proportion of a time segment will be
+    equal to sailing into `direction` but faster.
+
+    Parameters
+    ----------
+    pd : PolarDiagram
+        The polar diagram of the vessel
+
+    ws : int / float
+        The current wind speed given in knots
+
+    direction : int / float
+        Angle to the wind direction
+
+    im : InfluenceModel, optional
+        The influence model used to consider additional influences
+        on the boat speed
+
+        Defaults to `None`
+
+    influence_data: dict, optional
+        Data containing information that might influence the boat speed
+        of the vessel (eg. current, wave height), to be passed to
+        the used influence model
+
+        Only used, if `im` is not `None`
+
+        Defaults to `None`
+
+    Returns
+    -------
+    edge : list of Directions
+        Either just one Direction instance, if sailing into `direction`
+        is the optimal way, or two Direction instances, that will "equal"
+        to `direction`
+    """
     _, wa, bsp, *sails = pd.get_slices(ws)
     if im:
         bsp = im.add_influence(pd, influence_data)
@@ -101,7 +149,59 @@ def cruise(
     im: Optional[InfluenceModel] = None,
     influence_data: Optional[dict] = None,
 ):
-    """"""
+    """Given a starting point A and and end point B,the function calculates
+    the fastest time and sailing direction it takes for a sailing vessel to
+    reach B from A, under constant wind.
+
+    If needed the function will calculate two directions as well as the
+    time needed to sail in each direction to get to B.
+
+    Parameters
+    ----------
+    pd : PolarDiagram
+        The polar diagram of the vessel
+
+    ws : int / float
+        The current wind speed given in knots
+
+    wdir :
+        The direction of the wind given as either
+
+        - the wind angle relative to north
+        - the true wind angle and the boat direction relative to north
+        - the apparent wind angle and the boat direction relative to north
+        - a (ugrd, vgrd) tuple from grib data
+
+    start : tuple of length 2
+        Coordinates of the starting point of the cruising maneuver,
+        given in longitude and latitude
+
+    end : tuple of length 2
+        Coordinates of the end point of the cruising maneuver,
+        given in longitude and latitude
+
+    im : InfluenceModel, optional
+        The influence model used to consider additional influences
+        on the boat speed
+
+        Defaults to `None`
+
+    influence_data: dict, optional
+        Data containing information that might influence the boat speed
+        of the vessel (eg. current, wave height), to be passed to
+        the used influence model
+
+        Only used, if `im` is not `None`
+
+        Defaults to `None`
+
+    Returns
+    -------
+    out : list of tuples
+        Directions as well as the time needed to sail along those,
+        to get from start to end
+
+    """
     _, wa, bsp, *_ = pd.get_slices(ws)
 
     if im:
@@ -176,13 +276,13 @@ def cost_cruise(
     pd: pol.PolarDiagram,
     start,
     end,
-    start_time,
+    start_time: datetime,
     wm: WeatherModel,
     cost_fun_dens=None,
     cost_fun_abs=lambda total_t, total_s: total_t,
     integration_method=trapezoid,
     im: Optional[InfluenceModel] = None,
-    **kwargs,
+    **ivp_kw,
 ):
     """
     Computes the total cost for traveling
@@ -206,7 +306,6 @@ def cost_cruise(
 
     Parameter
     ----------
-
     pd: PolarDiagram
         Polar diagram of the vessel
 
@@ -226,24 +325,28 @@ def cost_cruise(
         Function giving a cost density for given time as datetime.datetime,
         lattitude as float, longitude as float and WeatherModel
         cost_fun_dens(t,lat,long,wm) corresponds to costs(s,t) above.
+
         Defaults to None.
 
     cost_fun_abs: callable, optional
         Corresponds to abs_costs above.
+
         Defaults to lambda total_t, total_s: total_t
 
     integration_method: callable, optional
         Function that takes two (n,) arrays y, x and computes
         an approximative integral from that.
         Is only used if cost_fun_dens is not None
-        default: scipy.integrate.trapezoid
+
+        Defaults to scipy.integrate.trapezoid
 
     im: InfluenceModel, optional
-        The InfluenceModel used to consider additional influences
+        The influence model used to consider additional influences
         on the boat speed.
-        Defaults to ??
 
-    kwargs:
+        Defaults to None
+
+    ivp_kw:
         Keyword arguments which will be redirected to scipy.integrate.solve_ivp
         in order to solve the initial value problem described above
 
@@ -271,7 +374,7 @@ def cost_cruise(
         fun=dt_ds,
         t_span=(0, np.linalg.norm(proj_start - proj_end)),
         y0=np.zeros(1),
-        **kwargs,
+        **ivp_kw,
     )
 
     # calculate absolute cost and return it if sufficient
