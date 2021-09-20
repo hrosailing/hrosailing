@@ -395,6 +395,7 @@ def isocrone(
         der = dt_ds(s, t)
         s += step_size
         t += der * step_size
+        steps += 1
 
     # we end up with s, t such that t >= total_cost and steps > min_nodes
     # still need to correct the last step such that t == total_cost
@@ -411,7 +412,7 @@ def isocrone(
 
 def _get_inverse_bsp(pd, pos, t, lat_mp, start_time, wm, im):
     lat, long = _inverse_mercator_proj(pos, lat_mp)
-    time = start_time + timedelta(hours=t[0])
+    time = start_time + timedelta(hours=t)
     try:
         weather = wm.get_weather(time, lat, long)
     except:
