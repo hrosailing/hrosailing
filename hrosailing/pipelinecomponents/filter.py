@@ -45,7 +45,10 @@ class Filter(ABC):
 
     @abstractmethod
     def filter(self, wts):
-        """"""
+        """This method should be used, given an array of weights,
+        to filter out points based on their weights, and produce a
+        boolean array of the same size as wts
+        """
 
 
 class QuantileFilter(Filter):
