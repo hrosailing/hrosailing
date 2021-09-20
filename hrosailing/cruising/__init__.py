@@ -295,23 +295,6 @@ def cost_cruise(
     return absolute_cost + integration_method(costs, t_s.t)
 
 
-def _inverse_mercator_proj(pt, lat_mp):
-    # computes lattitude and longitude of a projected point
-    # where the projection midpoint has lattitude lat_mp
-    x, y = pt / 69
-    return x + lat_mp, 180 / np.pi * np.arcsin(np.tanh(y))
-
-
-def _mercator_proj(pt, lat_mp):
-    # projects a point given as lattitude and longitude tupel using mercator
-    # projection where the projection midponit has lattitude lat_mp
-    lat, long = pt
-    # 69 nautical miles between two lattitudes
-    return 69 * np.array(
-        [(lat - lat_mp), np.arcsinh(np.tan(np.pi * long / 180))]
-    )
-
-
 def isocrone(
     pd: pol.PolarDiagram,
     start,
@@ -396,6 +379,7 @@ def isocrone(
         s += step_size
         t += der * step_size
         steps += 1
+        print(f"t = {t}, s = {s}, steps = {steps}, der = {der}")
 
     # we end up with s, t such that t >= total_cost and steps > min_nodes
     # still need to correct the last step such that t == total_cost
@@ -408,6 +392,23 @@ def isocrone(
     end = _inverse_mercator_proj(proj_end, lat_mp)
 
     return end, s
+
+
+def _inverse_mercator_proj(pt, lat_mp):
+    # computes lattitude and longitude of a projected point
+    # where the projection midpoint has lattitude lat_mp
+    x, y = pt / 69
+    return x + lat_mp, 180 / np.pi * np.arcsin(np.tanh(y))
+
+
+def _mercator_proj(pt, lat_mp):
+    # projects a point given as lattitude and longitude tupel using mercator
+    # projection where the projection midponit has lattitude lat_mp
+    lat, long = pt
+    # 69 nautical miles between two lattitudes
+    return 69 * np.array(
+        [(lat - lat_mp), np.arcsinh(np.tan(np.pi * long / 180))]
+    )
 
 
 def _get_inverse_bsp(pd, pos, t, lat_mp, start_time, wm, im):
