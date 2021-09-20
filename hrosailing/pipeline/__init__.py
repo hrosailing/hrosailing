@@ -34,15 +34,23 @@ logger = logging.getLogger(__name__)
 
 
 class PipelineException(Exception):
-    """"""
+    """Exception raised if an error occurs in the pipeline"""
 
 
 class PipelineExtension(ABC):
-    """"""
+    """Base class for all pipeline extensions
+
+    Abstract Methods
+    ----------------
+    process(w_pts)
+    """
 
     @abstractmethod
-    def process(self, w_pts: pc.WeightedPoints):
-        """"""
+    def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagram:
+        """This method, given an instance of WeightedPoints, should
+        return a polar diagram object, which represents the trends
+        and data contained in the WeightedPoints instance
+        """
 
 
 class PolarPipeline:
@@ -135,20 +143,45 @@ class PolarPipeline:
 
 
 class TableExtension(PipelineExtension):
-    """"""
+    """
+
+    Parameters
+    ----------
+    w_res : , optional
+
+    neighbourhood : Neighbourhood, optional
+
+        Defaults to Ball()
+
+    interpolator : Interpolator, optional
+
+        Defaults to ArithmeticMeanInterpolator(50)
+    """
 
     def __init__(
         self,
         w_res=None,
         neighbourhood: pc.Neighbourhood = pc.Ball(),
-        interpolator: pc.Interpolator = pc.ArithmeticMeanInterpolator(1),
+        interpolator: pc.Interpolator = pc.ArithmeticMeanInterpolator(50),
     ):
         self.w_res = w_res
         self.neighbourhood = neighbourhood
         self.interpolator = interpolator
 
     def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramTable:
-        """"""
+        """
+
+        Parameters
+        ----------
+        w_pts : WeightedPoints
+
+
+
+        Returns
+        -------
+        pd : PolarDiagramTable
+
+        """
         ws_res, wa_res = _set_wind_resolution(self.w_res, w_pts.points)
         ws, wa = np.meshgrid(ws_res, wa_res)
 
@@ -163,7 +196,21 @@ class TableExtension(PipelineExtension):
 
 
 class CurveExtension(PipelineExtension):
-    """"""
+    """
+
+    Parameters
+    ----------
+    regressor : Regressor, optional
+
+        Defaults to `ODRegressor(
+            model_func=ws_s_s_dt_wa_gauss_comb,
+            init_values=(0.25, 10, 1.7, 0, 1.9, 30, 17.6, 0, 1.9, 30, 17.6, 0)
+        )`
+
+    radians : bool, optional
+
+        Defaults to `False`
+    """
 
     def __init__(
         self,
@@ -177,7 +224,18 @@ class CurveExtension(PipelineExtension):
         self.radians = radians
 
     def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramCurve:
-        """"""
+        """
+
+        Parameters
+        ----------
+        w_pts : WeightedPoints
+
+
+        Returns
+        -------
+        pd : PolarDiagramCurve
+
+        """
         if self.radians:
             w_pts.points[:, 1] = np.deg2rad(w_pts.points[:, 1])
 
@@ -191,7 +249,22 @@ class CurveExtension(PipelineExtension):
 
 
 class PointcloudExtension(PipelineExtension):
-    """"""
+    """
+
+    Parameters
+    ----------
+    sampler : Sampler, optional
+
+        Defaults to UniformRandomSampler(2000)
+
+    neighbourhood : Neighbourhood, optional
+
+        Defaults to Ball()
+
+    interpolator : Interpolator, optional
+
+        Defaults to ArithmeticMeanInterpolator(50)
+    """
 
     def __init__(
         self,
@@ -204,7 +277,17 @@ class PointcloudExtension(PipelineExtension):
         self.interpolator = interpolator
 
     def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramPointcloud:
-        """"""
+        """
+
+        Parameters
+        ----------
+        w_pts : WeightedPoints
+
+
+        Returns
+        -------
+        pd : PolarDiagramPointcloud
+        """
         sample_pts = self.sampler.sample(w_pts.points)
         pts = _interpolate_points(
             sample_pts, w_pts, self.neighbourhood, self.interpolator
@@ -248,7 +331,9 @@ def _extract_wind(pts, n, threshhold):
 
 
 class InterpolationWarning(Warning):
-    pass
+    """Warning raised if neighbourhood is too small for
+    successful interpolation
+    """
 
 
 def _interpolate_points(i_points, w_pts, neighbourhood, interpolator):
