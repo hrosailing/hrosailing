@@ -371,6 +371,8 @@ def isocrone(
     step_size = 5 * total_time / min_nodes
     s, t, steps = 0, 0, 0
 
+    der = 0 # debug
+
     while t < total_time or steps < min_nodes:
         if t >= total_time:
             # start process again with smaller step size
@@ -381,14 +383,13 @@ def isocrone(
         s += step_size
         t += der * step_size
         steps += 1
-        #print(f"t = {t}, s = {s}, steps = {steps}, der = {der}")
 
     # we end up with s, t such that t >= total_cost and steps > min_nodes
     # still need to correct the last step such that t == total_cost
 
     last_t = t - der * step_size
-    off = (total_time - last_t) / (t - last_t)
-    s = s - step_size + off
+    # off = (total_time - last_t) / (t - last_t)
+    s = (total_time + der*s - t)/der
 
     proj_end = proj_start + s * v_direction
     end = _inverse_mercator_proj(proj_end, lat_mp)
