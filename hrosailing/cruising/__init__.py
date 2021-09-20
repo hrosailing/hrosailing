@@ -177,10 +177,10 @@ def cost_cruise(
     start,
     end,
     start_time,
+    wm: WeatherModel,
     cost_fun_dens=None,
     cost_fun_abs=lambda total_t, total_s: total_t,
     integration_method=trapezoid,
-    wm: WeatherModel = None,
     im: Optional[InfluenceModel] = None,
     **kwargs,
 ):
@@ -219,6 +219,9 @@ def cost_cruise(
     start_time: datetime.datetime
         The time at which the traveling starts
 
+    wm: WeatherModel, optional
+        The WeatherModel used
+
     cost_fun_dens: callable, optional
         Function giving a cost density for given time as datetime.datetime,
         lattitude as float, longitude as float and WeatherModel
@@ -235,12 +238,10 @@ def cost_cruise(
         Is only used if cost_fun_dens is not None
         default: scipy.integrate.trapezoid
 
-    wm: WeatherModel, optional
-        The WeatherModel used
-
     im: InfluenceModel, optional
         The InfluenceModel used to consider additional influences
-        on the boat speed
+        on the boat speed.
+        Defaults to ??
 
     kwargs:
         Keyword arguments which will be redirected to scipy.integrate.solve_ivp
@@ -259,10 +260,12 @@ def cost_cruise(
     proj_end = _mercator_proj(end, lat_mp)
     total_s = np.linalg.norm(proj_end - proj_start)
 
+    hdt = _right_handing_course(start, end)
+
     # define derivative of t by s
     def dt_ds(s, t):
         pos = proj_start + s / total_s * (proj_end - proj_start)
-        _get_inverse_bsp(pd, pos, t, lat_mp, start_time, wm, im)
+        _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im)
 
     t_s = solve_ivp(
         fun=dt_ds,
@@ -295,31 +298,14 @@ def cost_cruise(
     return absolute_cost + integration_method(costs, t_s.t)
 
 
-def _inverse_mercator_proj(pt, lat_mp):
-    # computes lattitude and longitude of a projected point
-    # where the projection midpoint has lattitude lat_mp
-    x, y = pt / 69
-    return x + lat_mp, 180 / np.pi * np.arcsin(np.tanh(y))
-
-
-def _mercator_proj(pt, lat_mp):
-    # projects a point given as lattitude and longitude tupel using mercator
-    # projection where the projection midponit has lattitude lat_mp
-    lat, long = pt
-    # 69 nautical miles between two lattitudes
-    return 69 * np.array(
-        [(lat - lat_mp), np.arcsinh(np.tan(np.pi * long / 180))]
-    )
-
-
 def isocrone(
     pd: pol.PolarDiagram,
     start,
     start_time,
     direction,
-    total_cost=None,
-    min_nodes=None,
-    wm: WeatherModel = None,
+    wm: WeatherModel,
+    total_time=1,
+    min_nodes=100,
     im: Optional[InfluenceModel] = None,
 ):
     """
@@ -344,6 +330,9 @@ def isocrone(
     direction: float
         The angle between North and the direction in which we aim to travel.
 
+    wm: WeatherModel, optional
+        The weather model used.
+
     total_time: float
         The time in hours that the vessel is supposed to travel
         in the given direction.
@@ -351,10 +340,6 @@ def isocrone(
     min_nodes: int, optional
         The minimum amount of sample points to sample the position space.
         Defaults to 100.
-
-    wm: WeatherModel, optional
-        The weather model used.
-        Defaults to ??.
 
     im: InfluenceModel, optional
         The influence model used.
@@ -380,14 +365,18 @@ def isocrone(
 
     def dt_ds(s, t):
         pos = proj_start + s * v_direction
-        return _get_inverse_bsp(pd, pos, t, lat_mp, start_time, wm, im)
+        return _get_inverse_bsp(
+            pd, pos, direction, t, lat_mp, start_time, wm, im
+        )
 
     # supposed boat speed for first estimation is 5 knots
-    step_size = 5 * total_cost / min_nodes
+    step_size = 5 * total_time / min_nodes
     s, t, steps = 0, 0, 0
 
-    while t < total_cost or steps < min_nodes:
-        if t >= total_cost:
+    der = 0  # debug
+
+    while t < total_time or steps < min_nodes:
+        if t >= total_time:
             # start process again with smaller step size
             step_size *= steps / min_nodes
             s, t, steps = 0, 0, 0
@@ -395,13 +384,12 @@ def isocrone(
         der = dt_ds(s, t)
         s += step_size
         t += der * step_size
+        steps += 1
 
     # we end up with s, t such that t >= total_cost and steps > min_nodes
     # still need to correct the last step such that t == total_cost
 
-    last_t = t - der * step_size
-    off = (total_cost - last_t) / (t - last_t)
-    s = s - step_size + off
+    s = (total_time + der * s - t) / der
 
     proj_end = proj_start + s * v_direction
     end = _inverse_mercator_proj(proj_end, lat_mp)
@@ -409,14 +397,32 @@ def isocrone(
     return end, s
 
 
-def _get_inverse_bsp(pd, pos, t, lat_mp, start_time, wm, im):
+def _inverse_mercator_proj(pt, lat_mp):
+    # computes lattitude and longitude of a projected point
+    # where the projection midpoint has lattitude lat_mp
+    x, y = pt / 69
+    return x + lat_mp, 180 / np.pi * np.arcsin(np.tanh(y))
+
+
+def _mercator_proj(pt, lat_mp):
+    # projects a point given as lattitude and longitude tupel using mercator
+    # projection where the projection midponit has lattitude lat_mp
+    lat, long = pt
+    # 69 nautical miles between two lattitudes
+    return 69 * np.array(
+        [(lat - lat_mp), np.arcsinh(np.tan(np.pi * long / 180))]
+    )
+
+
+def _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im):
     lat, long = _inverse_mercator_proj(pos, lat_mp)
-    time = start_time + timedelta(hours=t[0])
+    time = start_time + timedelta(hours=t)
     try:
-        weather = wm.get_weather(time, lat, long)
+        data = wm.get_weather(time, lat, long)
+        data["HDT"] = hdt
     except:
         return 0
-    bsp = im.add_influence(pd, weather)
+    bsp = im.add_influence(pd, data)
 
     if bsp != 0:
         return 1 / bsp
