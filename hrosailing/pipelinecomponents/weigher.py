@@ -67,7 +67,9 @@ class Weigher(ABC):
 
     @abstractmethod
     def weigh(self, pts):
-        """"""
+        """This method should be used, given certain points,
+        to determine their weights according to a weighing method
+        """
 
 
 class CylindricMeanWeigher(Weigher):
