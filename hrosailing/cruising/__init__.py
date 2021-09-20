@@ -208,29 +208,29 @@ def cost_cruise(
     ----------
 
     pd: PolarDiagram
-        polar diagram of the vessel
+        Polar diagram of the vessel
 
     start: tuple of two floats
-        coordinates of the starting point
+        Coordinates of the starting point
 
     end: tuple of two floats
-        coordinates of the end point
+        Coordinates of the end point
 
     start_time: datetime.datetime
-        the time at which the traveling starts
+        The time at which the traveling starts
 
     cost_fun_dens: callable, optional
-        function giving a cost density for given time as datetime.datetime,
+        Function giving a cost density for given time as datetime.datetime,
         lattitude as float, longitude as float and WeatherModel
         cost_fun_dens(t,lat,long,wm) corresponds to costs(s,t) above.
         Defaults to None.
 
     cost_fun_abs: callable, optional
-        corresponds to abs_costs above.
+        Corresponds to abs_costs above.
         Defaults to lambda total_t, total_s: total_t
 
     integration_method: callable, optional
-        function that takes two (n,) arrays y, x and computes
+        Function that takes two (n,) arrays y, x and computes
         an approximative integral from that.
         Is only used if cost_fun_dens is not None
         default: scipy.integrate.trapezoid
@@ -243,13 +243,13 @@ def cost_cruise(
         on the boat speed
 
     kwargs:
-        keyword arguments which will be redirected to scipy.integrate.solve_ivp
+        Keyword arguments which will be redirected to scipy.integrate.solve_ivp
         in order to solve the initial value problem described above
 
     Returns
     -------
     out : float
-        the total cost calculated as described above
+        The total cost calculated as described above
     """
 
     # TODO: default value handling for wm and im
@@ -320,30 +320,75 @@ def isocrone(
     total_cost=None,
     min_nodes=None,
     wm: WeatherModel = None,
-    im: Optional[InfluenceModel] = None,
-    influence_data: Optional[dict] = None,
+    im: Optional[InfluenceModel] = None
 ):
-    """"""
-    # estimate first sample points as equidistant points
-    # supposed boat speed is 5 knots
+    """
+    Estimates the maximum distance that can be reached from a given start
+    point in a given amount of time without tacks and jibes.
+    This is done by sampling the position space and using mercator projection.
+    A weather forecast, organized by a WeatherModel and an InfluenceModel
+    are included in the computation.
 
-    ub = 5*total_cost
+    Parameter
+    ----------
+
+    pd: PolarDiagram
+        The polar diagram of the used vessel
+
+    start: 2-tuple of floats
+        The lattitude and longitude of the starting point
+
+    start_time: datetime.datetime
+        The time at which the traveling starts
+
+    direction: float
+        The angle between North and the direction in which we aim to travel.
+
+    total_time: float
+        The time in hours that the vessel is supposed to travel
+        in the given direction.
+
+    min_nodes: int, optional
+        The minimum amount of sample points to sample the position space.
+        Defaults to 100.
+
+    wm: WeatherModel, optional
+        The weather model used.
+        Defaults to ??.
+
+    im: InfluenceModel, optional
+        The influence model used.
+        Defaults to ??.
+
+    Returns
+    -------
+
+    end : 2-tuple of floats
+        Lattitude and Longitude of the position that is reached when traveling
+        total_time hours in the given direction
+
+    s : float
+        The length of the way traveled from start to end
+    """
+    # TODO: Default handling of wm and im
+    # estimate first sample points as equidistant points
+
     lat_mp = start[0]
     proj_start = _mercator_proj(start, lat_mp)
     arc = np.pi*(1/2 - direction/180)
     v_direction = np.array([np.cos(arc), np.sin(arc)])
 
-    def dt_ds(s,t):
+    def dt_ds(s, t):
         pos = proj_start + s*v_direction
         return _get_inverse_bsp(pd, pos, t, lat_mp, start_time, wm, im)
 
+    # supposed boat speed for first estimation is 5 knots
     step_size = 5*total_cost/min_nodes
     s, t, steps = 0, 0, 0
 
-    # heuristic setting bsp to constant 5 for first guess of step size
     while t < total_cost or steps < min_nodes:
         if t >= total_cost:
-            #start process again with smaller step size
+            # start process again with smaller step size
             step_size *= steps/min_nodes
             s, t, steps = 0, 0, 0
             continue
@@ -356,8 +401,12 @@ def isocrone(
 
     last_t = t - der*step_size
     off = (total_cost - last_t)/(t - last_t)
+    s = s - step_size + off
 
-    return s - step_size + off
+    proj_end = proj_start + s*v_direction
+    end = _inverse_mercator_proj(proj_end, lat_mp)
+
+    return end, s
 
 
 def _get_inverse_bsp(pd, pos, t, lat_mp, start_time, wm, im):
