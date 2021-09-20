@@ -2,6 +2,7 @@
 PolarDiagram classes to work with and represent PPDs in various forms
 """
 
+# pylint: disable=too-many-lines
 # Author: Valentin Dannenberg
 
 
@@ -230,7 +231,7 @@ def symmetrize(obj):
 
 
 class PolarDiagram(ABC):
-    """Base class for all polardiagram classes
+    """Base class for all polar diagrams
 
     Abstract Methods
     ----------------
