@@ -300,7 +300,7 @@ def isocrone(
     start,
     start_time,
     direction,
-    total_cost=None,
+    total_time=1,
     min_nodes=None,
     wm: WeatherModel = None,
     im: Optional[InfluenceModel] = None,
@@ -368,11 +368,11 @@ def isocrone(
         )
 
     # supposed boat speed for first estimation is 5 knots
-    step_size = 5 * total_cost / min_nodes
+    step_size = 5 * total_time / min_nodes
     s, t, steps = 0, 0, 0
 
-    while t < total_cost or steps < min_nodes:
-        if t >= total_cost:
+    while t < total_time or steps < min_nodes:
+        if t >= total_time:
             # start process again with smaller step size
             step_size *= steps / min_nodes
             s, t, steps = 0, 0, 0
@@ -387,7 +387,7 @@ def isocrone(
     # still need to correct the last step such that t == total_cost
 
     last_t = t - der * step_size
-    off = (total_cost - last_t) / (t - last_t)
+    off = (total_time - last_t) / (t - last_t)
     s = s - step_size + off
 
     proj_end = proj_start + s * v_direction
@@ -413,12 +413,12 @@ def _mercator_proj(pt, lat_mp):
     )
 
 
-def _get_inverse_bsp(pd, pos, bda, t, lat_mp, start_time, wm, im):
+def _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im):
     lat, long = _inverse_mercator_proj(pos, lat_mp)
     time = start_time + timedelta(hours=t)
     try:
         data = wm.get_weather(time, lat, long)
-        data["BDA"] = bda # TODO: use right name
+        data["HDT"] = hdt
     except:
         return 0
     bsp = im.add_influence(pd, data)
