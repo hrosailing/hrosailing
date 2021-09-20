@@ -37,8 +37,6 @@ class RegressorException(Exception):
     working with the Regressor class and subclasses
     """
 
-    pass
-
 
 class Regressor(ABC):
     """Base class for all regressor classes
