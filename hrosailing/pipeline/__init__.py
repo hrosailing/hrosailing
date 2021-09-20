@@ -104,10 +104,11 @@ class PolarPipeline:
             wa = data.get("Wind angle")
             bsp = (
                 data.get("Speed over ground knots")
-                or data.get("Speed over water knots")
+                or data.get("Water speed knots")
                 or data.get("Boat speed")
             )
-            data = np.vstack((ws, wa, bsp))
+
+            data = np.column_stack((ws, wa, bsp))
 
         # NaN and infinite values can't normally be handled
         if check_finite:
