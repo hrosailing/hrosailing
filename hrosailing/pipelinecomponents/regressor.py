@@ -56,20 +56,23 @@ class Regressor(ABC):
     @property
     @abstractmethod
     def model_func(self):
-        """"""
+        """This property should return a version of the
+        in the regression used model function
+        """
 
     @property
     @abstractmethod
     def optimal_params(self):
-        """"""
+        """This property should return a version of the
+        through regression determined optimal parameters
+        of the model function
+        """
 
     @abstractmethod
     def fit(self, data):
-        """"""
-
-    @abstractmethod
-    def set_weights(self, X_weights, y_weights):
-        """"""
+        """This method should, given data, be used to determine
+        optimal parameters for the model function
+        """
 
 
 class ODRegressor(Regressor):
@@ -112,19 +115,19 @@ class ODRegressor(Regressor):
 
     @property
     def model_func(self):
+        """Returns a read-only version of self._func"""
         return self._func
 
     @property
     def optimal_params(self):
+        """Returns a read-only version of self._popt"""
         return self._popt
-
-    def set_weights(self, X_weights, y_weights):
-        pass
 
     def fit(self, data):
         """Fits the model function to the given data, ie calculates
         the optimal parameters to minimize an objective
-        function based on the data, see also [ODRPACK](https://docs.scipy.org/doc/external/odrpack_guide.pdf)
+        function based on the data, see also
+        [ODRPACK](https://docs.scipy.org/doc/external/odrpack_guide.pdf)
 
         Parameters
         ----------
@@ -224,19 +227,22 @@ class LeastSquareRegressor(Regressor):
 
     @property
     def model_func(self):
+        """Returns a read-only version of self._func"""
         return self._func
 
     @property
     def optimal_params(self):
+        """Returns a read-only version of self._popt"""
         return self._popt
 
-    def set_weights(self, X_weights, y_weights):
-        pass
-
     def fit(self, data):
+        # pylint: disable=line-too-long
         """Fits the model function to the given data, ie calculates
         the optimal parameters to minimize the sum of the squares of
-        the residuals, see also [least squares](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html)
+        the residuals, see also
+        [curve_fit](
+        https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html
+        )
 
         Parameters
         ----------
@@ -245,6 +251,7 @@ class LeastSquareRegressor(Regressor):
             a sequence of points consisting of wind speed, wind angle
             and boat speed
         """
+        # pylint: enable=line-too-long
         X, y = data[:, :2], data[:, 2]
 
         self._popt, _ = curve_fit(
@@ -285,7 +292,7 @@ def _determine_params(func):
         try:
             func(np.array([[0, 0]]), *params)
             break
-        except IndexError:
+        except (IndexError, TypeError):
             params.append(1)
 
     return params
