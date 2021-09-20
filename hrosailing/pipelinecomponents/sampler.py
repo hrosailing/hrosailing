@@ -58,9 +58,6 @@ class UniformRandomSampler(Sampler):
 
         self._n_samples = n_samples
 
-    def __repr__(self):
-        return f"UniformRandomSampler(no_samples={self._n_samples})"
-
     def sample(self, pts):
         """Produces samples according to the above described procedure
 
@@ -139,7 +136,7 @@ class FibonacciSampler(Sampler):
             samples produced by the above described method
         """
         # calculate smallest circle containing pts
-        x, y, r = make_circle(pts)
+        x, y, r = _make_circle(pts)
         midpoint = np.array([x, y])
 
         # calculate an upper bound to the number of points needed for the
@@ -206,7 +203,7 @@ class ArchimedianSampler(Sampler):
         """
 
         # calculate enclosing circle
-        x, y, r = make_circle(pts)
+        x, y, r = _make_circle(pts)
         midpoint = np.array([x, y])
 
         # compute convex hull and its volume
@@ -300,7 +297,7 @@ def _sample_generator(base_set, midpoint, ineqs):
 # If 1 point is given, a circle of radius 0 is returned.
 
 
-def make_circle(pts):
+def _make_circle(pts):
     # Convert to float and randomize order
     shuffled = [(float(p[0]), float(p[1])) for p in pts]
     random.shuffle(shuffled)
