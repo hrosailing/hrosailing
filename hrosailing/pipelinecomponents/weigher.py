@@ -16,7 +16,7 @@ from typing import Callable
 
 import numpy as np
 
-from hrosailing.wind import convert_wind
+from hrosailing.wind import _convert_wind
 
 
 logging.basicConfig(
@@ -284,7 +284,7 @@ class WeightedPoints:
         _checks=True,
     ):
         if _checks:
-            pts = convert_wind(pts, -1, tw=tw, _check_finite=True)
+            pts = _convert_wind(pts, -1, tw=tw, _check_finite=True)
 
         self._pts = pts
 

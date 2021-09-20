@@ -17,7 +17,7 @@ import warnings
 
 
 from hrosailing.pipelinecomponents import Interpolator
-from hrosailing.wind import convert_wind, set_resolution
+from hrosailing.wind import _convert_wind, _set_resolution
 from ._plotting import *
 
 
@@ -559,8 +559,8 @@ class PolarDiagramTable(PolarDiagram):
             f"bsps={bsps})' called"
         )
 
-        ws_res = set_resolution(ws_res, "speed")
-        wa_res = set_resolution(wa_res, "angle")
+        ws_res = _set_resolution(ws_res, "speed")
+        wa_res = _set_resolution(wa_res, "angle")
 
         # standardize wind angles to the interval [0, 360)
         wa_res %= 360
@@ -2461,7 +2461,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             self._pts = np.array([])
             return
 
-        pts = convert_wind(pts, -1, tw)
+        pts = _convert_wind(pts, -1, tw)
 
         # standardize wind angles to the interval [0, 360)
         pts[:, 1] %= 360
@@ -2581,7 +2581,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         """
         logger.info(f"Method 'add_points(new_pts{new_pts}, tw={tw})' called")
 
-        new_pts = convert_wind(new_pts, -1, tw)
+        new_pts = _convert_wind(new_pts, -1, tw)
 
         if not self.points.size:
             self._pts = new_pts

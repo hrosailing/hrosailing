@@ -17,7 +17,7 @@ from hrosailing.pipelinecomponents.modelfunctions import (
     ws_s_s_dt_wa_gauss_comb,
 )
 import hrosailing.pipelinecomponents as pc
-from hrosailing.wind import set_resolution
+from hrosailing.wind import _set_resolution
 
 
 logging.basicConfig(
@@ -223,7 +223,7 @@ def _set_wind_resolution(w_res, pts):
         w_res = (None, None)
 
     ws_res, wa_res = w_res
-    return set_resolution(ws_res, "speed"), set_resolution(wa_res, "angle")
+    return _set_resolution(ws_res, "speed"), _set_resolution(wa_res, "angle")
 
 
 def _extract_wind(pts, n, threshhold):
