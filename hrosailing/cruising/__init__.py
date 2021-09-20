@@ -177,10 +177,10 @@ def cost_cruise(
     start,
     end,
     start_time,
+    wm: WeatherModel,
     cost_fun_dens=None,
     cost_fun_abs=lambda total_t, total_s: total_t,
     integration_method=trapezoid,
-    wm: WeatherModel = None,
     im: Optional[InfluenceModel] = None,
     **kwargs,
 ):
@@ -219,6 +219,9 @@ def cost_cruise(
     start_time: datetime.datetime
         The time at which the traveling starts
 
+    wm: WeatherModel, optional
+        The WeatherModel used
+
     cost_fun_dens: callable, optional
         Function giving a cost density for given time as datetime.datetime,
         lattitude as float, longitude as float and WeatherModel
@@ -235,12 +238,10 @@ def cost_cruise(
         Is only used if cost_fun_dens is not None
         default: scipy.integrate.trapezoid
 
-    wm: WeatherModel, optional
-        The WeatherModel used
-
     im: InfluenceModel, optional
         The InfluenceModel used to consider additional influences
-        on the boat speed
+        on the boat speed.
+        Defaults to ??
 
     kwargs:
         Keyword arguments which will be redirected to scipy.integrate.solve_ivp
@@ -302,9 +303,9 @@ def isocrone(
     start,
     start_time,
     direction,
+    wm: WeatherModel,
     total_time=1,
-    min_nodes=None,
-    wm: WeatherModel = None,
+    min_nodes=100,
     im: Optional[InfluenceModel] = None,
 ):
     """
@@ -329,6 +330,9 @@ def isocrone(
     direction: float
         The angle between North and the direction in which we aim to travel.
 
+    wm: WeatherModel, optional
+        The weather model used.
+
     total_time: float
         The time in hours that the vessel is supposed to travel
         in the given direction.
@@ -336,10 +340,6 @@ def isocrone(
     min_nodes: int, optional
         The minimum amount of sample points to sample the position space.
         Defaults to 100.
-
-    wm: WeatherModel, optional
-        The weather model used.
-        Defaults to ??.
 
     im: InfluenceModel, optional
         The influence model used.
