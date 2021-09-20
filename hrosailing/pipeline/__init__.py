@@ -224,7 +224,7 @@ class PointcloudExtension(PipelineExtension):
     def __init__(
         self,
         sampler: pc.Sampler = pc.UniformRandomSampler(2000),
-        neighbourhood: pc.Neighbourhood = pc.Ball(),
+        neighbourhood: pc.Neighbourhood = pc.Ball(radius=1),
         interpolator: pc.Interpolator = pc.ArithmeticMeanInterpolator(50),
     ):
         self.sampler = sampler
