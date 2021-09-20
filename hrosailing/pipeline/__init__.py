@@ -168,8 +168,8 @@ class TableExtension(PipelineExtension):
     def __init__(
         self,
         w_res=None,
-        neighbourhood: pc.Neighbourhood = pc.Ball(),
-        interpolator: pc.Interpolator = pc.ArithmeticMeanInterpolator(1),
+        neighbourhood: pc.Neighbourhood = pc.Ball(radius=1),
+        interpolator: pc.Interpolator = pc.ArithmeticMeanInterpolator(50),
     ):
         self.w_res = w_res
         self.neighbourhood = neighbourhood
