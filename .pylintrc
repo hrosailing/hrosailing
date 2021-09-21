@@ -148,7 +148,9 @@ disable=print-statement,
         no-name-in-module,
         unsubscriptable-object,
         no-member,
-        unbalanced-tuple-unpacking
+        unbalanced-tuple-unpacking,
+        undefined-variable,
+        unused-variable
 
 
 # Enable the message, report, category or checker with the given id(s). You can
