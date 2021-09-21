@@ -79,6 +79,7 @@ def ws_s_wa_gauss(ws, wa, *params):
         + gaussian_model(360 - wa, params[7], params[8], params[9])
     )
 
+
 def ws_s_wa_gauss_and_square(tws, twa, *args):
     tws = np.asarray(tws)
     twa = np.asarray(twa)
