@@ -1,4 +1,4 @@
-name: push-autoblack
+name: autoblack
 on:
   push:
     branches:
