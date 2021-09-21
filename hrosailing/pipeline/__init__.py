@@ -14,7 +14,7 @@ import numpy as np
 
 import hrosailing.polardiagram as pol
 from hrosailing.pipelinecomponents.modelfunctions import (
-    ws_s_s_dt_wa_gauss_comb,
+    ws_s_wa_gauss_and_square,
 )
 import hrosailing.pipelinecomponents as pc
 from hrosailing.wind import set_resolution
@@ -196,8 +196,8 @@ class CurveExtension(PipelineExtension):
     def __init__(
         self,
         regressor: pc.Regressor = pc.ODRegressor(
-            model_func=ws_s_s_dt_wa_gauss_comb,
-            init_values=(0.25, 10, 1.7, 0, 1.9, 30, 17.6, 0, 1.9, 30, 17.6, 0),
+            model_func=ws_s_wa_gauss_and_square,
+            init_values=(0.2, 0.2, 10, 0.001, 0.3, 110, 2000, 0.3, 250, 2000),
         ),
         radians: bool = False,
     ):
