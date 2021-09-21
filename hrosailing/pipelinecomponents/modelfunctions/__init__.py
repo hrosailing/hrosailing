@@ -1,5 +1,6 @@
 """
-
+Model functions that can be used with the Regressor class to
+model certain ship behaviours
 """
 
 # Author: Valentin F. Dannenberg / Ente

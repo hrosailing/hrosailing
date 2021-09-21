@@ -46,7 +46,11 @@ class Neighbourhood(ABC):
 
     @abstractmethod
     def is_contained_in(self, pts):
-        """"""
+        """This method should be used, given certain points, to
+        determine which of these points lie in the neighbourhood
+        and which do not, by producing a boolean array of the same
+        size as pts
+        """
 
 
 class Ball(Neighbourhood):

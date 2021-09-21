@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.9.2" />
-<title>hrosailing.processing.pipelinecomponents.neighbourhood API documentation</title>
+<title>hrosailing.pipelinecomponents.neighbourhood API documentation</title>
 <meta name="description" content="Contains the baseclass for Neighbourhoods used in the TableExtension and
 PointcloudExtension class, that can also be used to create custom
 …" />
@@ -23,7 +23,7 @@ PointcloudExtension class, that can also be used to create custom
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>hrosailing.processing.pipelinecomponents.neighbourhood</code></h1>
+<h1 class="title">Module <code>hrosailing.pipelinecomponents.neighbourhood</code></h1>
 </header>
 <section id="section-intro">
 <p>Contains the baseclass for Neighbourhoods used in the TableExtension and
@@ -34,24 +34,28 @@ Neighbourhoods.</p>
 <section>
 </section>
 <section>
-<h2 class="section-title" id="header-variables">Global variables</h2>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="hrosailing.processing.pipelinecomponents.neighbourhood.euclidean_norm"><code class="name">var <span class="ident">euclidean_norm</span></code></dt>
+<dt id="hrosailing.pipelinecomponents.neighbourhood.euclidean_norm"><code class="name flex">
+<span>def <span class="ident">euclidean_norm</span></span>(<span>vec)</span>
+</code></dt>
 <dd>
-<div class="desc"><p>dummy</p></div>
+<div class="desc"></div>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.neighbourhood.scaled"><code class="name">var <span class="ident">scaled</span></code></dt>
+<dt id="hrosailing.pipelinecomponents.neighbourhood.scaled"><code class="name flex">
+<span>def <span class="ident">scaled</span></span>(<span>norm, scal)</span>
+</code></dt>
 <dd>
-<div class="desc"><p>dummy</p></div>
+<div class="desc"></div>
 </dd>
 </dl>
 </section>
 <section>
-</section>
-<section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="hrosailing.processing.pipelinecomponents.neighbourhood.Ball"><code class="flex name class">
+<dt id="hrosailing.pipelinecomponents.neighbourhood.Ball"><code class="flex name class">
 <span>class <span class="ident">Ball</span></span>
 <span>(</span><span>norm: Callable = &lt;function scaled.&lt;locals&gt;.scaled_norm&gt;, radius=0.05)</span>
 </code></dt>
@@ -75,12 +79,12 @@ of ||.||_2</p>
 <p>Raises a NeighbourhoodInitializationException if radius is nonpositive</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a></li>
+<li><a title="hrosailing.pipelinecomponents.neighbourhood.Neighbourhood" href="#hrosailing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a></li>
 <li>abc.ABC</li>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="hrosailing.processing.pipelinecomponents.neighbourhood.Ball.is_contained_in"><code class="name flex">
+<dt id="hrosailing.pipelinecomponents.neighbourhood.Ball.is_contained_in"><code class="name flex">
 <span>def <span class="ident">is_contained_in</span></span>(<span>self, pts)</span>
 </code></dt>
 <dd>
@@ -99,7 +103,7 @@ is a member of the neighbourhood</dd>
 </dd>
 </dl>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.neighbourhood.Cuboid"><code class="flex name class">
+<dt id="hrosailing.pipelinecomponents.neighbourhood.Cuboid"><code class="flex name class">
 <span>class <span class="ident">Cuboid</span></span>
 <span>(</span><span>norm: Callable = &lt;function scaled.&lt;locals&gt;.scaled_norm&gt;, dimensions=(0.05, 0.05))</span>
 </code></dt>
@@ -117,16 +121,15 @@ is a member of the neighbourhood</dd>
 <p>The 'length' of the 'sides' of the cuboid, ie the b_i</p>
 <p>If nothing is passed, it will default to (0.05, 0.05)</p>
 </dd>
-</dl>
-<p>Raises a NeighbourhoodInitializationException if dimensions is not of length 2</p></div>
+</dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a></li>
+<li><a title="hrosailing.pipelinecomponents.neighbourhood.Neighbourhood" href="#hrosailing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a></li>
 <li>abc.ABC</li>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="hrosailing.processing.pipelinecomponents.neighbourhood.Cuboid.is_contained_in"><code class="name flex">
+<dt id="hrosailing.pipelinecomponents.neighbourhood.Cuboid.is_contained_in"><code class="name flex">
 <span>def <span class="ident">is_contained_in</span></span>(<span>self, pts)</span>
 </code></dt>
 <dd>
@@ -145,7 +148,7 @@ is a member of the neighbourhood</dd>
 </dd>
 </dl>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.neighbourhood.Ellipsoid"><code class="flex name class">
+<dt id="hrosailing.pipelinecomponents.neighbourhood.Ellipsoid"><code class="flex name class">
 <span>class <span class="ident">Ellipsoid</span></span>
 <span>(</span><span>lin_trans=None, norm: Callable = &lt;function scaled.&lt;locals&gt;.scaled_norm&gt;, radius=0.05)</span>
 </code></dt>
@@ -183,12 +186,12 @@ version of ||.||_2</p>
 </ul></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a></li>
+<li><a title="hrosailing.pipelinecomponents.neighbourhood.Neighbourhood" href="#hrosailing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a></li>
 <li>abc.ABC</li>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="hrosailing.processing.pipelinecomponents.neighbourhood.Ellipsoid.is_contained_in"><code class="name flex">
+<dt id="hrosailing.pipelinecomponents.neighbourhood.Ellipsoid.is_contained_in"><code class="name flex">
 <span>def <span class="ident">is_contained_in</span></span>(<span>self, pts)</span>
 </code></dt>
 <dd>
@@ -206,7 +209,7 @@ is a member of the neighbourhood</dd>
 </dd>
 </dl>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood"><code class="flex name class">
+<dt id="hrosailing.pipelinecomponents.neighbourhood.Neighbourhood"><code class="flex name class">
 <span>class <span class="ident">Neighbourhood</span></span>
 </code></dt>
 <dd>
@@ -219,23 +222,26 @@ is a member of the neighbourhood</dd>
 </ul>
 <h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Ball" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Ball">Ball</a></li>
-<li><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Cuboid" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Cuboid">Cuboid</a></li>
-<li><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Ellipsoid" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Ellipsoid">Ellipsoid</a></li>
-<li><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Polytope" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Polytope">Polytope</a></li>
-<li><a title="hrosailing.processing.pipelinecomponents.neighbourhood.ScalingBall" href="#hrosailing.processing.pipelinecomponents.neighbourhood.ScalingBall">ScalingBall</a></li>
+<li><a title="hrosailing.pipelinecomponents.neighbourhood.Ball" href="#hrosailing.pipelinecomponents.neighbourhood.Ball">Ball</a></li>
+<li><a title="hrosailing.pipelinecomponents.neighbourhood.Cuboid" href="#hrosailing.pipelinecomponents.neighbourhood.Cuboid">Cuboid</a></li>
+<li><a title="hrosailing.pipelinecomponents.neighbourhood.Ellipsoid" href="#hrosailing.pipelinecomponents.neighbourhood.Ellipsoid">Ellipsoid</a></li>
+<li><a title="hrosailing.pipelinecomponents.neighbourhood.Polytope" href="#hrosailing.pipelinecomponents.neighbourhood.Polytope">Polytope</a></li>
+<li><a title="hrosailing.pipelinecomponents.neighbourhood.ScalingBall" href="#hrosailing.pipelinecomponents.neighbourhood.ScalingBall">ScalingBall</a></li>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood.is_contained_in"><code class="name flex">
+<dt id="hrosailing.pipelinecomponents.neighbourhood.Neighbourhood.is_contained_in"><code class="name flex">
 <span>def <span class="ident">is_contained_in</span></span>(<span>self, pts)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>This method should be used, given certain points, to
+determine which of these points lie in the neighbourhood
+and which do not, by producing a boolean array of the same
+size as pts</p></div>
 </dd>
 </dl>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodInitializationException"><code class="flex name class">
+<dt id="hrosailing.pipelinecomponents.neighbourhood.NeighbourhoodInitializationException"><code class="flex name class">
 <span>class <span class="ident">NeighbourhoodInitializationException</span></span>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
@@ -248,7 +254,7 @@ initialization of a Neighbourhood</p></div>
 <li>builtins.BaseException</li>
 </ul>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.neighbourhood.Polytope"><code class="flex name class">
+<dt id="hrosailing.pipelinecomponents.neighbourhood.Polytope"><code class="flex name class">
 <span>class <span class="ident">Polytope</span></span>
 <span>(</span><span>mat=array([[ 1.,
 0.],
@@ -284,12 +290,12 @@ b = (b_1, &hellip; , b_m)^t</p>
 ie if P is actually bounded</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a></li>
+<li><a title="hrosailing.pipelinecomponents.neighbourhood.Neighbourhood" href="#hrosailing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a></li>
 <li>abc.ABC</li>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="hrosailing.processing.pipelinecomponents.neighbourhood.Polytope.is_contained_in"><code class="name flex">
+<dt id="hrosailing.pipelinecomponents.neighbourhood.Polytope.is_contained_in"><code class="name flex">
 <span>def <span class="ident">is_contained_in</span></span>(<span>self, pts)</span>
 </code></dt>
 <dd>
@@ -308,7 +314,7 @@ is a member of the neighbourhood</dd>
 </dd>
 </dl>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.neighbourhood.ScalingBall"><code class="flex name class">
+<dt id="hrosailing.pipelinecomponents.neighbourhood.ScalingBall"><code class="flex name class">
 <span>class <span class="ident">ScalingBall</span></span>
 <span>(</span><span>min_pts, max_pts, norm: Callable = &lt;function scaled.&lt;locals&gt;.scaled_norm&gt;)</span>
 </code></dt>
@@ -347,12 +353,12 @@ of ||.||_2</p>
 </ul></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a></li>
+<li><a title="hrosailing.pipelinecomponents.neighbourhood.Neighbourhood" href="#hrosailing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a></li>
 <li>abc.ABC</li>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="hrosailing.processing.pipelinecomponents.neighbourhood.ScalingBall.is_contained_in"><code class="name flex">
+<dt id="hrosailing.pipelinecomponents.neighbourhood.ScalingBall.is_contained_in"><code class="name flex">
 <span>def <span class="ident">is_contained_in</span></span>(<span>self, pts)</span>
 </code></dt>
 <dd>
@@ -415,7 +421,7 @@ const query = new URL(window.location).searchParams.get('q');
 if (query)
 search(query);
 function search(query) {
-const url = '../../../doc-search.html#' + encodeURIComponent(query);
+const url = '../../doc-search.html#' + encodeURIComponent(query);
 new tingle.modal({
 cssClass: ['modal-dialog'],
 onClose: () => {
@@ -434,54 +440,54 @@ setTimeout(() => input.focus(), 100);
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="hrosailing.processing.pipelinecomponents" href="index.html">hrosailing.processing.pipelinecomponents</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents" href="index.html">hrosailing.pipelinecomponents</a></code></li>
 </ul>
 </li>
-<li><h3><a href="#header-variables">Global variables</a></h3>
+<li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="hrosailing.processing.pipelinecomponents.neighbourhood.euclidean_norm" href="#hrosailing.processing.pipelinecomponents.neighbourhood.euclidean_norm">euclidean_norm</a></code></li>
-<li><code><a title="hrosailing.processing.pipelinecomponents.neighbourhood.scaled" href="#hrosailing.processing.pipelinecomponents.neighbourhood.scaled">scaled</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.neighbourhood.euclidean_norm" href="#hrosailing.pipelinecomponents.neighbourhood.euclidean_norm">euclidean_norm</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.neighbourhood.scaled" href="#hrosailing.pipelinecomponents.neighbourhood.scaled">scaled</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Ball" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Ball">Ball</a></code></h4>
+<h4><code><a title="hrosailing.pipelinecomponents.neighbourhood.Ball" href="#hrosailing.pipelinecomponents.neighbourhood.Ball">Ball</a></code></h4>
 <ul class="">
-<li><code><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Ball.is_contained_in" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Ball.is_contained_in">is_contained_in</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.neighbourhood.Ball.is_contained_in" href="#hrosailing.pipelinecomponents.neighbourhood.Ball.is_contained_in">is_contained_in</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Cuboid" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Cuboid">Cuboid</a></code></h4>
+<h4><code><a title="hrosailing.pipelinecomponents.neighbourhood.Cuboid" href="#hrosailing.pipelinecomponents.neighbourhood.Cuboid">Cuboid</a></code></h4>
 <ul class="">
-<li><code><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Cuboid.is_contained_in" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Cuboid.is_contained_in">is_contained_in</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.neighbourhood.Cuboid.is_contained_in" href="#hrosailing.pipelinecomponents.neighbourhood.Cuboid.is_contained_in">is_contained_in</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Ellipsoid" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Ellipsoid">Ellipsoid</a></code></h4>
+<h4><code><a title="hrosailing.pipelinecomponents.neighbourhood.Ellipsoid" href="#hrosailing.pipelinecomponents.neighbourhood.Ellipsoid">Ellipsoid</a></code></h4>
 <ul class="">
-<li><code><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Ellipsoid.is_contained_in" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Ellipsoid.is_contained_in">is_contained_in</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.neighbourhood.Ellipsoid.is_contained_in" href="#hrosailing.pipelinecomponents.neighbourhood.Ellipsoid.is_contained_in">is_contained_in</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a></code></h4>
+<h4><code><a title="hrosailing.pipelinecomponents.neighbourhood.Neighbourhood" href="#hrosailing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a></code></h4>
 <ul class="">
-<li><code><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood.is_contained_in" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Neighbourhood.is_contained_in">is_contained_in</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.neighbourhood.Neighbourhood.is_contained_in" href="#hrosailing.pipelinecomponents.neighbourhood.Neighbourhood.is_contained_in">is_contained_in</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodInitializationException" href="#hrosailing.processing.pipelinecomponents.neighbourhood.NeighbourhoodInitializationException">NeighbourhoodInitializationException</a></code></h4>
+<h4><code><a title="hrosailing.pipelinecomponents.neighbourhood.NeighbourhoodInitializationException" href="#hrosailing.pipelinecomponents.neighbourhood.NeighbourhoodInitializationException">NeighbourhoodInitializationException</a></code></h4>
 </li>
 <li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Polytope" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Polytope">Polytope</a></code></h4>
+<h4><code><a title="hrosailing.pipelinecomponents.neighbourhood.Polytope" href="#hrosailing.pipelinecomponents.neighbourhood.Polytope">Polytope</a></code></h4>
 <ul class="">
-<li><code><a title="hrosailing.processing.pipelinecomponents.neighbourhood.Polytope.is_contained_in" href="#hrosailing.processing.pipelinecomponents.neighbourhood.Polytope.is_contained_in">is_contained_in</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.neighbourhood.Polytope.is_contained_in" href="#hrosailing.pipelinecomponents.neighbourhood.Polytope.is_contained_in">is_contained_in</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.neighbourhood.ScalingBall" href="#hrosailing.processing.pipelinecomponents.neighbourhood.ScalingBall">ScalingBall</a></code></h4>
+<h4><code><a title="hrosailing.pipelinecomponents.neighbourhood.ScalingBall" href="#hrosailing.pipelinecomponents.neighbourhood.ScalingBall">ScalingBall</a></code></h4>
 <ul class="">
-<li><code><a title="hrosailing.processing.pipelinecomponents.neighbourhood.ScalingBall.is_contained_in" href="#hrosailing.processing.pipelinecomponents.neighbourhood.ScalingBall.is_contained_in">is_contained_in</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.neighbourhood.ScalingBall.is_contained_in" href="#hrosailing.pipelinecomponents.neighbourhood.ScalingBall.is_contained_in">is_contained_in</a></code></li>
 </ul>
 </li>
 </ul>

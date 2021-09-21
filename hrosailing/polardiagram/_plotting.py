@@ -1,7 +1,4 @@
-"""
-Contains various helper functions to plot polar diagrams in a number of ways
-"""
-
+# pylint: disable=missing-docstring
 # Author: Valentin Dannenberg
 
 import numpy as np

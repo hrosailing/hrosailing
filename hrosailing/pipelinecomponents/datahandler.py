@@ -11,7 +11,7 @@ from decimal import Decimal
 import numpy as np
 import pynmea2 as pynmea
 
-from hrosailing.wind import convert_wind
+from hrosailing.wind import _convert_wind
 
 
 class HandlerInitializationException(Exception):
@@ -192,7 +192,7 @@ class NMEAFileHandler(DataHandler):
         #
         # aw = [[s, a, b] for s, a, b, r in zip(ws, wa, bsp, ref) if all([s, a, b, r]) and r == "R"]
         # if aw:
-        #     cw = convert_wind(aw, -1, False, _check_finite=True)
+        #     cw = _convert_wind(aw, -1, False, _check_finite=True)
         #
         # ws, wa = zip(*[w[:2] for w in cw if r else [None, None]])
         #

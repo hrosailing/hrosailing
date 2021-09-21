@@ -12,11 +12,9 @@ import numpy as np
 
 
 class WindConversionException(Exception):
-    """"""
-
-
-class ResolutionSettingException(Exception):
-    """"""
+    """Exception raised if an error occurs during
+    wind conversion
+    """
 
 
 def apparent_wind_to_true(wind):
@@ -36,7 +34,7 @@ def apparent_wind_to_true(wind):
         and wind angle now measured as true wind
 
     """
-    return convert_wind(wind, -1, tw=False, _check_finite=True)
+    return _convert_wind(wind, -1, tw=False, _check_finite=True)
 
 
 def true_wind_to_apparent(wind):
@@ -56,10 +54,10 @@ def true_wind_to_apparent(wind):
         and wind angle now measured as apparent wind
 
     """
-    return convert_wind(wind, 1, tw=False, _check_finite=True)
+    return _convert_wind(wind, 1, tw=False, _check_finite=True)
 
 
-def convert_wind(wind, sign, tw, _check_finite=True):
+def _convert_wind(wind, sign, tw, _check_finite=True):
     # Only check for NaNs and infinite values, if wanted
     if _check_finite:
         # NaNs and infinite values can't be handled
@@ -98,7 +96,7 @@ def convert_wind(wind, sign, tw, _check_finite=True):
     return np.column_stack((cws, cwa, bsp))
 
 
-def set_resolution(res, speed_or_angle):
+def _set_resolution(res, speed_or_angle):
     b = speed_or_angle == "speed"
 
     if res is None:
@@ -109,10 +107,10 @@ def set_resolution(res, speed_or_angle):
         res = np.asarray_chkfinite(res)
 
         if res.dtype is object:
-            raise ResolutionSettingException("`res` is not array_like")
+            raise ValueError("`res` is not array_like")
 
         if not res.size or res.ndim != 1:
-            raise ResolutionSettingException("`res` has incorrect shape")
+            raise ValueError("`res` has incorrect shape")
 
         if len(set(res)) != len(res):
             warnings.warn(
@@ -123,6 +121,6 @@ def set_resolution(res, speed_or_angle):
         return res
 
     if res <= 0:
-        raise ResolutionSettingException("`res` is nonpositive")
+        raise ValueError("`res` is nonpositive")
 
     return np.arange(res, 40, res) if b else np.arange(res, 360, res)

@@ -29,12 +29,17 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramException",
 "url":1,
-"doc":""
+"doc":"Exception raised if some nonstandard error occurs, while doing something with polar diagrams"
+},
+{
+"ref":"hrosailing.polardiagram.PolarDiagramInitializationException",
+"url":1,
+"doc":"Exception raised if an error occurs during initialization of a PolarDiagram"
 },
 {
 "ref":"hrosailing.polardiagram.FileReadingException",
 "url":1,
-"doc":""
+"doc":"Exception raised if non-oserror error occurs, when reading a file"
 },
 {
 "ref":"hrosailing.polardiagram.to_csv",
@@ -69,7 +74,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagram",
 "url":1,
-"doc":"Base class for all polardiagram classes Abstract Methods         to_csv(csv_path) symmetrize() get_slices(ws) plot_polar( ws, ax=None, colors=(\"green\", \"red\"), show_legend=False, legend_kw=None,  plot_kw ) plot_flat( ws, ax=None, colors=(\"green\", \"red\"), show_legend=False, legend_kw=None,  plot_kw ) plot_3d(ax=None,  plot_kw) plot_color_gradient( ax=None, colors=(\"green\", \"red\"), marker=None, ms=None, show_legend=False,  legend_kw, ) plot_convex_hull( ws, ax=None, colors=(\"green\", \"red\"), show_legend=False, legend_kw=None,  plot_kw, )"
+"doc":"Base class for all polar diagrams Abstract Methods         to_csv(csv_path) symmetrize() get_slices(ws) plot_polar( ws, ax=None, colors=(\"green\", \"red\"), show_legend=False, legend_kw=None,  plot_kw ) plot_flat( ws, ax=None, colors=(\"green\", \"red\"), show_legend=False, legend_kw=None,  plot_kw ) plot_3d(ax=None,  plot_kw) plot_color_gradient( ax=None, colors=(\"green\", \"red\"), marker=None, ms=None, show_legend=False,  legend_kw, ) plot_convex_hull( ws, ax=None, colors=(\"green\", \"red\"), show_legend=False, legend_kw=None,  plot_kw, )"
 },
 {
 "ref":"hrosailing.polardiagram.PolarDiagram.pickling",
@@ -80,19 +85,19 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagram.to_csv",
 "url":1,
-"doc":"",
+"doc":"This method should, given a path, write a .csv file in the location, containing human readable information about the polar diagram object that called the method",
 "func":1
 },
 {
 "ref":"hrosailing.polardiagram.PolarDiagram.symmetrize",
 "url":1,
-"doc":"",
+"doc":"This method should return a new PolarDiagram object that is a symmetric (i.e. mirrored along the 0 - 180\u00b0 axis) version of the polar diagram object that called the method",
 "func":1
 },
 {
 "ref":"hrosailing.polardiagram.PolarDiagram.get_slices",
 "url":1,
-"doc":"",
+"doc":"This method should, given a number of wind speeds, return a list of the given wind speeds as well as wind angles and corresponding boat speeds, that reflect how the vessel behaves at the given wind speeds",
 "func":1
 },
 {
@@ -110,25 +115,25 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagram.plot_polar",
 "url":1,
-"doc":"",
+"doc":"This method should create a polar plot of one or more slices, corresponding to  ws , of the polar diagram object.",
 "func":1
 },
 {
 "ref":"hrosailing.polardiagram.PolarDiagram.plot_flat",
 "url":1,
-"doc":"",
+"doc":"This method should create a cartesian plot of one or more slices, corresponding to  ws , of the polar diagram object",
 "func":1
 },
 {
 "ref":"hrosailing.polardiagram.PolarDiagram.plot_3d",
 "url":1,
-"doc":"",
+"doc":"This method should create a 3d plot of the polar diagram object",
 "func":1
 },
 {
 "ref":"hrosailing.polardiagram.PolarDiagram.plot_color_gradient",
 "url":1,
-"doc":"",
+"doc":"This method should create 'wind speed vs. wind angle' color gradient plot of the polar diagram object with respect to the corresponding boat speeds",
 "func":1
 },
 {
@@ -140,7 +145,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagram.plot_convex_hull",
 "url":1,
-"doc":"",
+"doc":"This method should compute the convex hull of one or multiple slices, corresponding to  ws , of the polar diagram and then create a polar plot of them",
 "func":1
 },
 {
@@ -151,7 +156,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramTable.__getitem__",
 "url":1,
-"doc":"",
+"doc":"Parameters      key : Returns    - bsp :",
 "func":1
 },
 {
@@ -184,13 +189,13 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramTable.change_entries",
 "url":1,
-"doc":"Changes specified entries in the table Parameters      new_bsps: array_like of matching shape Sequence containing the new boat speeds to be inserted in the specified entries ws: Iterable or int or float, optional Element(s) of self.wind_speeds, specifying the columns, where new boat speeds will be inserted If nothing is passed it will default to self.wind_speeds wa: Iterable or int or float, optional Element(s) of self.wind_angles, specifiying the rows, where new boat speeds will be inserted If nothing is passed it will default to self.wind_angles Raises a PolarDiagramException Examples     >>> pd = PolarDiagramTable(  . ws_res = [6, 8, 10, 12, 14],  . wa_res = [52, 60, 75, 90, 110, 120, 135]  . ) >>> print(pd) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 0.00 0.00 0.00 0.00 0.00 60.0 0.00 0.00 0.00 0.00 0.00 75.0 0.00 0.00 0.00 0.00 0.00 90.0 0.00 0.00 0.00 0.00 0.00 110.0 0.00 0.00 0.00 0.00 0.00 120.0 0.00 0.00 0.00 0.00 0.00 135.0 0.00 0.00 0.00 0.00 0.00 >>> pd.change_entries(  . new_bsps=[5.33, 5.64, 5.89, 5.92, 5.98, 5.8, 5.2],  . ws=6  . ) >>> print(pd) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 5.33 0.00 0.00 0.00 0.00 60.0 5.64 0.00 0.00 0.00 0.00 75.0 5.89 0.00 0.00 0.00 0.00 90.0 5.92 0.00 0.00 0.00 0.00 110.0 5.98 0.00 0.00 0.00 0.00 120.0 5.80 0.00 0.00 0.00 0.00 135.0 5.20 0.00 0.00 0.00 0.00 >>> pd.change_entries(  . new_bsps=[5.7, 6.32, 6.96, 7.24, 7.35],  . wa=52  . ) >>> print(pd) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 5.70 6.32 6.96 7.24 7.35 60.0 5.64 0.00 0.00 0.00 0.00 75.0 5.89 0.00 0.00 0.00 0.00 90.0 5.92 0.00 0.00 0.00 0.00 110.0 5.98 0.00 0.00 0.00 0.00 120.0 5.80 0.00 0.00 0.00 0.00 135.0 5.20 0.00 0.00 0.00 0.00 >>> pd.change_entries(new_bsps=[5.33], ws=6, wa=52) >>> print(pd) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 5.33 6.32 6.96 7.24 7.35 60.0 5.64 0.00 0.00 0.00 0.00 75.0 5.89 0.00 0.00 0.00 0.00 90.0 5.92 0.00 0.00 0.00 0.00 110.0 5.98 0.00 0.00 0.00 0.00 120.0 5.80 0.00 0.00 0.00 0.00 135.0 5.20 0.00 0.00 0.00 0.00 >>> pd.change_entries(  . new_bsps= 6.61, 7.14], [6.82, 7.28 ,  . ws=[8, 10],  . wa=[60, 75]  . ) >>> print(pd) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 5.33 6.32 6.96 7.24 7.35 60.0 5.64 6.61 7.14 0.00 0.00 75.0 5.89 6.82 7.28 0.00 0.00 90.0 5.92 0.00 0.00 0.00 0.00 110.0 5.98 0.00 0.00 0.00 0.00 120.0 5.80 0.00 0.00 0.00 0.00 135.0 5.20 0.00 0.00 0.00 0.00",
+"doc":"Changes specified entries in the table Parameters      new_bsps: array_like of matching shape Sequence containing the new boat speeds to be inserted in the specified entries ws: Iterable or int or float, optional Element(s) of self.wind_speeds, specifying the columns, where new boat speeds will be inserted If nothing is passed it will default to self.wind_speeds wa: Iterable or int or float, optional Element(s) of self.wind_angles, specifiying the rows, where new boat speeds will be inserted If nothing is passed it will default to self.wind_angles Examples     >>> pd = PolarDiagramTable(  . ws_res = [6, 8, 10, 12, 14],  . wa_res = [52, 60, 75, 90, 110, 120, 135]  . ) >>> print(pd) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 0.00 0.00 0.00 0.00 0.00 60.0 0.00 0.00 0.00 0.00 0.00 75.0 0.00 0.00 0.00 0.00 0.00 90.0 0.00 0.00 0.00 0.00 0.00 110.0 0.00 0.00 0.00 0.00 0.00 120.0 0.00 0.00 0.00 0.00 0.00 135.0 0.00 0.00 0.00 0.00 0.00 >>> pd.change_entries(  . new_bsps=[5.33, 5.64, 5.89, 5.92, 5.98, 5.8, 5.2],  . ws=6  . ) >>> print(pd) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 5.33 0.00 0.00 0.00 0.00 60.0 5.64 0.00 0.00 0.00 0.00 75.0 5.89 0.00 0.00 0.00 0.00 90.0 5.92 0.00 0.00 0.00 0.00 110.0 5.98 0.00 0.00 0.00 0.00 120.0 5.80 0.00 0.00 0.00 0.00 135.0 5.20 0.00 0.00 0.00 0.00 >>> pd.change_entries(  . new_bsps=[5.7, 6.32, 6.96, 7.24, 7.35],  . wa=52  . ) >>> print(pd) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 5.70 6.32 6.96 7.24 7.35 60.0 5.64 0.00 0.00 0.00 0.00 75.0 5.89 0.00 0.00 0.00 0.00 90.0 5.92 0.00 0.00 0.00 0.00 110.0 5.98 0.00 0.00 0.00 0.00 120.0 5.80 0.00 0.00 0.00 0.00 135.0 5.20 0.00 0.00 0.00 0.00 >>> pd.change_entries(new_bsps=[5.33], ws=6, wa=52) >>> print(pd) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 5.33 6.32 6.96 7.24 7.35 60.0 5.64 0.00 0.00 0.00 0.00 75.0 5.89 0.00 0.00 0.00 0.00 90.0 5.92 0.00 0.00 0.00 0.00 110.0 5.98 0.00 0.00 0.00 0.00 120.0 5.80 0.00 0.00 0.00 0.00 135.0 5.20 0.00 0.00 0.00 0.00 >>> pd.change_entries(  . new_bsps= 6.61, 7.14], [6.82, 7.28 ,  . ws=[8, 10],  . wa=[60, 75]  . ) >>> print(pd) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 5.33 6.32 6.96 7.24 7.35 60.0 5.64 6.61 7.14 0.00 0.00 75.0 5.89 6.82 7.28 0.00 0.00 90.0 5.92 0.00 0.00 0.00 0.00 110.0 5.98 0.00 0.00 0.00 0.00 120.0 5.80 0.00 0.00 0.00 0.00 135.0 5.20 0.00 0.00 0.00 0.00",
 "func":1
 },
 {
 "ref":"hrosailing.polardiagram.PolarDiagramTable.get_slices",
 "url":1,
-"doc":"",
+"doc":"For given wind speeds, return the slices of the polar diagram corresponding to them The slices are equal to the corresponding columns of the table together with self.wind_angles Parameters      ws : tuple of length 2, iterable, int or float, optional Slices of the polar diagram table, given as either - a tuple of length 2 specifying an interval of considered wind speeds - an iterable containing only elements of self.wind_speeds - a single element of self.wind_speeds If nothing it passed, it will default to self.wind_speeds Returns    - slices : tuple Slices of the polar diagram, given as a tuple of length 3, consisting of the given wind speeds  ws , self.wind_angles (in rad) and an array with the corresponding columns of the table",
 "func":1
 },
 {
@@ -214,7 +219,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramTable.plot_color_gradient",
 "url":1,
-"doc":"Creates a 'wind speed vs. wind angle' color gradient plot of the polar diagram with respect to the respective boat speeds Parameters      ax : matplotlib.axes.Axes, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors : tuple of length 2, optional Colors which specify the color gradient with which the polar diagram will be plotted. Defaults to (\"green\", \"red\") marker : matplotlib.markers.Markerstyle or equivalent, optional Markerstyle for the created scatter plot If nothing is passed, it will default to \"o\" ms : float or array_like of fitting shape, optional Marker size in points 2 If nothing is passed, it will use the default of the matplotlib.pyplot.scatter function show_legend : bool, optional Specifies wether or not a legend will be shown next to the plot Legend will be a matplotlib.colorbar.Colorbar object. Defaults to False legend_kw : Keyword arguments Keyword arguments to be passed to the matplotlib.colorbar.Colorbar class to change position and appearence of the legend. Will only be used if show_legend is True If nothing is passed, it will default to {}",
+"doc":"Creates a 'wind speed vs. wind angle' color gradient plot of the polar diagram with respect to the corresponding boat speeds Parameters      ax : matplotlib.axes.Axes, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors : tuple of length 2, optional Colors which specify the color gradient with which the polar diagram will be plotted. Defaults to (\"green\", \"red\") marker : matplotlib.markers.Markerstyle or equivalent, optional Markerstyle for the created scatter plot If nothing is passed, it will default to \"o\" ms : float or array_like of fitting shape, optional Marker size in points 2 If nothing is passed, it will use the default of the matplotlib.pyplot.scatter function show_legend : bool, optional Specifies wether or not a legend will be shown next to the plot Legend will be a matplotlib.colorbar.Colorbar object. Defaults to False legend_kw : Keyword arguments Keyword arguments to be passed to the matplotlib.colorbar.Colorbar class to change position and appearence of the legend. Will only be used if show_legend is True If nothing is passed, it will default to {}",
 "func":1
 },
 {
@@ -276,7 +281,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramMultiSails.to_csv",
 "url":1,
-"doc":"",
+"doc":"Parameters      csv_path : path_like Path to a .csv file or where a new .csv file will be created",
 "func":1
 },
 {
@@ -288,7 +293,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramMultiSails.get_slices",
 "url":1,
-"doc":"",
+"doc":"For given wind speeds, return the slices of the polar diagram corresponding to them The slices are equal to the corresponding columns of the table together with self.wind_angles Parameters      ws : tuple of length 2, iterable, int or float, optional Slices of the polar diagram table, given as either - a tuple of length 2 specifying an interval of considered wind speeds - an iterable containing only elements of self.wind_speeds - a single element of self.wind_speeds If nothing it passed, it will default to self.wind_speeds Returns    - slices : tuple",
 "func":1
 },
 {
@@ -312,7 +317,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramMultiSails.plot_color_gradient",
 "url":1,
-"doc":"",
+"doc":"Parameters      ax : matplotlib.axes.Axes, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors : tuple of length 2, optional Colors which specify the color gradient with which the polar diagram will be plotted. Defaults to (\"green\", \"red\") marker : matplotlib.markers.Markerstyle or equivalent, optional Markerstyle for the created scatter plot If nothing is passed, it will default to \"o\" ms : float or array_like of fitting shape, optional Marker size in points 2 If nothing is passed, it will use the default of the matplotlib.pyplot.scatter function show_legend : bool, optional Specifies wether or not a legend will be shown next to the plot Legend will be a matplotlib.colorbar.Colorbar object. Defaults to False legend_kw : Keyword arguments Keyword arguments to be passed to the matplotlib.colorbar.Colorbar class to change position and appearence of the legend. Will only be used if show_legend is True If nothing is passed, it will default to {}",
 "func":1
 },
 {
@@ -353,7 +358,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramCurve.__call__",
 "url":1,
-"doc":"",
+"doc":"Call self as a function.",
 "func":1
 },
 {
@@ -380,13 +385,13 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramCurve.symmetrize",
 "url":1,
-"doc":"",
+"doc":"Constructs a symmetric version of the polar diagram, by mirroring it at the 0\u00b0 - 180\u00b0 axis and returning a new instance",
 "func":1
 },
 {
 "ref":"hrosailing.polardiagram.PolarDiagramCurve.get_slices",
 "url":1,
-"doc":"",
+"doc":"For given wind speeds, return the slices of the polar diagram corresponding to them Slices are equal to self(w, wa) where w goes through the given values in  ws and wa goes through a fixed number of angles between 0\u00b0 and 360\u00b0 Parameters      ws : tuple of length 2, iterable, int or float, optional Slices of the polar diagram given as either - a tuple of length 2, specifying an interval of considered wind speeds. The amount of slices taken from that interval are determined by the parameter  stepsize - an iterable of specific wind speeds - a single wind speed If nothing is passed, it will default to (0, 20) stepsize : positive int or float, optional Specfies the amount of slices taken from the given wind speed interval Will only be used if  ws is a tuple of length 2 If nothing is passed, it will default to ws[1] - ws[0] Returns    - slices : tuple Slices of the polar diagram, given as a tuple of length 3, consisting of the given wind speeds  ws , self.wind_angles (in rad) and a list of arrays containing the corresponding boat speeds",
 "func":1
 },
 {
@@ -410,7 +415,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramCurve.plot_color_gradient",
 "url":1,
-"doc":"Creates a 'wind speed vs. wind angle' color gradient plot of a part of the polar diagram with respect to the respective boat speeds Parameters      ws : tuple of length 3, optional A region of the polar diagram given as an interval of wind speeds Slices will then equal self(w, wa) where w goes through the given values in  ws and wa goes through a fixed number of angles between 0\u00b0 and 360\u00b0 If nothing is passed, it will default to (0, 20) stepsize : positive int or float, optional Specfies the amount of slices taken from the given interval in  ws If nothing is passed, it will default to 100 ax : matplotlib.axes.Axes, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors : tuple of length 2, optional Colors which specify the color gradient with which the polar diagram will be plotted. Defaults to (\"green\", \"red\") marker : matplotlib.markers.Markerstyle or equivalent, optional Markerstyle for the created scatter plot If nothing is passed, it will default to \"o\" ms : float or array_like of fitting shape, optional Marker size in points 2 If nothing is passed, it will use the default of the matplotlib.pyplot.scatter function show_legend : bool, optional Specifies wether or not a legend will be shown next to the plot Legend will be a matplotlib.colorbar.Colorbar object. Defaults to False legend_kw : Keyword arguments Keyword arguments to be passed to the matplotlib.colorbar.Colorbar class to change position and appearence of the legend. Will only be used if show_legend is True If nothing is passed, it will default to {}",
+"doc":"Creates a 'wind speed vs. wind angle' color gradient plot of a part of the polar diagram with respect to the corresponding boat speeds Parameters      ws : tuple of length 3, optional A region of the polar diagram given as an interval of wind speeds Slices will then equal self(w, wa) where w goes through the given values in  ws and wa goes through a fixed number of angles between 0\u00b0 and 360\u00b0 If nothing is passed, it will default to (0, 20) stepsize : positive int or float, optional Specfies the amount of slices taken from the given interval in  ws If nothing is passed, it will default to 100 ax : matplotlib.axes.Axes, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors : tuple of length 2, optional Colors which specify the color gradient with which the polar diagram will be plotted. Defaults to (\"green\", \"red\") marker : matplotlib.markers.Markerstyle or equivalent, optional Markerstyle for the created scatter plot If nothing is passed, it will default to \"o\" ms : float or array_like of fitting shape, optional Marker size in points 2 If nothing is passed, it will use the default of the matplotlib.pyplot.scatter function show_legend : bool, optional Specifies wether or not a legend will be shown next to the plot Legend will be a matplotlib.colorbar.Colorbar object. Defaults to False legend_kw : Keyword arguments Keyword arguments to be passed to the matplotlib.colorbar.Colorbar class to change position and appearence of the legend. Will only be used if show_legend is True If nothing is passed, it will default to {}",
 "func":1
 },
 {
@@ -461,7 +466,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramPointcloud.boat_speeds",
 "url":1,
-"doc":""
+"doc":"Returns all occuring boat speeds in the point cloud (including duplicates)"
 },
 {
 "ref":"hrosailing.polardiagram.PolarDiagramPointcloud.points",
@@ -489,7 +494,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramPointcloud.get_slices",
 "url":1,
-"doc":"",
+"doc":"For given wind speeds, return the slices of the polar diagram corresponding to them A slice then consists of all rows in self.wind_speeds whose first entry lies in the interval given by w in  ws Parameters      ws : tuple of length 2, iterable , int or float, optional Slices of the polar diagram given as either - a tuple of length 2 specifying an interval of considered wind speeds. The amount of slices taken from that interval are determined by the parameter  stepsize - an iterable of tuples of length 2 and int/float values which will be interpreted as individual slices. If a w in  ws is an int or float, the given interval will be determined by the parameter  range_ . If it is a tuple, it will be interpreted as an inverval as is - a single wind speed. The given interval is then determined by the parameter  range_ If nothing is passed, it will default to (min(self.wind_speeds), max(self.wind_speeds stepsize : positive int, optional Specfies the amount of slices taken from the given interval in  ws Will only be used if  ws is a tuple of length 2 If nothing is passed it will default to int(round(ws[1] - ws[0] range_ : positive int or float, optional Used to convert and int or float w in  ws to the interval (w - range_, w + range_ Will only be used if  ws is int or float or if any w in  ws is an int or float Defaults to 1 Returns    - slices : tuple",
 "func":1
 },
 {
@@ -513,7 +518,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramPointcloud.plot_color_gradient",
 "url":1,
-"doc":"Creates a 'wind speed vs. wind angle' color gradient plot of the polar diagram with respect to the respective boat speeds Parameters      ax : matplotlib.axes.Axes, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors : tuple of length 2, optional Colors which specify the color gradient with which the polar diagram will be plotted. Defaults to (\"green\", \"red\") marker : matplotlib.markers.Markerstyle or equivalent, optional Markerstyle for the created scatter plot If nothing is passed, it will default to \"o\" ms : float or array_like of fitting shape, optional Marker size in points 2 If nothing is passed, it will use the default of the matplotlib.pyplot.scatter function show_legend : bool, optional Specifies wether or not a legend will be shown next to the plot Legend will be a matplotlib.colorbar.Colorbar object. Defaults to False legend_kw : Keyword arguments Keyword arguments to be passed to the matplotlib.colorbar.Colorbar class to change position and appearence of the legend. Will only be used if show_legend is True If nothing is passed, it will default to {} Raises a PolarDiagramException if there are no points in the point cloud",
+"doc":"Creates a 'wind speed vs. wind angle' color gradient plot of the polar diagram with respect to the corresponding boat speeds Parameters      ax : matplotlib.axes.Axes, optional Axes instance where the plot will be created. If nothing is passed, the function will create a suitable axes colors : tuple of length 2, optional Colors which specify the color gradient with which the polar diagram will be plotted. Defaults to (\"green\", \"red\") marker : matplotlib.markers.Markerstyle or equivalent, optional Markerstyle for the created scatter plot If nothing is passed, it will default to \"o\" ms : float or array_like of fitting shape, optional Marker size in points 2 If nothing is passed, it will use the default of the matplotlib.pyplot.scatter function show_legend : bool, optional Specifies wether or not a legend will be shown next to the plot Legend will be a matplotlib.colorbar.Colorbar object. Defaults to False legend_kw : Keyword arguments Keyword arguments to be passed to the matplotlib.colorbar.Colorbar class to change position and appearence of the legend. Will only be used if show_legend is True If nothing is passed, it will default to {} Raises a PolarDiagramException if there are no points in the point cloud",
 "func":1
 },
 {
@@ -554,17 +559,17 @@ INDEX=[
 {
 "ref":"hrosailing.pipeline.PipelineException",
 "url":2,
-"doc":""
+"doc":"Exception raised if an error occurs in the pipeline"
 },
 {
 "ref":"hrosailing.pipeline.PipelineExtension",
 "url":2,
-"doc":""
+"doc":"Base class for all pipeline extensions Abstract Methods         process(w_pts)"
 },
 {
 "ref":"hrosailing.pipeline.PipelineExtension.process",
 "url":2,
-"doc":"",
+"doc":"This method, given an instance of WeightedPoints, should return a polar diagram object, which represents the trends and data contained in the WeightedPoints instance",
 "func":1
 },
 {
@@ -575,40 +580,40 @@ INDEX=[
 {
 "ref":"hrosailing.pipeline.TableExtension",
 "url":2,
-"doc":""
+"doc":"Parameters      w_res : , optional neighbourhood : Neighbourhood, optional Defaults to Ball() interpolator : Interpolator, optional Defaults to ArithmeticMeanInterpolator(50)"
 },
 {
 "ref":"hrosailing.pipeline.TableExtension.process",
 "url":2,
-"doc":"",
+"doc":"Parameters      w_pts : WeightedPoints Returns    - pd : PolarDiagramTable",
 "func":1
 },
 {
 "ref":"hrosailing.pipeline.CurveExtension",
 "url":2,
-"doc":""
+"doc":"Parameters      regressor : Regressor, optional Defaults to  ODRegressor( model_func=ws_s_s_dt_wa_gauss_comb, init_values=(0.25, 10, 1.7, 0, 1.9, 30, 17.6, 0, 1.9, 30, 17.6, 0) ) radians : bool, optional Defaults to  False "
 },
 {
 "ref":"hrosailing.pipeline.CurveExtension.process",
 "url":2,
-"doc":"",
+"doc":"Parameters      w_pts : WeightedPoints Returns    - pd : PolarDiagramCurve",
 "func":1
 },
 {
 "ref":"hrosailing.pipeline.PointcloudExtension",
 "url":2,
-"doc":""
+"doc":"Parameters      sampler : Sampler, optional Defaults to UniformRandomSampler(2000) neighbourhood : Neighbourhood, optional Defaults to Ball() interpolator : Interpolator, optional Defaults to ArithmeticMeanInterpolator(50)"
 },
 {
 "ref":"hrosailing.pipeline.PointcloudExtension.process",
 "url":2,
-"doc":"",
+"doc":"Parameters      w_pts : WeightedPoints Returns    - pd : PolarDiagramPointcloud",
 "func":1
 },
 {
 "ref":"hrosailing.pipeline.InterpolationWarning",
 "url":2,
-"doc":"Base class for warning categories."
+"doc":"Warning raised if neighbourhood is too small for successful interpolation"
 },
 {
 "ref":"hrosailing.pipelinecomponents",
@@ -618,7 +623,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.modelfunctions",
 "url":4,
-"doc":""
+"doc":"Model functions that can be used with the Regressor class to model certain ship behaviours"
 },
 {
 "ref":"hrosailing.pipelinecomponents.modelfunctions.ws_times_wa",
@@ -674,23 +679,17 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.regressor.Regressor.model_func",
 "url":5,
-"doc":""
+"doc":"This property should return a version of the in the regression used model function"
 },
 {
 "ref":"hrosailing.pipelinecomponents.regressor.Regressor.optimal_params",
 "url":5,
-"doc":""
+"doc":"This property should return a version of the through regression determined optimal parameters of the model function"
 },
 {
 "ref":"hrosailing.pipelinecomponents.regressor.Regressor.fit",
 "url":5,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.regressor.Regressor.set_weights",
-"url":5,
-"doc":"",
+"doc":"This method should, given data, be used to determine optimal parameters for the model function",
 "func":1
 },
 {
@@ -701,18 +700,12 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.regressor.ODRegressor.model_func",
 "url":5,
-"doc":""
+"doc":"Returns a read-only version of self._func"
 },
 {
 "ref":"hrosailing.pipelinecomponents.regressor.ODRegressor.optimal_params",
 "url":5,
-"doc":""
-},
-{
-"ref":"hrosailing.pipelinecomponents.regressor.ODRegressor.set_weights",
-"url":5,
-"doc":"",
-"func":1
+"doc":"Returns a read-only version of self._popt"
 },
 {
 "ref":"hrosailing.pipelinecomponents.regressor.ODRegressor.fit",
@@ -728,23 +721,17 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.model_func",
 "url":5,
-"doc":""
+"doc":"Returns a read-only version of self._func"
 },
 {
 "ref":"hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.optimal_params",
 "url":5,
-"doc":""
-},
-{
-"ref":"hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.set_weights",
-"url":5,
-"doc":"",
-"func":1
+"doc":"Returns a read-only version of self._popt"
 },
 {
 "ref":"hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.fit",
 "url":5,
-"doc":"Fits the model function to the given data, ie calculates the optimal parameters to minimize the sum of the squares of the residuals, see also [least squares](https: docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html) Parameters      data : array_like of shape (n, 3) Data to which the model function will be fitted, given as a sequence of points consisting of wind speed, wind angle and boat speed",
+"doc":"Fits the model function to the given data, ie calculates the optimal parameters to minimize the sum of the squares of the residuals, see also [curve_fit]( https: docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html ) Parameters      data : array_like of shape (n, 3) Data to which the model function will be fitted, given as a sequence of points consisting of wind speed, wind angle and boat speed",
 "func":1
 },
 {
@@ -777,7 +764,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.interpolator.Interpolator.interpolate",
 "url":6,
-"doc":"",
+"doc":"This method should be used, given a point grid_pt and an instances of WeightedPoints, to determine the z-value at grid_pt, based on the z-values of the points in the WeightedPoints instance",
 "func":1
 },
 {
@@ -848,7 +835,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.filter.Filter.filter",
 "url":7,
-"doc":"",
+"doc":"This method should be used, given an array of weights, to filter out points based on their weights, and produce a boolean array of the same size as wts",
 "func":1
 },
 {
@@ -947,7 +934,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.weigher.Weigher.weigh",
 "url":9,
-"doc":"",
+"doc":"This method should be used, given certain points, to determine their weights according to a weighing method",
 "func":1
 },
 {
@@ -980,12 +967,12 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.weigher.WeightedPoints.points",
 "url":9,
-"doc":""
+"doc":"Returns a read-only version of self._pts"
 },
 {
 "ref":"hrosailing.pipelinecomponents.weigher.WeightedPoints.weights",
 "url":9,
-"doc":""
+"doc":"Returns a read-only version of self._wts"
 },
 {
 "ref":"hrosailing.pipelinecomponents.neighbourhood",
@@ -1017,7 +1004,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.neighbourhood.Neighbourhood.is_contained_in",
 "url":10,
-"doc":"",
+"doc":"This method should be used, given certain points, to determine which of these points lie in the neighbourhood and which do not, by producing a boolean array of the same size as pts",
 "func":1
 },
 {
@@ -1056,7 +1043,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.neighbourhood.Cuboid",
 "url":10,
-"doc":"A class to represent a d-dimensional closed cuboid, ie { x in R^2 : |x_i| <= b_i, i=1,2 } Parameters      norm : function or callable, optional The 1-d norm used to measure the length of the x_i, ie |.| If nothing is passed, it will default to the absolute value |.| dimensions: subscriptable of length 2, optional The 'length' of the 'sides' of the cuboid, ie the b_i If nothing is passed, it will default to (0.05, 0.05) Raises a NeighbourhoodInitializationException if dimensions is not of length 2"
+"doc":"A class to represent a d-dimensional closed cuboid, ie { x in R^2 : |x_i| <= b_i, i=1,2 } Parameters      norm : function or callable, optional The 1-d norm used to measure the length of the x_i, ie |.| If nothing is passed, it will default to the absolute value |.| dimensions: subscriptable of length 2, optional The 'length' of the 'sides' of the cuboid, ie the b_i If nothing is passed, it will default to (0.05, 0.05)"
 },
 {
 "ref":"hrosailing.pipelinecomponents.neighbourhood.Cuboid.is_contained_in",
@@ -1152,7 +1139,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.sampler.Sampler.sample",
 "url":12,
-"doc":"",
+"doc":"This method should be used, given certain points, to determine a constant number of sample points that lie in the convex hull of pts and are more or less representative of the trend of the given points",
 "func":1
 },
 {
@@ -1189,12 +1176,6 @@ INDEX=[
 "func":1
 },
 {
-"ref":"hrosailing.pipelinecomponents.sampler.make_circle",
-"url":12,
-"doc":"",
-"func":1
-},
-{
 "ref":"hrosailing.wind",
 "url":13,
 "doc":"Functions to convert wind from apparent to true and vice versa"
@@ -1202,12 +1183,7 @@ INDEX=[
 {
 "ref":"hrosailing.wind.WindConversionException",
 "url":13,
-"doc":""
-},
-{
-"ref":"hrosailing.wind.ResolutionSettingException",
-"url":13,
-"doc":""
+"doc":"Exception raised if an error occurs during wind conversion"
 },
 {
 "ref":"hrosailing.wind.apparent_wind_to_true",
@@ -1222,16 +1198,6 @@ INDEX=[
 "func":1
 },
 {
-"ref":"hrosailing.wind.convert_wind",
-"url":13,
-"doc":"dummy"
-},
-{
-"ref":"hrosailing.wind.set_resolution",
-"url":13,
-"doc":"dummy"
-},
-{
 "ref":"hrosailing.cruising",
 "url":14,
 "doc":"Functions for navigation and weather routing using PPDs"
@@ -1239,7 +1205,7 @@ INDEX=[
 {
 "ref":"hrosailing.cruising.Direction",
 "url":14,
-"doc":"Dataclass to"
+"doc":"Dataclass to represent sections of a sailing maneuver"
 },
 {
 "ref":"hrosailing.cruising.Direction.angle",
@@ -1259,13 +1225,13 @@ INDEX=[
 {
 "ref":"hrosailing.cruising.convex_direction",
 "url":14,
-"doc":"",
+"doc":"Parameters      pd : PolarDiagram The polar diagram of the vessel ws : int / float The current wind speed given in knots direction : int / float Angle to the wind direction im : InfluenceModel, optional The influence model used to consider additional influences on the boat speed Defaults to  None influence_data: dict, optional Data containing information that might influence the boat speed of the vessel (eg. current, wave height), to be passed to the used influence model Only used, if  im is not  None Defaults to  None Returns    - edge : list of Directions of length 2",
 "func":1
 },
 {
 "ref":"hrosailing.cruising.cruise",
 "url":14,
-"doc":"",
+"doc":"Given a starting point A and and end point B,the function calculates the fastest time and sailing direction it takes for a sailing vessel to reach B from A, under constant wind. If needed the function will calculate two directions as well as the time needed to sail in each direction to get to B. Parameters      pd : PolarDiagram The polar diagram of the vessel ws : int / float The current wind speed given in knots wdir : The direction of the wind given as either - the wind angle relative to north - the true wind angle and the boat direction relative to north - the apparent wind angle and the boat direction relative to north - a (ugrd, vgrd) tuple from grib data start : tuple of length 2 Coordinates of the starting point of the cruising maneuver, given in longitude and latitude end : tuple of length 2 Coordinates of the end point of the cruising maneuver, given in longitude and latitude im : InfluenceModel, optional The influence model used to consider additional influences on the boat speed Defaults to  None influence_data: dict, optional Data containing information that might influence the boat speed of the vessel (eg. current, wave height), to be passed to the used influence model Only used, if  im is not  None Defaults to  None Returns    - out : list of tuples Directions as well as the time needed to sail along those, to get from start to end",
 "func":1
 },
 {
@@ -1287,13 +1253,13 @@ INDEX=[
 {
 "ref":"hrosailing.cruising.cost_cruise",
 "url":14,
-"doc":"",
+"doc":"Computes the total cost for traveling from a start position to an end position To be precise, it calculates for a given cost density function cost and absolute function abs_cost int_0^l cost(s, t(s ds + abs_cost(t(l), l), where s is the distance travelled, l is the total distance from start to end and t(s) is the time travelled t(s) is the solution of the initial value problem t(0) = 0, dt/ds = 1/bsp(s,t). The costs also depend on the weather forecast data, organized by a WeatherModel Distances are computed using the mercator projection Parameter      pd: PolarDiagram Polar diagram of the vessel start: tuple of two floats Coordinates of the starting point end: tuple of two floats Coordinates of the end point start_time: datetime.datetime The time at which the traveling starts wm: WeatherModel, optional The WeatherModel used cost_fun_dens: callable, optional Function giving a cost density for given time as datetime.datetime, lattitude as float, longitude as float and WeatherModel cost_fun_dens(t,lat,long,wm) corresponds to costs(s,t) above. Defaults to None. cost_fun_abs: callable, optional Corresponds to abs_costs above. Defaults to lambda total_t, total_s: total_t integration_method: callable, optional Function that takes two (n,) arrays y, x and computes an approximative integral from that. Is only used if cost_fun_dens is not None Defaults to scipy.integrate.trapezoid im: InfluenceModel, optional The influence model used to consider additional influences on the boat speed. Defaults to  ivp_kw: Keyword arguments which will be redirected to scipy.integrate.solve_ivp in order to solve the initial value problem described above Returns    - out : float The total cost calculated as described above",
 "func":1
 },
 {
-"ref":"hrosailing.cruising.isocost",
+"ref":"hrosailing.cruising.isocrone",
 "url":14,
-"doc":"",
+"doc":"Estimates the maximum distance that can be reached from a given start point in a given amount of time without tacks and jibes. This is done by sampling the position space and using mercator projection. A weather forecast, organized by a WeatherModel and an InfluenceModel are included in the computation. Parameter      pd: PolarDiagram The polar diagram of the used vessel start: 2-tuple of floats The lattitude and longitude of the starting point start_time: datetime.datetime The time at which the traveling starts direction: float The angle between North and the direction in which we aim to travel. wm: WeatherModel, optional The weather model used. total_time: float The time in hours that the vessel is supposed to travel in the given direction. min_nodes: int, optional The minimum amount of sample points to sample the position space. Defaults to 100. im: InfluenceModel, optional The influence model used. Defaults to  . Returns    - end : 2-tuple of floats Lattitude and Longitude of the position that is reached when traveling total_time hours in the given direction s : float The length of the way traveled from start to end",
 "func":1
 }
 ]

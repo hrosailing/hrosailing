@@ -6,7 +6,7 @@ Functions for navigation and weather routing using PPDs
 
 from bisect import bisect_left
 import dataclasses
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import List, Optional
 
 import numpy as np
@@ -19,22 +19,28 @@ from hrosailing.pipelinecomponents import InfluenceModel
 
 @dataclasses.dataclass
 class Direction:
-    """Dataclass to"""
+    """Dataclass to represent sections of a sailing maneuver"""
 
+    # Angle to the wind direction in degrees
     angle: float
+
+    # Proportion of time needed to sail into direction
     proportion: float
+
+    # Type/Name of Sail that should be hissed, when
+    # sailing in the direction (if existent)
     sail: Optional[str] = None
 
     def __str__(self):
-        out = (
+        stc = (
             f"Sail with an angle of {self.angle} to the wind for "
-            f"{self.proportion} percent of the time"
+            f"{self.proportion * 100} percent of the time"
         )
 
         if self.sail:
-            out += f", while hissing {self.sail}"
+            stc += f", while hissing {self.sail}"
 
-        return out
+        return stc
 
 
 def convex_direction(
@@ -44,7 +50,49 @@ def convex_direction(
     im: Optional[InfluenceModel] = None,
     influence_data: Optional[dict] = None,
 ) -> List[Direction]:
-    """"""
+    """Given a direction, computes the "fastest" way to sail in
+    that direction, assuming constant wind speed `ws`
+
+    If sailing straight into direction is the fastest way, function
+    returns that direction. Otherwise function returns two directions
+    aswell as their proportions, such that sailing into one direction for
+    a corresponding proportion of a time segment and then into the other
+    direction for a corresponding proportion of a time segment will be
+    equal to sailing into `direction` but faster.
+
+    Parameters
+    ----------
+    pd : PolarDiagram
+        The polar diagram of the vessel
+
+    ws : int / float
+        The current wind speed given in knots
+
+    direction : int / float
+        Angle to the wind direction
+
+    im : InfluenceModel, optional
+        The influence model used to consider additional influences
+        on the boat speed
+
+        Defaults to `None`
+
+    influence_data: dict, optional
+        Data containing information that might influence the boat speed
+        of the vessel (eg. current, wave height), to be passed to
+        the used influence model
+
+        Only used, if `im` is not `None`
+
+        Defaults to `None`
+
+    Returns
+    -------
+    edge : list of Directions
+        Either just one Direction instance, if sailing into `direction`
+        is the optimal way, or two Direction instances, that will "equal"
+        to `direction`
+    """
     _, wa, bsp, *sails = pd.get_slices(ws)
     if im:
         bsp = im.add_influence(pd, influence_data)
@@ -101,7 +149,59 @@ def cruise(
     im: Optional[InfluenceModel] = None,
     influence_data: Optional[dict] = None,
 ):
-    """"""
+    """Given a starting point A and and end point B,the function calculates
+    the fastest time and sailing direction it takes for a sailing vessel to
+    reach B from A, under constant wind.
+
+    If needed the function will calculate two directions as well as the
+    time needed to sail in each direction to get to B.
+
+    Parameters
+    ----------
+    pd : PolarDiagram
+        The polar diagram of the vessel
+
+    ws : int / float
+        The current wind speed given in knots
+
+    wdir :
+        The direction of the wind given as either
+
+        - the wind angle relative to north
+        - the true wind angle and the boat direction relative to north
+        - the apparent wind angle and the boat direction relative to north
+        - a (ugrd, vgrd) tuple from grib data
+
+    start : tuple of length 2
+        Coordinates of the starting point of the cruising maneuver,
+        given in longitude and latitude
+
+    end : tuple of length 2
+        Coordinates of the end point of the cruising maneuver,
+        given in longitude and latitude
+
+    im : InfluenceModel, optional
+        The influence model used to consider additional influences
+        on the boat speed
+
+        Defaults to `None`
+
+    influence_data: dict, optional
+        Data containing information that might influence the boat speed
+        of the vessel (eg. current, wave height), to be passed to
+        the used influence model
+
+        Only used, if `im` is not `None`
+
+        Defaults to `None`
+
+    Returns
+    -------
+    out : list of tuples
+        Directions as well as the time needed to sail along those,
+        to get from start to end
+
+    """
     _, wa, bsp, *_ = pd.get_slices(ws)
 
     if im:
@@ -176,13 +276,13 @@ def cost_cruise(
     pd: pol.PolarDiagram,
     start,
     end,
-    start_time,
+    start_time: datetime,
+    wm: WeatherModel,
     cost_fun_dens=None,
     cost_fun_abs=lambda total_t, total_s: total_t,
     integration_method=trapezoid,
-    wm: WeatherModel = None,
     im: Optional[InfluenceModel] = None,
-    **kwargs,
+    **ivp_kw,
 ):
     """
     Computes the total cost for traveling
@@ -206,7 +306,6 @@ def cost_cruise(
 
     Parameter
     ----------
-
     pd: PolarDiagram
         Polar diagram of the vessel
 
@@ -219,30 +318,35 @@ def cost_cruise(
     start_time: datetime.datetime
         The time at which the traveling starts
 
+    wm: WeatherModel, optional
+        The WeatherModel used
+
     cost_fun_dens: callable, optional
         Function giving a cost density for given time as datetime.datetime,
         lattitude as float, longitude as float and WeatherModel
         cost_fun_dens(t,lat,long,wm) corresponds to costs(s,t) above.
+
         Defaults to None.
 
     cost_fun_abs: callable, optional
         Corresponds to abs_costs above.
+
         Defaults to lambda total_t, total_s: total_t
 
     integration_method: callable, optional
         Function that takes two (n,) arrays y, x and computes
         an approximative integral from that.
         Is only used if cost_fun_dens is not None
-        default: scipy.integrate.trapezoid
 
-    wm: WeatherModel, optional
-        The WeatherModel used
+        Defaults to scipy.integrate.trapezoid
 
     im: InfluenceModel, optional
-        The InfluenceModel used to consider additional influences
-        on the boat speed
+        The influence model used to consider additional influences
+        on the boat speed.
 
-    kwargs:
+        Defaults to None
+
+    ivp_kw:
         Keyword arguments which will be redirected to scipy.integrate.solve_ivp
         in order to solve the initial value problem described above
 
@@ -259,16 +363,18 @@ def cost_cruise(
     proj_end = _mercator_proj(end, lat_mp)
     total_s = np.linalg.norm(proj_end - proj_start)
 
+    hdt = _right_handing_course(start, end)
+
     # define derivative of t by s
     def dt_ds(s, t):
         pos = proj_start + s / total_s * (proj_end - proj_start)
-        _get_inverse_bsp(pd, pos, t, lat_mp, start_time, wm, im)
+        _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im)
 
     t_s = solve_ivp(
         fun=dt_ds,
         t_span=(0, np.linalg.norm(proj_start - proj_end)),
         y0=np.zeros(1),
-        **kwargs,
+        **ivp_kw,
     )
 
     # calculate absolute cost and return it if sufficient
@@ -295,31 +401,14 @@ def cost_cruise(
     return absolute_cost + integration_method(costs, t_s.t)
 
 
-def _inverse_mercator_proj(pt, lat_mp):
-    # computes lattitude and longitude of a projected point
-    # where the projection midpoint has lattitude lat_mp
-    x, y = pt / 69
-    return x + lat_mp, 180 / np.pi * np.arcsin(np.tanh(y))
-
-
-def _mercator_proj(pt, lat_mp):
-    # projects a point given as lattitude and longitude tupel using mercator
-    # projection where the projection midponit has lattitude lat_mp
-    lat, long = pt
-    # 69 nautical miles between two lattitudes
-    return 69 * np.array(
-        [(lat - lat_mp), np.arcsinh(np.tan(np.pi * long / 180))]
-    )
-
-
 def isocrone(
     pd: pol.PolarDiagram,
     start,
     start_time,
     direction,
-    total_cost=None,
-    min_nodes=None,
-    wm: WeatherModel = None,
+    wm: WeatherModel,
+    total_time=1,
+    min_nodes=100,
     im: Optional[InfluenceModel] = None,
 ):
     """
@@ -344,6 +433,9 @@ def isocrone(
     direction: float
         The angle between North and the direction in which we aim to travel.
 
+    wm: WeatherModel, optional
+        The weather model used.
+
     total_time: float
         The time in hours that the vessel is supposed to travel
         in the given direction.
@@ -351,10 +443,6 @@ def isocrone(
     min_nodes: int, optional
         The minimum amount of sample points to sample the position space.
         Defaults to 100.
-
-    wm: WeatherModel, optional
-        The weather model used.
-        Defaults to ??.
 
     im: InfluenceModel, optional
         The influence model used.
@@ -380,14 +468,18 @@ def isocrone(
 
     def dt_ds(s, t):
         pos = proj_start + s * v_direction
-        return _get_inverse_bsp(pd, pos, t, lat_mp, start_time, wm, im)
+        return _get_inverse_bsp(
+            pd, pos, direction, t, lat_mp, start_time, wm, im
+        )
 
     # supposed boat speed for first estimation is 5 knots
-    step_size = 5 * total_cost / min_nodes
+    step_size = 5 * total_time / min_nodes
     s, t, steps = 0, 0, 0
 
-    while t < total_cost or steps < min_nodes:
-        if t >= total_cost:
+    der = 0  # debug
+
+    while t < total_time or steps < min_nodes:
+        if t >= total_time:
             # start process again with smaller step size
             step_size *= steps / min_nodes
             s, t, steps = 0, 0, 0
@@ -395,13 +487,12 @@ def isocrone(
         der = dt_ds(s, t)
         s += step_size
         t += der * step_size
+        steps += 1
 
     # we end up with s, t such that t >= total_cost and steps > min_nodes
     # still need to correct the last step such that t == total_cost
 
-    last_t = t - der * step_size
-    off = (total_cost - last_t) / (t - last_t)
-    s = s - step_size + off
+    s = (total_time + der * s - t) / der
 
     proj_end = proj_start + s * v_direction
     end = _inverse_mercator_proj(proj_end, lat_mp)
@@ -409,14 +500,32 @@ def isocrone(
     return end, s
 
 
-def _get_inverse_bsp(pd, pos, t, lat_mp, start_time, wm, im):
+def _inverse_mercator_proj(pt, lat_mp):
+    # computes lattitude and longitude of a projected point
+    # where the projection midpoint has lattitude lat_mp
+    x, y = pt / 69
+    return x + lat_mp, 180 / np.pi * np.arcsin(np.tanh(y))
+
+
+def _mercator_proj(pt, lat_mp):
+    # projects a point given as lattitude and longitude tupel using mercator
+    # projection where the projection midponit has lattitude lat_mp
+    lat, long = pt
+    # 69 nautical miles between two lattitudes
+    return 69 * np.array(
+        [(lat - lat_mp), np.arcsinh(np.tan(np.pi * long / 180))]
+    )
+
+
+def _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im):
     lat, long = _inverse_mercator_proj(pos, lat_mp)
-    time = start_time + timedelta(hours=t[0])
+    time = start_time + timedelta(hours=t)
     try:
-        weather = wm.get_weather(time, lat, long)
+        data = wm.get_weather(time, lat, long)
+        data["HDT"] = hdt
     except:
         return 0
-    bsp = im.add_influence(pd, weather)
+    bsp = im.add_influence(pd, data)
 
     if bsp != 0:
         return 1 / bsp

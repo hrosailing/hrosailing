@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.9.2" />
-<title>hrosailing.processing.pipelinecomponents.regressor API documentation</title>
+<title>hrosailing.pipelinecomponents.regressor API documentation</title>
 <meta name="description" content="Contains the baseclass for Regressors used in the CurveExtension class,
 that can also be used to create custom Regressors …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -22,7 +22,7 @@ that can also be used to create custom Regressors …" />
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>hrosailing.processing.pipelinecomponents.regressor</code></h1>
+<h1 class="title">Module <code>hrosailing.pipelinecomponents.regressor</code></h1>
 </header>
 <section id="section-intro">
 <p>Contains the baseclass for Regressors used in the CurveExtension class,
@@ -39,7 +39,7 @@ and the LeastSquareRegressor.</p>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor"><code class="flex name class">
+<dt id="hrosailing.pipelinecomponents.regressor.LeastSquareRegressor"><code class="flex name class">
 <span>class <span class="ident">LeastSquareRegressor</span></span>
 <span>(</span><span>model_func: Callable, init_vals=None)</span>
 </code></dt>
@@ -64,29 +64,30 @@ that are passed to scipy.optimize.curve_fit</p>
 </dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="hrosailing.processing.pipelinecomponents.regressor.Regressor" href="#hrosailing.processing.pipelinecomponents.regressor.Regressor">Regressor</a></li>
+<li><a title="hrosailing.pipelinecomponents.regressor.Regressor" href="#hrosailing.pipelinecomponents.regressor.Regressor">Regressor</a></li>
 <li>abc.ABC</li>
 </ul>
 <h3>Instance variables</h3>
 <dl>
-<dt id="hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor.model_func"><code class="name">var <span class="ident">model_func</span></code></dt>
+<dt id="hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.model_func"><code class="name">var <span class="ident">model_func</span></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Returns a read-only version of self._func</p></div>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor.optimal_params"><code class="name">var <span class="ident">optimal_params</span></code></dt>
+<dt id="hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.optimal_params"><code class="name">var <span class="ident">optimal_params</span></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Returns a read-only version of self._popt</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
 <dl>
-<dt id="hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor.fit"><code class="name flex">
+<dt id="hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.fit"><code class="name flex">
 <span>def <span class="ident">fit</span></span>(<span>self, data)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Fits the model function to the given data, ie calculates
 the optimal parameters to minimize the sum of the squares of
-the residuals, see also <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html">least squares</a></p>
+the residuals, see also
+<a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html">curve_fit</a></p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>data</code></strong> :&ensp;<code>array_like</code> of <code>shape (n, 3)</code></dt>
@@ -95,15 +96,9 @@ a sequence of points consisting of wind speed, wind angle
 and boat speed</dd>
 </dl></div>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor.set_weights"><code class="name flex">
-<span>def <span class="ident">set_weights</span></span>(<span>self, X_weights, y_weights)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
 </dl>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.regressor.ODRegressor"><code class="flex name class">
+<dt id="hrosailing.pipelinecomponents.regressor.ODRegressor"><code class="flex name class">
 <span>class <span class="ident">ODRegressor</span></span>
 <span>(</span><span>model_func: Callable, init_values=None, max_it=1000)</span>
 </code></dt>
@@ -133,29 +128,30 @@ that are passed to the scipy.odr.ODR class</p>
 </dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
-<li><a title="hrosailing.processing.pipelinecomponents.regressor.Regressor" href="#hrosailing.processing.pipelinecomponents.regressor.Regressor">Regressor</a></li>
+<li><a title="hrosailing.pipelinecomponents.regressor.Regressor" href="#hrosailing.pipelinecomponents.regressor.Regressor">Regressor</a></li>
 <li>abc.ABC</li>
 </ul>
 <h3>Instance variables</h3>
 <dl>
-<dt id="hrosailing.processing.pipelinecomponents.regressor.ODRegressor.model_func"><code class="name">var <span class="ident">model_func</span></code></dt>
+<dt id="hrosailing.pipelinecomponents.regressor.ODRegressor.model_func"><code class="name">var <span class="ident">model_func</span></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Returns a read-only version of self._func</p></div>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.regressor.ODRegressor.optimal_params"><code class="name">var <span class="ident">optimal_params</span></code></dt>
+<dt id="hrosailing.pipelinecomponents.regressor.ODRegressor.optimal_params"><code class="name">var <span class="ident">optimal_params</span></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Returns a read-only version of self._popt</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
 <dl>
-<dt id="hrosailing.processing.pipelinecomponents.regressor.ODRegressor.fit"><code class="name flex">
+<dt id="hrosailing.pipelinecomponents.regressor.ODRegressor.fit"><code class="name flex">
 <span>def <span class="ident">fit</span></span>(<span>self, data)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Fits the model function to the given data, ie calculates
 the optimal parameters to minimize an objective
-function based on the data, see also <a href="https://docs.scipy.org/doc/external/odrpack_guide.pdf">ODRPACK</a></p>
+function based on the data, see also
+<a href="https://docs.scipy.org/doc/external/odrpack_guide.pdf">ODRPACK</a></p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>data</code></strong> :&ensp;<code>array_like</code> of <code>shape (n, 3)</code></dt>
@@ -165,15 +161,9 @@ a sequence of points consisting of wind speed, wind angle
 and boat speed</dd>
 </dl></div>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.regressor.ODRegressor.set_weights"><code class="name flex">
-<span>def <span class="ident">set_weights</span></span>(<span>self, X_weights, y_weights)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
 </dl>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.regressor.Regressor"><code class="flex name class">
+<dt id="hrosailing.pipelinecomponents.regressor.Regressor"><code class="flex name class">
 <span>class <span class="ident">Regressor</span></span>
 </code></dt>
 <dd>
@@ -189,37 +179,35 @@ and boat speed</dd>
 </ul>
 <h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor" href="#hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor">LeastSquareRegressor</a></li>
-<li><a title="hrosailing.processing.pipelinecomponents.regressor.ODRegressor" href="#hrosailing.processing.pipelinecomponents.regressor.ODRegressor">ODRegressor</a></li>
+<li><a title="hrosailing.pipelinecomponents.regressor.LeastSquareRegressor" href="#hrosailing.pipelinecomponents.regressor.LeastSquareRegressor">LeastSquareRegressor</a></li>
+<li><a title="hrosailing.pipelinecomponents.regressor.ODRegressor" href="#hrosailing.pipelinecomponents.regressor.ODRegressor">ODRegressor</a></li>
 </ul>
 <h3>Instance variables</h3>
 <dl>
-<dt id="hrosailing.processing.pipelinecomponents.regressor.Regressor.model_func"><code class="name">var <span class="ident">model_func</span></code></dt>
+<dt id="hrosailing.pipelinecomponents.regressor.Regressor.model_func"><code class="name">var <span class="ident">model_func</span></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>This property should return a version of the
+in the regression used model function</p></div>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.regressor.Regressor.optimal_params"><code class="name">var <span class="ident">optimal_params</span></code></dt>
+<dt id="hrosailing.pipelinecomponents.regressor.Regressor.optimal_params"><code class="name">var <span class="ident">optimal_params</span></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>This property should return a version of the
+through regression determined optimal parameters
+of the model function</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
 <dl>
-<dt id="hrosailing.processing.pipelinecomponents.regressor.Regressor.fit"><code class="name flex">
+<dt id="hrosailing.pipelinecomponents.regressor.Regressor.fit"><code class="name flex">
 <span>def <span class="ident">fit</span></span>(<span>self, data)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
-</dd>
-<dt id="hrosailing.processing.pipelinecomponents.regressor.Regressor.set_weights"><code class="name flex">
-<span>def <span class="ident">set_weights</span></span>(<span>self, X_weights, y_weights)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
+<div class="desc"><p>This method should, given data, be used to determine
+optimal parameters for the model function</p></div>
 </dd>
 </dl>
 </dd>
-<dt id="hrosailing.processing.pipelinecomponents.regressor.RegressorException"><code class="flex name class">
+<dt id="hrosailing.pipelinecomponents.regressor.RegressorException"><code class="flex name class">
 <span>class <span class="ident">RegressorException</span></span>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
@@ -275,7 +263,7 @@ const query = new URL(window.location).searchParams.get('q');
 if (query)
 search(query);
 function search(query) {
-const url = '../../../doc-search.html#' + encodeURIComponent(query);
+const url = '../../doc-search.html#' + encodeURIComponent(query);
 new tingle.modal({
 cssClass: ['modal-dialog'],
 onClose: () => {
@@ -294,40 +282,37 @@ setTimeout(() => input.focus(), 100);
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="hrosailing.processing.pipelinecomponents" href="index.html">hrosailing.processing.pipelinecomponents</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents" href="index.html">hrosailing.pipelinecomponents</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor" href="#hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor">LeastSquareRegressor</a></code></h4>
+<h4><code><a title="hrosailing.pipelinecomponents.regressor.LeastSquareRegressor" href="#hrosailing.pipelinecomponents.regressor.LeastSquareRegressor">LeastSquareRegressor</a></code></h4>
 <ul class="">
-<li><code><a title="hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor.fit" href="#hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor.fit">fit</a></code></li>
-<li><code><a title="hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor.model_func" href="#hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor.model_func">model_func</a></code></li>
-<li><code><a title="hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor.optimal_params" href="#hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor.optimal_params">optimal_params</a></code></li>
-<li><code><a title="hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor.set_weights" href="#hrosailing.processing.pipelinecomponents.regressor.LeastSquareRegressor.set_weights">set_weights</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.fit" href="#hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.fit">fit</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.model_func" href="#hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.model_func">model_func</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.optimal_params" href="#hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.optimal_params">optimal_params</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.regressor.ODRegressor" href="#hrosailing.processing.pipelinecomponents.regressor.ODRegressor">ODRegressor</a></code></h4>
+<h4><code><a title="hrosailing.pipelinecomponents.regressor.ODRegressor" href="#hrosailing.pipelinecomponents.regressor.ODRegressor">ODRegressor</a></code></h4>
 <ul class="">
-<li><code><a title="hrosailing.processing.pipelinecomponents.regressor.ODRegressor.fit" href="#hrosailing.processing.pipelinecomponents.regressor.ODRegressor.fit">fit</a></code></li>
-<li><code><a title="hrosailing.processing.pipelinecomponents.regressor.ODRegressor.model_func" href="#hrosailing.processing.pipelinecomponents.regressor.ODRegressor.model_func">model_func</a></code></li>
-<li><code><a title="hrosailing.processing.pipelinecomponents.regressor.ODRegressor.optimal_params" href="#hrosailing.processing.pipelinecomponents.regressor.ODRegressor.optimal_params">optimal_params</a></code></li>
-<li><code><a title="hrosailing.processing.pipelinecomponents.regressor.ODRegressor.set_weights" href="#hrosailing.processing.pipelinecomponents.regressor.ODRegressor.set_weights">set_weights</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.regressor.ODRegressor.fit" href="#hrosailing.pipelinecomponents.regressor.ODRegressor.fit">fit</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.regressor.ODRegressor.model_func" href="#hrosailing.pipelinecomponents.regressor.ODRegressor.model_func">model_func</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.regressor.ODRegressor.optimal_params" href="#hrosailing.pipelinecomponents.regressor.ODRegressor.optimal_params">optimal_params</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.regressor.Regressor" href="#hrosailing.processing.pipelinecomponents.regressor.Regressor">Regressor</a></code></h4>
+<h4><code><a title="hrosailing.pipelinecomponents.regressor.Regressor" href="#hrosailing.pipelinecomponents.regressor.Regressor">Regressor</a></code></h4>
 <ul class="">
-<li><code><a title="hrosailing.processing.pipelinecomponents.regressor.Regressor.fit" href="#hrosailing.processing.pipelinecomponents.regressor.Regressor.fit">fit</a></code></li>
-<li><code><a title="hrosailing.processing.pipelinecomponents.regressor.Regressor.model_func" href="#hrosailing.processing.pipelinecomponents.regressor.Regressor.model_func">model_func</a></code></li>
-<li><code><a title="hrosailing.processing.pipelinecomponents.regressor.Regressor.optimal_params" href="#hrosailing.processing.pipelinecomponents.regressor.Regressor.optimal_params">optimal_params</a></code></li>
-<li><code><a title="hrosailing.processing.pipelinecomponents.regressor.Regressor.set_weights" href="#hrosailing.processing.pipelinecomponents.regressor.Regressor.set_weights">set_weights</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.regressor.Regressor.fit" href="#hrosailing.pipelinecomponents.regressor.Regressor.fit">fit</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.regressor.Regressor.model_func" href="#hrosailing.pipelinecomponents.regressor.Regressor.model_func">model_func</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.regressor.Regressor.optimal_params" href="#hrosailing.pipelinecomponents.regressor.Regressor.optimal_params">optimal_params</a></code></li>
 </ul>
 </li>
 <li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.regressor.RegressorException" href="#hrosailing.processing.pipelinecomponents.regressor.RegressorException">RegressorException</a></code></h4>
+<h4><code><a title="hrosailing.pipelinecomponents.regressor.RegressorException" href="#hrosailing.pipelinecomponents.regressor.RegressorException">RegressorException</a></code></h4>
 </li>
 </ul>
 </li>

@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.9.2" />
-<title>hrosailing.processing.pipelinecomponents.filter API documentation</title>
-<meta name="description" content="Contains the baseclass for Filters used in the PolarPipeline class,
-that can also be used to create custom Filters …" />
+<title>hrosailing.pipelinecomponents.modelfunctions API documentation</title>
+<meta name="description" content="Model functions that can be used with the Regressor class to
+model certain ship behaviours" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
@@ -22,158 +22,58 @@ that can also be used to create custom Filters …" />
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>hrosailing.processing.pipelinecomponents.filter</code></h1>
+<h1 class="title">Module <code>hrosailing.pipelinecomponents.modelfunctions</code></h1>
 </header>
 <section id="section-intro">
-<p>Contains the baseclass for Filters used in the PolarPipeline class,
-that can also be used to create custom Filters.</p>
-<p>Also contains two predefinied and usable filters, the QuantileFilter
-and the BoundFilter.</p>
+<p>Model functions that can be used with the Regressor class to
+model certain ship behaviours</p>
 </section>
 <section>
 </section>
 <section>
 </section>
 <section>
-</section>
-<section>
-<h2 class="section-title" id="header-classes">Classes</h2>
+<h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="hrosailing.processing.pipelinecomponents.filter.BoundFilter"><code class="flex name class">
-<span>class <span class="ident">BoundFilter</span></span>
-<span>(</span><span>upper_bound=1, lower_bound=0.5)</span>
+<dt id="hrosailing.pipelinecomponents.modelfunctions.ws_concave_dt_wa"><code class="name flex">
+<span>def <span class="ident">ws_concave_dt_wa</span></span>(<span>ws, wa, *params)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>A filter that filters all points based on if their
-weight is outside an interval given by a lower and upper bound</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>upper_bound</code></strong> :&ensp;<code>int</code> or <code>float</code>, optional</dt>
-<dd>
-<p>The upper bound for the filter</p>
-<p>Defaults to 1</p>
+<div class="desc"></div>
 </dd>
-<dt><strong><code>lower_bound</code></strong> :&ensp;<code>int</code> or <code>float</code>, optional</dt>
-<dd>
-<p>The lower bound for the filter</p>
-<p>Defaults to 0.5</p>
-</dd>
-</dl>
-<p>Raises a FilterInitializationException if
-lower_bound is greater than upper_bound</p></div>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="hrosailing.processing.pipelinecomponents.filter.Filter" href="#hrosailing.processing.pipelinecomponents.filter.Filter">Filter</a></li>
-<li>abc.ABC</li>
-</ul>
-<h3>Methods</h3>
-<dl>
-<dt id="hrosailing.processing.pipelinecomponents.filter.BoundFilter.filter"><code class="name flex">
-<span>def <span class="ident">filter</span></span>(<span>self, wts)</span>
+<dt id="hrosailing.pipelinecomponents.modelfunctions.ws_s_dt_wa_gauss"><code class="name flex">
+<span>def <span class="ident">ws_s_dt_wa_gauss</span></span>(<span>ws, wa, *params)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Filters a set of points given by their resp. weights
-according to the above described method</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>wts</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (n, )</code></dt>
-<dd>Weights of the points that are to be filtered, given
-as a sequence of scalars</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><strong><code>mask</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (n, )</code></dt>
-<dd>Boolean array describing with points are filtered
-depending on their resp. weight</dd>
-</dl></div>
+<div class="desc"></div>
 </dd>
-</dl>
-</dd>
-<dt id="hrosailing.processing.pipelinecomponents.filter.Filter"><code class="flex name class">
-<span>class <span class="ident">Filter</span></span>
+<dt id="hrosailing.pipelinecomponents.modelfunctions.ws_s_s_dt_wa_gauss_comb"><code class="name flex">
+<span>def <span class="ident">ws_s_s_dt_wa_gauss_comb</span></span>(<span>ws, wa, *params)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Base class for all filter classes</p>
-<h2 id="abstract-methods">Abstract Methods</h2>
-<p>filter(self, weights)</p></div>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>abc.ABC</li>
-</ul>
-<h3>Subclasses</h3>
-<ul class="hlist">
-<li><a title="hrosailing.processing.pipelinecomponents.filter.BoundFilter" href="#hrosailing.processing.pipelinecomponents.filter.BoundFilter">BoundFilter</a></li>
-<li><a title="hrosailing.processing.pipelinecomponents.filter.QuantileFilter" href="#hrosailing.processing.pipelinecomponents.filter.QuantileFilter">QuantileFilter</a></li>
-</ul>
-<h3>Methods</h3>
-<dl>
-<dt id="hrosailing.processing.pipelinecomponents.filter.Filter.filter"><code class="name flex">
-<span>def <span class="ident">filter</span></span>(<span>self, weights)</span>
+<div class="desc"></div>
+</dd>
+<dt id="hrosailing.pipelinecomponents.modelfunctions.ws_s_wa_gauss"><code class="name flex">
+<span>def <span class="ident">ws_s_wa_gauss</span></span>(<span>ws, wa, *params)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hrosailing.pipelinecomponents.modelfunctions.ws_times_wa"><code class="name flex">
+<span>def <span class="ident">ws_times_wa</span></span>(<span>ws, wa, scal)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hrosailing.pipelinecomponents.modelfunctions.ws_wa_s_dt"><code class="name flex">
+<span>def <span class="ident">ws_wa_s_dt</span></span>(<span>ws, wa, *params)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 </dl>
-</dd>
-<dt id="hrosailing.processing.pipelinecomponents.filter.FilterInitializationException"><code class="flex name class">
-<span>class <span class="ident">FilterInitializationException</span></span>
-<span>(</span><span>*args, **kwargs)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Exception raised if an error occurs during
-initialization of a Filter</p></div>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>builtins.Exception</li>
-<li>builtins.BaseException</li>
-</ul>
-</dd>
-<dt id="hrosailing.processing.pipelinecomponents.filter.QuantileFilter"><code class="flex name class">
-<span>class <span class="ident">QuantileFilter</span></span>
-<span>(</span><span>percent=50)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>A filter that filteres all points based on if their
-resp. weight lies above a certain quantile</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>percent</code></strong> :&ensp;<code>int</code> or <code>float</code>, optional</dt>
-<dd>
-<p>The quantile to be calculated</p>
-<p>Defaults to 25</p>
-</dd>
-</dl>
-<p>Raises a FilterInitializationException, if percent
-is not in the interval [0, 100]</p></div>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="hrosailing.processing.pipelinecomponents.filter.Filter" href="#hrosailing.processing.pipelinecomponents.filter.Filter">Filter</a></li>
-<li>abc.ABC</li>
-</ul>
-<h3>Methods</h3>
-<dl>
-<dt id="hrosailing.processing.pipelinecomponents.filter.QuantileFilter.filter"><code class="name flex">
-<span>def <span class="ident">filter</span></span>(<span>self, wts)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Filters a set of points given by their resp. weights
-according to the above described method</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>wts</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (n, )</code></dt>
-<dd>Weights of the points that are to be filtered, given
-as a sequence of scalars</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><strong><code>mask</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (n, )</code></dt>
-<dd>Boolean array describing with points are filtered
-depending on their resp. weight</dd>
-</dl></div>
-</dd>
-</dl>
-</dd>
-</dl>
+</section>
+<section>
 </section>
 </article>
 <nav id="sidebar">
@@ -235,32 +135,17 @@ setTimeout(() => input.focus(), 100);
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="hrosailing.processing.pipelinecomponents" href="index.html">hrosailing.processing.pipelinecomponents</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents" href="../index.html">hrosailing.pipelinecomponents</a></code></li>
 </ul>
 </li>
-<li><h3><a href="#header-classes">Classes</a></h3>
-<ul>
-<li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.filter.BoundFilter" href="#hrosailing.processing.pipelinecomponents.filter.BoundFilter">BoundFilter</a></code></h4>
+<li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="hrosailing.processing.pipelinecomponents.filter.BoundFilter.filter" href="#hrosailing.processing.pipelinecomponents.filter.BoundFilter.filter">filter</a></code></li>
-</ul>
-</li>
-<li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.filter.Filter" href="#hrosailing.processing.pipelinecomponents.filter.Filter">Filter</a></code></h4>
-<ul class="">
-<li><code><a title="hrosailing.processing.pipelinecomponents.filter.Filter.filter" href="#hrosailing.processing.pipelinecomponents.filter.Filter.filter">filter</a></code></li>
-</ul>
-</li>
-<li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.filter.FilterInitializationException" href="#hrosailing.processing.pipelinecomponents.filter.FilterInitializationException">FilterInitializationException</a></code></h4>
-</li>
-<li>
-<h4><code><a title="hrosailing.processing.pipelinecomponents.filter.QuantileFilter" href="#hrosailing.processing.pipelinecomponents.filter.QuantileFilter">QuantileFilter</a></code></h4>
-<ul class="">
-<li><code><a title="hrosailing.processing.pipelinecomponents.filter.QuantileFilter.filter" href="#hrosailing.processing.pipelinecomponents.filter.QuantileFilter.filter">filter</a></code></li>
-</ul>
-</li>
+<li><code><a title="hrosailing.pipelinecomponents.modelfunctions.ws_concave_dt_wa" href="#hrosailing.pipelinecomponents.modelfunctions.ws_concave_dt_wa">ws_concave_dt_wa</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.modelfunctions.ws_s_dt_wa_gauss" href="#hrosailing.pipelinecomponents.modelfunctions.ws_s_dt_wa_gauss">ws_s_dt_wa_gauss</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.modelfunctions.ws_s_s_dt_wa_gauss_comb" href="#hrosailing.pipelinecomponents.modelfunctions.ws_s_s_dt_wa_gauss_comb">ws_s_s_dt_wa_gauss_comb</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.modelfunctions.ws_s_wa_gauss" href="#hrosailing.pipelinecomponents.modelfunctions.ws_s_wa_gauss">ws_s_wa_gauss</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.modelfunctions.ws_times_wa" href="#hrosailing.pipelinecomponents.modelfunctions.ws_times_wa">ws_times_wa</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.modelfunctions.ws_wa_s_dt" href="#hrosailing.pipelinecomponents.modelfunctions.ws_wa_s_dt">ws_wa_s_dt</a></code></li>
 </ul>
 </li>
 </ul>

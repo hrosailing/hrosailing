@@ -66,7 +66,8 @@ instance contained in it</p>
 <ul>
 <li>hro: format created by the to_csv-method of the PolarDiagram class</li>
 <li>orc: format found at <a href="https://jieter.github.io/orc-data/site/">ORC</a></li>
-<li>opencpn: format created by <a href="https://opencpn.org/OpenCPN/plugins/polar.html">OpenCPN Polar Plugin</a></li>
+<li>opencpn: format created by
+<a href="https://opencpn.org/OpenCPN/plugins/polar.html">OpenCPN Polar Plugin</a></li>
 <li>array</li>
 </ul>
 </dd>
@@ -137,7 +138,8 @@ instance contained in it</p>
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Exception raised if non-oserror error occurs,
+when reading a file</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>
@@ -148,7 +150,7 @@ instance contained in it</p>
 <span>class <span class="ident">PolarDiagram</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>Base class for all polardiagram classes</p>
+<div class="desc"><p>Base class for all polar diagrams</p>
 <h2 id="abstract-methods">Abstract Methods</h2>
 <p>to_csv(csv_path)</p>
 <p>symmetrize()</p>
@@ -203,7 +205,10 @@ legend_kw=None,
 <span>def <span class="ident">get_slices</span></span>(<span>self, ws)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>This method should, given a number of wind speeds, return
+a list of the given wind speeds as well as wind angles and
+corresponding boat speeds, that reflect how the vessel behaves at
+the given wind speeds</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.pickling"><code class="name flex">
 <span>def <span class="ident">pickling</span></span>(<span>self, pkl_path)</span>
@@ -220,19 +225,23 @@ legend_kw=None,
 <span>def <span class="ident">plot_3d</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>This method should create a 3d plot of the polar diagram object</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_color_gradient"><code class="name flex">
 <span>def <span class="ident">plot_color_gradient</span></span>(<span>self, ax=None, colors=('green', 'red'), marker=None, ms=None, show_legend=False, **legend_kw)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>This method should create 'wind speed vs. wind angle'
+color gradient plot of the polar diagram object with respect
+to the corresponding boat speeds</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_convex_hull"><code class="name flex">
 <span>def <span class="ident">plot_convex_hull</span></span>(<span>self, ws=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>This method should compute the convex hull of one or multiple
+slices, corresponding to <code>ws</code>, of the polar diagram and then create
+a polar plot of them</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_convex_hull_slice"><code class="name flex">
 <span>def <span class="ident">plot_convex_hull_slice</span></span>(<span>self, ws, ax=None, **plot_kw)</span>
@@ -267,7 +276,8 @@ of the respective PolarDiagram subclass raises one</p></div>
 <span>def <span class="ident">plot_flat</span></span>(<span>self, ws=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>This method should create a cartesian plot of one or more slices,
+corresponding to <code>ws</code>, of the polar diagram object</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_flat_slice"><code class="name flex">
 <span>def <span class="ident">plot_flat_slice</span></span>(<span>self, ws, ax=None, **plot_kw)</span>
@@ -302,7 +312,8 @@ of the respective PolarDiagram subclass raises one</p></div>
 <span>def <span class="ident">plot_polar</span></span>(<span>self, ws=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>This method should create a polar plot of one or more slices,
+corresponding to <code>ws</code>, of the polar diagram object.</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_polar_slice"><code class="name flex">
 <span>def <span class="ident">plot_polar_slice</span></span>(<span>self, ws, ax=None, **plot_kw)</span>
@@ -337,13 +348,17 @@ of the respective PolarDiagram subclass raises one</p></div>
 <span>def <span class="ident">symmetrize</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>This method should return a new PolarDiagram object that is a
+symmetric (i.e. mirrored along the 0 - 180° axis) version of the
+polar diagram object that called the method</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.to_csv"><code class="name flex">
 <span>def <span class="ident">to_csv</span></span>(<span>self, csv_path)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>This method should, given a path, write a .csv file in
+the location, containing human readable information about the
+polar diagram object that called the method</p></div>
 </dd>
 </dl>
 </dd>
@@ -395,13 +410,46 @@ should then also be an array_like of shape (n,)</dd>
 <span>def <span class="ident">__call__</span></span>(<span>self, ws, wa)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Call self as a function.</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramCurve.get_slices"><code class="name flex">
 <span>def <span class="ident">get_slices</span></span>(<span>self, ws, stepsize=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>For given wind speeds, return the slices of the polar diagram
+corresponding to them</p>
+<p>Slices are equal to self(w, wa) where w goes through
+the given values in <code>ws</code> and wa goes through a fixed
+number of angles between 0° and 360°</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram given as either</p>
+<ul>
+<li>a tuple of length 2, specifying an interval of considered
+wind speeds. The amount of slices taken from that interval are
+determined by the parameter <code>stepsize</code></li>
+<li>an iterable of specific wind speeds</li>
+<li>a single wind speed</li>
+</ul>
+<p>If nothing is passed, it will default to (0, 20)</p>
+</dd>
+<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Specfies the amount of slices taken from the given
+wind speed interval</p>
+<p>Will only be used if <code>ws</code> is a tuple of length 2</p>
+<p>If nothing is passed, it will default to ws[1] - ws[0]</p>
+</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>slices</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>Slices of the polar diagram, given as a tuple of length 3,
+consisting of the given wind speeds <code>ws</code>, self.wind_angles (in rad)
+and a list of arrays containing the corresponding boat speeds</dd>
+</dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramCurve.plot_3d"><code class="name flex">
 <span>def <span class="ident">plot_3d</span></span>(<span>self, ws=None, stepsize=None, ax=None, colors=('green', 'red'))</span>
@@ -439,7 +487,7 @@ a suitable axes</p>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a 'wind speed vs. wind angle' color gradient plot
-of a part of the polar diagram with respect to the respective
+of a part of the polar diagram with respect to the corresponding
 boat speeds</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -746,7 +794,9 @@ certain appearences of the plot</dd>
 <span>def <span class="ident">symmetrize</span></span>(<span>self)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Constructs a symmetric version of the
+polar diagram, by mirroring it at the 0° - 180° axis
+and returning a new instance</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramCurve.to_csv"><code class="name flex">
 <span>def <span class="ident">to_csv</span></span>(<span>self, csv_path)</span>
@@ -784,7 +834,21 @@ Parameters: self.parameters
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Exception raised if some nonstandard error occurs,
+while doing something with polar diagrams</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramInitializationException"><code class="flex name class">
+<span>class <span class="ident">PolarDiagramInitializationException</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Exception raised if an error occurs during
+initialization of a PolarDiagram</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>builtins.Exception</li>
@@ -839,7 +903,29 @@ represented by a PolarDiagramTable</p>
 <span>def <span class="ident">get_slices</span></span>(<span>self, ws)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>For given wind speeds, return the slices of the polar diagram
+corresponding to them</p>
+<p>The slices are equal to the corresponding
+columns of the table together with self.wind_angles</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram table, given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of considered
+wind speeds</li>
+<li>an iterable containing only elements of self.wind_speeds</li>
+<li>a single element of self.wind_speeds</li>
+</ul>
+<p>If nothing it passed, it will default to self.wind_speeds</p>
+</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>slices</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramMultiSails.plot_3d"><code class="name flex">
 <span>def <span class="ident">plot_3d</span></span>(<span>self, ax=None, colors=('green', 'red'))</span>
@@ -859,10 +945,50 @@ a suitable axes</p>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramMultiSails.plot_color_gradient"><code class="name flex">
-<span>def <span class="ident">plot_color_gradient</span></span>(<span>self, ax=None, colors=('green', 'red'), ms=None, marker=None, show_legend=False, **legend_kw)</span>
+<span>def <span class="ident">plot_color_gradient</span></span>(<span>self, ax=None, colors=('green', 'red'), marker=None, ms=None, show_legend=False, **legend_kw)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
+<dd>
+<p>Axes instance where the plot will be created.</p>
+<p>If nothing is passed, the function will create
+a suitable axes</p>
+</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code> of <code>length 2</code>, optional</dt>
+<dd>
+<p>Colors which specify the color gradient with
+which the polar diagram will be plotted.</p>
+<p>Defaults to ("green", "red")</p>
+</dd>
+<dt><strong><code>marker</code></strong> :&ensp;<code>matplotlib.markers.Markerstyle</code> or <code>equivalent</code>, optional</dt>
+<dd>
+<p>Markerstyle for the created scatter plot</p>
+<p>If nothing is passed, it will default to "o"</p>
+</dd>
+<dt><strong><code>ms</code></strong> :&ensp;<code>float</code> or <code>array_like</code> of <code>fitting shape</code>, optional</dt>
+<dd>
+<p>Marker size in points**2</p>
+<p>If nothing is passed, it will use the default of
+the matplotlib.pyplot.scatter function</p>
+</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next
+to the plot</p>
+<p>Legend will be a matplotlib.colorbar.Colorbar object.</p>
+<p>Defaults to False</p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to be passed to the
+matplotlib.colorbar.Colorbar class to change position
+and appearence of the legend.</p>
+<p>Will only be used if show_legend is True</p>
+<p>If nothing is passed, it will default to {}</p>
+</dd>
+</dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramMultiSails.plot_convex_hull"><code class="name flex">
 <span>def <span class="ident">plot_convex_hull</span></span>(<span>self, ws=None, ax=None, colors=None, show_legend=False, legend_kw=None, **plot_kw)</span>
@@ -1093,7 +1219,11 @@ to duplicate data, which can overwrite or live alongside old data</p></div>
 <span>def <span class="ident">to_csv</span></span>(<span>self, csv_path)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>csv_path</code></strong> :&ensp;<code>path_like</code></dt>
+<dd>Path to a .csv file or where a new .csv file will be created</dd>
+</dl></div>
 </dd>
 </dl>
 <h3>Inherited members</h3>
@@ -1140,7 +1270,8 @@ as an empty point cloud</p>
 <dl>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.boat_speeds"><code class="name">var <span class="ident">boat_speeds</span></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Returns all occuring boat speeds in the point cloud
+(including duplicates)</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.points"><code class="name">var <span class="ident">points</span></code></dt>
 <dd>
@@ -1179,7 +1310,52 @@ of points consisting of wind speed, wind angle and boat speed</dd>
 <span>def <span class="ident">get_slices</span></span>(<span>self, ws, stepsize=None, range_=1)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>For given wind speeds, return the slices of the polar diagram
+corresponding to them</p>
+<p>A slice then consists of all rows in self.wind_speeds whose
+first entry lies in the interval given by w in <code>ws</code></p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable , int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of considered
+wind speeds. The amount of slices taken from that interval are
+determined by the parameter <code>stepsize</code></li>
+<li>an iterable of tuples of length 2 and int/float values
+which will be interpreted as individual slices. If a w in <code>ws</code>
+is an int or float, the given interval will be determined by
+the
+parameter <code>range_</code>. If it is a tuple, it will be interpreted
+as an inverval as is</li>
+<li>a single wind speed. The given interval is then determined by
+the parameter <code>range_</code></li>
+</ul>
+<p>If nothing is passed, it will default to
+(min(self.wind_speeds), max(self.wind_speeds))</p>
+</dd>
+<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
+<dd>
+<p>Specfies the amount of slices taken from the given
+interval in <code>ws</code></p>
+<p>Will only be used if <code>ws</code> is a tuple of length 2</p>
+<p>If nothing is passed it will default to int(round(ws[1] - ws[0]))</p>
+</dd>
+<dt><strong><code>range_</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Used to convert and int or float w in <code>ws</code> to the interval
+(w - range_, w + range_</p>
+<p>Will only be used if <code>ws</code> is int or float or
+if any w in <code>ws</code> is an int or float</p>
+<p>Defaults to 1</p>
+</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>slices</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.plot_3d"><code class="name flex">
 <span>def <span class="ident">plot_3d</span></span>(<span>self, ax=None, colors=('green', 'red'), **plot_kw)</span>
@@ -1210,7 +1386,7 @@ in the point cloud</p></div>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a 'wind speed vs. wind angle' color gradient plot
-of the polar diagram with respect to the respective boat speeds</p>
+of the polar diagram with respect to the corresponding boat speeds</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
@@ -1708,7 +1884,13 @@ numpy.zeros((rdim, cdim))</p>
 <span>def <span class="ident">__getitem__</span></span>(<span>self, key)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><h2 id="parameters">Parameters</h2>
+<p>key :</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bsp :</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.change_entries"><code class="name flex">
 <span>def <span class="ident">change_entries</span></span>(<span>self, new_bsps, ws=None, wa=None)</span>
@@ -1733,7 +1915,6 @@ where new boat speeds will be inserted</p>
 <p>If nothing is passed it will default to self.wind_angles</p>
 </dd>
 </dl>
-<p>Raises a PolarDiagramException</p>
 <h2 id="examples">Examples</h2>
 <pre><code>&gt;&gt;&gt; pd = PolarDiagramTable(
 ...     ws_res = [6, 8, 10, 12, 14],
@@ -1809,7 +1990,31 @@ where new boat speeds will be inserted</p>
 <span>def <span class="ident">get_slices</span></span>(<span>self, ws=None)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>For given wind speeds, return the slices of the polar diagram
+corresponding to them</p>
+<p>The slices are equal to the corresponding columns of the table
+together with self.wind_angles</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram table, given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of
+considered wind speeds</li>
+<li>an iterable containing only elements of self.wind_speeds</li>
+<li>a single element of self.wind_speeds</li>
+</ul>
+<p>If nothing it passed, it will default to self.wind_speeds</p>
+</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>slices</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>Slices of the polar diagram, given as a tuple of length 3,
+consisting of the given wind speeds <code>ws</code>, self.wind_angles (in rad)
+and an array with the corresponding columns of the table</dd>
+</dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.plot_3d"><code class="name flex">
 <span>def <span class="ident">plot_3d</span></span>(<span>self, ax=None, colors=('green', 'red'))</span>
@@ -1833,7 +2038,7 @@ a suitable axes</p>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a 'wind speed vs. wind angle' color gradient plot
-of the polar diagram with respect to the respective boat speeds</p>
+of the polar diagram with respect to the corresponding boat speeds</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
@@ -2374,6 +2579,9 @@ setTimeout(() => input.focus(), 100);
 </li>
 <li>
 <h4><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></h4>
+</li>
+<li>
+<h4><code><a title="hrosailing.polardiagram.PolarDiagramInitializationException" href="#hrosailing.polardiagram.PolarDiagramInitializationException">PolarDiagramInitializationException</a></code></h4>
 </li>
 <li>
 <h4><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails" href="#hrosailing.polardiagram.PolarDiagramMultiSails">PolarDiagramMultiSails</a></code></h4>

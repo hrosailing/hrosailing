@@ -147,7 +147,8 @@ disable=print-statement,
         anomalous-backslash-in-string,
         no-name-in-module,
         unsubscriptable-object,
-        no-member
+        no-member,
+        unbalanced-tuple-unpacking
 
 
 # Enable the message, report, category or checker with the given id(s). You can
@@ -252,7 +253,7 @@ const-naming-style=UPPER_CASE
 
 # Minimum line length for functions/classes that require docstrings, shorter
 # ones are exempt.
-docstring-min-length=-1
+docstring-min-length=10
 
 # Naming style matching correct function names.
 function-naming-style=snake_case
@@ -586,7 +587,7 @@ max-returns=6
 max-statements=50
 
 # Minimum number of public methods for a class (see R0903).
-min-public-methods=2
+min-public-methods=1
 
 
 [IMPORTS]

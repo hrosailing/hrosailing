@@ -16,7 +16,7 @@ from typing import Callable
 
 import numpy as np
 
-from hrosailing.wind import convert_wind
+from hrosailing.wind import _convert_wind
 
 
 logging.basicConfig(
@@ -67,7 +67,9 @@ class Weigher(ABC):
 
     @abstractmethod
     def weigh(self, pts):
-        """"""
+        """This method should be used, given certain points,
+        to determine their weights according to a weighing method
+        """
 
 
 class CylindricMeanWeigher(Weigher):
@@ -284,7 +286,7 @@ class WeightedPoints:
         _checks=True,
     ):
         if _checks:
-            pts = convert_wind(pts, -1, tw=tw, _check_finite=True)
+            pts = _convert_wind(pts, -1, tw=tw, _check_finite=True)
 
         self._pts = pts
 
@@ -306,10 +308,12 @@ class WeightedPoints:
 
     @property
     def points(self):
+        """Returns a read-only version of self._pts"""
         return self._pts.copy()
 
     @property
     def weights(self):
+        """Returns a read-only version of self._wts"""
         return self._wts.copy()
 
 

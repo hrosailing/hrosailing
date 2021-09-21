@@ -47,7 +47,10 @@ class Interpolator(ABC):
 
     @abstractmethod
     def interpolate(self, w_pts, grid_pt):
-        """"""
+        """This method should be used, given a point grid_pt and an
+        instances of WeightedPoints, to determine the z-value at grid_pt,
+        based on the z-values of the points in the WeightedPoints instance
+        """
 
 
 class IDWInterpolator(Interpolator):

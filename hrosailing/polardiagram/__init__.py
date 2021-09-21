@@ -2,6 +2,7 @@
 PolarDiagram classes to work with and represent PPDs in various forms
 """
 
+# pylint: disable=too-many-lines
 # Author: Valentin Dannenberg
 
 
@@ -17,7 +18,7 @@ import warnings
 
 
 from hrosailing.pipelinecomponents import Interpolator
-from hrosailing.wind import convert_wind, set_resolution
+from hrosailing.wind import _convert_wind, _set_resolution
 from ._plotting import *
 
 
@@ -83,7 +84,8 @@ def from_csv(csv_path, fmt="hro", tw=True):
 
         - hro: format created by the to_csv-method of the PolarDiagram class
         - orc: format found at [ORC](https://jieter.github.io/orc-data/site/)
-        - opencpn: format created by [OpenCPN Polar Plugin](https://opencpn.org/OpenCPN/plugins/polar.html)
+        - opencpn: format created by
+        [OpenCPN Polar Plugin](https://opencpn.org/OpenCPN/plugins/polar.html)
         - array
 
     tw : bool
@@ -229,7 +231,7 @@ def symmetrize(obj):
 
 
 class PolarDiagram(ABC):
-    """Base class for all polardiagram classes
+    """Base class for all polar diagrams
 
     Abstract Methods
     ----------------
@@ -291,15 +293,25 @@ class PolarDiagram(ABC):
 
     @abstractmethod
     def to_csv(self, csv_path):
-        """"""
+        """This method should, given a path, write a .csv file in
+        the location, containing human readable information about the
+        polar diagram object that called the method
+        """
 
     @abstractmethod
     def symmetrize(self):
-        """"""
+        """This method should return a new PolarDiagram object that is a
+        symmetric (i.e. mirrored along the 0 - 180° axis) version of the
+        polar diagram object that called the method
+        """
 
     @abstractmethod
     def get_slices(self, ws):
-        """"""
+        """This method should, given a number of wind speeds, return
+        a list of the given wind speeds as well as wind angles and
+        corresponding boat speeds, that reflect how the vessel behaves at
+        the given wind speeds
+        """
 
     def plot_polar_slice(self, ws, ax=None, **plot_kw):
         """Creates a polar plot of a given slice of the
@@ -381,7 +393,9 @@ class PolarDiagram(ABC):
         legend_kw=None,
         **plot_kw,
     ):
-        """"""
+        """This method should create a polar plot of one or more slices,
+        corresponding to `ws`, of the polar diagram object.
+        """
 
     @abstractmethod
     def plot_flat(
@@ -393,11 +407,13 @@ class PolarDiagram(ABC):
         legend_kw=None,
         **plot_kw,
     ):
-        """"""
+        """This method should create a cartesian plot of one or more slices,
+        corresponding to `ws`, of the polar diagram object
+        """
 
     @abstractmethod
     def plot_3d(self):
-        """"""
+        """This method should create a 3d plot of the polar diagram object"""
 
     @abstractmethod
     def plot_color_gradient(
@@ -409,7 +425,10 @@ class PolarDiagram(ABC):
         show_legend=False,
         **legend_kw,
     ):
-        """"""
+        """This method should create 'wind speed vs. wind angle'
+        color gradient plot of the polar diagram object with respect
+        to the corresponding boat speeds
+        """
 
     def plot_convex_hull_slice(self, ws, ax=None, **plot_kw):
         """Computes the convex hull of a given slice of
@@ -456,7 +475,10 @@ class PolarDiagram(ABC):
         legend_kw=None,
         **plot_kw,
     ):
-        """"""
+        """This method should compute the convex hull of one or multiple
+        slices, corresponding to `ws`, of the polar diagram and then create
+        a polar plot of them
+        """
 
 
 class PolarDiagramTable(PolarDiagram):
@@ -559,8 +581,8 @@ class PolarDiagramTable(PolarDiagram):
             f"bsps={bsps})' called"
         )
 
-        ws_res = set_resolution(ws_res, "speed")
-        wa_res = set_resolution(wa_res, "angle")
+        ws_res = _set_resolution(ws_res, "speed")
+        wa_res = _set_resolution(wa_res, "angle")
 
         # standardize wind angles to the interval [0, 360)
         wa_res %= 360
@@ -619,10 +641,34 @@ class PolarDiagramTable(PolarDiagram):
         )
 
     def __call__(self, ws, wa, interpolator: Optional[Interpolator] = None):
-        """"""
+        """
+
+        Parameters
+        ----------
+        ws : int/float or array_like of shape (n, )
+
+        wa : int/float or array_like of shape (m, )
+
+        interpolator : Interpolator, optional
+
+
+        Returns
+        -------
+        bsp : int/float or array_like of shape (m, n)
+        """
 
     def __getitem__(self, key):
-        """"""
+        """
+
+        Parameters
+        ----------
+        key :
+
+
+        Returns
+        -------
+        bsp :
+        """
         ws, wa = key
         col = self._get_indices(np.atleast_1d(ws), "speed")
         row = self._get_indices(np.atleast_1d(wa), "angle")
@@ -819,9 +865,6 @@ class PolarDiagramTable(PolarDiagram):
             If nothing is passed it will default to self.wind_angles
 
 
-        Raises a PolarDiagramException
-
-
         Examples
         --------
             >>> pd = PolarDiagramTable(
@@ -919,7 +962,31 @@ class PolarDiagramTable(PolarDiagram):
         self._boat_speeds[mask] = new_bsps.flat
 
     def get_slices(self, ws=None):
-        """"""
+        """For given wind speeds, return the slices of the polar diagram
+        corresponding to them
+
+        The slices are equal to the corresponding columns of the table
+        together with self.wind_angles
+
+        Parameters
+        ----------
+        ws : tuple of length 2, iterable, int or float, optional
+            Slices of the polar diagram table, given as either
+
+            - a tuple of length 2 specifying an interval of
+                considered wind speeds
+            - an iterable containing only elements of self.wind_speeds
+            - a single element of self.wind_speeds
+
+            If nothing it passed, it will default to self.wind_speeds
+
+        Returns
+        -------
+        slices : tuple
+            Slices of the polar diagram, given as a tuple of length 3,
+            consisting of the given wind speeds `ws`, self.wind_angles (in rad)
+            and an array with the corresponding columns of the table
+        """
         if ws is None:
             ws = self.wind_speeds
         elif isinstance(ws, (int, float)):
@@ -1205,7 +1272,7 @@ class PolarDiagramTable(PolarDiagram):
         **legend_kw,
     ):
         """Creates a 'wind speed vs. wind angle' color gradient plot
-        of the polar diagram with respect to the respective boat speeds
+        of the polar diagram with respect to the corresponding boat speeds
 
         Parameters
         ----------
@@ -1482,7 +1549,6 @@ class PolarDiagramMultiSails(PolarDiagram):
         return self.tables[index]
 
     def __str__(self):
-        """"""
         tables = [str(pd) for pd in self._tables]
         names = [str(sail) for sail in self._sails]
         out = []
@@ -1495,11 +1561,16 @@ class PolarDiagramMultiSails(PolarDiagram):
         return "".join(out)
 
     def __repr__(self):
-        """"""
         return f"PolarDiagramMultiSails({self.tables}, {self.sails})"
 
     def to_csv(self, csv_path):
-        """"""
+        """
+
+        Parameters
+        ----------
+        csv_path : path_like
+            Path to a .csv file or where a new .csv file will be created
+        """
 
     def symmetrize(self):
         """Constructs a symmetric version of the polar diagram, by
@@ -1517,7 +1588,29 @@ class PolarDiagramMultiSails(PolarDiagram):
         return PolarDiagramMultiSails(pds, self._sails)
 
     def get_slices(self, ws):
-        """"""
+        """For given wind speeds, return the slices of the polar diagram
+        corresponding to them
+
+        The slices are equal to the corresponding
+        columns of the table together with self.wind_angles
+
+        Parameters
+        ----------
+        ws : tuple of length 2, iterable, int or float, optional
+            Slices of the polar diagram table, given as either
+
+            - a tuple of length 2 specifying an interval of considered
+            wind speeds
+            - an iterable containing only elements of self.wind_speeds
+            - a single element of self.wind_speeds
+
+            If nothing it passed, it will default to self.wind_speeds
+
+
+        Returns
+        -------
+        slices : tuple
+        """
         wa = []
         temp = []
         for pd in self._tables:
@@ -1750,7 +1843,50 @@ class PolarDiagramMultiSails(PolarDiagram):
         show_legend=False,
         **legend_kw,
     ):
-        """"""
+        """
+
+        Parameters
+        ----------
+        ax : matplotlib.axes.Axes, optional
+            Axes instance where the plot will be created.
+
+            If nothing is passed, the function will create
+            a suitable axes
+
+        colors : tuple of length 2, optional
+            Colors which specify the color gradient with
+            which the polar diagram will be plotted.
+
+            Defaults to ("green", "red")
+
+        marker : matplotlib.markers.Markerstyle or equivalent, optional
+            Markerstyle for the created scatter plot
+
+            If nothing is passed, it will default to "o"
+
+        ms : float or array_like of fitting shape, optional
+            Marker size in points**2
+
+            If nothing is passed, it will use the default of
+            the matplotlib.pyplot.scatter function
+
+        show_legend : bool, optional
+            Specifies wether or not a legend will be shown next
+            to the plot
+
+            Legend will be a matplotlib.colorbar.Colorbar object.
+
+            Defaults to False
+
+        legend_kw : Keyword arguments
+            Keyword arguments to be passed to the
+            matplotlib.colorbar.Colorbar class to change position
+            and appearence of the legend.
+
+            Will only be used if show_legend is True
+
+            If nothing is passed, it will default to {}
+        """
 
     def plot_convex_hull(
         self,
@@ -1855,12 +1991,6 @@ class PolarDiagramCurve(PolarDiagram):
         )
 
         sig = inspect.getfullargspec(f)
-        if len(sig.args) < 2:
-            raise PolarDiagramInitializationException(
-                "`f` might not have the correct signature of "
-                "f(ws, wa, *params) -> bsp"
-            )
-
         enough_params = True
 
         if (sig.varargs or sig.varkw) and not params:
@@ -1880,14 +2010,12 @@ class PolarDiagramCurve(PolarDiagram):
         self._rad = radians
 
     def __repr__(self):
-        """"""
         return (
             f"PolarDiagramCurve(f={self._f.__name__},"
             f"{self._params}, radians={self._rad})"
         )
 
     def __call__(self, ws, wa):
-        """"""
         return self.curve(ws, wa, *self.parameters)
 
     @property
@@ -1932,7 +2060,10 @@ class PolarDiagramCurve(PolarDiagram):
             csv_writer.writerow(["Parameters"] + list(self.parameters))
 
     def symmetrize(self):
-        """"""
+        """Constructs a symmetric version of the
+        polar diagram, by mirroring it at the 0° - 180° axis
+        and returning a new instance
+        """
 
         def sym_func(w_arr, *params):
             sym_w_arr = w_arr.copy()
@@ -1946,7 +2077,41 @@ class PolarDiagramCurve(PolarDiagram):
         )
 
     def get_slices(self, ws, stepsize=None):
-        """"""
+        """For given wind speeds, return the slices of the polar diagram
+        corresponding to them
+
+        Slices are equal to self(w, wa) where w goes through
+        the given values in `ws` and wa goes through a fixed
+        number of angles between 0° and 360°
+
+        Parameters
+        ----------
+        ws : tuple of length 2, iterable, int or float, optional
+            Slices of the polar diagram given as either
+
+            - a tuple of length 2, specifying an interval of considered
+            wind speeds. The amount of slices taken from that interval are
+            determined by the parameter `stepsize`
+            - an iterable of specific wind speeds
+            - a single wind speed
+
+            If nothing is passed, it will default to (0, 20)
+
+        stepsize : positive int or float, optional
+            Specfies the amount of slices taken from the given
+            wind speed interval
+
+            Will only be used if `ws` is a tuple of length 2
+
+            If nothing is passed, it will default to ws[1] - ws[0]
+
+        Returns
+        -------
+        slices : tuple
+            Slices of the polar diagram, given as a tuple of length 3,
+            consisting of the given wind speeds `ws`, self.wind_angles (in rad)
+            and a list of arrays containing the corresponding boat speeds
+        """
         if ws is None:
             ws = (0, 20)
 
@@ -2234,7 +2399,7 @@ class PolarDiagramCurve(PolarDiagram):
         **legend_kw,
     ):
         """Creates a 'wind speed vs. wind angle' color gradient plot
-        of a part of the polar diagram with respect to the respective
+        of a part of the polar diagram with respect to the corresponding
         boat speeds
 
         Parameters
@@ -2463,7 +2628,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             self._pts = np.array([])
             return
 
-        pts = convert_wind(pts, -1, tw)
+        pts = _convert_wind(pts, -1, tw)
 
         # standardize wind angles to the interval [0, 360)
         pts[:, 1] %= 360
@@ -2471,7 +2636,6 @@ class PolarDiagramPointcloud(PolarDiagram):
         self._pts = pts
 
     def __str__(self):
-        """"""
         table = ["   TWS      TWA     BSP\n", "------  -------  ------\n"]
         for point in self.points:
             for i in range(3):
@@ -2487,11 +2651,25 @@ class PolarDiagramPointcloud(PolarDiagram):
         return "".join(table)
 
     def __repr__(self):
-        """"""
         return f"PolarDiagramPointcloud(pts={self.points})"
 
     def __call__(self, ws, wa, interpolator=None):
-        """"""
+        """
+
+        Parameters
+        ----------
+
+        ws : int/float
+
+        wa : int/float
+
+        interpolator : Interpolator, optional
+
+
+        Returns
+        -------
+        bsp : int/float
+        """
 
     @property
     def wind_speeds(self):
@@ -2505,7 +2683,9 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     @property
     def boat_speeds(self):
-        """"""
+        """Returns all occuring boat speeds in the point cloud
+        (including duplicates)
+        """
         return self.points[:, 2]
 
     @property
@@ -2583,7 +2763,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         """
         logger.info(f"Method 'add_points(new_pts{new_pts}, tw={tw})' called")
 
-        new_pts = convert_wind(new_pts, -1, tw)
+        new_pts = _convert_wind(new_pts, -1, tw)
 
         if not self.points.size:
             self._pts = new_pts
@@ -2592,7 +2772,52 @@ class PolarDiagramPointcloud(PolarDiagram):
         self._pts = np.row_stack((self.points, new_pts))
 
     def get_slices(self, ws, stepsize=None, range_=1):
-        """"""
+        """For given wind speeds, return the slices of the polar diagram
+        corresponding to them
+
+        A slice then consists of all rows in self.wind_speeds whose
+        first entry lies in the interval given by w in `ws`
+
+        Parameters
+        ----------
+        ws : tuple of length 2, iterable , int or float, optional
+            Slices of the polar diagram given as either
+
+            - a tuple of length 2 specifying an interval of considered
+            wind speeds. The amount of slices taken from that interval are
+            determined by the parameter `stepsize`
+            - an iterable of tuples of length 2 and int/float values
+            which will be interpreted as individual slices. If a w in `ws`
+            is an int or float, the given interval will be determined by
+            the  parameter `range_`. If it is a tuple, it will be interpreted
+            as an inverval as is
+            - a single wind speed. The given interval is then determined by
+            the parameter `range_`
+
+            If nothing is passed, it will default to
+            (min(self.wind_speeds), max(self.wind_speeds))
+
+        stepsize : positive int, optional
+            Specfies the amount of slices taken from the given
+            interval in `ws`
+
+            Will only be used if `ws` is a tuple of length 2
+
+            If nothing is passed it will default to int(round(ws[1] - ws[0]))
+
+        range_ : positive int or float, optional
+            Used to convert and int or float w in `ws` to the interval
+            (w - range_, w + range_
+
+            Will only be used if `ws` is int or float or
+            if any w in `ws` is an int or float
+
+            Defaults to 1
+
+        Returns
+        -------
+        slices : tuple
+        """
         if ws is None:
             ws = self.wind_speeds
             ws = (min(ws), max(ws))
@@ -2904,7 +3129,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         **legend_kw,
     ):
         """Creates a 'wind speed vs. wind angle' color gradient plot
-        of the polar diagram with respect to the respective boat speeds
+        of the polar diagram with respect to the corresponding boat speeds
 
         Parameters
         ----------
