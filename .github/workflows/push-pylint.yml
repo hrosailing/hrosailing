@@ -21,4 +21,4 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: analyse code with pylint 
         run: |
-          python -m pylint --rcfile=.pylintrc --fail-under=10 `find -regextype egrep -regex '(.*.py)$'`
+          python -m pylint --rcfile=.pylintrc --fail-under=10 `find -regextype egrep -regex '(.*.py)$'` |
