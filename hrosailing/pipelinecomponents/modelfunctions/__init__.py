@@ -84,9 +84,14 @@ def ws_s_wa_gauss_and_square(tws, twa, *args):
     tws = np.asarray(tws)
     twa = np.asarray(twa)
     return (
-            (s_shaped(tws, args[0], args[1], args[2], args[3], downturn=True)
-             + tws * (gaussian_model(twa, args[4], args[5], args[6])
-                      + gaussian_model(twa, args[7], args[8], args[9]))
-             )
-            * twa * (360 - twa)
+        (
+            s_shaped(tws, args[0], args[1], args[2], args[3], downturn=True)
+            + tws
+            * (
+                gaussian_model(twa, args[4], args[5], args[6])
+                + gaussian_model(twa, args[7], args[8], args[9])
+            )
+        )
+        * twa
+        * (360 - twa)
     )

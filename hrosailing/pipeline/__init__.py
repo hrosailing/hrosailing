@@ -148,23 +148,18 @@ class PolarPipeline:
             w_pts = w_pts[mask]
 
         if n_zeros:
-            bsps = w_pts.points[:,0]
+            bsps = w_pts.points[:, 0]
             tws = np.linspace(min(bsps), max(bsps), n_zeros)
             zero_angles = np.zeros(n_zeros)
             full_angles = 360 * np.ones(n_zeros)
 
-            zero_points = np.column_stack(
-                [tws, zero_angles, zero_angles]
-            )
-            full_points = np.column_stack(
-                [tws, full_angles, zero_angles]
-            )
+            zero_points = np.column_stack([tws, zero_angles, zero_angles])
+            full_points = np.column_stack([tws, full_angles, zero_angles])
             new_weights = np.ones(2 * n_zeros)
 
             w_pts = pc.WeightedPoints(
-                pts=np.concatenate(
-                    [w_pts.points, zero_points, full_points]),
-                wts=np.concatenate([w_pts.weights, new_weights])
+                pts=np.concatenate([w_pts.points, zero_points, full_points]),
+                wts=np.concatenate([w_pts.weights, new_weights]),
             )
 
         return self.extension.process(w_pts)
