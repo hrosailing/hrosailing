@@ -1,4 +1,4 @@
-name: pr-autoblack
+name: autoblack
 on: [pull_request]
 jobs:
   build:
