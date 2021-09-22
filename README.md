@@ -7,7 +7,7 @@
 hrosailing - Sailing made in Rostock
 ====================================
 
-You can see the documentation here [Documentation](https://vfdannenberg.github.io/hrosailing "hrosailing").
+You can see the documentation here [Documentation](https://hrosailing.github.io/hrosailing/ "hrosailing").
 
 ### Compatibility 
 
