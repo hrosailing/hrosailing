@@ -28,11 +28,13 @@ jobs:
           pylint --rcfile=.pylintrc --fail-under=10 `find -regextype egrep -regex '(.*.py)$'`
           
       - name: install flake8
+        if: failure()
         run: pip install flake8
       - name: analyse code with flake8
         run: flake8 --config=.flake8 hrosailing
         
       - name: install bandit
+        if: failure()
         run: pip install bandit
       - name: analyse code with bandit
         run: bandit -r hrosailing
