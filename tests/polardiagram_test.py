@@ -8,7 +8,6 @@
 import unittest
 
 import numpy as np
-import pytest
 
 import hrosailing.polardiagram as pol
 from hrosailing.polardiagram import PolarDiagramException
@@ -235,50 +234,7 @@ class PolarDiagramTableTest(unittest.TestCase):
                     self.pd.get_slices(slice_)
 
 
-def polar_table_suite():
-    suite = unittest.TestSuite()
-    suite.addTests(
-        [
-            PolarDiagramTableTest("test_default_init"),
-            PolarDiagramTableTest("test_init"),
-            PolarDiagramTableTest("test_init_only_ws_res"),
-            PolarDiagramTableTest("test_init_only_wa_res"),
-            PolarDiagramTableTest("test_init_ws_wa_res"),
-            PolarDiagramTableTest("test_init_only_bsps"),
-            PolarDiagramTableTest("test_init_ws_res_bsps"),
-            PolarDiagramTableTest("test_init_wa_res_bsps"),
-            PolarDiagramTableTest("test_init_exception_empty_bsps"),
-            PolarDiagramTableTest("test_init_exception_not_ndim2"),
-            PolarDiagramTableTest("test_init_exception_wrong_shape"),
-            PolarDiagramTableTest("test_init_ws_res_not_array_like"),
-            PolarDiagramTableTest("test_init_wa_res_not_array_like"),
-            PolarDiagramTableTest("test_wind_speeds"),
-            PolarDiagramTableTest("test_wind_angles"),
-            PolarDiagramTableTest("test_boat_speeds"),
-            PolarDiagramTableTest("test_symmetric_polar_diagram_no_180"),
-            PolarDiagramTableTest("test_symmetric_polar_diagram_w_180_and_0"),
-            PolarDiagramTableTest("test_change_one_entry"),
-            PolarDiagramTableTest("test_change_one_row"),
-            PolarDiagramTableTest("test_change_one_column"),
-            PolarDiagramTableTest("test_change_entries_exceptions_empty"),
-            PolarDiagramTableTest("test_change_entries_exception_wrong_shape"),
-            PolarDiagramTableTest(
-                "test_change_entries_exception_not_array_like"
-            ),
-            PolarDiagramTableTest("test_change_subarray"),
-            PolarDiagramTableTest("test_get_one_slice"),
-            PolarDiagramTableTest("test_get_multiple_slices_list"),
-            PolarDiagramTableTest("test_get_multiple_slices_tuple"),
-            PolarDiagramTableTest("test_get_multiple_slices_set"),
-            PolarDiagramTableTest("test_get_all_slices"),
-            PolarDiagramTableTest("test_get_slice_exceptions"),
-        ]
-    )
-    return suite
-
-
 class PolarDiagramPointCloudTest(unittest.TestCase):
-    # TODO Better setup?
     def setUp(self):
         self.points = np.array(
             [
@@ -419,45 +375,6 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
             self.pc.get_slices((1, 0))
 
 
-def point_cloud_suite():
-    suite = unittest.TestSuite()
-    suite.addTests(
-        [
-            PolarDiagramPointCloudTest("test_default_init"),
-            PolarDiagramPointCloudTest("test_init"),
-            PolarDiagramPointCloudTest("test_init_exception_wrong_size"),
-            PolarDiagramPointCloudTest("test_wind_speeds"),
-            PolarDiagramPointCloudTest("test_wind_angles"),
-            PolarDiagramPointCloudTest("test_points"),
-            PolarDiagramPointCloudTest("test_add_points_with_no_points"),
-            PolarDiagramPointCloudTest("test_add_points"),
-            PolarDiagramPointCloudTest(
-                "test_add_points_exception_empty_new_pts"
-            ),
-            PolarDiagramPointCloudTest(
-                "test_add_points_exception_wrong_shape"
-            ),
-            PolarDiagramPointCloudTest(
-                "test_add_points_exception_not_array_like"
-            ),
-            PolarDiagramPointCloudTest(
-                "test_symmetric_polar_diagram_no_points"
-            ),
-            PolarDiagramPointCloudTest("test_symmetric_polar_diagram"),
-            PolarDiagramPointCloudTest("test_get_slice"),
-            PolarDiagramPointCloudTest("test_get_slice_exception"),
-            PolarDiagramPointCloudTest("test_get_slices_list"),
-            PolarDiagramPointCloudTest("test_get_slices_exception_empty"),
-            PolarDiagramPointCloudTest("test_get_slices_exception_no_slices"),
-            PolarDiagramPointCloudTest("test_get_slices_range"),
-            PolarDiagramPointCloudTest("test_get_slices_range_no_slices"),
-            PolarDiagramPointCloudTest("test_get_slices_range_empty_interval"),
-        ]
-    )
-
-    return suite
-
-
 class PolarDiagramCurveTest(unittest.TestCase):
     def setUp(self):
         def test_func(w_arr, *params):
@@ -550,25 +467,3 @@ class PolarDiagramCurveTest(unittest.TestCase):
             np.testing.assert_array_equal(
                 bsp[i], self.c(np.array([w] * 1000), np.linspace(0, 360, 1000))
             )
-
-
-def polar_curve_suite():
-    suite = unittest.TestSuite()
-    suite.addTests(
-        [
-            PolarDiagramCurveTest("test_init"),
-            PolarDiagramCurveTest("test_init_exception_not_callable"),
-            PolarDiagramCurveTest("test_init_exception_not_bool"),
-            PolarDiagramCurveTest("test_curve"),
-            PolarDiagramCurveTest("test_parameters"),
-            PolarDiagramCurveTest("test_radians"),
-            PolarDiagramCurveTest("test_call_scalar"),
-            PolarDiagramCurveTest("test_call_array"),
-            PolarDiagramCurveTest("test_symmetrize"),
-            PolarDiagramCurveTest("test_get_slice"),
-            PolarDiagramCurveTest("test_get_slices_list"),
-            PolarDiagramCurveTest("test_get_slices_tuple"),
-        ]
-    )
-
-    return suite
