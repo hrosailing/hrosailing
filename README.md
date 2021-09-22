@@ -14,9 +14,7 @@ You can see the documentation here [Documentation](https://hrosailing.github.io/
 `hrosailing` is compatible with ... 
 
 <!-- [![Python version](..) -->
-[![linter](https://github.com/hrosailing/hrosailing/actions/workflows/linting.yml/badge.svg)](https://github.com/hrosailing/hrosailing/actions/workflows/linting.yml)
-<!-- [![Build Status](https://github.com/vfdannenberg/hrosailing/actions/workflows) -->
-[![CodeFactor](https://www.codefactor.io/repository/github/hrosailing/hrosailing/badge)](https://www.codefactor.io/repository/github/hrosailing/hrosailing)
+[![linter](https://github.com/hrosailing/hrosailing/actions/workflows/linting.yml/badge.svg)](https://github.com/hrosailing/hrosailing/actions/workflows/linting.yml)[![tester](https://github.com/hrosailing/hrosailing/actions/workflows/testing.yml/badge.svg)](https://github.com/hrosailing/hrosailing/actions/workflows/testing.yml)[![CodeFactor](https://www.codefactor.io/repository/github/hrosailing/hrosailing/badge)](https://www.codefactor.io/repository/github/hrosailing/hrosailing)
 <!-- [![Coverage Status](..) -->
 
 ### Installation
