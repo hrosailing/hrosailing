@@ -61,8 +61,12 @@ class ResolutionTest(TestCase):
                     set_resolution(iter_, "speed")
 
     def test_resolution_exception_infinite_or_nan_vals(self):
-        iters = [[1, 2, 3, np.inf], [1, 2, 3, np.NINF], [1, 2, 3, np.nan],
-                 [1, 2, 3, np.PINF]]
+        iters = [
+            [1, 2, 3, np.inf],
+            [1, 2, 3, np.NINF],
+            [1, 2, 3, np.nan],
+            [1, 2, 3, np.PINF],
+        ]
         for i, iter_ in enumerate(iters):
             with self.subTest(i=i):
                 with self.assertRaises(ValueError):
