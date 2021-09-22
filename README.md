@@ -16,7 +16,7 @@ You can see the documentation here [Documentation](https://hrosailing.github.io/
 <!-- [![Python version](..) -->
 [![pylint](https://github.com/VFDannenberg/hrosailing/actions/workflows/push-pylint.yml/badge.svg)](https://github.com/VFDannenberg/hrosailing/actions/workflows/push-pylint.yml)
 <!-- [![Build Status](https://github.com/vfdannenberg/hrosailing/actions/workflows) -->
-[![CodeFactor](https://www.codefactor.io/repository/github/vfdannenberg/hrosailing/badge)](https://www.codefactor.io/repository/github/vfdannenberg/hrosailing)
+[![CodeFactor](https://www.codefactor.io/repository/github/hrosailing/hrosailing/badge)](https://www.codefactor.io/repository/github/hrosailing/hrosailing)
 <!-- [![Coverage Status](..) -->
 
 ### Installation
