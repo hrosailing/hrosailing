@@ -133,7 +133,7 @@ class ConvertWind(TestCase):
                     convert_wind(iter_, 1, False, False)
 
     def test_dont_convert_when_tw_is_True(self):
-        iters = [[[0, 0, 3]],  ((0, 0, 3),), np.array([[0, 0, 3]])]
+        iters = [[[0, 0, 3]], ((0, 0, 3),), np.array([[0, 0, 3]])]
         for i, iter_ in enumerate(iters):
             with self.subTest(i=i):
                 wind = np.array([[0, 0, 3]])
