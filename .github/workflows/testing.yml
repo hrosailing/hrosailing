@@ -1,0 +1,26 @@
+name: tester
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      -main
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: set up python
+        uses: action/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: install dependencies
+        run: |
+          python3 -m pip install -upgrade pip
+          pip install pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: run pytest
+        run: pytest --exitfirst --verbose --failed-first
+          
