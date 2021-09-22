@@ -13,11 +13,11 @@ import inspect
 import itertools
 import logging.handlers
 import pickle
-from typing import List, Optional
+from typing import List
 import warnings
 
 
-from hrosailing.pipelinecomponents import Interpolator
+from hrosailing.pipelinecomponents import Interpolator, IDWInterpolator
 from hrosailing.wind import _convert_wind, _set_resolution
 from ._plotting import *
 
@@ -178,7 +178,7 @@ def _read_sail_csv(file, delimiter):
 
 
 def _read_array_csv(file):
-    file_data = np.genfromtxt(file, delimiter="\t")
+    file_data = np.genfromtxt(file, delimiter="\t", loose=False)
     return file_data[0, 1:], file_data[1:, 0], file_data[1:, 1:]
 
 
@@ -482,8 +482,8 @@ class PolarDiagram(ABC):
 
 
 class PolarDiagramTable(PolarDiagram):
-    """A class to represent, visualize and work with
-    a polar diagram in the form of a table.
+    """A class to represent, visualize and work with a polar diagram
+    in the form of a table.
 
     Parameters
     ----------
@@ -640,7 +640,7 @@ class PolarDiagramTable(PolarDiagram):
             f"wa_res={self.wind_angles}, bsps={self.boat_speeds})"
         )
 
-    def __call__(self, ws, wa, interpolator: Optional[Interpolator] = None):
+    def __call__(self, ws, wa, interpolator: Interpolator = IDWInterpolator()):
         """
 
         Parameters
