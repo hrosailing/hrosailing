@@ -6,15 +6,14 @@ Functions to convert wind from apparent to true and vice versa
 
 
 from collections.abc import Iterable
+from typing import Iterable as Iter, Optional, Union
 import warnings
 
 import numpy as np
 
 
 class WindConversionException(Exception):
-    """Exception raised if an error occurs during
-    wind conversion
-    """
+    """Exception raised if an error occurs during wind conversion"""
 
 
 def apparent_wind_to_true(wind):
@@ -29,10 +28,9 @@ def apparent_wind_to_true(wind):
 
     Returns
     -------
-    out : numpy.ndarray of shape (n, 3)
+    converted : numpy.ndarray of shape (n, 3)
         Array containing the same data as wind_arr, but the wind speed
         and wind angle now measured as true wind
-
     """
     return _convert_wind(wind, -1, tw=False, _check_finite=True)
 
@@ -49,10 +47,9 @@ def true_wind_to_apparent(wind):
 
     Returns
     -------
-    out : numpy.ndarray of shape (n, 3)
+    converted : numpy.ndarray of shape (n, 3)
         Array containing the same data as wind_arr, but the wind speed
         and wind angle now measured as apparent wind
-
     """
     return _convert_wind(wind, 1, tw=False, _check_finite=True)
 
@@ -65,10 +62,10 @@ def _convert_wind(wind, sign, tw, _check_finite=True):
     else:
         wind = np.asarray(wind)
 
-    if wind.dtype is object:
+    if wind.dtype == object:
         raise WindConversionException("`wind` is not array_like")
 
-    if wind.shape[1] != 3 or wind.ndim != 2:
+    if wind.ndim != 2 or wind.shape[1] != 3:
         raise WindConversionException("`wind` has incorrect shape")
 
     if tw:
@@ -82,8 +79,9 @@ def _convert_wind(wind, sign, tw, _check_finite=True):
         np.square(ws) + np.square(bsp) + sign * 2 * ws * bsp * np.cos(wa)
     )
 
-    # account for computer error
     temp = (ws * np.cos(wa) + sign * bsp) / cws
+
+    # account for computer error
     temp[temp > 1] = 1
     temp[temp < -1] = -1
 
@@ -96,7 +94,7 @@ def _convert_wind(wind, sign, tw, _check_finite=True):
     return np.column_stack((cws, cwa, bsp))
 
 
-def _set_resolution(res, speed_or_angle):
+def _set_resolution(res: Optional[Union[Iter, int, float]], speed_or_angle):
     b = speed_or_angle == "speed"
 
     if res is None:
@@ -106,7 +104,7 @@ def _set_resolution(res, speed_or_angle):
         # NaN's and infinite values can't be handled
         res = np.asarray_chkfinite(res)
 
-        if res.dtype is object:
+        if res.dtype == object:
             raise ValueError("`res` is not array_like")
 
         if not res.size or res.ndim != 1:
