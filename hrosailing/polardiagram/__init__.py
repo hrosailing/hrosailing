@@ -26,7 +26,7 @@ logging.basicConfig(
     level=logging.INFO,
     handlers=[
         logging.handlers.TimedRotatingFileHandler(
-            "hrosailing/logging/pipeline.log", when="midnight"
+            "hrosailing/logging/polardiagram.log", when="midnight"
         )
     ],
 )
