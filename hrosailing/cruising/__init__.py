@@ -368,7 +368,7 @@ def cost_cruise(
     # define derivative of t by s
     def dt_ds(s, t):
         pos = proj_start + s / total_s * (proj_end - proj_start)
-        _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im)
+        return _get_inverse_bsp(pd, pos, hdt, t[0], lat_mp, start_time, wm, im)
 
     t_s = solve_ivp(
         fun=dt_ds,
