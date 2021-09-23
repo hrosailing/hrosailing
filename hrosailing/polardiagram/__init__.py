@@ -2074,7 +2074,7 @@ class PolarDiagramCurve(PolarDiagram):
         def sym_func(ws, wa, *params):
             wa = np.atleast_1d(wa)
             return 0.5 * (
-                self.curve(ws, wa, *params) + self.curve(ws, 360-wa, *params)
+                self.curve(ws, wa, *params) + self.curve(ws, 360 - wa, *params)
             )
 
         return PolarDiagramCurve(

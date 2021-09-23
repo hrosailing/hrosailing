@@ -12,7 +12,7 @@ import numpy as np
 import hrosailing.polardiagram as pol
 from hrosailing.polardiagram import (
     PolarDiagramException,
-    PolarDiagramInitializationException
+    PolarDiagramInitializationException,
 )
 from hrosailing.wind import WindConversionException
 
@@ -399,8 +399,14 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
             np.array([4, 4.1, 4.4, 4.6]),
             np.array([4, 4.1, 4.4, 4.6]),
         ]
-        answers = [np.deg2rad([10, 15, 20, 25, 10, 15, 20, 25]), np.deg2rad([10, 15, 20, 25]), np.deg2rad([10, 15, 20, 25]),
-                   np.deg2rad([10, 15, 20, 25]), np.deg2rad([10, 15, 20, 25]), np.deg2rad([10, 15, 20, 25])]
+        answers = [
+            np.deg2rad([10, 15, 20, 25, 10, 15, 20, 25]),
+            np.deg2rad([10, 15, 20, 25]),
+            np.deg2rad([10, 15, 20, 25]),
+            np.deg2rad([10, 15, 20, 25]),
+            np.deg2rad([10, 15, 20, 25]),
+            np.deg2rad([10, 15, 20, 25]),
+        ]
         for i in range(6):
             np.testing.assert_array_equal(wa[i], answers[i])
             np.testing.assert_array_equal(bsp[i], bsps[i])
@@ -416,7 +422,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
 
 class PolarDiagramCurveTest(unittest.TestCase):
     def setUp(self):
-        def func(ws, wa , *params):
+        def func(ws, wa, *params):
             return params[0] * np.asarray(ws) * np.asarray(wa) + params[1]
 
         self.f = func
