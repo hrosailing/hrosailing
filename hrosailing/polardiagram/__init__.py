@@ -580,8 +580,8 @@ class PolarDiagramTable(PolarDiagram):
             f"bsps={bsps})' called"
         )
 
-        ws_res = _set_resolution(ws_res, "speed")
-        wa_res = _set_resolution(wa_res, "angle")
+        ws_res = _set_resolution(ws_res, "s")
+        wa_res = _set_resolution(wa_res, "a")
 
         # standardize wind angles to the interval [0, 360)
         wa_res %= 360
@@ -669,8 +669,8 @@ class PolarDiagramTable(PolarDiagram):
         bsp :
         """
         ws, wa = key
-        col = self._get_indices(np.atleast_1d(ws), "speed")
-        row = self._get_indices(np.atleast_1d(wa), "angle")
+        col = self._get_indices(np.atleast_1d(ws), "s")
+        row = self._get_indices(np.atleast_1d(wa), "a")
         return self.boat_speeds[row, col]
 
     @property
@@ -867,8 +867,8 @@ class PolarDiagramTable(PolarDiagram):
         Examples
         --------
             >>> pd = PolarDiagramTable(
-            ...     ws_res = [6, 8, 10, 12, 14],
-            ...     wa_res = [52, 60, 75, 90, 110, 120, 135]
+            ...     ws_res=[6, 8, 10, 12, 14],
+            ...     wa_res=[52, 60, 75, 90, 110, 120, 135]
             ... )
             >>> print(pd)
               TWA \ TWS    6.0    8.0    10.0    12.0    14.0
@@ -908,7 +908,7 @@ class PolarDiagramTable(PolarDiagram):
             110.0         5.98   0.00    0.00    0.00    0.00
             120.0         5.80   0.00    0.00    0.00    0.00
             135.0         5.20   0.00    0.00    0.00    0.00
-            >>> pd.change_entries(new_bsps=[5.33], ws=6, wa=52)
+            >>> pd.change_entries(new_bsps=5.33, ws=6, wa=52)
             >>> print(pd)
               TWA \ TWS    6.0    8.0    10.0    12.0    14.0
             -----------  -----  -----  ------  ------  ------
@@ -940,18 +940,34 @@ class PolarDiagramTable(PolarDiagram):
             f"new_bsps={new_bsps}, ws={ws}, wa={wa}) called"
         )
 
-        # NaN's and infinite values can't be handled
+        # allow numeric inputs
+        new_bsps = np.atleast_1d(new_bsps)
+
+        # NaN's and infinite values shouldn't be allowed
         new_bsps = np.asarray_chkfinite(new_bsps)
 
-        # non array_like input is not allowed
-        if new_bsps.dtype is object:
+        # non-array_like input shouldn't be allowed
+        if new_bsps.dtype == object:
             raise PolarDiagramException("`new_bsps` is not array_like")
 
-        ws = self._get_indices(np.atleast_1d(ws), "speed")
-        wa = self._get_indices(np.atleast_1d(wa), "angle")
+        ws = self._get_indices(ws, "s")
+        wa = self._get_indices(wa, "a")
 
-        if new_bsps.shape != (len(wa), len(ws)):
-            raise PolarDiagramException("`new_bsps` has incorrect shape")
+        wa_len = len(wa) == 1
+        ws_len = len(ws) == 1
+
+        # wrong shape can lead to missing assignments
+        if wa_len and ws_len:
+            correct_shape = new_bsps.shape == (1,)
+        elif wa_len:
+            correct_shape = new_bsps.shape == (len(ws),)
+        elif ws_len:
+            correct_shape = new_bsps.shape == (len(wa),)
+        else:
+            correct_shape = new_bsps.shape == (len(wa), len(ws))
+
+        if not correct_shape:
+            raise PolarDiagramException("`new_bsps` has wrong shape")
 
         mask = np.zeros(self.boat_speeds.shape, dtype=bool)
         for i in wa:
@@ -997,7 +1013,7 @@ class PolarDiagramTable(PolarDiagram):
         if not ws:
             raise PolarDiagramException("No slices were given")
 
-        ind = self._get_indices(ws, "speed")
+        ind = self._get_indices(ws, "s")
         wa = np.deg2rad(self.wind_angles)
         return ws, wa, self.boat_speeds[:, ind]
 
@@ -1464,13 +1480,14 @@ class PolarDiagramTable(PolarDiagram):
                 table.append(f"{bsps[i][j]:.2f}".rjust(4 + le))
             table.append("\n")
 
-    def _get_indices(self, wind, speed_or_angle):
-        res = (
-            self.wind_speeds if speed_or_angle == "speed" else self.wind_angles
-        )
+    def _get_indices(self, wind, soa):
+        res = self.wind_speeds if soa == "s" else self.wind_angles
 
         if wind is None:
             return range(len(res))
+
+        # allow numeric inputs
+        wind = np.atleast_1d(wind)
 
         wind = set(wind)
         if not wind:
