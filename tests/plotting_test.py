@@ -212,29 +212,6 @@ class TablePlotTest(unittest.TestCase):
                     self.fail(f"RGBA-Tuple {c} didn't work")
 
 
-def table_plot_suite():
-    suite = unittest.TestSuite()
-    suite.addTests(
-        [
-            TablePlotTest("test_plot_polar_slice"),
-            TablePlotTest("test_plot_polar"),
-            TablePlotTest("test_plot_flat_slice"),
-            TablePlotTest("test_plot_flat"),
-            TablePlotTest("test_plot_convex_hull_slice"),
-            TablePlotTest("test_plot_convex_hull"),
-            TablePlotTest("test_plot_color_gradient"),
-            TablePlotTest("test_one_color_string"),
-            TablePlotTest("test_one_color_rbg_tuple"),
-            TablePlotTest("test_multiple_colors_string"),
-            TablePlotTest("test_multiple_colors_rbg_tuple"),
-            TablePlotTest("test_plot_color_strings"),
-            TablePlotTest("test_plot_color_tuples"),
-        ]
-    )
-
-    return suite
-
-
 def test_func(ws, wa, *params):
     return (
         params[0]
@@ -251,7 +228,7 @@ class CurvePlotTest(unittest.TestCase):
         self.curve = test_func
         self.radians = True
         self.params = 1, 1, 1, 1, 1, 1, 1
-        self.pd = pol.PolarDiagramCurve(self.curve, self.params, self.radians)
+        self.pd = pol.PolarDiagramCurve(self.curve, *self.params, radians=self.radians)
 
     def test_plot_polar_slice(self):
         f, ax = plt.subplots(subplot_kw={"projection": "polar"})
@@ -399,29 +376,6 @@ class CurvePlotTest(unittest.TestCase):
                     self.pd.plot_color_gradient(colors=c)
                 except ValueError:
                     self.fail(f"RGBA-Tuple {c} didn't work")
-
-
-def curve_plot_suite():
-    suite = unittest.TestSuite()
-    suite.addTests(
-        [
-            CurvePlotTest("test_plot_polar_slice"),
-            CurvePlotTest("test_plot_polar"),
-            CurvePlotTest("test_plot_flat_slice"),
-            CurvePlotTest("test_plot_flat"),
-            CurvePlotTest("test_plot_convex_hull_slice"),
-            CurvePlotTest("test_plot_convex_hull"),
-            CurvePlotTest("test_plot_color_gradient"),
-            CurvePlotTest("test_one_color_string"),
-            CurvePlotTest("test_one_color_rbg_tuple"),
-            CurvePlotTest("test_multiple_colors_string"),
-            CurvePlotTest("test_multiple_colors_rbg_tuple"),
-            CurvePlotTest("test_plot_color_strings"),
-            CurvePlotTest("test_plot_color_tuples"),
-        ]
-    )
-
-    return suite
 
 
 class PointcloudPlotTest(unittest.TestCase):
@@ -600,26 +554,3 @@ class PointcloudPlotTest(unittest.TestCase):
                     self.pd.plot_color_gradient(colors=c)
                 except ValueError:
                     self.fail(f"RGBA-Tuple {c} didn't work")
-
-
-def pointcloud_plot_suite():
-    suite = unittest.TestSuite()
-    suite.addTests(
-        [
-            PointcloudPlotTest("test_plot_polar_slice"),
-            PointcloudPlotTest("test_plot_polar"),
-            PointcloudPlotTest("test_plot_flat_slice"),
-            PointcloudPlotTest("test_plot_flat"),
-            PointcloudPlotTest("test_plot_convex_hull_slice"),
-            PointcloudPlotTest("test_plot_convex_hull"),
-            PointcloudPlotTest("test_plot_color_gradient"),
-            PointcloudPlotTest("test_one_color_string"),
-            PointcloudPlotTest("test_one_color_rbg_tuple"),
-            PointcloudPlotTest("test_multiple_colors_string"),
-            PointcloudPlotTest("test_multiple_colors_rbg_tuple"),
-            PointcloudPlotTest("test_plot_color_strings"),
-            PointcloudPlotTest("test_plot_color_tuples"),
-        ]
-    )
-
-    return suite
