@@ -62,9 +62,6 @@ def to_csv(csv_path, obj):
 
     obj : PolarDiagram
         PolarDiagram instance which will be written to .csv file
-
-
-    Raises a FileWritingException if an error occurs whilst writing
     """
     obj.to_csv(csv_path)
 
@@ -98,7 +95,10 @@ def from_csv(csv_path, fmt="hro", tw=True):
         PolarDiagram instance contained in the .csv file
 
 
-    Raises a FileReadingException if an unknown format was specified
+    Raises a FileReadingException
+
+    - if an unknown format was specified
+    - if, in the format "hro", the first row does not match
     """
     if fmt not in {"array", "hro", "opencpn", "orc"}:
         raise FileReadingException("`fmt` not implemented")
@@ -335,17 +335,13 @@ class PolarDiagram(ABC):
             Keyword arguments that will be passed to the
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
-
-
-        Raises a PolarDiagramException, if the plot_polar()-method
-        of the respective PolarDiagram subclass raises one
         """
         logger.info(
             f"Method 'polar_plot_slice(ws={ws}, ax={ax}, "
             f"plot_kw={plot_kw})' called"
         )
 
-        self.plot_polar(ws, ax, None, False, None, **plot_kw)
+        self.plot_polar(ws, ax, colors=None, show_legend=False, legend_kw=None, **plot_kw)
 
     def plot_flat_slice(self, ws, ax=None, **plot_kw):
         """Creates a cartesian plot of a given slice of the
@@ -370,17 +366,13 @@ class PolarDiagram(ABC):
             Keyword arguments that will be passed to the
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
-
-
-        Raises a PolarDiagramException, if the plot_flat()-method
-        of the respective PolarDiagram subclass raises one
         """
         logger.info(
             f"Method 'flat_plot_slice(ws={ws}, ax={ax}, "
             f"plot_kw={plot_kw})' called"
         )
 
-        self.plot_flat(ws, ax, None, False, None, **plot_kw)
+        self.plot_flat(ws, ax, colors=None, show_legend=False, legend_kw=None, **plot_kw)
 
     @abstractmethod
     def plot_polar(
@@ -452,17 +444,13 @@ class PolarDiagram(ABC):
             Keyword arguments that will be passed to the
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
-
-
-        Raises a PolarDiagramException, if the plot_convex_hull()-method
-        of the respective PolarDiagram subclass raises one
         """
         logger.info(
             f"Method 'plot_convex_hull_slice(ws={ws}, ax={ax}, "
             f"plot_kw={plot_kw})' called"
         )
 
-        self.plot_convex_hull(ws, ax, None, False, None, **plot_kw)
+        self.plot_convex_hull(ws, ax, colors=None, show_legend=False, legend_kw=None, **plot_kw)
 
     @abstractmethod
     def plot_convex_hull(
@@ -522,13 +510,8 @@ class PolarDiagramTable(PolarDiagram):
         numpy.zeros((rdim, cdim))
 
 
-    Raises a PolarDiagramException
-
-    - if bsps is not array_like or of a fitting shape
-
-
-     Examples
-     --------
+    Examples
+    --------
         >>> pd = PolarDiagramTable()
         >>> pd.wind_speeds
         [ 2  4  6  8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40]
@@ -618,7 +601,6 @@ class PolarDiagramTable(PolarDiagram):
         self._boat_speeds = np.array(bsps, float).T
 
     def __str__(self):
-        """"""
         table = ["  TWA \\ TWS"]
         ws = self.wind_speeds
         if len(ws) <= 15:
@@ -633,7 +615,6 @@ class PolarDiagramTable(PolarDiagram):
         return "".join(table)
 
     def __repr__(self):
-        """"""
         return (
             f"PolarDiagramTable(ws_res={self.wind_speeds}, "
             f"wa_res={self.wind_angles}, bsps={self.boat_speeds})"
@@ -708,7 +689,7 @@ class PolarDiagramTable(PolarDiagram):
         fmt : string
 
 
-        Raises a FileWritingException if an unknown format was specified
+        Raises a PolarDiagramException if an unknown format was specified
 
         Examples
         --------
@@ -1049,7 +1030,7 @@ class PolarDiagramTable(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors : tuple, optional
+        colors : subscriptable iterable of color_likes, optional
             Specifies the colors to be used for the different
             slices. There are four options:
 
@@ -1168,7 +1149,7 @@ class PolarDiagramTable(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors : tuple, optional
+        colors : subscriptable iterable of color_likes, optional
             Specifies the colors to be used for the different
             slices. There are four options:
 
@@ -1261,12 +1242,19 @@ class PolarDiagramTable(PolarDiagram):
         Parameters
         ----------
         ax : mpl_toolkits.mplot3d.axes3d.Axes3D, optional
-            Axes instance where the plot will be created.
+            Axes instance where the plot will be created
 
             If nothing is passed, the function will create
             a suitable axes
 
-        colors
+        colors: subscriptable iterable of length 2 of color_likes, optional
+            Color pair determining the color gradient (wrt the wind speed)
+            with which the polar diagram will be plotted
+
+            If no color gradient is desired, set both colors to the same
+            value
+
+            Defaults to ("green", "red")
         """
         logger.info(f"Method 'plot_3d(ax={ax}, colors={colors})' called")
 
@@ -1297,9 +1285,9 @@ class PolarDiagramTable(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors : tuple of length 2, optional
-            Colors which specify the color gradient with
-            which the polar diagram will be plotted.
+        colors : subscriptable iterable of length 2 of color_likes, optional
+            Color pair determining the color gradient (wrt the boat speed)
+            with which the polar diagram will be plotted
 
             Defaults to ("green", "red")
 
@@ -1378,7 +1366,7 @@ class PolarDiagramTable(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors : tuple, optional
+        colors : subscriptable iterable of color_likes, optional
             Specifies the colors to be used for the different
             slices. There are four options:
 
@@ -1678,7 +1666,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors : tuple, optional
+        colors : subscriptable iterable of color_likes, optional
             Specifies the colors to be used for the different
             slices. There are four options:
 
@@ -1773,7 +1761,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors : tuple, optional
+        colors : subscriptable iterable of color_likes, optional
             Specifies the colors to be used for the different
             slices. There are four options:
 
@@ -1842,7 +1830,14 @@ class PolarDiagramMultiSails(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors
+        colors: subscriptable iterable of length 2 of color_likes, optional
+            Color pair determining the color gradient (wrt the wind speed)
+            with which the polar diagram will be plotted
+
+            If no color gradient is desired, set both colors to the same
+            value
+
+            Defaults to ("green", "red")
         """
         if ax is None:
             ax = plt.axes(projection="3d")
@@ -1869,9 +1864,9 @@ class PolarDiagramMultiSails(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors : tuple of length 2, optional
-            Colors which specify the color gradient with
-            which the polar diagram will be plotted.
+        colors : subscriptable iterable of length 2 of color_likes, optional
+            Color pair determining the color gradient (wrt the boat speed)
+            with which the polar diagram will be plotted
 
             Defaults to ("green", "red")
 
@@ -1937,7 +1932,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors : tuple, optional
+        colors : subscriptable iterable of color_likes, optional
 
         show_legend : bool, optional
             Specifies wether or not a legend will be shown next to the plot
@@ -2185,7 +2180,7 @@ class PolarDiagramCurve(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors : tuple, optional
+        colors : subscriptable iterable of color_likes, optional
             Specifies the colors to be used for the different
             slices. There are four options:
 
@@ -2286,7 +2281,7 @@ class PolarDiagramCurve(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors : tuple, optional
+        colors : subscriptable iterable of color_likes, optional
             Specifies the colors to be used for the different
             slices. There are four options:
 
@@ -2376,7 +2371,14 @@ class PolarDiagramCurve(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors :
+        colors : subscriptable iterable of length 2 of color_likes, optional
+            Color pair determining the color gradient (wrt the wind speed)
+            with which the polar diagram will be plotted
+
+            If no color gradient is desired, set both colors to the same
+            value
+
+            Defaults to ("green", "red")
         """
         logging.info(
             f"Method 'plot_3d(ws={ws}, ax={ax}, colors={colors})' called"
@@ -2431,9 +2433,9 @@ class PolarDiagramCurve(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors : tuple of length 2, optional
-            Colors which specify the color gradient with
-            which the polar diagram will be plotted.
+        colors : subscriptable iterable of length 2 of color_likes, optional
+            Color pair determining the color gradient (wrt the boat speed)
+            with which the polar diagram will be plotted
 
             Defaults to ("green", "red")
 
@@ -2536,7 +2538,7 @@ class PolarDiagramCurve(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors : tuple, optional
+        colors : subscriptable iterable of color_likes, optional
             Specifies the colors to be used for the different
             slices. There are four options:
 
@@ -2918,7 +2920,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors : tuple, optional
+        colors : subscriptable iterable of color_likes, optional
             Specifies the colors to be used for the different
             slices. There are four options:
 
@@ -3036,7 +3038,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors : tuple, optional
+        colors : subscriptable iterable of color_likes, optional
             Specifies the colors to be used for the different
             slices. There are four options:
 
@@ -3108,7 +3110,14 @@ class PolarDiagramPointcloud(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors :
+        colors : subscriptable iterable of length 2 of color_likes, optional
+            Color pair determining the color gradient (wrt the wind speed)
+            with which the polar diagram will be plotted
+
+            If no color gradient is desired, set both colors to the same
+            value
+
+            Defaults to ("green", "red")
 
         plot_kw : Keyword arguments
             Keyword arguments that will be passed to the
@@ -3152,9 +3161,9 @@ class PolarDiagramPointcloud(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors : tuple of length 2, optional
-            Colors which specify the color gradient with
-            which the polar diagram will be plotted.
+        colors : subscriptable iterable of length 2 of color_likes, optional
+            Color pair determining the color gradient (wrt the boat speed)
+            with which the polar diagram will be plotted
 
             Defaults to ("green", "red")
 
@@ -3264,7 +3273,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             If nothing is passed, the function will create
             a suitable axes
 
-        colors : tuple, optional
+        colors : subscriptable iterable of color_likes, optional
             Specifies the colors to be used for the different
             slices. There are four options:
 
