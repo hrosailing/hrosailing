@@ -177,7 +177,7 @@ def _read_sail_csv(file, delimiter):
 
 
 def _read_array_csv(file):
-    file_data = np.genfromtxt(file, delimiter="\t", loose=False)
+    file_data = np.genfromtxt(file, delimiter="\t")
     return file_data[0, 1:], file_data[1:, 0], file_data[1:, 1:]
 
 
