@@ -336,7 +336,9 @@ class PolarDiagram(ABC):
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
         """
-        self.plot_polar(ws, ax, colors=None, show_legend=False, legend_kw=None, **plot_kw)
+        self.plot_polar(
+            ws, ax, colors=None, show_legend=False, legend_kw=None, **plot_kw
+        )
 
     def plot_flat_slice(self, ws, ax=None, **plot_kw):
         """Creates a cartesian plot of a given slice of the
@@ -362,7 +364,9 @@ class PolarDiagram(ABC):
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
         """
-        self.plot_flat(ws, ax, colors=None, show_legend=False, legend_kw=None, **plot_kw)
+        self.plot_flat(
+            ws, ax, colors=None, show_legend=False, legend_kw=None, **plot_kw
+        )
 
     @abstractmethod
     def plot_polar(
@@ -435,7 +439,9 @@ class PolarDiagram(ABC):
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
         """
-        self.plot_convex_hull(ws, ax, colors=None, show_legend=False, legend_kw=None, **plot_kw)
+        self.plot_convex_hull(
+            ws, ax, colors=None, show_legend=False, legend_kw=None, **plot_kw
+        )
 
     @abstractmethod
     def plot_convex_hull(
