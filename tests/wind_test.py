@@ -17,10 +17,10 @@ class ResolutionTest(TestCase):
     @staticmethod
     def test_resolution_None():
         np.testing.assert_array_equal(
-            set_resolution(None, "speed"), np.arange(2, 42, 2)
+            set_resolution(None, "s"), np.arange(2, 42, 2)
         )
         np.testing.assert_array_equal(
-            set_resolution(None, "angle"), np.arange(0, 360, 5)
+            set_resolution(None, "a"), np.arange(0, 360, 5)
         )
 
     def test_resolution_iters(self):
@@ -28,7 +28,7 @@ class ResolutionTest(TestCase):
         for i, iter_ in enumerate(iters):
             with self.subTest(i=i):
                 np.testing.assert_array_equal(
-                    set_resolution(iter_, "speed"), np.asarray(iter_)
+                    set_resolution(iter_, "s"), np.asarray(iter_)
                 )
 
     def test_resolution_nums(self):
@@ -36,10 +36,10 @@ class ResolutionTest(TestCase):
         for i, num in enumerate(nums):
             with self.subTest(i=i):
                 np.testing.assert_array_equal(
-                    set_resolution(num, "speed"), np.arange(num, 40, num)
+                    set_resolution(num, "s"), np.arange(num, 40, num)
                 )
                 np.testing.assert_array_equal(
-                    set_resolution(num, "angle"), np.arange(num, 360, num)
+                    set_resolution(num, "a"), np.arange(num, 360, num)
                 )
 
     def test_resolution_exception_set_dict(self):
@@ -47,21 +47,21 @@ class ResolutionTest(TestCase):
         for i, iter_ in enumerate(iters):
             with self.subTest(i=i):
                 with self.assertRaises(ValueError):
-                    set_resolution(iter_, "speed")
+                    set_resolution(iter_, "s")
 
     def test_resolution_exception_empty_iter(self):
         iters = [[], (), np.array([])]
         for i, iter_ in enumerate(iters):
             with self.subTest(i=i):
                 with self.assertRaises(ValueError):
-                    set_resolution(iter_, "speed")
+                    set_resolution(iter_, "s")
 
     def test_resolution_exception_None_in_iter(self):
         iters = [[None], (None,), np.array([None]), np.atleast_1d(None)]
         for i, iter_ in enumerate(iters):
             with self.subTest(i=i):
                 with self.assertRaises(ValueError):
-                    set_resolution(iter_, "speed")
+                    set_resolution(iter_, "s")
 
     def test_resolution_exception_infinite_or_nan_vals(self):
         iters = [
@@ -73,21 +73,21 @@ class ResolutionTest(TestCase):
         for i, iter_ in enumerate(iters):
             with self.subTest(i=i):
                 with self.assertRaises(ValueError):
-                    set_resolution(iter_, "speed")
+                    set_resolution(iter_, "s")
 
     def test_resolution_exception_zero_nums(self):
         nums = [0, 0.0]
         for i, num in enumerate(nums):
             with self.subTest(i=i):
                 with self.assertRaises(ValueError):
-                    set_resolution(num, "speed")
+                    set_resolution(num, "s")
 
     def test_resolution_exception_negative_nums(self):
         nums = [-1, -1.5]
         for i, num in enumerate(nums):
             with self.subTest(i=i):
                 with self.assertRaises(ValueError):
-                    set_resolution(num, "speed")
+                    set_resolution(num, "s")
 
 
 class ConvertWind(TestCase):
