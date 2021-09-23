@@ -94,11 +94,11 @@ def _convert_wind(wind, sign, tw, _check_finite=True):
     return np.column_stack((cws, cwa, bsp))
 
 
-def _set_resolution(res: Optional[Union[Iter, int, float]], speed_or_angle):
-    b = speed_or_angle == "speed"
+def _set_resolution(res: Optional[Union[Iter, int, float]], soa):
+    soa = soa == "s"
 
     if res is None:
-        return np.arange(2, 42, 2) if b else np.arange(0, 360, 5)
+        return np.arange(2, 42, 2) if soa else np.arange(0, 360, 5)
 
     if isinstance(res, Iterable):
         # NaN's and infinite values can't be handled
@@ -121,4 +121,4 @@ def _set_resolution(res: Optional[Union[Iter, int, float]], speed_or_angle):
     if res <= 0:
         raise ValueError("`res` is nonpositive")
 
-    return np.arange(res, 40, res) if b else np.arange(res, 360, res)
+    return np.arange(res, 40, res) if soa else np.arange(res, 360, res)
