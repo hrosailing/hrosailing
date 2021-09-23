@@ -1,9 +1,4 @@
-"""
-
-"""
-
-# Author: Valentin F. Dannenberg / Ente
-
+# pylint: disable=missing-docstring
 
 import unittest
 
@@ -32,8 +27,6 @@ class FileReadingTest(unittest.TestCase):
         for i, (file, fmt) in enumerate(files):
             with self.subTest(i=i):
                 pol.from_csv(file, fmt=fmt)
-
-        self.assertTrue(True)
 
     def test_from_csv_format_hro_works_correctly(self):
         files = ["tests/testfiles/pd-hro.csv", "tests/testfiles/pc-hro.csv"]

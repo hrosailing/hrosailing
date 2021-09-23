@@ -1,9 +1,6 @@
-"""
-
-"""
-
-# Author: Valentin F. Dannenberg
-
+# pylint: disable=missing-docstring
+# pylint: disable=too-many-public-methods
+# pylint: disable=import-outside-toplevel
 
 import unittest
 
@@ -452,7 +449,6 @@ class PolarDiagramCurveTest(unittest.TestCase):
 
     def test_more_params_then_needed(self):
         pol.PolarDiagramCurve(self.f, 1, 2, 3, radians=False)
-        self.assertTrue(True)
 
     def test_curve(self):
         self.assertEqual(self.c.curve.__name__, "func")

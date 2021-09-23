@@ -1,16 +1,11 @@
-"""
-
-"""
-
-# Author: Valentin F. Dannenberg / Ente
-
+# pylint: disable=missing-docstring
+# pylint: disable=too-many-public-methods
+# pylint: disable=import-outside-toplevel
 
 import unittest
 
-
 import matplotlib.pyplot as plt
 import numpy as np
-import pytest
 
 import hrosailing.polardiagram as pol
 
@@ -137,8 +132,6 @@ class TablePlotTest(unittest.TestCase):
                 except ValueError:
                     self.fail(f"String {c} didn't work")
 
-        self.assertTrue(True)
-
     def test_one_color_rbg_tuple(self):
         colors = [(0.1, 0.2, 0.5), (0.1, 0.2, 0.5, 0.3)]
         for i, c in enumerate(colors):
@@ -147,8 +140,6 @@ class TablePlotTest(unittest.TestCase):
                     self.pd.plot_polar_slice(2, c=c)
                 except ValueError:
                     self.fail(f"RGB-Tuple {c} didn't work")
-
-        self.assertTrue(True)
 
     def test_multiple_colors_string(self):
         colors = [
@@ -165,8 +156,6 @@ class TablePlotTest(unittest.TestCase):
                     self.pd.plot_polar([2, 4, 6, 8], colors=c)
                 except ValueError:
                     self.fail(f"String-Tuple {c} didn't work")
-
-        self.assertTrue(True)
 
     def test_multiple_colors_rbg_tuple(self):
         colors = [
@@ -194,8 +183,6 @@ class TablePlotTest(unittest.TestCase):
                 except ValueError:
                     self.fail(f"RBG-Tuples {c} didn't work")
 
-        self.assertTrue(True)
-
     def test_plot_color_strings(self):
         colors = [
             ("green", "red"),
@@ -212,8 +199,6 @@ class TablePlotTest(unittest.TestCase):
                 except ValueError:
                     self.fail(f"String-Tuple {c} didn't work")
 
-        self.assertTrue(True)
-
     def test_plot_color_tuples(self):
         colors = [
             ((0.1, 0.2, 0.5), (0.5, 0.1, 0.2)),
@@ -225,8 +210,6 @@ class TablePlotTest(unittest.TestCase):
                     self.pd.plot_color_gradient(colors=c)
                 except ValueError:
                     self.fail(f"RGBA-Tuple {c} didn't work")
-
-        self.assertTrue(True)
 
 
 def table_plot_suite():
@@ -338,8 +321,6 @@ class CurvePlotTest(unittest.TestCase):
                 except ValueError:
                     self.fail(f"String {c} didn't work")
 
-        self.assertTrue(True)
-
     def test_one_color_rbg_tuple(self):
         colors = [(0.1, 0.2, 0.5), (0.1, 0.2, 0.5, 0.3)]
         for i, c in enumerate(colors):
@@ -348,8 +329,6 @@ class CurvePlotTest(unittest.TestCase):
                     self.pd.plot_polar_slice(2, c=c)
                 except ValueError:
                     self.fail(f"RGB-Tuple {c} didn't work")
-
-        self.assertTrue(True)
 
     def test_multiple_colors_string(self):
         colors = [
@@ -366,8 +345,6 @@ class CurvePlotTest(unittest.TestCase):
                     self.pd.plot_polar([2, 4, 6, 8], colors=c)
                 except ValueError:
                     self.fail(f"String-Tuple {c} didn't work")
-
-        self.assertTrue(True)
 
     def test_multiple_colors_rbg_tuple(self):
         colors = [
@@ -395,8 +372,6 @@ class CurvePlotTest(unittest.TestCase):
                 except ValueError:
                     self.fail(f"RBG-Tuples {c} didn't work")
 
-        self.assertTrue(True)
-
     def test_plot_color_strings(self):
         colors = [
             ("green", "red"),
@@ -413,8 +388,6 @@ class CurvePlotTest(unittest.TestCase):
                 except ValueError:
                     self.fail(f"String-Tuple {c} didn't work")
 
-        self.assertTrue(True)
-
     def test_plot_color_tuples(self):
         colors = [
             ((0.1, 0.2, 0.5), (0.5, 0.1, 0.2)),
@@ -426,8 +399,6 @@ class CurvePlotTest(unittest.TestCase):
                     self.pd.plot_color_gradient(colors=c)
                 except ValueError:
                     self.fail(f"RGBA-Tuple {c} didn't work")
-
-        self.assertTrue(True)
 
 
 def curve_plot_suite():
@@ -551,8 +522,6 @@ class PointcloudPlotTest(unittest.TestCase):
                 except ValueError:
                     self.fail(f"String {c} didn't work")
 
-        self.assertTrue(True)
-
     def test_one_color_rbg_tuple(self):
         colors = [(0.1, 0.2, 0.5), (0.1, 0.2, 0.5, 0.3)]
         for i, c in enumerate(colors):
@@ -561,8 +530,6 @@ class PointcloudPlotTest(unittest.TestCase):
                     self.pd.plot_polar_slice(2, c=c)
                 except ValueError:
                     self.fail(f"RGB-Tuple {c} didn't work")
-
-        self.assertTrue(True)
 
     def test_multiple_colors_string(self):
         colors = [
@@ -579,8 +546,6 @@ class PointcloudPlotTest(unittest.TestCase):
                     self.pd.plot_polar([2, 4, 6, 8], colors=c)
                 except ValueError:
                     self.fail(f"String-Tuple {c} didn't work")
-
-        self.assertTrue(True)
 
     def test_multiple_colors_rbg_tuple(self):
         colors = [
@@ -608,8 +573,6 @@ class PointcloudPlotTest(unittest.TestCase):
                 except ValueError:
                     self.fail(f"RBG-Tuples {c} didn't work")
 
-        self.assertTrue(True)
-
     def test_plot_color_strings(self):
         colors = [
             ("green", "red"),
@@ -626,8 +589,6 @@ class PointcloudPlotTest(unittest.TestCase):
                 except ValueError:
                     self.fail(f"String-Tuple {c} didn't work")
 
-        self.assertTrue(True)
-
     def test_plot_color_tuples(self):
         colors = [
             ((0.1, 0.2, 0.5), (0.5, 0.1, 0.2)),
@@ -639,8 +600,6 @@ class PointcloudPlotTest(unittest.TestCase):
                     self.pd.plot_color_gradient(colors=c)
                 except ValueError:
                     self.fail(f"RGBA-Tuple {c} didn't work")
-
-        self.assertTrue(True)
 
 
 def pointcloud_plot_suite():
