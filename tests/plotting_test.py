@@ -228,7 +228,9 @@ class CurvePlotTest(unittest.TestCase):
         self.curve = test_func
         self.radians = True
         self.params = 1, 1, 1, 1, 1, 1, 1
-        self.pd = pol.PolarDiagramCurve(self.curve, *self.params, radians=self.radians)
+        self.pd = pol.PolarDiagramCurve(
+            self.curve, *self.params, radians=self.radians
+        )
 
     def test_plot_polar_slice(self):
         f, ax = plt.subplots(subplot_kw={"projection": "polar"})
