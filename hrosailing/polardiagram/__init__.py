@@ -1110,7 +1110,7 @@ class PolarDiagramTable(PolarDiagram):
             f"plot_kw={plot_kw})' called"
         )
 
-        self._check_plot_kw(plot_kw)
+        _check_plot_kw(plot_kw)
 
         ws, wa, bsp = self.get_slices(ws)
         bsp = list(bsp.T)
@@ -1229,7 +1229,7 @@ class PolarDiagramTable(PolarDiagram):
             f"plot_kw={plot_kw})' called"
         )
 
-        self._check_plot_kw(plot_kw)
+        _check_plot_kw(plot_kw)
 
         ws, wa, bsp = self.get_slices(ws)
         bsp = list(bsp.T)
@@ -1423,6 +1423,8 @@ class PolarDiagramTable(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
+        _check_plot_kw(plot_kw)
+
         ws, wa, bsp = self.get_slices(ws)
         bsp = list(bsp.T)
         wa = [wa] * len(bsp)
@@ -1485,14 +1487,6 @@ class PolarDiagramTable(PolarDiagram):
             raise PolarDiagramException(f"{wind} is not contained in {res}")
 
         return [i for i, w in enumerate(res) if w in wind]
-
-    @staticmethod
-    def _check_plot_kw(plot_kw):
-        ls = plot_kw.pop("linestyle", None) or plot_kw.pop("ls", None)
-        if ls is None:
-            plot_kw["ls"] = "-"
-        else:
-            plot_kw["ls"] = ls
 
 
 class PolarDiagramMultiSails(PolarDiagram):
@@ -1965,6 +1959,8 @@ class PolarDiagramMultiSails(PolarDiagram):
         Raises a PolarDiagramException if at least one element
         of ws is not in self.wind_speeds
         """
+        _check_plot_kw(plot_kw)
+
         ws, wa, bsp, members = self.get_slices(ws)
         plot_convex_hull_multisails(
             ws, wa, bsp, members, ax, colors, show_legend, legend_kw, **plot_kw
@@ -2001,7 +1997,7 @@ class PolarDiagramCurve(PolarDiagram):
             f"radians={radians})' called"
         )
 
-        if not PolarDiagramCurve._check_enough_params(f, params):
+        if not self._check_enough_params(f, params):
             raise PolarDiagramInitializationException(
                 "`params` is an incorrect amount of parameters for `f`"
             )
@@ -2231,7 +2227,7 @@ class PolarDiagramCurve(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
-        self._check_plot_kw(plot_kw)
+        _check_plot_kw(plot_kw)
 
         ws, wa, bsp = self.get_slices(ws, stepsize)
         wa = [wa] * len(ws)
@@ -2335,7 +2331,7 @@ class PolarDiagramCurve(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
-        self._check_plot_kw(plot_kw)
+        _check_plot_kw(plot_kw)
 
         ws, wa, bsp = self.get_slices(ws, stepsize)
         wa = [np.rad2deg(wa)] * len(ws)
@@ -2589,6 +2585,8 @@ class PolarDiagramCurve(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
+        _check_plot_kw(plot_kw)
+
         ws, wa, bsp = self.get_slices(ws, stepsize)
         wa = [wa] * len(ws)
 
@@ -2603,14 +2601,6 @@ class PolarDiagramCurve(PolarDiagram):
             return True
         except (IndexError, TypeError):
             return False
-
-    @staticmethod
-    def _check_plot_kw(plot_kw):
-        ls = plot_kw.pop("linestyle", None) or plot_kw.pop("ls", None)
-        if ls is None:
-            plot_kw["ls"] = "-"
-        else:
-            plot_kw["ls"] = ls
 
 
 class PolarDiagramPointcloud(PolarDiagram):
@@ -2976,7 +2966,8 @@ class PolarDiagramPointcloud(PolarDiagram):
             f"show_legend={show_legend}, legend_kw={legend_kw}, "
             f"**plot_kw={plot_kw})' called"
         )
-        self._check_plot_kw(plot_kw)
+        _check_plot_kw(plot_kw, False)
+
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
         plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
@@ -3094,7 +3085,8 @@ class PolarDiagramPointcloud(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
-        self._check_plot_kw(plot_kw)
+        _check_plot_kw(plot_kw, False)
+
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
         wa = [np.rad2deg(a) for a in wa]
         plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
@@ -3330,6 +3322,8 @@ class PolarDiagramPointcloud(PolarDiagram):
             f"**plot_kw={plot_kw})' called"
         )
 
+        _check_plot_kw(plot_kw)
+
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
 
         plot_convex_hull(
@@ -3362,13 +3356,13 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         return wa, bsp
 
-    @staticmethod
-    def _check_plot_kw(plot_kw):
-        ls = plot_kw.pop("linestyle", None) or plot_kw.pop("ls", None)
-        if ls is None:
-            plot_kw["ls"] = ""
-        else:
-            plot_kw["ls"] = ls
 
-        if plot_kw.get("marker", None) is None:
-            plot_kw["marker"] = "o"
+def _check_plot_kw(plot_kw, lines=True):
+    ls = plot_kw.pop("linestyle", None) or plot_kw.pop("ls", None)
+    if ls is None:
+        plot_kw["ls"] = "-" if lines else ""
+    else:
+        plot_kw["ls"] = ls
+
+    if plot_kw.get("marker", None) is None and not lines:
+        plot_kw["marker"] = "o"

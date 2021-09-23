@@ -87,12 +87,6 @@ def plot_convex_hull(
     ax.set_theta_zero_location("N")
     ax.set_theta_direction("clockwise")
 
-    ls = plot_kw.pop("linestyle", None) or plot_kw.pop("ls", None)
-    if ls is None:
-        plot_kw["ls"] = "-"
-    else:
-        plot_kw["ls"] = ls
-
     _prepare_plot(ax, ws, colors, show_legend, legend_kw, plot_kw)
 
     if not isinstance(wa, list):
@@ -119,12 +113,6 @@ def plot_convex_hull_multisails(
         ax = plt.axes(projection="polar")
     ax.set_theta_zero_location("N")
     ax.set_theta_direction("clockwise")
-
-    ls = plot_kw.pop("linestyle") or plot_kw.pop("ls")
-    if ls is None:
-        plot_kw["ls"] = "-"
-    else:
-        plot_kw["ls"] = ls
 
     xs, ys, members = _get_convex_hull_multisails(ws, wa, bsp, members)
 
