@@ -37,7 +37,15 @@
 <span>def <span class="ident">convex_direction</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, ws, direction, im: Union[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>, NoneType] = None, influence_data: Union[dict, NoneType] = None) ‑> List[<a title="hrosailing.cruising.Direction" href="#hrosailing.cruising.Direction">Direction</a>]</span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="parameters">Parameters</h2>
+<div class="desc"><p>Given a direction, computes the "fastest" way to sail in
+that direction, assuming constant wind speed <code>ws</code></p>
+<p>If sailing straight into direction is the fastest way, function
+returns that direction. Otherwise function returns two directions
+aswell as their proportions, such that sailing into one direction for
+a corresponding proportion of a time segment and then into the other
+direction for a corresponding proportion of a time segment will be
+equal to sailing into <code>direction</code> but faster.</p>
+<h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>pd</code></strong> :&ensp;<code>PolarDiagram</code></dt>
 <dd>The polar diagram of the vessel</dd>
@@ -62,8 +70,10 @@ the used influence model</p>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><strong><code>edge</code></strong> :&ensp;<code>list</code> of <code>Directions</code> of <code>length 2</code></dt>
-<dd>&nbsp;</dd>
+<dt><strong><code>edge</code></strong> :&ensp;<code>list</code> of <code>Directions</code></dt>
+<dd>Either just one Direction instance, if sailing into <code>direction</code>
+is the optimal way, or two Direction instances, that will "equal"
+to <code>direction</code></dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.cruising.cost_cruise"><code class="name flex">
@@ -113,8 +123,9 @@ Is only used if cost_fun_dens is not None</p>
 </code></pre>
 <p>im: InfluenceModel, optional
 The influence model used to consider additional influences
-on the boat speed.
-Defaults to ??</p>
+on the boat speed.</p>
+<pre><code>Defaults to None
+</code></pre>
 <p>ivp_kw:
 Keyword arguments which will be redirected to scipy.integrate.solve_ivp
 in order to solve the initial value problem described above</p>
@@ -224,8 +235,7 @@ total_time hours in the given direction</dd>
 <span>(</span><span>angle: float, proportion: float, sail: Union[str, NoneType] = None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Dataclass to represent sections
-of a sailing maneuver</p></div>
+<div class="desc"><p>Dataclass to represent sections of a sailing maneuver</p></div>
 <h3>Class variables</h3>
 <dl>
 <dt id="hrosailing.cruising.Direction.angle"><code class="name">var <span class="ident">angle</span> : float</code></dt>

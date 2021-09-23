@@ -81,9 +81,13 @@ instance contained in it</p>
 <dl>
 <dt><strong><code>out</code></strong> :&ensp;<code><a title="hrosailing.polardiagram.PolarDiagram" href="#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a></code></dt>
 <dd>PolarDiagram instance contained in the .csv file</dd>
-<dt><code>Raises a <a title="hrosailing.polardiagram.FileReadingException" href="#hrosailing.polardiagram.FileReadingException">FileReadingException</a> if an unknown format was specified</code></dt>
+<dt><code>Raises a <a title="hrosailing.polardiagram.FileReadingException" href="#hrosailing.polardiagram.FileReadingException">FileReadingException</a></code></dt>
 <dd>&nbsp;</dd>
-</dl></div>
+</dl>
+<ul>
+<li>if an unknown format was specified</li>
+<li>if, in the format "hro", the first row does not match</li>
+</ul></div>
 </dd>
 <dt id="hrosailing.polardiagram.pickling"><code class="name flex">
 <span>def <span class="ident">pickling</span></span>(<span>pkl_path, obj)</span>
@@ -125,8 +129,7 @@ instance contained in it</p>
 <dd>Path to a .csv-file or where a new .csv file will be created</dd>
 <dt><strong><code>obj</code></strong> :&ensp;<code><a title="hrosailing.polardiagram.PolarDiagram" href="#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a></code></dt>
 <dd>PolarDiagram instance which will be written to .csv file</dd>
-</dl>
-<p>Raises a FileWritingException if an error occurs whilst writing</p></div>
+</dl></div>
 </dd>
 </dl>
 </section>
@@ -268,9 +271,7 @@ a suitable axes</p>
 <dd>Keyword arguments that will be passed to the
 matplotlib.axes.Axes.plot function, to change
 certain appearences of the plot</dd>
-</dl>
-<p>Raises a PolarDiagramException, if the plot_convex_hull()-method
-of the respective PolarDiagram subclass raises one</p></div>
+</dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_flat"><code class="name flex">
 <span>def <span class="ident">plot_flat</span></span>(<span>self, ws=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
@@ -304,9 +305,7 @@ a suitable axes</p>
 <dd>Keyword arguments that will be passed to the
 matplotlib.axes.Axes.plot function, to change
 certain appearences of the plot</dd>
-</dl>
-<p>Raises a PolarDiagramException, if the plot_flat()-method
-of the respective PolarDiagram subclass raises one</p></div>
+</dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_polar"><code class="name flex">
 <span>def <span class="ident">plot_polar</span></span>(<span>self, ws=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
@@ -340,9 +339,7 @@ a suitable axes</p>
 <dd>Keyword arguments that will be passed to the
 matplotlib.axes.Axes.plot function, to change
 certain appearences of the plot</dd>
-</dl>
-<p>Raises a PolarDiagramException, if the plot_polar()-method
-of the respective PolarDiagram subclass raises one</p></div>
+</dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.symmetrize"><code class="name flex">
 <span>def <span class="ident">symmetrize</span></span>(<span>self)</span>
@@ -479,8 +476,15 @@ interval in <code>ws</code></p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-</dl>
-<p>colors :</p></div>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>length 2</code> of <code>color_likes</code>, optional</dt>
+<dd>
+<p>Color pair determining the color gradient (wrt the wind speed)
+with which the polar diagram will be plotted</p>
+<p>If no color gradient is desired, set both colors to the same
+value</p>
+<p>Defaults to ("green", "red")</p>
+</dd>
+</dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramCurve.plot_color_gradient"><code class="name flex">
 <span>def <span class="ident">plot_color_gradient</span></span>(<span>self, ws=None, stepsize=None, ax=None, colors=('green', 'red'), marker=None, ms=None, show_legend=False, **legend_kw)</span>
@@ -512,10 +516,10 @@ interval in <code>ws</code></p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code> of <code>length 2</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>length 2</code> of <code>color_likes</code>, optional</dt>
 <dd>
-<p>Colors which specify the color gradient with
-which the polar diagram will be plotted.</p>
+<p>Color pair determining the color gradient (wrt the boat speed)
+with which the polar diagram will be plotted</p>
 <p>Defaults to ("green", "red")</p>
 </dd>
 <dt><strong><code>marker</code></strong> :&ensp;<code>matplotlib.markers.Markerstyle</code> or <code>equivalent</code>, optional</dt>
@@ -582,7 +586,7 @@ wind speed interval</p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>color_likes</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
 slices. There are four options:</p>
@@ -663,7 +667,7 @@ wind speed interval</p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>color_likes</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
 slices. There are four options:</p>
@@ -744,7 +748,7 @@ wind speed interval</p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>color_likes</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
 slices. There are four options:</p>
@@ -940,8 +944,14 @@ wind speeds</li>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>colors</code></strong></dt>
-<dd>&nbsp;</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>length 2</code> of <code>color_likes</code>, optional</dt>
+<dd>
+<p>Color pair determining the color gradient (wrt the wind speed)
+with which the polar diagram will be plotted</p>
+<p>If no color gradient is desired, set both colors to the same
+value</p>
+<p>Defaults to ("green", "red")</p>
+</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramMultiSails.plot_color_gradient"><code class="name flex">
@@ -956,10 +966,10 @@ a suitable axes</p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code> of <code>length 2</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>length 2</code> of <code>color_likes</code>, optional</dt>
 <dd>
-<p>Colors which specify the color gradient with
-which the polar diagram will be plotted.</p>
+<p>Color pair determining the color gradient (wrt the boat speed)
+with which the polar diagram will be plotted</p>
 <p>Defaults to ("green", "red")</p>
 </dd>
 <dt><strong><code>marker</code></strong> :&ensp;<code>matplotlib.markers.Markerstyle</code> or <code>equivalent</code>, optional</dt>
@@ -1017,7 +1027,7 @@ columns of the table together with self.wind_angles</p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>color_likes</code>, optional</dt>
 <dd>&nbsp;</dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
@@ -1074,7 +1084,7 @@ columns of the table together with self.wind_angles</p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>color_likes</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
 slices. There are four options:</p>
@@ -1151,7 +1161,7 @@ columns of the table together with self.wind_angles</p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>color_likes</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
 slices. There are four options:</p>
@@ -1370,9 +1380,14 @@ if any w in <code>ws</code> is an int or float</p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-</dl>
-<p>colors :</p>
-<dl>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>length 2</code> of <code>color_likes</code>, optional</dt>
+<dd>
+<p>Color pair determining the color gradient (wrt the wind speed)
+with which the polar diagram will be plotted</p>
+<p>If no color gradient is desired, set both colors to the same
+value</p>
+<p>Defaults to ("green", "red")</p>
+</dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>Keyword arguments that will be passed to the
 matplotlib.axes.Axes.plot function, to change
@@ -1395,10 +1410,10 @@ of the polar diagram with respect to the corresponding boat speeds</p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code> of <code>length 2</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>length 2</code> of <code>color_likes</code>, optional</dt>
 <dd>
-<p>Colors which specify the color gradient with
-which the polar diagram will be plotted.</p>
+<p>Color pair determining the color gradient (wrt the boat speed)
+with which the polar diagram will be plotted</p>
 <p>Defaults to ("green", "red")</p>
 </dd>
 <dt><strong><code>marker</code></strong> :&ensp;<code>matplotlib.markers.Markerstyle</code> or <code>equivalent</code>, optional</dt>
@@ -1479,7 +1494,7 @@ if any w in <code>ws</code> is an int or float</p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>color_likes</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
 slices. There are four options:</p>
@@ -1578,7 +1593,7 @@ if any w in <code>ws</code> is an int or float</p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>color_likes</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
 slices. There are four options:</p>
@@ -1677,7 +1692,7 @@ if any w in <code>ws</code> is an int or float</p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>color_likes</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
 slices. There are four options:</p>
@@ -1773,8 +1788,8 @@ self.points
 <span>(</span><span>ws_res=None, wa_res=None, bsps=None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>A class to represent, visualize and work with
-a polar diagram in the form of a table.</p>
+<div class="desc"><p>A class to represent, visualize and work with a polar diagram
+in the form of a table.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>ws_res</code></strong> :&ensp;<code>array_like</code> or <code>positive int/float</code>, optional</dt>
@@ -1808,12 +1823,7 @@ the table</p>
 numpy.zeros((rdim, cdim))</p>
 </dd>
 </dl>
-<p>Raises a PolarDiagramException</p>
-<ul>
-<li>if bsps is not array_like or of a fitting shape</li>
-</ul>
-<p>Examples</p>
-<hr>
+<h2 id="examples">Examples</h2>
 <pre><code>&gt;&gt;&gt; pd = PolarDiagramTable()
 &gt;&gt;&gt; pd.wind_speeds
 [ 2  4  6  8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40]
@@ -1917,8 +1927,8 @@ where new boat speeds will be inserted</p>
 </dl>
 <h2 id="examples">Examples</h2>
 <pre><code>&gt;&gt;&gt; pd = PolarDiagramTable(
-...     ws_res = [6, 8, 10, 12, 14],
-...     wa_res = [52, 60, 75, 90, 110, 120, 135]
+...     ws_res=[6, 8, 10, 12, 14],
+...     wa_res=[52, 60, 75, 90, 110, 120, 135]
 ... )
 &gt;&gt;&gt; print(pd)
   TWA \ TWS    6.0    8.0    10.0    12.0    14.0
@@ -1958,7 +1968,7 @@ where new boat speeds will be inserted</p>
 110.0         5.98   0.00    0.00    0.00    0.00
 120.0         5.80   0.00    0.00    0.00    0.00
 135.0         5.20   0.00    0.00    0.00    0.00
-&gt;&gt;&gt; pd.change_entries(new_bsps=[5.33], ws=6, wa=52)
+&gt;&gt;&gt; pd.change_entries(new_bsps=5.33, ws=6, wa=52)
 &gt;&gt;&gt; print(pd)
   TWA \ TWS    6.0    8.0    10.0    12.0    14.0
 -----------  -----  -----  ------  ------  ------
@@ -2025,12 +2035,18 @@ and an array with the corresponding columns of the table</dd>
 <dl>
 <dt><strong><code>ax</code></strong> :&ensp;<code>mpl_toolkits.mplot3d.axes3d.Axes3D</code>, optional</dt>
 <dd>
-<p>Axes instance where the plot will be created.</p>
+<p>Axes instance where the plot will be created</p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>colors</code></strong></dt>
-<dd>&nbsp;</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>length 2</code> of <code>color_likes</code>, optional</dt>
+<dd>
+<p>Color pair determining the color gradient (wrt the wind speed)
+with which the polar diagram will be plotted</p>
+<p>If no color gradient is desired, set both colors to the same
+value</p>
+<p>Defaults to ("green", "red")</p>
+</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.plot_color_gradient"><code class="name flex">
@@ -2047,10 +2063,10 @@ of the polar diagram with respect to the corresponding boat speeds</p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code> of <code>length 2</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>length 2</code> of <code>color_likes</code>, optional</dt>
 <dd>
-<p>Colors which specify the color gradient with
-which the polar diagram will be plotted.</p>
+<p>Color pair determining the color gradient (wrt the boat speed)
+with which the polar diagram will be plotted</p>
 <p>Defaults to ("green", "red")</p>
 </dd>
 <dt><strong><code>marker</code></strong> :&ensp;<code>matplotlib.markers.Markerstyle</code> or <code>equivalent</code>, optional</dt>
@@ -2108,7 +2124,7 @@ columns of the table together with self.wind_angles</p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>color_likes</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
 slices. There are four options:</p>
@@ -2185,7 +2201,7 @@ columns of the table together with self.wind_angles</p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>color_likes</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
 slices. There are four options:</p>
@@ -2279,7 +2295,7 @@ columns of the table together with self.wind_angles</p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>color_likes</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different
 slices. There are four options:</p>
@@ -2412,7 +2428,7 @@ self.boat_speeds
 <dt><strong><code>fmt</code></strong> :&ensp;<code>string</code></dt>
 <dd>&nbsp;</dd>
 </dl>
-<p>Raises a FileWritingException if an unknown format was specified</p>
+<p>Raises a PolarDiagramException if an unknown format was specified</p>
 <h2 id="examples">Examples</h2>
 <pre><code>&gt;&gt;&gt; pd = PolarDiagramTable(
 ...     bsps=[
