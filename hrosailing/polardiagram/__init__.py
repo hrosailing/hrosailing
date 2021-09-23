@@ -336,11 +336,6 @@ class PolarDiagram(ABC):
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
         """
-        logger.info(
-            f"Method 'polar_plot_slice(ws={ws}, ax={ax}, "
-            f"plot_kw={plot_kw})' called"
-        )
-
         self.plot_polar(ws, ax, colors=None, show_legend=False, legend_kw=None, **plot_kw)
 
     def plot_flat_slice(self, ws, ax=None, **plot_kw):
@@ -367,11 +362,6 @@ class PolarDiagram(ABC):
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
         """
-        logger.info(
-            f"Method 'flat_plot_slice(ws={ws}, ax={ax}, "
-            f"plot_kw={plot_kw})' called"
-        )
-
         self.plot_flat(ws, ax, colors=None, show_legend=False, legend_kw=None, **plot_kw)
 
     @abstractmethod
@@ -445,11 +435,6 @@ class PolarDiagram(ABC):
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
         """
-        logger.info(
-            f"Method 'plot_convex_hull_slice(ws={ws}, ax={ax}, "
-            f"plot_kw={plot_kw})' called"
-        )
-
         self.plot_convex_hull(ws, ax, colors=None, show_legend=False, legend_kw=None, **plot_kw)
 
     @abstractmethod
@@ -729,8 +714,6 @@ class PolarDiagramTable(PolarDiagram):
             120.0         5.80   6.95    7.51    7.98    8.52
             135.0         5.20   6.41    7.19    7.66    8.14
         """
-        logger.info(f"Method '.to_csv({csv_path}, fmt={fmt})' called")
-
         if fmt not in {"hro", "opencpn"}:
             raise PolarDiagramException("`fmt` not implemented")
 
@@ -916,11 +899,6 @@ class PolarDiagramTable(PolarDiagram):
             120.0         5.80   0.00    0.00    0.00    0.00
             135.0         5.20   0.00    0.00    0.00    0.00
         """
-        logger.info(
-            f"Method 'PolarDiagramTable.change_entries("
-            f"new_bsps={new_bsps}, ws={ws}, wa={wa}) called"
-        )
-
         # allow numeric inputs
         new_bsps = np.atleast_1d(new_bsps)
 
@@ -1104,12 +1082,6 @@ class PolarDiagramTable(PolarDiagram):
         .. image:: /examples/sym_table_plot_polar.png
 
         """
-        logger.info(
-            f"Method 'polar_plot(ws={ws}, ax={ax}, colors={colors}, "
-            f"show_legend={show_legend}, legend_kw={legend_kw}, "
-            f"plot_kw={plot_kw})' called"
-        )
-
         _check_plot_kw(plot_kw)
 
         ws, wa, bsp = self.get_slices(ws)
@@ -1223,12 +1195,6 @@ class PolarDiagramTable(PolarDiagram):
         .. image:: /examples/sym_table_plot_flat.png
 
         """
-        logger.info(
-            f"Method 'flat_plot(ws={ws}, ax={ax}, colors={colors}, "
-            f"show_legend={show_legend}, legend_kw={legend_kw}, "
-            f"plot_kw={plot_kw})' called"
-        )
-
         _check_plot_kw(plot_kw)
 
         ws, wa, bsp = self.get_slices(ws)
@@ -1256,8 +1222,6 @@ class PolarDiagramTable(PolarDiagram):
 
             Defaults to ("green", "red")
         """
-        logger.info(f"Method 'plot_3d(ax={ax}, colors={colors})' called")
-
         wa = np.deg2rad(self.wind_angles)
         ws, wa = np.meshgrid(self.wind_speeds, wa)
         bsp = self.boat_speeds
@@ -1319,12 +1283,6 @@ class PolarDiagramTable(PolarDiagram):
 
             If nothing is passed, it will default to {}
         """
-        logger.info(
-            f"Method 'plot_color_gradient( ax={ax}, colors={colors}, "
-            f"marker={marker}, show_legend={show_legend},"
-            f"legend_kw={legend_kw})' called"
-        )
-
         ws, wa = np.meshgrid(self.wind_speeds, self.wind_angles)
         ws = ws.ravel()
         wa = wa.ravel()
@@ -1417,12 +1375,6 @@ class PolarDiagramTable(PolarDiagram):
         - if at least one element of ws is not in self.wind_speeds
         - the given interval doesn't contain any slices of the polar diagram
         """
-        logger.info(
-            f"Method 'plot_convex_hull(ws={ws}, ax={ax}, colors={colors},"
-            f" show_legend={show_legend}, legend_kw={legend_kw}, "
-            f"**plot_kw={plot_kw})' called"
-        )
-
         _check_plot_kw(plot_kw)
 
         ws, wa, bsp = self.get_slices(ws)
@@ -2221,12 +2173,6 @@ class PolarDiagramCurve(PolarDiagram):
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
         """
-        logger.info(
-            f"Method 'polar_plot( ws={ws}, ax={ax}, colors={colors},"
-            f"show_legend={show_legend}, legend_kw={legend_kw},"
-            f"**plot_kw={plot_kw})' called"
-        )
-
         _check_plot_kw(plot_kw)
 
         ws, wa, bsp = self.get_slices(ws, stepsize)
@@ -2322,15 +2268,6 @@ class PolarDiagramCurve(PolarDiagram):
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
         """
-        logger.info(
-            f"Method 'polar_plot("
-            f"ws={ws}, "
-            f"ax={ax}, colors={colors},"
-            f"show_legend={show_legend}, "
-            f"legend_kw={legend_kw},"
-            f"**plot_kw={plot_kw})' called"
-        )
-
         _check_plot_kw(plot_kw)
 
         ws, wa, bsp = self.get_slices(ws, stepsize)
@@ -2376,10 +2313,6 @@ class PolarDiagramCurve(PolarDiagram):
 
             Defaults to ("green", "red")
         """
-        logging.info(
-            f"Method 'plot_3d(ws={ws}, ax={ax}, colors={colors})' called"
-        )
-
         if stepsize is None:
             stepsize = 100
 
@@ -2463,13 +2396,6 @@ class PolarDiagramCurve(PolarDiagram):
 
             If nothing is passed, it will default to {}
         """
-        logger.info(
-            f"Method 'plot_color_gradient(ws={ws}, ax={ax}, "
-            f"colors={colors}, marker={marker}, "
-            f"show_legend={show_legend}, **legend_kw={legend_kw})' "
-            f"called"
-        )
-
         if stepsize is None:
             stepsize = 100
 
@@ -2579,12 +2505,6 @@ class PolarDiagramCurve(PolarDiagram):
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
         """
-        logger.info(
-            f"Method 'plot_convex_hull(ws={ws}, ax={ax}, colors={colors},"
-            f" show_legend={show_legend}, legend_kw={legend_kw}, "
-            f"**plot_kw={plot_kw})' called"
-        )
-
         _check_plot_kw(plot_kw)
 
         ws, wa, bsp = self.get_slices(ws, stepsize)
@@ -2711,8 +2631,6 @@ class PolarDiagramPointcloud(PolarDiagram):
         csv_path : path-like
             Path to a .csv-file or where a new .csv file will be created
         """
-        logger.info(f"Method '.to_csv({csv_path})' called")
-
         with open(csv_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file, delimiter=",")
             csv_writer.writerow(["PolarDiagramPointcloud"])
@@ -2766,8 +2684,6 @@ class PolarDiagramPointcloud(PolarDiagram):
 
             Defaults to True
         """
-        logger.info(f"Method 'add_points(new_pts{new_pts}, tw={tw})' called")
-
         new_pts = _convert_wind(new_pts, -1, tw)
 
         if not self.points.size:
@@ -2961,11 +2877,6 @@ class PolarDiagramPointcloud(PolarDiagram):
         there are no rows in self.points whose first entry
         is equal to w
         """
-        logger.info(
-            f"Method 'polar_plot(ws={ws}, ax={ax}, colors={colors}, "
-            f"show_legend={show_legend}, legend_kw={legend_kw}, "
-            f"**plot_kw={plot_kw})' called"
-        )
         _check_plot_kw(plot_kw, False)
 
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
@@ -3079,12 +2990,6 @@ class PolarDiagramPointcloud(PolarDiagram):
         there are no rows in self.points whose first entry
         is equal to w
         """
-        logger.info(
-            f"Method 'flat_plot(ws={ws}, ax={ax}, colors={colors}, "
-            f"show_legend={show_legend}, legend_kw={legend_kw}, "
-            f"**plot_kw={plot_kw})' called"
-        )
-
         _check_plot_kw(plot_kw, False)
 
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
@@ -3120,8 +3025,6 @@ class PolarDiagramPointcloud(PolarDiagram):
         Raises a PolarDiagramException if there are no points
         in the point cloud
         """
-        logger.info(f"Method 'plot_3d(ax={ax}, **plot_kw={plot_kw})' called")
-
         if not self.points.size:
             raise PolarDiagramException(
                 "Can't create 3d plot of empty point cloud"
@@ -3191,12 +3094,6 @@ class PolarDiagramPointcloud(PolarDiagram):
         Raises a PolarDiagramException if there are no points
         in the point cloud
         """
-        logger.info(
-            f"Method 'plot_color_gradient(ax={ax}, colors={colors}, "
-            f"marker={marker}, show_legend={show_legend}, "
-            f"**legend_kw={legend_kw})' called"
-        )
-
         if not self.points.size:
             raise PolarDiagramException(
                 "Can't create color gradient plot of empty point cloud"
@@ -3316,12 +3213,6 @@ class PolarDiagramPointcloud(PolarDiagram):
         there are no rows in self.points whose first entry
         is equal to w
         """
-        logger.info(
-            f"Method 'plot_convex_hull(ws={ws}, ax={ax}, colors={colors},"
-            f" show_legend={show_legend}, legend_kw={legend_kw}, "
-            f"**plot_kw={plot_kw})' called"
-        )
-
         _check_plot_kw(plot_kw)
 
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
