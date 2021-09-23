@@ -2065,15 +2065,14 @@ class PolarDiagramCurve(PolarDiagram):
         and returning a new instance
         """
 
-        def sym_func(w_arr, *params):
-            sym_w_arr = w_arr.copy()
-            sym_w_arr[:, 1] = 360 - sym_w_arr[:, 1]
+        def sym_func(ws, wa, *params):
+            wa = np.atleast_1d(wa)
             return 0.5 * (
-                self.curve(w_arr, *params) + self.curve(sym_w_arr, *params)
+                self.curve(ws, wa, *params) + self.curve(ws, 360-wa, *params)
             )
 
         return PolarDiagramCurve(
-            sym_func, self.parameters, radians=self.radians
+            sym_func, *self.parameters, radians=self.radians
         )
 
     def get_slices(self, ws, stepsize=None):
