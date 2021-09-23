@@ -9,7 +9,6 @@ PolarDiagram classes to work with and represent PPDs in various forms
 from abc import ABC, abstractmethod
 from ast import literal_eval
 import csv
-import inspect
 import itertools
 import logging.handlers
 import pickle
@@ -1990,17 +1989,7 @@ class PolarDiagramCurve(PolarDiagram):
             f"radians={radians})' called"
         )
 
-        sig = inspect.getfullargspec(f)
-        enough_params = True
-
-        if (sig.varargs or sig.varkw) and not params:
-            enough_params = False
-        elif not (sig.varargs or sig.varkw) and len(sig.args) - 2 != len(
-            params
-        ):
-            enough_params = False
-
-        if not enough_params:
+        if not PolarDiagramCurve._check_enough_params(f, params):
             raise PolarDiagramInitializationException(
                 "`params` is an incorrect amount of parameters for `f`"
             )
@@ -2587,6 +2576,14 @@ class PolarDiagramCurve(PolarDiagram):
         plot_convex_hull(
             ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw
         )
+
+    @staticmethod
+    def _check_enough_params(func, params):
+        try:
+            func(1, 1, *params)
+            return True
+        except (IndexError, TypeError):
+            return False
 
     @staticmethod
     def _check_plot_kw(plot_kw):
