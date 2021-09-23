@@ -10,11 +10,14 @@ import unittest
 import numpy as np
 
 import hrosailing.polardiagram as pol
-from hrosailing.polardiagram import PolarDiagramException
+from hrosailing.polardiagram import (
+    PolarDiagramException,
+    PolarDiagramInitializationException
+)
+from hrosailing.wind import WindConversionException
 
 
 class PolarDiagramTableTest(unittest.TestCase):
-    # TODO Better setup?
     def setUp(self):
         self.ws_res = np.array([2, 4, 6, 8])
         self.wa_res = np.array([10, 15, 20, 25])
@@ -84,36 +87,67 @@ class PolarDiagramTableTest(unittest.TestCase):
         ws_res = [{2, 4, 6, 8}, {2: 0, 4: 0, 6: 0, 8: 0}]
         for i, ws in enumerate(ws_res):
             with self.subTest(i=i):
-                with self.assertRaises(PolarDiagramException):
+                with self.assertRaises(ValueError):
                     pol.PolarDiagramTable(ws_res=ws)
 
     def test_init_wa_res_not_array_like(self):
         wa_res = [{10, 15, 20, 25}, {10: 0, 15: 0, 20: 0, 25: 0}]
         for i, wa in enumerate(wa_res):
             with self.subTest(i=i):
-                with self.assertRaises(PolarDiagramException):
+                with self.assertRaises(ValueError):
                     pol.PolarDiagramTable(wa_res=wa)
 
     def test_init_exception_empty_bsps(self):
-        with self.assertRaises(PolarDiagramException):
+        with self.assertRaises(PolarDiagramInitializationException):
             pol.PolarDiagramTable(bsps=[])
 
     def test_init_exception_not_ndim2(self):
-        with self.assertRaises(PolarDiagramException):
+        with self.assertRaises(PolarDiagramInitializationException):
             pol.PolarDiagramTable(bsps=[[[0]]])
 
     def test_init_exception_wrong_shape(self):
-        with self.assertRaises(PolarDiagramException):
+        with self.assertRaises(PolarDiagramInitializationException):
             pol.PolarDiagramTable(bsps=[[0]])
 
     def test_init_unsorted_ws_res(self):
-        pass
+        ws_res = [8, 2, 6, 4]
+        bsps = [
+            [4, 1, 3, 2],
+            [4.1, 1.5, 3.1, 2.4],
+            [4.4, 1.7, 3.5, 2.6],
+            [4.6, 2, 3.8, 3],
+        ]
+        pd = pol.PolarDiagramTable(ws_res, self.wa_res, bsps)
+        np.testing.assert_array_equal(pd.wind_speeds, self.ws_res)
+        np.testing.assert_array_equal(pd.wind_angles, self.wa_res)
+        np.testing.assert_array_equal(pd.boat_speeds, self.bsp)
 
     def test_init_unsorted_wa_res(self):
-        pass
+        wa_res = [20, 15, 25, 10]
+        bsps = [
+            [1.7, 2.6, 3.5, 4.4],
+            [1.5, 2.4, 3.1, 4.1],
+            [2, 3, 3.8, 4.6],
+            [1, 2, 3, 4],
+        ]
+        pd = pol.PolarDiagramTable(self.ws_res, wa_res, bsps)
+        np.testing.assert_array_equal(pd.wind_speeds, self.ws_res)
+        np.testing.assert_array_equal(pd.wind_angles, self.wa_res)
+        np.testing.assert_array_equal(pd.boat_speeds, self.bsp)
 
     def test_init_unsorted_ws_wa_res(self):
-        pass
+        ws_res = [8, 2, 6, 4]
+        wa_res = [20, 15, 25, 10]
+        bsps = [
+            [4.4, 1.7, 3.5, 2.6],
+            [4.1, 1.5, 3.1, 2.4],
+            [4.6, 2, 3.8, 3],
+            [4, 1, 3, 2],
+        ]
+        pd = pol.PolarDiagramTable(ws_res, wa_res, bsps)
+        np.testing.assert_array_equal(pd.wind_speeds, self.ws_res)
+        np.testing.assert_array_equal(pd.wind_angles, self.wa_res)
+        np.testing.assert_array_equal(pd.boat_speeds, self.bsp)
 
     def test_wind_speeds(self):
         np.testing.assert_array_equal(self.pd.wind_speeds, self.ws_res)
@@ -163,7 +197,7 @@ class PolarDiagramTableTest(unittest.TestCase):
 
     def test_change_subarray(self):
         self.pd.change_entries(
-            new_bsps=[2.3, 3.0, 2.5, 3.4], ws=[4, 6], wa=[15, 20]
+            new_bsps=[[2.3, 3.0], [2.5, 3.4]], ws=[4, 6], wa=[15, 20]
         )
         mask = np.zeros((4, 4), dtype=bool)
         mask[1, 1] = True
@@ -266,14 +300,14 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         np.testing.assert_array_equal(self.pc.points, self.points)
 
     def test_init_exception_wrong_size(self):
-        with self.assertRaises(PolarDiagramException):
+        with self.assertRaises(WindConversionException):
             pol.PolarDiagramPointcloud(pts=[0])
 
     def test_wind_speeds(self):
-        self.assertEqual(self.pc.wind_speeds, [2, 4, 6, 8])
+        np.testing.assert_array_equal(self.pc.wind_speeds, [2, 4, 6, 8])
 
     def test_wind_angles(self):
-        self.assertEqual(self.pc.wind_angles, [10, 15, 20, 25])
+        np.testing.assert_array_equal(self.pc.wind_angles, [10, 15, 20, 25])
 
     def test_points(self):
         np.testing.assert_array_equal(self.pc.points, self.points)
@@ -291,21 +325,21 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         np.testing.assert_array_equal(self.pc.points, self.points)
 
     def test_add_points_exception_empty_new_pts(self):
-        with self.assertRaises(PolarDiagramException):
+        with self.assertRaises(WindConversionException):
             self.pc.add_points(new_pts=[])
 
     def test_add_points_exception_wrong_shape(self):
         new_pts = [[0], [1, 2], [1, 2, 3, 4]]
         for i, new_pt in enumerate(new_pts):
             with self.subTest(i=i):
-                with self.assertRaises(PolarDiagramException):
+                with self.assertRaises(WindConversionException):
                     self.pc.add_points(new_pts=new_pt)
 
     def test_add_points_exception_not_array_like(self):
         new_pts = [{}, set(), {1: 1, 2: 2, 3: 3}, {1, 2, 3}]
         for i, new_pt in enumerate(new_pts):
             with self.subTest(i=i):
-                with self.assertRaises(PolarDiagramException):
+                with self.assertRaises(WindConversionException):
                     self.pc.add_points(new_pts=new_pt)
 
     def test_symmetric_polar_diagram_no_points(self):
@@ -352,18 +386,23 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
 
     def test_get_slices_range(self):
         ws, wa, bsp = self.pc.get_slices((3, 9))
-        self.assertEqual(ws, [4, 6, 8])
+        self.assertEqual(ws, [3, 4.2, 5.4, 6.6, 7.8, 9])
         self.assertEqual(type(wa), list)
         self.assertEqual(type(bsp), list)
-        self.assertEqual(len(wa), 3)
-        self.assertEqual(len(bsp), 3)
+        self.assertEqual(len(wa), len(ws))
+        self.assertEqual(len(bsp), len(ws))
         bsps = [
+            np.array([1.1, 1.5, 1.7, 2.1, 2, 2.4, 2.6, 3]),
             np.array([2, 2.4, 2.6, 3]),
             np.array([3, 3.1, 3.5, 3.8]),
+            np.array([3, 3.1, 3.5, 3.8]),
+            np.array([4, 4.1, 4.4, 4.6]),
             np.array([4, 4.1, 4.4, 4.6]),
         ]
-        for i in range(3):
-            np.testing.assert_array_equal(wa[i], np.deg2rad([10, 15, 20, 25]))
+        answers = [np.deg2rad([10, 15, 20, 25, 10, 15, 20, 25]), np.deg2rad([10, 15, 20, 25]), np.deg2rad([10, 15, 20, 25]),
+                   np.deg2rad([10, 15, 20, 25]), np.deg2rad([10, 15, 20, 25]), np.deg2rad([10, 15, 20, 25])]
+        for i in range(6):
+            np.testing.assert_array_equal(wa[i], answers[i])
             np.testing.assert_array_equal(bsp[i], bsps[i])
 
     def test_get_slices_range_no_slices(self):
@@ -377,33 +416,40 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
 
 class PolarDiagramCurveTest(unittest.TestCase):
     def setUp(self):
-        def test_func(w_arr, *params):
-            return params[0] * w_arr[:, 0] * w_arr[:, 1] + params[1]
+        def func(ws, wa , *params):
+            return params[0] * np.asarray(ws) * np.asarray(wa) + params[1]
 
-        self.f = test_func
+        self.f = func
         self.params = 1, 2
         self.radians = False
         self.c = pol.PolarDiagramCurve(
-            self.f, self.params, radians=self.radians
+            self.f, *self.params, radians=self.radians
         )
 
     def test_init(self):
-        self.assertEqual(self.c.curve.__name__, "test_func")
+        self.assertEqual(self.c.curve.__name__, "func")
         self.assertEqual(self.c.parameters, (1, 2))
         self.assertEqual(self.c.radians, False)
 
     def test_init_exception_not_callable(self):
-        with self.assertRaises(PolarDiagramException):
+        with self.assertRaises(PolarDiagramInitializationException):
             f = 5
             params = 1, 2
             pol.PolarDiagramCurve(f, params)
 
-    def test_init_exception_not_bool(self):
-        with self.assertRaises(PolarDiagramException):
-            pol.PolarDiagramCurve(self.f, self.params, radians=13)
+    def test_not_enough_params(self):
+        with self.assertRaises(PolarDiagramInitializationException):
+            pol.PolarDiagramCurve(self.f, radians=False)
+
+        with self.assertRaises(PolarDiagramInitializationException):
+            pol.PolarDiagramCurve(self.f, 1, radians=False)
+
+    def test_more_params_then_needed(self):
+        pol.PolarDiagramCurve(self.f, 1, 2, 3, radians=False)
+        self.assertTrue(True)
 
     def test_curve(self):
-        self.assertEqual(self.c.curve.__name__, "test_func")
+        self.assertEqual(self.c.curve.__name__, "func")
 
     def test_parameters(self):
         self.assertEqual(self.c.parameters, (1, 2))
@@ -458,7 +504,7 @@ class PolarDiagramCurveTest(unittest.TestCase):
             )
 
     def test_get_slices_tuple(self):
-        ws, wa, bsp = self.c.get_slices((10, 15, 100))
+        ws, wa, bsp = self.c.get_slices((10, 15), stepsize=100)
         self.assertEqual(ws, list(np.linspace(10, 15, 100)))
         np.testing.assert_array_equal(
             wa, np.deg2rad(np.linspace(0, 360, 1000))
