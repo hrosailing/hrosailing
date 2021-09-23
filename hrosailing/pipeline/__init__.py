@@ -105,6 +105,7 @@ class PolarPipeline:
             at (tws, 0) and (tws, 360) respectively, which are appended
             to the filtered data.
             This creates results that look much more like a polar diagram.
+
             Defaults to 500.
 
         Returns
@@ -329,7 +330,7 @@ def _set_wind_resolution(w_res, pts):
         w_res = (None, None)
 
     ws_res, wa_res = w_res
-    return _set_resolution(ws_res, "speed"), _set_resolution(wa_res, "angle")
+    return _set_resolution(ws_res, "s"), _set_resolution(wa_res, "a")
 
 
 def _extract_wind(pts, n, threshhold):
