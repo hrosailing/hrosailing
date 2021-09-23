@@ -590,8 +590,8 @@ class PolarDiagramTable(PolarDiagram):
         rows, cols = len(wa_res), len(ws_res)
         if bsps is None:
             self._boat_speeds = np.zeros((rows, cols))
-            self._res_wind_speed = ws_res.sort()
-            self._res_wind_angle = wa_res.sort()
+            self._res_wind_speed = sorted(ws_res)
+            self._res_wind_angle = sorted(wa_res)
             return
 
         # NaN's and infinite values can't be handled
@@ -603,7 +603,7 @@ class PolarDiagramTable(PolarDiagram):
                 "`bsps` is not array_like"
             )
 
-        if bsps.shape != (rows, cols) or bsps.ndim != 2:
+        if bsps.shape != (rows, cols):
             raise PolarDiagramInitializationException(
                 "`bsps` has incorrect shape"
             )
