@@ -59,12 +59,39 @@ class PolarPipeline:
     Parameters
     ----------
     extension: PipelineExtension
+        Extension that is called in the pipeline, after all preprocessing
+        is done, to generate a polar diagram from the processed data.
+
+        Determines the subclass of PolarDiagram, that the pipeline will
+        produce
+
+        Note: Any class with a method `process(w_pts: WeightedPoints)` should
+        work here, but we recommend using a subclass of PipelineExtension
 
     handler : DataHandler
+        Handler that is responsible to extract actual data from the input
+
+        Determines the type and format of input the pipeline should accept
+
+        Note: Any class with a method `handle(data) -> dict` should work here,
+        but we recommend using a subclass of DataHandler
 
     weigher : Weigher, optional
+        Determines the method with which the points will be weight.
+
+        Defaults to CylindricMeanWeigher()
+
+        Note: Any class with a method `weigh(pts) -> (n,) array_like` should
+        work here, but we recommend using a subclass of Weigher
 
     filter_ : Filter, optional
+        Determines the methods with which the points will be filtered,
+        if `filtering` is `True` in __call__ method
+
+        Defaults to QuantileFilter()
+
+        Note: Any class with a method `filter(wts) -> (n,) boolean array`
+        should work here, but we recommend using a subclass of Filter
     """
 
     def __init__(
