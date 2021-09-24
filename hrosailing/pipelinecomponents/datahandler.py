@@ -4,9 +4,12 @@
 
 # Author: Valentin Dannenberg
 
+# pylint: disable=import-outside-toplevel
+
 from abc import ABC, abstractmethod
 from ast import literal_eval
 from decimal import Decimal
+from typing import Union
 
 import numpy as np
 import pynmea2 as pynmea
@@ -52,17 +55,43 @@ class DataHandler(ABC):
 
 
 class ArrayHandler(DataHandler):
-    """A data handler to handle data, given
-    as an array_like sequence.
-
-    Doesn't really do anything since error handling
-    and array conversion is handeled by the pipeline itself
-
-    Only needed for general layout of the pipeline
+    """A data handler to convert data given as an array-type
+    to the required dictionary
     """
 
-    def handle(self, data) -> dict:
-        return data
+    # ArrayHandler usable even if pandas is not installed.
+    try:
+        __import__("pandas")
+        pand = True
+    except ImportError:
+        pand = False
+
+    if pand:
+        import pandas as pd
+
+    def handle(self, data: Union[(np.ndarray, tuple), pd.DataFrame]) -> dict:
+        """Extracts data from array-types of data
+
+        Parameters
+        ----------
+        data: pandas.DataFrame or tuple of array_like and ordered iterable
+            Data contained in a pandas.DataFrame or in an array_like.
+
+        Returns
+        -------
+        data_dict: dict
+            If data is a pandas.DataFrame, data_dict is the output
+            of the DataFrame.to_dict()-method, otherwise the keys of
+            the dict will be the entries of the ordered iterable with the
+            value being the corresponding column of the array_like
+        """
+        if self.pand and isinstance(data, self.pd.DataFrame):
+            return data.to_dict()
+
+        arr, keys = data
+        arr = np.asarray(arr)
+
+        return {key : arr[:, i] for i, key in enumerate(keys)}
 
 
 class CsvFileHandler(DataHandler):
