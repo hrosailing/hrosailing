@@ -6,8 +6,6 @@
 
 from abc import ABC, abstractmethod
 
-from hrosailing.polardiagram import PolarDiagram
-
 
 class InfluenceModel(ABC):
     """Base class for all InfluenceModel classes
@@ -32,7 +30,7 @@ class InfluenceModel(ABC):
         """
 
     @abstractmethod
-    def add_influence(self, pd: PolarDiagram, influence_data: dict):
+    def add_influence(self, pd, influence_data: dict):
         """This method should be used, given a polar diagram and a
         dictionary, to obtain a modified boat speed of that given
         in the polar diagram, based on the influencences presented in
