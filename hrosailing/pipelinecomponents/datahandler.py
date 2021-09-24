@@ -92,7 +92,7 @@ class ArrayHandler(DataHandler):
         arr, keys = data
         arr = np.asarray(arr)
 
-        return {key : arr[:, i] for i, key in enumerate(keys)}
+        return {key: arr[:, i] for i, key in enumerate(keys)}
 
 
 class CsvFileHandler(DataHandler):
@@ -135,7 +135,7 @@ class CsvFileHandler(DataHandler):
         with open(data, "r", encoding="utf-8") as file:
             csv_reader = csv.reader(file)
             keys = next(csv_reader)
-            data_dict = {key : [] for key in keys}
+            data_dict = {key: [] for key in keys}
             for row in csv_reader:
                 for i, entry in enumerate(row):
                     data_dict[keys[i]].append(literal_eval(entry))
