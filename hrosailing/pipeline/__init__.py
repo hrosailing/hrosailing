@@ -246,8 +246,8 @@ class TableExtension(PipelineExtension):
         Returns
         -------
         pd : PolarDiagramTable
-            A polar diagram that should represent the trends captured in the
-            raw data
+            A polar diagram that should represent the trends captured
+            in the raw data
         """
         ws_res, wa_res = _set_wind_resolution(self.w_res, w_pts.points)
         ws, wa = np.meshgrid(ws_res, wa_res)
@@ -263,11 +263,16 @@ class TableExtension(PipelineExtension):
 
 
 class CurveExtension(PipelineExtension):
-    """
+    """Pipeline extension to produce PolarDiagramCurve instances
+    from preprocessed data
 
     Parameters
     ----------
     regressor : Regressor, optional
+        Determines which regression method and model function is to be used,
+        to represent the data.
+
+        The model function will also be passed to PolarDiagramCurve
 
         Defaults to `ODRegressor(
             model_func=ws_s_s_dt_wa_gauss_comb,
@@ -275,6 +280,11 @@ class CurveExtension(PipelineExtension):
         )`
 
     radians : bool, optional
+        Determines if the model function used to represent the data takes
+        the wind angles to be in radians or degrees
+
+        If `True`, will convert the wind angles of the data points to
+        radians
 
         Defaults to `False`
     """
@@ -291,17 +301,20 @@ class CurveExtension(PipelineExtension):
         self.radians = radians
 
     def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramCurve:
-        """
+        """Creates a PolarDiagramCurve instance from preprocessed data,
+        by fitting a given function to said data, using a regression
+        method determined by `self.regressor`
 
         Parameters
         ----------
         w_pts : WeightedPoints
-
+            Preprocessed data from which to create the polar diagram
 
         Returns
         -------
         pd : PolarDiagramCurve
-
+            A polar diagram that should represent the trends captured
+            in the raw data
         """
         if self.radians:
             w_pts.points[:, 1] = np.deg2rad(w_pts.points[:, 1])
