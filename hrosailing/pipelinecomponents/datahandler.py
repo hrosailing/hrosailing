@@ -37,7 +37,18 @@ class DataHandler(ABC):
 
     @abstractmethod
     def handle(self, data) -> dict:
-        """"""
+        """This method should be used, given some data in a format
+        that is dependent on the handler, to output a dictionary
+        containing the given data, where the values should be
+        lists.
+
+        The dictionary should atleast contain the following keys:
+        'Wind speed', 'Wind angle' and one of 'Speed over ground knots',
+        'Water speed knots' or 'Boat speed'
+
+        The names of the keys in the dictionary should also be compatible
+        with the keys that a possible InfluenceModel instance might use
+        """
 
 
 class ArrayHandler(DataHandler):
