@@ -329,21 +329,37 @@ class CurveExtension(PipelineExtension):
 
 
 class PointcloudExtension(PipelineExtension):
-    """
+    """Pipeline extension to produce PolarDiagramPointcloud instances
+    from preprocessed data
 
     Parameters
     ----------
     sampler : Sampler, optional
+        Determines the number of points in the resulting point cloud
+        and the method used to sample the preprocessed data and represent
+        the trends captured in them
 
         Defaults to UniformRandomSampler(2000)
 
-    neighbourhood : Neighbourhood, optional
+        Note: Any class with a method `sample(pts) -> (n,) array` should work
+        here, but we recommend using a subclass of Sampler
 
-        Defaults to Ball()
+    neighbourhood : Neighbourhood, optional
+        Determines the neighbourhood around a point from which to draw
+        the data points used in the interpolation of that point
+
+        Defaults to Ball(radius=1)
+
+        Note: Any class with a method `is_contained_in(pts) -> (n,) boolean array`
+        should work here, but we recommend using a subclass of Neighbourhood
 
     interpolator : Interpolator, optional
+        Determines which interpolation method is used
 
         Defaults to ArithmeticMeanInterpolator(50)
+
+        Note: Any class with a method `interpolate(w_pts, grid_pt) -> val`
+        should work here, but we recommend using a subclass of Interpolator
     """
 
     def __init__(
@@ -357,16 +373,25 @@ class PointcloudExtension(PipelineExtension):
         self.interpolator = interpolator
 
     def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramPointcloud:
-        """
+        """Creates a PolarDiagramPointcloud instance from preprocessed data,
+        first creating a set number of points by sampling the wind speed,
+        wind angle space of the  data points and capturing the underlying
+        trends using `self.sampler` and then interpolating the boat speed
+        values at the sampled points according to the interpolation method of
+        `self.interpolator`, which only takes in consideration the data points
+        which lie in a neighbourhood, determined by `self.neighbourhood`,
+        around each sampled point
 
         Parameters
         ----------
         w_pts : WeightedPoints
-
+            Preprocessed data from which to create the polar diagram
 
         Returns
         -------
         pd : PolarDiagramPointcloud
+            A polar diagram that should represent the trends captured
+            in the raw data
         """
         sample_pts = self.sampler.sample(w_pts.points)
         pts = _interpolate_points(
