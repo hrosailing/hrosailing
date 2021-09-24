@@ -38,7 +38,10 @@
 <span>class <span class="ident">InfluenceModel</span></span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Base class for all InfluenceModel classes</p>
+<h2 id="abstract-methods">Abstract Methods</h2>
+<p>remove_influence(data)</p>
+<p>add_influence(pd, influence_data)</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>abc.ABC</li>
@@ -53,13 +56,21 @@
 <span>def <span class="ident">add_influence</span></span>(<span>self, pd, influence_data: dict)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>This method should be used, given a polar diagram and a
+dictionary, to obtain a modified boat speed of that given
+in the polar diagram, based on the influencences presented in
+the given dictionary, such as wave height, underlying currents etc.</p></div>
 </dd>
 <dt id="hrosailing.pipelinecomponents.influencemodel.InfluenceModel.remove_influence"><code class="name flex">
 <span>def <span class="ident">remove_influence</span></span>(<span>self, data: dict)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>This method should be used, given a dictionary containing
+lists of diffrent data at points in time, to get a nx3 array_like
+output where the columns correspond to wind speed, wind angle and
+boat speed respectively.</p>
+<p>The dictionary should contain atleast keys for Wind speed, Wind angle
+and either Speed over ground, Speed over water or Boat speed</p></div>
 </dd>
 </dl>
 </dd>
@@ -73,21 +84,15 @@
 <li><a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a></li>
 <li>abc.ABC</li>
 </ul>
-<h3>Methods</h3>
-<dl>
-<dt id="hrosailing.pipelinecomponents.influencemodel.LinearCurrentModel.add_influence"><code class="name flex">
-<span>def <span class="ident">add_influence</span></span>(<span>self, pd, influence_data: dict)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="hrosailing.pipelinecomponents.influencemodel.LinearCurrentModel.remove_influence"><code class="name flex">
-<span>def <span class="ident">remove_influence</span></span>(<span>self, data: dict)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel.add_influence" href="#hrosailing.pipelinecomponents.influencemodel.InfluenceModel.add_influence">add_influence</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel.remove_influence" href="#hrosailing.pipelinecomponents.influencemodel.InfluenceModel.remove_influence">remove_influence</a></code></li>
+</ul>
+</li>
+</ul>
 </dd>
 </dl>
 </section>
@@ -165,10 +170,6 @@ setTimeout(() => input.focus(), 100);
 </li>
 <li>
 <h4><code><a title="hrosailing.pipelinecomponents.influencemodel.LinearCurrentModel" href="#hrosailing.pipelinecomponents.influencemodel.LinearCurrentModel">LinearCurrentModel</a></code></h4>
-<ul class="">
-<li><code><a title="hrosailing.pipelinecomponents.influencemodel.LinearCurrentModel.add_influence" href="#hrosailing.pipelinecomponents.influencemodel.LinearCurrentModel.add_influence">add_influence</a></code></li>
-<li><code><a title="hrosailing.pipelinecomponents.influencemodel.LinearCurrentModel.remove_influence" href="#hrosailing.pipelinecomponents.influencemodel.LinearCurrentModel.remove_influence">remove_influence</a></code></li>
-</ul>
 </li>
 </ul>
 </li>

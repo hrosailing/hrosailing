@@ -575,39 +575,39 @@ INDEX=[
 {
 "ref":"hrosailing.pipeline.PolarPipeline",
 "url":2,
-"doc":"A Pipeline class to create polar diagrams from raw data Parameters      extension: PipelineExtension handler : DataHandler weigher : Weigher, optional filter_ : Filter, optional"
+"doc":"A Pipeline class to create polar diagrams from raw data Parameters      extension: PipelineExtension Extension that is called in the pipeline, after all preprocessing is done, to generate a polar diagram from the processed data. Determines the subclass of PolarDiagram, that the pipeline will produce Note: Any class with a method  process(w_pts: WeightedPoints) should work here, but we recommend using a subclass of PipelineExtension handler : DataHandler Handler that is responsible to extract actual data from the input Determines the type and format of input the pipeline should accept Note: Any class with a method  handle(data) -> dict should work here, but we recommend using a subclass of DataHandler weigher : Weigher, optional Determines the method with which the points will be weight. Defaults to CylindricMeanWeigher() Note: Any class with a method  weigh(pts) -> (n,) array_like should work here, but we recommend using a subclass of Weigher filter_ : Filter, optional Determines the methods with which the points will be filtered, if  filtering is  True in __call__ method Defaults to QuantileFilter() Note: Any class with a method  filter(wts) -> (n,) boolean array should work here, but we recommend using a subclass of Filter"
 },
 {
 "ref":"hrosailing.pipeline.TableExtension",
 "url":2,
-"doc":"Parameters      w_res : , optional neighbourhood : Neighbourhood, optional Defaults to Ball() interpolator : Interpolator, optional Defaults to ArithmeticMeanInterpolator(50)"
+"doc":"Pipeline extension to produce PolarDiagramTable instances from preprocessed data Parameters      w_res : , optional neighbourhood : Neighbourhood, optional Determines the neighbourhood around a point from which to draw the data points used in the interpolation of that point Defaults to Ball(radius=1) Note: Any class with a method  is_contained_in(pts) -> (n,) boolean array should work here, but we recommend using a subclass of Neighbourhood interpolator : Interpolator, optional Determines which interpolation method is used Defaults to ArithmeticMeanInterpolator(50) Note: Any class with a method  interpolate(w_pts, grid_pt) -> val should work here, but we recommend using a subclass of Interpolator"
 },
 {
 "ref":"hrosailing.pipeline.TableExtension.process",
 "url":2,
-"doc":"Parameters      w_pts : WeightedPoints Returns    - pd : PolarDiagramTable",
+"doc":"Creates a PolarDiagramTable instance from preprocessed data, by first determining a wind speed / wind angle grid, using  self.w_res , and then interpolating the boat speed values at the grid points according to the interpolation method of  self.interpolator , which only takes in consideration the data points which lie in a neighbourhood, determined by  self.neighbourhood , around each grid point Parameters      w_pts : WeightedPoints Preprocessed data from which to create the polar diagram Returns    - pd : PolarDiagramTable A polar diagram that should represent the trends captured in the raw data",
 "func":1
 },
 {
 "ref":"hrosailing.pipeline.CurveExtension",
 "url":2,
-"doc":"Parameters      regressor : Regressor, optional Defaults to  ODRegressor( model_func=ws_s_s_dt_wa_gauss_comb, init_values=(0.25, 10, 1.7, 0, 1.9, 30, 17.6, 0, 1.9, 30, 17.6, 0) ) radians : bool, optional Defaults to  False "
+"doc":"Pipeline extension to produce PolarDiagramCurve instances from preprocessed data Parameters      regressor : Regressor, optional Determines which regression method and model function is to be used, to represent the data. The model function will also be passed to PolarDiagramCurve Defaults to  ODRegressor( model_func=ws_s_s_dt_wa_gauss_comb, init_values=(0.25, 10, 1.7, 0, 1.9, 30, 17.6, 0, 1.9, 30, 17.6, 0) ) radians : bool, optional Determines if the model function used to represent the data takes the wind angles to be in radians or degrees If  True , will convert the wind angles of the data points to radians Defaults to  False "
 },
 {
 "ref":"hrosailing.pipeline.CurveExtension.process",
 "url":2,
-"doc":"Parameters      w_pts : WeightedPoints Returns    - pd : PolarDiagramCurve",
+"doc":"Creates a PolarDiagramCurve instance from preprocessed data, by fitting a given function to said data, using a regression method determined by  self.regressor Parameters      w_pts : WeightedPoints Preprocessed data from which to create the polar diagram Returns    - pd : PolarDiagramCurve A polar diagram that should represent the trends captured in the raw data",
 "func":1
 },
 {
 "ref":"hrosailing.pipeline.PointcloudExtension",
 "url":2,
-"doc":"Parameters      sampler : Sampler, optional Defaults to UniformRandomSampler(2000) neighbourhood : Neighbourhood, optional Defaults to Ball() interpolator : Interpolator, optional Defaults to ArithmeticMeanInterpolator(50)"
+"doc":"Pipeline extension to produce PolarDiagramPointcloud instances from preprocessed data Parameters      sampler : Sampler, optional Determines the number of points in the resulting point cloud and the method used to sample the preprocessed data and represent the trends captured in them Defaults to UniformRandomSampler(2000) Note: Any class with a method  sample(pts) -> (n,) array should work here, but we recommend using a subclass of Sampler neighbourhood : Neighbourhood, optional Determines the neighbourhood around a point from which to draw the data points used in the interpolation of that point Defaults to Ball(radius=1) Note: Any class with a method  is_contained_in(pts) -> (n,) boolean array should work here, but we recommend using a subclass of Neighbourhood interpolator : Interpolator, optional Determines which interpolation method is used Defaults to ArithmeticMeanInterpolator(50) Note: Any class with a method  interpolate(w_pts, grid_pt) -> val should work here, but we recommend using a subclass of Interpolator"
 },
 {
 "ref":"hrosailing.pipeline.PointcloudExtension.process",
 "url":2,
-"doc":"Parameters      w_pts : WeightedPoints Returns    - pd : PolarDiagramPointcloud",
+"doc":"Creates a PolarDiagramPointcloud instance from preprocessed data, first creating a set number of points by sampling the wind speed, wind angle space of the data points and capturing the underlying trends using  self.sampler and then interpolating the boat speed values at the sampled points according to the interpolation method of  self.interpolator , which only takes in consideration the data points which lie in a neighbourhood, determined by  self.neighbourhood , around each sampled point Parameters      w_pts : WeightedPoints Preprocessed data from which to create the polar diagram Returns    - pd : PolarDiagramPointcloud A polar diagram that should represent the trends captured in the raw data",
 "func":1
 },
 {
@@ -874,18 +874,18 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.influencemodel.InfluenceModel",
 "url":8,
-"doc":""
+"doc":"Base class for all InfluenceModel classes Abstract Methods         remove_influence(data) add_influence(pd, influence_data)"
 },
 {
 "ref":"hrosailing.pipelinecomponents.influencemodel.InfluenceModel.remove_influence",
 "url":8,
-"doc":"",
+"doc":"This method should be used, given a dictionary containing lists of diffrent data at points in time, to get a nx3 array_like output where the columns correspond to wind speed, wind angle and boat speed respectively. The dictionary should contain atleast keys for Wind speed, Wind angle and either Speed over ground, Speed over water or Boat speed",
 "func":1
 },
 {
 "ref":"hrosailing.pipelinecomponents.influencemodel.InfluenceModel.add_influence",
 "url":8,
-"doc":"",
+"doc":"This method should be used, given a polar diagram and a dictionary, to obtain a modified boat speed of that given in the polar diagram, based on the influencences presented in the given dictionary, such as wave height, underlying currents etc.",
 "func":1
 },
 {
@@ -896,13 +896,13 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.influencemodel.LinearCurrentModel.remove_influence",
 "url":8,
-"doc":"",
+"doc":"This method should be used, given a dictionary containing lists of diffrent data at points in time, to get a nx3 array_like output where the columns correspond to wind speed, wind angle and boat speed respectively. The dictionary should contain atleast keys for Wind speed, Wind angle and either Speed over ground, Speed over water or Boat speed",
 "func":1
 },
 {
 "ref":"hrosailing.pipelinecomponents.influencemodel.LinearCurrentModel.add_influence",
 "url":8,
-"doc":"",
+"doc":"This method should be used, given a polar diagram and a dictionary, to obtain a modified boat speed of that given in the polar diagram, based on the influencences presented in the given dictionary, such as wave height, underlying currents etc.",
 "func":1
 },
 {
@@ -1091,35 +1091,55 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.datahandler.DataHandler.handle",
 "url":11,
-"doc":"",
+"doc":"This method should be used, given some data in a format that is dependent on the handler, to output a dictionary containing the given data, where the values should be lists. The dictionary should atleast contain the following keys: 'Wind speed', 'Wind angle' and one of 'Speed over ground knots', 'Water speed knots' or 'Boat speed' The names of the keys in the dictionary should also be compatible with the keys that a possible InfluenceModel instance might use",
 "func":1
 },
 {
 "ref":"hrosailing.pipelinecomponents.datahandler.ArrayHandler",
 "url":11,
-"doc":"A data handler to handle data, given as an array_like sequence. Doesn't really do anything since error handling and array conversion is handeled by the pipeline itself Only needed for general layout of the pipeline"
+"doc":"A data handler to convert data given as an array-type to a dictionary"
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.ArrayHandler.pand",
+"url":11,
+"doc":""
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.ArrayHandler.pd",
+"url":11,
+"doc":""
 },
 {
 "ref":"hrosailing.pipelinecomponents.datahandler.ArrayHandler.handle",
 "url":11,
-"doc":"",
+"doc":"Extracts data from array-types of data Parameters      data: pandas.DataFrame or tuple of array_like and ordered iterable Data contained in a pandas.DataFrame or in an array_like. Returns    - data_dict: dict If data is a pandas.DataFrame, data_dict is the output of the DataFrame.to_dict()-method, otherwise the keys of the dict will be the entries of the ordered iterable with the value being the corresponding column of the array_like",
 "func":1
 },
 {
 "ref":"hrosailing.pipelinecomponents.datahandler.CsvFileHandler",
 "url":11,
-"doc":"A data handler to extract data from a .csv file with the first three columns representing wind speed, wind angle, and boat speed respectively"
+"doc":"A data handler to extract data from a .csv file and convert it to a dictionary .csv file should be ordered in a column-wise fashion, with the first row, describing what each column represents"
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.CsvFileHandler.pand",
+"url":11,
+"doc":""
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.CsvFileHandler.pd",
+"url":11,
+"doc":""
 },
 {
 "ref":"hrosailing.pipelinecomponents.datahandler.CsvFileHandler.handle",
 "url":11,
-"doc":"Reads a .csv file and extracts the contained data points The delimiter used in the .csv file Parameters      data : path-like Path to a .csv file Returns    -",
+"doc":"Reads a .csv file and extracts the contained data points The delimiter used in the .csv file Parameters      data : path-like Path to a .csv file Returns    - data_dict : dict Dictionary having the first row entries as keys and as values the corresponding columns given as lists",
 "func":1
 },
 {
 "ref":"hrosailing.pipelinecomponents.datahandler.NMEAFileHandler",
 "url":11,
-"doc":"A data handler to extract data from a text file containing certain nmea sentences Parameters     - sentences : Iterable of Strings, attributes : Iterable of Strings, mode : string, optional In the case where there is more recorded wind data than speed data, specifies how to handle the surplus - \"interpolate\": handles the surplus by taking convex combinations of two recorded speed datas together with the recorded wind data \"between\" those two points to create multiple data points - \"mean\": handles the surplus by taking the mean of the wind data \"belonging\" to a given speed data to create a singe data point Defaults to \"interpolate\" Raises a HandlerInitializationException if mode is not one of the above choices"
+"doc":"A data handler to extract data from a text file containing certain nmea sentences and convert it to a dictionary Parameters     - sentences : Iterable of Strings, attributes : Iterable of Strings, mode : string, optional In the case where there is more recorded wind data than speed data, specifies how to handle the surplus - \"interpolate\": handles the surplus by taking convex combinations of two recorded speed datas together with the recorded wind data \"between\" those two points to create multiple data points - \"mean\": handles the surplus by taking the mean of the wind data \"belonging\" to a given speed data to create a singe data point Defaults to \"interpolate\" Raises a HandlerInitializationException if mode is not one of the above choices"
 },
 {
 "ref":"hrosailing.pipelinecomponents.datahandler.NMEAFileHandler.handle",

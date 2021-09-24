@@ -40,15 +40,28 @@
 <span>(</span><span>regressor: <a title="hrosailing.pipelinecomponents.regressor.Regressor" href="../pipelinecomponents/regressor.html#hrosailing.pipelinecomponents.regressor.Regressor">Regressor</a> = &lt;hrosailing.pipelinecomponents.regressor.ODRegressor object&gt;, radians: bool = False)</span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="parameters">Parameters</h2>
+<div class="desc"><p>Pipeline extension to produce PolarDiagramCurve instances
+from preprocessed data</p>
+<h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>regressor</code></strong> :&ensp;<code>Regressor</code>, optional</dt>
-<dd>Defaults to <code>ODRegressor(
+<dd>
+<p>Determines which regression method and model function is to be used,
+to represent the data.</p>
+<p>The model function will also be passed to PolarDiagramCurve</p>
+<p>Defaults to <code>ODRegressor(
 model_func=ws_s_s_dt_wa_gauss_comb,
 init_values=(0.25, 10, 1.7, 0, 1.9, 30, 17.6, 0, 1.9, 30, 17.6, 0)
-)</code></dd>
+)</code></p>
+</dd>
 <dt><strong><code>radians</code></strong> :&ensp;<code>bool</code>, optional</dt>
-<dd>Defaults to <code>False</code></dd>
+<dd>
+<p>Determines if the model function used to represent the data takes
+the wind angles to be in radians or degrees</p>
+<p>If <code>True</code>, will convert the wind angles of the data points to
+radians</p>
+<p>Defaults to <code>False</code></p>
+</dd>
 </dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -61,15 +74,19 @@ init_values=(0.25, 10, 1.7, 0, 1.9, 30, 17.6, 0, 1.9, 30, 17.6, 0)
 <span>def <span class="ident">process</span></span>(<span>self, w_pts: <a title="hrosailing.pipelinecomponents.weigher.WeightedPoints" href="../pipelinecomponents/weigher.html#hrosailing.pipelinecomponents.weigher.WeightedPoints">WeightedPoints</a>) ‑> <a title="hrosailing.polardiagram.PolarDiagramCurve" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagramCurve">PolarDiagramCurve</a></span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="parameters">Parameters</h2>
+<div class="desc"><p>Creates a PolarDiagramCurve instance from preprocessed data,
+by fitting a given function to said data, using a regression
+method determined by <code>self.regressor</code></p>
+<h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>w_pts</code></strong> :&ensp;<code>WeightedPoints</code></dt>
-<dd>&nbsp;</dd>
+<dd>Preprocessed data from which to create the polar diagram</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>pd</code></strong> :&ensp;<code>PolarDiagramCurve</code></dt>
-<dd>&nbsp;</dd>
+<dd>A polar diagram that should represent the trends captured
+in the raw data</dd>
 </dl></div>
 </dd>
 </dl>
@@ -134,14 +151,34 @@ and data contained in the WeightedPoints instance</p></div>
 <span>(</span><span>sampler: <a title="hrosailing.pipelinecomponents.sampler.Sampler" href="../pipelinecomponents/sampler.html#hrosailing.pipelinecomponents.sampler.Sampler">Sampler</a> = &lt;hrosailing.pipelinecomponents.sampler.UniformRandomSampler object&gt;, neighbourhood: <a title="hrosailing.pipelinecomponents.neighbourhood.Neighbourhood" href="../pipelinecomponents/neighbourhood.html#hrosailing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a> = Ball(norm=scaled_norm, radius=1), interpolator: <a title="hrosailing.pipelinecomponents.interpolator.Interpolator" href="../pipelinecomponents/interpolator.html#hrosailing.pipelinecomponents.interpolator.Interpolator">Interpolator</a> = ArithmeticMeanInterpolator(*params=(50,), s=1, norm=scaled_norm, distribution=&lt;function gauss_potential&gt;))</span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="parameters">Parameters</h2>
+<div class="desc"><p>Pipeline extension to produce PolarDiagramPointcloud instances
+from preprocessed data</p>
+<h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>sampler</code></strong> :&ensp;<code>Sampler</code>, optional</dt>
-<dd>Defaults to UniformRandomSampler(2000)</dd>
+<dd>
+<p>Determines the number of points in the resulting point cloud
+and the method used to sample the preprocessed data and represent
+the trends captured in them</p>
+<p>Defaults to UniformRandomSampler(2000)</p>
+<p>Note: Any class with a method <code>sample(pts) -&gt; (n,) array</code> should work
+here, but we recommend using a subclass of Sampler</p>
+</dd>
 <dt><strong><code>neighbourhood</code></strong> :&ensp;<code>Neighbourhood</code>, optional</dt>
-<dd>Defaults to Ball()</dd>
+<dd>
+<p>Determines the neighbourhood around a point from which to draw
+the data points used in the interpolation of that point</p>
+<p>Defaults to Ball(radius=1)</p>
+<p>Note: Any class with a method <code>is_contained_in(pts) -&gt; (n,) boolean array</code>
+should work here, but we recommend using a subclass of Neighbourhood</p>
+</dd>
 <dt><strong><code>interpolator</code></strong> :&ensp;<code>Interpolator</code>, optional</dt>
-<dd>Defaults to ArithmeticMeanInterpolator(50)</dd>
+<dd>
+<p>Determines which interpolation method is used</p>
+<p>Defaults to ArithmeticMeanInterpolator(50)</p>
+<p>Note: Any class with a method <code>interpolate(w_pts, grid_pt) -&gt; val</code>
+should work here, but we recommend using a subclass of Interpolator</p>
+</dd>
 </dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -154,15 +191,25 @@ and data contained in the WeightedPoints instance</p></div>
 <span>def <span class="ident">process</span></span>(<span>self, w_pts: <a title="hrosailing.pipelinecomponents.weigher.WeightedPoints" href="../pipelinecomponents/weigher.html#hrosailing.pipelinecomponents.weigher.WeightedPoints">WeightedPoints</a>) ‑> <a title="hrosailing.polardiagram.PolarDiagramPointcloud" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagramPointcloud">PolarDiagramPointcloud</a></span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="parameters">Parameters</h2>
+<div class="desc"><p>Creates a PolarDiagramPointcloud instance from preprocessed data,
+first creating a set number of points by sampling the wind speed,
+wind angle space of the
+data points and capturing the underlying
+trends using <code>self.sampler</code> and then interpolating the boat speed
+values at the sampled points according to the interpolation method of
+<code>self.interpolator</code>, which only takes in consideration the data points
+which lie in a neighbourhood, determined by <code>self.neighbourhood</code>,
+around each sampled point</p>
+<h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>w_pts</code></strong> :&ensp;<code>WeightedPoints</code></dt>
-<dd>&nbsp;</dd>
+<dd>Preprocessed data from which to create the polar diagram</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>pd</code></strong> :&ensp;<code>PolarDiagramPointcloud</code></dt>
-<dd>&nbsp;</dd>
+<dd>A polar diagram that should represent the trends captured
+in the raw data</dd>
 </dl></div>
 </dd>
 </dl>
@@ -176,13 +223,36 @@ and data contained in the WeightedPoints instance</p></div>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>extension</code></strong> :&ensp;<code><a title="hrosailing.pipeline.PipelineExtension" href="#hrosailing.pipeline.PipelineExtension">PipelineExtension</a></code></dt>
-<dd>&nbsp;</dd>
+<dd>
+<p>Extension that is called in the pipeline, after all preprocessing
+is done, to generate a polar diagram from the processed data.</p>
+<p>Determines the subclass of PolarDiagram, that the pipeline will
+produce</p>
+<p>Note: Any class with a method <code>process(w_pts: WeightedPoints)</code> should
+work here, but we recommend using a subclass of PipelineExtension</p>
+</dd>
 <dt><strong><code>handler</code></strong> :&ensp;<code>DataHandler</code></dt>
-<dd>&nbsp;</dd>
+<dd>
+<p>Handler that is responsible to extract actual data from the input</p>
+<p>Determines the type and format of input the pipeline should accept</p>
+<p>Note: Any class with a method <code>handle(data) -&gt; dict</code> should work here,
+but we recommend using a subclass of DataHandler</p>
+</dd>
 <dt><strong><code>weigher</code></strong> :&ensp;<code>Weigher</code>, optional</dt>
-<dd>&nbsp;</dd>
+<dd>
+<p>Determines the method with which the points will be weight.</p>
+<p>Defaults to CylindricMeanWeigher()</p>
+<p>Note: Any class with a method <code>weigh(pts) -&gt; (n,) array_like</code> should
+work here, but we recommend using a subclass of Weigher</p>
+</dd>
 <dt><strong><code>filter_</code></strong> :&ensp;<code>Filter</code>, optional</dt>
-<dd>&nbsp;</dd>
+<dd>
+<p>Determines the methods with which the points will be filtered,
+if <code>filtering</code> is <code>True</code> in <strong>call</strong> method</p>
+<p>Defaults to QuantileFilter()</p>
+<p>Note: Any class with a method <code>filter(wts) -&gt; (n,) boolean array</code>
+should work here, but we recommend using a subclass of Filter</p>
+</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.pipeline.TableExtension"><code class="flex name class">
@@ -190,14 +260,27 @@ and data contained in the WeightedPoints instance</p></div>
 <span>(</span><span>w_res=None, neighbourhood: <a title="hrosailing.pipelinecomponents.neighbourhood.Neighbourhood" href="../pipelinecomponents/neighbourhood.html#hrosailing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a> = Ball(norm=scaled_norm, radius=1), interpolator: <a title="hrosailing.pipelinecomponents.interpolator.Interpolator" href="../pipelinecomponents/interpolator.html#hrosailing.pipelinecomponents.interpolator.Interpolator">Interpolator</a> = ArithmeticMeanInterpolator(*params=(50,), s=1, norm=scaled_norm, distribution=&lt;function gauss_potential&gt;))</span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="parameters">Parameters</h2>
+<div class="desc"><p>Pipeline extension to produce PolarDiagramTable instances
+from preprocessed data</p>
+<h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>w_res</code></strong> :&ensp;, optional</dt>
 <dd>&nbsp;</dd>
 <dt><strong><code>neighbourhood</code></strong> :&ensp;<code>Neighbourhood</code>, optional</dt>
-<dd>Defaults to Ball()</dd>
+<dd>
+<p>Determines the neighbourhood around a point from which to draw
+the data points used in the interpolation of that point</p>
+<p>Defaults to Ball(radius=1)</p>
+<p>Note: Any class with a method <code>is_contained_in(pts) -&gt; (n,) boolean array</code>
+should work here, but we recommend using a subclass of Neighbourhood</p>
+</dd>
 <dt><strong><code>interpolator</code></strong> :&ensp;<code>Interpolator</code>, optional</dt>
-<dd>Defaults to ArithmeticMeanInterpolator(50)</dd>
+<dd>
+<p>Determines which interpolation method is used</p>
+<p>Defaults to ArithmeticMeanInterpolator(50)</p>
+<p>Note: Any class with a method <code>interpolate(w_pts, grid_pt) -&gt; val</code>
+should work here, but we recommend using a subclass of Interpolator</p>
+</dd>
 </dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -210,15 +293,23 @@ and data contained in the WeightedPoints instance</p></div>
 <span>def <span class="ident">process</span></span>(<span>self, w_pts: <a title="hrosailing.pipelinecomponents.weigher.WeightedPoints" href="../pipelinecomponents/weigher.html#hrosailing.pipelinecomponents.weigher.WeightedPoints">WeightedPoints</a>) ‑> <a title="hrosailing.polardiagram.PolarDiagramTable" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagramTable">PolarDiagramTable</a></span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="parameters">Parameters</h2>
+<div class="desc"><p>Creates a PolarDiagramTable instance from preprocessed data,
+by first determining a wind speed / wind angle grid, using
+<code>self.w_res</code>, and then interpolating the boat speed values at the
+grid points according to the interpolation method of
+<code>self.interpolator</code>, which only takes in consideration the data points
+which lie in a neighbourhood, determined by <code>self.neighbourhood</code>,
+around each grid point</p>
+<h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>w_pts</code></strong> :&ensp;<code>WeightedPoints</code></dt>
-<dd>&nbsp;</dd>
+<dd>Preprocessed data from which to create the polar diagram</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>pd</code></strong> :&ensp;<code>PolarDiagramTable</code></dt>
-<dd>&nbsp;</dd>
+<dd>A polar diagram that should represent the trends captured
+in the raw data</dd>
 </dl></div>
 </dd>
 </dl>

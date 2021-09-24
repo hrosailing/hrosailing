@@ -38,39 +38,71 @@
 <span>class <span class="ident">ArrayHandler</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>A data handler to handle data, given
-as an array_like sequence.</p>
-<p>Doesn't really do anything since error handling
-and array conversion is handeled by the pipeline itself</p>
-<p>Only needed for general layout of the pipeline</p></div>
+<div class="desc"><p>A data handler to convert data given as an array-type
+to a dictionary</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.pipelinecomponents.datahandler.DataHandler" href="#hrosailing.pipelinecomponents.datahandler.DataHandler">DataHandler</a></li>
 <li>abc.ABC</li>
 </ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hrosailing.pipelinecomponents.datahandler.ArrayHandler.pand"><code class="name">var <span class="ident">pand</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hrosailing.pipelinecomponents.datahandler.ArrayHandler.pd"><code class="name">var <span class="ident">pd</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
 <h3>Methods</h3>
 <dl>
 <dt id="hrosailing.pipelinecomponents.datahandler.ArrayHandler.handle"><code class="name flex">
-<span>def <span class="ident">handle</span></span>(<span>self, data) ‑> dict</span>
+<span>def <span class="ident">handle</span></span>(<span>self, data: Union[Tuple[numpy.ndarray, tuple], pandas.core.frame.DataFrame]) ‑> dict</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Extracts data from array-types of data</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>data</code></strong> :&ensp;<code>pandas.DataFrame</code> or <code>tuple</code> of <code>array_like and ordered iterable</code></dt>
+<dd>Data contained in a pandas.DataFrame or in an array_like.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>data_dict</code></strong> :&ensp;<code>dict</code></dt>
+<dd>If data is a pandas.DataFrame, data_dict is the output
+of the DataFrame.to_dict()-method, otherwise the keys of
+the dict will be the entries of the ordered iterable with the
+value being the corresponding column of the array_like</dd>
+</dl></div>
 </dd>
 </dl>
 </dd>
 <dt id="hrosailing.pipelinecomponents.datahandler.CsvFileHandler"><code class="flex name class">
 <span>class <span class="ident">CsvFileHandler</span></span>
-<span>(</span><span>**pandas_kw)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>A data handler to extract data from a .csv file
-with the first three columns representing wind speed, wind angle,
-and boat speed respectively</p></div>
+<div class="desc"><p>A data handler to extract data from a .csv file and convert it
+to a dictionary</p>
+<p>.csv file should be ordered in a column-wise fashion, with the
+first row, describing what each column represents</p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.pipelinecomponents.datahandler.DataHandler" href="#hrosailing.pipelinecomponents.datahandler.DataHandler">DataHandler</a></li>
 <li>abc.ABC</li>
 </ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hrosailing.pipelinecomponents.datahandler.CsvFileHandler.pand"><code class="name">var <span class="ident">pand</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hrosailing.pipelinecomponents.datahandler.CsvFileHandler.pd"><code class="name">var <span class="ident">pd</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
 <h3>Methods</h3>
 <dl>
 <dt id="hrosailing.pipelinecomponents.datahandler.CsvFileHandler.handle"><code class="name flex">
@@ -84,7 +116,12 @@ The delimiter used in the .csv file</p>
 <dt><strong><code>data</code></strong> :&ensp;<code>path-like</code></dt>
 <dd>Path to a .csv file</dd>
 </dl>
-<h2 id="returns">Returns</h2></div>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>data_dict</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Dictionary having the first row entries as keys and
+as values the corresponding columns given as lists</dd>
+</dl></div>
 </dd>
 </dl>
 </dd>
@@ -111,7 +148,15 @@ The delimiter used in the .csv file</p>
 <span>def <span class="ident">handle</span></span>(<span>self, data) ‑> dict</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>This method should be used, given some data in a format
+that is dependent on the handler, to output a dictionary
+containing the given data, where the values should be
+lists.</p>
+<p>The dictionary should atleast contain the following keys:
+'Wind speed', 'Wind angle' and one of 'Speed over ground knots',
+'Water speed knots' or 'Boat speed'</p>
+<p>The names of the keys in the dictionary should also be compatible
+with the keys that a possible InfluenceModel instance might use</p></div>
 </dd>
 </dl>
 </dd>
@@ -147,7 +192,7 @@ initialization of a DataHandler</p></div>
 </code></dt>
 <dd>
 <div class="desc"><p>A data handler to extract data from a text file containing
-certain nmea sentences</p>
+certain nmea sentences and convert it to a dictionary</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>sentences</code></strong> :&ensp;<code>Iterable</code> of <code>Strings,</code></dt>
@@ -267,12 +312,16 @@ setTimeout(() => input.focus(), 100);
 <h4><code><a title="hrosailing.pipelinecomponents.datahandler.ArrayHandler" href="#hrosailing.pipelinecomponents.datahandler.ArrayHandler">ArrayHandler</a></code></h4>
 <ul class="">
 <li><code><a title="hrosailing.pipelinecomponents.datahandler.ArrayHandler.handle" href="#hrosailing.pipelinecomponents.datahandler.ArrayHandler.handle">handle</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.datahandler.ArrayHandler.pand" href="#hrosailing.pipelinecomponents.datahandler.ArrayHandler.pand">pand</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.datahandler.ArrayHandler.pd" href="#hrosailing.pipelinecomponents.datahandler.ArrayHandler.pd">pd</a></code></li>
 </ul>
 </li>
 <li>
 <h4><code><a title="hrosailing.pipelinecomponents.datahandler.CsvFileHandler" href="#hrosailing.pipelinecomponents.datahandler.CsvFileHandler">CsvFileHandler</a></code></h4>
 <ul class="">
 <li><code><a title="hrosailing.pipelinecomponents.datahandler.CsvFileHandler.handle" href="#hrosailing.pipelinecomponents.datahandler.CsvFileHandler.handle">handle</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.datahandler.CsvFileHandler.pand" href="#hrosailing.pipelinecomponents.datahandler.CsvFileHandler.pand">pand</a></code></li>
+<li><code><a title="hrosailing.pipelinecomponents.datahandler.CsvFileHandler.pd" href="#hrosailing.pipelinecomponents.datahandler.CsvFileHandler.pd">pd</a></code></li>
 </ul>
 </li>
 <li>
