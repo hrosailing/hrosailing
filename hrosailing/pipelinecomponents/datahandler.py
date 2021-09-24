@@ -8,6 +8,7 @@
 
 from abc import ABC, abstractmethod
 from ast import literal_eval
+import csv
 from decimal import Decimal
 from typing import Union
 
@@ -56,7 +57,7 @@ class DataHandler(ABC):
 
 class ArrayHandler(DataHandler):
     """A data handler to convert data given as an array-type
-    to the required dictionary
+    to a dictionary
     """
 
     # ArrayHandler usable even if pandas is not installed.
@@ -95,13 +96,22 @@ class ArrayHandler(DataHandler):
 
 
 class CsvFileHandler(DataHandler):
-    """A data handler to extract data from a .csv file
-    with the first three columns representing wind speed, wind angle,
-    and boat speed respectively
+    """A data handler to extract data from a .csv file and convert it
+    to a dictionary
+
+    .csv file should be ordered in a column-wise fashion, with the
+    first row, describing what each column represents
     """
 
-    def __init__(self, **pandas_kw):
-        self._pd_kw = pandas_kw
+    # Check if pandas is available to use from_csv()-method
+    try:
+        __import__("pandas")
+        pand = True
+    except ImportError:
+        pand = False
+
+    if pand:
+        import pandas as pd
 
     def handle(self, data) -> dict:
         """Reads a .csv file and extracts the contained data points
@@ -114,16 +124,28 @@ class CsvFileHandler(DataHandler):
 
         Returns
         -------
+        data_dict : dict
+            Dictionary having the first row entries as keys and
+            as values the corresponding columns given as lists
         """
-        from pandas import read_csv
+        if self.pand:
+            df = self.pd.read_csv(data)
+            return df.to_dict()
 
-        df = read_csv(data, **self._pd_kw)
-        return df.to_dict()
+        with open(data, "r", encoding="utf-8") as file:
+            csv_reader = csv.reader(file)
+            keys = next(csv_reader)
+            data_dict = {key : [] for key in keys}
+            for row in csv_reader:
+                for i, entry in enumerate(row):
+                    data_dict[keys[i]].append(literal_eval(entry))
+
+        return data_dict
 
 
 class NMEAFileHandler(DataHandler):
     """A data handler to extract data from a text file containing
-    certain nmea sentences
+    certain nmea sentences and convert it to a dictionary
 
     Parameters
     ---------
