@@ -84,7 +84,6 @@ class PolarPipeline:
     def __call__(
         self,
         data,
-        check_finite: bool = True,
         tw: bool = True,
         filtering: bool = True,
         n_zeros: int = 500,
@@ -92,25 +91,41 @@ class PolarPipeline:
         """
         Parameters
         ----------
-        data : FooBar
-
-        check_finite : bool, optional
+        data : compatible with `self.handler`
+            Data from which to create the polar diagram.
+            The input should be compatible with the DataHandler instance
+            given in initialization of the pipeline instance
 
         tw : bool, optional
+            Specifies, if the wind components of the points are true
+            or appearent wind
+
+            If false, wind will be converted to true wind
+
+            Defautls to `True`
 
         filtering : bool, optional
+            Specfies, if points should be filtered after weighing
+
+            Defaults to `True`
 
         n_zeros: int, optional
             If not None, describes the number of additional data points
             at (tws, 0) and (tws, 360) respectively, which are appended
-            to the filtered data.
-            This creates results that look much more like a polar diagram.
+            to the filtered data
 
-            Defaults to 500.
+            Needed to better model the actual behaviour of sailing boats
+            when sailing against the wind
+
+            Defaults to 500
 
         Returns
         -------
-        out : PolarDiagram
+        pd : PolarDiagram
+            PolarDiagram subclass instance, which represents the
+            trends in `data`
+
+            Type depends on the chosen PipelineExtension subclass
         """
         data = self.handler.handle(data)
 
@@ -127,18 +142,15 @@ class PolarPipeline:
 
             data = np.column_stack((ws, wa, bsp))
 
-        # NaN and infinite values can't normally be handled
-        if check_finite:
-            data = np.asarray_chkfinite(data, float)
-        else:
-            data = np.asarray(data, float)
+        # NaN and infinite values aren't allowed
+        data = np.asarray_chkfinite(data, float)
 
         # Non-array_like `data` is not allowed after handling
         if data.dtype is object:
             raise PipelineException("`data` is not array_like")
 
         # `data` should have 3 columns corresponding to wind speed,
-        # wind angle and boat speed, after handling
+        # wind angle and boat speed, after the influence model
         if data.shape[1] != 3:
             raise PipelineException("`data` has incorrect shape")
 
@@ -149,19 +161,7 @@ class PolarPipeline:
             w_pts = w_pts[mask]
 
         if n_zeros:
-            bsps = w_pts.points[:, 0]
-            tws = np.linspace(min(bsps), max(bsps), n_zeros)
-            zero_angles = np.zeros(n_zeros)
-            full_angles = 360 * np.ones(n_zeros)
-
-            zero_points = np.column_stack([tws, zero_angles, zero_angles])
-            full_points = np.column_stack([tws, full_angles, zero_angles])
-            new_weights = np.ones(2 * n_zeros)
-
-            w_pts = pc.WeightedPoints(
-                pts=np.concatenate([w_pts.points, zero_points, full_points]),
-                wts=np.concatenate([w_pts.weights, new_weights]),
-            )
+            w_pts = _add_zeros(w_pts, n_zeros)
 
         return self.extension.process(w_pts)
 
@@ -318,6 +318,21 @@ class PointcloudExtension(PipelineExtension):
         )
 
         return pol.PolarDiagramPointcloud(pts=pts)
+
+
+def _add_zeros(w_pts, n_zeros):
+    ws = w_pts.points[:, 0]
+    ws = np.linspace(min(ws), max(ws), n_zeros)
+
+    zeros = np.zeros(n_zeros)
+    fulls = 360 * np.ones(n_zeros)
+    zeros = np.column_stack((ws, zeros, zeros))
+    fulls = np.column_stack((ws, fulls, zeros))
+
+    return pc.WeightedPoints(
+        pts=np.concatenate([w_pts.points, zeros, fulls]),
+        wts=np.concatenate([w_pts.weights, np.ones(2 * n_zeros)]),
+    )
 
 
 def _set_wind_resolution(w_res, pts):
