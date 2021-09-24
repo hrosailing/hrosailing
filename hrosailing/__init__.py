@@ -1,5 +1,6 @@
 # Tell users if hard depencencies are missing
 hard_dependencies = ("numpy", "matplotlib", "scipy")
+# soft_dependencies = ("pandas", "pynmea2")
 missing_dependencies = []
 
 for depencency in hard_dependencies:
@@ -22,15 +23,11 @@ import hrosailing.pipelinecomponents
 import hrosailing.polardiagram
 from .wind import true_wind_to_apparent, apparent_wind_to_true
 
-
 from ._doc import doc
-
 __doc__ = doc
 
 from ._version import __version__
-
 version = __version__
 
 from ._pdoc import pdoc
-
 __pdoc__ = pdoc
