@@ -194,19 +194,29 @@ class PolarPipeline:
 
 
 class TableExtension(PipelineExtension):
-    """
+    """Pipeline extension to produce PolarDiagramTable instances
+    from preprocessed data
 
     Parameters
     ----------
     w_res : , optional
 
     neighbourhood : Neighbourhood, optional
+        Determines the neighbourhood around a point from which to draw
+        the data points used in the interpolation of that point
 
-        Defaults to Ball()
+        Defaults to Ball(radius=1)
+
+        Note: Any class with a method `is_contained_in(pts) -> (n,) boolean array`
+        should work here, but we recommend using a subclass of Neighbourhood
 
     interpolator : Interpolator, optional
+        Determines which interpolation method is used
 
         Defaults to ArithmeticMeanInterpolator(50)
+
+        Note: Any class with a method `interpolate(w_pts, grid_pt) -> val`
+        should work here, but we recommend using a subclass of Interpolator
     """
 
     def __init__(
@@ -220,18 +230,24 @@ class TableExtension(PipelineExtension):
         self.interpolator = interpolator
 
     def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramTable:
-        """
+        """Creates a PolarDiagramTable instance from preprocessed data,
+        by first determining a wind speed / wind angle grid, using
+        `self.w_res`, and then interpolating the boat speed values at the
+        grid points according to the interpolation method of
+        `self.interpolator`, which only takes in consideration the data points
+        which lie in a neighbourhood, determined by `self.neighbourhood`,
+        around each grid point
 
         Parameters
         ----------
         w_pts : WeightedPoints
-
-
+            Preprocessed data from which to create the polar diagram
 
         Returns
         -------
         pd : PolarDiagramTable
-
+            A polar diagram that should represent the trends captured in the
+            raw data
         """
         ws_res, wa_res = _set_wind_resolution(self.w_res, w_pts.points)
         ws, wa = np.meshgrid(ws_res, wa_res)
