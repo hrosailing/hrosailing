@@ -70,7 +70,9 @@ class ArrayHandler(DataHandler):
     if pand:
         import pandas as pd
 
-    def handle(self, data: Union[Tuple[np.ndarray, tuple], pd.DataFrame]) -> dict:
+    def handle(
+        self, data: Union[Tuple[np.ndarray, tuple], pd.DataFrame]
+    ) -> dict:
         """Extracts data from array-types of data
 
         Parameters
