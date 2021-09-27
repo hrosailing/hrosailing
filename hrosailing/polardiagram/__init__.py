@@ -15,23 +15,22 @@ import pickle
 from typing import List
 import warnings
 
-
 from hrosailing.pipelinecomponents import Interpolator, IDWInterpolator
 from hrosailing.wind import _convert_wind, _set_resolution
+import hrosailing._logfolder as log
 from ._plotting import *
-
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)s: %(message)s",
     level=logging.INFO,
     handlers=[
         logging.handlers.TimedRotatingFileHandler(
-            "hrosailing/logging/polardiagram.log", when="midnight"
+            log.log_folder + "polardiagram.log", when="midnight"
         )
     ],
 )
-
 logger = logging.getLogger(__name__)
+del log
 
 
 class PolarDiagramException(Exception):

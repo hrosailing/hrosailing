@@ -17,11 +17,21 @@ if missing_dependencies:
 del hard_dependencies, depencency, missing_dependencies
 
 
+# create folder for logging, where script is located, if it doesn't exist
+import hrosailing._logfolder as log
+
+path = log.get_script_path()
+log.set_log_folder(path)
+log.create_log_folder()
+
+del log
+
+
 import hrosailing.cruising
 import hrosailing.pipeline
 import hrosailing.pipelinecomponents
 import hrosailing.polardiagram
-from .wind import true_wind_to_apparent, apparent_wind_to_true
+import hrosailing.wind
 
 from ._doc import doc
 

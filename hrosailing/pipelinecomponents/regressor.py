@@ -18,18 +18,19 @@ import numpy as np
 from scipy.odr.odrpack import Data, Model, ODR
 from scipy.optimize import curve_fit
 
+import hrosailing._logfolder as log
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)s: %(message)s",
     level=logging.INFO,
     handlers=[
         logging.handlers.TimedRotatingFileHandler(
-            "hrosailing/logging/pipeline.log", when="midnight"
+            log.log_folder + "pipeline.log", when="midnight"
         )
     ],
 )
-
 logger = logging.getLogger(__name__)
+del log
 
 
 class RegressorException(Exception):

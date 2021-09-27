@@ -17,19 +17,19 @@ from typing import Callable
 import numpy as np
 
 from hrosailing.wind import _convert_wind
-
+import hrosailing._logfolder as log
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)s: %(message)s",
     level=logging.INFO,
     handlers=[
         logging.handlers.TimedRotatingFileHandler(
-            "hrosailing/logging/pipeline.log", when="midnight"
+            log.log_folder + "pipeline.log", when="midnight"
         )
     ],
 )
-
 logger = logging.getLogger(__name__)
+del log
 
 
 def scaled(norm, scal):
