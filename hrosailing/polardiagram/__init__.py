@@ -25,7 +25,7 @@ logging.basicConfig(
     level=logging.INFO,
     handlers=[
         logging.handlers.TimedRotatingFileHandler(
-            log.log_folder + "polardiagram.log", when="midnight"
+            log.log_folder + "/polardiagram.log", when="midnight"
         )
     ],
 )

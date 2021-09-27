@@ -21,7 +21,7 @@ logging.basicConfig(
     level=logging.INFO,
     handlers=[
         logging.handlers.TimedRotatingFileHandler(
-            log.log_folder + "pipeline.log", when="midnight"
+            log.log_folder + "/pipeline.log", when="midnight"
         )
     ],
 )
