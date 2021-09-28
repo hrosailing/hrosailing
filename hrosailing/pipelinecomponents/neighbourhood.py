@@ -1,9 +1,12 @@
 """
-Contains the baseclass for Neighbourhoods used in the TableExtension and
-PointcloudExtension class, that can also be used to create custom
-Neighbourhoods.
+Classes used to model various geometric shapes centered around
+the origin
 
-Also contains various predefined and usable neighbourhoods
+Defines the Neighbourhood Abstract Base Class that can be used
+to create custom geometric shapes
+
+Subclasses of Neighbourhood can be used with the TableExtension and
+the PointcloudExtension class in the hrosailing.pipeline module
 """
 
 # Author: Valentin Dannenberg

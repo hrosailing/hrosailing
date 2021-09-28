@@ -1,5 +1,13 @@
 """
+Classes used for
 
+Defines the InfluenceModel Abstract Base Class that can be used
+to create custom
+
+Subclasses of InfluenceModel can be used with
+
+- the PolarPipeline class in the hrosailing.pipeline module
+- various functions in the hrosailing.cruising module
 """
 
 # Author: Valentin Dannenberg
@@ -39,10 +47,10 @@ class InfluenceModel(ABC):
 
 
 class LinearCurrentModel(InfluenceModel):
-    """"""
+    """Influence model to ..."""
 
     def __init__(self):
-        """"""
+        return
 
     def remove_influence(self, data: dict):
         """"""

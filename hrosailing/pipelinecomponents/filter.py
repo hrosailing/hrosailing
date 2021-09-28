@@ -1,9 +1,12 @@
 """
-Contains the baseclass for Filters used in the PolarPipeline class,
-that can also be used to create custom Filters.
+Classes used for modular modeling of different filtering methods based
+on weights
 
-Also contains two predefinied and usable filters, the QuantileFilter
-and the BoundFilter.
+Defines the Filter Abstract Base Class that can be used to create
+custom filtering methods
+
+Subclasses of Filter can be used with the PolarPipeline class
+in the hrosailing.pipeline module
 """
 
 # Author: Valentin Dannenberg

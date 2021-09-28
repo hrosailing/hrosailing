@@ -1,9 +1,11 @@
 """
-Contains the baseclass for Regressors used in the CurveExtension class,
-that can also be used to create custom Regressors.
+Classes used for modular modeling of different regression methods
 
-Also contains two predefined and usable regressors, the ODRegressor
-and the LeastSquareRegressor.
+Defines the Regressor Abstract Base Class that can be used to create
+custom regression methods
+
+Subclasses of Regressor can be used with the CurveExtension class
+in the hrosailing.pipeline module
 """
 
 # Author: Valentin Dannenberg

@@ -1,8 +1,11 @@
 """
-Contains the baseclass for Samplers used in the PointcloudExtension class,
-that can also be used to create custom Samplers.
+Classes used for modular modeling of different sampling methods
 
-Also contains various predefined and usable samplers.
+Defines the Sampler Abstract Base Class that can be used to create
+custom sampling methods
+
+Subclasses of Sampler can be used with the PointcloudExtension class
+in the hrosailing.pipeline module
 """
 
 # Author: Valentin Dannenberg & Robert Schüler

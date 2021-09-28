@@ -1,9 +1,15 @@
 """
-Contains the baseclass for Interpolators used in the TableExtension
-and PointcloudExtension class, that can also be used to create custom
-Interpolators.
+Classes used for modular modeling of different interpolation methods
 
-Also contains various predefined and usable interpolators
+Defines the Interpolator Abstract Base Class that can be used to
+create custom interpolation methods
+
+Subclasses of Interpolator can be used with
+
+- the TableExtension and PointcloudExtension class in the
+hrosailing.pipeline module
+- the __call__ method of the PolarDiagramTable and PolarDiagramPointcloud
+class in the hrosailing.polardiagram module
 """
 
 # Author Valentin Dannenberg
