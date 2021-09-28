@@ -670,7 +670,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.regressor",
 "url":5,
-"doc":"Contains the baseclass for Regressors used in the CurveExtension class, that can also be used to create custom Regressors. Also contains two predefined and usable regressors, the ODRegressor and the LeastSquareRegressor."
+"doc":"Classes used for modular modeling of different regression methods Defines the Regressor Abstract Base Class that can be used to create custom regression methods Subclasses of Regressor can be used with the CurveExtension class in the hrosailing.pipeline module"
 },
 {
 "ref":"hrosailing.pipelinecomponents.regressor.RegressorException",
@@ -743,7 +743,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.interpolator",
 "url":6,
-"doc":"Contains the baseclass for Interpolators used in the TableExtension and PointcloudExtension class, that can also be used to create custom Interpolators. Also contains various predefined and usable interpolators"
+"doc":"Classes used for modular modeling of different interpolation methods Defines the Interpolator Abstract Base Class that can be used to create custom interpolation methods Subclasses of Interpolator can be used with - the TableExtension and PointcloudExtension class in the hrosailing.pipeline module - the __call__ method of the PolarDiagramTable and PolarDiagramPointcloud class in the hrosailing.polardiagram module"
 },
 {
 "ref":"hrosailing.pipelinecomponents.interpolator.scaled",
@@ -826,7 +826,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.filter",
 "url":7,
-"doc":"Contains the baseclass for Filters used in the PolarPipeline class, that can also be used to create custom Filters. Also contains two predefinied and usable filters, the QuantileFilter and the BoundFilter."
+"doc":"Classes used for modular modeling of different filtering methods based on weights Defines the Filter Abstract Base Class that can be used to create custom filtering methods Subclasses of Filter can be used with the PolarPipeline class in the hrosailing.pipeline module"
 },
 {
 "ref":"hrosailing.pipelinecomponents.filter.FilterInitializationException",
@@ -869,7 +869,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.influencemodel",
 "url":8,
-"doc":"Contains the baseclass for InfluenceModels used in the PolarPipeline class, aswell as various functions in the cruising submodule, that can also be used to create custom InfluenceModels. Also contains  ."
+"doc":"Classes used for Defines the InfluenceModel Abstract Base Class that can be used to create custom Subclasses of InfluenceModel can be used with - the PolarPipeline class in the hrosailing.pipeline module - various functions in the hrosailing.cruising module"
 },
 {
 "ref":"hrosailing.pipelinecomponents.influencemodel.InfluenceModel",
@@ -983,7 +983,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.neighbourhood",
 "url":10,
-"doc":"Contains the baseclass for Neighbourhoods used in the TableExtension and PointcloudExtension class, that can also be used to create custom Neighbourhoods. Also contains various predefined and usable neighbourhoods"
+"doc":"Classes used to model various geometric shapes centered around the origin Defines the Neighbourhood Abstract Base Class that can be used to create custom geometric shapes Subclasses of Neighbourhood can be used with the TableExtension and the PointcloudExtension class in the hrosailing.pipeline module"
 },
 {
 "ref":"hrosailing.pipelinecomponents.neighbourhood.scaled",
@@ -1071,7 +1071,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.datahandler",
 "url":11,
-"doc":"Contains the baseclass for DataHandlers used in the PolarPipeline class, that can also be used to create custom DataHandlers. Also contains various predefined and usable data handlers"
+"doc":"Classes used to Defines the DataHandler Abstract Base Class that can be used to create custom Subclasses of DataHandler can be used with the PolarPipeline class in the hrosailing.pipeline module"
 },
 {
 "ref":"hrosailing.pipelinecomponents.datahandler.HandlerInitializationException",
@@ -1150,7 +1150,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.sampler",
 "url":12,
-"doc":"Contains the baseclass for Samplers used in the PointcloudExtension class, that can also be used to create custom Samplers. Also contains various predefined and usable samplers."
+"doc":"Classes used for modular modeling of different sampling methods Defines the Sampler Abstract Base Class that can be used to create custom sampling methods Subclasses of Sampler can be used with the PointcloudExtension class in the hrosailing.pipeline module"
 },
 {
 "ref":"hrosailing.pipelinecomponents.sampler.SamplerInitializationException",
