@@ -869,7 +869,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.influencemodel",
 "url":8,
-"doc":""
+"doc":"Contains the baseclass for InfluenceModels used in the PolarPipeline class, aswell as various functions in the cruising submodule, that can also be used to create custom InfluenceModels. Also contains  ."
 },
 {
 "ref":"hrosailing.pipelinecomponents.influencemodel.InfluenceModel",
@@ -891,7 +891,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.influencemodel.LinearCurrentModel",
 "url":8,
-"doc":""
+"doc":"Influence model to  ."
 },
 {
 "ref":"hrosailing.pipelinecomponents.influencemodel.LinearCurrentModel.remove_influence",
@@ -1071,7 +1071,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.datahandler",
 "url":11,
-"doc":""
+"doc":"Contains the baseclass for DataHandlers used in the PolarPipeline class, that can also be used to create custom DataHandlers. Also contains various predefined and usable data handlers"
 },
 {
 "ref":"hrosailing.pipelinecomponents.datahandler.HandlerInitializationException",
