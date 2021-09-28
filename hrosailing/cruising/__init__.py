@@ -164,7 +164,7 @@ def cruise(
     ws : int / float
         The current wind speed given in knots
 
-    wdir :
+    wdir : FooBar
         The direction of the wind given as either
 
         - the wind angle relative to north
@@ -197,7 +197,7 @@ def cruise(
 
     Returns
     -------
-    out : list of tuples
+    directions : list of tuples
         Directions as well as the time needed to sail along those,
         to get from start to end
 
@@ -246,6 +246,7 @@ class WeatherModel:
         self._data = data
 
     def get_weather(self, time, lat, lon):
+        """"""
         time_idx = bisect_left(self._times, time)
         lat_idx = bisect_left(self._lats, lat)
         lon_idx = bisect_left(self._lons, lon)
@@ -284,75 +285,70 @@ def cost_cruise(
     im: Optional[InfluenceModel] = None,
     **ivp_kw,
 ):
-    """
-    Computes the total cost for traveling
-    from a start position to an end position
-
-    To be precise, it calculates
-    for a given cost density function
-    cost and absolute function abs_cost
+    """Computes the total cost for traveling from a start position to an
+    end position. To be precise, it calculates for a given cost density
+    function cost and absolute function abs_cost
 
     int_0^l cost(s, t(s)) ds + abs_cost(t(l), l),
 
-    where s is the distance travelled,
-    l is the total distance from start to end
-    and t(s) is the time travelled
+    where s is the distance travelled, l is the total distance from
+    start to end and t(s) is the time travelled.
     t(s) is the solution of the initial value problem
+
     t(0) = 0, dt/ds = 1/bsp(s,t).
 
-    The costs also depend on the weather forecast data,
-    organized by a WeatherModel
-    Distances are computed using the mercator projection
+    The costs also depend on the weather forecast data, organized
+    by a WeatherModel, distances are computed using the mercator projection
 
-    Parameter
+    Parameters
     ----------
-    pd: PolarDiagram
+    pd : PolarDiagram
         Polar diagram of the vessel
 
-    start: tuple of two floats
+    start : tuple of two floats
         Coordinates of the starting point
 
-    end: tuple of two floats
+    end : tuple of two floats
         Coordinates of the end point
 
-    start_time: datetime.datetime
+    start_time : datetime.datetime
         The time at which the traveling starts
 
-    wm: WeatherModel, optional
+    wm : WeatherModel, optional
         The WeatherModel used
 
-    cost_fun_dens: callable, optional
+    cost_fun_dens : callable, optional
         Function giving a cost density for given time as datetime.datetime,
         lattitude as float, longitude as float and WeatherModel
-        cost_fun_dens(t,lat,long,wm) corresponds to costs(s,t) above.
+        cost_fun_dens(t,lat,long,wm) corresponds to costs(s,t) above
 
-        Defaults to None.
+        Defaults to `None`
 
-    cost_fun_abs: callable, optional
-        Corresponds to abs_costs above.
+    cost_fun_abs : callable, optional
+        Corresponds to `abs_costs`
 
-        Defaults to lambda total_t, total_s: total_t
+        Defaults to `lambda total_t, total_s: total_t`
 
-    integration_method: callable, optional
+    integration_method : callable, optional
         Function that takes two (n,) arrays y, x and computes
         an approximative integral from that.
-        Is only used if cost_fun_dens is not None
+        Is only used if `cost_fun_dens` is not None
 
-        Defaults to scipy.integrate.trapezoid
+        Defaults to `scipy.integrate.trapezoid`
 
-    im: InfluenceModel, optional
+    im : InfluenceModel, optional
         The influence model used to consider additional influences
-        on the boat speed.
+        on the boat speed
 
-        Defaults to None
+        Defaults to `None`
 
-    ivp_kw:
-        Keyword arguments which will be redirected to scipy.integrate.solve_ivp
+    ivp_kw :
+        Keyword arguments which will be passed to scipy.integrate.solve_ivp
         in order to solve the initial value problem described above
 
     Returns
     -------
-    out : float
+    cost : float
         The total cost calculated as described above
     """
 
@@ -378,7 +374,6 @@ def cost_cruise(
     )
 
     # calculate absolute cost and return it if sufficient
-
     total_t = t_s.y[0][-1]  # last entry of IVP solution
     absolute_cost = cost_fun_abs(total_t, total_s)
 
@@ -386,7 +381,6 @@ def cost_cruise(
         return absolute_cost
 
     # calculate the integral described in the doc string
-
     pos_list = [
         proj_start + s / total_s * (proj_end - proj_start) for s in t_s.t
     ]
@@ -418,39 +412,37 @@ def isocrone(
     A weather forecast, organized by a WeatherModel and an InfluenceModel
     are included in the computation.
 
-    Parameter
+    Parameters
     ----------
-
-    pd: PolarDiagram
+    pd : PolarDiagram
         The polar diagram of the used vessel
 
-    start: 2-tuple of floats
+    start : 2-tuple of floats
         The lattitude and longitude of the starting point
 
-    start_time: datetime.datetime
+    start_time : datetime.datetime
         The time at which the traveling starts
 
-    direction: float
+    direction : float
         The angle between North and the direction in which we aim to travel.
 
-    wm: WeatherModel, optional
+    wm : WeatherModel, optional
         The weather model used.
 
-    total_time: float
+    total_time : float
         The time in hours that the vessel is supposed to travel
         in the given direction.
 
-    min_nodes: int, optional
+    min_nodes : int, optional
         The minimum amount of sample points to sample the position space.
         Defaults to 100.
 
-    im: InfluenceModel, optional
+    im : InfluenceModel, optional
         The influence model used.
         Defaults to ??.
 
     Returns
     -------
-
     end : 2-tuple of floats
         Lattitude and Longitude of the position that is reached when traveling
         total_time hours in the given direction
@@ -560,6 +552,15 @@ def _right_handing_course(a, b):
 
 def _wind_relative_to_north(wdir):
     return wdir
+
+    # gribdata:
+    # wdir = 180 / pi * np.arctan2(vgrd, ugrd) + 180
+
+    # twa + bd:
+    # wdir = (rwSK + twa) % 360 ?
+
+    # awa + bd:
+    # wdir =
 
 
 EARTH_FLATTENING = 1 / 298.257223563
