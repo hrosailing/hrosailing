@@ -1,3 +1,5 @@
+# pylint: disable=wrong-import-order, wrong-import-position
+
 from ._doc import doc
 from ._version import __version__
 from ._pdoc import pdoc
