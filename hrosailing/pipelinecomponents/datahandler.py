@@ -1,21 +1,22 @@
 """
+Contains the baseclass for DataHandlers used in the PolarPipeline class,
+that can also be used to create custom DataHandlers.
 
+Also contains various predefined and usable data handlers
 """
 
-# Author: Valentin Dannenberg
+# Author: Valentin Dannenberg & Robert Schueler
 
 # pylint: disable=import-outside-toplevel
+# pylint: disable=import-error
 
 from abc import ABC, abstractmethod
 from ast import literal_eval
 import csv
 from decimal import Decimal
-from typing import Union, Tuple
 
 import numpy as np
 import pynmea2 as pynmea
-
-from hrosailing.wind import _convert_wind
 
 
 class HandlerInitializationException(Exception):
@@ -70,9 +71,7 @@ class ArrayHandler(DataHandler):
     if pand:
         import pandas as pd
 
-    def handle(
-        self, data: Union[Tuple[np.ndarray, tuple], pd.DataFrame]
-    ) -> dict:
+    def handle(self, data) -> dict:
         """Extracts data from array-types of data
 
         Parameters
@@ -190,7 +189,7 @@ class NMEAFileHandler(DataHandler):
 
         self._nmea_filter = sentences
         self._attr_filter = attributes
-        self.mode = mode
+        self._mode = mode
 
     def handle(self, data) -> dict:
         """Reads a text file containing nmea-sentences and extracts
@@ -227,54 +226,29 @@ class NMEAFileHandler(DataHandler):
                     name = field[0]
                     len_ = len(data_dict[name])
                     if len_ == ndata:
-                        data_dict[name].append(
-                            literal_eval(val)
-                            if len(field) == 3
-                            and field[2] in {int, float, Decimal}
-                            else val
-                        )
                         ndata += 1
                     else:
-                        data_dict[name].extend(
-                            [None] * (ndata - len_ - 1)
-                            + [
-                                literal_eval(val)
-                                if len(field) == 3
-                                and field[2] in {int, float, Decimal}
-                                else val
-                            ]
-                        )
+                        data_dict[name].extend([None] * (ndata - len_ - 1))
 
-                for attr in self._attr_filter:
-                    len_ = len(data_dict[attr])
-                    data_dict[attr].extend([None] * (ndata - len_ - 1))
+                    data_dict[name].append(_eval(field, val))
 
-        # wa = data_dict.get("Wind Angle")
-        # ws = data_dict.get("Wind Speed")
-        # bsp = data_dict.get("Speed over ground knots") or data_dict.get("Speed over water knots")
-        # ref = data_dict.get("Reference")
-        #
-        # aw = [[s, a, b] for s, a, b, r in zip(ws, wa, bsp, ref) if all([s, a, b, r]) and r == "R"]
-        # if aw:
-        #     cw = _convert_wind(aw, -1, False, _check_finite=True)
-        #
-        # ws, wa = zip(*[w[:2] for w in cw if r else [None, None]])
-        #
-        # data_dict["Wind Speed"] = list(x)
-        # data_dict["Wind Angle"] = list(y)
+            for attr in self._attr_filter:
+                len_ = len(data_dict[attr])
+                data_dict[attr].extend([None] * (ndata - len_))
 
+        _handle_surplus_data(data_dict, self._mode)
         return data_dict
 
 
+def _eval(field, val):
+    if len(field) == 3 and field[2] in {int, float, Decimal}:
+        return literal_eval(val)
+
+    return val
+
+
 def _handle_surplus_data(data_dict, mode):
-    pass
-
-
-def _get_wind_data(wind_data, stc):
-    wind = pynmea.parse(stc)
-    wind_data.append(
-        [float(wind.wind_speed), float(wind.wind_angle), wind.reference]
-    )
+    """"""
 
 
 def _process_data(nmea_data, wind_data, stc, bsp, mode):
