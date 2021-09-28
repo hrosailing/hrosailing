@@ -1,8 +1,11 @@
 """
-Contains the baseclass for DataHandlers used in the PolarPipeline class,
-that can also be used to create custom DataHandlers.
+Classes used to
 
-Also contains various predefined and usable data handlers
+Defines the DataHandler Abstract Base Class that can be used to
+create custom
+
+Subclasses of DataHandler can be used with the PolarPipeline class
+in the hrosailing.pipeline module
 """
 
 # Author: Valentin Dannenberg & Robert Schueler
