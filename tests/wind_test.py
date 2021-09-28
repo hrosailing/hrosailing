@@ -7,8 +7,6 @@ import numpy as np
 from hrosailing.wind import (
     _set_resolution as set_resolution,
     _convert_wind as convert_wind,
-    apparent_wind_to_true,
-    true_wind_to_apparent,
     WindConversionException,
 )
 
