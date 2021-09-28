@@ -152,15 +152,16 @@ time needed to sail in each direction to get to B.</p>
 <dd>The polar diagram of the vessel</dd>
 <dt><strong><code>ws</code></strong> :&ensp;<code>int / float</code></dt>
 <dd>The current wind speed given in knots</dd>
-</dl>
-<p>wdir :
-The direction of the wind given as either</p>
-<pre><code>- the wind angle relative to north
-- the true wind angle and the boat direction relative to north
-- the apparent wind angle and the boat direction relative to north
-- a (ugrd, vgrd) tuple from grib data
-</code></pre>
-<dl>
+<dt><strong><code>wdir</code></strong> :&ensp;<code>FooBar</code></dt>
+<dd>
+<p>The direction of the wind given as either</p>
+<ul>
+<li>the wind angle relative to north</li>
+<li>the true wind angle and the boat direction relative to north</li>
+<li>the apparent wind angle and the boat direction relative to north</li>
+<li>a (ugrd, vgrd) tuple from grib data</li>
+</ul>
+</dd>
 <dt><strong><code>start</code></strong> :&ensp;<code>tuple</code> of <code>length 2</code></dt>
 <dd>Coordinates of the starting point of the cruising maneuver,
 given in longitude and latitude</dd>
