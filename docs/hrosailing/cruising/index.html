@@ -80,58 +80,60 @@ to <code>direction</code></dd>
 <span>def <span class="ident">cost_cruise</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, start, end, start_time: datetime.datetime, wm: <a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a>, cost_fun_dens=None, cost_fun_abs=&lt;function &lt;lambda&gt;&gt;, integration_method=&lt;function trapz&gt;, im: Union[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>, NoneType] = None, **ivp_kw)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Computes the total cost for traveling
-from a start position to an end position</p>
-<p>To be precise, it calculates
-for a given cost density function
-cost and absolute function abs_cost</p>
+<div class="desc"><p>Computes the total cost for traveling from a start position to an
+end position. To be precise, it calculates for a given cost density
+function cost and absolute function abs_cost</p>
 <p>int_0^l cost(s, t(s)) ds + abs_cost(t(l), l),</p>
-<p>where s is the distance travelled,
-l is the total distance from start to end
-and t(s) is the time travelled
-t(s) is the solution of the initial value problem
-t(0) = 0, dt/ds = 1/bsp(s,t).</p>
-<p>The costs also depend on the weather forecast data,
-organized by a WeatherModel
-Distances are computed using the mercator projection</p>
-<h2 id="parameter">Parameter</h2>
-<p>pd: PolarDiagram
-Polar diagram of the vessel</p>
-<p>start: tuple of two floats
-Coordinates of the starting point</p>
-<p>end: tuple of two floats
-Coordinates of the end point</p>
-<p>start_time: datetime.datetime
-The time at which the traveling starts</p>
-<p>wm: WeatherModel, optional
-The WeatherModel used</p>
-<p>cost_fun_dens: callable, optional
-Function giving a cost density for given time as datetime.datetime,
+<p>where s is the distance travelled, l is the total distance from
+start to end and t(s) is the time travelled.
+t(s) is the solution of the initial value problem</p>
+<p>t(0) = 0, dt/ds = 1/bsp(s,t).</p>
+<p>The costs also depend on the weather forecast data, organized
+by a WeatherModel, distances are computed using the mercator projection</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>pd</code></strong> :&ensp;<code>PolarDiagram</code></dt>
+<dd>Polar diagram of the vessel</dd>
+<dt><strong><code>start</code></strong> :&ensp;<code>tuple</code> of <code>two floats</code></dt>
+<dd>Coordinates of the starting point</dd>
+<dt><strong><code>end</code></strong> :&ensp;<code>tuple</code> of <code>two floats</code></dt>
+<dd>Coordinates of the end point</dd>
+<dt><strong><code>start_time</code></strong> :&ensp;<code>datetime.datetime</code></dt>
+<dd>The time at which the traveling starts</dd>
+<dt><strong><code>wm</code></strong> :&ensp;<code><a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a></code>, optional</dt>
+<dd>The WeatherModel used</dd>
+<dt><strong><code>cost_fun_dens</code></strong> :&ensp;<code>callable</code>, optional</dt>
+<dd>
+<p>Function giving a cost density for given time as datetime.datetime,
 lattitude as float, longitude as float and WeatherModel
-cost_fun_dens(t,lat,long,wm) corresponds to costs(s,t) above.</p>
-<pre><code>Defaults to None.
-</code></pre>
-<p>cost_fun_abs: callable, optional
-Corresponds to abs_costs above.</p>
-<pre><code>Defaults to lambda total_t, total_s: total_t
-</code></pre>
-<p>integration_method: callable, optional
-Function that takes two (n,) arrays y, x and computes
+cost_fun_dens(t,lat,long,wm) corresponds to costs(s,t) above</p>
+<p>Defaults to <code>None</code></p>
+</dd>
+<dt><strong><code>cost_fun_abs</code></strong> :&ensp;<code>callable</code>, optional</dt>
+<dd>
+<p>Corresponds to <code>abs_costs</code></p>
+<p>Defaults to <code>lambda total_t, total_s: total_t</code></p>
+</dd>
+<dt><strong><code>integration_method</code></strong> :&ensp;<code>callable</code>, optional</dt>
+<dd>
+<p>Function that takes two (n,) arrays y, x and computes
 an approximative integral from that.
-Is only used if cost_fun_dens is not None</p>
-<pre><code>Defaults to scipy.integrate.trapezoid
-</code></pre>
-<p>im: InfluenceModel, optional
-The influence model used to consider additional influences
-on the boat speed.</p>
-<pre><code>Defaults to None
-</code></pre>
-<p>ivp_kw:
-Keyword arguments which will be redirected to scipy.integrate.solve_ivp
+Is only used if <code>cost_fun_dens</code> is not None</p>
+<p>Defaults to <code>scipy.integrate.trapezoid</code></p>
+</dd>
+<dt><strong><code>im</code></strong> :&ensp;<code>InfluenceModel</code>, optional</dt>
+<dd>
+<p>The influence model used to consider additional influences
+on the boat speed</p>
+<p>Defaults to <code>None</code></p>
+</dd>
+</dl>
+<p>ivp_kw :
+Keyword arguments which will be passed to scipy.integrate.solve_ivp
 in order to solve the initial value problem described above</p>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><strong><code>out</code></strong> :&ensp;<code>float</code></dt>
+<dt><strong><code>cost</code></strong> :&ensp;<code>float</code></dt>
 <dd>The total cost calculated as described above</dd>
 </dl></div>
 </dd>
@@ -182,7 +184,7 @@ the used influence model</p>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><strong><code>out</code></strong> :&ensp;<code>list</code> of <code>tuples</code></dt>
+<dt><strong><code>directions</code></strong> :&ensp;<code>list</code> of <code>tuples</code></dt>
 <dd>Directions as well as the time needed to sail along those,
 to get from start to end</dd>
 </dl></div>
@@ -196,26 +198,28 @@ point in a given amount of time without tacks and jibes.
 This is done by sampling the position space and using mercator projection.
 A weather forecast, organized by a WeatherModel and an InfluenceModel
 are included in the computation.</p>
-<h2 id="parameter">Parameter</h2>
-<p>pd: PolarDiagram
-The polar diagram of the used vessel</p>
-<p>start: 2-tuple of floats
-The lattitude and longitude of the starting point</p>
-<p>start_time: datetime.datetime
-The time at which the traveling starts</p>
-<p>direction: float
-The angle between North and the direction in which we aim to travel.</p>
-<p>wm: WeatherModel, optional
-The weather model used.</p>
-<p>total_time: float
-The time in hours that the vessel is supposed to travel
-in the given direction.</p>
-<p>min_nodes: int, optional
-The minimum amount of sample points to sample the position space.
-Defaults to 100.</p>
-<p>im: InfluenceModel, optional
-The influence model used.
-Defaults to ??.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>pd</code></strong> :&ensp;<code>PolarDiagram</code></dt>
+<dd>The polar diagram of the used vessel</dd>
+<dt><strong><code>start</code></strong> :&ensp;<code>2-tuple</code> of <code>floats</code></dt>
+<dd>The lattitude and longitude of the starting point</dd>
+<dt><strong><code>start_time</code></strong> :&ensp;<code>datetime.datetime</code></dt>
+<dd>The time at which the traveling starts</dd>
+<dt><strong><code>direction</code></strong> :&ensp;<code>float</code></dt>
+<dd>The angle between North and the direction in which we aim to travel.</dd>
+<dt><strong><code>wm</code></strong> :&ensp;<code><a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a></code>, optional</dt>
+<dd>The weather model used.</dd>
+<dt><strong><code>total_time</code></strong> :&ensp;<code>float</code></dt>
+<dd>The time in hours that the vessel is supposed to travel
+in the given direction.</dd>
+<dt><strong><code>min_nodes</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>The minimum amount of sample points to sample the position space.
+Defaults to 100.</dd>
+<dt><strong><code>im</code></strong> :&ensp;<code>InfluenceModel</code>, optional</dt>
+<dd>The influence model used.
+Defaults to ??.</dd>
+</dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>end</code></strong> :&ensp;<code>2-tuple</code> of <code>floats</code></dt>
