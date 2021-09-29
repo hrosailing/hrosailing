@@ -193,7 +193,7 @@ initialization of a DataHandler</p></div>
 </dd>
 <dt id="hrosailing.pipelinecomponents.datahandler.NMEAFileHandler"><code class="flex name class">
 <span>class <span class="ident">NMEAFileHandler</span></span>
-<span>(</span><span>sentences, attributes, mode='interpolate')</span>
+<span>(</span><span>sentences, attributes)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>A data handler to extract data from a text file containing
@@ -204,19 +204,6 @@ certain nmea sentences and convert it to a dictionary</p>
 <dd>&nbsp;</dd>
 <dt><strong><code>attributes</code></strong> :&ensp;<code>Iterable</code> of <code>Strings,</code></dt>
 <dd>&nbsp;</dd>
-<dt><strong><code>mode</code></strong> :&ensp;<code>string</code>, optional</dt>
-<dd>
-<p>In the case where there is more recorded wind data than speed data,
-specifies how to handle the surplus</p>
-<ul>
-<li>"interpolate": handles the surplus by taking convex combinations
-of two recorded speed datas together with the recorded wind data
-"between" those two points to create multiple data points</li>
-<li>"mean": handles the surplus by taking the mean of the wind data
-"belonging" to a given speed data to create a singe data point</li>
-</ul>
-<p>Defaults to "interpolate"</p>
-</dd>
 </dl>
 <p>Raises a HandlerInitializationException if mode is not one of
 the above choices</p></div>

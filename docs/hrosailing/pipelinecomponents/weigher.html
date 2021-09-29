@@ -36,28 +36,13 @@ represent data points together with their respective weights</p>
 <section>
 </section>
 <section>
-<h2 class="section-title" id="header-functions">Functions</h2>
-<dl>
-<dt id="hrosailing.pipelinecomponents.weigher.euclidean_norm"><code class="name flex">
-<span>def <span class="ident">euclidean_norm</span></span>(<span>vec)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="hrosailing.pipelinecomponents.weigher.scaled"><code class="name flex">
-<span>def <span class="ident">scaled</span></span>(<span>norm, scal)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
 <dt id="hrosailing.pipelinecomponents.weigher.CylindricMeanWeigher"><code class="flex name class">
 <span>class <span class="ident">CylindricMeanWeigher</span></span>
-<span>(</span><span>radius=0.05, norm: Callable = &lt;function scaled.&lt;locals&gt;.scaled_norm&gt;)</span>
+<span>(</span><span>radius=0.05, norm: Callable = &lt;function _scaled_norm.&lt;locals&gt;.s_norm&gt;)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>A weigher that weighs given points according to the
@@ -108,7 +93,7 @@ w_p = | m_p - p[d-1] | / std_p</p>
 </dd>
 <dt id="hrosailing.pipelinecomponents.weigher.CylindricMemberWeigher"><code class="flex name class">
 <span>class <span class="ident">CylindricMemberWeigher</span></span>
-<span>(</span><span>radius=0.05, length=0.05, norm: Callable = &lt;function scaled.&lt;locals&gt;.scaled_norm&gt;)</span>
+<span>(</span><span>radius=0.05, length=0.05, norm: Callable = &lt;function _scaled_norm.&lt;locals&gt;.s_norm&gt;)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>A weigher that weighs given points according to the
@@ -328,12 +313,6 @@ setTimeout(() => input.focus(), 100);
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="hrosailing.pipelinecomponents" href="index.html">hrosailing.pipelinecomponents</a></code></li>
-</ul>
-</li>
-<li><h3><a href="#header-functions">Functions</a></h3>
-<ul class="">
-<li><code><a title="hrosailing.pipelinecomponents.weigher.euclidean_norm" href="#hrosailing.pipelinecomponents.weigher.euclidean_norm">euclidean_norm</a></code></li>
-<li><code><a title="hrosailing.pipelinecomponents.weigher.scaled" href="#hrosailing.pipelinecomponents.weigher.scaled">scaled</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>

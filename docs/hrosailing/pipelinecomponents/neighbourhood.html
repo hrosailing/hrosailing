@@ -37,28 +37,13 @@ the PointcloudExtension class in the hrosailing.pipeline module</p>
 <section>
 </section>
 <section>
-<h2 class="section-title" id="header-functions">Functions</h2>
-<dl>
-<dt id="hrosailing.pipelinecomponents.neighbourhood.euclidean_norm"><code class="name flex">
-<span>def <span class="ident">euclidean_norm</span></span>(<span>vec)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="hrosailing.pipelinecomponents.neighbourhood.scaled"><code class="name flex">
-<span>def <span class="ident">scaled</span></span>(<span>norm, scal)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
 <dt id="hrosailing.pipelinecomponents.neighbourhood.Ball"><code class="flex name class">
 <span>class <span class="ident">Ball</span></span>
-<span>(</span><span>norm: Callable = &lt;function scaled.&lt;locals&gt;.scaled_norm&gt;, radius=0.05)</span>
+<span>(</span><span>norm: Callable = &lt;function _scaled_norm.&lt;locals&gt;.s_norm&gt;, radius=0.05)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>A class to describe a closed 2-dimensional ball
@@ -106,7 +91,7 @@ is a member of the neighbourhood</dd>
 </dd>
 <dt id="hrosailing.pipelinecomponents.neighbourhood.Cuboid"><code class="flex name class">
 <span>class <span class="ident">Cuboid</span></span>
-<span>(</span><span>norm: Callable = &lt;function scaled.&lt;locals&gt;.scaled_norm&gt;, dimensions=(0.05, 0.05))</span>
+<span>(</span><span>norm: Callable = &lt;function _scaled_norm.&lt;locals&gt;.s_norm&gt;, dimensions=(0.05, 0.05))</span>
 </code></dt>
 <dd>
 <div class="desc"><p : R_2="R^2" _="&lt;" _x_i_="|x_i|" in x>A class to represent a d-dimensional closed cuboid, ie</p>
@@ -151,7 +136,7 @@ is a member of the neighbourhood</dd>
 </dd>
 <dt id="hrosailing.pipelinecomponents.neighbourhood.Ellipsoid"><code class="flex name class">
 <span>class <span class="ident">Ellipsoid</span></span>
-<span>(</span><span>lin_trans=None, norm: Callable = &lt;function scaled.&lt;locals&gt;.scaled_norm&gt;, radius=0.05)</span>
+<span>(</span><span>lin_trans=None, norm: Callable = &lt;function _scaled_norm.&lt;locals&gt;.s_norm&gt;, radius=0.05)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>A class to represent a closed d-dimensional ellipsoid
@@ -317,7 +302,7 @@ is a member of the neighbourhood</dd>
 </dd>
 <dt id="hrosailing.pipelinecomponents.neighbourhood.ScalingBall"><code class="flex name class">
 <span>class <span class="ident">ScalingBall</span></span>
-<span>(</span><span>min_pts, max_pts, norm: Callable = &lt;function scaled.&lt;locals&gt;.scaled_norm&gt;)</span>
+<span>(</span><span>min_pts, max_pts, norm: Callable = &lt;function _scaled_norm.&lt;locals&gt;.s_norm&gt;)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>A class to represent a closed 2-dimensional ball
@@ -442,12 +427,6 @@ setTimeout(() => input.focus(), 100);
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="hrosailing.pipelinecomponents" href="index.html">hrosailing.pipelinecomponents</a></code></li>
-</ul>
-</li>
-<li><h3><a href="#header-functions">Functions</a></h3>
-<ul class="">
-<li><code><a title="hrosailing.pipelinecomponents.neighbourhood.euclidean_norm" href="#hrosailing.pipelinecomponents.neighbourhood.euclidean_norm">euclidean_norm</a></code></li>
-<li><code><a title="hrosailing.pipelinecomponents.neighbourhood.scaled" href="#hrosailing.pipelinecomponents.neighbourhood.scaled">scaled</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>

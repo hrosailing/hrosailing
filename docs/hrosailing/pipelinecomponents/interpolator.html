@@ -42,20 +42,8 @@ class in the hrosailing.polardiagram module</li>
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="hrosailing.pipelinecomponents.interpolator.euclidean_norm"><code class="name flex">
-<span>def <span class="ident">euclidean_norm</span></span>(<span>vec)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
 <dt id="hrosailing.pipelinecomponents.interpolator.gauss_potential"><code class="name flex">
 <span>def <span class="ident">gauss_potential</span></span>(<span>distances, weights, *params)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="hrosailing.pipelinecomponents.interpolator.scaled"><code class="name flex">
-<span>def <span class="ident">scaled</span></span>(<span>norm, scal)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -67,7 +55,7 @@ class in the hrosailing.polardiagram module</li>
 <dl>
 <dt id="hrosailing.pipelinecomponents.interpolator.ArithmeticMeanInterpolator"><code class="flex name class">
 <span>class <span class="ident">ArithmeticMeanInterpolator</span></span>
-<span>(</span><span>*params, s=1, norm: Callable = &lt;function scaled.&lt;locals&gt;.scaled_norm&gt;, distribution: Callable = &lt;function gauss_potential&gt;)</span>
+<span>(</span><span>*params, s=1, norm: Callable = &lt;function _scaled_norm.&lt;locals&gt;.s_norm&gt;, distribution: Callable = &lt;function gauss_potential&gt;)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>An Interpolator that gets the interpolated value according
@@ -139,7 +127,7 @@ above described method</p>
 </dd>
 <dt id="hrosailing.pipelinecomponents.interpolator.IDWInterpolator"><code class="flex name class">
 <span>class <span class="ident">IDWInterpolator</span></span>
-<span>(</span><span>p=2, norm: Callable = &lt;function scaled.&lt;locals&gt;.scaled_norm&gt;)</span>
+<span>(</span><span>p=2, norm: Callable = &lt;function _scaled_norm.&lt;locals&gt;.s_norm&gt;)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Basic inverse distance interpolator, based on the work
@@ -193,7 +181,7 @@ above described method</p>
 </dd>
 <dt id="hrosailing.pipelinecomponents.interpolator.ImprovedIDWInterpolator"><code class="flex name class">
 <span>class <span class="ident">ImprovedIDWInterpolator</span></span>
-<span>(</span><span>norm: Callable = &lt;function scaled.&lt;locals&gt;.scaled_norm&gt;)</span>
+<span>(</span><span>norm: Callable = &lt;function _scaled_norm.&lt;locals&gt;.s_norm&gt;)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>An improved inverse distance interpolator, based
@@ -290,7 +278,7 @@ initialization of an Interpolator</p></div>
 </dd>
 <dt id="hrosailing.pipelinecomponents.interpolator.ShepardInterpolator"><code class="flex name class">
 <span>class <span class="ident">ShepardInterpolator</span></span>
-<span>(</span><span>neighbourhood: <a title="hrosailing.pipelinecomponents.neighbourhood.Neighbourhood" href="neighbourhood.html#hrosailing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a>, tol=2.220446049250313e-16, slope=0.1, norm: Callable = &lt;function scaled.&lt;locals&gt;.scaled_norm&gt;)</span>
+<span>(</span><span>neighbourhood: <a title="hrosailing.pipelinecomponents.neighbourhood.Neighbourhood" href="neighbourhood.html#hrosailing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a>, tol=2.220446049250313e-16, slope=0.1, norm: Callable = &lt;function _scaled_norm.&lt;locals&gt;.s_norm&gt;)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>A full featured inverse distance interpolator, based
@@ -409,9 +397,7 @@ setTimeout(() => input.focus(), 100);
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="hrosailing.pipelinecomponents.interpolator.euclidean_norm" href="#hrosailing.pipelinecomponents.interpolator.euclidean_norm">euclidean_norm</a></code></li>
 <li><code><a title="hrosailing.pipelinecomponents.interpolator.gauss_potential" href="#hrosailing.pipelinecomponents.interpolator.gauss_potential">gauss_potential</a></code></li>
-<li><code><a title="hrosailing.pipelinecomponents.interpolator.scaled" href="#hrosailing.pipelinecomponents.interpolator.scaled">scaled</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>

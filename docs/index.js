@@ -746,18 +746,6 @@ INDEX=[
 "doc":"Classes used for modular modeling of different interpolation methods Defines the Interpolator Abstract Base Class that can be used to create custom interpolation methods Subclasses of Interpolator can be used with - the TableExtension and PointcloudExtension class in the hrosailing.pipeline module - the __call__ method of the PolarDiagramTable and PolarDiagramPointcloud class in the hrosailing.polardiagram module"
 },
 {
-"ref":"hrosailing.pipelinecomponents.interpolator.scaled",
-"url":6,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.interpolator.euclidean_norm",
-"url":6,
-"doc":"",
-"func":1
-},
-{
 "ref":"hrosailing.pipelinecomponents.interpolator.InterpolatorInitializationException",
 "url":6,
 "doc":"Exception raised if an error occurs during initialization of an Interpolator"
@@ -911,18 +899,6 @@ INDEX=[
 "doc":"Contains the baseclass for Weighers used in the PolarPipeline class, that can also be used to create custom Weighers. Also contains two predefined and useable weighers, the CylindricMeanWeigher and the CylindricMemberWeigher, aswell as the WeightedPoints class, used to represent data points together with their respective weights"
 },
 {
-"ref":"hrosailing.pipelinecomponents.weigher.scaled",
-"url":9,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.weigher.euclidean_norm",
-"url":9,
-"doc":"",
-"func":1
-},
-{
 "ref":"hrosailing.pipelinecomponents.weigher.WeigherInitializationException",
 "url":9,
 "doc":"Exception raised if an error occurs during initialization of a Weigher"
@@ -984,18 +960,6 @@ INDEX=[
 "ref":"hrosailing.pipelinecomponents.neighbourhood",
 "url":10,
 "doc":"Classes used to model various geometric shapes centered around the origin Defines the Neighbourhood Abstract Base Class that can be used to create custom geometric shapes Subclasses of Neighbourhood can be used with the TableExtension and the PointcloudExtension class in the hrosailing.pipeline module"
-},
-{
-"ref":"hrosailing.pipelinecomponents.neighbourhood.scaled",
-"url":10,
-"doc":"",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.neighbourhood.euclidean_norm",
-"url":10,
-"doc":"",
-"func":1
 },
 {
 "ref":"hrosailing.pipelinecomponents.neighbourhood.NeighbourhoodInitializationException",
@@ -1139,7 +1103,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.datahandler.NMEAFileHandler",
 "url":11,
-"doc":"A data handler to extract data from a text file containing certain nmea sentences and convert it to a dictionary Parameters     - sentences : Iterable of Strings, attributes : Iterable of Strings, mode : string, optional In the case where there is more recorded wind data than speed data, specifies how to handle the surplus - \"interpolate\": handles the surplus by taking convex combinations of two recorded speed datas together with the recorded wind data \"between\" those two points to create multiple data points - \"mean\": handles the surplus by taking the mean of the wind data \"belonging\" to a given speed data to create a singe data point Defaults to \"interpolate\" Raises a HandlerInitializationException if mode is not one of the above choices"
+"doc":"A data handler to extract data from a text file containing certain nmea sentences and convert it to a dictionary Parameters     - sentences : Iterable of Strings, attributes : Iterable of Strings, Raises a HandlerInitializationException if mode is not one of the above choices"
 },
 {
 "ref":"hrosailing.pipelinecomponents.datahandler.NMEAFileHandler.handle",
@@ -1257,23 +1221,23 @@ INDEX=[
 {
 "ref":"hrosailing.cruising.cruise",
 "url":14,
-"doc":"Given a starting point A and and end point B,the function calculates the fastest time and sailing direction it takes for a sailing vessel to reach B from A, under constant wind. If needed the function will calculate two directions as well as the time needed to sail in each direction to get to B. Parameters      pd : PolarDiagram The polar diagram of the vessel ws : int / float The current wind speed given in knots wdir : FooBar The direction of the wind given as either - the wind angle relative to north - the true wind angle and the boat direction relative to north - the apparent wind angle and the boat direction relative to north - a (ugrd, vgrd) tuple from grib data start : tuple of length 2 Coordinates of the starting point of the cruising maneuver, given in longitude and latitude end : tuple of length 2 Coordinates of the end point of the cruising maneuver, given in longitude and latitude im : InfluenceModel, optional The influence model used to consider additional influences on the boat speed Defaults to  None influence_data: dict, optional Data containing information that might influence the boat speed of the vessel (eg. current, wave height), to be passed to the used influence model Only used, if  im is not  None Defaults to  None Returns    - directions : list of tuples Directions as well as the time needed to sail along those, to get from start to end",
+"doc":"Given a starting point A and and end point B,the function calculates the fastest time and sailing direction it takes for a sailing vessel to reach B from A, under constant wind. If needed the function will calculate two directions as well as the time needed to sail in each direction to get to B. Parameters      pd : PolarDiagram The polar diagram of the vessel ws : int / float The current wind speed given in knots wdir : FooBar The direction of the wind given as either - the wind angle relative to north - the true wind angle and the boat direction relative to north - a (ugrd, vgrd) tuple from grib data start : tuple of length 2 Coordinates of the starting point of the cruising maneuver, given in longitude and latitude end : tuple of length 2 Coordinates of the end point of the cruising maneuver, given in longitude and latitude im : InfluenceModel, optional The influence model used to consider additional influences on the boat speed Defaults to  None influence_data: dict, optional Data containing information that might influence the boat speed of the vessel (eg. current, wave height), to be passed to the used influence model Only used, if  im is not  None Defaults to  None Returns    - directions : list of tuples Directions as well as the time needed to sail along those, to get from start to end",
 "func":1
 },
 {
-"ref":"hrosailing.cruising.WeatherException",
+"ref":"hrosailing.cruising.OutsideGridException",
 "url":14,
-"doc":""
+"doc":"Exception raised if point accessed in weather model lies outside the available grid"
 },
 {
 "ref":"hrosailing.cruising.WeatherModel",
 "url":14,
-"doc":""
+"doc":"Models a weather model as a 3-dimensional space-time grid where each space-time point has certain values of a given list of attributes Parameters      data : array_like of shape (n, m, r, s) Weather data at different space-time grid points times : list of length n Sorted list of time values lats : list of length m Sorted list of lattitude values lons : list of length r Sorted list of longitude values attrs : list of length s List of different attributes of weather"
 },
 {
 "ref":"hrosailing.cruising.WeatherModel.get_weather",
 "url":14,
-"doc":"",
+"doc":"Given a space-time point, uses the available weather model to calculate the weather at that point Parameters      time : int or float The time component of the point lat : int or float The lattitude of the point lon : int or float The longitude of the point Returns    - weather : dict The weather data at the given point. If it is a grid point, the weather data is taken straight from the model, else it is interpolated as described above",
 "func":1
 },
 {

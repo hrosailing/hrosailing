@@ -96,6 +96,9 @@ class ArrayHandler(DataHandler):
         arr, keys = data
         arr = np.asarray(arr)
 
+        if len(keys) != arr.shape[1]:
+            raise HandleException("Too few keys for data")
+
         return {key: arr[:, i] for i, key in enumerate(keys)}
 
 
@@ -157,26 +160,11 @@ class NMEAFileHandler(DataHandler):
 
     attributes : Iterable of Strings,
 
-    mode : string, optional
-        In the case where there is more recorded wind data than speed data,
-        specifies how to handle the surplus
-
-        - "interpolate": handles the surplus by taking convex combinations
-        of two recorded speed datas together with the recorded wind data
-        "between" those two points to create multiple data points
-        - "mean": handles the surplus by taking the mean of the wind data
-        "belonging" to a given speed data to create a singe data point
-
-        Defaults to "interpolate"
-
     Raises a HandlerInitializationException if mode is not one of
     the above choices
     """
 
-    def __init__(self, sentences, attributes, mode="interpolate"):
-        if mode not in {"mean", "interpolate"}:
-            raise HandlerInitializationException("`mode` not implemented")
-
+    def __init__(self, sentences, attributes):
         sentences = list(sentences)
         attributes = list(attributes)
 
@@ -192,7 +180,6 @@ class NMEAFileHandler(DataHandler):
 
         self._nmea_filter = sentences
         self._attr_filter = attributes
-        self._mode = mode
 
     def handle(self, data) -> dict:
         """Reads a text file containing nmea-sentences and extracts
@@ -239,7 +226,7 @@ class NMEAFileHandler(DataHandler):
                 len_ = len(data_dict[attr])
                 data_dict[attr].extend([None] * (ndata - len_))
 
-        _handle_surplus_data(data_dict, self._mode)
+        _handle_surplus_data(data_dict)
         return data_dict
 
 
@@ -250,7 +237,7 @@ def _eval(field, val):
     return val
 
 
-def _handle_surplus_data(data_dict, mode):
+def _handle_surplus_data(data_dict):
     """"""
 
 
