@@ -230,12 +230,33 @@ def cruise(
     return [(d1.angle, t1), (d2.angle, t2)]
 
 
-class WeatherException(Exception):
-    """"""
+class OutsideGridException(Exception):
+    """Exception raised if point accessed in weather model lies
+    outside the available grid"""
 
 
 class WeatherModel:
-    """"""
+    """Models a weather model as a 3-dimensional space-time grid
+    where each space-time point has certain values of a given list
+    of attributes
+
+    Parameters
+    ----------
+    data : array_like of shape (n, m, r, s)
+        Weather data at different space-time grid points
+
+    times : list of length n
+        Sorted list of time values
+
+    lats : list of length m
+        Sorted list of lattitude values
+
+    lons : list of length r
+        Sorted list of longitude values
+
+    attrs : list of length s
+        List of different attributes of weather
+    """
 
     def __init__(self, data, times, lats, lons, attrs):
         self._times = times
@@ -245,7 +266,28 @@ class WeatherModel:
         self._data = data
 
     def get_weather(self, time, lat, lon):
-        """"""
+        """Given a space-time point, uses the available weather model
+        to calculate the weather at that point
+
+        Parameters
+        ----------
+        time : int or float
+            The time component of the point
+
+        lat : int or float
+            The lattitude of the point
+
+        lon : int or float
+            The longitude of the point
+
+        Returns
+        -------
+        weather : dict
+            The weather data at the given point.
+
+            If it is a grid point, the weather data is taken straight
+            from the model, else it is interpolated as described above
+        """
         time_idx = bisect_left(self._times, time)
         lat_idx = bisect_left(self._lats, lat)
         lon_idx = bisect_left(self._lons, lon)
@@ -257,7 +299,7 @@ class WeatherModel:
                 lon_idx == len(self._lons),
             ]
         ):
-            raise WeatherException(
+            raise OutsideGridException(
                 "As Prof. Oak said, there is a time and place for everything"
             )
 
@@ -350,7 +392,7 @@ def cost_cruise(
     cost : float
         The total cost calculated as described above
     """
-
+    # pylint: disable=too-many-locals
     # TODO: default value handling for wm and im
 
     lat_mp = (start[0] + end[0]) / 2
@@ -514,7 +556,7 @@ def _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im):
     try:
         data = wm.get_weather(time, lat, long)
         data["HDT"] = hdt
-    except:
+    except OutsideGridException:
         return 0
     bsp = im.add_influence(pd, data)
 
