@@ -18,6 +18,7 @@ import numpy as np
 
 from hrosailing.wind import _convert_wind
 import hrosailing._logfolder as log
+from ._utils import scaled_euclidean_norm
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)s: %(message)s",
@@ -30,19 +31,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 del log
-
-
-def scaled(norm, scal):
-    scal = np.array(list(scal))
-
-    def scaled_norm(vec):
-        return norm(scal * vec)
-
-    return scaled_norm
-
-
-def euclidean_norm(vec):
-    return np.linalg.norm(vec, axis=1)
 
 
 class WeigherInitializationException(Exception):
@@ -102,7 +90,7 @@ class CylindricMeanWeigher(Weigher):
     def __init__(
         self,
         radius=0.05,
-        norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360)),
+        norm: Callable = scaled_euclidean_norm,
     ):
         if radius <= 0:
             raise WeigherInitializationException("`radius` is not positive")
@@ -193,7 +181,7 @@ class CylindricMemberWeigher(Weigher):
         self,
         radius=0.05,
         length=0.05,
-        norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360)),
+        norm: Callable = scaled_euclidean_norm,
     ):
         if radius <= 0:
             raise WeigherInitializationException("`radius´ is not positive")

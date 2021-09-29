@@ -18,18 +18,7 @@ from typing import Callable
 import numpy as np
 from scipy.spatial import ConvexHull
 
-
-def scaled(norm, scal):
-    scal = np.array(list(scal))
-
-    def scaled_norm(vec):
-        return norm(scal * vec)
-
-    return scaled_norm
-
-
-def euclidean_norm(vec):
-    return np.linalg.norm(vec, axis=1)
+from ._utils import scaled_euclidean_norm
 
 
 class NeighbourhoodInitializationException(Exception):
@@ -79,7 +68,7 @@ class Ball(Neighbourhood):
 
     def __init__(
         self,
-        norm: Callable = scaled(euclidean_norm, [1 / 40, 1 / 360]),
+        norm: Callable = scaled_euclidean_norm,
         radius=0.05,
     ):
         if radius <= 0:
@@ -152,7 +141,7 @@ class ScalingBall(Neighbourhood):
         self,
         min_pts,
         max_pts,
-        norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360)),
+        norm: Callable = scaled_euclidean_norm,
     ):
 
         if min_pts <= 0:
@@ -258,7 +247,7 @@ class Ellipsoid(Neighbourhood):
     def __init__(
         self,
         lin_trans=None,
-        norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360)),
+        norm: Callable = scaled_euclidean_norm,
         radius=0.05,
     ):
         if lin_trans is None:
@@ -336,7 +325,7 @@ class Cuboid(Neighbourhood):
 
     def __init__(
         self,
-        norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360)),
+        norm: Callable = scaled_euclidean_norm,
         dimensions=(0.05, 0.05),
     ):
         self._norm = norm

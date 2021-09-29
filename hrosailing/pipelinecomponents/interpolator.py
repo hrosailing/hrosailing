@@ -21,19 +21,7 @@ from typing import Callable
 import numpy as np
 
 from .neighbourhood import Neighbourhood
-
-
-def scaled(norm, scal):
-    scal = np.array(list(scal))
-
-    def scaled_norm(vec):
-        return norm(scal * vec)
-
-    return scaled_norm
-
-
-def euclidean_norm(vec):
-    return np.linalg.norm(vec, axis=1)
+from ._utils import scaled_euclidean_norm
 
 
 class InterpolatorInitializationException(Exception):
@@ -88,7 +76,7 @@ class IDWInterpolator(Interpolator):
     """
 
     def __init__(
-        self, p=2, norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360))
+        self, p=2, norm: Callable = scaled_euclidean_norm
     ):
         if p < 0:
             raise InterpolatorInitializationException("`p` is negative")
@@ -185,7 +173,7 @@ class ArithmeticMeanInterpolator(Interpolator):
         self,
         *params,
         s=1,
-        norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360)),
+        norm: Callable = scaled_euclidean_norm,
         distribution: Callable = gauss_potential,
     ):
         if s <= 0:
@@ -257,7 +245,7 @@ class ImprovedIDWInterpolator(Interpolator):
     """
 
     def __init__(
-        self, norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360))
+        self, norm: Callable = scaled_euclidean_norm
     ):
         self._norm = norm
 
@@ -326,7 +314,7 @@ class ShepardInterpolator(Interpolator):
         neighbourhood: Neighbourhood,
         tol=np.finfo(float).eps,
         slope=0.1,
-        norm: Callable = scaled(euclidean_norm, (1 / 40, 1 / 360)),
+        norm: Callable = scaled_euclidean_norm,
     ):
         if tol <= 0:
             raise InterpolatorInitializationException("`tol` is not positive")

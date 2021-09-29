@@ -169,7 +169,6 @@ def cruise(
 
         - the wind angle relative to north
         - the true wind angle and the boat direction relative to north
-        - the apparent wind angle and the boat direction relative to north
         - a (ugrd, vgrd) tuple from grib data
 
     start : tuple of length 2
@@ -558,9 +557,6 @@ def _wind_relative_to_north(wdir):
 
     # twa + bd:
     # wdir = (rwSK + twa) % 360 ?
-
-    # awa + bd:
-    # wdir =
 
 
 EARTH_FLATTENING = 1 / 298.257223563
