@@ -235,7 +235,7 @@ def _handle_surplus_data(data_dict):
         # every entry before the first non-None entry gets the value of
         # the first non-None entry
         first = data_dict[key][idx[0]]
-        data_dict[key][0:idx[0]] = [first] * idx[0]
+        data_dict[key][0 : idx[0]] = [first] * idx[0]
 
         # affine interpolation of entries between non-None entries
         for idx1, idx2 in zip(idx, idx[1:]):
@@ -251,4 +251,4 @@ def _handle_surplus_data(data_dict):
         # every entry after the last non-None entry gets the vlaue of
         # the last non-None entry
         last = data_dict[key][idx[-1]]
-        data_dict[key][idx[-1]:] = [last] * (len(data_dict[key]) - idx[-1])
+        data_dict[key][idx[-1] :] = [last] * (len(data_dict[key]) - idx[-1])
