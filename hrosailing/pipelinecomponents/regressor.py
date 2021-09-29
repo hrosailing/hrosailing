@@ -288,7 +288,6 @@ class LeastSquareRegressor(Regressor):
         logger.info(f"chi^2_red: {chi_squared / dof}")
 
 
-# TODO better approach
 def _determine_params(func):
     params = []
     while True:
