@@ -75,9 +75,7 @@ class IDWInterpolator(Interpolator):
     Raises an InterpolatorInitializationException if p is negative
     """
 
-    def __init__(
-        self, p=2, norm: Callable = scaled_euclidean_norm
-    ):
+    def __init__(self, p=2, norm: Callable = scaled_euclidean_norm):
         if p < 0:
             raise InterpolatorInitializationException("`p` is negative")
 
@@ -244,9 +242,7 @@ class ImprovedIDWInterpolator(Interpolator):
         version of ||.||_2
     """
 
-    def __init__(
-        self, norm: Callable = scaled_euclidean_norm
-    ):
+    def __init__(self, norm: Callable = scaled_euclidean_norm):
         self._norm = norm
 
     def interpolate(self, w_pts, grid_pt):
