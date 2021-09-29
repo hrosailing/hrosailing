@@ -156,28 +156,13 @@ class NMEAFileHandler(DataHandler):
 
     Parameters
     ---------
-    sentences : Iterable of Strings,
+    sentences : Iterable of str,
 
-    attributes : Iterable of Strings,
+    attributes : Iterable of str,
 
-    Raises a HandlerInitializationException if mode is not one of
-    the above choices
     """
 
     def __init__(self, sentences, attributes):
-        sentences = list(sentences)
-        attributes = list(attributes)
-
-        if "MWV" not in sentences:
-            sentences.append("MWV")
-
-        if "Wind speed" not in attributes:
-            attributes.append("Wind speed")
-        elif "Wind angle" not in attributes:
-            attributes.append("Wind angle")
-        elif "Reference" not in attributes:
-            attributes.append("Reference")
-
         self._nmea_filter = sentences
         self._attr_filter = attributes
 
@@ -193,6 +178,7 @@ class NMEAFileHandler(DataHandler):
         Returns
         -------
         data_dict : dict
+            Dictionary where the keys are the given attributes
         """
         data_dict = {attr: [] for attr in self._attr_filter}
         ndata = 0
@@ -222,10 +208,12 @@ class NMEAFileHandler(DataHandler):
 
                     data_dict[name].append(_eval(field, val))
 
+            # fill last entries
             for attr in self._attr_filter:
                 len_ = len(data_dict[attr])
                 data_dict[attr].extend([None] * (ndata - len_))
 
+        # componentwise completion of data entries
         _handle_surplus_data(data_dict)
         return data_dict
 
@@ -238,20 +226,29 @@ def _eval(field, val):
 
 
 def _handle_surplus_data(data_dict):
-    """"""
+    idx_dict = {
+        key: [i for i, data in enumerate(data_dict[key]) if data is not None]
+        for key in data_dict
+    }
 
+    for key, idx in idx_dict.items():
+        # every entry before the first non-None entry gets the value of
+        # the first non-None entry
+        first = data_dict[key][idx[0]]
+        data_dict[key][0:idx[0]] = [first] * idx[0]
 
-def _process_data(nmea_data, wind_data, stc, bsp, mode):
-    if mode == "mean":
-        wind = np.array([w[:2] for w in wind_data])
-        wind = np.mean(wind, axis=0)
-        nmea_data.append([wind[0], wind[1], bsp, wind_data[0][2]])
-    elif mode == "interpolate":
-        bsp2 = float(pynmea.parse(stc).data[4])
+        # affine interpolation of entries between non-None entries
+        for idx1, idx2 in zip(idx, idx[1:]):
+            lambda_ = idx2 - idx1
+            left = data_dict[key][idx1]
+            right = data_dict[key][idx2]
+            k = 1
+            for i in range(idx1 + 1, idx2):
+                mu = k / lambda_
+                data_dict[key][i] = mu * left + (1 - mu) * right
+                k += 1
 
-        inter = len(wind_data)
-        for i in range(inter):
-            inter_bsp = ((inter - i) / inter) * bsp + (i / inter) * bsp2
-            nmea_data.append(
-                [wind_data[i][0], wind_data[i][1], inter_bsp, wind_data[i][2]]
-            )
+        # every entry after the last non-None entry gets the vlaue of
+        # the last non-None entry
+        last = data_dict[key][idx[-1]]
+        data_dict[key][idx[-1]:] = [last] * (len(data_dict[key]) - idx[-1])
