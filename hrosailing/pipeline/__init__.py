@@ -6,19 +6,18 @@ Pipeline to create PPDs from raw data
 
 
 import logging.handlers
+import warnings
 from abc import ABC, abstractmethod
 from typing import Optional
-import warnings
 
 import numpy as np
 
-import hrosailing.polardiagram as pol
-from hrosailing.pipelinecomponents.modelfunctions import (
-    ws_s_wa_gauss_and_square,
-)
-import hrosailing.pipelinecomponents as pc
-from hrosailing.wind import _set_resolution
 import hrosailing._logfolder as log
+import hrosailing.pipelinecomponents as pc
+import hrosailing.polardiagram as pol
+from hrosailing.pipelinecomponents.modelfunctions import \
+    ws_s_wa_gauss_and_square
+from hrosailing.wind import _set_resolution
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)s: %(message)s",

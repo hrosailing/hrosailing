@@ -11,9 +11,9 @@ in the hrosailing.pipeline module
 # Author: Valentin Dannenberg & Robert Schüler
 
 
-from abc import ABC, abstractmethod
 import math
 import random
+from abc import ABC, abstractmethod
 
 import numpy as np
 from scipy.spatial import ConvexHull

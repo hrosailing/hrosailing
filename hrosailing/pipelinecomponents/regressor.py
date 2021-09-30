@@ -11,13 +11,13 @@ in the hrosailing.pipeline module
 # Author: Valentin Dannenberg
 
 
-from abc import ABC, abstractmethod
 import inspect
 import logging.handlers
+from abc import ABC, abstractmethod
 from typing import Callable
 
 import numpy as np
-from scipy.odr.odrpack import Data, Model, ODR
+from scipy.odr.odrpack import ODR, Data, Model
 from scipy.optimize import curve_fit
 
 import hrosailing._logfolder as log

@@ -13,9 +13,9 @@ in the hrosailing.pipeline module
 # pylint: disable=import-outside-toplevel
 # pylint: disable=import-error
 
+import csv
 from abc import ABC, abstractmethod
 from ast import literal_eval
-import csv
 from decimal import Decimal
 
 import numpy as np
