@@ -183,6 +183,11 @@ def _read_array_csv(file):
 def pickling(pkl_path, obj):
     """See pickling()-method of PolarDiagram
 
+    Since the pickle module can't guarantee security, but
+    we have found no other way to serialize toplevel functions
+    in python, we have decided to omit a depickling function
+    and leave that up to the user.
+
     Parameters
     ----------
     pkl_path : path-like
@@ -192,24 +197,6 @@ def pickling(pkl_path, obj):
         PolarDiagram instance which will be written to .csv file
     """
     obj.pickling(pkl_path)
-
-
-def depickling(pkl_path):
-    """Reads a .pkl file and returns the PolarDiagram
-    instance contained in it.
-
-    Parameters
-    ----------
-    pkl_path : path-like
-        Path to a .pkl file
-
-    Returns
-    -------
-    out : PolarDiagram
-        PolarDiagram instance contained in the .pkl file
-    """
-    with open(pkl_path, "rb") as file:
-        return pickle.load(file)
 
 
 def symmetrize(obj):
@@ -280,6 +267,11 @@ class PolarDiagram(ABC):
 
     def pickling(self, pkl_path):
         """Writes PolarDiagram instance to a .pkl file
+
+        Since the pickle module can't guarantee security, but
+        we have found no other way to serialize toplevel functions
+        in python, we have decided to omit a depickling function
+        and leave that up to the user.
 
         Parameters
         ----------
