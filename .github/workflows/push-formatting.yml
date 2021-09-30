@@ -30,6 +30,7 @@ jobs:
         if: always()
         run: pip install isort
       - name: run isort --check .
+        if: always()
         run: isort --check .
       - name: commit changes to push, if needed
         if: failure()
