@@ -1,8 +1,8 @@
 # pylint: disable=wrong-import-order, wrong-import-position
 
 from ._doc import doc
-from ._version import __version__
 from ._pdoc import pdoc
+from ._version import __version__
 
 __doc__ = doc
 version = __version__
@@ -39,7 +39,7 @@ del hard_dependencies, depencency, missing_dependencies
 
 
 import hrosailing.cruising
-import hrosailing.pipelinecomponents
 import hrosailing.pipeline
+import hrosailing.pipelinecomponents
 import hrosailing.polardiagram
 import hrosailing.wind

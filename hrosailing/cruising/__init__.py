@@ -4,8 +4,8 @@ Functions for navigation and weather routing using PPDs
 
 # Author: Valentin Dannenberg & Robert Schueler
 
-from bisect import bisect_left
 import dataclasses
+from bisect import bisect_left
 from datetime import datetime, timedelta
 from typing import List, Optional
 

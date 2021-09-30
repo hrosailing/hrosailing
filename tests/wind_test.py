@@ -4,11 +4,9 @@ from unittest import TestCase
 
 import numpy as np
 
-from hrosailing.wind import (
-    _set_resolution as set_resolution,
-    _convert_wind as convert_wind,
-    WindConversionException,
-)
+from hrosailing.wind import WindConversionException
+from hrosailing.wind import _convert_wind as convert_wind
+from hrosailing.wind import _set_resolution as set_resolution
 
 
 class ResolutionTest(TestCase):

@@ -6,18 +6,19 @@ PolarDiagram classes to work with and represent PPDs in various forms
 # Author: Valentin Dannenberg
 
 
-from abc import ABC, abstractmethod
-from ast import literal_eval
 import csv
 import itertools
 import logging.handlers
 import pickle
-from typing import List
 import warnings
+from abc import ABC, abstractmethod
+from ast import literal_eval
+from typing import List
 
-from hrosailing.pipelinecomponents import Interpolator, IDWInterpolator
-from hrosailing.wind import _convert_wind, _set_resolution
 import hrosailing._logfolder as log
+from hrosailing.pipelinecomponents import IDWInterpolator, Interpolator
+from hrosailing.wind import _convert_wind, _set_resolution
+
 from ._plotting import *
 
 logging.basicConfig(

@@ -1,9 +1,8 @@
 # pylint: disable=missing-docstring
 # pylint: disable=global-statement,global-variable-not-assigned
 
-from pathlib import Path
 import sys
-
+from pathlib import Path
 
 log_folder = ""
 

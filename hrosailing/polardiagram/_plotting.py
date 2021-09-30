@@ -1,15 +1,11 @@
 # pylint: disable=missing-docstring
 # Author: Valentin Dannenberg
 
-import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.colors import (
-    to_rgb,
-    is_color_like,
-    Normalize,
-    LinearSegmentedColormap,
-)
+import numpy as np
 from matplotlib.cm import ScalarMappable
+from matplotlib.colors import (LinearSegmentedColormap, Normalize,
+                               is_color_like, to_rgb)
 from matplotlib.lines import Line2D
 from scipy.spatial import ConvexHull
 
