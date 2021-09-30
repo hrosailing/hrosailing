@@ -242,13 +242,18 @@ def _handle_surplus_data(data_dict):
             lambda_ = idx2 - idx1
             left = data_dict[key][idx1]
             right = data_dict[key][idx2]
+
+            if isinstance(left, str):
+                data_dict[key][idx1 + 1: idx2] = left
+                continue
+
             k = 1
             for i in range(idx1 + 1, idx2):
                 mu = k / lambda_
                 data_dict[key][i] = mu * left + (1 - mu) * right
                 k += 1
 
-        # every entry after the last non-None entry gets the vlaue of
+        # every entry after the last non-None entry gets the value of
         # the last non-None entry
         last = data_dict[key][idx[-1]]
         data_dict[key][idx[-1] :] = [last] * (len(data_dict[key]) - idx[-1])
