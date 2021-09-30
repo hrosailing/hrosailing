@@ -26,8 +26,10 @@ jobs:
           git commit -am "fixup: format code with black"
           
       - name: install isort
+        if: always()
         run: pip install isort
       - name: run isort --check .
+        if: always()
         run: isort --check .
       - name: commit changes to pull request, if needed
         if: failure()
