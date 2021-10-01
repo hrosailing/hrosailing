@@ -646,9 +646,7 @@ class PolarDiagramTable(PolarDiagram):
             Boat speed value as determined above
         """
         try:
-            _, _, bsp = self.get_slices(ws)
-            row = self._get_indices(np.atleast_1d(wa), "a")
-            return bsp[row]
+            return self[ws, wa]
         except PolarDiagramException:
             pt = np.array([ws, wa])
 
@@ -662,17 +660,20 @@ class PolarDiagramTable(PolarDiagram):
 
             return interpolator.interpolate(w_pts[mask], pt)
 
-    def __getitem__(self, key):
-        """
+    def __getitem__(self, *key):
+        """Returns the value of a given entry in the table
 
         Parameters
         ----------
-        key :
-
+        key : Sequence of length 2
+            The index of the column and row of the table
+            given as the corresponding wind speed and wind angle
+            values
 
         Returns
         -------
-        bsp :
+        bsp : int or float
+            The boat speed value at the corresponding entry of the table
         """
         ws, wa = key
         col = self._get_indices(np.atleast_1d(ws), "s")
