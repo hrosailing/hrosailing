@@ -321,7 +321,9 @@ class WeatherModel:
         )
         idxs = np.vstack(tuple(map(np.ravel, cuboid))).T
 
-        val = _interpolate_weather_data(self._data, idxs, point, flags)
+        grid = list(zip(self._times, self._lats, self._lons))
+
+        val = _interpolate_weather_data(self._data, idxs, point, flags, grid)
         return dict(zip(self._attrs, val))
 
 
@@ -575,18 +577,25 @@ def _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im):
     return 0
 
 
-def _interpolate_weather_data(data, idxs, point, flags):
+def _interpolate_weather_data(data, idxs, point, flags, grid):
     # point is a grid point
     if len(idxs) == 1:
         i, j, k = idxs.T
         return data[i, j, k, :]
 
+    start = idxs[0]
+    end = idxs[-1]
+
     # point lies on an edge
     if len(idxs) == 2:
         edge = flags.index(False)
+
+        start = start[edge]
+        end = end[edge]
+
         interim = [data[i, j, k, :] for i, j, k in idxs]
-        lambda_ = (point[edge] - idxs[1][edge]) / (
-            idxs[0][edge] - idxs[1][edge]
+        lambda_ = (point[edge] - grid[end][edge]) / (
+            grid[start][edge] - grid[end][edge]
         )
         return lambda_ * interim[0] + (1 - lambda_) * interim[1]
 
@@ -600,12 +609,10 @@ def _interpolate_weather_data(data, idxs, point, flags):
     ]
     idxs = list(flatten(idxs))
 
-    start = idxs[0]
-    end = idxs[-1]
     interim = [data[i, j, k, :] for i, j, k in idxs]
 
     for i in face:
-        lambda_ = (point[i] - end[i]) / (start[i] - end[i])
+        lambda_ = (point[i] - grid[end[i]][i]) / (grid[start[i]][i] - grid[end[i]][i])
         it = iter(interim)
         interim = [
             lambda_ * left + (1 - lambda_) * right
