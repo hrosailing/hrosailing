@@ -16,7 +16,13 @@ from ast import literal_eval
 from typing import List
 
 import hrosailing._logfolder as log
-from hrosailing.pipelinecomponents import IDWInterpolator, Interpolator
+from hrosailing.pipelinecomponents import (
+    WeightedPoints,
+    ArithmeticMeanInterpolator,
+    Interpolator,
+    Neighbourhood,
+    Ball,
+)
 from hrosailing.wind import _convert_wind, _set_resolution
 
 from ._plotting import *
@@ -603,22 +609,58 @@ class PolarDiagramTable(PolarDiagram):
             f"wa_res={self.wind_angles}, bsps={self.boat_speeds})"
         )
 
-    def __call__(self, ws, wa, interpolator: Interpolator = IDWInterpolator()):
-        """
+    def __call__(
+        self,
+        ws,
+        wa,
+        interpolator: Interpolator = ArithmeticMeanInterpolator(50),
+        neighbourhood: Neighbourhood = Ball(radius=1),
+    ):
+        """Returns the value of the polar diagram at a given ws-wa point
+
+        If the ws-wa point is in the table, the corresponding entry is
+        returned, otherwise the value is interpolated.
 
         Parameters
         ----------
-        ws : int/float or array_like of shape (n, )
+        ws : int or float
+            Wind speed value of the ws-wa point
 
-        wa : int/float or array_like of shape (m, )
+        wa : int or float
+            Wind angle value of the ws-wa point
 
         interpolator : Interpolator, optional
+            Interpolator subclass that determines the interpolation
+            method used to determine the value at the ws-wa point
 
+            Defaults to ArithmeticMeanInterpolator(50)
 
+        neighbourhood : Neighbourhood, optional
+            Neighbourhood subclass used to determine the grid points
+            in the table that will be used in the interpolation
+
+            Defaults to Ball(radius=1)
         Returns
         -------
-        bsp : int/float or array_like of shape (m, n)
+        bsp : int or float
+            Boat speed value as determined above
         """
+        try:
+            _, _, bsp = self.get_slices(ws)
+            row = self._get_indices(np.atleast_1d(wa), "a")
+            return bsp[row]
+        except PolarDiagramException:
+            pt = np.array([ws, wa])
+
+            ws_res, wa_res = np.meshgrid(self.wind_speed, self.wind_angles)
+            pts = np.column_stack(
+                (ws_res.ravel(), wa_res.ravel(), self.boat_speeds.ravel())
+            )
+            w_pts = WeightedPoints(pts, wts=1, tw=True)
+
+            mask = neighbourhood.is_contained_in(w_pts.points[:, :2] - pt)
+
+            return interpolator.interpolate(w_pts[mask], pt)
 
     def __getitem__(self, key):
         """
