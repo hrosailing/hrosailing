@@ -595,7 +595,9 @@ def _interpolate_weather_data(data, idxs, point, flags):
 
     face = [i for i, flag in enumerate(flags) if flag]
     flatten = itertools.chain.from_iterable
-    idxs = [(idxs[i], idxs[i + 2]) for i in range(0, pow(2, len(face) - 1), 2)]
+    idxs = [
+        (idxs[i], idxs[i + 2]) for i in range(0, int(pow(2, len(face) - 1)), 2)
+    ]
     idxs = list(flatten(idxs))
 
     start = idxs[0]
