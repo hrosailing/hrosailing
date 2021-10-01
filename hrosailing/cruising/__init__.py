@@ -612,7 +612,9 @@ def _interpolate_weather_data(data, idxs, point, flags, grid):
     interim = [data[i, j, k, :] for i, j, k in idxs]
 
     for i in face:
-        lambda_ = (point[i] - grid[end[i]][i]) / (grid[start[i]][i] - grid[end[i]][i])
+        lambda_ = (point[i] - grid[end[i]][i]) / (
+            grid[start[i]][i] - grid[end[i]][i]
+        )
         it = iter(interim)
         interim = [
             lambda_ * left + (1 - lambda_) * right
