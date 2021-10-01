@@ -6,7 +6,7 @@ classes among other things.
 from .datahandler import (ArrayHandler, CsvFileHandler, DataHandler,
                           NMEAFileHandler)
 from .filter import BoundFilter, Filter, QuantileFilter
-from .influencemodel import InfluenceModel, LinearCurrentModel
+from .influencemodel import InfluenceModel
 from .interpolator import (ArithmeticMeanInterpolator, IDWInterpolator,
                            ImprovedIDWInterpolator, Interpolator)
 from .neighbourhood import (Ball, Cuboid, Ellipsoid, Neighbourhood, Polytope,
