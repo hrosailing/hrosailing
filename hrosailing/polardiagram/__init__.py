@@ -619,7 +619,7 @@ class PolarDiagramTable(PolarDiagram):
         """Returns the value of the polar diagram at a given ws-wa point
 
         If the ws-wa point is in the table, the corresponding entry is
-        returned, otherwise the value is interpolated.
+        returned, otherwise the value is interpolated
 
         Parameters
         ----------
@@ -656,7 +656,7 @@ class PolarDiagramTable(PolarDiagram):
             )
             w_pts = WeightedPoints(pts, wts=1, tw=True)
 
-            mask = neighbourhood.is_contained_in(w_pts.points[:, :2] - pt)
+            mask = neighbourhood.is_contained_in(pts[:, :2] - pt)
 
             return interpolator.interpolate(w_pts[mask], pt)
 
@@ -2640,23 +2640,46 @@ class PolarDiagramPointcloud(PolarDiagram):
     def __repr__(self):
         return f"PolarDiagramPointcloud(pts={self.points})"
 
-    def __call__(self, ws, wa, interpolator=None):
-        """
+    def __call__(self, ws, wa, interpolator: Interpolator = ArithmeticMeanInterpolator(50), neighbourhood: Neighbourhood = Ball(radius=1)):
+        """Returns the value of the polar diagram at a given ws-wa point
+
+        If the ws-wa point is in the cloud, the corresponding boat speed is
+        returned, otherwise the value is interpolated
 
         Parameters
         ----------
+        ws : int or float
+            The wind speed value of the ws-wa point
 
-        ws : int/float
-
-        wa : int/float
+        wa : int or float
+            The wind angle value of the ws-wa point
 
         interpolator : Interpolator, optional
+            Interpolator subclass that determines the interpolation
+            method used to determine the value at the ws-wa point
 
+            Defaults to ArithmeticMeanInterpolator(50)
+
+        neighbourhood : Neighbourhood, optional
+            Neighbourhood subclass used to determine the points in
+            the point cloud that will be used in the interpolation
+
+            Defaults to Ball(radius=1)
 
         Returns
         -------
-        bsp : int/float
+        bsp : int or float
         """
+        cloud = self.points
+        pt = cloud[np.logical_and(cloud[:, 0] == ws, cloud[:, 1] == wa)]
+        if pt.size:
+            return pt[2]
+
+        pt = np.array([ws, wa])
+        w_pts = WeightedPoints(cloud, wts=1, tw=True, _checks=False)
+        mask = neighbourhood.is_contained_in(cloud[:, :2] - pt)
+
+        return interpolator.interpolate(w_pts[mask], pt)
 
     @property
     def wind_speeds(self):
