@@ -593,7 +593,7 @@ def _interpolate_weather_data(data, idxs, point, flags):
     if flags[0] and flags[1] and not flags[2]:
         idxs[[1, 2]] = idxs[[2, 1]]
 
-    face = [i for i, flag in enumerate(flags) if flag]
+    face = [i for i, flag in enumerate(flags) if not flag]
     flatten = itertools.chain.from_iterable
     idxs = [
         (idxs[i], idxs[i + 2]) for i in range(0, int(pow(2, len(face) - 1)), 2)
