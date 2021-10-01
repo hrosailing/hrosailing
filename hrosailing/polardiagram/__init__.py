@@ -16,13 +16,9 @@ from ast import literal_eval
 from typing import List
 
 import hrosailing._logfolder as log
-from hrosailing.pipelinecomponents import (
-    WeightedPoints,
-    ArithmeticMeanInterpolator,
-    Interpolator,
-    Neighbourhood,
-    Ball,
-)
+from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
+                                           Interpolator, Neighbourhood,
+                                           WeightedPoints)
 from hrosailing.wind import _convert_wind, _set_resolution
 
 from ._plotting import *
@@ -2640,7 +2636,13 @@ class PolarDiagramPointcloud(PolarDiagram):
     def __repr__(self):
         return f"PolarDiagramPointcloud(pts={self.points})"
 
-    def __call__(self, ws, wa, interpolator: Interpolator = ArithmeticMeanInterpolator(50), neighbourhood: Neighbourhood = Ball(radius=1)):
+    def __call__(
+        self,
+        ws,
+        wa,
+        interpolator: Interpolator = ArithmeticMeanInterpolator(50),
+        neighbourhood: Neighbourhood = Ball(radius=1),
+    ):
         """Returns the value of the polar diagram at a given ws-wa point
 
         If the ws-wa point is in the cloud, the corresponding boat speed is
