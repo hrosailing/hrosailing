@@ -657,9 +657,9 @@ class PolarDiagramTable(PolarDiagram):
         following format:
 
             PolarDiagramTable
-            Wind speed resolution:
+            TWS:
             self.wind_speeds
-            Wind angle resolution:
+            TWA:
             self.wind_angles
             Boat speeds:
             self.boat_speeds
@@ -1475,7 +1475,7 @@ class PolarDiagramMultiSails(PolarDiagram):
 
     @property
     def sails(self):
-        return self.sails.copy()
+        return self._sails
 
     @property
     def wind_speeds(self):
@@ -1483,7 +1483,7 @@ class PolarDiagramMultiSails(PolarDiagram):
 
     @property
     def tables(self):
-        return self._tables.copy()
+        return self._tables
 
     def __getitem__(self, item) -> PolarDiagramTable:
         """"""
@@ -1512,13 +1512,34 @@ class PolarDiagramMultiSails(PolarDiagram):
         return f"PolarDiagramMultiSails({self.tables}, {self.sails})"
 
     def to_csv(self, csv_path):
-        """
+        """Creates a .csv file with delimiter ',' and the
+        following format:
+
+            PolarDiagramMultiSails
+            TWS:
+            self.wind_speeds
+            [Sail
+            TWA:
+            table.wind_angles
+            Boat speeds:
+            table.boat_speeds]
 
         Parameters
         ----------
         csv_path : path_like
             Path to a .csv file or where a new .csv file will be created
         """
+        with open(csv_path, "w", newline="", encoding="utf-8") as file:
+            csv_writer = csv.writer(file, delimiter=",")
+            csv_writer.writerow(["PolarDiagramMultiSails"])
+            csv_writer.writerow(["TWS:"])
+            csv_writer.writerow(self.wind_speeds)
+            for sail, table in zip(self.sails, self.tables):
+                csv_writer.writerow(sail)
+                csv_writer.writerow(["TWA:"])
+                csv_writer.writerow(table.wind_angles)
+                csv_writer.writerow(["Boat speeds:"])
+                csv_writer.writerows(table.boat_speeds)
 
     def symmetrize(self):
         """Constructs a symmetric version of the polar diagram, by
