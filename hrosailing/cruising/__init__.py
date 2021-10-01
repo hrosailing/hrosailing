@@ -321,7 +321,7 @@ class WeatherModel:
         )
         idxs = np.vstack(tuple(map(np.ravel, cuboid))).T
 
-        grid = list(zip(self._times, self._lats, self._lons))
+        grid = (self._times, self._lats, self._lons)
 
         val = _interpolate_weather_data(self._data, idxs, point, flags, grid)
         return dict(zip(self._attrs, val))
@@ -583,43 +583,33 @@ def _interpolate_weather_data(data, idxs, point, flags, grid):
         i, j, k = idxs.T
         return data[i, j, k, :]
 
+    # lexicograpic first and last vertex of cube
     start = idxs[0]
     end = idxs[-1]
 
-    # point lies on an edge
-    if len(idxs) == 2:
-        edge = flags.index(False)
-
-        start = start[edge]
-        end = end[edge]
-
-        interim = [data[i, j, k, :] for i, j, k in idxs]
-        lambda_ = (point[edge] - grid[end][edge]) / (
-            grid[start][edge] - grid[end][edge]
-        )
-        return lambda_ * interim[0] + (1 - lambda_) * interim[1]
-
+    # interpolate along time edges first
     if flags[0] and flags[1] and not flags[2]:
         idxs[[1, 2]] = idxs[[2, 1]]
 
     face = [i for i, flag in enumerate(flags) if not flag]
-    flatten = itertools.chain.from_iterable
-    idxs = [
-        (idxs[i], idxs[i + 2]) for i in range(0, int(pow(2, len(face) - 1)), 2)
-    ]
-    idxs = list(flatten(idxs))
 
-    interim = [data[i, j, k, :] for i, j, k in idxs]
+    # point lies on an edge
+    if len(face) == 1:
+        edges = [idxs[0], idxs[1]]
+    else:
+        edges = [0, 1] if len(face) == 2 else [0, 1, 4, 5]
+        edges = [(idxs[i], idxs[i + 2]) for i in edges]
+        flatten = itertools.chain.from_iterable
+        edges = list(flatten(edges))
+
+    interim = [data[i, j, k, :] for i, j, k in edges]
 
     for i in face:
-        lambda_ = (point[i] - grid[end[i]][i]) / (
-            grid[start[i]][i] - grid[end[i]][i]
+        mu = (point[i] - grid[i][end[i]]) / (
+            grid[i][start[i]] - grid[i][end[i]]
         )
         it = iter(interim)
-        interim = [
-            lambda_ * left + (1 - lambda_) * right
-            for left, right in zip(it, it)
-        ]
+        interim = [mu * left + (1 - mu) * right for left, right in zip(it, it)]
 
     return interim[0]
 
