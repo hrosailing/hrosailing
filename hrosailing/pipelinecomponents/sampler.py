@@ -10,9 +10,6 @@ in the hrosailing.pipeline module
 
 # Author: Valentin Dannenberg & Robert Schüler
 
-
-import math
-import random
 from abc import ABC, abstractmethod
 
 import numpy as np
@@ -139,8 +136,7 @@ class FibonacciSampler(Sampler):
             samples produced by the above described method
         """
         # calculate smallest circle containing pts
-        x, y, r = _make_circle(pts)
-        midpoint = np.array([x, y])
+        midpoint, r = _make_circle(pts)
 
         # calculate an upper bound to the number of points needed for the
         # spiral to fill the convex hull with self._n_samples points
@@ -206,8 +202,7 @@ class ArchimedianSampler(Sampler):
         """
 
         # calculate enclosing circle
-        x, y, r = _make_circle(pts)
-        midpoint = np.array([x, y])
+        midpoint, r = _make_circle(pts)
 
         # compute convex hull and its volume
         ch = ConvexHull(pts)
@@ -265,140 +260,57 @@ def _sample_generator(base_set, midpoint, ineqs):
     return generate_sample
 
 
-# The following code has been copied from an extern source ########
-# and changed a bit                                        ########
+def _make_circle(pts, eps=0.0001):
+    pts = pts.copy()
+    np.random.shuffle(pts)
+    k = []  # list of necessary boundary points
+    circle = _small_circle(pts[k])
+    i = 0  # index of currently examined point
+    j = 0  # index of point to be included
+    while i < len(pts):
+        p = pts[i]
 
-# Smallest enclosing circle
-#
-# Copyright (c) 2014 Project Nayuki
-# https://www.nayuki.io/page/smallest-enclosing-circle
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program (see COPYING.txt).
-# If not, see <http://www.gnu.org/licenses/>.
-
-
-# Data conventions: A point is a pair of floats (x, y).
-# A circle is a triple of floats (center x, center y, radius).
-
-
-# Returns the smallest circle that encloses all the given points.
-# Runs in expected O(n) time, randomized.
-# Input: A sequence of pairs of floats or ints, e.g. [(0,5), (3.1,-2.7)].
-# Output: A triple of floats representing a circle.
-# Note: If 0 points are given, None is returned.
-# If 1 point is given, a circle of radius 0 is returned.
-
-
-def _make_circle(pts):
-    # Convert to float and randomize order
-    shuffled = [(float(p[0]), float(p[1])) for p in pts]
-    random.shuffle(shuffled)
-
-    # Progressively add points to circle or recompute circle
-    c = None
-    for (i, p) in enumerate(shuffled):
-        if c is None or not _is_in_circle(c, p):
-            c = _make_circle_one_point(shuffled[0 : i + 1], p)
-    return c
-
-
-# One boundary point known
-def _make_circle_one_point(pts, p):
-    c = (p[0], p[1], 0.0)
-    for (i, q) in enumerate(pts):
-        if not _is_in_circle(c, q):
-            if c[2] == 0.0:
-                c = _make_diameter(p, q)
-            else:
-                c = _make_circle_two_points(pts[0 : i + 1], p, q)
-    return c
-
-
-# Two boundary points known
-def _make_circle_two_points(pts, p, q):
-    diameter = _make_diameter(p, q)
-    if all(_is_in_circle(diameter, r) for r in pts):
-        return diameter
-
-    left = None
-    right = None
-    for r in pts:
-        cross = _cross_product(p[0], p[1], q[0], q[1], r[0], r[1])
-        c = _make_circumcircle(p, q, r)
-        if c is None:
+        if _is_in_circle(p, circle, eps):
+            i += 1
+            j = max(i, j)
             continue
 
-        if cross > 0.0 and (
-            left is None
-            or _cross_product(p[0], p[1], q[0], q[1], c[0], c[1])
-            > _cross_product(p[0], p[1], q[0], q[1], left[0], left[1])
-        ):
-            left = c
-        elif cross < 0.0 and (
-            right is None
-            or _cross_product(p[0], p[1], q[0], q[1], c[0], c[1])
-            < _cross_product(p[0], p[1], q[0], q[1], right[0], right[1])
-        ):
-            right = c
+        # p is not in circle
+        if i == j:
+            k = [i]
+            i = 0
+            circle = _small_circle(pts[k])
+            continue
 
-    return (
-        left
-        if (right is None or (left is not None and left[2] <= right[2]))
-        else right
-    )
+        # p is not in circle and len(k) < 3
+        k = [t for t in k if t > i]
+        k.append(i)
+        circle = _small_circle(pts[k])
+        i = 0
+
+    return circle
 
 
-def _make_circumcircle(p0, p1, p2):
-    # Mathematical algorithm from Wikipedia: Circumscribed circle
-    ax, ay = p0
-    bx, by = p1
-    cx, cy = p2
-    d = (ax * (by - cy) + bx * (cy - ay) + cx * (ay - by)) * 2.0
-    if d == 0.0:
-        return None
-    x = (
-        (ax * ax + ay * ay) * (by - cy)
-        + (bx * bx + by * by) * (cy - ay)
-        + (cx * cx + cy * cy) * (ay - by)
-    ) / d
-    y = (
-        (ax * ax + ay * ay) * (cx - bx)
-        + (bx * bx + by * by) * (ax - cx)
-        + (cx * cx + cy * cy) * (bx - ax)
-    ) / d
-    return x, y, math.hypot(x - ax, y - ay)
+def _is_in_circle(p, circle, eps):
+    mp, r = circle
+    return np.linalg.norm(p - mp) < r + eps
 
 
-def _make_diameter(p0, p1):
-    return (
-        (p0[0] + p1[0]) / 2.0,
-        (p0[1] + p1[1]) / 2.0,
-        math.hypot(p0[0] - p1[0], p0[1] - p1[1]) / 2.0,
-    )
-
-
-_EPSILON = 1e-12
-
-
-def _is_in_circle(c, p):
-    return (
-        c is not None
-        and math.hypot(p[0] - c[0], p[1] - c[1]) < c[2] + _EPSILON
-    )
-
-
-# Returns twice the signed area of the triangle defined by
-# (x0, y0), (x1, y1), (x2, y2)
-def _cross_product(x0, y0, x1, y1, x2, y2):
-    return (x1 - x0) * (y2 - y0) - (y1 - y0) * (x2 - x0)
+def _small_circle(pts):
+    if len(pts) == 0:
+        return np.zeros((2,)), 0
+    if len(pts) == 1:
+        return pts[0], 0
+    if len(pts) == 2:
+        p1, p2 = pts[0], pts[1]
+        mp = 1 / 2 * (p1 + p2)
+        r = 1 / 2 * np.linalg.norm(p1 - p2)
+        return mp, r
+    if len(pts) == 3:
+        circle_m = -np.column_stack(pts).T
+        circle_m = np.column_stack([np.ones(3), circle_m])
+        circle_b = np.array([-np.linalg.norm(p) ** 2 for p in pts])
+        # TODO: handling for degenerate case
+        a, b, c = np.linalg.inv(circle_m) @ circle_b
+        return np.array([b / 2, c / 2]), np.sqrt(b ** 2 / 4 + c ** 2 / 4 - a)
+    raise Exception(f"len(k) should be <= 3 but k = {pts}")
