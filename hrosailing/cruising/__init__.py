@@ -404,7 +404,6 @@ def cost_cruise(
         The total cost calculated as described above
     """
     # pylint: disable=too-many-locals
-    # TODO: default value handling for wm and im
 
     lat_mp = (start[0] + end[0]) / 2
     proj_start = _mercator_proj(start, lat_mp)
@@ -502,7 +501,6 @@ def isocrone(
     s : float
         The length of the way traveled from start to end
     """
-    # TODO: Default handling of wm and im
     # estimate first sample points as equidistant points
 
     lat_mp = start[0]
