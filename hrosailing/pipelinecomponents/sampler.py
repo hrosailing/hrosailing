@@ -280,13 +280,20 @@ def _make_circle(pts, eps = 0.0001):
             j = max(i, j)
             continue
 
+
+        # p is not in circle
         if i == j:
             k = [p]
             i = 0
             circle = _small_circle(k)
             continue
 
-        #TODO: continue
+        # p is not in cirlce and i < j
+        k.append(p)
+        circle = _small_circle(k)
+        i = 0
+
+    return circle
 
 
 def _is_in_circle(p, circle, eps):
