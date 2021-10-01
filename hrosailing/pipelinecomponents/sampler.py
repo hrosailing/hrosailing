@@ -280,7 +280,6 @@ def _make_circle(pts, eps = 0.0001):
             j = max(i, j)
             continue
 
-
         # p is not in circle
         if i == j:
             k = [p]
@@ -288,7 +287,7 @@ def _make_circle(pts, eps = 0.0001):
             circle = _small_circle(k)
             continue
 
-        # p is not in cirlce and i < j
+        # p is not in circle and i < j
         k.append(p)
         circle = _small_circle(k)
         i = 0
@@ -298,7 +297,7 @@ def _make_circle(pts, eps = 0.0001):
 
 def _is_in_circle(p, circle, eps):
     mp, r = circle
-    return np.linalg.norm(p - mp) < eps
+    return np.linalg.norm(p - mp) < r + eps
 
 
 def _small_circle(k):
