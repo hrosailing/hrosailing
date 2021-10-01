@@ -24,6 +24,7 @@ jobs:
           black -l 79 .
           git status
           git commit -am "fixup: format code with black"
+          git push
           
       - name: install isort
         if: always()

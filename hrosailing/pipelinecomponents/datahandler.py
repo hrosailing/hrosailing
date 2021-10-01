@@ -244,7 +244,7 @@ def _handle_surplus_data(data_dict):
             right = data_dict[key][idx2]
 
             if isinstance(left, str):
-                data_dict[key][idx1 + 1: idx2] = left
+                data_dict[key][idx1 + 1 : idx2] = left
                 continue
 
             k = 1
