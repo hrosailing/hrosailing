@@ -404,10 +404,10 @@ def _add_zeros(w_pts, n_zeros):
     ws = w_pts.points[:, 0]
     ws = np.linspace(min(ws), max(ws), n_zeros)
 
-    zeros = np.zeros(n_zeros)
-    fulls = 360 * np.ones(n_zeros)
-    zeros = np.column_stack((ws, zeros, zeros))
-    fulls = np.column_stack((ws, fulls, zeros))
+    zero = np.zeros(n_zeros)
+    full = 360 * np.ones(n_zeros)
+    zeros = np.column_stack((ws, zero, zero))
+    fulls = np.column_stack((ws, full, zero))
 
     return pc.WeightedPoints(
         pts=np.concatenate([w_pts.points, zeros, fulls]),
