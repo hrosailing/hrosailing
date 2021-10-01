@@ -10,14 +10,15 @@ represent data points together with their respective weights
 # Author: Valentin Dannenberg
 
 
-from abc import ABC, abstractmethod
 import logging.handlers
+from abc import ABC, abstractmethod
 from typing import Callable
 
 import numpy as np
 
-from hrosailing.wind import _convert_wind
 import hrosailing._logfolder as log
+from hrosailing.wind import _convert_wind
+
 from ._utils import scaled_euclidean_norm
 
 logging.basicConfig(

@@ -10,7 +10,6 @@ in the hrosailing.pipeline module
 
 # Author: Valentin Dannenberg & Robert Schüler
 
-
 from abc import ABC, abstractmethod
 
 import numpy as np

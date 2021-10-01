@@ -6,18 +6,21 @@ PolarDiagram classes to work with and represent PPDs in various forms
 # Author: Valentin Dannenberg
 
 
-from abc import ABC, abstractmethod
-from ast import literal_eval
 import csv
 import itertools
 import logging.handlers
 import pickle
-from typing import List
 import warnings
+from abc import ABC, abstractmethod
+from ast import literal_eval
+from typing import List
 
-from hrosailing.pipelinecomponents import Interpolator, IDWInterpolator
-from hrosailing.wind import _convert_wind, _set_resolution
 import hrosailing._logfolder as log
+from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
+                                           Interpolator, Neighbourhood,
+                                           WeightedPoints)
+from hrosailing.wind import _convert_wind, _set_resolution
+
 from ._plotting import *
 
 logging.basicConfig(
@@ -602,34 +605,71 @@ class PolarDiagramTable(PolarDiagram):
             f"wa_res={self.wind_angles}, bsps={self.boat_speeds})"
         )
 
-    def __call__(self, ws, wa, interpolator: Interpolator = IDWInterpolator()):
-        """
+    def __call__(
+        self,
+        ws,
+        wa,
+        interpolator: Interpolator = ArithmeticMeanInterpolator(50),
+        neighbourhood: Neighbourhood = Ball(radius=1),
+    ):
+        """Returns the value of the polar diagram at a given ws-wa point
+
+        If the ws-wa point is in the table, the corresponding entry is
+        returned, otherwise the value is interpolated
 
         Parameters
         ----------
-        ws : int/float or array_like of shape (n, )
+        ws : int or float
+            Wind speed value of the ws-wa point
 
-        wa : int/float or array_like of shape (m, )
+        wa : int or float
+            Wind angle value of the ws-wa point
 
         interpolator : Interpolator, optional
+            Interpolator subclass that determines the interpolation
+            method used to determine the value at the ws-wa point
 
+            Defaults to ArithmeticMeanInterpolator(50)
 
+        neighbourhood : Neighbourhood, optional
+            Neighbourhood subclass used to determine the grid points
+            in the table that will be used in the interpolation
+
+            Defaults to Ball(radius=1)
         Returns
         -------
-        bsp : int/float or array_like of shape (m, n)
+        bsp : int or float
+            Boat speed value as determined above
         """
+        try:
+            return self[ws, wa]
+        except PolarDiagramException:
+            pt = np.array([ws, wa])
 
-    def __getitem__(self, key):
-        """
+            ws_res, wa_res = np.meshgrid(self.wind_speed, self.wind_angles)
+            pts = np.column_stack(
+                (ws_res.ravel(), wa_res.ravel(), self.boat_speeds.ravel())
+            )
+            w_pts = WeightedPoints(pts, wts=1, tw=True)
+
+            mask = neighbourhood.is_contained_in(pts[:, :2] - pt)
+
+            return interpolator.interpolate(w_pts[mask], pt)
+
+    def __getitem__(self, *key):
+        """Returns the value of a given entry in the table
 
         Parameters
         ----------
-        key :
-
+        key : Sequence of length 2
+            The index of the column and row of the table
+            given as the corresponding wind speed and wind angle
+            values
 
         Returns
         -------
-        bsp :
+        bsp : int or float
+            The boat speed value at the corresponding entry of the table
         """
         ws, wa = key
         col = self._get_indices(np.atleast_1d(ws), "s")
@@ -656,9 +696,9 @@ class PolarDiagramTable(PolarDiagram):
         following format:
 
             PolarDiagramTable
-            Wind speed resolution:
+            TWS:
             self.wind_speeds
-            Wind angle resolution:
+            TWA:
             self.wind_angles
             Boat speeds:
             self.boat_speeds
@@ -1474,7 +1514,7 @@ class PolarDiagramMultiSails(PolarDiagram):
 
     @property
     def sails(self):
-        return self.sails.copy()
+        return self._sails
 
     @property
     def wind_speeds(self):
@@ -1482,7 +1522,7 @@ class PolarDiagramMultiSails(PolarDiagram):
 
     @property
     def tables(self):
-        return self._tables.copy()
+        return self._tables
 
     def __getitem__(self, item) -> PolarDiagramTable:
         """"""
@@ -1511,13 +1551,34 @@ class PolarDiagramMultiSails(PolarDiagram):
         return f"PolarDiagramMultiSails({self.tables}, {self.sails})"
 
     def to_csv(self, csv_path):
-        """
+        """Creates a .csv file with delimiter ',' and the
+        following format:
+
+            PolarDiagramMultiSails
+            TWS:
+            self.wind_speeds
+            [Sail
+            TWA:
+            table.wind_angles
+            Boat speeds:
+            table.boat_speeds]
 
         Parameters
         ----------
         csv_path : path_like
             Path to a .csv file or where a new .csv file will be created
         """
+        with open(csv_path, "w", newline="", encoding="utf-8") as file:
+            csv_writer = csv.writer(file, delimiter=",")
+            csv_writer.writerow(["PolarDiagramMultiSails"])
+            csv_writer.writerow(["TWS:"])
+            csv_writer.writerow(self.wind_speeds)
+            for sail, table in zip(self.sails, self.tables):
+                csv_writer.writerow(sail)
+                csv_writer.writerow(["TWA:"])
+                csv_writer.writerow(table.wind_angles)
+                csv_writer.writerow(["Boat speeds:"])
+                csv_writer.writerows(table.boat_speeds)
 
     def symmetrize(self):
         """Constructs a symmetric version of the polar diagram, by
@@ -2575,23 +2636,52 @@ class PolarDiagramPointcloud(PolarDiagram):
     def __repr__(self):
         return f"PolarDiagramPointcloud(pts={self.points})"
 
-    def __call__(self, ws, wa, interpolator=None):
-        """
+    def __call__(
+        self,
+        ws,
+        wa,
+        interpolator: Interpolator = ArithmeticMeanInterpolator(50),
+        neighbourhood: Neighbourhood = Ball(radius=1),
+    ):
+        """Returns the value of the polar diagram at a given ws-wa point
+
+        If the ws-wa point is in the cloud, the corresponding boat speed is
+        returned, otherwise the value is interpolated
 
         Parameters
         ----------
+        ws : int or float
+            The wind speed value of the ws-wa point
 
-        ws : int/float
-
-        wa : int/float
+        wa : int or float
+            The wind angle value of the ws-wa point
 
         interpolator : Interpolator, optional
+            Interpolator subclass that determines the interpolation
+            method used to determine the value at the ws-wa point
 
+            Defaults to ArithmeticMeanInterpolator(50)
+
+        neighbourhood : Neighbourhood, optional
+            Neighbourhood subclass used to determine the points in
+            the point cloud that will be used in the interpolation
+
+            Defaults to Ball(radius=1)
 
         Returns
         -------
-        bsp : int/float
+        bsp : int or float
         """
+        cloud = self.points
+        pt = cloud[np.logical_and(cloud[:, 0] == ws, cloud[:, 1] == wa)]
+        if pt.size:
+            return pt[2]
+
+        pt = np.array([ws, wa])
+        w_pts = WeightedPoints(cloud, wts=1, tw=True, _checks=False)
+        mask = neighbourhood.is_contained_in(cloud[:, :2] - pt)
+
+        return interpolator.interpolate(w_pts[mask], pt)
 
     @property
     def wind_speeds(self):

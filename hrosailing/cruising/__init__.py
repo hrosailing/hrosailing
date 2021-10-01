@@ -4,8 +4,9 @@ Functions for navigation and weather routing using PPDs
 
 # Author: Valentin Dannenberg & Robert Schueler
 
+import itertools
 from bisect import bisect_left
-import dataclasses
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import List, Optional
 
@@ -17,7 +18,7 @@ import hrosailing.polardiagram as pol
 from hrosailing.pipelinecomponents import InfluenceModel
 
 
-@dataclasses.dataclass
+@dataclass
 class Direction:
     """Dataclass to represent sections of a sailing maneuver"""
 
@@ -255,7 +256,7 @@ class WeatherModel:
         Sorted list of longitude values
 
     attrs : list of length s
-        List of different attributes of weather
+        List of different (scalar) attributes of weather
     """
 
     def __init__(self, data, times, lats, lons, attrs):
@@ -265,20 +266,20 @@ class WeatherModel:
         self._attrs = attrs
         self._data = data
 
-    def get_weather(self, time, lat, lon):
+    def get_weather(self, point):
         """Given a space-time point, uses the available weather model
         to calculate the weather at that point
 
+        If the point is not a grid point, the weather data will be
+        affinely interpolated, starting with the time-component, using
+        the (at most) 8 grid points that span the vertices of a cube, which
+        contains the given point
+
         Parameters
         ----------
-        time : int or float
-            The time component of the point
-
-        lat : int or float
-            The lattitude of the point
-
-        lon : int or float
-            The longitude of the point
+        point: tuple of length 3
+            Space-time point given as tuple of time, lattitude
+            and longitude
 
         Returns
         -------
@@ -288,30 +289,40 @@ class WeatherModel:
             If it is a grid point, the weather data is taken straight
             from the model, else it is interpolated as described above
         """
-        time_idx = bisect_left(self._times, time)
-        lat_idx = bisect_left(self._lats, lat)
-        lon_idx = bisect_left(self._lons, lon)
+        # check if given point lies in the grid
+        fst = (self._times[0], self._lats[0], self._lons[0])
+        lst = (self._times[-1], self._lats[-1], self._lons[-1])
 
-        if any(
-            [
-                time_idx == len(self._times),
-                lat_idx == len(self._lats),
-                lon_idx == len(self._lons),
-            ]
-        ):
+        outside_left = [pt < left for pt, left in zip(point, fst)]
+        outside_right = [pt > right for pt, right in zip(point, lst)]
+
+        if any(outside_left) or any(outside_right):
             raise OutsideGridException(
-                "As Prof. Oak said, there is a time and place for everything"
+                "`point` is outside the grid. Weather data not available."
             )
 
-        g = np.meshgrid(
-            [time_idx, time_idx + 1],
-            [lat_idx, lat_idx + 1],
-            [lon_idx, lon_idx + 1],
-        )
-        idxs = np.vstack(tuple(map(np.ravel, g))).T
+        time, lat, lon = point
 
-        mean = np.mean([self._data[i, j, k, :] for i, j, k in idxs], axis=0)
-        return dict(zip(self._attrs, mean))
+        t_idx = bisect_left(self._times, time)
+        la_idx = bisect_left(self._lats, lat)
+        lo_idx = bisect_left(self._lons, lon)
+
+        # check if components of point are grid points
+        t_flag = self._times[t_idx] == time
+        la_flag = self._lats[la_idx] == lat
+        lo_flag = self._lons[lo_idx] == lon
+        flags = (t_flag, la_flag, lo_flag)
+
+        # create "cuboid" which contains point
+        cuboid = np.meshgrid(
+            [t_idx, t_idx + 1] if not t_flag else [t_idx],
+            [la_idx, la_idx + 1] if not la_flag else [la_idx],
+            [lo_idx, lo_idx + 1] if not lo_flag else [lo_idx],
+        )
+        idxs = np.vstack(tuple(map(np.ravel, cuboid))).T
+
+        val = _interpolate_weather_data(self._data, idxs, point, flags)
+        return dict(zip(self._attrs, val))
 
 
 def cost_cruise(
@@ -393,7 +404,6 @@ def cost_cruise(
         The total cost calculated as described above
     """
     # pylint: disable=too-many-locals
-    # TODO: default value handling for wm and im
 
     lat_mp = (start[0] + end[0]) / 2
     proj_start = _mercator_proj(start, lat_mp)
@@ -491,7 +501,6 @@ def isocrone(
     s : float
         The length of the way traveled from start to end
     """
-    # TODO: Default handling of wm and im
     # estimate first sample points as equidistant points
 
     lat_mp = start[0]
@@ -566,18 +575,42 @@ def _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im):
     return 0
 
 
-# def isocost(
-#     pd: pol.PolarDiagram,
-#     start,
-#     direction,
-#     cost_func=None,
-#     total_cost=None,
-#     min_nodes=None,
-#     quadrature=None,
-#     wm: WeatherModel = None,
-#     im: Optional[InfluenceModel] = None,
-# ):
-#     """"""
+def _interpolate_weather_data(data, idxs, point, flags):
+    # point is a grid point
+    if len(idxs) == 1:
+        i, j, k = idxs.T
+        return data[i, j, k, :]
+
+    # point lies on an edge
+    if len(idxs) == 2:
+        edge = flags.index(False)
+        interim = [data[i, j, k, :] for i, j, k in idxs]
+        lambda_ = (point[edge] - idxs[1][edge]) / (
+            idxs[0][edge] - idxs[1][edge]
+        )
+        return lambda_ * interim[0] + (1 - lambda_) * interim[1]
+
+    if flags[0] and flags[1] and not flags[2]:
+        idxs[[1, 2]] = idxs[[2, 1]]
+
+    face = [i for i, flag in enumerate(flags) if flag]
+    flatten = itertools.chain.from_iterable
+    idxs = [(idxs[i], idxs[i + 2]) for i in range(0, pow(2, len(face) - 1), 2)]
+    idxs = list(flatten(idxs))
+
+    start = idxs[0]
+    end = idxs[-1]
+    interim = [data[i, j, k, :] for i, j, k in idxs]
+
+    for i in face:
+        lambda_ = (point[i] - end[i]) / (start[i] - end[i])
+        it = iter(interim)
+        interim = [
+            lambda_ * left + (1 - lambda_) * right
+            for left, right in zip(it, it)
+        ]
+
+    return interim[0]
 
 
 def _right_handing_course(a, b):

@@ -1,4 +1,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![linter](https://github.com/hrosailing/hrosailing/actions/workflows/linting.yml/badge.svg)](https://github.com/hrosailing/hrosailing/actions/workflows/linting.yml)
+[![tester](https://github.com/hrosailing/hrosailing/actions/workflows/testing.yml/badge.svg)](https://github.com/hrosailing/hrosailing/actions/workflows/testing.yml)
+[![CodeFactor](https://www.codefactor.io/repository/github/hrosailing/hrosailing/badge)](https://www.codefactor.io/repository/github/hrosailing/hrosailing)
 
 <p align="center">
     <img src="logo.png" width=300px height=300px alt="hrosailing">
@@ -7,16 +10,11 @@
 hrosailing - Sailing made in Rostock
 ====================================
 
-You can see the documentation here [Documentation](https://hrosailing.github.io/hrosailing/ "hrosailing").
+You can find the documentation [here](https://hrosailing.github.io/hrosailing/ "hrosailing").
 
 ### Compatibility 
-
-`hrosailing` is compatible with ... 
-
 <!-- [![Python version](..) -->
-[![linter](https://github.com/hrosailing/hrosailing/actions/workflows/linting.yml/badge.svg)](https://github.com/hrosailing/hrosailing/actions/workflows/linting.yml)
-[![tester](https://github.com/hrosailing/hrosailing/actions/workflows/testing.yml/badge.svg)](https://github.com/hrosailing/hrosailing/actions/workflows/testing.yml)
-[![CodeFactor](https://www.codefactor.io/repository/github/hrosailing/hrosailing/badge)](https://www.codefactor.io/repository/github/hrosailing/hrosailing)
+
 
 ### Installation
 

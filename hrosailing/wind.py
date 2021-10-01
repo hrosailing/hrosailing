@@ -5,9 +5,10 @@ Functions to convert wind from apparent to true and vice versa
 # Author: Valentin Dannenberg
 
 
-from collections.abc import Iterable
-from typing import Iterable as Iter, Optional, Union
 import warnings
+from collections.abc import Iterable
+from typing import Iterable as Iter
+from typing import Optional, Union
 
 import numpy as np
 
