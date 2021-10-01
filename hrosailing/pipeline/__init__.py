@@ -159,14 +159,7 @@ class PolarPipeline:
         if self.im is not None:
             data = self.im.remove_influence(data)
         else:
-            ws = data.get("Wind speed")
-            wa = data.get("Wind angle")
-            bsp = (
-                data.get("Speed over ground knots")
-                or data.get("Water speed knots")
-                or data.get("Boat speed")
-            )
-
+            ws, wa, bsp = _get_relevant_data(data)
             data = np.column_stack((ws, wa, bsp))
 
         # NaN and infinite values aren't allowed
@@ -399,6 +392,42 @@ class PointcloudExtension(PipelineExtension):
         )
 
         return pol.PolarDiagramPointcloud(pts=pts)
+
+
+WIND_KEYS = {"Wind speed", "Wind Speed", "wind speed"}
+ANGLE_KEYS = {"Wind angle", "Wind Angle", "wind angle"}
+SPEED_KEYS = {
+    "Boat Speed",
+    "Boat speed",
+    "Speed Over Ground",
+    "Speed over ground",
+    "Speed over Ground",
+    "speed over ground",
+    "Speed over ground knots",
+    "Water Speed",
+    "Water speed",
+    "water speed",
+    "Water Speed knots",
+    "Water speed knots",
+}
+
+
+def _get_relevant_data(data):
+    ws = [data.get(ws_key, None) for ws_key in WIND_KEYS]
+    wa = [data.get(wa_key, None) for wa_key in ANGLE_KEYS]
+    bsp = [data.get(bsp_key, None) for bsp_key in SPEED_KEYS]
+
+    ws = [w for w in ws if w is not None]
+    wa = [a for a in wa if a is not None]
+    bsp = [b for b in bsp if b is not None]
+
+    # can't use pipeline if some of the data is not present
+    if not ws or not wa or not bsp:
+        raise PipelineException(
+            "Not enough relevant data present for usage of pipeline"
+        )
+
+    return ws[0], wa[0], bsp[0]
 
 
 def _add_zeros(w_pts, n_zeros):
