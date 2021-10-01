@@ -33,23 +33,6 @@
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="hrosailing.polardiagram.depickling"><code class="name flex">
-<span>def <span class="ident">depickling</span></span>(<span>pkl_path)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Reads a .pkl file and returns the PolarDiagram
-instance contained in it.</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>pkl_path</code></strong> :&ensp;<code>path-like</code></dt>
-<dd>Path to a .pkl file</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><strong><code>out</code></strong> :&ensp;<code><a title="hrosailing.polardiagram.PolarDiagram" href="#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a></code></dt>
-<dd>PolarDiagram instance contained in the .pkl file</dd>
-</dl></div>
-</dd>
 <dt id="hrosailing.polardiagram.from_csv"><code class="name flex">
 <span>def <span class="ident">from_csv</span></span>(<span>csv_path, fmt='hro', tw=True)</span>
 </code></dt>
@@ -94,6 +77,10 @@ instance contained in it</p>
 </code></dt>
 <dd>
 <div class="desc"><p>See pickling()-method of PolarDiagram</p>
+<p>Since the pickle module can't guarantee security, but
+we have found no other way to serialize toplevel functions
+in python, we have decided to omit a depickling function
+and leave that up to the user.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>pkl_path</code></strong> :&ensp;<code>path-like</code></dt>
@@ -218,6 +205,10 @@ the given wind speeds</p></div>
 </code></dt>
 <dd>
 <div class="desc"><p>Writes PolarDiagram instance to a .pkl file</p>
+<p>Since the pickle module can't guarantee security, but
+we have found no other way to serialize toplevel functions
+in python, we have decided to omit a depickling function
+and leave that up to the user.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>pkl_path</code></strong> :&ensp;<code>path-like</code></dt>
@@ -1229,7 +1220,18 @@ to duplicate data, which can overwrite or live alongside old data</p></div>
 <span>def <span class="ident">to_csv</span></span>(<span>self, csv_path)</span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="parameters">Parameters</h2>
+<div class="desc"><p>Creates a .csv file with delimiter ',' and the
+following format:</p>
+<pre><code>PolarDiagramMultiSails
+TWS:
+self.wind_speeds
+[Sail
+TWA:
+table.wind_angles
+Boat speeds:
+table.boat_speeds]
+</code></pre>
+<h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>csv_path</code></strong> :&ensp;<code>path_like</code></dt>
 <dd>Path to a .csv file or where a new .csv file will be created</dd>
@@ -1891,15 +1893,21 @@ numpy.zeros((rdim, cdim))</p>
 <h3>Methods</h3>
 <dl>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.__getitem__"><code class="name flex">
-<span>def <span class="ident">__getitem__</span></span>(<span>self, key)</span>
+<span>def <span class="ident">__getitem__</span></span>(<span>self, *key)</span>
 </code></dt>
 <dd>
-<div class="desc"><h2 id="parameters">Parameters</h2>
-<p>key :</p>
+<div class="desc"><p>Returns the value of a given entry in the table</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>key</code></strong> :&ensp;<code>Sequence</code> of <code>length 2</code></dt>
+<dd>The index of the column and row of the table
+given as the corresponding wind speed and wind angle
+values</dd>
+</dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>bsp :</code></dt>
-<dd>&nbsp;</dd>
+<dt><strong><code>bsp</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
+<dd>The boat speed value at the corresponding entry of the table</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.change_entries"><code class="name flex">
@@ -2414,9 +2422,9 @@ overwrite or live alongside old data</p>
 <div class="desc"><p>Creates a .csv file with delimiter ',' and the
 following format:</p>
 <pre><code>PolarDiagramTable
-Wind speed resolution:
+TWS:
 self.wind_speeds
-Wind angle resolution:
+TWA:
 self.wind_angles
 Boat speeds:
 self.boat_speeds
@@ -2547,7 +2555,6 @@ setTimeout(() => input.focus(), 100);
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="hrosailing.polardiagram.depickling" href="#hrosailing.polardiagram.depickling">depickling</a></code></li>
 <li><code><a title="hrosailing.polardiagram.from_csv" href="#hrosailing.polardiagram.from_csv">from_csv</a></code></li>
 <li><code><a title="hrosailing.polardiagram.pickling" href="#hrosailing.polardiagram.pickling">pickling</a></code></li>
 <li><code><a title="hrosailing.polardiagram.symmetrize" href="#hrosailing.polardiagram.symmetrize">symmetrize</a></code></li>

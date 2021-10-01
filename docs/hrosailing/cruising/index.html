@@ -288,24 +288,25 @@ of attributes</p>
 <dt><strong><code>lons</code></strong> :&ensp;<code>list</code> of <code>length r</code></dt>
 <dd>Sorted list of longitude values</dd>
 <dt><strong><code>attrs</code></strong> :&ensp;<code>list</code> of <code>length s</code></dt>
-<dd>List of different attributes of weather</dd>
+<dd>List of different (scalar) attributes of weather</dd>
 </dl></div>
 <h3>Methods</h3>
 <dl>
 <dt id="hrosailing.cruising.WeatherModel.get_weather"><code class="name flex">
-<span>def <span class="ident">get_weather</span></span>(<span>self, time, lat, lon)</span>
+<span>def <span class="ident">get_weather</span></span>(<span>self, point)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Given a space-time point, uses the available weather model
 to calculate the weather at that point</p>
+<p>If the point is not a grid point, the weather data will be
+affinely interpolated, starting with the time-component, using
+the (at most) 8 grid points that span the vertices of a cube, which
+contains the given point</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>time</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
-<dd>The time component of the point</dd>
-<dt><strong><code>lat</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
-<dd>The lattitude of the point</dd>
-<dt><strong><code>lon</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
-<dd>The longitude of the point</dd>
+<dt><strong><code>point</code></strong> :&ensp;<code>tuple</code> of <code>length 3</code></dt>
+<dd>Space-time point given as tuple of time, lattitude
+and longitude</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>

@@ -56,13 +56,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.pickling",
 "url":1,
-"doc":"See pickling()-method of PolarDiagram Parameters      pkl_path : path-like Path to a .pkl file or where a new .pkl file will be created obj : PolarDiagram PolarDiagram instance which will be written to .csv file",
-"func":1
-},
-{
-"ref":"hrosailing.polardiagram.depickling",
-"url":1,
-"doc":"Reads a .pkl file and returns the PolarDiagram instance contained in it. Parameters      pkl_path : path-like Path to a .pkl file Returns    - out : PolarDiagram PolarDiagram instance contained in the .pkl file",
+"doc":"See pickling()-method of PolarDiagram Since the pickle module can't guarantee security, but we have found no other way to serialize toplevel functions in python, we have decided to omit a depickling function and leave that up to the user. Parameters      pkl_path : path-like Path to a .pkl file or where a new .pkl file will be created obj : PolarDiagram PolarDiagram instance which will be written to .csv file",
 "func":1
 },
 {
@@ -79,7 +73,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagram.pickling",
 "url":1,
-"doc":"Writes PolarDiagram instance to a .pkl file Parameters      pkl_path: path-like Path to a .pkl file or where a new .pkl file will be created",
+"doc":"Writes PolarDiagram instance to a .pkl file Since the pickle module can't guarantee security, but we have found no other way to serialize toplevel functions in python, we have decided to omit a depickling function and leave that up to the user. Parameters      pkl_path: path-like Path to a .pkl file or where a new .pkl file will be created",
 "func":1
 },
 {
@@ -156,7 +150,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramTable.__getitem__",
 "url":1,
-"doc":"Parameters      key : Returns    - bsp :",
+"doc":"Returns the value of a given entry in the table Parameters      key : Sequence of length 2 The index of the column and row of the table given as the corresponding wind speed and wind angle values Returns    - bsp : int or float The boat speed value at the corresponding entry of the table",
 "func":1
 },
 {
@@ -177,7 +171,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramTable.to_csv",
 "url":1,
-"doc":"Creates a .csv file with delimiter ',' and the following format: PolarDiagramTable Wind speed resolution: self.wind_speeds Wind angle resolution: self.wind_angles Boat speeds: self.boat_speeds Parameters      csv_path : path-like Path to a .csv file or where a new .csv file will be created fmt : string Raises a PolarDiagramException if an unknown format was specified Examples     >>> pd = PolarDiagramTable(  . bsps=[  . [5.33, 6.32, 6.96, 7.24, 7.35],  . [5.64, 6.61, 7.14, 7.42, 7.56],  . [5.89, 6.82, 7.28, 7.59, 7.84],  . [5.92, 6.98, 7.42, 7.62, 7.93],  . [5.98, 7.07, 7.59, 8.02, 8.34],  . [5.8, 6.95, 7.51, 7.98, 8.52],  . [5.2, 6.41, 7.19, 7.66, 8.14]  . ],  . ws_res=[6, 8, 10, 12, 14],  . wa_res=[52, 60, 75, 90, 110, 120, 135],  . ) >>> print(pd) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 5.33 6.32 6.96 7.24 7.35 60.0 5.64 6.61 7.14 7.42 7.56 75.0 5.89 6.82 7.28 7.59 7.84 90.0 5.92 6.98 7.42 7.62 7.93 110.0 5.98 7.07 7.59 8.02 8.34 120.0 5.80 6.95 7.51 7.98 8.52 135.0 5.20 6.41 7.19 7.66 8.14 >>> pd.to_csv(\"example.csv\") >>> pd2 = from_csv(\"example.csv\") >>> print(pd2) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 5.33 6.32 6.96 7.24 7.35 60.0 5.64 6.61 7.14 7.42 7.56 75.0 5.89 6.82 7.28 7.59 7.84 90.0 5.92 6.98 7.42 7.62 7.93 110.0 5.98 7.07 7.59 8.02 8.34 120.0 5.80 6.95 7.51 7.98 8.52 135.0 5.20 6.41 7.19 7.66 8.14",
+"doc":"Creates a .csv file with delimiter ',' and the following format: PolarDiagramTable TWS: self.wind_speeds TWA: self.wind_angles Boat speeds: self.boat_speeds Parameters      csv_path : path-like Path to a .csv file or where a new .csv file will be created fmt : string Raises a PolarDiagramException if an unknown format was specified Examples     >>> pd = PolarDiagramTable(  . bsps=[  . [5.33, 6.32, 6.96, 7.24, 7.35],  . [5.64, 6.61, 7.14, 7.42, 7.56],  . [5.89, 6.82, 7.28, 7.59, 7.84],  . [5.92, 6.98, 7.42, 7.62, 7.93],  . [5.98, 7.07, 7.59, 8.02, 8.34],  . [5.8, 6.95, 7.51, 7.98, 8.52],  . [5.2, 6.41, 7.19, 7.66, 8.14]  . ],  . ws_res=[6, 8, 10, 12, 14],  . wa_res=[52, 60, 75, 90, 110, 120, 135],  . ) >>> print(pd) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 5.33 6.32 6.96 7.24 7.35 60.0 5.64 6.61 7.14 7.42 7.56 75.0 5.89 6.82 7.28 7.59 7.84 90.0 5.92 6.98 7.42 7.62 7.93 110.0 5.98 7.07 7.59 8.02 8.34 120.0 5.80 6.95 7.51 7.98 8.52 135.0 5.20 6.41 7.19 7.66 8.14 >>> pd.to_csv(\"example.csv\") >>> pd2 = from_csv(\"example.csv\") >>> print(pd2) TWA \\ TWS 6.0 8.0 10.0 12.0 14.0      -   -   -          52.0 5.33 6.32 6.96 7.24 7.35 60.0 5.64 6.61 7.14 7.42 7.56 75.0 5.89 6.82 7.28 7.59 7.84 90.0 5.92 6.98 7.42 7.62 7.93 110.0 5.98 7.07 7.59 8.02 8.34 120.0 5.80 6.95 7.51 7.98 8.52 135.0 5.20 6.41 7.19 7.66 8.14",
 "func":1
 },
 {
@@ -231,7 +225,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramTable.pickling",
 "url":1,
-"doc":"Writes PolarDiagram instance to a .pkl file Parameters      pkl_path: path-like Path to a .pkl file or where a new .pkl file will be created",
+"doc":"Writes PolarDiagram instance to a .pkl file Since the pickle module can't guarantee security, but we have found no other way to serialize toplevel functions in python, we have decided to omit a depickling function and leave that up to the user. Parameters      pkl_path: path-like Path to a .pkl file or where a new .pkl file will be created",
 "func":1
 },
 {
@@ -281,7 +275,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramMultiSails.to_csv",
 "url":1,
-"doc":"Parameters      csv_path : path_like Path to a .csv file or where a new .csv file will be created",
+"doc":"Creates a .csv file with delimiter ',' and the following format: PolarDiagramMultiSails TWS: self.wind_speeds [Sail TWA: table.wind_angles Boat speeds: table.boat_speeds] Parameters      csv_path : path_like Path to a .csv file or where a new .csv file will be created",
 "func":1
 },
 {
@@ -329,7 +323,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramMultiSails.pickling",
 "url":1,
-"doc":"Writes PolarDiagram instance to a .pkl file Parameters      pkl_path: path-like Path to a .pkl file or where a new .pkl file will be created",
+"doc":"Writes PolarDiagram instance to a .pkl file Since the pickle module can't guarantee security, but we have found no other way to serialize toplevel functions in python, we have decided to omit a depickling function and leave that up to the user. Parameters      pkl_path: path-like Path to a .pkl file or where a new .pkl file will be created",
 "func":1
 },
 {
@@ -427,7 +421,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramCurve.pickling",
 "url":1,
-"doc":"Writes PolarDiagram instance to a .pkl file Parameters      pkl_path: path-like Path to a .pkl file or where a new .pkl file will be created",
+"doc":"Writes PolarDiagram instance to a .pkl file Since the pickle module can't guarantee security, but we have found no other way to serialize toplevel functions in python, we have decided to omit a depickling function and leave that up to the user. Parameters      pkl_path: path-like Path to a .pkl file or where a new .pkl file will be created",
 "func":1
 },
 {
@@ -530,7 +524,7 @@ INDEX=[
 {
 "ref":"hrosailing.polardiagram.PolarDiagramPointcloud.pickling",
 "url":1,
-"doc":"Writes PolarDiagram instance to a .pkl file Parameters      pkl_path: path-like Path to a .pkl file or where a new .pkl file will be created",
+"doc":"Writes PolarDiagram instance to a .pkl file Since the pickle module can't guarantee security, but we have found no other way to serialize toplevel functions in python, we have decided to omit a depickling function and leave that up to the user. Parameters      pkl_path: path-like Path to a .pkl file or where a new .pkl file will be created",
 "func":1
 },
 {
@@ -877,23 +871,6 @@ INDEX=[
 "func":1
 },
 {
-"ref":"hrosailing.pipelinecomponents.influencemodel.LinearCurrentModel",
-"url":8,
-"doc":"Influence model to  ."
-},
-{
-"ref":"hrosailing.pipelinecomponents.influencemodel.LinearCurrentModel.remove_influence",
-"url":8,
-"doc":"This method should be used, given a dictionary containing lists of diffrent data at points in time, to get a nx3 array_like output where the columns correspond to wind speed, wind angle and boat speed respectively. The dictionary should contain atleast keys for Wind speed, Wind angle and either Speed over ground, Speed over water or Boat speed",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.influencemodel.LinearCurrentModel.add_influence",
-"url":8,
-"doc":"This method should be used, given a polar diagram and a dictionary, to obtain a modified boat speed of that given in the polar diagram, based on the influencences presented in the given dictionary, such as wave height, underlying currents etc.",
-"func":1
-},
-{
 "ref":"hrosailing.pipelinecomponents.weigher",
 "url":9,
 "doc":"Contains the baseclass for Weighers used in the PolarPipeline class, that can also be used to create custom Weighers. Also contains two predefined and useable weighers, the CylindricMeanWeigher and the CylindricMemberWeigher, aswell as the WeightedPoints class, used to represent data points together with their respective weights"
@@ -1103,12 +1080,12 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.datahandler.NMEAFileHandler",
 "url":11,
-"doc":"A data handler to extract data from a text file containing certain nmea sentences and convert it to a dictionary Parameters     - sentences : Iterable of Strings, attributes : Iterable of Strings, Raises a HandlerInitializationException if mode is not one of the above choices"
+"doc":"A data handler to extract data from a text file containing certain nmea sentences and convert it to a dictionary Parameters     - sentences : Iterable of str, attributes : Iterable of str,"
 },
 {
 "ref":"hrosailing.pipelinecomponents.datahandler.NMEAFileHandler.handle",
 "url":11,
-"doc":"Reads a text file containing nmea-sentences and extracts data points Parameters      data : path-like Path to a text file, containing nmea-0183 sentences Returns    - data_dict : dict",
+"doc":"Reads a text file containing nmea-sentences and extracts data points Parameters      data : path-like Path to a text file, containing nmea-0183 sentences Returns    - data_dict : dict Dictionary where the keys are the given attributes",
 "func":1
 },
 {
@@ -1232,12 +1209,12 @@ INDEX=[
 {
 "ref":"hrosailing.cruising.WeatherModel",
 "url":14,
-"doc":"Models a weather model as a 3-dimensional space-time grid where each space-time point has certain values of a given list of attributes Parameters      data : array_like of shape (n, m, r, s) Weather data at different space-time grid points times : list of length n Sorted list of time values lats : list of length m Sorted list of lattitude values lons : list of length r Sorted list of longitude values attrs : list of length s List of different attributes of weather"
+"doc":"Models a weather model as a 3-dimensional space-time grid where each space-time point has certain values of a given list of attributes Parameters      data : array_like of shape (n, m, r, s) Weather data at different space-time grid points times : list of length n Sorted list of time values lats : list of length m Sorted list of lattitude values lons : list of length r Sorted list of longitude values attrs : list of length s List of different (scalar) attributes of weather"
 },
 {
 "ref":"hrosailing.cruising.WeatherModel.get_weather",
 "url":14,
-"doc":"Given a space-time point, uses the available weather model to calculate the weather at that point Parameters      time : int or float The time component of the point lat : int or float The lattitude of the point lon : int or float The longitude of the point Returns    - weather : dict The weather data at the given point. If it is a grid point, the weather data is taken straight from the model, else it is interpolated as described above",
+"doc":"Given a space-time point, uses the available weather model to calculate the weather at that point If the point is not a grid point, the weather data will be affinely interpolated, starting with the time-component, using the (at most) 8 grid points that span the vertices of a cube, which contains the given point Parameters      point: tuple of length 3 Space-time point given as tuple of time, lattitude and longitude Returns    - weather : dict The weather data at the given point. If it is a grid point, the weather data is taken straight from the model, else it is interpolated as described above",
 "func":1
 },
 {

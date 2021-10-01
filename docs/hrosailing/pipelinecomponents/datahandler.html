@@ -200,13 +200,11 @@ initialization of a DataHandler</p></div>
 certain nmea sentences and convert it to a dictionary</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>sentences</code></strong> :&ensp;<code>Iterable</code> of <code>Strings,</code></dt>
+<dt><strong><code>sentences</code></strong> :&ensp;<code>Iterable</code> of <code>str,</code></dt>
 <dd>&nbsp;</dd>
-<dt><strong><code>attributes</code></strong> :&ensp;<code>Iterable</code> of <code>Strings,</code></dt>
+<dt><strong><code>attributes</code></strong> :&ensp;<code>Iterable</code> of <code>str,</code></dt>
 <dd>&nbsp;</dd>
-</dl>
-<p>Raises a HandlerInitializationException if mode is not one of
-the above choices</p></div>
+</dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.pipelinecomponents.datahandler.DataHandler" href="#hrosailing.pipelinecomponents.datahandler.DataHandler">DataHandler</a></li>
@@ -228,7 +226,7 @@ data points</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>data_dict</code></strong> :&ensp;<code>dict</code></dt>
-<dd>&nbsp;</dd>
+<dd>Dictionary where the keys are the given attributes</dd>
 </dl></div>
 </dd>
 </dl>
