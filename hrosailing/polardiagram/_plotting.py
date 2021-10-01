@@ -4,8 +4,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.cm import ScalarMappable
-from matplotlib.colors import (LinearSegmentedColormap, Normalize,
-                               is_color_like, to_rgb)
+from matplotlib.colors import (
+    LinearSegmentedColormap,
+    Normalize,
+    is_color_like,
+    to_rgb,
+)
 from matplotlib.lines import Line2D
 from scipy.spatial import ConvexHull
 
@@ -115,7 +119,7 @@ def plot_convex_hull_multisails(
     if colors is None:
         colors = plot_kw.pop("color", None) or plot_kw.pop("c", None) or []
     colors = dict(colors)
-    _set_colors_multisails(ax, ws, members, colors)
+    _set_colors_multisails(ax, members, colors)
 
     if legend_kw is None:
         legend_kw = {}
@@ -309,22 +313,15 @@ def _convex_hull_polar(wa, bsp):
     return ConvexHull(polar_pts)
 
 
-# TODO Finish color api
-def _set_colors_multisails(ax, ws, members, colors):
+def _set_colors_multisails(ax, members, colors):
     colorlist = []
 
     for member in members:
         if len(set(member[:2])) == 1:
             color = colors.get(member[0], "blue")
-            if is_color_like(color):
-                colorlist.append(color)
-                continue
+        else:
+            color = colors.get("neutral", "gray")
 
-            color = dict(color)
-            colorlist.append(color.get(member[2], "blue"))
-            continue
-
-        color = colors.get("neutral", "gray")
         if is_color_like(color):
             colorlist.append(color)
             continue
