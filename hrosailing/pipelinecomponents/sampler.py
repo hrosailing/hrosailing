@@ -139,8 +139,7 @@ class FibonacciSampler(Sampler):
             samples produced by the above described method
         """
         # calculate smallest circle containing pts
-        x, y, r = _make_circle(pts)
-        midpoint = np.array([x, y])
+        midpoint, r = _make_circle(pts)
 
         # calculate an upper bound to the number of points needed for the
         # spiral to fill the convex hull with self._n_samples points
@@ -206,8 +205,7 @@ class ArchimedianSampler(Sampler):
         """
 
         # calculate enclosing circle
-        x, y, r = _make_circle(pts)
-        midpoint = np.array([x, y])
+        midpoint, r = _make_circle(pts)
 
         # compute convex hull and its volume
         ch = ConvexHull(pts)
