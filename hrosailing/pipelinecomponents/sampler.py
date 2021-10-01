@@ -260,7 +260,7 @@ def _sample_generator(base_set, midpoint, ineqs):
     return generate_sample
 
 
-def _make_circle(pts, eps = 0.0001):
+def _make_circle(pts, eps=0.0001):
     pts = pts.copy()
     np.random.shuffle(pts)
     k = []  # list of necessary boundary points
@@ -303,14 +303,14 @@ def _small_circle(pts):
         return pts[0], 0
     if len(pts) == 2:
         p1, p2 = pts[0], pts[1]
-        mp = 1/2*(p1+p2)
-        r = 1/2*np.linalg.norm(p1-p2)
+        mp = 1 / 2 * (p1 + p2)
+        r = 1 / 2 * np.linalg.norm(p1 - p2)
         return mp, r
     if len(pts) == 3:
         circle_m = -np.column_stack(pts).T
         circle_m = np.column_stack([np.ones(3), circle_m])
-        circle_b = np.array([-np.linalg.norm(p)**2 for p in pts])
-        #TODO: handling for degenerate case
-        a, b, c = np.linalg.inv(circle_m)@circle_b
-        return np.array([b/2, c/2]), np.sqrt(b**2/4 + c**2/4 - a)
+        circle_b = np.array([-np.linalg.norm(p) ** 2 for p in pts])
+        # TODO: handling for degenerate case
+        a, b, c = np.linalg.inv(circle_m) @ circle_b
+        return np.array([b / 2, c / 2]), np.sqrt(b ** 2 / 4 + c ** 2 / 4 - a)
     raise Exception(f"len(k) should be <= 3 but k = {pts}")
