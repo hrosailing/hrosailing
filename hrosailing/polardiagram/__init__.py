@@ -16,13 +16,9 @@ from ast import literal_eval
 from typing import List
 
 import hrosailing._logfolder as log
-from hrosailing.pipelinecomponents import (
-    WeightedPoints,
-    ArithmeticMeanInterpolator,
-    Interpolator,
-    Neighbourhood,
-    Ball,
-)
+from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
+                                           Interpolator, Neighbourhood,
+                                           WeightedPoints)
 from hrosailing.wind import _convert_wind, _set_resolution
 
 from ._plotting import *
