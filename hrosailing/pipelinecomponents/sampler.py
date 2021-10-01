@@ -268,11 +268,11 @@ def _sample_generator(base_set, midpoint, ineqs):
 def _make_circle(pts, eps = 0.0001):
     pts = pts.copy()
     np.random.shuffle(pts)
-    k = [] # list of necessary boundary points
-    circle = _small_circle(k)
-    i = 0 # index of currently examined point
-    j = 0 # index of point to be included
-    while j < len(pts):
+    k = []  # list of necessary boundary points
+    circle = _small_circle(pts[k])
+    i = 0  # index of currently examined point
+    j = 0  # index of point to be included
+    while i < len(pts):
         p = pts[i]
 
         if _is_in_circle(p, circle, eps):
@@ -282,14 +282,15 @@ def _make_circle(pts, eps = 0.0001):
 
         # p is not in circle
         if i == j:
-            k = [p]
+            k = [i]
             i = 0
-            circle = _small_circle(k)
+            circle = _small_circle(pts[k])
             continue
 
-        # p is not in circle and i < j
-        k.append(p)
-        circle = _small_circle(k)
+        # p is not in circle and len(k) < 3
+        k = [t for t in k if t > i]
+        k.append(i)
+        circle = _small_circle(pts[k])
         i = 0
 
     return circle
@@ -300,21 +301,21 @@ def _is_in_circle(p, circle, eps):
     return np.linalg.norm(p - mp) < r + eps
 
 
-def _small_circle(k):
-    if len(k) == 0:
+def _small_circle(pts):
+    if len(pts) == 0:
         return np.zeros((2,)), 0
-    if len(k) == 1:
-        return k[0], 0
-    if len(k) == 2:
-        p1, p2 = k[0], k[1]
+    if len(pts) == 1:
+        return pts[0], 0
+    if len(pts) == 2:
+        p1, p2 = pts[0], pts[1]
         mp = 1/2*(p1+p2)
         r = 1/2*np.linalg.norm(p1-p2)
         return mp, r
-    if len(k) == 3:
-        circle_m = -np.column_stack(k).T
+    if len(pts) == 3:
+        circle_m = -np.column_stack(pts).T
         circle_m = np.column_stack([np.ones(3), circle_m])
-        circle_b = np.array([-np.linalg.norm(p)**2 for p in k])
+        circle_b = np.array([-np.linalg.norm(p)**2 for p in pts])
         #TODO: handling for degenerate case
         a, b, c = np.linalg.inv(circle_m)@circle_b
         return np.array([b/2, c/2]), np.sqrt(b**2/4 + c**2/4 - a)
-    raise Exception(f"len(k) should be <= 3 but k = {k}")
+    raise Exception(f"len(k) should be <= 3 but k = {pts}")
