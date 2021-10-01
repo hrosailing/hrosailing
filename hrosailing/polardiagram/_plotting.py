@@ -4,8 +4,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.cm import ScalarMappable
-from matplotlib.colors import (LinearSegmentedColormap, Normalize,
-                               is_color_like, to_rgb)
+from matplotlib.colors import (
+    LinearSegmentedColormap,
+    Normalize,
+    is_color_like,
+    to_rgb,
+)
 from matplotlib.lines import Line2D
 from scipy.spatial import ConvexHull
 
