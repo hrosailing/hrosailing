@@ -265,3 +265,32 @@ def _sample_generator(base_set, midpoint, ineqs):
     return generate_sample
 
 
+def _make_circle(pts, eps = 0.0001):
+    pts = pts.copy()
+    np.random.shuffle(pts)
+    circle = (0, 0, 0)
+    k = [] # list of necessary boundary points
+    i = 0 # index of currently examined point
+    j = 0 # index of point to be included
+    while j < len(pts):
+        p = pts[i]
+
+        if _is_in_circle(p, circle, eps):
+            i += 1
+            j = max(i, j)
+            continue
+
+        if i == j:
+            k = [p]
+            i = 0
+            circle = _small_circle(k)
+            continue
+
+
+def _is_in_circle(p, circle, eps):
+    x, y, r = circle
+    return abs((p[0] - x)**2 + (p[1] - y)**2 - r**2) < eps**2
+
+
+def _small_circle(k):
+    return 0, 0, 0
