@@ -12,8 +12,6 @@ in the hrosailing.pipeline module
 
 
 from abc import ABC, abstractmethod
-import math
-import random
 
 import numpy as np
 from scipy.spatial import ConvexHull
