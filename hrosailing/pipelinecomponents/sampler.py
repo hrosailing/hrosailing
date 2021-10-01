@@ -268,8 +268,8 @@ def _sample_generator(base_set, midpoint, ineqs):
 def _make_circle(pts, eps = 0.0001):
     pts = pts.copy()
     np.random.shuffle(pts)
-    circle = (0, 0, 0)
     k = [] # list of necessary boundary points
+    circle = _small_circle(k)
     i = 0 # index of currently examined point
     j = 0 # index of point to be included
     while j < len(pts):
@@ -286,11 +286,29 @@ def _make_circle(pts, eps = 0.0001):
             circle = _small_circle(k)
             continue
 
+        #TODO: continue
+
 
 def _is_in_circle(p, circle, eps):
-    x, y, r = circle
-    return abs((p[0] - x)**2 + (p[1] - y)**2 - r**2) < eps**2
+    mp, r = circle
+    return np.linalg.norm(p - mp) < eps
 
 
 def _small_circle(k):
-    return 0, 0, 0
+    if len(k) == 0:
+        return np.zeros((2,)), 0
+    if len(k) == 1:
+        return k[0], 0
+    if len(k) == 2:
+        p1, p2 = k[0], k[1]
+        mp = 1/2*(p1+p2)
+        r = 1/2*np.linalg.norm(p1-p2)
+        return mp, r
+    if len(k) == 3:
+        circle_m = -np.column_stack(k).T
+        circle_m = np.column_stack([np.ones(3), circle_m])
+        circle_b = np.array([-np.linalg.norm(p)**2 for p in k])
+        #TODO: handling for degenerate case
+        a, b, c = np.linalg.inv(circle_m)@circle_b
+        return np.array([b/2, c/2]), np.sqrt(b**2/4 + c**2/4 - a)
+    raise Exception(f"len(k) should be <= 3 but k = {k}")
