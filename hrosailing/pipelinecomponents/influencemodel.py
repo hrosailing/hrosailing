@@ -44,16 +44,3 @@ class InfluenceModel(ABC):
         in the polar diagram, based on the influencences presented in
         the given dictionary, such as wave height, underlying currents etc.
         """
-
-
-class LinearCurrentModel(InfluenceModel):
-    """Influence model to ..."""
-
-    def __init__(self):
-        return
-
-    def remove_influence(self, data: dict):
-        """"""
-
-    def add_influence(self, pd, influence_data: dict):
-        """"""
