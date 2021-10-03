@@ -1,4 +1,8 @@
-# pylint: disable=missing-docstring
+"""
+Contains various helper functions for the plot_*-methods() of the 
+PolarDiagram subclasses
+"""
+
 # Author: Valentin Dannenberg
 
 import matplotlib.pyplot as plt
@@ -13,6 +17,7 @@ from scipy.spatial import ConvexHull
 def plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
     if ax is None:
         ax = plt.axes(projection="polar")
+
     ax.set_theta_zero_location("N")
     ax.set_theta_direction("clockwise")
 
@@ -51,8 +56,13 @@ def plot_color_gradient(
 def plot3d(ws, wa, bsp, ax, colors, **plot_kw):
     if ax is None:
         ax = plt.axes(projection="3d")
+
     ax.set_xlabel("TWS")
     ax.set_ylabel("Polar plane: TWA / BSP ")
+
+    # remove axis labels since we are using polar-coordinates,
+    # which are transformed to cartesian, so the labels 
+    # would be wrong
     ax.yaxis.set_ticklabels([])
     ax.zaxis.set_ticklabels([])
 
@@ -64,8 +74,13 @@ def plot3d(ws, wa, bsp, ax, colors, **plot_kw):
 def plot_surface(ws, wa, bsp, ax, colors):
     if ax is None:
         ax = plt.axes(projection="3d")
+
     ax.set_xlabel("TWS")
     ax.set_ylabel("Polar plane: TWA / BSP ")
+
+    # remove axis labels since we are using polar-coordinates,
+    # which are transformed to cartesian, so the labels 
+    # would be wrong
     ax.yaxis.set_ticklabels([])
     ax.zaxis.set_ticklabels([])
 
@@ -80,6 +95,7 @@ def plot_convex_hull(
 ):
     if ax is None:
         ax = plt.axes(projection="polar")
+
     ax.set_theta_zero_location("N")
     ax.set_theta_direction("clockwise")
 
@@ -107,6 +123,7 @@ def plot_convex_hull_multisails(
 ):
     if ax is None:
         ax = plt.axes(projection="polar")
+
     ax.set_theta_zero_location("N")
     ax.set_theta_direction("clockwise")
 
