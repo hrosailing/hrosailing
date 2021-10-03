@@ -646,7 +646,7 @@ class PolarDiagramTable(PolarDiagram):
         except PolarDiagramException:
             pt = np.array([ws, wa])
 
-            ws_res, wa_res = np.meshgrid(self.wind_speed, self.wind_angles)
+            ws_res, wa_res = np.meshgrid(self.wind_speeds, self.wind_angles)
             pts = np.column_stack(
                 (ws_res.ravel(), wa_res.ravel(), self.boat_speeds.ravel())
             )
