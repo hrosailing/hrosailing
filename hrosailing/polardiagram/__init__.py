@@ -3324,6 +3324,9 @@ class PolarDiagramPointcloud(PolarDiagram):
                     f"No points with wind speed in range {w} found"
                 )
 
+            # sort for wind angles (needed for plotting methods)
+            pts = pts[pts[:, 0].argsort()]
+
             wa.append(np.deg2rad(pts[:, 0]))
             bsp.append(pts[:, 1])
 

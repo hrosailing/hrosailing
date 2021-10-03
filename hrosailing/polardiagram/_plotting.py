@@ -101,12 +101,6 @@ def plot_convex_hull(
 
     _prepare_plot(ax, ws, colors, show_legend, legend_kw, plot_kw)
 
-    wa, bsp = zip(
-        *(
-            zip(*sorted(zip(w, b), key=lambda pair: pair[0]))
-            for w, b in zip(wa, bsp)
-        )
-    )
     xs, ys = _get_convex_hull(wa, bsp)
 
     for x, y in zip(list(xs), list(ys)):
@@ -141,14 +135,7 @@ def plot_convex_hull_multisails(
 def _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
     _prepare_plot(ax, ws, colors, show_legend, legend_kw, plot_kw)
 
-    xs, ys = zip(
-        *(
-            zip(*sorted(zip(w, b), key=lambda pair: pair[0]))
-            for w, b in zip(wa, bsp)
-        )
-    )
-
-    for x, y in zip(list(xs), list(ys)):
+    for x, y in zip(wa, bsp):
         ax.plot(x, y, **plot_kw)
 
 
@@ -280,12 +267,6 @@ def _get_convex_hull(wa, bsp):
 
 
 def _get_convex_hull_multisails(ws, wa, bsp, members):
-    wa, bsp, members = zip(
-        *(
-            zip(*sorted(zip(w, b, members), key=lambda triple: triple[0]))
-            for w, b in zip(wa, bsp)
-        )
-    )
     members = members[0]
     xs = []
     ys = []
@@ -295,6 +276,7 @@ def _get_convex_hull_multisails(ws, wa, bsp, members):
         b = np.asarray(b)
         conv = _convex_hull_polar(w, b)
         vert = sorted(conv.vertices)
+
         x, y, memb = zip(
             *(
                 [(w[i], b[i], members[i]) for i in vert]
@@ -304,6 +286,7 @@ def _get_convex_hull_multisails(ws, wa, bsp, members):
         x = list(x)
         y = list(y)
         memb = list(memb)
+
         for i in range(len(vert)):
             xs.append(x[i : i + 2])
             ys.append(y[i : i + 2])
@@ -321,6 +304,9 @@ def _set_colors_multisails(ax, members, colors):
     colorlist = []
 
     for member in members:
+        # check if edge belongs to one or two sails
+        # If it belongs to one sail, color it in that sails color
+        # else color it in neutral color
         if len(set(member[:2])) == 1:
             color = colors.get(member[0], "blue")
         else:
@@ -340,6 +326,7 @@ def _set_legend_multisails(ax, colors, **legend_kw):
     handles = []
     for key in colors:
         color = colors.get(key, "blue")
+
         if is_color_like(color):
             legend = Line2D([0], [0], color=color, lw=1, label=key)
             handles.append(legend)
