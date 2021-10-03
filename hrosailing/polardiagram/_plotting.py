@@ -101,11 +101,6 @@ def plot_convex_hull(
 
     _prepare_plot(ax, ws, colors, show_legend, legend_kw, plot_kw)
 
-    if not isinstance(wa, list):
-        wa = [wa]
-    if not isinstance(bsp, list):
-        bsp = [bsp]
-
     wa, bsp = zip(
         *(
             zip(*sorted(zip(w, b), key=lambda pair: pair[0]))
@@ -145,11 +140,6 @@ def plot_convex_hull_multisails(
 
 def _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
     _prepare_plot(ax, ws, colors, show_legend, legend_kw, plot_kw)
-
-    if not isinstance(wa, list):
-        wa = [wa]
-    if not isinstance(bsp, list):
-        bsp = [bsp]
 
     xs, ys = zip(
         *(
@@ -191,6 +181,7 @@ def _set_color_cycle(ax, ws, colors):
         colorlist = ["blue"] * n_plots
         _set_colorlist(colors, colorlist, ws)
         ax.set_prop_cycle("color", colorlist)
+
         return
 
     # n_colors == 2
