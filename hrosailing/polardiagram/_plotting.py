@@ -8,8 +8,12 @@ PolarDiagram subclasses
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.cm import ScalarMappable
-from matplotlib.colors import (LinearSegmentedColormap, Normalize,
-                               is_color_like, to_rgb)
+from matplotlib.colors import (
+    LinearSegmentedColormap,
+    Normalize,
+    is_color_like,
+    to_rgb,
+)
 from matplotlib.lines import Line2D
 from scipy.spatial import ConvexHull
 
@@ -61,7 +65,7 @@ def plot3d(ws, wa, bsp, ax, colors, **plot_kw):
     ax.set_ylabel("Polar plane: TWA / BSP ")
 
     # remove axis labels since we are using polar-coordinates,
-    # which are transformed to cartesian, so the labels 
+    # which are transformed to cartesian, so the labels
     # would be wrong
     ax.yaxis.set_ticklabels([])
     ax.zaxis.set_ticklabels([])
@@ -79,7 +83,7 @@ def plot_surface(ws, wa, bsp, ax, colors):
     ax.set_ylabel("Polar plane: TWA / BSP ")
 
     # remove axis labels since we are using polar-coordinates,
-    # which are transformed to cartesian, so the labels 
+    # which are transformed to cartesian, so the labels
     # would be wrong
     ax.yaxis.set_ticklabels([])
     ax.zaxis.set_ticklabels([])
