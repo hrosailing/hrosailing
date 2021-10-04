@@ -17,12 +17,10 @@ setuptools.setup(
         "Bug Tracker": "https://github.com/hrosailing/hrosailing/issues"
     },
     classifiers=[
-        "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: Implementation :: PyPy"
-        "License :: OSI Approved :: APACHE License",
+        "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
     package_dir={"": "hrosailing"},
