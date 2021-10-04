@@ -1538,7 +1538,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             ]
         elif len(sails) > len(pds):
             sails = list(sails)
-            sails = sails[:len(pds)]
+            sails = sails[: len(pds)]
 
         self._sails = list(sails)
         self._tables = list(pds)
