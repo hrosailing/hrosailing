@@ -16,9 +16,13 @@ from ast import literal_eval
 from typing import List
 
 import hrosailing._logfolder as log
-from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
-                                           Interpolator, Neighbourhood,
-                                           WeightedPoints)
+from hrosailing.pipelinecomponents import (
+    ArithmeticMeanInterpolator,
+    Ball,
+    Interpolator,
+    Neighbourhood,
+    WeightedPoints,
+)
 from hrosailing.wind import _convert_wind, _set_resolution
 
 from ._plotting import *
@@ -1478,22 +1482,47 @@ class PolarDiagramTable(PolarDiagram):
         return [i for i, w in enumerate(res) if w in wind]
 
 
+class NotYetImplementedWarning(Warning):
+    """"""
+
+
 class PolarDiagramMultiSails(PolarDiagram):
     """A class to represent, visualize and work with
     a polar diagram made up of multiple sets of sails,
     represented by a PolarDiagramTable
 
+
+    Class methods aren't fully developed yet. Take care when
+    using this class
+
     Parameters
     ----------
     pds : Iterable of PolarDiagramTable objects
+        Polar diagrams belonging to different sets of sails,
+        given as tables, that share the same wind speeds
 
     sails : Iterable, optional
+        Custom names for the sails. Length should be equal to pds
+        If it is not equal it will either be cut off at the appropriate
+        length or will be addended with `"Sail i"` to the appropriate length
+
+        Only important for the legend of plots or the to_csv()-method
+
+        If nothing is passed, the names will be `"Sail i"`, i = 0...n-1,
+        where `len(pds) = n`.
 
 
-    Raises a PolarDiagramException if
+    Raises a PolarDiagramException if the polar tables don't
+    share the same wind speeds
     """
 
     def __init__(self, pds: List[PolarDiagramTable], sails: List[str] = None):
+        warnings.warn(
+            "Class features arent't all fully developed yet and/or might "
+            "change behaviour heavily in the future. "
+            "Take care when using this class",
+            category=NotYetImplementedWarning,
+        )
         ws = pds[0].wind_speeds
         for pd in pds:
             if not np.array_equal(ws, pd.wind_speeds):
@@ -1503,11 +1532,13 @@ class PolarDiagramMultiSails(PolarDiagram):
 
         if sails is None:
             sails = [f"Sail {i}" for i in range(len(pds))]
-        elif len(sails) != len(pds):
-            raise PolarDiagramInitializationException(
-                "Number of sails is not equal to number of "
-                "given polar diagrams"
-            )
+        elif len(sails) < len(pds):
+            sails = list(sails) + [
+                f"Sail {i}" for i in range(len(sails) + 1, len(pds))
+            ]
+        elif len(sails) > len(pds):
+            sails = list(sails)
+            sails = sails[:len(pds)]
 
         self._sails = list(sails)
         self._tables = list(pds)
