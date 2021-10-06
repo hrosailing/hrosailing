@@ -245,13 +245,13 @@ class WeatherModel:
         Weather data at different space-time grid points
 
     times : list of length n
-        Sorted list of time values
+        Sorted list of time values of the space-time grid
 
     lats : list of length m
-        Sorted list of lattitude values
+        Sorted list of lattitude values of the space-time grid
 
     lons : list of length r
-        Sorted list of longitude values
+        Sorted list of longitude values of the space-time grid
 
     attrs : list of length s
         List of different (scalar) attributes of weather
