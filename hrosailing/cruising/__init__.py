@@ -264,6 +264,9 @@ class WeatherModel:
         self._attrs = attrs
         self._data = data
 
+    def _grid(self):
+        return (self._times, self._lats, self._lons)
+
     def get_weather(self, point):
         """Given a space-time point, uses the available weather model
         to calculate the weather at that point
@@ -299,29 +302,17 @@ class WeatherModel:
                 "`point` is outside the grid. Weather data not available."
             )
 
-        time, lat, lon = point
 
-        t_idx = bisect_left(self._times, time)
-        la_idx = bisect_left(self._lats, lat)
-        lo_idx = bisect_left(self._lons, lon)
+        grid = self._grid()
+        idxs = [bisect_left(grid_comp, comp) for grid_comp, comp in zip(grid, point)]
+        flags = [grid_pt[idx] == pt for grid_pt, idx, pt in zip(grid, idxs, point,)]
 
-        # check if components of point are grid points
-        t_flag = self._times[t_idx] == time
-        la_flag = self._lats[la_idx] == lat
-        lo_flag = self._lons[lo_idx] == lon
-        flags = (t_flag, la_flag, lo_flag)
+        cuboid = [[idx, idx + 1] if flag else [idx] for idx, flag in zip(idxs, flags)]
 
-        # create "cuboid" which contains point
-        cuboid = np.meshgrid(
-            [t_idx, t_idx + 1] if not t_flag else [t_idx],
-            [la_idx, la_idx + 1] if not la_flag else [la_idx],
-            [lo_idx, lo_idx + 1] if not lo_flag else [lo_idx],
-        )
+        cuboid = np.meshgrid(*cuboid)
         idxs = np.vstack(tuple(map(np.ravel, cuboid))).T
 
-        grid = (self._times, self._lats, self._lons)
-
-        val = _interpolate_weather_data(self._data, idxs, point, flags, grid)
+        val = _interpolate_weather_data(self._data, idxs, point, flags, self._grid)
         return dict(zip(self._attrs, val))
 
 
