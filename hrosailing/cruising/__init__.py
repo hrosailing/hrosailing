@@ -569,7 +569,12 @@ def _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im):
         data["HDT"] = hdt
     except OutsideGridException:
         return 0
-    bsp = im.add_influence(pd, data)
+    if im:
+        bsp = im.add_influence(pd, data)
+    else:
+        ugrid, vgrid = data["UGRID"], data["VGRID"]
+        tws, twa = _uvgrid_to_tw(ugrid, vgrid, hdt)
+        bsp = pd(tws, twa)
 
     if bsp != 0:
         return 1 / bsp
@@ -633,6 +638,13 @@ def _wind_relative_to_north(wdir):
 
     # twa + bd:
     # wdir = (rwSK + twa) % 360 ?
+
+def _uvgrid_to_tw(ugrid, vgrid, hdt):
+    #TODO: check
+    tws = np.sqrt(ugrid**2 + vgrid**2)
+    wa = (180 + 180/np.pi*np.arctan2(vgrid, ugrid))%360
+    twa = (hdt - wa) % 360
+    return tws, twa
 
 
 EARTH_FLATTENING = 1 / 298.257223563
