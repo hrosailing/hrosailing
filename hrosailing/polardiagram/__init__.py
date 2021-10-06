@@ -671,7 +671,7 @@ class PolarDiagramTable(PolarDiagram):
         bsp : int or float
             The boat speed value at the corresponding entry of the table
         """
-        ws, wa = key
+        ws, wa = key[0]
         col = self._get_indices(np.atleast_1d(ws), "s")
         row = self._get_indices(np.atleast_1d(wa), "a")
         return self.boat_speeds[row, col]
