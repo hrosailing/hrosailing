@@ -312,7 +312,7 @@ class WeatherModel:
         cuboid = np.meshgrid(*cuboid)
         idxs = np.vstack(tuple(map(np.ravel, cuboid))).T
 
-        val = _interpolate_weather_data(self._data, idxs, point, flags, self._grid)
+        val = _interpolate_weather_data(self._data, idxs, point, flags, grid)
         return dict(zip(self._attrs, val))
 
 
@@ -587,7 +587,6 @@ def _interpolate_weather_data(data, idxs, point, flags, grid):
 
     face = [i for i, flag in enumerate(flags) if not flag]
 
-    # point lies on an edge
     if len(face) == 1:
         edges = [idxs[0], idxs[1]]
     else:
