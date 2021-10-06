@@ -97,7 +97,6 @@ def convex_direction(
     _, wa, bsp, *sails = pd.get_slices(ws)
     if im:
         bsp = im.add_influence(pd, influence_data)
-
     bsp = bsp.ravel()
 
     polar_pts = np.column_stack(
@@ -162,10 +161,10 @@ def cruise(
     pd : PolarDiagram
         The polar diagram of the vessel
 
-    ws : int / float
+    ws : int or float
         The current wind speed given in knots
 
-    wdir : FooBar
+    wdir : See below
         The direction of the wind given as either
 
         - the wind angle relative to north
@@ -200,10 +199,8 @@ def cruise(
     directions : list of tuples
         Directions as well as the time needed to sail along those,
         to get from start to end
-
     """
     _, wa, bsp, *_ = pd.get_slices(ws)
-
     if im:
         bsp = im.add_influence(pd, influence_data)
     bsp = bsp.ravel()
@@ -223,6 +220,7 @@ def cruise(
     if not d2:
         return [(d1.angle, dist / bsp1)]
 
+    d2 = d2[0]
     bsp2 = bsp[np.where(wa == d2.angle)[0][0]]
 
     t = dist / (d1.proportion * bsp1 + d2.proportion * bsp2)
