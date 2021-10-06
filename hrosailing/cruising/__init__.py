@@ -302,12 +302,23 @@ class WeatherModel:
                 "`point` is outside the grid. Weather data not available."
             )
 
-
         grid = self._grid()
-        idxs = [bisect_left(grid_comp, comp) for grid_comp, comp in zip(grid, point)]
-        flags = [grid_pt[idx] == pt for grid_pt, idx, pt in zip(grid, idxs, point,)]
+        idxs = [
+            bisect_left(grid_comp, comp)
+            for grid_comp, comp in zip(grid, point)
+        ]
+        flags = [
+            grid_pt[idx] == pt
+            for grid_pt, idx, pt in zip(
+                grid,
+                idxs,
+                point,
+            )
+        ]
 
-        cuboid = [[idx, idx + 1] if flag else [idx] for idx, flag in zip(idxs, flags)]
+        cuboid = [
+            [idx, idx + 1] if flag else [idx] for idx, flag in zip(idxs, flags)
+        ]
 
         cuboid = np.meshgrid(*cuboid)
         idxs = np.vstack(tuple(map(np.ravel, cuboid))).T
