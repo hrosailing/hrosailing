@@ -639,10 +639,11 @@ def _wind_relative_to_north(wdir):
     # twa + bd:
     # wdir = (rwSK + twa) % 360 ?
 
+
 def _uvgrid_to_tw(ugrid, vgrid, hdt):
-    #TODO: check
-    tws = np.sqrt(ugrid**2 + vgrid**2)
-    wa = (180 + 180/np.pi*np.arctan2(vgrid, ugrid))%360
+    # TODO: check
+    tws = np.sqrt(ugrid ** 2 + vgrid ** 2)
+    wa = (180 + 180 / np.pi * np.arctan2(vgrid, ugrid)) % 360
     twa = (hdt - wa) % 360
     return tws, twa
 
