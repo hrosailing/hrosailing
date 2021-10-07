@@ -265,7 +265,7 @@ class WeatherModel:
         self._data = data
 
     def _grid(self):
-        return (self._times, self._lats, self._lons)
+        return self._times, self._lats, self._lons
 
     def get_weather(self, point):
         """Given a space-time point, uses the available weather model
@@ -317,7 +317,7 @@ class WeatherModel:
         ]
 
         cuboid = [
-            [idx, idx + 1] if flag else [idx] for idx, flag in zip(idxs, flags)
+            [idx - 1, idx] if not flag else [idx] for idx, flag in zip(idxs, flags)
         ]
 
         cuboid = np.meshgrid(*cuboid)
