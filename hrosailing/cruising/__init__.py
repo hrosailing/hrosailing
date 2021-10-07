@@ -317,7 +317,8 @@ class WeatherModel:
         ]
 
         cuboid = [
-            [idx - 1, idx] if not flag else [idx] for idx, flag in zip(idxs, flags)
+            [idx - 1, idx] if not flag else [idx]
+            for idx, flag in zip(idxs, flags)
         ]
 
         cuboid = np.meshgrid(*cuboid)
