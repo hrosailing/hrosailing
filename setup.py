@@ -28,7 +28,7 @@ setuptools.setup(
         "hrosailing.cruising",
         "hrosailing.polardiagram",
         "hrosailing.pipeline",
-        "hrosailing.pipelinecomponents"
+        "hrosailing.pipelinecomponents",
     ],
     python_requires=">=3.7",
 )
