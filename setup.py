@@ -5,8 +5,8 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="hrosailing-rubbinduck",
-    version="0.9.0",
+    name="hrosailing",
+    version="0.9.1",
     author="Valentin Dannenberg & Robert Schueler",
     author_email="valentin.dannenberg2@uni-rostock.de",
     description="Python library for Polar (Performance) Diagrams",
