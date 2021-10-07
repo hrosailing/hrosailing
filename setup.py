@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="hrosailing",
+    name="hrosailing-rubbinduck",
     version="0.9.0",
     author="Valentin Dannenberg & Robert Schueler",
     author_email="valentin.dannenberg2@uni-rostock.de",
@@ -23,7 +23,12 @@ setuptools.setup(
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
-    package_dir={"": "hrosailing"},
-    packages=setuptools.find_packages(where="hrosailing"),
+    packages=[
+        "hrosailing",
+        "hrosailing.cruising",
+        "hrosailing.polardiagram",
+        "hrosailing.pipeline",
+        "hrosailing.pipelinecomponents"
+    ],
     python_requires=">=3.7",
 )
