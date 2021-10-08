@@ -19,7 +19,6 @@ from ast import literal_eval
 from decimal import Decimal
 
 import numpy as np
-import pynmea2 as pynmea
 
 
 class HandlerInitializationException(Exception):
@@ -180,6 +179,8 @@ class NMEAFileHandler(DataHandler):
         data_dict : dict
             Dictionary where the keys are the given attributes
         """
+        from pynmea2 import parse
+
         data_dict = {attr: [] for attr in self._attr_filter}
         ndata = 0
 
@@ -190,7 +191,7 @@ class NMEAFileHandler(DataHandler):
             )
 
             for stc in nmea_stcs:
-                parsed = pynmea.parse(stc)
+                parsed = parse(stc)
                 nmea_attr = filter(
                     lambda pair: any(
                         attr == pair[0][0] for attr in self._attr_filter
