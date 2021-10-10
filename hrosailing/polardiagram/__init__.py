@@ -68,7 +68,7 @@ def to_csv(csv_path, obj):
     obj.to_csv(csv_path)
 
 
-def from_csv(csv_path, fmt="hro", tw=True):
+def from_csv(csv_path, fmt="hro"):
     """Reads a .csv file and returns the PolarDiagram
     instance contained in it
 
@@ -84,12 +84,7 @@ def from_csv(csv_path, fmt="hro", tw=True):
         - orc: format found at [ORC](https://jieter.github.io/orc-data/site/)
         - opencpn: format created by
         [OpenCPN Polar Plugin](https://opencpn.org/OpenCPN/plugins/polar.html)
-        - array
-
-    tw : bool
-        Specifies if wind data in file should be viewed as true wind
-
-        Defaults to True
+        - array: tab-seperated polar diagram in form of a table
 
     Returns
     -------
@@ -100,49 +95,34 @@ def from_csv(csv_path, fmt="hro", tw=True):
     Raises a FileReadingException
 
     - if an unknown format was specified
-    - if, in the format "hro", the first row does not match
+    - if, in the format "hro", the first row does not match any PolarDiagram subclass
+    - if, in the format "hro", the specified PolarDiagram subclass does not implement 
+      a __from_csv(csv_reader) method
     """
     if fmt not in {"array", "hro", "opencpn", "orc"}:
         raise FileReadingException("`fmt` not implemented")
 
     with open(csv_path, "r", newline="", encoding="utf-8") as file:
         if fmt == "hro":
+            subclasses = {cls.__name__ : cls for cls in PolarDiagram.__subclasses__()}
+
             csv_reader = csv.reader(file, delimiter=",")
             first_row = next(csv_reader)[0]
-            if first_row not in {
-                "PolarDiagramTable",
-                "PolarDiagramPointcloud",
-            }:
+
+            if first_row not in subclasses:
+                raise FileReadingException(f"No polar diagram format with the name {first_row} exists")
+
+            pd = subclasses[first_row]
+
+            try:
+                pd.__from_csv__(csv_reader)
+            except AttributeError:
                 raise FileReadingException(
                     f"hro-format for {first_row} not implemented"
                 )
-            if first_row == "PolarDiagramTable":
-                ws_res, wa_res, bsps = _read_table(csv_reader)
-                return PolarDiagramTable(
-                    ws_res=ws_res, wa_res=wa_res, bsps=bsps
-                )
-
-            pts = _read_pointcloud(csv_reader)
-            return PolarDiagramPointcloud(pts=pts, tw=tw)
 
         ws_res, wa_res, bsps = _read_extern_format(file, fmt)
         return PolarDiagramTable(ws_res=ws_res, wa_res=wa_res, bsps=bsps)
-
-
-def _read_table(csv_reader):
-    next(csv_reader)
-    ws_res = [literal_eval(ws) for ws in next(csv_reader)]
-    next(csv_reader)
-    wa_res = [literal_eval(wa) for wa in next(csv_reader)]
-    next(csv_reader)
-    bsps = [[literal_eval(bsp) for bsp in row] for row in csv_reader]
-
-    return ws_res, wa_res, bsps
-
-
-def _read_pointcloud(csv_reader):
-    next(csv_reader)
-    return np.array([[literal_eval(pt) for pt in row] for row in csv_reader])
 
 
 def _read_extern_format(file, fmt):
