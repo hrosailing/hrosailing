@@ -769,6 +769,17 @@ class PolarDiagramTable(PolarDiagram):
             csv_writer.writerow(["Boat speeds:"])
             csv_writer.writerows(self.boat_speeds)
 
+    @staticmethod
+    def __from__csv(csv_reader):
+        next(csv_reader)
+        ws_res = [literal_eval(ws) for ws in next(csv_reader)]
+        next(csv_reader)
+        wa_res = [literal_eval(wa) for wa in next(csv_reader)]
+        next(csv_reader)
+        bsps = [[literal_eval(bsp) for bsp in row] for row in csv_reader]
+
+        return PolarDiagramTable(ws_res, wa_res, bsps)
+
     def symmetrize(self):
         """Constructs a symmetric version of the
         polar diagram, by mirroring it at the 0° - 180° axis
@@ -1607,6 +1618,34 @@ class PolarDiagramMultiSails(PolarDiagram):
                 csv_writer.writerow(["Boat speeds:"])
                 csv_writer.writerows(table.boat_speeds)
 
+    @staticmethod
+    def __from_csv__(csv_reader):
+        next(csv_reader)
+        ws_res = [literal_eval(ws) for ws in next(csv_reader)]
+        sails = []
+        wa_reses = []
+        bsps = []
+
+        i = 0
+        for row in csv_reader:
+            if i % 5 == 0:
+                sails.append(row[0])
+            elif i % 5 == 1 or i % 5 == 3:
+                pass
+            elif i % 5 == 2:
+                wa_res = [literal_eval(wa) for wa in row]
+                wa_reses.append(wa_res)
+            else:
+                bsp = [literal_eval(s) for s in row]
+                bsps.append(bsp)
+
+            i += 1
+
+        pds = [PolarDiagramTable(ws_res, wa_res, bsp) for wa_res, bsp in zip(wa_reses, bsps)]
+
+        return PolarDiagramMultiSails(pds, sails)
+
+
     def symmetrize(self):
         """Constructs a symmetric version of the polar diagram, by
         mirroring each PolarDiagramTable at the 0° - 180° axis and
@@ -2092,6 +2131,25 @@ class PolarDiagramCurve(PolarDiagram):
             csv_writer.writerow(["Function"] + [self.curve.__name__])
             csv_writer.writerow(["Radians"] + [str(self.radians)])
             csv_writer.writerow(["Parameters"] + list(self.parameters))
+
+    @staticmethod
+    def __from_csv__(csv_reader):
+        func = next(csv_reader)[1]
+        radians = next(csv_reader)[1]
+        params = next(csv_reader)[1]
+
+        # Check if a function with the name in .csv file 
+        # is defined, if so use that function
+        globals_ = globals()
+        if func not in globals_:
+            raise PolarDiagramException("No function with the name `func` is currently defined. Deserializing not possible")
+
+        func = globals_["func"]
+
+
+        return PolarDiagramCurve(func, *params, radians=radians)
+
+
 
     def symmetrize(self):
         """Constructs a symmetric version of the
@@ -2752,6 +2810,13 @@ class PolarDiagramPointcloud(PolarDiagram):
                 ["True wind speed ", "True wind angle ", "Boat speed "]
             )
             csv_writer.writerows(self.points)
+
+    @staticmethod
+    def __from_csv__(csv_reader):
+        next(csv_reader)
+        pts = np.array([[literal_eval(pt) for pt in row] for row in csv_reader])
+
+        return PolarDiagramPointcloud(pts)
 
     def symmetrize(self):
         """Constructs a symmetric version of the polar diagram,
