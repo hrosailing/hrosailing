@@ -16,9 +16,13 @@ from ast import literal_eval
 from typing import List
 
 import hrosailing._logfolder as log
-from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
-                                           Interpolator, Neighbourhood,
-                                           WeightedPoints)
+from hrosailing.pipelinecomponents import (
+    ArithmeticMeanInterpolator,
+    Ball,
+    Interpolator,
+    Neighbourhood,
+    WeightedPoints,
+)
 from hrosailing.wind import _convert_wind, _set_resolution
 
 from ._plotting import *
@@ -96,7 +100,7 @@ def from_csv(csv_path, fmt="hro"):
 
     - if an unknown format was specified
     - if, in the format "hro", the first row does not match any PolarDiagram subclass
-    - if, in the format "hro", the specified PolarDiagram subclass does not implement 
+    - if, in the format "hro", the specified PolarDiagram subclass does not implement
       a __from_csv(csv_reader) method
     """
     if fmt not in {"array", "hro", "opencpn", "orc"}:
@@ -104,13 +108,17 @@ def from_csv(csv_path, fmt="hro"):
 
     with open(csv_path, "r", newline="", encoding="utf-8") as file:
         if fmt == "hro":
-            subclasses = {cls.__name__ : cls for cls in PolarDiagram.__subclasses__()}
+            subclasses = {
+                cls.__name__: cls for cls in PolarDiagram.__subclasses__()
+            }
 
             csv_reader = csv.reader(file, delimiter=",")
             first_row = next(csv_reader)[0]
 
             if first_row not in subclasses:
-                raise FileReadingException(f"No polar diagram format with the name {first_row} exists")
+                raise FileReadingException(
+                    f"No polar diagram format with the name {first_row} exists"
+                )
 
             pd = subclasses[first_row]
 
@@ -1621,10 +1629,12 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             i += 1
 
-        pds = [PolarDiagramTable(ws_res, wa_res, bsp) for wa_res, bsp in zip(wa_reses, bsps)]
+        pds = [
+            PolarDiagramTable(ws_res, wa_res, bsp)
+            for wa_res, bsp in zip(wa_reses, bsps)
+        ]
 
         return PolarDiagramMultiSails(pds, sails)
-
 
     def symmetrize(self):
         """Constructs a symmetric version of the polar diagram, by
@@ -2118,17 +2128,17 @@ class PolarDiagramCurve(PolarDiagram):
         radians = literal_eval(next(csv_reader)[1])
         params = [literal_eval(param) for param in next(csv_reader)[1:]]
 
-        # Check if a function with the name in .csv file 
+        # Check if a function with the name in .csv file
         # is defined, if so use that function
         globals_ = globals()
         if func not in globals_:
-            raise PolarDiagramException("No function with the name `func` is currently defined. Deserializing not possible")
+            raise PolarDiagramException(
+                "No function with the name `func` is currently defined. Deserializing not possible"
+            )
 
         func = globals_["func"]
 
         return PolarDiagramCurve(func, *params, radians=radians)
-
-
 
     def symmetrize(self):
         """Constructs a symmetric version of the
@@ -2793,7 +2803,9 @@ class PolarDiagramPointcloud(PolarDiagram):
     @staticmethod
     def __from_csv__(csv_reader):
         next(csv_reader)
-        pts = np.array([[literal_eval(pt) for pt in row] for row in csv_reader])
+        pts = np.array(
+            [[literal_eval(pt) for pt in row] for row in csv_reader]
+        )
 
         return PolarDiagramPointcloud(pts)
 
