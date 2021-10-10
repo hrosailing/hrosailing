@@ -1649,7 +1649,7 @@ class PolarDiagramMultiSails(PolarDiagram):
     def symmetrize(self):
         """Constructs a symmetric version of the polar diagram, by
         mirroring each PolarDiagramTable at the 0° - 180° axis and
-        returning a new instance. See also the symmetrize()-method
+        returning a new instance. See also the symmetrizce()-method
         of the PolarDiagramTable class
 
         Warning
@@ -2135,8 +2135,8 @@ class PolarDiagramCurve(PolarDiagram):
     @staticmethod
     def __from_csv__(csv_reader):
         func = next(csv_reader)[1]
-        radians = next(csv_reader)[1]
-        params = next(csv_reader)[1]
+        radians = literal_eval(next(csv_reader)[1])
+        params = [literal_eval(param) for param in next(csv_reader)[1:]]
 
         # Check if a function with the name in .csv file 
         # is defined, if so use that function
@@ -2145,7 +2145,6 @@ class PolarDiagramCurve(PolarDiagram):
             raise PolarDiagramException("No function with the name `func` is currently defined. Deserializing not possible")
 
         func = globals_["func"]
-
 
         return PolarDiagramCurve(func, *params, radians=radians)
 
