@@ -139,3 +139,13 @@ cython_debug/
 *.grb
 *.nmea
 logging/
+
+
+# Pypi config file
+.pypirc
+
+# Pycharm makes some dirs
+.idea
+
+# Don't track main.py
+main.py
