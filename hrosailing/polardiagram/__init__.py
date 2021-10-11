@@ -121,10 +121,10 @@ def from_csv(csv_path, fmt="hro"):
 
             try:
                 pd.__from_csv__(csv_reader)
-            except AttributeError:
+            except AttributeError as ae:
                 raise FileReadingException(
                     f"hro-format for {first_row} not implemented"
-                )
+                ) from ae
 
         ws_res, wa_res, bsps = _read_extern_format(file, fmt)
         return PolarDiagramTable(ws_res=ws_res, wa_res=wa_res, bsps=bsps)
@@ -482,14 +482,15 @@ class PolarDiagramTable(PolarDiagram):
         >>> pd.wind_speeds
         [ 2  4  6  8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40]
         >>> pd.wind_angles
-        [  0   5  10  15  20  25  30  35  40  45  50  55  60  65  70  75  80  85
-          90  95 100 105 110 115 120 125 130 135 140 145 150 155 160 165 170 175
-         180 185 190 195 200 205 210 215 220 225 230 235 240 245 250 255 260 265
-         270 275 280 285 290 295 300 305 310 315 320 325 330 335 340 345 350 355]
+        [  0   5  10  15  20  25  30  35  40  45  50  55  60  65  70  75  80
+          85  90  95 100 105 110 115 120 125 130 135 140 145 150 155 160 165
+         170 175 180 185 190 195 200 205 210 215 220 225 230 235 240 245 250
+         255 260 265 270 275 280 285 290 295 300 305 310 315 320 325 330 335
+         340 345 350 355]
         >>> pd = PolarDiagramTable(ws_res = [6, 8, 10, 12, 14],
         ...                        wa_res = [52, 60, 75, 90, 110, 120, 135])
         >>> print(pd)
-          TWA \ TWS    6.0    8.0    10.0    12.0    14.0
+          TWA / TWS    6.0    8.0    10.0    12.0    14.0
         -----------  -----  -----  ------  ------  ------
         52.0          0.00   0.00    0.00    0.00    0.00
         60.0          0.00   0.00    0.00    0.00    0.00
@@ -512,7 +513,7 @@ class PolarDiagramTable(PolarDiagram):
         ...     wa_res=[52, 60, 75, 90, 110, 120, 135],
         ... )
         >>> print(pd)
-          TWA \ TWS    6.0    8.0    10.0    12.0    14.0
+          TWA / TWS    6.0    8.0    10.0    12.0    14.0
         -----------  -----  -----  ------  ------  ------
         52.0          5.33   6.32    6.96    7.24    7.35
         60.0          5.64   6.61    7.14    7.42    7.56
@@ -567,7 +568,7 @@ class PolarDiagramTable(PolarDiagram):
         self._boat_speeds = np.array(bsps, float).T
 
     def __str__(self):
-        table = ["  TWA \\ TWS"]
+        table = ["  TWA / TWS"]
         ws = self.wind_speeds
         if len(ws) <= 15:
             self._short_table(table, ws)
@@ -710,7 +711,7 @@ class PolarDiagramTable(PolarDiagram):
             ...     wa_res=[52, 60, 75, 90, 110, 120, 135],
             ... )
             >>> print(pd)
-              TWA \ TWS    6.0    8.0    10.0    12.0    14.0
+              TWA / TWS    6.0    8.0    10.0    12.0    14.0
             -----------  -----  -----  ------  ------  ------
             52.0          5.33   6.32    6.96    7.24    7.35
             60.0          5.64   6.61    7.14    7.42    7.56
@@ -722,7 +723,7 @@ class PolarDiagramTable(PolarDiagram):
             >>> pd.to_csv("example.csv")
             >>> pd2 = from_csv("example.csv")
             >>> print(pd2)
-              TWA \ TWS    6.0    8.0    10.0    12.0    14.0
+              TWA / TWS    6.0    8.0    10.0    12.0    14.0
             -----------  -----  -----  ------  ------  ------
             52.0          5.33   6.32    6.96    7.24    7.35
             60.0          5.64   6.61    7.14    7.42    7.56
@@ -738,7 +739,7 @@ class PolarDiagramTable(PolarDiagram):
         with open(csv_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file, delimiter=",")
             if fmt == "opencpn":
-                csv_writer.writerow(["TWA\\TWS"] + self.wind_speeds)
+                csv_writer.writerow(["TWA \\ TWS"] + self.wind_speeds)
                 rows = np.column_stack((self.wind_angles, self.boat_speeds))
                 csv_writer.writerows(rows)
 
@@ -786,7 +787,7 @@ class PolarDiagramTable(PolarDiagram):
             ...     wa_res = [52, 60, 75, 90]
             ... )
             >>> print(pd)
-              TWA \ TWS    6.0    8.0    10.0    12.0    14.0
+              TWA / TWS    6.0    8.0    10.0    12.0    14.0
             -----------  -----  -----  ------  ------  ------
             52.0          5.33   6.32    6.96    7.24    7.35
             60.0          5.64   6.61    7.14    7.42    7.56
@@ -794,7 +795,7 @@ class PolarDiagramTable(PolarDiagram):
             90.0          5.92   6.98    7.42    7.62    7.93
             >>> sym_pd = pd.symmetrize()
             >>> print(sym_pd)
-              TWA \ TWS    6.0    8.0    10.0    12.0    14.0
+              TWA / TWS    6.0    8.0    10.0    12.0    14.0
             -----------  -----  -----  ------  ------  ------
             52.0          5.33   6.32    6.96    7.24    7.35
             60.0          5.64   6.61    7.14    7.42    7.56
@@ -864,7 +865,7 @@ class PolarDiagramTable(PolarDiagram):
             ...     wa_res=[52, 60, 75, 90, 110, 120, 135]
             ... )
             >>> print(pd)
-              TWA \ TWS    6.0    8.0    10.0    12.0    14.0
+              TWA / TWS    6.0    8.0    10.0    12.0    14.0
             -----------  -----  -----  ------  ------  ------
             52.0          0.00   0.00    0.00    0.00    0.00
             60.0          0.00   0.00    0.00    0.00    0.00
@@ -878,7 +879,7 @@ class PolarDiagramTable(PolarDiagram):
             ...     ws=6
             ... )
             >>> print(pd)
-              TWA \ TWS    6.0    8.0    10.0    12.0    14.0
+              TWA / TWS    6.0    8.0    10.0    12.0    14.0
             -----------  -----  -----  ------  ------  ------
             52.0          5.33   0.00    0.00    0.00    0.00
             60.0          5.64   0.00    0.00    0.00    0.00
@@ -892,7 +893,7 @@ class PolarDiagramTable(PolarDiagram):
             ...     wa=52
             ... )
             >>> print(pd)
-              TWA \ TWS    6.0    8.0    10.0    12.0    14.0
+              TWA / TWS    6.0    8.0    10.0    12.0    14.0
             -----------  -----  -----  ------  ------  ------
             52.0          5.70   6.32    6.96    7.24    7.35
             60.0          5.64   0.00    0.00    0.00    0.00
@@ -903,7 +904,7 @@ class PolarDiagramTable(PolarDiagram):
             135.0         5.20   0.00    0.00    0.00    0.00
             >>> pd.change_entries(new_bsps=5.33, ws=6, wa=52)
             >>> print(pd)
-              TWA \ TWS    6.0    8.0    10.0    12.0    14.0
+              TWA / TWS    6.0    8.0    10.0    12.0    14.0
             -----------  -----  -----  ------  ------  ------
             52.0          5.33   6.32    6.96    7.24    7.35
             60.0          5.64   0.00    0.00    0.00    0.00
@@ -918,7 +919,7 @@ class PolarDiagramTable(PolarDiagram):
             ...     wa=[60, 75]
             ... )
             >>> print(pd)
-              TWA \ TWS    6.0    8.0    10.0    12.0    14.0
+              TWA / TWS    6.0    8.0    10.0    12.0    14.0
             -----------  -----  -----  ------  ------  ------
             52.0          5.33   6.32    6.96    7.24    7.35
             60.0          5.64   6.61    7.14    0.00    0.00
@@ -1471,7 +1472,7 @@ class PolarDiagramTable(PolarDiagram):
 
 
 class NotYetImplementedWarning(Warning):
-    """"""
+    """Simple Warning for not fully finished implementations"""
 
 
 class PolarDiagramMultiSails(PolarDiagram):
@@ -1949,6 +1950,9 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             If nothing is passed, it will default to {}
         """
+        warnings.warn(
+            "Feature isn't implemented yet", category=NotYetImplementedWarning
+        )
 
     def plot_convex_hull(
         self,

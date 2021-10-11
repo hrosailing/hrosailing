@@ -5,6 +5,8 @@ PolarDiagram subclasses
 
 # Author: Valentin Dannenberg
 
+# pylint: disable=missing-function-docstring
+
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.cm import ScalarMappable
