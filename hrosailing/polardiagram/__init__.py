@@ -2128,7 +2128,8 @@ class PolarDiagramCurve(PolarDiagram):
         globals_ = globals()
         if func not in globals_:
             raise PolarDiagramException(
-                "No function with the name `func` is currently defined. Deserializing not possible"
+                "No function with the name `func` is currently defined. "
+                "Deserializing not possible"
             )
 
         func = globals_["func"]
