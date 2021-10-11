@@ -199,7 +199,7 @@ class TableExtension(PipelineExtension):
 
         Defaults to Ball(radius=1)
 
-        Note: Any class with a method `is_contained_in(pts) -> (n,) boolean array`
+        Note: Any class with a method  `is_contained_in(pts) -> (n,) boolarray`
         should work here, but we recommend using a subclass of Neighbourhood
 
     interpolator : Interpolator, optional
@@ -342,7 +342,7 @@ class PointcloudExtension(PipelineExtension):
 
         Defaults to Ball(radius=1)
 
-        Note: Any class with a method `is_contained_in(pts) -> (n,) boolean array`
+        Note: Any class with a method `is_contained_in(pts) -> (n,) boolarray`
         should work here, but we recommend using a subclass of Neighbourhood
 
     interpolator : Interpolator, optional
