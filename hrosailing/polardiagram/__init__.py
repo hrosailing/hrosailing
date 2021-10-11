@@ -95,9 +95,10 @@ def from_csv(csv_path, fmt="hro"):
     Raises a FileReadingException
 
     - if an unknown format was specified
-    - if, in the format "hro", the first row does not match any PolarDiagram subclass
-    - if, in the format "hro", the specified PolarDiagram subclass does not implement
-      a __from_csv(csv_reader) method
+    - if, in the format "hro", the first row does not match any
+    PolarDiagram subclass
+    - if, in the format "hro", the specified PolarDiagram subclass
+    does not implement a __from_csv__(csv_reader) method
     """
     if fmt not in {"array", "hro", "opencpn", "orc"}:
         raise FileReadingException("`fmt` not implemented")
@@ -145,20 +146,16 @@ def _read_sail_csv(file, delimiter):
     ws_res = [literal_eval(ws) for ws in next(csv_reader)[1:]]
     if delimiter == ";":
         next(csv_reader)
-    wa_res, bsps = list(
-        zip(
-            *(
-                [
-                    (
-                        # delete °-symbol in case of opencpn format
-                        literal_eval(row[0].replace("°", "")),
-                        [literal_eval(s) if s != "" else 0 for s in row[1:]],
-                    )
-                    for row in csv_reader
-                ]
-            )
-        )
-    )
+
+    wa_res = []
+    bsps = []
+
+    for row in csv_reader:
+        # delete °-symbol in case of opencpn format
+        wa_res.append(literal_eval(row[0].replace("°", "")))
+
+        bsps.append([literal_eval(bsp) if bsp != "" else 0 for bsp in row[1:]])
+
     return ws_res, wa_res, bsps
 
 
@@ -754,7 +751,7 @@ class PolarDiagramTable(PolarDiagram):
             csv_writer.writerows(self.boat_speeds)
 
     @staticmethod
-    def __from__csv(csv_reader):
+    def __from_csv__(csv_reader):
         next(csv_reader)
         ws_res = [literal_eval(ws) for ws in next(csv_reader)]
         next(csv_reader)
@@ -1614,12 +1611,10 @@ class PolarDiagramMultiSails(PolarDiagram):
         for row in csv_reader:
             if i % 5 == 0:
                 sails.append(row[0])
-            elif i % 5 == 1 or i % 5 == 3:
-                pass
             elif i % 5 == 2:
                 wa_res = [literal_eval(wa) for wa in row]
                 wa_reses.append(wa_res)
-            else:
+            elif i % 5 == 4:
                 bsp = [literal_eval(s) for s in row]
                 bsps.append(bsp)
 
