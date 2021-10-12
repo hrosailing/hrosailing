@@ -4,7 +4,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/hrosailing/hrosailing/badge)](https://www.codefactor.io/repository/github/hrosailing/hrosailing)
 
 <p align="center">
-    <img src="logo.png" width=300px height=300px alt="hrosailing">
+    <img src="https://raw.githubusercontent.com/hrosailing/hrosailing/main/logo.png" width=300px height=300px alt="hrosailing">
 </p>
 
 hrosailing - Sailing made in Rostock
