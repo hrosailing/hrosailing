@@ -120,14 +120,14 @@ def from_csv(csv_path, fmt="hro"):
             pd = subclasses[first_row]
 
             try:
-                pd.__from_csv__(csv_reader)
+                return pd.__from_csv__(csv_reader)
             except AttributeError as ae:
                 raise FileReadingException(
                     f"hro-format for {first_row} not implemented"
                 ) from ae
 
         ws_res, wa_res, bsps = _read_extern_format(file, fmt)
-        return PolarDiagramTable(ws_res=ws_res, wa_res=wa_res, bsps=bsps)
+        return PolarDiagramTable(ws_res, wa_res, bsps)
 
 
 def _read_extern_format(file, fmt):
