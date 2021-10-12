@@ -10,11 +10,8 @@ from hrosailing.polardiagram import FileReadingException
 
 class FileReadingTest(unittest.TestCase):
     def test_read_nonexistent_file(self):
-        funcs = [pol.from_csv, pol.depickling]
-        for i, f in enumerate(funcs):
-            with self.subTest(i=i):
-                with self.assertRaises(OSError):
-                    f("nonexistentfile")
+        with self.assertRaises(OSError):
+            pol.from_csv("nonexistent.csv")
 
     def test_from_csv_read_correct_existent_file(self):
         files = [
