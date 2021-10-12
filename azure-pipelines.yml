@@ -4,11 +4,13 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/python
 
 trigger:
-- main
+  batch: true
+  branches:
+    include:
+      - main
 
 pool:
   vmImage: ubuntu-latest
-  demmands: Limit -equals DisAbleParallel
 strategy:
   matrix:
     Python36:
