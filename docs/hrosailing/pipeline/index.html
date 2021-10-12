@@ -169,7 +169,7 @@ here, but we recommend using a subclass of Sampler</p>
 <p>Determines the neighbourhood around a point from which to draw
 the data points used in the interpolation of that point</p>
 <p>Defaults to Ball(radius=1)</p>
-<p>Note: Any class with a method <code>is_contained_in(pts) -&gt; (n,) boolean array</code>
+<p>Note: Any class with a method <code>is_contained_in(pts) -&gt; (n,) boolarray</code>
 should work here, but we recommend using a subclass of Neighbourhood</p>
 </dd>
 <dt><strong><code>interpolator</code></strong> :&ensp;<code>Interpolator</code>, optional</dt>
@@ -271,7 +271,8 @@ from preprocessed data</p>
 <p>Determines the neighbourhood around a point from which to draw
 the data points used in the interpolation of that point</p>
 <p>Defaults to Ball(radius=1)</p>
-<p>Note: Any class with a method <code>is_contained_in(pts) -&gt; (n,) boolean array</code>
+<p>Note: Any class with a method
+<code>is_contained_in(pts) -&gt; (n,) boolarray</code>
 should work here, but we recommend using a subclass of Neighbourhood</p>
 </dd>
 <dt><strong><code>interpolator</code></strong> :&ensp;<code>Interpolator</code>, optional</dt>

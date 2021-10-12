@@ -150,9 +150,9 @@ time needed to sail in each direction to get to B.</p>
 <dl>
 <dt><strong><code>pd</code></strong> :&ensp;<code>PolarDiagram</code></dt>
 <dd>The polar diagram of the vessel</dd>
-<dt><strong><code>ws</code></strong> :&ensp;<code>int / float</code></dt>
+<dt><strong><code>ws</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
 <dd>The current wind speed given in knots</dd>
-<dt><strong><code>wdir</code></strong> :&ensp;<code>FooBar</code></dt>
+<dt><strong><code>wdir</code></strong> :&ensp;<code>See below</code></dt>
 <dd>
 <p>The direction of the wind given as either</p>
 <ul>
@@ -282,11 +282,11 @@ of attributes</p>
 <dt><strong><code>data</code></strong> :&ensp;<code>array_like</code> of <code>shape (n, m, r, s)</code></dt>
 <dd>Weather data at different space-time grid points</dd>
 <dt><strong><code>times</code></strong> :&ensp;<code>list</code> of <code>length n</code></dt>
-<dd>Sorted list of time values</dd>
+<dd>Sorted list of time values of the space-time grid</dd>
 <dt><strong><code>lats</code></strong> :&ensp;<code>list</code> of <code>length m</code></dt>
-<dd>Sorted list of lattitude values</dd>
+<dd>Sorted list of lattitude values of the space-time grid</dd>
 <dt><strong><code>lons</code></strong> :&ensp;<code>list</code> of <code>length r</code></dt>
-<dd>Sorted list of longitude values</dd>
+<dd>Sorted list of longitude values of the space-time grid</dd>
 <dt><strong><code>attrs</code></strong> :&ensp;<code>list</code> of <code>length s</code></dt>
 <dd>List of different (scalar) attributes of weather</dd>
 </dl></div>
