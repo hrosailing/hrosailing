@@ -25,24 +25,3 @@ jobs:
           git status
           git commit -am "fixup: format code with black"
           git push
-          
-      - name: install isort
-        if: always()
-        run: pip install isort
-      - name: run isort --check .
-        if: always()
-        run: isort --check .
-      - name: commit changes to pull request, if needed
-        if: failure()
-        run: |
-          git config --global user.name 'autoisort'
-          git config --global user.email 'autoisort@users.noreply.github.com'
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
-          git remote -v
-          git branch
-          git status
-          isort . 
-          git status
-          git commit -am "fixup: formatted imports with isort"
-          git push
-          # git push --force origin
