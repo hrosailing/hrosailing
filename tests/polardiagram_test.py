@@ -387,7 +387,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         self.assertEqual(len(wa), len(ws))
         self.assertEqual(len(bsp), len(ws))
         bsps = [
-            np.array([1.1, 1.5, 1.7, 2.1, 2, 2.4, 2.6, 3]),
+            np.array([1.1, 2, 1.5, 2.4, 1.7, 2.6, 2.1, 3]),
             np.array([2, 2.4, 2.6, 3]),
             np.array([3, 3.1, 3.5, 3.8]),
             np.array([3, 3.1, 3.5, 3.8]),
@@ -395,7 +395,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
             np.array([4, 4.1, 4.4, 4.6]),
         ]
         answers = [
-            np.deg2rad([10, 15, 20, 25, 10, 15, 20, 25]),
+            np.deg2rad([10, 10, 15, 15, 20, 20, 25, 25]),
             np.deg2rad([10, 15, 20, 25]),
             np.deg2rad([10, 15, 20, 25]),
             np.deg2rad([10, 15, 20, 25]),
