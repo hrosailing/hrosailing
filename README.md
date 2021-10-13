@@ -33,11 +33,6 @@ The recommended way to install `hrosailing` is with
 
 ### Examples
 
-
-
-### Contributing 
-
-
 ### License 
 
 The `hrosailing` module is published under the [Apache 2.0 License](https://choosealicense.com/licenses/apache-2.0/), see also [License](LICENSE)
