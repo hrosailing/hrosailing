@@ -136,7 +136,8 @@ def _read_intern_format(file):
 def _read_extern_format(file, fmt):
     if fmt == "array":
         file_data = np.genfromtxt(file, delimiter="\t")
-        return file_data[0, 1:], file_data[1:, 0], file_data[1:, 1:]
+        ws_res, wa_res, bsps = file_data[0, 1:], file_data[1:, 0], file_data[1:, 1:]
+        return PolarDiagramTable(ws_res, wa_res, bsps)
 
     delimiter = ";" if fmt == "orc" else ","
     csv_reader = csv.reader(file, delimiter=delimiter)
