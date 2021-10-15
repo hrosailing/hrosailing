@@ -58,20 +58,6 @@ class FileReadingException(Exception):
     """
 
 
-def to_csv(csv_path, obj):
-    """See to_csv()-method of PolarDiagram
-
-    Parameters
-    ----------
-    csv_path : path-like
-        Path to a .csv-file or where a new .csv file will be created
-
-    obj : PolarDiagram
-        PolarDiagram instance which will be written to .csv file
-    """
-    obj.to_csv(csv_path)
-
-
 def from_csv(csv_path, fmt="hro"):
     """Reads a .csv file and returns the PolarDiagram
     instance contained in it
