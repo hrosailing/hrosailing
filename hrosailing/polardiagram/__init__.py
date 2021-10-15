@@ -40,18 +40,6 @@ logger = logging.getLogger(__name__)
 del log
 
 
-class PolarDiagramException(Exception):
-    """Exception raised if some nonstandard error occurs,
-    while doing something with polar diagrams
-    """
-
-
-class PolarDiagramInitializationException(Exception):
-    """Exception raised if an error occurs during
-    initialization of a PolarDiagram
-    """
-
-
 class FileReadingException(Exception):
     """Exception raised if non-oserror error occurs,
     when reading a file
@@ -176,6 +164,18 @@ def _read_sail_csv(file, delimiter):
 def _read_array_csv(file):
     file_data = np.genfromtxt(file, delimiter="\t")
     return file_data[0, 1:], file_data[1:, 0], file_data[1:, 1:]
+
+
+class PolarDiagramException(Exception):
+    """Exception raised if some nonstandard error occurs,
+    while doing something with polar diagrams
+    """
+
+
+class PolarDiagramInitializationException(Exception):
+    """Exception raised if an error occurs during
+    initialization of a PolarDiagram
+    """
 
 
 class PolarDiagram(ABC):
