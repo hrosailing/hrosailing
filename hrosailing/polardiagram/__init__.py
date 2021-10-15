@@ -103,33 +103,36 @@ def from_csv(csv_path, fmt="hro"):
         150.0         3.21   4.10    4.87    5.40    5.78    6.22    7.32
     """
     if fmt not in {"array", "hro", "opencpn", "orc"}:
-        raise FileReadingException("`fmt` not implemented")
+        raise FileReadingException("`fmt` unknown")
 
     with open(csv_path, "r", newline="", encoding="utf-8") as file:
         if fmt == "hro":
-            subclasses = {
-                cls.__name__: cls for cls in PolarDiagram.__subclasses__()
-            }
+            return _read_intern_format(file)
+        else:
+            return _read_extern_format(file, fmt)
 
-            csv_reader = csv.reader(file, delimiter=",")
-            first_row = next(csv_reader)[0]
 
-            if first_row not in subclasses:
-                raise FileReadingException(
-                    f"No polar diagram format with the name {first_row} exists"
-                )
+def _read_intern_format(file):
+    subclasses = {
+        cls.__name__: cls for cls in PolarDiagram.__subclasses__()
+    }
 
-            pd = subclasses[first_row]
+    csv_reader = csv.reader(file, delimiter=",")
+    first_row = next(csv_reader)[0]
 
-            try:
-                return pd.__from_csv__(csv_reader)
-            except AttributeError as ae:
-                raise FileReadingException(
-                    f"hro-format for {first_row} not implemented"
-                ) from ae
+    if first_row not in subclasses:
+        raise FileReadingException(
+            f"No polar diagram format with the name {first_row} exists"
+        )
 
-        ws_res, wa_res, bsps = _read_extern_format(file, fmt)
-        return PolarDiagramTable(ws_res, wa_res, bsps)
+    pd = subclasses[first_row]
+
+    try:
+        return pd.__from_csv__(csv_reader)
+    except AttributeError as ae:
+        raise FileReadingException(
+            f"hro-format for {first_row} not implemented"
+        ) from ae
 
 
 def _read_extern_format(file, fmt):
@@ -138,9 +141,11 @@ def _read_extern_format(file, fmt):
         return file_data[0, 1:], file_data[1:, 0], file_data[1:, 1:]
 
     delimiter = ";" if fmt == "orc" else ","
-
     csv_reader = csv.reader(file, delimiter=delimiter)
+
     ws_res = [literal_eval(ws) for ws in next(csv_reader)[1:]]
+
+    # skip zero line in canse of orc format
     if delimiter == ";":
         next(csv_reader)
 
@@ -153,7 +158,7 @@ def _read_extern_format(file, fmt):
 
         bsps.append([literal_eval(bsp) if bsp != "" else 0 for bsp in row[1:]])
 
-    return ws_res, wa_res, bsps
+    return PolarDiagramTable(ws_res, wa_res, bsps)
 
 
 class PolarDiagramException(Exception):
