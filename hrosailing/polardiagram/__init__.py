@@ -134,16 +134,11 @@ def from_csv(csv_path, fmt="hro"):
 
 def _read_extern_format(file, fmt):
     if fmt == "array":
-        return _read_array_csv(file)
+        file_data = np.genfromtxt(file, delimiter="\t")
+        return file_data[0, 1:], file_data[1:, 0], file_data[1:, 1:]
 
-    delimiter = ","
-    if fmt == "orc":
-        delimiter = ";"
+    delimiter = ";" if fmt == "orc" else ","
 
-    return _read_sail_csv(file, delimiter)
-
-
-def _read_sail_csv(file, delimiter):
     csv_reader = csv.reader(file, delimiter=delimiter)
     ws_res = [literal_eval(ws) for ws in next(csv_reader)[1:]]
     if delimiter == ";":
@@ -159,11 +154,6 @@ def _read_sail_csv(file, delimiter):
         bsps.append([literal_eval(bsp) if bsp != "" else 0 for bsp in row[1:]])
 
     return ws_res, wa_res, bsps
-
-
-def _read_array_csv(file):
-    file_data = np.genfromtxt(file, delimiter="\t")
-    return file_data[0, 1:], file_data[1:, 0], file_data[1:, 1:]
 
 
 class PolarDiagramException(Exception):
