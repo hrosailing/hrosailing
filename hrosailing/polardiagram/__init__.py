@@ -178,22 +178,6 @@ def _read_array_csv(file):
     return file_data[0, 1:], file_data[1:, 0], file_data[1:, 1:]
 
 
-def symmetrize(obj):
-    """See symmetrize()-method of PolarDiagram
-
-    Parameters
-    ----------
-    obj : PolarDiagram
-        PolarDiagram instance which will be symmetrized
-
-    Returns
-    -------
-    out : PolarDiagram
-        "symmetrized" version of input
-    """
-    return obj.symmetrize()
-
-
 class PolarDiagram(ABC):
     """Base class for all polar diagrams
 
