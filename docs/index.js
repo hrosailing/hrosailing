@@ -27,6 +27,17 @@ INDEX=[
 "doc":"PolarDiagram classes to work with and represent PPDs in various forms"
 },
 {
+"ref":"hrosailing.polardiagram.FileReadingException",
+"url":1,
+"doc":"Exception raised if non-oserror error occurs, when reading a file"
+},
+{
+"ref":"hrosailing.polardiagram.from_csv",
+"url":1,
+"doc":"Reads a .csv file and returns the PolarDiagram instance contained in it Parameters      csv_path : path-like Path to a .csv file fmt : string The format of the .csv file. - hro: format created by the to_csv-method of the PolarDiagram class - orc: format found at [ORC](https: jieter.github.io/orc-data/site/) - opencpn: format created by [OpenCPN Polar Plugin](https: opencpn.org/OpenCPN/plugins/polar.html) - array: tab-seperated polar diagram in form of a table, also see the example files for a better look at the format Returns    - out : PolarDiagram PolarDiagram instance contained in the .csv file Raises a FileReadingException - if an unknown format was specified - if, in the format  hro , the first row does not match any PolarDiagram subclass - if, in the format  hro , the specified PolarDiagram subclass does not implement a  __from_csv__(csv_reader) method Raises an OSError if file does not exist, or no read permision for that file is given. Examples     (For all the following and more files please also see [examples](https: github.com/hrosailing/hrosailing/tree/main/examples >>> from hrosailing.polardiagram import from_csv >>> pd = from_csv(\"table_hro_format_example.csv\", fmt=\"hro\") >>> print(pd) TWA / TWS 6.0 8.0 10.0 12.0 14.0 16.0 20.0      -   -   -                52.0 3.74 4.48 4.96 5.27 5.47 5.66 5.81 60.0 3.98 4.73 5.18 5.44 5.67 5.94 6.17 75.0 4.16 4.93 5.35 5.66 5.95 6.27 6.86 90.0 4.35 5.19 5.64 6.09 6.49 6.70 7.35 110.0 4.39 5.22 5.68 6.19 6.79 7.48 8.76 120.0 4.23 5.11 5.58 6.06 6.62 7.32 9.74 135.0 3.72 4.64 5.33 5.74 6.22 6.77 8.34 150.0 3.21 4.10 4.87 5.40 5.78 6.22 7.32",
+"func":1
+},
+{
 "ref":"hrosailing.polardiagram.PolarDiagramException",
 "url":1,
 "doc":"Exception raised if some nonstandard error occurs, while doing something with polar diagrams"
@@ -35,35 +46,6 @@ INDEX=[
 "ref":"hrosailing.polardiagram.PolarDiagramInitializationException",
 "url":1,
 "doc":"Exception raised if an error occurs during initialization of a PolarDiagram"
-},
-{
-"ref":"hrosailing.polardiagram.FileReadingException",
-"url":1,
-"doc":"Exception raised if non-oserror error occurs, when reading a file"
-},
-{
-"ref":"hrosailing.polardiagram.to_csv",
-"url":1,
-"doc":"See to_csv()-method of PolarDiagram Parameters      csv_path : path-like Path to a .csv-file or where a new .csv file will be created obj : PolarDiagram PolarDiagram instance which will be written to .csv file",
-"func":1
-},
-{
-"ref":"hrosailing.polardiagram.from_csv",
-"url":1,
-"doc":"Reads a .csv file and returns the PolarDiagram instance contained in it Parameters      csv_path : path-like Path to a .csv file fmt : string The \"format\" of the .csv file. - hro: format created by the to_csv-method of the PolarDiagram class - orc: format found at [ORC](https: jieter.github.io/orc-data/site/) - opencpn: format created by [OpenCPN Polar Plugin](https: opencpn.org/OpenCPN/plugins/polar.html) - array: tab-seperated polar diagram in form of a table Returns    - out : PolarDiagram PolarDiagram instance contained in the .csv file Raises a FileReadingException - if an unknown format was specified - if, in the format \"hro\", the first row does not match any PolarDiagram subclass - if, in the format \"hro\", the specified PolarDiagram subclass does not implement a __from_csv__(csv_reader) method",
-"func":1
-},
-{
-"ref":"hrosailing.polardiagram.pickling",
-"url":1,
-"doc":"See pickling()-method of PolarDiagram Since the pickle module can't guarantee security, but we have found no other way to serialize toplevel functions in python, we have decided to omit a depickling function and leave that up to the user. Parameters      pkl_path : path-like Path to a .pkl file or where a new .pkl file will be created obj : PolarDiagram PolarDiagram instance which will be written to .csv file",
-"func":1
-},
-{
-"ref":"hrosailing.polardiagram.symmetrize",
-"url":1,
-"doc":"See symmetrize()-method of PolarDiagram Parameters      obj : PolarDiagram PolarDiagram instance which will be symmetrized Returns    - out : PolarDiagram \"symmetrized\" version of input",
-"func":1
 },
 {
 "ref":"hrosailing.polardiagram.PolarDiagram",

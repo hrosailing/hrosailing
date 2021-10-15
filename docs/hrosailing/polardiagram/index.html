@@ -45,13 +45,14 @@ instance contained in it</p>
 <dd>Path to a .csv file</dd>
 <dt><strong><code>fmt</code></strong> :&ensp;<code>string</code></dt>
 <dd>
-<p>The "format" of the .csv file.</p>
+<p>The format of the .csv file.</p>
 <ul>
 <li>hro: format created by the to_csv-method of the PolarDiagram class</li>
 <li>orc: format found at <a href="https://jieter.github.io/orc-data/site/">ORC</a></li>
 <li>opencpn: format created by
 <a href="https://opencpn.org/OpenCPN/plugins/polar.html">OpenCPN Polar Plugin</a></li>
-<li>array: tab-seperated polar diagram in form of a table</li>
+<li>array: tab-seperated polar diagram in form of a table, also
+see the example files for a better look at the format</li>
 </ul>
 </dd>
 </dl>
@@ -64,57 +65,30 @@ instance contained in it</p>
 </dl>
 <ul>
 <li>if an unknown format was specified</li>
-<li>if, in the format "hro", the first row does not match any
+<li>if, in the format <code>hro</code>, the first row does not match any
 PolarDiagram subclass</li>
-<li>if, in the format "hro", the specified PolarDiagram subclass
-does not implement a <strong>from_csv</strong>(csv_reader) method</li>
-</ul></div>
-</dd>
-<dt id="hrosailing.polardiagram.pickling"><code class="name flex">
-<span>def <span class="ident">pickling</span></span>(<span>pkl_path, obj)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>See pickling()-method of PolarDiagram</p>
-<p>Since the pickle module can't guarantee security, but
-we have found no other way to serialize toplevel functions
-in python, we have decided to omit a depickling function
-and leave that up to the user.</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>pkl_path</code></strong> :&ensp;<code>path-like</code></dt>
-<dd>Path to a .pkl file or where a new .pkl file will be created</dd>
-<dt><strong><code>obj</code></strong> :&ensp;<code><a title="hrosailing.polardiagram.PolarDiagram" href="#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a></code></dt>
-<dd>PolarDiagram instance which will be written to .csv file</dd>
-</dl></div>
-</dd>
-<dt id="hrosailing.polardiagram.symmetrize"><code class="name flex">
-<span>def <span class="ident">symmetrize</span></span>(<span>obj)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>See symmetrize()-method of PolarDiagram</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>obj</code></strong> :&ensp;<code><a title="hrosailing.polardiagram.PolarDiagram" href="#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a></code></dt>
-<dd>PolarDiagram instance which will be symmetrized</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><strong><code>out</code></strong> :&ensp;<code><a title="hrosailing.polardiagram.PolarDiagram" href="#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a></code></dt>
-<dd>"symmetrized" version of input</dd>
-</dl></div>
-</dd>
-<dt id="hrosailing.polardiagram.to_csv"><code class="name flex">
-<span>def <span class="ident">to_csv</span></span>(<span>csv_path, obj)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>See to_csv()-method of PolarDiagram</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>csv_path</code></strong> :&ensp;<code>path-like</code></dt>
-<dd>Path to a .csv-file or where a new .csv file will be created</dd>
-<dt><strong><code>obj</code></strong> :&ensp;<code><a title="hrosailing.polardiagram.PolarDiagram" href="#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a></code></dt>
-<dd>PolarDiagram instance which will be written to .csv file</dd>
-</dl></div>
+<li>if, in the format <code>hro</code>, the specified PolarDiagram subclass
+does not implement a <code>__from_csv__(csv_reader)</code> method</li>
+</ul>
+<p>Raises an OSError if file does not exist, or no read permision
+for that file is given.</p>
+<h2 id="examples">Examples</h2>
+<p>(For all the following and more files please also see
+<a href="https://github.com/hrosailing/hrosailing/tree/main/examples">examples</a>)</p>
+<pre><code>&gt;&gt;&gt; from hrosailing.polardiagram import from_csv
+&gt;&gt;&gt; pd = from_csv("table_hro_format_example.csv", fmt="hro")
+&gt;&gt;&gt; print(pd)
+  TWA / TWS    6.0    8.0    10.0    12.0    14.0    16.0    20.0
+-----------  -----  -----  ------  ------  ------  ------  ------
+52.0          3.74   4.48    4.96    5.27    5.47    5.66    5.81
+60.0          3.98   4.73    5.18    5.44    5.67    5.94    6.17
+75.0          4.16   4.93    5.35    5.66    5.95    6.27    6.86
+90.0          4.35   5.19    5.64    6.09    6.49    6.70    7.35
+110.0         4.39   5.22    5.68    6.19    6.79    7.48    8.76
+120.0         4.23   5.11    5.58    6.06    6.62    7.32    9.74
+135.0         3.72   4.64    5.33    5.74    6.22    6.77    8.34
+150.0         3.21   4.10    4.87    5.40    5.78    6.22    7.32
+</code></pre></div>
 </dd>
 </dl>
 </section>
@@ -2579,9 +2553,6 @@ setTimeout(() => input.focus(), 100);
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="hrosailing.polardiagram.from_csv" href="#hrosailing.polardiagram.from_csv">from_csv</a></code></li>
-<li><code><a title="hrosailing.polardiagram.pickling" href="#hrosailing.polardiagram.pickling">pickling</a></code></li>
-<li><code><a title="hrosailing.polardiagram.symmetrize" href="#hrosailing.polardiagram.symmetrize">symmetrize</a></code></li>
-<li><code><a title="hrosailing.polardiagram.to_csv" href="#hrosailing.polardiagram.to_csv">to_csv</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
