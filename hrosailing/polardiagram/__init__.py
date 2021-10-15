@@ -113,9 +113,7 @@ def from_csv(csv_path, fmt="hro"):
 
 
 def _read_intern_format(file):
-    subclasses = {
-        cls.__name__: cls for cls in PolarDiagram.__subclasses__()
-    }
+    subclasses = {cls.__name__: cls for cls in PolarDiagram.__subclasses__()}
 
     csv_reader = csv.reader(file, delimiter=",")
     first_row = next(csv_reader)[0]
