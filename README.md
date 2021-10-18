@@ -41,14 +41,22 @@ First we import the polardiagram submodule and other useful modules.
 >>>import numpy as np
 ```
 
-The polardiagram submodule supports three different data types for polar performance diagrams, namely as table, as a pointcloud or as a (three dimensional) curve.
-We initialize a table with custom axis resolutions and boat speed data with matching dimensions.
+The polardiagram submodule supports three different data types for polar performance diagrams.
+First we initialize a table with custom axis resolutions and boat speed data with matching dimensions.
 
 ```python
 >>>ws_res = [0, 10, 20] # some wind speeds
 >>>wa_res = [60,120] # some wind angles
 >>>bsps = [[3.95,5.23,5.8],[4.18,5.61,7.1]] # some boat speeds
 >>>pd = pol.PolarDiagramTable(ws_res=ws_res, wa_res=wa_res, bsps=bsps) # resulting polar diagram
+```
+
+Another representation of a polar diagram is as a collection of wind speed, wind angle, boat speed triplets which we call a point cloud.
+We initialize a point cloud with custom triplets:
+
+```python
+>>>pts = [[6,52,3.72],[6,135,3.77],[12,110,5.99],[14,52,5.5]] # triplets
+>>>pd = pol.PolarDiagramPointcloud(pts=pts) # resulting polar diagram
 ```
 
 ### License 
