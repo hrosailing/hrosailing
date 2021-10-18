@@ -51,12 +51,21 @@ First we initialize a table with custom axis resolutions and boat speed data wit
 >>>pd = pol.PolarDiagramTable(ws_res=ws_res, wa_res=wa_res, bsps=bsps) # resulting polar diagram
 ```
 
-Another representation of a polar diagram is as a collection of wind speed, wind angle, boat speed triplets which we call a point cloud.
+Another representation of a polar diagram is as a collection of true wind speed, true wind angle, boat speed triplets which we call a point cloud.
 We initialize a point cloud with custom triplets:
 
 ```python
 >>>pts = [[6,52,3.72],[6,135,3.77],[12,110,5.99],[14,52,5.5]] # triplets
 >>>pd = pol.PolarDiagramPointcloud(pts=pts) # resulting polar diagram
+```
+
+The third supported option for a polar diagram is as (three dimensional) curve.
+This is the interpretation of the boat speed as a function in true wind speed and true wind angle.
+We initialize a curve with a custom function:
+
+```
+>>>f = lambda ws, wa, a: a*ws*wa*(360-wa) # function in ws, wa and parameter a
+>>>pd = pol.PolarDiagramCurve(f, 1) # resulting polar diagram for a=1
 ```
 
 ### License 
