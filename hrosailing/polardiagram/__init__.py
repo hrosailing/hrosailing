@@ -715,7 +715,7 @@ class PolarDiagramTable(PolarDiagram):
                 rows = np.column_stack((self.wind_angles, self.boat_speeds))
                 csv_writer.writerows(rows)
 
-            csv_writer.writerow(["PolarDiagramTable"])
+            csv_writer.writerow([self.__class__.__name__])
             csv_writer.writerow(["TWS:"])
             csv_writer.writerow(self.wind_speeds)
             csv_writer.writerow(["TWA:"])
@@ -1562,7 +1562,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         """
         with open(csv_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file, delimiter=",")
-            csv_writer.writerow(["PolarDiagramMultiSails"])
+            csv_writer.writerow([self.__class__.__name__])
             csv_writer.writerow(["TWS:"])
             csv_writer.writerow(self.wind_speeds)
             for sail, table in zip(self.sails, self.tables):
@@ -2084,7 +2084,7 @@ class PolarDiagramCurve(PolarDiagram):
 
         with open(csv_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file, delimiter=":")
-            csv_writer.writerow(["PolarDiagramCurve"])
+            csv_writer.writerow([self.__class__.__name__])
             csv_writer.writerow(["Function"] + [self.curve.__name__])
             csv_writer.writerow(["Radians"] + [str(self.radians)])
             csv_writer.writerow(["Parameters"] + list(self.parameters))
@@ -2762,7 +2762,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         """
         with open(csv_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file, delimiter=",")
-            csv_writer.writerow(["PolarDiagramPointcloud"])
+            csv_writer.writerow([self.__class__.__name__])
             csv_writer.writerow(
                 ["True wind speed ", "True wind angle ", "Boat speed "]
             )
