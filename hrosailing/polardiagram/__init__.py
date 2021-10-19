@@ -2881,7 +2881,6 @@ class PolarDiagramPointcloud(PolarDiagram):
         """
         if ws is None:
             ws = self.wind_speeds
-            ws = (min(ws), max(ws))
 
         if isinstance(ws, (int, float)):
             ws = [ws]
