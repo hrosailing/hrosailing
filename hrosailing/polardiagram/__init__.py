@@ -111,9 +111,7 @@ def from_csv(csv_path, fmt="hro"):
 
 
 def _read_intern_format(file):
-    subclasses = {
-        cls.__name__: cls for cls in PolarDiagram.__subclasses__()
-    }
+    subclasses = {cls.__name__: cls for cls in PolarDiagram.__subclasses__()}
 
     csv_reader = csv.reader(file, delimiter=",")
     first_row = next(csv_reader)[0]
@@ -125,18 +123,18 @@ def _read_intern_format(file):
 
     pd = subclasses[first_row]
 
-    try:
-        return pd.__from_csv__(csv_reader)
-    except AttributeError as ae:
-        raise FileReadingException(
-            f"hro-format for {first_row} not implemented"
-        ) from ae
+    return pd.__from_csv__(csv_reader)
 
 
 def _read_extern_format(file, fmt):
     if fmt == "array":
         file_data = np.genfromtxt(file, delimiter="\t")
-        return file_data[0, 1:], file_data[1:, 0], file_data[1:, 1:]
+        ws_res, wa_res, bsps = (
+            file_data[0, 1:],
+            file_data[1:, 0],
+            file_data[1:, 1:],
+        )
+        return PolarDiagramTable(ws_res, wa_res, bsps)
 
     delimiter = ";" if fmt == "orc" else ","
     csv_reader = csv.reader(file, delimiter=delimiter)
@@ -243,6 +241,10 @@ class PolarDiagram(ABC):
         the location, containing human readable information about the
         polar diagram object that called the method
         """
+
+    @classmethod
+    def __from_csv__(cls, csv_reader):
+        raise NotImplementedError(f"hro-format for {cls} not implemented")
 
     @abstractmethod
     def symmetrize(self):
@@ -723,8 +725,8 @@ class PolarDiagramTable(PolarDiagram):
             csv_writer.writerow(["Boat speeds:"])
             csv_writer.writerows(self.boat_speeds)
 
-    @staticmethod
-    def __from_csv__(csv_reader):
+    @classmethod
+    def __from_csv__(cls, csv_reader):
         next(csv_reader)
         ws_res = [literal_eval(ws) for ws in next(csv_reader)]
         next(csv_reader)
@@ -1572,8 +1574,8 @@ class PolarDiagramMultiSails(PolarDiagram):
                 csv_writer.writerow(["Boat speeds:"])
                 csv_writer.writerows(table.boat_speeds)
 
-    @staticmethod
-    def __from_csv__(csv_reader):
+    @classmethod
+    def __from_csv__(cls, csv_reader):
         next(csv_reader)
         ws_res = [literal_eval(ws) for ws in next(csv_reader)]
         sails = []
@@ -2089,8 +2091,8 @@ class PolarDiagramCurve(PolarDiagram):
             csv_writer.writerow(["Radians"] + [str(self.radians)])
             csv_writer.writerow(["Parameters"] + list(self.parameters))
 
-    @staticmethod
-    def __from_csv__(csv_reader):
+    @classmethod
+    def __from_csv__(cls, csv_reader):
         func = next(csv_reader)[1]
         radians = literal_eval(next(csv_reader)[1])
         params = [literal_eval(param) for param in next(csv_reader)[1:]]
@@ -2768,8 +2770,8 @@ class PolarDiagramPointcloud(PolarDiagram):
             )
             csv_writer.writerows(self.points)
 
-    @staticmethod
-    def __from_csv__(csv_reader):
+    @classmethod
+    def __from_csv__(cls, csv_reader):
         next(csv_reader)
         pts = np.array(
             [[literal_eval(pt) for pt in row] for row in csv_reader]
