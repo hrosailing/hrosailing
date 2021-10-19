@@ -106,8 +106,8 @@ def from_csv(csv_path, fmt="hro"):
     with open(csv_path, "r", newline="", encoding="utf-8") as file:
         if fmt == "hro":
             return _read_intern_format(file)
-        else:
-            return _read_extern_format(file, fmt)
+
+        return _read_extern_format(file, fmt)
 
 
 def _read_intern_format(file):
