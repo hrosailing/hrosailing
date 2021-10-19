@@ -1,5 +1,5 @@
 """
-Contains various helper functions for the plot_*-methods() of the 
+Contains various helper functions for the plot_*-methods() of the
 PolarDiagram subclasses
 """
 
