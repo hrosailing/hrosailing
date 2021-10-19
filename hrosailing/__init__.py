@@ -1,12 +1,8 @@
-# pylint: disable=wrong-import-order, wrong-import-position
+# pylint: disable=wrong-import-order, wrong-import-position, unused-import
 
-from ._doc import doc
-from ._pdoc import pdoc
-from ._version import __version__
-
-__doc__ = doc
-version = __version__
-__pdoc__ = pdoc
+from ._doc import doc as __doc__
+from ._pdoc import pdoc as __pdoc__
+from ._version import __version__ as version
 
 
 # create folder for logging, where script is located, if it doesn't exist
@@ -19,7 +15,7 @@ log.create_log_folder()
 del log
 
 
-# Tell users if hard depencencies are missing
+# Tell users if and which hard depencencies are missing
 hard_dependencies = ("numpy", "matplotlib", "scipy")
 # soft_dependencies = ("pandas", "pynmea2")
 missing_dependencies = []
