@@ -76,8 +76,6 @@ def from_csv(csv_path, fmt="hro"):
     - if an unknown format was specified
     - if, in the format `hro`, the first row does not match any
     PolarDiagram subclass
-    - if, in the format `hro`, the specified PolarDiagram subclass
-    does not implement a `__from_csv__(csv_reader)` method
 
     Raises an OSError if file does not exist, or no read permision
     for that file is given.
