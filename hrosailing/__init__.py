@@ -1,9 +1,11 @@
 # pylint: disable=wrong-import-order, wrong-import-position, unused-import
 
-from ._doc import doc as __doc__
-from ._pdoc import pdoc as __pdoc__
+from ._doc import doc
+from ._pdoc import pdoc
 from ._version import __version__ as version
 
+__doc__ = doc
+__pdoc__ = pdoc
 
 # create folder for logging, where script is located, if it doesn't exist
 import hrosailing._logfolder as log
