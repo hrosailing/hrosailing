@@ -114,7 +114,7 @@ class IDWInterpolator(Interpolator):
         return wts @ pts[:, 2]
 
 
-def gauss_potential(distances, weights, *params):
+def _gauss_potential(distances, weights, *params):
     alpha = params[0]
     return np.exp(-alpha * weights * distances)
 
@@ -172,7 +172,7 @@ class ArithmeticMeanInterpolator(Interpolator):
         *params,
         s=1,
         norm: Callable = scaled_euclidean_norm,
-        distribution: Callable = gauss_potential,
+        distribution: Callable = _gauss_potential,
     ):
         if s <= 0:
             raise InterpolatorInitializationException("`s` is not positive")
