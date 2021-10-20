@@ -8,5 +8,4 @@ pdoc = {
     "hrosailing.polardiagram.PolarDiagramCurve.__call__": True,
     "hrosailing.polardiagram.PolarDiagramPointcloud.__call__": True,
     "hrosailing.pipeline.PolarPipeline.__call__": True,
-    "hrosailing.pipelinecomponents.interpolator.gauss_potential": False,
 }
