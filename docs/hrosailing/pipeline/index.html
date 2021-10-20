@@ -148,7 +148,7 @@ and data contained in the WeightedPoints instance</p></div>
 </dd>
 <dt id="hrosailing.pipeline.PointcloudExtension"><code class="flex name class">
 <span>class <span class="ident">PointcloudExtension</span></span>
-<span>(</span><span>sampler: <a title="hrosailing.pipelinecomponents.sampler.Sampler" href="../pipelinecomponents/sampler.html#hrosailing.pipelinecomponents.sampler.Sampler">Sampler</a> = &lt;hrosailing.pipelinecomponents.sampler.UniformRandomSampler object&gt;, neighbourhood: <a title="hrosailing.pipelinecomponents.neighbourhood.Neighbourhood" href="../pipelinecomponents/neighbourhood.html#hrosailing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a> = Ball(norm=s_norm, radius=1), interpolator: <a title="hrosailing.pipelinecomponents.interpolator.Interpolator" href="../pipelinecomponents/interpolator.html#hrosailing.pipelinecomponents.interpolator.Interpolator">Interpolator</a> = ArithmeticMeanInterpolator(*params=(50,), s=1, norm=s_norm, distribution=&lt;function gauss_potential&gt;))</span>
+<span>(</span><span>sampler: <a title="hrosailing.pipelinecomponents.sampler.Sampler" href="../pipelinecomponents/sampler.html#hrosailing.pipelinecomponents.sampler.Sampler">Sampler</a> = &lt;hrosailing.pipelinecomponents.sampler.UniformRandomSampler object&gt;, neighbourhood: <a title="hrosailing.pipelinecomponents.neighbourhood.Neighbourhood" href="../pipelinecomponents/neighbourhood.html#hrosailing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a> = Ball(norm=s_norm, radius=1), interpolator: <a title="hrosailing.pipelinecomponents.interpolator.Interpolator" href="../pipelinecomponents/interpolator.html#hrosailing.pipelinecomponents.interpolator.Interpolator">Interpolator</a> = ArithmeticMeanInterpolator(*params=(50,), s=1, norm=s_norm, distribution=&lt;function _gauss_potential&gt;))</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Pipeline extension to produce PolarDiagramPointcloud instances
@@ -254,10 +254,55 @@ if <code>filtering</code> is <code>True</code> in <strong>call</strong> method</
 should work here, but we recommend using a subclass of Filter</p>
 </dd>
 </dl></div>
+<h3>Methods</h3>
+<dl>
+<dt id="hrosailing.pipeline.PolarPipeline.__call__"><code class="name flex">
+<span>def <span class="ident">__call__</span></span>(<span>self, data, tw: bool = True, filtering: bool = True, n_zeros: int = 500) ‑> <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a></span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>data</code></strong> :&ensp;<code>compatible with </code>self.handler``</dt>
+<dd>Data from which to create the polar diagram.
+The input should be compatible with the DataHandler instance
+given in initialization of the pipeline instance</dd>
+<dt><strong><code>tw</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies, if the wind components of the points are true
+or appearent wind</p>
+<p>If false, wind will be converted to true wind</p>
+<p>Defautls to <code>True</code></p>
+</dd>
+<dt><strong><code>filtering</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specfies, if points should be filtered after weighing</p>
+<p>Defaults to <code>True</code></p>
+</dd>
+<dt><strong><code>n_zeros</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>
+<p>If not None, describes the number of additional data points
+at (tws, 0) and (tws, 360) respectively, which are appended
+to the filtered data</p>
+<p>Needed to better model the actual behaviour of sailing boats
+when sailing against the wind</p>
+<p>Defaults to 500</p>
+</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>pd</code></strong> :&ensp;<code>PolarDiagram</code></dt>
+<dd>
+<p>PolarDiagram subclass instance, which represents the
+trends in <code>data</code></p>
+<p>Type depends on the chosen PipelineExtension subclass</p>
+</dd>
+</dl></div>
+</dd>
+</dl>
 </dd>
 <dt id="hrosailing.pipeline.TableExtension"><code class="flex name class">
 <span>class <span class="ident">TableExtension</span></span>
-<span>(</span><span>w_res=None, neighbourhood: <a title="hrosailing.pipelinecomponents.neighbourhood.Neighbourhood" href="../pipelinecomponents/neighbourhood.html#hrosailing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a> = Ball(norm=s_norm, radius=1), interpolator: <a title="hrosailing.pipelinecomponents.interpolator.Interpolator" href="../pipelinecomponents/interpolator.html#hrosailing.pipelinecomponents.interpolator.Interpolator">Interpolator</a> = ArithmeticMeanInterpolator(*params=(50,), s=1, norm=s_norm, distribution=&lt;function gauss_potential&gt;))</span>
+<span>(</span><span>w_res=None, neighbourhood: <a title="hrosailing.pipelinecomponents.neighbourhood.Neighbourhood" href="../pipelinecomponents/neighbourhood.html#hrosailing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a> = Ball(norm=s_norm, radius=1), interpolator: <a title="hrosailing.pipelinecomponents.interpolator.Interpolator" href="../pipelinecomponents/interpolator.html#hrosailing.pipelinecomponents.interpolator.Interpolator">Interpolator</a> = ArithmeticMeanInterpolator(*params=(50,), s=1, norm=s_norm, distribution=&lt;function _gauss_potential&gt;))</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Pipeline extension to produce PolarDiagramTable instances
@@ -408,6 +453,9 @@ setTimeout(() => input.focus(), 100);
 </li>
 <li>
 <h4><code><a title="hrosailing.pipeline.PolarPipeline" href="#hrosailing.pipeline.PolarPipeline">PolarPipeline</a></code></h4>
+<ul class="">
+<li><code><a title="hrosailing.pipeline.PolarPipeline.__call__" href="#hrosailing.pipeline.PolarPipeline.__call__">__call__</a></code></li>
+</ul>
 </li>
 <li>
 <h4><code><a title="hrosailing.pipeline.TableExtension" href="#hrosailing.pipeline.TableExtension">TableExtension</a></code></h4>

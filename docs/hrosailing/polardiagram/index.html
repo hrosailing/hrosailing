@@ -67,8 +67,6 @@ see the example files for a better look at the format</li>
 <li>if an unknown format was specified</li>
 <li>if, in the format <code>hro</code>, the first row does not match any
 PolarDiagram subclass</li>
-<li>if, in the format <code>hro</code>, the specified PolarDiagram subclass
-does not implement a <code>__from_csv__(csv_reader)</code> method</li>
 </ul>
 <p>Raises an OSError if file does not exist, or no read permision
 for that file is given.</p>
@@ -1296,6 +1294,38 @@ as an empty point cloud</p>
 </dl>
 <h3>Methods</h3>
 <dl>
+<dt id="hrosailing.polardiagram.PolarDiagramPointcloud.__call__"><code class="name flex">
+<span>def <span class="ident">__call__</span></span>(<span>self, ws, wa, interpolator: <a title="hrosailing.pipelinecomponents.interpolator.Interpolator" href="../pipelinecomponents/interpolator.html#hrosailing.pipelinecomponents.interpolator.Interpolator">Interpolator</a> = ArithmeticMeanInterpolator(*params=(50,), s=1, norm=s_norm, distribution=&lt;function _gauss_potential&gt;), neighbourhood: <a title="hrosailing.pipelinecomponents.neighbourhood.Neighbourhood" href="../pipelinecomponents/neighbourhood.html#hrosailing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a> = Ball(norm=s_norm, radius=1))</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the value of the polar diagram at a given ws-wa point</p>
+<p>If the ws-wa point is in the cloud, the corresponding boat speed is
+returned, otherwise the value is interpolated</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
+<dd>The wind speed value of the ws-wa point</dd>
+<dt><strong><code>wa</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
+<dd>The wind angle value of the ws-wa point</dd>
+<dt><strong><code>interpolator</code></strong> :&ensp;<code>Interpolator</code>, optional</dt>
+<dd>
+<p>Interpolator subclass that determines the interpolation
+method used to determine the value at the ws-wa point</p>
+<p>Defaults to ArithmeticMeanInterpolator(50)</p>
+</dd>
+<dt><strong><code>neighbourhood</code></strong> :&ensp;<code>Neighbourhood</code>, optional</dt>
+<dd>
+<p>Neighbourhood subclass used to determine the points in
+the point cloud that will be used in the interpolation</p>
+<p>Defaults to Ball(radius=1)</p>
+</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>bsp</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+</dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.add_points"><code class="name flex">
 <span>def <span class="ident">add_points</span></span>(<span>self, new_pts, tw=True)</span>
 </code></dt>
@@ -1889,6 +1919,38 @@ numpy.zeros((rdim, cdim))</p>
 </dl>
 <h3>Methods</h3>
 <dl>
+<dt id="hrosailing.polardiagram.PolarDiagramTable.__call__"><code class="name flex">
+<span>def <span class="ident">__call__</span></span>(<span>self, ws, wa, interpolator: <a title="hrosailing.pipelinecomponents.interpolator.Interpolator" href="../pipelinecomponents/interpolator.html#hrosailing.pipelinecomponents.interpolator.Interpolator">Interpolator</a> = ArithmeticMeanInterpolator(*params=(50,), s=1, norm=s_norm, distribution=&lt;function _gauss_potential&gt;), neighbourhood: <a title="hrosailing.pipelinecomponents.neighbourhood.Neighbourhood" href="../pipelinecomponents/neighbourhood.html#hrosailing.pipelinecomponents.neighbourhood.Neighbourhood">Neighbourhood</a> = Ball(norm=s_norm, radius=1))</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the value of the polar diagram at a given ws-wa point</p>
+<p>If the ws-wa point is in the table, the corresponding entry is
+returned, otherwise the value is interpolated</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
+<dd>Wind speed value of the ws-wa point</dd>
+<dt><strong><code>wa</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
+<dd>Wind angle value of the ws-wa point</dd>
+<dt><strong><code>interpolator</code></strong> :&ensp;<code>Interpolator</code>, optional</dt>
+<dd>
+<p>Interpolator subclass that determines the interpolation
+method used to determine the value at the ws-wa point</p>
+<p>Defaults to ArithmeticMeanInterpolator(50)</p>
+</dd>
+<dt><strong><code>neighbourhood</code></strong> :&ensp;<code>Neighbourhood</code>, optional</dt>
+<dd>
+<p>Neighbourhood subclass used to determine the grid points
+in the table that will be used in the interpolation</p>
+<p>Defaults to Ball(radius=1)</p>
+</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>bsp</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
+<dd>Boat speed value as determined above</dd>
+</dl></div>
+</dd>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.__getitem__"><code class="name flex">
 <span>def <span class="ident">__getitem__</span></span>(<span>self, *key)</span>
 </code></dt>
@@ -2264,7 +2326,8 @@ certain appearences of the plot</dd>
 ... )
 &gt;&gt;&gt; pyplot.show()
 </code></pre>
-<p><img alt="" src="/examples/table_plot_flat.png"></p>
+<p><img alt="" src="https://raw.githubusercontent.com/hrosailing/hrosailing
+/main/examples/pictures/table_plot_flat.png"></p>
 <p>Can also be combined with symmetrize() like so to achieve
 a symmetric plot</p>
 <pre><code>&gt;&gt;&gt; pd.symmetrize().plot_flat(
@@ -2272,7 +2335,8 @@ a symmetric plot</p>
 ... )
 &gt;&gt;&gt; pyplot.show()
 </code></pre>
-<p><img alt="" src="/examples/sym_table_plot_flat.png"></p></div>
+<p><img alt="" src="https://raw.githubusercontent.com/hrosailing/hrosailing
+/main/examples/pictures/sym_table_plot_flat.png"></p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.plot_polar"><code class="name flex">
 <span>def <span class="ident">plot_polar</span></span>(<span>self, ws=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
@@ -2358,7 +2422,8 @@ certain appearences of the plot</dd>
 ... )
 &gt;&gt;&gt; pyplot.show()
 </code></pre>
-<p><img alt="" src="/examples/table_plot_polar.png"></p>
+<p><img alt="" src="https://raw.githubusercontent.com/hrosailing/hrosailing
+/main/examples/pictures/table_plot_polar.png"></p>
 <p>Can also be combined with symmetrize() like so to achieve
 a symmetric plot</p>
 <pre><code>&gt;&gt;&gt; pd.symmetrize().plot_polar(
@@ -2366,7 +2431,8 @@ a symmetric plot</p>
 ... )
 &gt;&gt;&gt; pyplot.show()
 </code></pre>
-<p><img alt="" src="/examples/sym_table_plot_polar.png"></p></div>
+<p><img alt="" src="https://raw.githubusercontent.com/hrosailing/hrosailing
+/main/examples/pictures/sym_table_plot_polar.png"></p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.symmetrize"><code class="name flex">
 <span>def <span class="ident">symmetrize</span></span>(<span>self)</span>
@@ -2623,6 +2689,7 @@ setTimeout(() => input.focus(), 100);
 <li>
 <h4><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud" href="#hrosailing.polardiagram.PolarDiagramPointcloud">PolarDiagramPointcloud</a></code></h4>
 <ul class="two-column">
+<li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.__call__" href="#hrosailing.polardiagram.PolarDiagramPointcloud.__call__">__call__</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.add_points" href="#hrosailing.polardiagram.PolarDiagramPointcloud.add_points">add_points</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.boat_speeds" href="#hrosailing.polardiagram.PolarDiagramPointcloud.boat_speeds">boat_speeds</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.get_slices" href="#hrosailing.polardiagram.PolarDiagramPointcloud.get_slices">get_slices</a></code></li>
@@ -2641,6 +2708,7 @@ setTimeout(() => input.focus(), 100);
 <li>
 <h4><code><a title="hrosailing.polardiagram.PolarDiagramTable" href="#hrosailing.polardiagram.PolarDiagramTable">PolarDiagramTable</a></code></h4>
 <ul class="two-column">
+<li><code><a title="hrosailing.polardiagram.PolarDiagramTable.__call__" href="#hrosailing.polardiagram.PolarDiagramTable.__call__">__call__</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramTable.__getitem__" href="#hrosailing.polardiagram.PolarDiagramTable.__getitem__">__getitem__</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramTable.boat_speeds" href="#hrosailing.polardiagram.PolarDiagramTable.boat_speeds">boat_speeds</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramTable.change_entries" href="#hrosailing.polardiagram.PolarDiagramTable.change_entries">change_entries</a></code></li>
