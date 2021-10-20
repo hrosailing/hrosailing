@@ -1073,7 +1073,8 @@ class PolarDiagramTable(PolarDiagram):
             ... )
             >>> pyplot.show()
 
-        .. image:: /examples/table_plot_polar.png
+        .. image:: https://raw.githubusercontent.com/hrosailing/hrosailing\
+        /main/examples/pictures/table_plot_polar.png
 
         Can also be combined with symmetrize() like so to achieve
         a symmetric plot
@@ -1083,7 +1084,8 @@ class PolarDiagramTable(PolarDiagram):
             ... )
             >>> pyplot.show()
 
-        .. image:: /examples/sym_table_plot_polar.png
+        .. image:: https://raw.githubusercontent.com/hrosailing/hrosailing\
+        /main/examples/pictures/sym_table_plot_polar.png
 
         """
         _check_plot_kw(plot_kw)
@@ -1186,7 +1188,8 @@ class PolarDiagramTable(PolarDiagram):
             ... )
             >>> pyplot.show()
 
-        .. image:: /examples/table_plot_flat.png
+        .. image:: https://raw.githubusercontent.com/hrosailing/hrosailing\
+        /main/examples/pictures/table_plot_flat.png
 
         Can also be combined with symmetrize() like so to achieve
         a symmetric plot
@@ -1196,7 +1199,8 @@ class PolarDiagramTable(PolarDiagram):
             ... )
             >>> pyplot.show()
 
-        .. image:: /examples/sym_table_plot_flat.png
+        .. image:: https://raw.githubusercontent.com/hrosailing/hrosailing\
+        /main/examples/pictures/sym_table_plot_flat.png
 
         """
         _check_plot_kw(plot_kw)
