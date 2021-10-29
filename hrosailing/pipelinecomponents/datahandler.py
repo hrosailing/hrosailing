@@ -221,7 +221,11 @@ class NMEAFileHandler(DataHandler):
 
 def _eval(field, val):
     if len(field) == 3 and field[2] in {int, float, Decimal}:
-        return literal_eval(val)
+        try:
+            return literal_eval(val)
+        except SyntaxError:
+            # remove leading 0s in the case of decimals
+            return literal_eval(val.lstrip("0"))
 
     return val
 
