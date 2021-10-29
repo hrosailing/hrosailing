@@ -18,8 +18,7 @@ You can find the documentation [here](https://hrosailing.github.io/hrosailing/ "
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
 
 The `hrosailing` module might also be compatible (in large) with earlier versions of Python (`3.5`, `3.6`), together with some earlier
-version of some of the used packages, namely `numpy`, `scipy`, and `matplotlib`, aswell as Python `3.10`, but since it was released 
-recently, we can't guarantee that.
+version of some of the used packages, namely `numpy`, `scipy`, and `matplotlib`.
 
 
 ### Installation
