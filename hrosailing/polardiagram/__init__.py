@@ -141,7 +141,7 @@ def _read_extern_format(file, fmt):
 
     ws_res = [literal_eval(ws) for ws in next(csv_reader)[1:]]
 
-    # skip zero line in canse of orc format
+    # skip zero line in case of orc format
     if delimiter == ";":
         next(csv_reader)
 
