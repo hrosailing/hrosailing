@@ -77,10 +77,6 @@ def from_csv(csv_path, fmt="hro"):
     - if, in the format `hro`, the first row does not match any
     PolarDiagram subclass
 
-    Raises an OSError if file does not exist, or no read permision
-    for that file is given.
-
-
     Examples
     --------
     (For all the following and more files please also see
@@ -123,6 +119,8 @@ def _read_intern_format(file):
 
     pd = subclasses[first_row]
 
+    # might raise a NotImplementedError polar diagram format
+    # doesn't support csv
     return pd.__from_csv__(csv_reader)
 
 
@@ -152,6 +150,7 @@ def _read_extern_format(file, fmt):
         # delete °-symbol in case of opencpn format
         wa_res.append(literal_eval(row[0].replace("°", "")))
 
+        # in opencpn format 0s are represented by empty fields
         bsps.append([literal_eval(bsp) if bsp != "" else 0 for bsp in row[1:]])
 
     return PolarDiagramTable(ws_res, wa_res, bsps)
@@ -511,6 +510,7 @@ class PolarDiagramTable(PolarDiagram):
         wa_res %= 360
 
         rows, cols = len(wa_res), len(ws_res)
+
         if bsps is None:
             self._boat_speeds = np.zeros((rows, cols))
             self._res_wind_speed = sorted(ws_res)
@@ -546,7 +546,6 @@ class PolarDiagramTable(PolarDiagram):
         ws = self.wind_speeds
         if len(ws) <= 15:
             self._short_table(table, ws)
-
         else:
             wind = []
             wind.extend(ws[:5])
