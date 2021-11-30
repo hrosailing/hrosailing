@@ -556,6 +556,7 @@ def _mercator_proj(pt, lat_mp):
     # projects a point given as lattitude and longitude tupel using mercator
     # projection where the projection midponit has lattitude lat_mp
     lat, long = pt
+
     # 69 nautical miles between two lattitudes
     return 69 * np.array(
         [(lat - lat_mp), np.arcsinh(np.tan(np.pi * long / 180))]
