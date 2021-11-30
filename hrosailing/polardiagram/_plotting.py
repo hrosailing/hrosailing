@@ -63,16 +63,7 @@ def plot3d(ws, wa, bsp, ax, colors, **plot_kw):
     if ax is None:
         ax = plt.axes(projection="3d")
 
-    ax.set_xlabel("TWS")
-    ax.set_ylabel("Polar plane: TWA / BSP ")
-
-    # remove axis labels since we are using polar-coordinates,
-    # which are transformed to cartesian, so the labels
-    # would be wrong
-    ax.yaxis.set_ticklabels([])
-    ax.zaxis.set_ticklabels([])
-
-    cmap = LinearSegmentedColormap.from_list("cmap", [colors[0], colors[1]])
+    cmap = _prepare_3d_plot(ax, [colors[0], colors[1]])
 
     return ax.scatter(ws, wa, bsp, c=ws, cmap=cmap, **plot_kw)
 
@@ -81,16 +72,7 @@ def plot_surface(ws, wa, bsp, ax, colors):
     if ax is None:
         ax = plt.axes(projection="3d")
 
-    ax.set_xlabel("TWS")
-    ax.set_ylabel("Polar plane: TWA / BSP ")
-
-    # remove axis labels since we are using polar-coordinates,
-    # which are transformed to cartesian, so the labels
-    # would be wrong
-    ax.yaxis.set_ticklabels([])
-    ax.zaxis.set_ticklabels([])
-
-    cmap = LinearSegmentedColormap.from_list("cmap", list(colors))
+    cmap = _prepare_3d_plot(ax, colors)
     color = cmap((ws - ws.min()) / float((ws - ws.min()).max()))
 
     return ax.plot_surface(ws, wa, bsp, facecolors=color)
@@ -244,6 +226,20 @@ def _set_colormap(ws, colors, ax, label, **legend_kw):
         ax=ax,
         **legend_kw,
     ).set_label(label)
+
+
+def _prepare_3d_plot(ax, colors):
+    ax.set_xlabel("TWS")
+    ax.set_ylabel("Polar plane: TWA / BSP ")
+
+    # remove axis labels since we are using polar-coordinates,
+    # which are transformed to cartesian, so the labels
+    # would be wrong
+    ax.yaxis.set_ticklabels([])
+    ax.zaxis.set_ticklabels([])
+
+    cmap = LinearSegmentedColormap.from_list("cmap", list(colors))
+    return cmap
 
 
 def _get_convex_hull(wa, bsp):
