@@ -36,6 +36,12 @@ The recommended way to install `hrosailing` is with
 Use the hrosailing module for reading, writing and displaying polar performance diagrams.
 For a first example, download some table with performance diagram data and save it as testdata.csv.
 In this example, we use the data available [here](http://jieter.github.io/orc-data/site/#GER/GER7323).
+Since this data is only defined for wind angles between 0° and 180° we use the symmetrize function to obtain a symmetric polar diagram with wind angles between 0° and 360°.
+
+```python
+>>> import hrosailing.polardiagram as pol
+>>> pd = pol.from_csv("testdata.csv", fmt="orc").symmetrize()
+```
 
 ### License 
 
