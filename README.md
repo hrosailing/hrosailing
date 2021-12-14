@@ -33,40 +33,9 @@ The recommended way to install `hrosailing` is with
 
 ### Examples
 
-
-First we import the polardiagram submodule and other useful modules.
-
-```python
->>>import hrosailing.polardiagram as pol
->>>import numpy as np
-```
-
-The polardiagram submodule supports three different data types for polar performance diagrams.
-First we initialize a table with custom axis resolutions and boat speed data with matching dimensions.
-
-```python
->>>ws_res = [0, 10, 20] # some wind speeds
->>>wa_res = [60,120] # some wind angles
->>>bsps = [[3.95,5.23,5.8],[4.18,5.61,7.1]] # some boat speeds
->>>pd = pol.PolarDiagramTable(ws_res=ws_res, wa_res=wa_res, bsps=bsps) # resulting polar diagram
-```
-
-Another representation of a polar diagram is as a collection of true wind speed, true wind angle, boat speed triplets which we call a point cloud.
-We initialize a point cloud with custom triplets:
-
-```python
->>>pts = [[6,52,3.72],[6,135,3.77],[12,110,5.99],[14,52,5.5]] # triplets
->>>pd = pol.PolarDiagramPointcloud(pts=pts) # resulting polar diagram
-```
-
-The third supported option for a polar diagram is as (three dimensional) curve.
-This is the interpretation of the boat speed as a function in true wind speed and true wind angle.
-We initialize a curve with a custom function:
-
-```
->>>f = lambda ws, wa, a: a*ws*wa*(360-wa) # function in ws, wa and parameter a
->>>pd = pol.PolarDiagramCurve(f, 1) # resulting polar diagram for a=1
-```
+Use the hrosailing module for reading, writing and displaying polar performance diagrams.
+For a first example, download some table with performance diagram data and save it as testdata.csv.
+In this example, we use the data available [here](http://jieter.github.io/orc-data/site/#GER/GER7323).
 
 ### License 
 
