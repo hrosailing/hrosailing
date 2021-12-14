@@ -35,13 +35,33 @@ The recommended way to install `hrosailing` is with
 
 Use the hrosailing module for reading, writing and displaying polar performance diagrams.
 For a first example, download some table with performance diagram data and save it as testdata.csv.
-In this example, we use the data available [here](http://jieter.github.io/orc-data/site/#GER/GER7323).
+In this example, we use the data available [here](https://www.seapilot.com/wp-content/uploads/2018/05/60ftmono.txt).
+This data is given in a tab seperated format which is supported by the keyword ```fmt=array``` of the ```from_csv``` method.
 Since this data is only defined for wind angles between 0° and 180° we use the symmetrize function to obtain a symmetric polar diagram with wind angles between 0° and 360°.
 
 ```python
->>> import hrosailing.polardiagram as pol
->>> pd = pol.from_csv("testdata.csv", fmt="orc").symmetrize()
+import hrosailing.polardiagram as pol
+pd = pol.from_csv("testdata.csv", fmt="array").symmetrize()
 ```
+
+We can use the supported plot functions to get visualizations of the polar diagram.
+
+```python
+import matplotlib.pyplot as plt
+
+ws = [10, 20, 30]
+
+pd.plot_polar(ws=ws, ax=plt.subplot(2, 2, 1, projection="polar"))
+pd.plot_convex_hull(ws=ws, ax=plt.subplot(2, 2, 2, projection="polar"))
+pd.plot_flat(ws=ws, ax=plt.subplot(2, 2, 3))
+pd.plot_color_gradient(ax=plt.subplot(2, 2, 4))
+
+plt.show()
+```
+
+This results in the following matplotlib diagram:
+
+![flat_plots](https://user-images.githubusercontent.com/70914876/146026223-fc58a914-9b01-47ae-bf9c-6429113dbf4a.png)
 
 ### License 
 
