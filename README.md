@@ -68,3 +68,13 @@ This results in the following matplotlib diagram:
 
 ![flat_plots](https://user-images.githubusercontent.com/70914876/146026223-fc58a914-9b01-47ae-bf9c-6429113dbf4a.png)
 
+We can also visualize the data in a three dimensional plot.
+
+```python
+pd.plot_3d()
+plt.show()
+```
+
+Results in:
+
+![3d_plot](https://user-images.githubusercontent.com/70914876/146153719-826e8c93-09ab-4387-b13c-e942139fcce6.png)
