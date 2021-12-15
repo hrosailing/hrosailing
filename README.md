@@ -103,4 +103,38 @@ data = np.array([
 data = data[np.random.choice(len(data), size=500)]
 ```
 
-In the following we treat ```data``` like some real life measurement data and try to obtain polar diagrams from it.
+In the following we treat ```data``` like some real life measurement data and try to obtain polar diagrams of different types from it.
+
+```python
+import hrosailing.pipeline as pipe
+import hrosailing.pipelinecomponents as pcomp
+
+
+pps = [
+    pipe.PolarPipeline(
+        handler=pcomp.ArrayHandler(),
+        extension=pipe.TableExtension()
+    ),
+    pipe.PolarPipeline(
+        handler=pcomp.ArrayHandler(),
+        extension=pipe.PointcloudExtension()
+    ),
+    pipe.PolarPipeline(
+        handler=pcomp.ArrayHandler(),
+        extension=pipe.CurveExtension()
+    )
+]
+
+pds = [pp((data, ["Wind angle", "Wind speed", "Boat speed"])) for pp in pps]
+
+for i, pd in enumerate(pds):
+    pd.plot_polar(ws=ws, ax=plt.subplot(1, 3, i+1, projection="polar"))
+
+plt.tight_layout()
+plt.show()
+```
+
+This results in the following diagram, displaying the different polar diagrams derived from the data:
+
+![pipeline_plots](https://user-images.githubusercontent.com/70914876/146170918-66224c66-05c4-49db-a1a5-ddfc2a13b9f1.png)
+
