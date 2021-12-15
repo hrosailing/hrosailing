@@ -31,6 +31,11 @@ The recommended way to install `hrosailing` is with
 
 [![PyPI version](https://badge.fury.io/py/hrosailing.svg)](https://badge.fury.io/py/hrosailing)
 
+
+### License 
+
+The `hrosailing` module is published under the [Apache 2.0 License](https://choosealicense.com/licenses/apache-2.0/), see also [License](LICENSE)
+
 ### Examples
 
 Use the hrosailing module for reading, writing and displaying polar performance diagrams.
@@ -63,6 +68,3 @@ This results in the following matplotlib diagram:
 
 ![flat_plots](https://user-images.githubusercontent.com/70914876/146026223-fc58a914-9b01-47ae-bf9c-6429113dbf4a.png)
 
-### License 
-
-The `hrosailing` module is published under the [Apache 2.0 License](https://choosealicense.com/licenses/apache-2.0/), see also [License](LICENSE)
