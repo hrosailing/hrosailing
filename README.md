@@ -38,9 +38,10 @@ The `hrosailing` module is published under the [Apache 2.0 License](https://choo
 
 ### Examples
 
-Use the hrosailing module for reading, writing and displaying polar performance diagrams.
-For a first example, download some table with performance diagram data and save it as testdata.csv.
-In this example, we use the data available [here](https://www.seapilot.com/wp-content/uploads/2018/05/60ftmono.txt).
+In the following we showcase via multiple examples some of the capabilities of the hrosailing module.
+To avoid redundancies, all definitions of an example code might be used in the succeeding examples.
+
+For a first example, we download some table with performance diagram data available [here](https://www.seapilot.com/wp-content/uploads/2018/05/60ftmono.txt) and save it as testdata.csv.
 This data is given in a tab seperated format which is supported by the keyword ```fmt=array``` of the ```from_csv``` method.
 Since this data is only defined for wind angles between 0° and 180° we use the symmetrize function to obtain a symmetric polar diagram with wind angles between 0° and 360°.
 
@@ -78,3 +79,28 @@ plt.show()
 Results in:
 
 ![3d_plot](https://user-images.githubusercontent.com/70914876/146153719-826e8c93-09ab-4387-b13c-e942139fcce6.png)
+
+We can also directly iterate and/or evaluate the wind_angles, wind_speeds and boat_speeds of the polar diagram.
+For example to artificially create random measurements.
+
+```python
+import numpy as np
+
+
+def random_shifted_pt(pt, mul):
+    pt = np.array(pt)
+    rand = np.random.random(pt.shape) - 0.5
+    rand *= np.array(mul)
+    return pt + rand
+
+
+data = np.array([
+    random_shifted_pt([ws, wa, pd.boat_speeds[i, j]], [10, 5, 2])
+    for i, ws in enumerate(pd.wind_angles)
+    for j, wa in enumerate(pd.wind_speeds)
+    for _ in range(6)
+])
+data = data[np.random.choice(len(data), size=500)]
+```
+
+In the following we treat ```data``` like some real life measurement data and try to obtain polar diagrams from it.
