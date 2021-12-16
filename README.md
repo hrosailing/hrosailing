@@ -191,6 +191,11 @@ my_pd = my_pp((data, ["Wind angle", "Wind speed", "Boat speed"]))
 
 Of course, the customizations above are arbitrary and lead to comparibly bad results:
 
+```python
+my_pd.plot_polar(ws=ws)
+plt.show()
+```
+
 ![custom_plot](https://user-images.githubusercontent.com/70914876/146348767-f1af3957-8e62-42fa-9f1e-36e872f598c2.png)
 
 It needs more sophisticated approaches for good results.
