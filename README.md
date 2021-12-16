@@ -138,3 +138,59 @@ This results in the following diagram, displaying the different polar diagrams d
 
 ![pipeline_plots](https://user-images.githubusercontent.com/70914876/146170918-66224c66-05c4-49db-a1a5-ddfc2a13b9f1.png)
 
+If we are unhappy with the default behaviour of the pipelines, we can customize one or more components of it.
+In the following example we change many components to showcase the supported modularity:
+
+```python
+class MyInfluenceModel(pcomp.InfluenceModel):
+    def remove_influence(self, data: dict):
+        return np.array([
+            data["Wind speed"],
+            (data["Wind angle"] + 90)%360,
+            data["Boat speed"]**2
+        ]).transpose()
+
+    def add_influence(self, pd, influence_data: dict):
+        pass
+
+
+class MyFilter(pcomp.Filter):
+    def filter(self, wts):
+        return np.logical_or(wts <= 0.2, wts >= 0.8)
+
+
+def my_model_func(ws, wa, *params):
+    return params[0] + params[1]*wa + params[2]*ws + params[3]*ws*wa
+
+
+my_regressor = pcomp.LeastSquareRegressor(
+    model_func=my_model_func,
+    init_vals=(1, 2, 3, 4)
+)
+
+
+my_extension = pipe.CurveExtension(
+    regressor=my_regressor
+)
+
+
+def my_norm(pt):
+    return np.linalg.norm(pt, axis=1)**4
+
+
+my_pp = pipe.PolarPipeline(
+    handler=pcomp.ArrayHandler(),
+    im=MyInfluenceModel(),
+    weigher=pcomp.CylindricMeanWeigher(radius=2, norm=my_norm),
+    extension=my_extension,
+    filter_=MyFilter()
+)
+
+my_pd = my_pp((data, ["Wind angle", "Wind speed", "Boat speed"]))
+```
+
+Of course, the customizations above are arbitrary and lead to comparibly bad results:
+
+![custom_plot](https://user-images.githubusercontent.com/70914876/146348767-f1af3957-8e62-42fa-9f1e-36e872f598c2.png)
+
+It needs more sophisticated approaches for good results.
