@@ -203,4 +203,67 @@ We clearly need more sophisticated approaches for good results.
 Now suppose we have a fairly good polar diagram and want to use it in sailing assistance software or sailing simulations.
 We could get a steering recomandation:
 
+TODO
 
+For the next example we initialize a simple influence model and a random weather model.
+
+```python
+from datetime import timedelta
+from datetime import datetime as dt
+
+class MyInfluenceModel(cruise.InfluenceModel):
+
+    def remove_influence(self, data):
+        pass
+
+    def add_influence(self, pd, data, **kwargs):
+        ws, wa, hdt = data["WS"], data["WA"], data["HDT"]
+        twa_spec = (wa - hdt) % 360
+        twa = (180 - twa_spec) % 360
+        tws = ws
+        return pd(tws, twa)
+
+
+im = MyInfluenceModel()
+
+n, m, k, l = 500, 50, 40, 2
+
+data = 20 * (np.random.random((n, m, k, l)) - 0.5)
+
+wm = cruise.WeatherModel(
+    data=data,
+    times=[dt.now() + i * timedelta(hours=1) for i in range(n)],
+    lats=np.linspace(40, 50, m),
+    lons=np.linspace(40, 50, k),
+    attrs=["UGRID", "VGRID"]
+)
+```
+
+Let's use these models to calculate and plot an isochrone net:
+
+```python
+start = (42.5, 43.5)
+
+isocrones = [
+    cruise.isocrone(
+            pd=pd,
+            start=start,
+            start_time=dt.now(),
+            direction=direction,
+            wm=wm,
+            total_time=1 / 3
+        )
+    for direction in range(0, 360, 5)
+]
+
+coordinates, _ = zip(*isocrones)
+lats, longs = zip(*coordinates)
+
+for lat, long in coordinates:
+    plt.plot([start[0], lat], [start[1], long], color="lightgray")
+plt.plot(lats, longs, ls="", marker=".")
+
+plt.show()
+```
+
+![icochrone_net](https://user-images.githubusercontent.com/70914876/146554921-befa7bfe-b88f-4c55-93da-8b40aa65f29e.png)
