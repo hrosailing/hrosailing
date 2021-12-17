@@ -50,6 +50,20 @@ import hrosailing.polardiagram as pol
 pd = pol.from_csv("testdata.csv", fmt="array").symmetrize()
 ```
 
+We can save and load polar diagrams with pickle or as csv files:
+
+```python
+import pickle
+
+pd.pickling("polar_diagram.pkl")
+
+with open("polar_diagram.pkl", "rb") as file:
+    pd2 = pickle.load(file)
+
+pd.to_csv("polar_diagram.csv")
+pd3 = pol.from_csv("polar_diagram.csv")
+```
+
 We can use the supported plot functions to get visualizations of the polar diagram.
 
 ```python
