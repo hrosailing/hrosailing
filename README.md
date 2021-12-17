@@ -198,4 +198,9 @@ plt.show()
 
 ![custom_plot](https://user-images.githubusercontent.com/70914876/146348767-f1af3957-8e62-42fa-9f1e-36e872f598c2.png)
 
-It needs more sophisticated approaches for good results.
+We clearly need more sophisticated approaches for good results.
+
+Now suppose we have a fairly good polar diagram and want to use it in sailing assistance software or sailing simulations.
+We could get a steering recomandation:
+
+
