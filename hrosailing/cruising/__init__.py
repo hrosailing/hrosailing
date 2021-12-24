@@ -105,7 +105,6 @@ def convex_direction(
     conv = ConvexHull(polar_pts)
     vert = sorted(conv.vertices)
 
-    # Account for computational error?
     wa = np.rad2deg(wa)
 
     for left, right in zip(vert, vert[1:]):
@@ -164,7 +163,7 @@ def cruise(
     ws : int or float
         The current wind speed given in knots
 
-    wdir : See below
+    wdir : float between 0 and 360 or tuple
         The direction of the wind given as either
 
         - the wind angle relative to north
@@ -620,6 +619,8 @@ def _interpolate_weather_data(data, idxs, point, flags, grid):
 
 
 def _right_handing_course(a, b):
+    """Calculates course between two points on the surface of the earth
+    relative to true north"""
     numerator = np.cos(a[1]) * np.sin(b[1]) - np.cos(a[0] - b[0]) * np.cos(
         b[1]
     ) * np.sin(a[1])
@@ -631,6 +632,21 @@ def _right_handing_course(a, b):
 
 
 def _wind_relative_to_north(wdir):
+    """Calculates the wind direction relative to true north
+
+    Parameters
+    ----------
+    wdir : float between 0 and 360 or tuple
+        The direction of the wind given as either                            
+                                                                        
+        - the wind angle relative to north
+        - the true wind angle and the boat direction relative to north
+        - a (ugrd, vgrd) tuple from grib data
+    Returns
+    -------
+    ndir : float between 0 and 360
+        Wind direction relative to true north
+    """
     return wdir
 
     # gribdata:
