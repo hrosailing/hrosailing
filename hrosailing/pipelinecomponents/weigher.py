@@ -85,7 +85,10 @@ class CylindricMeanWeigher(Weigher):
         If nothing is passed, it will default to ||.||_2
 
 
-    Raises a WeigherInitializationException if radius is nonpositive
+    Raises
+    ------
+    WeigherInitializationException 
+        If radius is nonpositive
     """
 
     def __init__(
@@ -172,10 +175,12 @@ class CylindricMemberWeigher(Weigher):
         If nothing is passed, it will default to ||.||_2
 
 
-    Raises a WeigherInitializationException
+    Raises
+    ------
+    WeigherInitializationException
 
-    - if radius is nonpositive
-    - if length is negative
+        - If radius is nonpositive
+        - If length is negative
     """
 
     def __init__(
@@ -263,7 +268,6 @@ class WeightedPoints:
         If False, wind data will be converted to true wind
 
         Defaults to True
-
     """
 
     def __init__(
@@ -307,6 +311,7 @@ class WeightedPoints:
 
 
 def _sanity_checks(wts, shape):
+    """"""
     wts = np.asarray(wts)
 
     if wts.dtype is object:

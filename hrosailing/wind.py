@@ -32,6 +32,10 @@ def apparent_wind_to_true(wind):
     converted : numpy.ndarray of shape (n, 3)
         Array containing the same data as wind_arr, but the wind speed
         and wind angle now measured as true wind
+    
+    Raises
+    ------
+    WindConversionException
     """
     return _convert_wind(wind, -1, tw=False, _check_finite=True)
 
@@ -51,14 +55,19 @@ def true_wind_to_apparent(wind):
     converted : numpy.ndarray of shape (n, 3)
         Array containing the same data as wind_arr, but the wind speed
         and wind angle now measured as apparent wind
+
+    Raises
+    ------
+    WindConversionException
     """
     return _convert_wind(wind, 1, tw=False, _check_finite=True)
 
 
 def _convert_wind(wind, sign, tw, _check_finite=True):
+    """"""
     # Only check for NaNs and infinite values, if wanted
     if _check_finite:
-        # NaNs and infinite values can't be handled
+        # NaNs and infinite values will cause problems later on
         wind = np.asarray_chkfinite(wind)
     else:
         wind = np.asarray(wind)
@@ -96,13 +105,15 @@ def _convert_wind(wind, sign, tw, _check_finite=True):
 
 
 def _set_resolution(res: Optional[Union[Iter, int, float]], soa):
+    """"""
+    # check if wind or angle resolution should be set
     soa = soa == "s"
 
     if res is None:
         return np.arange(2, 42, 2) if soa else np.arange(0, 360, 5)
 
     if isinstance(res, Iterable):
-        # NaN's and infinite values can't be handled
+        # NaN's and infinite values cause problems later on
         res = np.asarray_chkfinite(res)
 
         if res.dtype == object:

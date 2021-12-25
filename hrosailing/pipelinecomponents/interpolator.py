@@ -71,8 +71,10 @@ class IDWInterpolator(Interpolator):
         If nothing is passed, it will default to a scaled
         version of ||.||_2
 
-
-    Raises an InterpolatorInitializationException if p is negative
+    Raises
+    ------
+    InterpolatorInitializationException 
+        If p is negative
     """
 
     def __init__(self, p=2, norm: Callable = scaled_euclidean_norm):
@@ -100,7 +102,7 @@ class IDWInterpolator(Interpolator):
         Returns
         -------
         out : int / float
-            Interpolated values at grid_pt
+            Interpolated value at grid_pt
         """
         pts = w_pts.points
         wts = self._norm(pts[:, :2] - grid_pt)
@@ -163,8 +165,10 @@ class ArithmeticMeanInterpolator(Interpolator):
     params:
         Parameters to be passed to distribution
 
-
-    Raises an InterpolatorInitializationException if s is nonpositive
+    Raises
+    ------
+    InterpolatorInitializationException 
+        If s is nonpositive
     """
 
     def __init__(
@@ -203,7 +207,7 @@ class ArithmeticMeanInterpolator(Interpolator):
         Returns
         -------
         out : int / float
-            Interpolated values at grid_pt
+            Interpolated value at grid_pt
         """
         pts = w_pts.points
         dist = self._norm(pts[:, :2] - grid_pt)
@@ -260,7 +264,7 @@ class ImprovedIDWInterpolator(Interpolator):
         Returns
         -------
         out : int / float
-            Interpolated values at grid_pt
+            Interpolated value at grid_pt
         """
         pts = w_pts.points
         dist = self._norm(pts[:, :2] - grid_pt)
@@ -299,10 +303,13 @@ class ShepardInterpolator(Interpolator):
         version of ||.||_2
 
 
-    Raises an InterpolatorInitializationException
+    Raises
+    ------
+    InterpolatorInitializationException
+    
+        - If tol is nonpositive
+        - If slope is nonpositive
 
-    - if tol is nonpositive
-    - if slope is nonpositive
     """
 
     def __init__(
@@ -345,7 +352,7 @@ class ShepardInterpolator(Interpolator):
         Returns
         -------
         out : int / float
-            Interpolated values at grid_pt
+            Interpolated value at grid_pt
         """
         pts = w_pts.points
         dist = self._norm(pts[:, :2] - grid_pt)
@@ -376,6 +383,7 @@ class ShepardInterpolator(Interpolator):
 
 
 def _set_weights(pts, dist):
+    """"""
     wts = np.zeros(pts.shape[0])
     r = np.max(dist)
 
@@ -389,6 +397,7 @@ def _set_weights(pts, dist):
 
 
 def _include_direction(pts, grid_pt, dist, wts):
+    """"""
     t = np.zeros(pts.shape[0])
 
     for i, pt in enumerate(pts):
@@ -405,6 +414,7 @@ def _include_direction(pts, grid_pt, dist, wts):
 
 
 def _determine_slope(pts, grid_pt, dist, wts, nhood, norm, slope):
+    """"""
     xderiv = np.zeros(pts.shape[0])
     yderiv = np.zeros(pts.shape[0])
 

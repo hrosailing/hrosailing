@@ -63,7 +63,10 @@ class Ball(Neighbourhood):
         Defaults to 0.05
 
 
-    Raises a NeighbourhoodInitializationException if radius is nonpositive
+    Raises
+    ------
+    NeighbourhoodInitializationException 
+        If radius is nonpositive
     """
 
     def __init__(
@@ -131,10 +134,13 @@ class ScalingBall(Neighbourhood):
         of ||.||_2
 
 
-    Raises a NeighbourhoodInitializationException
+    Raises
+    ------
+    NeighbourhoodInitializationException
 
-     - if min_pts or max_pts are nonpositive
-     - if max_pts is less than or equal to min_pts
+        - If min_pts or max_pts are nonpositive
+        - If max_pts is less than or equal to min_pts
+
     """
 
     def __init__(
@@ -238,10 +244,12 @@ class Ellipsoid(Neighbourhood):
         Defaults to 0.05
 
 
-    Raises a NeighbourhoodInitializationException
+    Raises
+    ------
+    NeighbourhoodInitializationException
 
-    - if radius is nonpositive
-    - if lin_trans is not a (2,2)-array or is not invertible
+        - If radius is nonpositive
+        - If lin_trans is not a (2,2)-array or is not invertible
     """
 
     def __init__(
@@ -378,7 +386,10 @@ class Polytope(Neighbourhood):
         If nothing is passed, it will default to (0.05,...,0.05)
 
 
-    Raises a NeighbourhoodException if mat and b are not of matching shape
+    Raises
+    ------
+    NeighbourhoodException 
+        If mat and b are not of matching shape
 
 
     Warning

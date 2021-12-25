@@ -65,33 +65,21 @@ class PolarPipeline:
         Determines the subclass of PolarDiagram, that the pipeline will
         produce
 
-        Note: Any class with a method `process(w_pts: WeightedPoints)` should
-        work here, but we recommend using a subclass of PipelineExtension
-
     handler : DataHandler
         Handler that is responsible to extract actual data from the input
 
         Determines the type and format of input the pipeline should accept
-
-        Note: Any class with a method `handle(data) -> dict` should work here,
-        but we recommend using a subclass of DataHandler
 
     weigher : Weigher, optional
         Determines the method with which the points will be weight.
 
         Defaults to CylindricMeanWeigher()
 
-        Note: Any class with a method `weigh(pts) -> (n,) array_like` should
-        work here, but we recommend using a subclass of Weigher
-
     filter_ : Filter, optional
         Determines the methods with which the points will be filtered,
         if `filtering` is `True` in __call__ method
 
         Defaults to QuantileFilter()
-
-        Note: Any class with a method `filter(wts) -> (n,) boolean array`
-        should work here, but we recommend using a subclass of Filter
     """
 
     def __init__(
@@ -153,6 +141,10 @@ class PolarPipeline:
             trends in `data`
 
             Type depends on the chosen PipelineExtension subclass
+
+        Raises
+        ------
+        PipelineException
         """
         data = self.handler.handle(data)
 
@@ -192,7 +184,16 @@ class TableExtension(PipelineExtension):
 
     Parameters
     ----------
-    w_res : , optional
+    w_res : tuple of two array_likes or int/floats, or str, optional
+        Wind speed and angle resolution to be used in the final table
+        Can be given as
+
+        - a tuple of two array_likes with float and/or integer entries, that
+        will be used as the resolution
+        - a tuple of two floats and/or integers, which will be used as
+        stepsizes for the resolutions
+        - the str `auto`, which will result in a resolution, that is
+        somewhat fitted to the data
 
     neighbourhood : Neighbourhood, optional
         Determines the neighbourhood around a point from which to draw
@@ -200,16 +201,10 @@ class TableExtension(PipelineExtension):
 
         Defaults to Ball(radius=1)
 
-        Note: Any class with a method  `is_contained_in(pts) -> (n,) boolarray`
-        should work here, but we recommend using a subclass of Neighbourhood
-
     interpolator : Interpolator, optional
         Determines which interpolation method is used
 
         Defaults to ArithmeticMeanInterpolator(50)
-
-        Note: Any class with a method `interpolate(w_pts, grid_pt) -> val`
-        should work here, but we recommend using a subclass of Interpolator
     """
 
     def __init__(
@@ -334,25 +329,16 @@ class PointcloudExtension(PipelineExtension):
 
         Defaults to UniformRandomSampler(2000)
 
-        Note: Any class with a method `sample(pts) -> (n,) array` should work
-        here, but we recommend using a subclass of Sampler
-
     neighbourhood : Neighbourhood, optional
         Determines the neighbourhood around a point from which to draw
         the data points used in the interpolation of that point
 
         Defaults to Ball(radius=1)
 
-        Note: Any class with a method `is_contained_in(pts) -> (n,) boolarray`
-        should work here, but we recommend using a subclass of Neighbourhood
-
     interpolator : Interpolator, optional
         Determines which interpolation method is used
 
         Defaults to ArithmeticMeanInterpolator(50)
-
-        Note: Any class with a method `interpolate(w_pts, grid_pt) -> val`
-        should work here, but we recommend using a subclass of Interpolator
     """
 
     def __init__(
@@ -413,6 +399,7 @@ SPEED_KEYS = {
 
 
 def _get_relevant_data(data):
+    """"""
     ws = [data.get(ws_key, None) for ws_key in WIND_KEYS]
     wa = [data.get(wa_key, None) for wa_key in ANGLE_KEYS]
     bsp = [data.get(bsp_key, None) for bsp_key in SPEED_KEYS]
@@ -431,6 +418,7 @@ def _get_relevant_data(data):
 
 
 def _add_zeros(w_pts, n_zeros):
+    """"""
     ws = w_pts.points[:, 0]
     ws = np.linspace(min(ws), max(ws), n_zeros)
 
@@ -446,6 +434,7 @@ def _add_zeros(w_pts, n_zeros):
 
 
 def _set_wind_resolution(w_res, pts):
+    """"""
     if w_res == "auto":
         ws_res = _extract_wind(pts[:, 0], 2, 100)
         wa_res = _extract_wind(pts[:, 1], 5, 30)
@@ -459,6 +448,7 @@ def _set_wind_resolution(w_res, pts):
 
 
 def _extract_wind(pts, n, threshhold):
+    """"""
     w_max = round(pts.max())
     w_min = round(pts.min())
     w_start = (w_min // n + 1) * n
@@ -486,15 +476,39 @@ class InterpolationWarning(Warning):
 
 
 def _interpolate_points(i_points, w_pts, neighbourhood, interpolator):
+    """
+
+
+    Parameters
+    ----------
+    i_points : numpy.ndarray of shape (n, 2)
+        Wind speed and angle pairs whose boat speed will be interpolated
+        based on the given data points
+
+    w_pts : WeightedPoints of shape (m, 3)
+        Data points given as wind speed, angle and boat speed triples together 
+        with their respective weights, which will be used to interpolate
+        
+    neighbourhood : Neighbourhood
+        Neighbourhood to determine which of the data points will be used for
+        the interpolation of a given wind speed and angle pair
+
+    interpolator : Interpolator
+        Interpolation method to be used
+
+    Returns
+    -------
+    pts : numpy.ndarray of shape (n, 3)
+        The wind speed and angle pairs given in i_points together with the
+        respective interpolated boat speeds
+    """
     pts = []
-
     _warning_flag = True
-
-    logger.info(f"Beginning to interpolate `w_res` with {interpolator}")
 
     for i_pt in i_points:
         mask = neighbourhood.is_contained_in(w_pts.points[:, :2] - i_pt)
 
+        # neighbourhood too small for data, if no points lie in it
         if not np.any(mask):
             if _warning_flag:
                 warnings.warn(
@@ -503,6 +517,8 @@ def _interpolate_points(i_points, w_pts, neighbourhood, interpolator):
                     "Interpolation will not lead to complete results",
                     category=InterpolationWarning,
                 )
+
+                # Only warn once
                 _warning_flag = False
             pts.append(0)
 

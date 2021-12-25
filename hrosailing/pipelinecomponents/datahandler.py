@@ -88,6 +88,10 @@ class ArrayHandler(DataHandler):
             of the DataFrame.to_dict()-method, otherwise the keys of
             the dict will be the entries of the ordered iterable with the
             value being the corresponding column of the array_like
+
+        Raises
+        ------
+        HandleException
         """
         if self.pand and isinstance(data, self.pd.DataFrame):
             return data.to_dict()
@@ -125,7 +129,7 @@ class CsvFileHandler(DataHandler):
 
         Parameters
         ----------
-        data : path-like
+        data : path_like
             Path to a .csv file
 
         Returns
@@ -133,6 +137,11 @@ class CsvFileHandler(DataHandler):
         data_dict : dict
             Dictionary having the first row entries as keys and
             as values the corresponding columns given as lists
+
+        Raises
+        ------
+        OSError
+            If no read permission is given for file
         """
         if self.pand:
             df = self.pd.read_csv(data)
@@ -178,6 +187,11 @@ class NMEAFileHandler(DataHandler):
         -------
         data_dict : dict
             Dictionary where the keys are the given attributes
+
+        Raises
+        ------
+        OSError
+            If no read permission is given for file
         """
         from pynmea2 import parse
 

@@ -35,12 +35,6 @@ logger = logging.getLogger(__name__)
 del log
 
 
-class RegressorException(Exception):
-    """Custom exception for errors that may appear whilst
-    working with the Regressor class and subclasses
-    """
-
-
 class Regressor(ABC):
     """Base class for all regressor classes
 
@@ -243,9 +237,8 @@ class LeastSquareRegressor(Regressor):
         """Fits the model function to the given data, ie calculates
         the optimal parameters to minimize the sum of the squares of
         the residuals, see also
-        [curve_fit](
-        https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html
-        )
+        [curve_fit](https://docs.scipy.org/doc/scipy/reference/generated/\
+        scipy.optimize.curve_fit.html)
 
         Parameters
         ----------
