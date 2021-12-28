@@ -73,7 +73,7 @@ class IDWInterpolator(Interpolator):
 
     Raises
     ------
-    InterpolatorInitializationException 
+    InterpolatorInitializationException
         If p is negative
     """
 
@@ -167,7 +167,7 @@ class ArithmeticMeanInterpolator(Interpolator):
 
     Raises
     ------
-    InterpolatorInitializationException 
+    InterpolatorInitializationException
         If s is nonpositive
     """
 
@@ -306,7 +306,7 @@ class ShepardInterpolator(Interpolator):
     Raises
     ------
     InterpolatorInitializationException
-    
+
         - If tol is nonpositive
         - If slope is nonpositive
 

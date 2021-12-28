@@ -545,15 +545,13 @@ def isocrone(
 
 
 def _inverse_mercator_proj(pt, lat_mp):
-    """Computes point from its mercator projection with reference point lat_mp
-    """
+    """Computes point from its mercator projection with reference point lat_mp"""
     x, y = pt / 69
     return x + lat_mp, 180 / np.pi * np.arcsin(np.tanh(y))
 
 
 def _mercator_proj(pt, lat_mp):
-    """Computes the mercator projection with reference point lat_mp of a point
-    """ 
+    """Computes the mercator projection with reference point lat_mp of a point"""
     lat, long = pt
     # 69 nautical miles between two lattitudes
     return 69 * np.array(
@@ -640,8 +638,8 @@ def _wind_relative_to_north(wdir):
     Parameters
     ----------
     wdir : float between 0 and 360 or tuple
-        The direction of the wind given as either                            
-                                                                        
+        The direction of the wind given as either
+
         - the wind angle relative to north
         - the true wind angle and the boat direction relative to north
         - a (ugrd, vgrd) tuple from grib data

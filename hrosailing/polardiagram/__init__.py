@@ -77,7 +77,7 @@ def from_csv(csv_path, fmt="hro"):
         - If an unknown format was specified
         - If, in the format `hro`, the first row does not match any
         PolarDiagram subclass
-    
+
     OSError
         If file does not exist or no read permision for that file is given.
 
@@ -448,7 +448,7 @@ class PolarDiagramTable(PolarDiagram):
 
         If nothing is passed it will default to
         numpy.zeros((rdim, cdim))
-        
+
     Raises
     ------
     PolarDiagramInitializationException
@@ -673,10 +673,10 @@ class PolarDiagramTable(PolarDiagram):
             refer to `from_csv` for the possible formats
 
             Currently only works for `hro` and `opencpn`
-        
+
         Raises
         ------
-        PolarDiagramException 
+        PolarDiagramException
             If an unknown format was specified
         OSError
             If no write permission is granted for file
@@ -1399,12 +1399,12 @@ class PolarDiagramTable(PolarDiagram):
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
 
-        Raises 
+        Raises
         ------
         PolarDiagramException
 
             - If at least one element of ws is not in self.wind_speeds
-            - If the given interval doesn't contain any slices of the 
+            - If the given interval doesn't contain any slices of the
             polar diagram
         """
         _check_plot_kw(plot_kw)
@@ -1504,7 +1504,7 @@ class PolarDiagramMultiSails(PolarDiagram):
 
     Raises
     ------
-    PolarDiagramInitializationException 
+    PolarDiagramInitializationException
         If the polar tables don't share the same wind speeds
     """
 
@@ -1772,7 +1772,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         PolarDiagramException
 
             - If at least one element of ws is not in self.wind_speeds
-            - If the given interval doesn't contain any slices of the 
+            - If the given interval doesn't contain any slices of the
             polar diagram
         """
         if ax is None:
@@ -1870,7 +1870,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         PolarDiagramException
 
             - If at least one element of ws is not in self.wind_speeds
-            - If the given interval doesn't contain any slices of the 
+            - If the given interval doesn't contain any slices of the
             polar diagram
         """
         for i, pd in enumerate(self._tables):
@@ -2028,7 +2028,7 @@ class PolarDiagramMultiSails(PolarDiagram):
 
         Raises
         ------
-        PolarDiagramException 
+        PolarDiagramException
             If at least one element of ws is not in self.wind_speeds
         """
         _check_plot_kw(plot_kw)
@@ -2156,7 +2156,7 @@ class PolarDiagramCurve(PolarDiagram):
         return PolarDiagramCurve(func, *params, radians=radians)
 
     def symmetrize(self):
-        """Constructs a symmetric version of the polar diagram, 
+        """Constructs a symmetric version of the polar diagram,
         by mirroring it at the 0° - 180° axis and returning a new instance
         """
 
@@ -2205,7 +2205,7 @@ class PolarDiagramCurve(PolarDiagram):
             Slices of the polar diagram, given as a tuple of length 3,
             consisting of the given wind speeds `ws`, self.wind_angles (in rad)
             and a list of arrays containing the corresponding boat speeds
-            
+
         Raises
         ------
         PolarDiagramException
@@ -3065,9 +3065,9 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Raises
         ------
-        PolarDiagramException 
-            If ws is given as a single value or a list and there is a 
-            value w in ws, such that there are no rows in self.points 
+        PolarDiagramException
+            If ws is given as a single value or a list and there is a
+            value w in ws, such that there are no rows in self.points
             whose first entry is equal to w
         """
         _check_plot_kw(plot_kw, False)
@@ -3180,9 +3180,9 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Raises
         ------
-        PolarDiagramException 
-            If ws is given as a single value or a list and there is a 
-            value w in ws, such that there are no rows in self.points 
+        PolarDiagramException
+            If ws is given as a single value or a list and there is a
+            value w in ws, such that there are no rows in self.points
             whose first entry is equal to w
         """
         _check_plot_kw(plot_kw, False)
@@ -3216,9 +3216,9 @@ class PolarDiagramPointcloud(PolarDiagram):
             matplotlib.axes.Axes.plot function, to change
             certain appearences of the plot
 
-        Raises 
+        Raises
         ------
-        PolarDiagramException 
+        PolarDiagramException
             If there are no points in the point cloud
         """
         if not self.points.size:
@@ -3286,9 +3286,9 @@ class PolarDiagramPointcloud(PolarDiagram):
 
             If nothing is passed, it will default to {}
 
-        Raises 
+        Raises
         ------
-        PolarDiagramException 
+        PolarDiagramException
             If there are no points in the point cloud
         """
         if not self.points.size:
@@ -3406,9 +3406,9 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Raises
         ------
-        PolarDiagramException 
-            If ws is given as a single value or a list and there is a 
-            value w in ws, such that there are no rows in self.points 
+        PolarDiagramException
+            If ws is given as a single value or a list and there is a
+            value w in ws, such that there are no rows in self.points
             whose first entry is equal to w
         """
         _check_plot_kw(plot_kw)

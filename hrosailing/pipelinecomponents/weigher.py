@@ -87,7 +87,7 @@ class CylindricMeanWeigher(Weigher):
 
     Raises
     ------
-    WeigherInitializationException 
+    WeigherInitializationException
         If radius is nonpositive
     """
 

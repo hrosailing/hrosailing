@@ -32,7 +32,7 @@ def apparent_wind_to_true(wind):
     converted : numpy.ndarray of shape (n, 3)
         Array containing the same data as wind_arr, but the wind speed
         and wind angle now measured as true wind
-    
+
     Raises
     ------
     WindConversionException

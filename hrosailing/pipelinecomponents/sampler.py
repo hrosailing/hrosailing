@@ -48,9 +48,9 @@ class UniformRandomSampler(Sampler):
     n_samples : positive int
         Amount of samples that will be produced by the sampler
 
-    Raises 
+    Raises
     ------
-    SamplerInitializationException 
+    SamplerInitializationException
         If n_samples is nonpositive
     """
 
@@ -114,9 +114,9 @@ class FibonacciSampler(Sampler):
     n_samples : positive int
         Amount of samples that will be produced by the sampler
 
-    Raises 
+    Raises
     ------
-    SamplerInitializationException 
+    SamplerInitializationException
         If n_samples is nonpositive
     """
 
@@ -181,9 +181,9 @@ class ArchimedianSampler(Sampler):
     n_samples : positive int
         Amount of samples that will be produced by the sampler
 
-    Raises 
+    Raises
     ------
-    SamplerInitializationException 
+    SamplerInitializationException
         If n_samples is nonpositive
     """
 

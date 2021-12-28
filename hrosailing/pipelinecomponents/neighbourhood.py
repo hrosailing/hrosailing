@@ -65,7 +65,7 @@ class Ball(Neighbourhood):
 
     Raises
     ------
-    NeighbourhoodInitializationException 
+    NeighbourhoodInitializationException
         If radius is nonpositive
     """
 
@@ -388,7 +388,7 @@ class Polytope(Neighbourhood):
 
     Raises
     ------
-    NeighbourhoodException 
+    NeighbourhoodException
         If mat and b are not of matching shape
 
 

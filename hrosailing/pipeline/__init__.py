@@ -486,9 +486,9 @@ def _interpolate_points(i_points, w_pts, neighbourhood, interpolator):
         based on the given data points
 
     w_pts : WeightedPoints of shape (m, 3)
-        Data points given as wind speed, angle and boat speed triples together 
+        Data points given as wind speed, angle and boat speed triples together
         with their respective weights, which will be used to interpolate
-        
+
     neighbourhood : Neighbourhood
         Neighbourhood to determine which of the data points will be used for
         the interpolation of a given wind speed and angle pair
