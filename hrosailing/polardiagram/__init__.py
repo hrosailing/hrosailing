@@ -3,7 +3,6 @@ PolarDiagram classes to work with and represent PPDs in various forms
 """
 
 # pylint: disable=too-many-lines
-# Author: Valentin Dannenberg
 
 
 import csv
@@ -23,7 +22,7 @@ from hrosailing.pipelinecomponents import (
     Neighbourhood,
     WeightedPoints,
 )
-from hrosailing.wind import _convert_wind, _set_resolution
+from hrosailing.wind import apparent_wind_to_true, _set_resolution
 
 from ._plotting import *
 
@@ -502,13 +501,8 @@ class PolarDiagramTable(PolarDiagram):
     """
 
     def __init__(self, ws_res=None, wa_res=None, bsps=None):
-        logger.info(
-            f"Class 'PolarDiagramTable(ws_res={ws_res}, wa_res={wa_res}, "
-            f"bsps={bsps})' called"
-        )
-
-        ws_res = _set_resolution(ws_res, "s")
-        wa_res = _set_resolution(wa_res, "a")
+        ws_res = _set_resolution(ws_res, soa="s")
+        wa_res = _set_resolution(wa_res, soa="a")
 
         # standardize wind angles to the interval [0, 360)
         wa_res %= 360
@@ -523,7 +517,6 @@ class PolarDiagramTable(PolarDiagram):
         # NaN's and infinite values can't be handled
         bsps = np.asarray_chkfinite(bsps, float)
 
-        # Non array_like `bsps` are not allowed
         if bsps.dtype is object:
             raise PolarDiagramInitializationException(
                 "`bsps` is not array_like"
@@ -796,31 +789,42 @@ class PolarDiagramTable(PolarDiagram):
         below_180 = [wa for wa in self.wind_angles if wa <= 180]
         above_180 = [wa for wa in self.wind_angles if wa > 180]
         if below_180 and above_180:
-            warnings.warn(
+            _warn_for_duplicate_data()
+
+        symmetric_wa_res = np.concatenate(
+            [self.wind_angles, 360 - np.flip(self.wind_angles)]
+        )
+        symmetric_bsps = np.row_stack(
+            (self.boat_speeds, np.flip(self.boat_speeds, axis=0))
+        )
+
+        if 180 in self.wind_angles:
+            _delete_multiple_180_degree_occurences(symmetric_wa_res, symmetric_bsps)
+        if 0 in self.wind_angles:
+            _delete_multiple_0_degree_occurences(symmetric_wa_res, symmetric_bsps)
+
+        return PolarDiagramTable(
+            ws_res=self.wind_speeds, wa_res=wa_res, bsps=bsps
+        )
+
+    @staticmethod
+    def _warn_for_duplicate_data():
+        warnings.warn(
                 "There are wind angles on both sides of the 0° - 180° axis. "
                 "This might result in duplicate data, "
                 "which can overwrite or live alongside old data"
             )
 
-        wa_res = np.concatenate(
-            [self.wind_angles, 360 - np.flip(self.wind_angles)]
-        )
-        bsps = np.row_stack(
-            (self.boat_speeds, np.flip(self.boat_speeds, axis=0))
-        )
+    @staticmethod
+    def _delete_multiple_180_degree_occurences(symmetric_wa_res, symmetric_bsps):
+        mid = np.where(wa_res == 180)[0][0]
+        wa_res = np.delete(wa_res, mid)
+        bsps = np.row_stack((bsps[:mid, :], bsps[mid + 1:, :]))
 
-        # deleting multiple 180° and 0° occurences in the table
-        if 180 in self.wind_angles:
-            mid = np.where(wa_res == 180)[0][0]
-            wa_res = np.delete(wa_res, mid)
-            bsps = np.row_stack((bsps[:mid, :], bsps[mid + 1 :, :]))
-        if 0 in self.wind_angles:
-            bsps = bsps[:-1, :]
-            wa_res = wa_res[:-1]
-
-        return PolarDiagramTable(
-            ws_res=self.wind_speeds, wa_res=wa_res, bsps=bsps
-        )
+    @staticmethod
+    def _delete_multiple_0_degree_occurences(symmetric_wa_res, symmetric_bsps):
+        symmetric_bsps = symmetric_bsps[:-1, :]
+        symmetric_wa_res = symmetric_wa_res[:-1]
 
     def change_entries(self, new_bsps, ws=None, wa=None):
         """Changes specified entries in the table
@@ -921,7 +925,6 @@ class PolarDiagramTable(PolarDiagram):
         # allow numeric inputs
         new_bsps = np.atleast_1d(new_bsps)
 
-        # NaN's and infinite values shouldn't be allowed
         new_bsps = np.asarray_chkfinite(new_bsps)
 
         # non-array_like input shouldn't be allowed
@@ -2142,18 +2145,22 @@ class PolarDiagramCurve(PolarDiagram):
         radians = literal_eval(next(csv_reader)[1])
         params = [literal_eval(param) for param in next(csv_reader)[1:]]
 
-        # Check if a function with the name in .csv file
-        # is defined, if so use that function
+        func = _extract_function_if_defined(func)
+
+        return PolarDiagramCurve(func, *params, radians=radians)
+
+    @staticmethod
+    def _extract_function_if_defined(func):
         globals_ = globals()
+        
         if func not in globals_:
             raise PolarDiagramException(
                 "No function with the name `func` is currently defined. "
                 "Deserializing not possible"
             )
 
-        func = globals_["func"]
+        return globals_[func]
 
-        return PolarDiagramCurve(func, *params, radians=radians)
 
     def symmetrize(self):
         """Constructs a symmetric version of the polar diagram,
@@ -2695,15 +2702,14 @@ class PolarDiagramPointcloud(PolarDiagram):
     """
 
     def __init__(self, pts=None, tw=True):
-        logger.info(
-            f"Class 'PolarDiagramPointcloud(pts={pts}, tw={tw})' called"
-        )
-
         if pts is None:
             self._pts = np.array([])
             return
 
-        pts = _convert_wind(pts, -1, tw)
+        if not tw:
+            pts = apparent_wind_to_true(pts)
+        else:
+            pts = np.asarray_chkfinite(pts)
 
         # standardize wind angles to the interval [0, 360)
         pts[:, 1] %= 360
@@ -2872,7 +2878,10 @@ class PolarDiagramPointcloud(PolarDiagram):
 
             Defaults to True
         """
-        new_pts = _convert_wind(new_pts, -1, tw)
+        if not tw:
+            new_pts = apparent_wind_to_true(new_pts)
+        else:
+            new_pts = np.asarray_chkfinite(new_pts)
 
         if not self.points.size:
             self._pts = new_pts
