@@ -28,7 +28,7 @@ class Direction:
     # Proportion of time needed to sail into direction
     proportion: float
 
-    # Type/Name of Sail that should be hissed, when
+    # Type/Name of sail that should be hissed, when
     # sailing in the direction (if existent)
     sail: Optional[str] = None
 

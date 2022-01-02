@@ -2,8 +2,6 @@
 Pipeline to create PPDs from raw data
 """
 
-# Author: Valentin Dannenberg
-
 
 import logging.handlers
 import warnings
@@ -154,15 +152,11 @@ class PolarPipeline:
             ws, wa, bsp = _get_relevant_data(data)
             data = np.column_stack((ws, wa, bsp))
 
-        # NaN and infinite values aren't allowed
         data = np.asarray_chkfinite(data, float)
 
-        # Non-array_like `data` is not allowed after handling
         if data.dtype is object:
             raise PipelineException("`data` is not array_like")
 
-        # `data` should have 3 columns corresponding to wind speed,
-        # wind angle and boat speed, after the influence model
         if data.shape[1] != 3:
             raise PipelineException("`data` has incorrect shape")
 
@@ -175,7 +169,7 @@ class PolarPipeline:
         if n_zeros:
             w_pts = _add_zeros(w_pts, n_zeros)
 
-        return self.extension.process(w_pts)
+        self.extension.process(w_pts)
 
 
 class TableExtension(PipelineExtension):

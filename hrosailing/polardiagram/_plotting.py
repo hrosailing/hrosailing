@@ -3,10 +3,6 @@ Contains various helper functions for the plot_*-methods() of the
 PolarDiagram subclasses
 """
 
-# Author: Valentin Dannenberg
-
-# pylint: disable=missing-function-docstring
-
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.cm import ScalarMappable
@@ -21,89 +17,100 @@ from scipy.spatial import ConvexHull
 
 
 def plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
+    """"""
     if ax is None:
-        ax = plt.axes(projection="polar")
+        ax = _get_default_axis("polar")
+    _set_polar_axis(ax)
 
-    ax.set_theta_zero_location("N")
-    ax.set_theta_direction("clockwise")
-
-    return _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
+    _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
 
 def plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
+    """"""
     if ax is None:
-        ax = plt.gca()
+        ax = _get_default_axis("rectlinear")
 
-    return _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
+    _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
 
 def plot_color_gradient(
     ws, wa, bsp, ax, colors, marker, ms, show_legend, **legend_kw
 ):
+    """"""
     if ax is None:
-        ax = plt.gca()
+        ax = _get_default_axis("rectlinear")
 
-    if legend_kw is None:
-        legend_kw = {}
     if show_legend:
-        _set_legend(ax, bsp, colors, label="Boat Speed", **legend_kw)
+        _show_legend(ax, bsp, colors, label="Boat Speed", legend_kw)
 
+    color_gradient = _determine_color_gradient(colors, bsp)
+
+    ax.scatter(ws, wa, s=ms, marker=marker, c=color_gradient)
+
+
+def _determine_color_gradient(colors, bsp):
     min_color = np.array(to_rgb(colors[0]))
     max_color = np.array(to_rgb(colors[1]))
     min_bsp = np.min(bsp)
     max_bsp = np.max(bsp)
 
     coeffs = [(b - min_bsp) / (max_bsp - min_bsp) for b in bsp]
-    colors = [(1 - c) * min_color + c * max_color for c in coeffs]
 
-    return ax.scatter(ws, wa, s=ms, marker=marker, c=colors)
+    return [(1 - c) * min_color + c * max_color for c in coeffs]
 
 
 def plot3d(ws, wa, bsp, ax, colors, **plot_kw):
+    """"""
     if ax is None:
-        ax = plt.axes(projection="3d")
+        ax = _get_default_axis("3d")
 
-    ax.set_xlabel("TWS")
-    ax.set_ylabel("Polar plane: TWA / BSP ")
+    _set_3d_axis_labels(ax)
+    _remove_3d_axis_labels_for_polar_coordinates(ax) 
 
-    # remove axis labels since we are using polar-coordinates,
-    # which are transformed to cartesian, so the labels
-    # would be wrong
-    ax.yaxis.set_ticklabels([])
-    ax.zaxis.set_ticklabels([])
+    color_map = _create_color_map(colors)
 
-    cmap = LinearSegmentedColormap.from_list("cmap", [colors[0], colors[1]])
-
-    return ax.scatter(ws, wa, bsp, c=ws, cmap=cmap, **plot_kw)
+    ax.scatter(ws, wa, bsp, c=ws, cmap=color_map, **plot_kw)
 
 
 def plot_surface(ws, wa, bsp, ax, colors):
+    """"""
     if ax is None:
-        ax = plt.axes(projection="3d")
+        ax = _get_default_axis("3d")
 
+    _set_3d_axis_labels(ax)
+    _remove_3d_tick_labels_for_polar_coordinates(ax) 
+
+    color_map = _create_color_map(colors)    
+    face_colors = _determine_face_colors(color_map, ws) 
+
+    ax.plot_surface(ws, wa, bsp, facecolors=face_colors)
+
+
+def _create_color_map(colors):
+    return LinearSegmentedColormap.from_list("cmap", list(colors))
+
+
+def _determine_face_colors(color_map, ws):
+    return color_map((ws - ws.min()) / float((ws - ws.min()).max()))
+
+
+def _set_3d_axis_labels(ax):
     ax.set_xlabel("TWS")
     ax.set_ylabel("Polar plane: TWA / BSP ")
 
-    # remove axis labels since we are using polar-coordinates,
-    # which are transformed to cartesian, so the labels
-    # would be wrong
+
+def _remove_3d_tick_labels_for_polar_coordinates(ax):
     ax.yaxis.set_ticklabels([])
-    ax.zaxis.set_ticklabels([])
-
-    cmap = LinearSegmentedColormap.from_list("cmap", list(colors))
-    color = cmap((ws - ws.min()) / float((ws - ws.min()).max()))
-
-    return ax.plot_surface(ws, wa, bsp, facecolors=color)
+    ax.zaxis.set_ticklabel([])
 
 
 def plot_convex_hull(
     ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw
 ):
     if ax is None:
-        ax = plt.axes(projection="polar")
+        ax = _get_default_axis("polar")
 
-    ax.set_theta_zero_location("N")
-    ax.set_theta_direction("clockwise")
+    _set_polar_axis(ax)
 
     _prepare_plot(ax, ws, colors, show_legend, legend_kw, plot_kw)
 
@@ -117,10 +124,9 @@ def plot_convex_hull_multisails(
     ws, wa, bsp, members, ax, colors, show_legend, legend_kw, **plot_kw
 ):
     if ax is None:
-        ax = plt.axes(projection="polar")
+        ax = _get_default_axis("polar")
 
-    ax.set_theta_zero_location("N")
-    ax.set_theta_direction("clockwise")
+    _set_polar_axis(ax)
 
     xs, ys, members = _get_convex_hull_multisails(ws, wa, bsp, members)
 
@@ -138,16 +144,33 @@ def plot_convex_hull_multisails(
         ax.plot(x, y, **plot_kw)
 
 
+def _get_default_axis(kind):
+    return plt.axes(projection=kind)
+
+
+def _set_polar_axis(ax):
+    ax.set_theta_zero_location("N")
+    ax.set_theta_direction("clockwise")
+
+
 def _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
-    _prepare_plot(ax, ws, colors, show_legend, legend_kw, plot_kw)
+    _configure_colors(ax, ws, colors)
+
+    if show_legend:
+        _show_legend(ax, ws, colors, label="True Wind Speed", legend_kw)
 
     for x, y in zip(wa, bsp):
         ax.plot(x, y, **plot_kw)
 
 
+def _show_legend(ax, ws, colors, label, legend_kw):
+    if legend_kw is None:
+        legend_kw = {}
+
+    _configure_legend(ax, ws, colors, label, **legend_kw)
+
+
 def _prepare_plot(ax, ws, colors, show_legend, legend_kw, plot_kw):
-    if colors is None:
-        colors = plot_kw.pop("color", None) or plot_kw.pop("c", None)
     _set_color_cycle(ax, ws, colors)
 
     if legend_kw is None:
@@ -160,9 +183,6 @@ def _set_color_cycle(ax, ws, colors):
     if is_color_like(colors):
         ax.set_prop_cycle("color", [colors])
         return
-
-    if colors is None:
-        colors = ["blue"]
 
     n_plots = len(ws)
     n_colors = len(colors)
@@ -177,16 +197,9 @@ def _set_color_cycle(ax, ws, colors):
 
         return
 
-    # n_colors == 2
-    min_color = np.array(to_rgb(colors[0]))
-    max_color = np.array(to_rgb(colors[1]))
-    min_ws = min(ws)
-    max_ws = max(ws)
-
-    coeffs = [(w - min_ws) / (max_ws - min_ws) for w in ws]
-    colors = [(1 - c) * min_color + c * max_color for c in coeffs]
-    ax.set_prop_cycle("color", colors)
-
+    color_gradient = _determine_color_gradient(colors, ws)
+    ax.set_prop_cycle("color", color_gradient)
+    
 
 def _set_colorlist(colors, colorlist, ws):
     if isinstance(colors[0], tuple):
@@ -204,61 +217,56 @@ def _set_colorlist(colors, colorlist, ws):
         colorlist[i] = c
 
 
-def _set_legend(ax, ws, colors, label, **legend_kw):
-    n_colors = len(colors)
-    n_plots = len(ws)
+def _configure_legend(ax, ws, colors, label, **legend_kw):
 
-    if n_plots > n_colors == 2:
+    if _plot_with_color_gradient(ws, colors):
         _set_colormap(ws, colors, ax, label, **legend_kw)
         return
 
     if isinstance(colors[0], tuple) and not is_color_like(colors[0]):
-        ax.legend(
-            handles=[
-                Line2D(
-                    [0],
-                    [0],
-                    color=colors[i][1],
-                    lw=1,
-                    label=f"TWS {colors[i][0]}",
-                )
-                for i in range(n_colors)
-            ],
-            **legend_kw,
-        )
+        _set_legend_without_wind_speeds(ax, colors, legend_kw)
         return
 
-    ax.legend(
-        handles=[
-            Line2D([0], [0], color=colors[i], lw=1, label=f"TWS {ws[i]}")
-            for i in range(min(n_plots, n_colors))
-        ],
-        **legend_kw,
-    )
+    _set_legend_with_wind_speeds(ax, colors, ws, legend_kw)
+
+
+def _plot_with_color_gradient(ws, colors):
+    return len(ws) > len(colors) == 2
 
 
 def _set_colormap(ws, colors, ax, label, **legend_kw):
-    cmap = LinearSegmentedColormap.from_list("cmap", [colors[0], colors[1]])
+    color_map = _create_color_map(colors)
     plt.colorbar(
-        ScalarMappable(norm=Normalize(vmin=min(ws), vmax=max(ws)), cmap=cmap),
+        ScalarMappable(norm=Normalize(vmin=min(ws), vmax=max(ws)), cmap=color_map),
         ax=ax,
         **legend_kw,
     ).set_label(label)
 
 
-def _get_convex_hull(wa, bsp):
+def _set_legend_without_wind_speeds(ax, colors, legend_kw):
+    ax.legend(handles=[Line2D([0],[0], color=color, lw=1, label=f"TWS {ws}") for (ws, color) in colors], **legend_kw)
+
+
+def _set_legend_with_wind_speeds(ax, colors, ws, legend_kw):
+    slices = zip(ws, colors)
+
+    ax.legend(handles=[Line2D([0], [0], color=color, lw=1, label=f"TWS {ws}") for (ws, colors) in slices], **legend_kw)
+
+
+def _determine_convex_hull(wa, bsp):
     xs = []
     ys = []
+    slices = zip(wa, bsp)
 
-    for w, b in zip(wa, bsp):
-        w = np.asarray(w)
-        b = np.asarray(b)
+    for wa, bsp in slices:
+        wa = np.asarray(wa)
+        bsp = np.asarray(bsp)
 
-        # convex hull is just line between the two points
-        # or is equal to just one point
-        if len(w) < 3:
-            xs.append(w)
-            ys.append(b)
+        # convex hull is line between the two points
+        # or is equal to one point
+        if len(wa) < 3:
+            xs.append(wa)
+            ys.append(bsp)
             continue
 
         conv = _convex_hull_polar(w, b)

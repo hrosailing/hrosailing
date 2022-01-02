@@ -8,10 +8,10 @@ Subclasses of DataHandler can be used with the PolarPipeline class
 in the hrosailing.pipeline module
 """
 
-# Author: Valentin Dannenberg & Robert Schueler
 
 # pylint: disable=import-outside-toplevel
 # pylint: disable=import-error
+
 
 import csv
 from abc import ABC, abstractmethod
