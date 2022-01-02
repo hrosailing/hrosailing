@@ -2,7 +2,6 @@
 Functions for navigation and weather routing using PPDs
 """
 
-# Author: Valentin Dannenberg & Robert Schueler
 
 import itertools
 from bisect import bisect_left
