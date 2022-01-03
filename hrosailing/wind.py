@@ -14,7 +14,7 @@ class WindConversionException(Exception):
     """Exception raised if an error occurs during wind conversion"""
 
 
-def apparent_wind_to_true(apparent_wind):
+def convert_apparent_wind_to_true(apparent_wind):
     """Converts apparent wind to true wind
 
     Parameters
@@ -37,7 +37,7 @@ def apparent_wind_to_true(apparent_wind):
     return _convert_wind(apparent_wind, sign=-1)
 
 
-def true_wind_to_apparent(true_wind):
+def convert_true_wind_to_apparent(true_wind):
     """Converts true wind to apparent wind
 
     Parameters

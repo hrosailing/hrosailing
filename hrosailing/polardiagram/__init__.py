@@ -22,7 +22,7 @@ from hrosailing.pipelinecomponents import (
     Neighbourhood,
     WeightedPoints,
 )
-from hrosailing.wind import apparent_wind_to_true, _set_resolution
+from hrosailing.wind import convert_apparent_wind_to_true, _set_resolution
 
 from ._plotting import *
 
@@ -603,7 +603,7 @@ class PolarDiagramTable(PolarDiagram):
             pts = np.column_stack(
                 (ws_res.ravel(), wa_res.ravel(), self.boat_speeds.ravel())
             )
-            w_pts = WeightedPoints(pts, wts=1, tw=True)
+            w_pts = WeightedPoints(pts, wts=1)
 
             mask = neighbourhood.is_contained_in(pts[:, :2] - pt)
 
@@ -2693,21 +2693,21 @@ class PolarDiagramPointcloud(PolarDiagram):
         If nothing is passed, the point cloud will be initialized
         as an empty point cloud
 
-    tw : bool, optional
-        Specifies if the given wind data should be viewed as true wind
+    apparent_wind : bool, optional
+        Specifies if wind data is given in apparent wind
 
-        If False, wind data will be converted to true wind
+        If `True`, data will be converted to true wind
 
-        Defaults to True
+        Defaults to `False`
     """
 
-    def __init__(self, pts=None, tw=True):
+    def __init__(self, pts=None, apparent_wind=False):
         if pts is None:
             self._pts = np.array([])
             return
 
-        if not tw:
-            pts = apparent_wind_to_true(pts)
+        if apparent_wind:
+            pts = convert_apparent_wind_to_true(pts)
         else:
             pts = np.asarray_chkfinite(pts)
 
@@ -2776,7 +2776,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             return pt[2]
 
         pt = np.array([ws, wa])
-        w_pts = WeightedPoints(cloud, wts=1, tw=True, _checks=False)
+        w_pts = WeightedPoints(cloud, wts=1)
         mask = neighbourhood.is_contained_in(cloud[:, :2] - pt)
 
         return interpolator.interpolate(w_pts[mask], pt)
@@ -2862,7 +2862,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         return PolarDiagramPointcloud(pts=pts)
 
-    def add_points(self, new_pts, tw=True):
+    def add_points(self, new_pts, apparent_wind=False):
         """Adds additional points to the point cloud
 
         Parameters
@@ -2871,15 +2871,15 @@ class PolarDiagramPointcloud(PolarDiagram):
             New points to be added to the point cloud given as a sequence
             of points consisting of wind speed, wind angle and boat speed
 
-        tw : bool, optional
-            Specifies if the given wind data should be viewed as true wind
+        apparent_wind : bool, optional
+            Specifies if wind data is given in apparent_wind
 
-            If False, wind data will be converted to true wind
+            If `True`, data will be converted to true wind
 
-            Defaults to True
+            Defaults to `False`
         """
-        if not tw:
-            new_pts = apparent_wind_to_true(new_pts)
+        if apparent_wind:
+            new_pts = convert_apparent_wind_to_true(new_pts)
         else:
             new_pts = np.asarray_chkfinite(new_pts)
 

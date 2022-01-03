@@ -44,7 +44,7 @@ class PipelineExtension(ABC):
     """
 
     @abstractmethod
-    def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagram:
+    def fit(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagram:
         """This method, given an instance of WeightedPoints, should
         return a polar diagram object, which represents the trends
         and data contained in the WeightedPoints instance
@@ -124,21 +124,18 @@ class PolarPipeline:
 
         n_zeros: int, optional
             If not None, describes the number of additional data points
-            at (tws, 0) and (tws, 360) respectively, which are appended
+            at `(tws, 0)` and `(tws, 360)` respectively, which are appended
             to the filtered data
 
-            Needed to better model the actual behaviour of sailing boats
-            when sailing against the wind
-
-            Defaults to 500
+            Defaults to `500`
 
         Returns
         -------
         pd : PolarDiagram
-            PolarDiagram subclass instance, which represents the
+            `PolarDiagram` subclass instance, which represents the
             trends in `data`
 
-            Type depends on the chosen PipelineExtension subclass
+            Type depends on the chosen `PipelineExtension` subclass
 
         Raises
         ------
@@ -163,13 +160,65 @@ class PolarPipeline:
         w_pts = pc.WeightedPoints(data, weigher=self.weigher, tw=tw)
 
         if filtering:
-            mask = self.filter.filter(w_pts.weights)
-            w_pts = w_pts[mask]
+            self._filter_data(w_pts)
 
         if n_zeros:
             w_pts = _add_zeros(w_pts, n_zeros)
 
-        self.extension.process(w_pts)
+        self.extension.fit(w_pts)
+
+    def _filter_data(w_pts):
+        filtered_points = self.filter.filter(w_pts.weights)
+        w_pts = w_pts[mask]
+
+    @staticmethod
+    def _add_zeros(w_pts, n_zeros):
+        ws = w_pts.points[:, 0]
+        ws = np.linspace(min(ws), max(ws), n_zeros)
+
+        zero = np.zeros(n_zeros)
+        full = 360 * np.ones(n_zeros)
+        zeros = np.column_stack((ws, zero, zero))
+        fulls = np.column_stack((ws, full, zero))
+
+        return pc.WeightedPoints(
+            pts=np.concatenate([w_pts.points, zeros, fulls]),
+            wts=np.concatenate([w_pts.weights, np.ones(2 * n_zeros)]),
+        )
+
+    @staticmethod
+    def _get_relevant_data(data):
+        WIND_KEYS = {"Wind speed", "Wind Speed", "wind speed"}
+        ANGLE_KEYS = {"Wind angle", "Wind Angle", "wind angle"}
+        SPEED_KEYS = {
+            "Boat Speed",
+            "Boat speed",
+            "Speed Over Ground",
+            "Speed over ground",
+            "Speed over Ground",
+            "speed over ground",
+            "Speed over ground knots",
+            "Water Speed",
+            "Water speed",
+            "water speed",
+            "Water Speed knots",
+            "Water speed knots",
+        }
+        ws = [data.get(ws_key, None) for ws_key in WIND_KEYS]
+        wa = [data.get(wa_key, None) for wa_key in ANGLE_KEYS]
+        bsp = [data.get(bsp_key, None) for bsp_key in SPEED_KEYS]
+
+        ws = [w for w in ws if w is not None]
+        wa = [a for a in wa if a is not None]
+        bsp = [b for b in bsp if b is not None]
+
+        # can't use pipeline if some of the data is not present
+        if not ws or not wa or not bsp:
+            raise PipelineException(
+                "Not enough relevant data present for usage of pipeline"
+            )
+
+        return ws[0], wa[0], bsp[0]
 
 
 class TableExtension(PipelineExtension):
@@ -178,27 +227,27 @@ class TableExtension(PipelineExtension):
 
     Parameters
     ----------
-    w_res : tuple of two array_likes or int/floats, or str, optional
+    w_res : tuple of two array_likes or scalars, or str, optional
         Wind speed and angle resolution to be used in the final table
         Can be given as
 
-        - a tuple of two array_likes with float and/or integer entries, that
+        - a tuple of two `array_likes` with scalar entries, that
         will be used as the resolution
-        - a tuple of two floats and/or integers, which will be used as
+        - a tuple of two `scalars`, which will be used as
         stepsizes for the resolutions
-        - the str `auto`, which will result in a resolution, that is
+        - the str `"auto"`, which will result in a resolution, that is
         somewhat fitted to the data
 
     neighbourhood : Neighbourhood, optional
         Determines the neighbourhood around a point from which to draw
         the data points used in the interpolation of that point
 
-        Defaults to Ball(radius=1)
+        Defaults to `Ball(radius=1)`
 
     interpolator : Interpolator, optional
         Determines which interpolation method is used
 
-        Defaults to ArithmeticMeanInterpolator(50)
+        Defaults to `ArithmeticMeanInterpolator(50)`
     """
 
     def __init__(
@@ -211,7 +260,7 @@ class TableExtension(PipelineExtension):
         self.neighbourhood = neighbourhood
         self.interpolator = interpolator
 
-    def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramTable:
+    def fit(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramTable:
         """Creates a PolarDiagramTable instance from preprocessed data,
         by first determining a wind speed / wind angle grid, using
         `self.w_res`, and then interpolating the boat speed values at the
@@ -243,6 +292,40 @@ class TableExtension(PipelineExtension):
 
         return pol.PolarDiagramTable(ws_res=ws_res, wa_res=wa_res, bsps=bsp)
 
+    def _determine_table_size(self, pts):
+        if w_res == "auto":
+            return _automatically_determined_resolution(pts)
+
+        if w_res is None:
+            w_res = (None, None)
+
+        ws_res, wa_res = w_res
+        return _set_resolution(ws_res, "s"), _set_resolution(wa_res, "a")
+
+    def _atomatically_determined_resolution(pts):
+        ws_res = _extract_wind(pts[:, 0], 2, 100)
+        wa_res = _extract_wind(pts[:, 1], 5, 30)
+
+    def _extract_wind(pts, n, threshhold):
+        w_max = round(pts.max())
+        w_min = round(pts.min())
+        w_start = (w_min // n + 1) * n
+        w_end = (w_max // n) * n
+        res = [w_max, w_min]
+
+        for w in range(w_start, w_end + n, n):
+            if w == w_start:
+                mask = np.logical_and(w >= pts, pts >= w_min)
+            elif w == w_end:
+                mask = np.logical_and(w_max >= pts, pts >= w)
+            else:
+                mask = np.logical_and(w >= pts, pts >= w - n)
+
+            if len(pts[mask]) >= threshhold:
+                res.append(w)
+
+        return res
+
 
 class CurveExtension(PipelineExtension):
     """Pipeline extension to produce PolarDiagramCurve instances
@@ -257,8 +340,8 @@ class CurveExtension(PipelineExtension):
         The model function will also be passed to PolarDiagramCurve
 
         Defaults to `ODRegressor(
-            model_func=ws_s_s_dt_wa_gauss_comb,
-            init_values=(0.25, 10, 1.7, 0, 1.9, 30, 17.6, 0, 1.9, 30, 17.6, 0)
+            model_func=ws_s_wa_gauss_and_square,
+            init_values=(0.2, 0.2, 10, 0.001, 0.3, 110, 2000, 0.3, 250, 2000)
         )`
 
     radians : bool, optional
@@ -282,7 +365,7 @@ class CurveExtension(PipelineExtension):
         self.regressor = regressor
         self.radians = radians
 
-    def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramCurve:
+    def fit(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramCurve:
         """Creates a PolarDiagramCurve instance from preprocessed data,
         by fitting a given function to said data, using a regression
         method determined by `self.regressor`
@@ -321,18 +404,18 @@ class PointcloudExtension(PipelineExtension):
         and the method used to sample the preprocessed data and represent
         the trends captured in them
 
-        Defaults to UniformRandomSampler(2000)
+        Defaults to `UniformRandomSampler(2000)`
 
     neighbourhood : Neighbourhood, optional
         Determines the neighbourhood around a point from which to draw
         the data points used in the interpolation of that point
 
-        Defaults to Ball(radius=1)
+        Defaults to `Ball(radius=1)`
 
     interpolator : Interpolator, optional
         Determines which interpolation method is used
 
-        Defaults to ArithmeticMeanInterpolator(50)
+        Defaults to `ArithmeticMeanInterpolator(50)`
     """
 
     def __init__(
@@ -345,10 +428,10 @@ class PointcloudExtension(PipelineExtension):
         self.neighbourhood = neighbourhood
         self.interpolator = interpolator
 
-    def process(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramPointcloud:
+    def fit(self, w_pts: pc.WeightedPoints) -> pol.PolarDiagramPointcloud:
         """Creates a PolarDiagramPointcloud instance from preprocessed data,
         first creating a set number of points by sampling the wind speed,
-        wind angle space of the  data points and capturing the underlying
+        wind angle space of the data points and capturing the underlying
         trends using `self.sampler` and then interpolating the boat speed
         values at the sampled points according to the interpolation method of
         `self.interpolator`, which only takes in consideration the data points
@@ -367,100 +450,11 @@ class PointcloudExtension(PipelineExtension):
             in the raw data
         """
         sample_pts = self.sampler.sample(w_pts.points)
-        pts = _interpolate_points(
+        interpolated_pts = _interpolate_points(
             sample_pts, w_pts, self.neighbourhood, self.interpolator
         )
 
-        return pol.PolarDiagramPointcloud(pts=pts)
-
-
-WIND_KEYS = {"Wind speed", "Wind Speed", "wind speed"}
-ANGLE_KEYS = {"Wind angle", "Wind Angle", "wind angle"}
-SPEED_KEYS = {
-    "Boat Speed",
-    "Boat speed",
-    "Speed Over Ground",
-    "Speed over ground",
-    "Speed over Ground",
-    "speed over ground",
-    "Speed over ground knots",
-    "Water Speed",
-    "Water speed",
-    "water speed",
-    "Water Speed knots",
-    "Water speed knots",
-}
-
-
-def _get_relevant_data(data):
-    """"""
-    ws = [data.get(ws_key, None) for ws_key in WIND_KEYS]
-    wa = [data.get(wa_key, None) for wa_key in ANGLE_KEYS]
-    bsp = [data.get(bsp_key, None) for bsp_key in SPEED_KEYS]
-
-    ws = [w for w in ws if w is not None]
-    wa = [a for a in wa if a is not None]
-    bsp = [b for b in bsp if b is not None]
-
-    # can't use pipeline if some of the data is not present
-    if not ws or not wa or not bsp:
-        raise PipelineException(
-            "Not enough relevant data present for usage of pipeline"
-        )
-
-    return ws[0], wa[0], bsp[0]
-
-
-def _add_zeros(w_pts, n_zeros):
-    """"""
-    ws = w_pts.points[:, 0]
-    ws = np.linspace(min(ws), max(ws), n_zeros)
-
-    zero = np.zeros(n_zeros)
-    full = 360 * np.ones(n_zeros)
-    zeros = np.column_stack((ws, zero, zero))
-    fulls = np.column_stack((ws, full, zero))
-
-    return pc.WeightedPoints(
-        pts=np.concatenate([w_pts.points, zeros, fulls]),
-        wts=np.concatenate([w_pts.weights, np.ones(2 * n_zeros)]),
-    )
-
-
-def _set_wind_resolution(w_res, pts):
-    """"""
-    if w_res == "auto":
-        ws_res = _extract_wind(pts[:, 0], 2, 100)
-        wa_res = _extract_wind(pts[:, 1], 5, 30)
-        return ws_res, wa_res
-
-    if w_res is None:
-        w_res = (None, None)
-
-    ws_res, wa_res = w_res
-    return _set_resolution(ws_res, "s"), _set_resolution(wa_res, "a")
-
-
-def _extract_wind(pts, n, threshhold):
-    """"""
-    w_max = round(pts.max())
-    w_min = round(pts.min())
-    w_start = (w_min // n + 1) * n
-    w_end = (w_max // n) * n
-    res = [w_max, w_min]
-
-    for w in range(w_start, w_end + n, n):
-        if w == w_start:
-            mask = np.logical_and(w >= pts, pts >= w_min)
-        elif w == w_end:
-            mask = np.logical_and(w_max >= pts, pts >= w)
-        else:
-            mask = np.logical_and(w >= pts, pts >= w - n)
-
-        if len(pts[mask]) >= threshhold:
-            res.append(w)
-
-    return res
+        return pol.PolarDiagramPointcloud(pts=interpolarted_pts)
 
 
 class InterpolationWarning(Warning):
@@ -470,54 +464,31 @@ class InterpolationWarning(Warning):
 
 
 def _interpolate_points(i_points, w_pts, neighbourhood, interpolator):
-    """
-
-
-    Parameters
-    ----------
-    i_points : numpy.ndarray of shape (n, 2)
-        Wind speed and angle pairs whose boat speed will be interpolated
-        based on the given data points
-
-    w_pts : WeightedPoints of shape (m, 3)
-        Data points given as wind speed, angle and boat speed triples together
-        with their respective weights, which will be used to interpolate
-
-    neighbourhood : Neighbourhood
-        Neighbourhood to determine which of the data points will be used for
-        the interpolation of a given wind speed and angle pair
-
-    interpolator : Interpolator
-        Interpolation method to be used
-
-    Returns
-    -------
-    pts : numpy.ndarray of shape (n, 3)
-        The wind speed and angle pairs given in i_points together with the
-        respective interpolated boat speeds
-    """
     pts = []
-    _warning_flag = True
+    warning_flag = True
 
     for i_pt in i_points:
-        mask = neighbourhood.is_contained_in(w_pts.points[:, :2] - i_pt)
+        considered_points = neighbourhood.is_contained_in(w_pts.points[:, :2] - i_pt)
 
-        # neighbourhood too small for data, if no points lie in it
-        if not np.any(mask):
-            if _warning_flag:
+        if _neighbourhood_to_small(considered_points):
+            pts.append(0)
+            if warning_flag:
                 warnings.warn(
-                    "Neighbourhood possibly to 'small', or"
+                    "Neighbourhood possibly to `small`, or"
                     "chosen resolution not fitting for data. "
                     "Interpolation will not lead to complete results",
                     category=InterpolationWarning,
                 )
 
                 # Only warn once
-                _warning_flag = False
-            pts.append(0)
+                warning_flag = False
 
-        interpol = interpolator.interpolate(w_pts[mask], i_pt)
+        interpol = interpolator.interpolate(w_pts[considered_points], i_pt)
         interpol_pt = np.array(list(i_pt) + [interpol])
         pts.append(interpol_pt)
 
     return pts
+
+
+def _neighbourhood_to_small(mask):
+    return np.any(mask)

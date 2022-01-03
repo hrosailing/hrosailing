@@ -12,8 +12,6 @@ hrosailing.pipeline module
 class in the hrosailing.polardiagram module
 """
 
-# Author Valentin Dannenberg
-
 
 from abc import ABC, abstractmethod
 from typing import Callable

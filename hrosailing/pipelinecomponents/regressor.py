@@ -8,8 +8,6 @@ Subclasses of Regressor can be used with the CurveExtension class
 in the hrosailing.pipeline module
 """
 
-# Author: Valentin Dannenberg
-
 
 import inspect
 import logging.handlers
@@ -120,7 +118,7 @@ class ODRegressor(Regressor):
         """Returns a read-only version of self._popt"""
         return self._popt
 
-    def fit(self, data):
+    def fit(self, data, _enable_logging=False):
         """Fits the model function to the given data, ie calculates
         the optimal parameters to minimize an objective
         function based on the data, see also
@@ -145,10 +143,11 @@ class ODRegressor(Regressor):
         out = odr.run()
 
         self._popt = out.beta
+        
+        if _enable_logging:
+            self._log_outcome_of_regression(out)
 
-        logger.info(f"Modelfunction: {self._func}")
-        logger.info(f"Optimal parameters: {self._popt}")
-
+    def _log_outcome_of_regression(self, out):
         indep_vars = len(self._popt)
         dof = y.shape[0] - indep_vars
         chi_squared = np.sum(np.square(out.eps))
@@ -156,7 +155,6 @@ class ODRegressor(Regressor):
         sse = np.sum(np.square(y - mean))
         ssr = out.sum_square
         sst = ssr + sse
-
         logger.info(f"Sum of squared residuals: {ssr}")
         logger.info(f"Explained sum of squared residuals: {sse}")
         logger.info(f"Total sum of squared residuals: {sst}")
@@ -171,6 +169,8 @@ class ODRegressor(Regressor):
         logger.info(f"Quasi-chi^2: {out.res_var}")
         logger.info(f"chi^2_min: {chi_squared}")
         logger.info(f"Reduced chi^2_min: {chi_squared / dof}")
+
+ 
 
 
 class LeastSquareRegressor(Regressor):
@@ -232,8 +232,7 @@ class LeastSquareRegressor(Regressor):
         """Returns a read-only version of self._popt"""
         return self._popt
 
-    def fit(self, data):
-        # pylint: disable=line-too-long
+    def fit(self, data, _enable_logging=False):
         """Fits the model function to the given data, ie calculates
         the optimal parameters to minimize the sum of the squares of
         the residuals, see also
@@ -247,16 +246,21 @@ class LeastSquareRegressor(Regressor):
             a sequence of points consisting of wind speed, wind angle
             and boat speed
         """
-        # pylint: enable=line-too-long
         X, y = data[:, :2], data[:, 2]
 
-        self._popt, _ = curve_fit(
+        self._popt = self._get_optimal_parameters(X, y)
+
+        if _enable_logging:
+            self._log_outcome_of_regression()
+
+    def  _get_optimal_parameters(self, X, y):
+        optimal_parameters, _ = curve_fit(
             self._fitting_func, X, y, p0=self._init_vals, sigma=self._weights
         )
 
-        logger.info(f"Model-function: {self._func}")
-        logger.info(f"Optimal parameters: {self._popt}")
+        return optimal_parameters
 
+    def _log_outcome_of_regression(self):
         sr = np.square(self._func(X[:, 0], X[:, 1], *self._popt) - y)
         ssr = np.sum(sr)
         mean = np.mean(y)
@@ -266,6 +270,8 @@ class LeastSquareRegressor(Regressor):
         dof = y.shape[0] - indep_vars - 1
         chi_squared = np.sum(sr / y)
 
+        logger.info(f"Model-function: {self._func}")
+        logger.info(f"Optimal parameters: {self._popt}")
         logger.info(f"Max squared error: {np.max(sr)}")
         logger.info(f"Min squared error: {np.min(sr)}")
         logger.info(f"Sum of squared residuals: {ssr}")

@@ -8,7 +8,6 @@ Subclasses of Sampler can be used with the PointcloudExtension class
 in the hrosailing.pipeline module
 """
 
-# Author: Valentin Dannenberg & Robert Schüler
 
 from abc import ABC, abstractmethod
 
