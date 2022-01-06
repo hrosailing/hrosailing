@@ -97,7 +97,7 @@ class QuantileFilter(Filter):
             Boolean array describing which points are filtered
             depending on their resp. weight
         """
-        filtered_points = _calculate_quantile(wts)
+        filtered_points = self._calculate_quantile(wts)
 
         if _enable_logging:
             _log_filtered_points(filtered_points)
@@ -113,7 +113,7 @@ def _log_filtered_points(filtered_points):
 
     logger.info(f"Total amount of filtered points: {amount}")
     logger.info(
-            f"Percentage of filtered points: {amount / len(filtered_points}"
+            f"Percentage of filtered points: {amount / len(filtered_points)}"
     )
 
 

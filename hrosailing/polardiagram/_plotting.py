@@ -38,7 +38,7 @@ def _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
     _configure_colors(ax, ws, colors)
 
     if show_legend:
-        _show_legend(ax, ws, colors, label="True Wind Speed", legend_kw)
+        _show_legend(ax, ws, colors, "True Wind Speed", legend_kw)
 
     for x, y in zip(wa, bsp):
         ax.plot(x, y, **plot_kw)
@@ -47,12 +47,17 @@ def _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
 def _configure_colors(ax, ws, colors):
     if _only_one_color(colors):
         ax.set_prop_cycle("color", [colors])
-    elif _more_colors_than_plots(ws, colors):
+        return 
+
+    if _more_colors_than_plots(ws, colors):
         ax.set_prop_cycle("color", colors)
-    elif _no_color_gradient(colors):
+        return
+
+    if _no_color_gradient(colors):
         _set_color_cycle(ax, ws, colors)
-    else:
-        _set_color_gradient(ax, ws, colors)
+        return
+
+    _set_color_gradient(ax, ws, colors)
 
 
 def _only_one_color(colors):
@@ -63,13 +68,14 @@ def _more_colors_than_plots(ws, colors):
     return len(ws) <= len(colors)
 
 
-def _no_color_gradient(ws, colors):
+def _no_color_gradient(colors):
     return len(colors) != 2
 
 
 def _set_color_cycle(ax, ws, colors):
     color_cycle = ["blue"] * len(ws)
     _configure_color_cycle(color_cycle, colors, ws)
+
     ax.set_prop_cycle("color", color_cycle)
 
 
@@ -87,6 +93,30 @@ def _configure_color_cycle(color_cycle, colors, ws):
 
     for i, c in enumerate(colors):
         color_cycle[i] = c
+
+
+def _set_color_gradient(ax, ws, colors):
+    color_gradient = _determine_color_gradient(colors, ws)
+    ax.set_prop_cycle("color", color_gradient)
+
+
+def _determine_color_gradient(colors, gradient):
+    gradient_coeffs = _get_gradient_coefficients(gradient)
+    color_gradient = _determine_colors_from_coefficients(gradient_coeffs, colors)
+    return color_gradient
+
+def _get_gradient_coefficients(gradient):
+    min_gradient = np.min(gradient)
+    max_gradient = np.max(gradient)
+
+    return [(grad - min_gradient) / (max_gradient - min_gradient) for grad in gradient]
+
+
+def _determine_colors_from_coefficients(coefficients, colors):
+    min_color = np.array(to_rgb(colors[0]))
+    max_color = np.array(to_rgb(colors[1]))
+
+    return [(1 - coeff) * min_color + coeff * max_color for coeff in coefficients]
 
 
 def _show_legend(ax, ws, colors, label, legend_kw):
@@ -148,22 +178,11 @@ def plot_color_gradient(
         ax = _get_new_axis("rectlinear")
 
     if show_legend:
-        _show_legend(ax, bsp, colors, label="Boat Speed", legend_kw)
+        _show_legend(ax, bsp, colors, "Boat Speed", legend_kw)
 
     color_gradient = _determine_color_gradient(colors, bsp)
 
     ax.scatter(ws, wa, s=ms, marker=marker, c=color_gradient)
-
-
-def _determine_color_gradient(colors, bsp):
-    min_color = np.array(to_rgb(colors[0]))
-    max_color = np.array(to_rgb(colors[1]))
-    min_bsp = np.min(bsp)
-    max_bsp = np.max(bsp)
-
-    coeffs = [(b - min_bsp) / (max_bsp - min_bsp) for b in bsp]
-
-    return [(1 - c) * min_color + c * max_color for c in coeffs]
 
 
 def plot3d(ws, wa, bsp, ax, colors, **plot_kw):
@@ -177,6 +196,20 @@ def plot3d(ws, wa, bsp, ax, colors, **plot_kw):
     color_map = _create_color_map(colors)
 
     ax.scatter(ws, wa, bsp, c=ws, cmap=color_map, **plot_kw)
+
+
+def _set_3d_axis_labels(ax):
+    ax.set_xlabel("TWS")
+    ax.set_ylabel("Polar plane: TWA / BSP ")
+
+
+def _remove_3d_tick_labels_for_polar_coordinates(ax):
+    ax.yaxis.set_ticklabels([])
+    ax.zaxis.set_ticklabel([])
+
+
+def _create_color_map(colors):
+    return LinearSegmentedColormap.from_list("cmap", list(colors))
 
 
 def plot_surface(ws, wa, bsp, ax, colors):
@@ -193,43 +226,59 @@ def plot_surface(ws, wa, bsp, ax, colors):
     ax.plot_surface(ws, wa, bsp, facecolors=face_colors)
 
 
-def _create_color_map(colors):
-    return LinearSegmentedColormap.from_list("cmap", list(colors))
-
-
 def _determine_face_colors(color_map, ws):
     return color_map((ws - ws.min()) / float((ws - ws.min()).max()))
-
-
-def _set_3d_axis_labels(ax):
-    ax.set_xlabel("TWS")
-    ax.set_ylabel("Polar plane: TWA / BSP ")
-
-
-def _remove_3d_tick_labels_for_polar_coordinates(ax):
-    ax.yaxis.set_ticklabels([])
-    ax.zaxis.set_ticklabel([])
 
 
 def plot_convex_hull(
     ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw
 ):
+    """"""
     if ax is None:
         ax = _get_new_axis("polar")
-
     _set_polar_axis(ax)
 
-    _prepare_plot(ax, ws, colors, show_legend, legend_kw, plot_kw)
+    wa, bsp = _get_convex_hull(wa, bsp)
 
-    xs, ys = _get_convex_hull(wa, bsp)
+    _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
-    for x, y in zip(list(xs), list(ys)):
-        ax.plot(x, y, **plot_kw)
+
+def _get_convex_hull(wa, bsp):
+    xs = []
+    ys = []
+    slices = zip(wa, bsp)
+
+    for wa, bsp in slices:
+        wa = np.asarray(wa)
+        bsp = np.asarray(bsp)
+
+        # convex hull is line between the two points
+        # or is equal to one point
+        if len(wa) < 3:
+            xs.append(wa)
+            ys.append(bsp)
+            continue
+
+        conv = _convex_hull_in_polar_coordinates(w, b)
+        vert = sorted(conv.vertices)
+        x, y = zip(
+            *([(w[i], b[i]) for i in vert] + [(w[vert[0]], b[vert[0]])])
+        )
+        xs.append(list(x))
+        ys.append(list(y))
+
+    return xs, ys
+
+
+def _convex_hull_in_polar_coordinates(wa, bsp):
+    polar_pts = np.column_stack((bsp * np.cos(wa), bsp * np.sin(wa)))
+    return ConvexHull(polar_pts)
 
 
 def plot_convex_hull_multisails(
     ws, wa, bsp, members, ax, colors, show_legend, legend_kw, **plot_kw
 ):
+    """"""
     if ax is None:
         ax = _get_new_axis("polar")
 
@@ -249,59 +298,6 @@ def plot_convex_hull_multisails(
 
     for x, y in zip(list(xs), list(ys)):
         ax.plot(x, y, **plot_kw)
-
-
-def _prepare_plot(ax, ws, colors, show_legend, legend_kw, plot_kw):
-    _set_color_cycle(ax, ws, colors)
-
-    if legend_kw is None:
-        legend_kw = {}
-    if show_legend:
-        _set_legend(ax, ws, colors, label="True Wind Speed", **legend_kw)
-
-
-def _set_color_cycle(ax, ws, colors):
-
-        if n_plots > n_colors != 2:
-        colorlist = 
-        _set_colorlist(colors, colorlist, ws)
-        ax.set_prop_cycle("color", colorlist)
-
-        return
-
-    color_gradient = _determine_color_gradient(colors, ws)
-    ax.set_prop_cycle("color", color_gradient)
-    
-
-def _set_colorlist(colors, colorlist, ws):
-    
-
-
-def _determine_convex_hull(wa, bsp):
-    xs = []
-    ys = []
-    slices = zip(wa, bsp)
-
-    for wa, bsp in slices:
-        wa = np.asarray(wa)
-        bsp = np.asarray(bsp)
-
-        # convex hull is line between the two points
-        # or is equal to one point
-        if len(wa) < 3:
-            xs.append(wa)
-            ys.append(bsp)
-            continue
-
-        conv = _convex_hull_polar(w, b)
-        vert = sorted(conv.vertices)
-        x, y = zip(
-            *([(w[i], b[i]) for i in vert] + [(w[vert[0]], b[vert[0]])])
-        )
-        xs.append(list(x))
-        ys.append(list(y))
-
-    return xs, ys
 
 
 def _get_convex_hull_multisails(ws, wa, bsp, members):
@@ -331,11 +327,6 @@ def _get_convex_hull_multisails(ws, wa, bsp, members):
             membs.append(memb[i : i + 2] + [s])
 
     return xs, ys, membs
-
-
-def _convex_hull_polar(wa, bsp):
-    polar_pts = np.column_stack((bsp * np.cos(wa), bsp * np.sin(wa)))
-    return ConvexHull(polar_pts)
 
 
 def _set_colors_multisails(ax, members, colors):

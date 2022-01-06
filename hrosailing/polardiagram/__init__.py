@@ -57,11 +57,12 @@ def from_csv(csv_path, fmt="hro"):
     fmt : str
         The format of the .csv file.
 
-        - hro: format created by the to_csv-method of the PolarDiagram class
-        - orc: format found at [ORC](https://jieter.github.io/orc-data/site/)
-        - opencpn: format created by
-        [OpenCPN Polar Plugin](https://opencpn.org/OpenCPN/plugins/polar.html)
-        - array: tab-seperated polar diagram in form of a table, also
+        - `hro` : format created by the to_csv-method of the PolarDiagram class
+        - `orc` : format found at [ORC](https://\
+                jieter.github.io/orc-data/site/)
+        - `opencpn` : format created by the [OpenCPN Polar Plugin](https://\
+                opencpn.org/OpenCPN/plugins/polar.html)
+        - `array` : tab-seperated polar diagram in form of a table, also
         see the example files for a better look at the format
 
     Returns
@@ -127,33 +128,55 @@ def _read_intern_format(file):
 
 def _read_extern_format(file, fmt):
     if fmt == "array":
-        file_data = np.genfromtxt(file, delimiter="\t")
-        ws_res, wa_res, bsps = (
-            file_data[0, 1:],
-            file_data[1:, 0],
-            file_data[1:, 1:],
-        )
-        return PolarDiagramTable(ws_res, wa_res, bsps)
+        ws_res, wa_res, bsps = _read_from_array(file)
+    elif fmt == "orc":
+        ws_res, wa_res, bsps = _read_orc_format(file)
+    else:
+        ws_res, wa_res, bsps = _read_opencpn_format(file)
 
-    delimiter = ";" if fmt == "orc" else ","
-    csv_reader = csv.reader(file, delimiter=delimiter)
+    return PolarDiagramTable(ws_res, wa_res, bsps)
 
-    ws_res = [literal_eval(ws) for ws in next(csv_reader)[1:]]
 
-    # skip zero line in canse of orc format
-    if delimiter == ";":
-        next(csv_reader)
+def _read_from_array(file):
+    file_data = np.genfromtxt(file, delimiter="\t")
+    return file_data[0, 1:], file_data[1:, 0], file_data[1:, 1:]
 
+
+def _read_orc_format(file):
+    csv_reader = csv.reader(file, delimiter=";")
+
+    ws_res = _read_wind_speeds(csv_reader)
+
+    # skip line of zeros
+    next(csv_reader)
+
+    wa_res, bsps = _read_wind_angles_and_boat_speeds(csv_reader)
+
+    return ws_res, wa_res, bsps
+
+
+def _read_wind_speeds(csv_reader):
+    return [literal_eval(ws) for ws in next(csv_reader)[1:]]
+
+
+def _read_wind_angles_and_boat_speeds(csv_reader):
     wa_res = []
     bsps = []
 
     for row in csv_reader:
-        # delete °-symbol in case of opencpn format
         wa_res.append(literal_eval(row[0].replace("°", "")))
-
         bsps.append([literal_eval(bsp) if bsp != "" else 0 for bsp in row[1:]])
 
-    return PolarDiagramTable(ws_res, wa_res, bsps)
+    return wa_res, bsps
+
+
+def _read_opencpn_format(file):
+    csv_reader = csv.reader(file, delimiter="'")
+    
+    ws_res = _read_wind_speeds(csv_reader)
+    wa_res, bsps = _read_wind_angles_and_boat_speeds(csv_reader)
+
+    return ws_res, wa_res, bsps
 
 
 class PolarDiagramException(Exception):

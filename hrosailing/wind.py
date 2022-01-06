@@ -73,7 +73,7 @@ def _convert_wind(wind, sign):
     wa_above_180 = wa > 180
     wa = np.deg2rad(wa)
 
-    converted_ws = _convert_wind_speed(ws, wa, bsp)
+    converted_ws = _convert_wind_speed(ws, wa, bsp, sign)
 
     converted_wa = _convert_wind_angle(converted_ws, ws, wa, bsp, sign)
     _standardize_converted_angles(converted_wa, wa_above_180)
@@ -97,7 +97,7 @@ def _convert_wind_angle(converted_ws, ws, wa, bsp, sign):
 
 def _standardize_converted_angles(converted_wa, wa_above_180):
     converted_wa[wa_above_180] = 360 - np.rad2deg(converted_wa[wa_above_180])
-    converted_wa[~wa_above_180] = np.rad2deg(converted[~wa_above_180])
+    converted_wa[~wa_above_180] = np.rad2deg(converted_wa[~wa_above_180])
 
 
 def _set_resolution(res: Optional[Union[Iter, int, float]], soa):

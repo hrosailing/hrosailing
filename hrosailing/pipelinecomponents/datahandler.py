@@ -256,7 +256,7 @@ def _handle_surplus_data(data_dict):
         first = data_dict[key][idx[0]]
         data_dict[key][0 : idx[0]] = [first] * idx[0]
 
-        # affine interpolation of entries between non-None entries
+        # convex interpolation of entries between non-None entries
         for idx1, idx2 in zip(idx, idx[1:]):
             lambda_ = idx2 - idx1
             left = data_dict[key][idx1]
