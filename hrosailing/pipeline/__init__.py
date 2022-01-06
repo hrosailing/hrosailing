@@ -115,10 +115,10 @@ class PolarPipeline:
         """
         data = self.handler.handle(data)
 
-        if self.has_influence_model():
+        if self._has_influence_model():
             data = self.influence_model.remove_influence(data)
 
-        weighted_points = pc.WeightedPoints(data, weigher=self.weigher, apparent_wind=apparent_wind)
+        weighted_points = pc.WeightedPoints(data, weigher=self.weigher, apparent_wind=apparent_wind, _enable_logging=_enable_logging)
 
         if filtering:
             self._filter_data(weighted_points)
@@ -239,7 +239,7 @@ class TableExtension(PipelineExtension):
 
         bsps = np.asarray(bsp)[:, 2].reshape(len(wa_resolution), len(ws_resolution))
 
-        return pol.PolarDiagramTable(ws_resolution wa_resolution, bsps)
+        return pol.PolarDiagramTable(ws_resolution, wa_resolution, bsps)
 
     def _determine_table_size(self, points):
         if self.wind_resolution == "auto":
@@ -251,7 +251,7 @@ class TableExtension(PipelineExtension):
         ws_resolution, wa_resolution = self.wind_resolution
         return _set_resolution(ws_resolution, "s"), _set_resolution(wa_resolution, "a")
 
- def _automatically_determined_resolution(points):
+def _automatically_determined_resolution(points):
     ws_resolution = _extract_wind(pts[:, 0], 2, 100)
     wa_resolution = _extract_wind(pts[:, 1], 5, 30)
 
