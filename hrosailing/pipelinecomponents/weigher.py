@@ -45,7 +45,7 @@ class WeightedPoints:
 
     Parameters
     ----------
-    data : dict
+    data : dict or numpy.ndarray
         Points that will be weight or paired with given weights
 
     weights : scalar or array_like of shape (n,), optional
@@ -101,10 +101,13 @@ class WeightedPoints:
         self.weights = weights 
 
     def __getitem__(self, mask):
-        return WeightedPoints(pts=self.points[mask], wts=self.weights[mask])
+        return WeightedPoints(points=self.points[mask], weights=self.weights[mask])
 
 
 def _extract_points_from_data(data):
+    if isinstance(data, np.ndarray):
+        return data
+
     ws = _get_wind_speeds_from_data(data)    
     wa = _get_wind_angles_from_data(data)
     bsp = _get_boat_speeds_from_data(data) 
