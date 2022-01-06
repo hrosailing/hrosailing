@@ -33,75 +33,7 @@ logger = logging.getLogger(__name__)
 del log
 
 
-class WeightedPointsInitializationException(Exception):
-    """Exception raised if an error occurs during
-    initialization of WeightedPoints
-    """
 
-
-class WeightedPoints:
-    """A class to weigh data points and represent them together
-    with their respective weights
-
-    Parameters
-    ----------
-    data : dict or numpy.ndarray
-        Points that will be weight or paired with given weights
-
-    weights : scalar or array_like of shape (n,), optional
-        If the weights of the points are known beforehand,
-        they can be given as an argument. If weights are
-        passed, they will be assigned to the points
-        and no further weighing will take place
-
-        If a scalar is passed, the points will all be assigned
-        the same weight
-
-        Defaults to `None`
-
-    weigher : Weigher, optional
-        Instance of a Weigher class, which will weigh the points
-        Will only be used if weights is `None`
-
-        If nothing is passed, it will default to `CylindricMeanWeigher()`
-
-    apparent_wind : bool, optional
-        Specifies if wind data is given in apparent wind 
-
-        If `True`, data will be converted to true wind
-
-        Defaults to `False`
-
-    Raises
-    ------
-    WeightedPointsInitializationException
-
-    WeighingException
-    """
-
-        def __init__(
-        self, 
-        data, 
-        weights=None, 
-        weigher: Weigher = CylindricMeanWeigher(),
-        apparent_wind=False,
-        _enable_logging=False,
-    ):
-        points = _extract_points_from_data(data)
-        if apparent_wind:
-            self.points = convert_apparent_wind_to_true(points)
-        else:
-            self.points = np.asarray_chkfinite(points)
-
-        if weights is None:
-                weights = _determine_weights(weigher, points, data, _enable_logging)
-        elif _weights_is_scalar(weights):
-            weights = np.array([weights] * pts.shape[0])
-
-        self.weights = weights 
-
-    def __getitem__(self, mask):
-        return WeightedPoints(points=self.points[mask], weights=self.weights[mask])
 
 
 def _extract_points_from_data(data):
@@ -155,7 +87,7 @@ def _determine_weights(weigher, points, data, _enable_logging):
 
     if weights.dtype is object:
         raise WeighingException("`weights` is not array_like or has some non-scalar values")
-    if weights.shape != (pts.shape[0],):
+    if weights.shape != (points.shape[0],):
         raise Weighingexception("`weights` has incorrect shape")
 
     return weights
@@ -253,7 +185,7 @@ class CylindricMeanWeigher(Weigher):
         """
         weights = np.zeros(len(points))
 
-        for i, point in enumerate(pts):
+        for i, point in enumerate(points):
             weights[i] = self._calculate_weight(point, points)
                         
         if _enable_logging:
@@ -523,3 +455,73 @@ class PastFutureFluctuationWeigher(Weigher):
 
         return time_difference.total_seconds() <= self.timespan
 
+
+class WeightedPointsInitializationException(Exception):
+    """Exception raised if an error occurs during
+    initialization of WeightedPoints
+    """
+
+
+class WeightedPoints:
+    """A class to weigh data points and represent them together
+    with their respective weights
+
+    Parameters
+    ----------
+    data : dict or numpy.ndarray
+        Points that will be weight or paired with given weights
+
+    weights : scalar or array_like of shape (n,), optional
+        If the weights of the points are known beforehand,
+        they can be given as an argument. If weights are
+        passed, they will be assigned to the points
+        and no further weighing will take place
+
+        If a scalar is passed, the points will all be assigned
+        the same weight
+
+        Defaults to `None`
+
+    weigher : Weigher, optional
+        Instance of a Weigher class, which will weigh the points
+        Will only be used if weights is `None`
+
+        If nothing is passed, it will default to `CylindricMeanWeigher()`
+
+    apparent_wind : bool, optional
+        Specifies if wind data is given in apparent wind 
+
+        If `True`, data will be converted to true wind
+
+        Defaults to `False`
+
+    Raises
+    ------
+    WeightedPointsInitializationException
+
+    WeighingException
+    """
+
+    def __init__(
+        self, 
+        data, 
+        weights=None, 
+        weigher = CylindricMeanWeigher(),
+        apparent_wind=False,
+        _enable_logging=False,
+    ):
+        points = _extract_points_from_data(data)
+        if apparent_wind:
+            self.points = convert_apparent_wind_to_true(points)
+        else:
+            self.points = np.asarray_chkfinite(points)
+
+        if weights is None:
+                weights = _determine_weights(weigher, points, data, _enable_logging)
+        elif _weights_is_scalar(weights):
+            weights = np.array([weights] * pts.shape[0])
+
+        self.weights = weights 
+
+    def __getitem__(self, mask):
+        return WeightedPoints(points=self.points[mask], weights=self.weights[mask])
