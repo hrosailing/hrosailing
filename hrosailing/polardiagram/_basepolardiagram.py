@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
 import csv
+from abc import ABC, abstractmethod
 
 
 class PolarDiagramException(Exception):

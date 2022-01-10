@@ -7,10 +7,10 @@ import csv
 import pickle
 
 from ._basepolardiagram import PolarDiagram
-from ._polardiagramtable import PolarDiagramTable
-from ._polardiagrammultisails import PolarDiagramMultiSails
 from ._polardiagramcurve import PolarDiagramCurve
+from ._polardiagrammultisails import PolarDiagramMultiSails
 from ._polardiagrampointcloud import PolarDiagramPointcloud
+from ._polardiagramtable import PolarDiagramTable
 
 
 class FileReadingException(Exception):
