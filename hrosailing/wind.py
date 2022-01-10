@@ -100,4 +100,3 @@ def _convert_wind_angle(converted_ws, ws, wa, bsp, sign):
 def _standardize_converted_angles(converted_wa, wa_above_180):
     converted_wa[wa_above_180] = 360 - np.rad2deg(converted_wa[wa_above_180])
     converted_wa[~wa_above_180] = np.rad2deg(converted_wa[~wa_above_180])
-

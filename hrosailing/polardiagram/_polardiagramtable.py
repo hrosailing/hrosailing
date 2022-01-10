@@ -1,12 +1,16 @@
 from ast import literal_eval
 import warnings
 
-from hrosailing.pipelinecomponents import ArithmeticMeanInterpolator, Ball, WeightedPoints
+from hrosailing.pipelinecomponents import (
+    ArithmeticMeanInterpolator,
+    Ball,
+    WeightedPoints,
+)
 from ._basepolardiagram import *
 from ._plotting import *
 
 
-def _set_resolution(res , soa):
+def _set_resolution(res, soa):
     # check if wind or angle resolution should be set
     soa = soa == "s"
 
@@ -65,12 +69,12 @@ class PolarDiagramTable(PolarDiagram):
         Defaults to `numpy.arange(2, 42, 2)`
 
     wa_resolution : array_like of positive scalars or positive scalar, optional
-        Wind angles that will correspond to the rows of the table. 
+        Wind angles that will correspond to the rows of the table.
         Should be between 0° and 360°
 
         - If array_like, resolution
         - If a scalar `num`, resolution will be `numpy.arange(num, 360, num)`
-        
+
         Defaults to `numpy.arange(0, 360, 5)`
 
     bsps : array_like of shape (rdim, cdim), optional
@@ -219,8 +223,8 @@ class PolarDiagramTable(PolarDiagram):
         self,
         ws,
         wa,
-        interpolator = ArithmeticMeanInterpolator(50),
-        neighbourhood = Ball(radius=1),
+        interpolator=ArithmeticMeanInterpolator(50),
+        neighbourhood=Ball(radius=1),
     ):
         """Returns the value of the polar diagram at a given ws-wa point
 
@@ -233,7 +237,7 @@ class PolarDiagramTable(PolarDiagram):
             Wind speed
 
         wa : scalar
-            Wind angle 
+            Wind angle
 
         interpolator : Interpolator, optional
             Interpolator subclass that determines the interpolation
@@ -263,9 +267,13 @@ class PolarDiagramTable(PolarDiagram):
 
             weighted_points = WeightedPoints(points, weights=1)
 
-            considered_points = neighbourhood.is_contained_in(points[:, :2] - point)
+            considered_points = neighbourhood.is_contained_in(
+                points[:, :2] - point
+            )
 
-            return interpolator.interpolate(weighted_points[considered_points], point)
+            return interpolator.interpolate(
+                weighted_points[considered_points], point
+            )
 
     def __getitem__(self, *key):
         """Returns the value of a given entry in the table"""
@@ -398,7 +406,7 @@ class PolarDiagramTable(PolarDiagram):
         csv_writer.writerow(["twa/tws"] + self.wind_speeds)
         csv_writer.writerow([0] * (len(self.wind_speeds) + 1))
 
-        self._write_rows(csv_writer) 
+        self._write_rows(csv_writer)
 
     def _write_rows(self, csv_writer):
         rows = np.column_stack((self.wind_angles, self.boat_speeds))
@@ -407,13 +415,13 @@ class PolarDiagramTable(PolarDiagram):
     def _write_array_format(self, file):
         csv_writer = csv.writer(file, delimiter="\t")
         csv_writer.writerow(["TWA \\ TWS"] + self.wind_speeds)
-        
-        self._write_rows(csv_writer) 
+
+        self._write_rows(csv_writer)
 
     def _write_opencpn_format(self, csv_writer):
         csv_writer.writerow(["TWA \\ TWS"] + self.wind_speeds)
 
-        self._write_rows(csv_writer) 
+        self._write_rows(csv_writer)
 
     def _write_hro_format(self, csv_writer):
         csv_writer.writerow([self.__class__.__name__])
@@ -616,13 +624,13 @@ class PolarDiagramTable(PolarDiagram):
             - an iterable containing only elements of `self.wind_speeds`
             - a single element of `self.wind_speeds`
 
-            Defaults to `self.wind_speeds` 
+            Defaults to `self.wind_speeds`
 
         Returns
         -------
         slices : tuple
             Slices of the polar diagram, given as a tuple of length 3,
-            consisting of the given wind speeds `ws`, `self.wind_angles` 
+            consisting of the given wind speeds `ws`, `self.wind_angles`
             (in rad) and an array with the corresponding columns of the table
 
         Raises
@@ -734,7 +742,16 @@ class PolarDiagramTable(PolarDiagram):
         ws, wa, bsp = self.get_slices(ws)
         bsp = list(bsp.T)
         wa = [wa] * len(bsp)
-        plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines=True **plot_kw)
+        plot_polar(
+            ws,
+            wa,
+            bsp,
+            ax,
+            colors,
+            show_legend,
+            legend_kw,
+            _lines=True ** plot_kw,
+        )
 
     def plot_flat(
         self,
@@ -825,7 +842,17 @@ class PolarDiagramTable(PolarDiagram):
         ws, wa, bsp = self.get_slices(ws)
         bsp = list(bsp.T)
         wa = [np.rad2deg(wa)] * len(bsp)
-        plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines=True, **plot_kw)
+        plot_flat(
+            ws,
+            wa,
+            bsp,
+            ax,
+            colors,
+            show_legend,
+            legend_kw,
+            _lines=True,
+            **plot_kw,
+        )
 
     def plot_3d(self, ax=None, colors=("green", "red")):
         """Creates a 3d plot of the polar diagram
@@ -836,7 +863,7 @@ class PolarDiagramTable(PolarDiagram):
             Axes instance where the plot will be created
 
         colors: sequence of color_likes, optional
-            Color pair determining the color gradient with which the 
+            Color pair determining the color gradient with which the
             polar diagram will be plotted
 
             Will be determined by the corresponding wind speeds
@@ -868,7 +895,7 @@ class PolarDiagramTable(PolarDiagram):
             Axes instance where the plot will be created.
 
         colors : sequence of color_likes, optional
-            Color pair determining the color gradient with which the 
+            Color pair determining the color gradient with which the
             polar diagram will be plotted
 
             Will be determined by the corresponding boat speed
@@ -894,7 +921,7 @@ class PolarDiagramTable(PolarDiagram):
         legend_kw : Keyword arguments
             Keyword arguments to change position and appearence of the legend
 
-            See matplotlib.legend.Legend for possible keywords and 
+            See matplotlib.legend.Legend for possible keywords and
             their effects
 
             Will only be used if show_legend is `True`
@@ -940,12 +967,12 @@ class PolarDiagramTable(PolarDiagram):
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
 
-            - If 2 colors are passed, slices will be plotted with a color 
+            - If 2 colors are passed, slices will be plotted with a color
             gradient that is determined by the corresponding wind speed
             - Otherwise the slices will be colored in turn with the specified
             colors or the color `"blue"`, if there are too few colors. The
             order is determined by the corresponding wind speeds
-            - Alternatively one can specify certain slices to be plotted in 
+            - Alternatively one can specify certain slices to be plotted in
             a color out of order by passing a `(ws, color)` pair
 
             Defaults to `("green", "red")`
@@ -971,7 +998,7 @@ class PolarDiagramTable(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their 
+            See matplotlib.axes.Axes.plot for possible keywords and their
             effects
 
         Raises
@@ -986,7 +1013,15 @@ class PolarDiagramTable(PolarDiagram):
         bsp = list(bsp.T)
         wa = [wa] * len(bsp)
         plot_convex_hull(
-            ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines=True, **plot_kw
+            ws,
+            wa,
+            bsp,
+            ax,
+            colors,
+            show_legend,
+            legend_kw,
+            _lines=True,
+            **plot_kw,
         )
 
 
@@ -1007,4 +1042,3 @@ def _delete_multiple_180_degree_occurences(wa_resolution, bsps):
 def _delete_multiple_0_degree_occurences(wa_resolution, bsps):
     bsps = bsps[:-1, :]
     wa_res = wa_res[:-1]
-

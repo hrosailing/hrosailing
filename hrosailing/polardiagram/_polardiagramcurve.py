@@ -243,12 +243,12 @@ class PolarDiagramCurve(PolarDiagram):
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
 
-            - If 2 colors are passed, slices will be plotted with a color 
+            - If 2 colors are passed, slices will be plotted with a color
             gradient that is determined by the corresponding wind speed
             - Otherwise the slices will be colored in turn with the specified
             colors or the color `"blue"`, if there are too few colors. The
             order is determined by the corresponding wind speeds
-            - Alternatively one can specify certain slices to be plotted in 
+            - Alternatively one can specify certain slices to be plotted in
             a color out of order by passing a `(ws, color)` pair
 
             Defaults to `("green", "red")`
@@ -274,13 +274,23 @@ class PolarDiagramCurve(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their 
+            See matplotlib.axes.Axes.plot for possible keywords and their
             effects
         """
         ws, wa, bsp = self.get_slices(ws, stepsize)
         wa = [wa] * len(ws)
 
-        plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines=True, **plot_kw)
+        plot_polar(
+            ws,
+            wa,
+            bsp,
+            ax,
+            colors,
+            show_legend,
+            legend_kw,
+            _lines=True,
+            **plot_kw,
+        )
 
     def plot_flat(
         self,
@@ -325,12 +335,12 @@ class PolarDiagramCurve(PolarDiagram):
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
 
-            - If 2 colors are passed, slices will be plotted with a color 
+            - If 2 colors are passed, slices will be plotted with a color
             gradient that is determined by the corresponding wind speed
             - Otherwise the slices will be colored in turn with the specified
             colors or the color `"blue"`, if there are too few colors. The
             order is determined by the corresponding wind speeds
-            - Alternatively one can specify certain slices to be plotted in 
+            - Alternatively one can specify certain slices to be plotted in
             a color out of order by passing a `(ws, color)` pair
 
             Defaults to `("green", "red")`
@@ -356,13 +366,22 @@ class PolarDiagramCurve(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their 
+            See matplotlib.axes.Axes.plot for possible keywords and their
             effects
         """
         ws, wa, bsp = self.get_slices(ws, stepsize)
         wa = [np.rad2deg(wa)] * len(ws)
 
-        plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines=True **plot_kw)
+        plot_flat(
+            ws,
+            wa,
+            bsp,
+            ax,
+            colors,
+            show_legend,
+            legend_kw,
+            _lines=True ** plot_kw,
+        )
 
     def plot_3d(
         self, ws=None, stepsize=None, ax=None, colors=("green", "red")
@@ -391,12 +410,12 @@ class PolarDiagramCurve(PolarDiagram):
             Axes instance where the plot will be created.
 
         colors: sequence of color_likes, optional
-            Color pair determining the color gradient with which the 
+            Color pair determining the color gradient with which the
             polar diagram will be plotted
 
             Will be determined by the corresponding wind speeds
 
-            Defaults to `("green", "red")`        
+            Defaults to `("green", "red")`
         """
         if stepsize is None:
             stepsize = 100
@@ -445,7 +464,7 @@ class PolarDiagramCurve(PolarDiagram):
             Axes instance where the plot will be created.
 
         colors : sequence of color_likes, optional
-            Color pair determining the color gradient with which the 
+            Color pair determining the color gradient with which the
             polar diagram will be plotted
 
             Will be determined by the corresponding boat speed
@@ -471,7 +490,7 @@ class PolarDiagramCurve(PolarDiagram):
         legend_kw : Keyword arguments
             Keyword arguments to change position and appearence of the legend
 
-            See matplotlib.legend.Legend for possible keywords and 
+            See matplotlib.legend.Legend for possible keywords and
             their effects
 
             Will only be used if show_legend is `True`
@@ -540,12 +559,12 @@ class PolarDiagramCurve(PolarDiagram):
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
 
-            - If 2 colors are passed, slices will be plotted with a color 
+            - If 2 colors are passed, slices will be plotted with a color
             gradient that is determined by the corresponding wind speed
             - Otherwise the slices will be colored in turn with the specified
             colors or the color `"blue"`, if there are too few colors. The
             order is determined by the corresponding wind speeds
-            - Alternatively one can specify certain slices to be plotted in 
+            - Alternatively one can specify certain slices to be plotted in
             a color out of order by passing a `(ws, color)` pair
 
             Defaults to `("green", "red")`
@@ -571,13 +590,19 @@ class PolarDiagramCurve(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their 
+            See matplotlib.axes.Axes.plot for possible keywords and their
             effects
         """
         ws, wa, bsp = self.get_slices(ws, stepsize)
         wa = [wa] * len(ws)
 
         plot_convex_hull(
-            ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines=True **plot_kw
+            ws,
+            wa,
+            bsp,
+            ax,
+            colors,
+            show_legend,
+            legend_kw,
+            _lines=True ** plot_kw,
         )
-

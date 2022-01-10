@@ -79,7 +79,7 @@ class PolarPipeline:
             given in initialization of the pipeline instance
 
         apparent_wind : bool, optional
-            Specifies if wind data is given in apparent wind 
+            Specifies if wind data is given in apparent wind
 
             If `True`, wind will be converted to true wind
 
@@ -91,11 +91,11 @@ class PolarPipeline:
             Defaults to `True`
 
         n_zeros: positive int, optional
-            Specifies the number of additional data points at `(tws, 0)` and 
+            Specifies the number of additional data points at `(tws, 0)` and
             `(tws, 360)` respectively, which are appended to the filtered data
 
             This is done to better simulate the behaviour of sailing vessels at
-            wind angle 0 / 360. 
+            wind angle 0 / 360.
 
             Defaults to `500`
 

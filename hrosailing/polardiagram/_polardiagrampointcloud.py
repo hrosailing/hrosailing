@@ -3,8 +3,13 @@ import warnings
 
 from ._basepolardiagram import *
 from ._plotting import *
-from hrosailing.pipelinecomponents import ArithmeticMeanInterpolator, Ball, WeightedPoints
+from hrosailing.pipelinecomponents import (
+    ArithmeticMeanInterpolator,
+    Ball,
+    WeightedPoints,
+)
 from hrosailing.wind import convert_apparent_wind_to_true
+
 
 class PolarDiagramPointcloud(PolarDiagram):
     """A class to represent, visualize and work with a polar diagram
@@ -12,7 +17,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     Parameters
     ----------
-    points : array_like of shape (n, 3)        
+    points : array_like of shape (n, 3)
         Initial points of the point cloud, given as a sequence of
         points consisting of wind speed, wind angle and boat speed
 
@@ -57,8 +62,8 @@ class PolarDiagramPointcloud(PolarDiagram):
         self,
         ws,
         wa,
-        interpolator = ArithmeticMeanInterpolator(50),
-        neighbourhood = Ball(radius=1),
+        interpolator=ArithmeticMeanInterpolator(50),
+        neighbourhood=Ball(radius=1),
     ):
         """Returns the value of the polar diagram at a given ws-wa point
 
@@ -97,10 +102,12 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         point = np.array([ws, wa])
         weighted_points = WeightedPoints(points=cloud, weights=1)
-        
+
         considered_points = neighbourhood.is_contained_in(cloud[:, :2] - point)
 
-        return interpolator.interpolate(weighted_points[considered_points], point)
+        return interpolator.interpolate(
+            weighted_points[considered_points], point
+        )
 
     @property
     def wind_speeds(self):
@@ -140,9 +147,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         with open(csv_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file, delimiter=",")
             csv_writer.writerow([self.__class__.__name__])
-            csv_writer.writerow(
-                ["TWS ", "TWA ", "BSP "]
-            )
+            csv_writer.writerow(["TWS ", "TWA ", "BSP "])
             csv_writer.writerows(self.points)
 
     @classmethod
@@ -361,7 +366,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Used to convert a scalar `w` in `ws` to the interval
             `(w - range_, w + range_)`
 
-            Will only be used if `ws` is scalar or 
+            Will only be used if `ws` is scalar or
             if any `w` in `ws` is a scalar
 
             Defaults to `1`
@@ -372,12 +377,12 @@ class PolarDiagramPointcloud(PolarDiagram):
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
 
-            - If 2 colors are passed, slices will be plotted with a color 
+            - If 2 colors are passed, slices will be plotted with a color
             gradient that is determined by the corresponding wind speed
             - Otherwise the slices will be colored in turn with the specified
             colors or the color `"blue"`, if there are too few colors. The
             order is determined by the corresponding wind speeds
-            - Alternatively one can specify certain slices to be plotted in 
+            - Alternatively one can specify certain slices to be plotted in
             a color out of order by passing a `(ws, color)` pair
 
             Defaults to `("green", "red")`
@@ -403,7 +408,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their 
+            See matplotlib.axes.Axes.plot for possible keywords and their
             effects
 
         Raises
@@ -414,7 +419,17 @@ class PolarDiagramPointcloud(PolarDiagram):
             whose first entry is equal to w
         """
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
-        plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines=False, **plot_kw)
+        plot_polar(
+            ws,
+            wa,
+            bsp,
+            ax,
+            colors,
+            show_legend,
+            legend_kw,
+            _lines=False,
+            **plot_kw,
+        )
 
     def plot_flat(
         self,
@@ -463,7 +478,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Used to convert a scalar `w` in `ws` to the interval
             `(w - range_, w + range_)`
 
-            Will only be used if `ws` is scalar or 
+            Will only be used if `ws` is scalar or
             if any `w` in `ws` is a scalar
 
             Defaults to `1`
@@ -474,12 +489,12 @@ class PolarDiagramPointcloud(PolarDiagram):
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
 
-            - If 2 colors are passed, slices will be plotted with a color 
+            - If 2 colors are passed, slices will be plotted with a color
             gradient that is determined by the corresponding wind speed
             - Otherwise the slices will be colored in turn with the specified
             colors or the color `"blue"`, if there are too few colors. The
             order is determined by the corresponding wind speeds
-            - Alternatively one can specify certain slices to be plotted in 
+            - Alternatively one can specify certain slices to be plotted in
             a color out of order by passing a `(ws, color)` pair
 
             Defaults to `("green", "red")`
@@ -505,7 +520,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their 
+            See matplotlib.axes.Axes.plot for possible keywords and their
             effects
 
         Raises
@@ -517,7 +532,17 @@ class PolarDiagramPointcloud(PolarDiagram):
         """
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
         wa = [np.rad2deg(a) for a in wa]
-        plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines=False, **plot_kw)
+        plot_flat(
+            ws,
+            wa,
+            bsp,
+            ax,
+            colors,
+            show_legend,
+            legend_kw,
+            _lines=False,
+            **plot_kw,
+        )
 
     def plot_3d(self, ax=None, colors=("green", "red"), **plot_kw):
         """Creates a 3d plot of the polar diagram
@@ -528,7 +553,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Axes instance where the plot will be created.
 
         colors: sequence of color_likes, optional
-            Color pair determining the color gradient with which the 
+            Color pair determining the color gradient with which the
             polar diagram will be plotted
 
             Will be determined by the corresponding wind speeds
@@ -538,7 +563,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their 
+            See matplotlib.axes.Axes.plot for possible keywords and their
             effects
 
         Raises
@@ -575,7 +600,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Axes instance where the plot will be created.
 
         colors : sequence of color_likes, optional
-            Color pair determining the color gradient with which the 
+            Color pair determining the color gradient with which the
             polar diagram will be plotted
 
             Will be determined by the corresponding boat speed
@@ -601,7 +626,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         legend_kw : Keyword arguments
             Keyword arguments to change position and appearence of the legend
 
-            See matplotlib.legend.Legend for possible keywords and 
+            See matplotlib.legend.Legend for possible keywords and
             their effects
 
             Will only be used if show_legend is `True`
@@ -679,12 +704,12 @@ class PolarDiagramPointcloud(PolarDiagram):
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
 
-            - If 2 colors are passed, slices will be plotted with a color 
+            - If 2 colors are passed, slices will be plotted with a color
             gradient that is determined by the corresponding wind speed
             - Otherwise the slices will be colored in turn with the specified
             colors or the color `"blue"`, if there are too few colors. The
             order is determined by the corresponding wind speeds
-            - Alternatively one can specify certain slices to be plotted in 
+            - Alternatively one can specify certain slices to be plotted in
             a color out of order by passing a `(ws, color)` pair
 
             Defaults to `("green", "red")`
@@ -710,7 +735,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their 
+            See matplotlib.axes.Axes.plot for possible keywords and their
             effects
 
         Raises
@@ -723,7 +748,13 @@ class PolarDiagramPointcloud(PolarDiagram):
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
 
         plot_convex_hull(
-            ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines=True, **plot_kw
+            ws,
+            wa,
+            bsp,
+            ax,
+            colors,
+            show_legend,
+            legend_kw,
+            _lines=True,
+            **plot_kw,
         )
-
-

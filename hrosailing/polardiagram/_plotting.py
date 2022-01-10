@@ -16,7 +16,9 @@ from matplotlib.lines import Line2D
 from scipy.spatial import ConvexHull
 
 
-def plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines, **plot_kw):
+def plot_polar(
+    ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines, **plot_kw
+):
     """"""
     if ax is None:
         ax = _get_new_axis("polar")
@@ -197,7 +199,9 @@ def _set_legend_with_wind_speeds(ax, colors, ws, legend_kw):
     )
 
 
-def plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines, **plot_kw):
+def plot_flat(
+    ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines, **plot_kw
+):
     """"""
     if ax is None:
         ax = _get_new_axis("rectlinear")

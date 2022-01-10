@@ -151,4 +151,3 @@ def _read_opencpn_format(file):
     wa_res, bsps = _read_wind_angles_and_boat_speeds(csv_reader)
 
     return ws_res, wa_res, bsps
-

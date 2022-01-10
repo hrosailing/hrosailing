@@ -1,4 +1,3 @@
-
 from abc import ABC, abstractmethod
 import csv
 
@@ -254,4 +253,3 @@ class PolarDiagram(ABC):
         slices, corresponding to `ws`, of the polar diagram and then create
         a polar plot of them
         """
-
