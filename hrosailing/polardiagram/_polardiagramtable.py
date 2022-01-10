@@ -156,14 +156,14 @@ class PolarDiagramTable(PolarDiagram):
             )
 
         # Sort wind angles and the corresponding order of rows in bsps
-        wa_res, bsps = zip(
+        wa_resolution, bsps = zip(
             *sorted(zip(wa_resolution, bsps), key=lambda x: x[0])
         )
         self._res_wind_angle = np.array(wa_resolution)
         bsps = np.array(bsps, float)
 
         # Sort wind speeds and the corresponding order of columns in bsps
-        ws_res, bsps = zip(
+        ws_resolution, bsps = zip(
             *sorted(zip(ws_resolution, bsps.T), key=lambda x: x[0])
         )
         self._res_wind_speed = np.array(ws_resolution)
