@@ -1,5 +1,6 @@
 import warnings
 from ast import literal_eval
+from typing import Iterable
 
 from hrosailing.pipelinecomponents import (
     ArithmeticMeanInterpolator,
