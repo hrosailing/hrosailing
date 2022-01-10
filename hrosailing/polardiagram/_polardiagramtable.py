@@ -10,6 +10,7 @@ from ._basepolardiagram import *
 from ._plotting import *
 
 
+
 def _set_resolution(res, soa):
     # check if wind or angle resolution should be set
     soa = soa == "s"
@@ -125,17 +126,17 @@ class PolarDiagramTable(PolarDiagram):
     """
 
     def __init__(self, ws_resolution=None, wa_resolution=None, bsps=None):
-        ws_res = _set_resolution(ws_res, soa="s")
-        wa_res = _set_resolution(wa_res, soa="a")
+        ws_resolution = _set_resolution(ws_resolution, soa="s")
+        wa_resolution = _set_resolution(wa_resolution, soa="a")
 
         # standardize wind angles to the interval [0, 360)
-        wa_res %= 360
+        wa_resolution %= 360
 
-        rows, cols = len(wa_res), len(ws_res)
+        rows, cols = len(wa_resolution), len(ws_resolution)
         if bsps is None:
             self._boat_speeds = np.zeros((rows, cols))
-            self._res_wind_speed = sorted(ws_res)
-            self._res_wind_angle = sorted(wa_res)
+            self._res_wind_speed = sorted(ws_resolution)
+            self._res_wind_angle = sorted(wa_resolution)
             return
 
         # NaN's and infinite values can't be handled
@@ -152,13 +153,13 @@ class PolarDiagramTable(PolarDiagram):
             )
 
         # Sort wind angles and the corresponding order of rows in bsps
-        wa_res, bsps = zip(*sorted(zip(wa_res, bsps), key=lambda x: x[0]))
-        self._res_wind_angle = np.array(wa_res)
+        wa_res, bsps = zip(*sorted(zip(wa_resolution, bsps), key=lambda x: x[0]))
+        self._res_wind_angle = np.array(wa_resolution)
         bsps = np.array(bsps, float)
 
         # Sort wind speeds and the corresponding order of columns in bsps
-        ws_res, bsps = zip(*sorted(zip(ws_res, bsps.T), key=lambda x: x[0]))
-        self._res_wind_speed = np.array(ws_res)
+        ws_res, bsps = zip(*sorted(zip(ws_resolution, bsps.T), key=lambda x: x[0]))
+        self._res_wind_speed = np.array(ws_resolution)
         self._boat_speeds = np.array(bsps, float).T
 
     def __str__(self):
@@ -685,12 +686,12 @@ class PolarDiagramTable(PolarDiagram):
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
 
-            - If 2 colors are passed, slices will be plotted with a color 
+            - If 2 colors are passed, slices will be plotted with a color
             gradient that is determined by the corresponding wind speed
             - Otherwise the slices will be colored in turn with the specified
             colors or the color `"blue"`, if there are too few colors. The
             order is determined by the corresponding wind speeds
-            - Alternatively one can specify certain slices to be plotted in 
+            - Alternatively one can specify certain slices to be plotted in
             a color out of order by passing a `(ws, color)` pair
 
             Defaults to `("green", "red")`
@@ -716,7 +717,7 @@ class PolarDiagramTable(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their 
+            See matplotlib.axes.Axes.plot for possible keywords and their
             effects
 
         Raises 
@@ -785,7 +786,7 @@ class PolarDiagramTable(PolarDiagram):
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
 
-            - If 2 colors are passed, slices will be plotted with a color 
+            - If 2 colors are passed, slices will be plotted with a color
             gradient that is determined by the corresponding wind speed
             - Otherwise the slices will be colored in turn with the specified
             colors or the color `"blue"`, if there are too few colors. The
@@ -816,15 +817,15 @@ class PolarDiagramTable(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their 
+            See matplotlib.axes.Axes.plot for possible keywords and their
             effects
 
-        Raises 
+        Raises
         ------
         PolarDiagramException
 
             - If at least one element of `ws` is not in `self.wind_speeds`
-            - If the given interval doesn't contain any slices of the 
+            - If the given interval doesn't contain any slices of the
             polar diagram
 
         Examples
