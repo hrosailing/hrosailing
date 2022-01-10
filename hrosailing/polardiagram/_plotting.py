@@ -15,7 +15,6 @@ from scipy.spatial import ConvexHull
 def plot_polar(
     ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines, **plot_kw
 ):
-    """"""
     if ax is None:
         ax = _get_new_axis("polar")
     _set_polar_axis(ax)
@@ -198,7 +197,6 @@ def _set_legend_with_wind_speeds(ax, colors, ws, legend_kw):
 def plot_flat(
     ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines, **plot_kw
 ):
-    """"""
     if ax is None:
         ax = _get_new_axis("rectlinear")
 
@@ -210,7 +208,6 @@ def plot_flat(
 def plot_color_gradient(
     ws, wa, bsp, ax, colors, marker, ms, show_legend, **legend_kw
 ):
-    """"""
     if ax is None:
         ax = _get_new_axis("rectlinear")
 
@@ -223,7 +220,6 @@ def plot_color_gradient(
 
 
 def plot3d(ws, wa, bsp, ax, colors, **plot_kw):
-    """"""
     if ax is None:
         ax = _get_new_axis("3d")
 
@@ -250,7 +246,6 @@ def _create_color_map(colors):
 
 
 def plot_surface(ws, wa, bsp, ax, colors):
-    """"""
     if ax is None:
         ax = _get_new_axis("3d")
 
@@ -270,7 +265,6 @@ def _determine_face_colors(color_map, ws):
 def plot_convex_hull(
     ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines, **plot_kw
 ):
-    """"""
     if ax is None:
         ax = _get_new_axis("polar")
     _set_polar_axis(ax)
@@ -317,7 +311,6 @@ def _convex_hull_in_polar_coordinates(wa, bsp):
 def plot_convex_hull_multisails(
     ws, wa, bsp, members, ax, colors, show_legend, legend_kw, **plot_kw
 ):
-    """"""
     if ax is None:
         ax = _get_new_axis("polar")
 
