@@ -255,8 +255,8 @@ class TableExtension(PipelineExtension):
 
 
 def _automatically_determined_resolution(points):
-    ws_resolution = _extract_wind(pts[:, 0], 2, 100)
-    wa_resolution = _extract_wind(pts[:, 1], 5, 30)
+    ws_resolution = _extract_wind(points[:, 0], 2, 100)
+    wa_resolution = _extract_wind(points[:, 1], 5, 30)
 
     return ws_resolution, wa_resolution
 
