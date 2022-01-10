@@ -77,10 +77,10 @@ def _get_entries(data, keys):
             return entry
         except KeyError:
             continue
-    else:
-        raise WeightedPointsInitializationException(
-            "Essential data is missing, can't proceed"
-        )
+  
+    raise WeightedPointsInitializationException(
+           "Essential data is missing, can't proceed"
+    )
 
 
 def _get_wind_angles_from_data(data):
@@ -122,7 +122,8 @@ def _get_boat_speeds_from_data(data):
         "Water Speed knots",
         "Water speed knots",
         "water speed knots",
-        "water_speed_knots" "WSP",
+        "water_speed_knots",
+        "WSP",
         "wsp",
     }
 
@@ -402,7 +403,7 @@ class PastFluctuationWeigher(Weigher):
 
         for i, point in enumerate(points):
             weights[i] = self._calculate_weight(
-                i, point, points, recording_times
+                i, points, recording_times
             )
 
         if _enable_logging:
@@ -415,7 +416,7 @@ class PastFluctuationWeigher(Weigher):
 
         return weights
 
-    def _calculate_weight(self, index, point, points, recording_times):
+    def _calculate_weight(self, index, points, recording_times):
         in_time_interval = self._get_points_in_time_interval(
             index, recording_times
         )
@@ -478,7 +479,7 @@ class PastFutureFluctuationWeigher(Weigher):
 
         for i, point in enumerate(points):
             weights[i] = self._calculate_weight(
-                i, point, points, recording_times
+                i, points, recording_times
             )
 
         if _enable_logging:
@@ -491,7 +492,7 @@ class PastFutureFluctuationWeigher(Weigher):
 
         return weights
 
-    def _calculate_weight(self, index, point, points, recording_times):
+    def _calculate_weight(self, index, points, recording_times):
         in_time_interval = self._get_points_in_time_interval(
             index, recording_times
         )
