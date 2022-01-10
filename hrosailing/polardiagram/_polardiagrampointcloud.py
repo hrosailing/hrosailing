@@ -1,8 +1,8 @@
 from ast import literal_eval
 import warnings
 
-from _basepolardiagram import *
-from _plotting import *
+from ._basepolardiagram import *
+from ._plotting import *
 from hrosailing.pipelinecomponents import ArithmeticMeanInterpolator, Ball, WeightedPoints
 from hrosailing.wind import convert_apparent_wind_to_true
 
@@ -57,8 +57,8 @@ class PolarDiagramPointcloud(PolarDiagram):
         self,
         ws,
         wa,
-        interpolator: Interpolator = ArithmeticMeanInterpolator(50),
-        neighbourhood: Neighbourhood = Ball(radius=1),
+        interpolator = ArithmeticMeanInterpolator(50),
+        neighbourhood = Ball(radius=1),
     ):
         """Returns the value of the polar diagram at a given ws-wa point
 
@@ -414,7 +414,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             whose first entry is equal to w
         """
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
-        plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines=False **plot_kw)
+        plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines=False, **plot_kw)
 
     def plot_flat(
         self,

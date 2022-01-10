@@ -2,8 +2,8 @@ from ast import literal_eval
 import warnings
 
 from hrosailing.pipelinecomponents import ArithmeticMeanInterpolator, Ball, WeightedPoints
-from _basepolardiagram import *
-from _plotting import *
+from ._basepolardiagram import *
+from ._plotting import *
 
 
 def _set_resolution(res , soa):

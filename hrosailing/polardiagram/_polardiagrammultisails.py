@@ -1,10 +1,9 @@
 import warnings
 from ast import literal_eval
 
-from _basepolardiagram import *
-from _polardiagramtable import *
-
-from _plotting import *
+from ._basepolardiagram import *
+from ._polardiagramtable import *
+from ._plotting import *
 
 
 class NotYetImplementedWarning(Warning):

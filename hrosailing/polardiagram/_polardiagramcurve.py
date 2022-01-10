@@ -1,5 +1,5 @@
-from _basepolardiagram import *
-from _plotting import *
+from ._basepolardiagram import *
+from ._plotting import *
 
 
 class PolarDiagramCurve(PolarDiagram):
@@ -280,7 +280,7 @@ class PolarDiagramCurve(PolarDiagram):
         ws, wa, bsp = self.get_slices(ws, stepsize)
         wa = [wa] * len(ws)
 
-        plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines=True **plot_kw)
+        plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines=True, **plot_kw)
 
     def plot_flat(
         self,

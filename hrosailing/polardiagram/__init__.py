@@ -6,11 +6,11 @@ PolarDiagram classes to work with and represent PPDs in various forms
 import csv
 import pickle
 
-from _basepolardiagram import PolarDiagram
-from _polardiagramtable import PolarDiagramTable
-from _polardiagrammultisails import PolarDiagramMultiSails
-from _polardiagramcurve import PolarDiagramCurve
-from _polardiagrampointcloud import PolarDiagramPointcloud
+from ._basepolardiagram import PolarDiagram
+from ._polardiagramtable import PolarDiagramTable
+from ._polardiagrammultisails import PolarDiagramMultiSails
+from ._polardiagramcurve import PolarDiagramCurve
+from ._polardiagrampointcloud import PolarDiagramPointcloud
 
 
 class FileReadingException(Exception):
