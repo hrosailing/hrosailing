@@ -143,7 +143,7 @@ class ODRegressor(Regressor):
         out = odr.run()
 
         self._popt = out.beta
-        
+
         if _enable_logging:
             self._log_outcome_of_regression(out)
 
@@ -169,8 +169,6 @@ class ODRegressor(Regressor):
         logger.info(f"Quasi-chi^2: {out.res_var}")
         logger.info(f"chi^2_min: {chi_squared}")
         logger.info(f"Reduced chi^2_min: {chi_squared / dof}")
-
- 
 
 
 class LeastSquareRegressor(Regressor):
@@ -253,7 +251,7 @@ class LeastSquareRegressor(Regressor):
         if _enable_logging:
             self._log_outcome_of_regression()
 
-    def  _get_optimal_parameters(self, X, y):
+    def _get_optimal_parameters(self, X, y):
         optimal_parameters, _ = curve_fit(
             self._fitting_func, X, y, p0=self._init_vals, sigma=self._weights
         )

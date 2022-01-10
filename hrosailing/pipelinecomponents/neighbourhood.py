@@ -189,7 +189,7 @@ class ScalingBall(Neighbourhood):
         pts = np.asarray(pts)
 
         self._guess_initial_suitable_radius(pts)
-    
+
         dist = self._norm(pts)
 
         while True:
@@ -202,9 +202,7 @@ class ScalingBall(Neighbourhood):
     def _guess_initial_suitable_radius(self, pts):
         self._n_pts = pts.shape[0]
         self._area = ConvexHull(pts).volume
-        self._radius = np.sqrt(
-            self._avg * self._area / (np.pi * self._n_pts)
-        )
+        self._radius = np.sqrt(self._avg * self._area / (np.pi * self._n_pts))
 
     def _enough_points_in_ball(self, pts_in_ball):
         self._min_pts <= len(pts_in_ball[pts_in_ball])

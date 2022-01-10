@@ -113,7 +113,7 @@ def _log_filtered_points(filtered_points):
 
     logger.info(f"Total amount of filtered points: {amount}")
     logger.info(
-            f"Percentage of filtered points: {amount / len(filtered_points)}"
+        f"Percentage of filtered points: {amount / len(filtered_points)}"
     )
 
 
@@ -167,9 +167,9 @@ class BoundFilter(Filter):
             Boolean array describing with points are filtered
             depending on their resp. weight
         """
-        filtered_points = self._determine_points_within_bounds(wts)
+        filtered_points = self._determine_points_within_bound(wts)
 
-        if enable_logging:
+        if _enable_logging:
             _log_filtered_points(filtered_points)
 
         return filtered_points

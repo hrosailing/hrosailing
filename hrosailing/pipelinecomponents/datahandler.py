@@ -17,6 +17,7 @@ import csv
 from abc import ABC, abstractmethod
 from ast import literal_eval
 from decimal import Decimal
+from datetime import time, date, datetime
 
 import numpy as np
 
@@ -171,8 +172,8 @@ class NMEAFileHandler(DataHandler):
     """
 
     def __init__(self, sentences, attributes):
-        self._nmea_filter = sentences
-        self._attr_filter = attributes
+        self._wanted_sentences = sentences
+        self._wanted_attributes = attributes
 
     def handle(self, data) -> dict:
         """Reads a text file containing nmea-sentences and extracts
@@ -195,53 +196,50 @@ class NMEAFileHandler(DataHandler):
         """
         from pynmea2 import parse
 
-        data_dict = {attr: [] for attr in self._attr_filter}
+        data_dict = {attribute: [] for attribute in self._wanted_attributes}
         ndata = 0
 
         with open(data, "r", encoding="utf-8") as file:
-            nmea_stcs = filter(
-                lambda line: any(abbr in line for abbr in self._nmea_filter),
+            nmea_sentences = filter(
+                lambda line: any(
+                    sentence in line for sentence in self._wanted_sentences
+                ),
                 file,
             )
 
-            for stc in nmea_stcs:
-                parsed = parse(stc)
-                nmea_attr = filter(
-                    lambda pair: any(
-                        attr == pair[0][0] for attr in self._attr_filter
+            for sentence in nmea_sentences:
+                parsed_sentence = parse(sentence)
+                wanted_fields = filter(
+                    lambda field: any(
+                        field[0] == attribute
+                        for attribute in self._wanted_attributes
                     ),
-                    zip(parsed.fields, parsed.data),
+                    parsed_sentence.fields,
                 )
 
-                for field, val in nmea_attr:
-                    name = field[0]
-                    len_ = len(data_dict[name])
-                    if len_ == ndata:
+                wanted_fields = map(lambda x: x[:2], wanted_fields)
+
+                for name, attribute in wanted_fields:
+                    length = len(data_dict[name])
+                    if length == ndata:
                         ndata += 1
                     else:
-                        data_dict[name].extend([None] * (ndata - len_ - 1))
+                        data_dict[name].extend([None] * (ndata - length - 1))
 
-                    data_dict[name].append(_eval(field, val))
+                    value = getattr(parsed_sentence, attribute)
+                    if isinstance(value, Decimal):
+                        value = float(value)
+
+                    data_dict[name].append(value)
 
             # fill last entries
-            for attr in self._attr_filter:
-                len_ = len(data_dict[attr])
-                data_dict[attr].extend([None] * (ndata - len_))
+            for attribute in self._wanted_attributes:
+                length = len(data_dict[attribute])
+                data_dict[attribute].extend([None] * (ndata - length))
 
         # componentwise completion of data entries
         _handle_surplus_data(data_dict)
         return data_dict
-
-
-def _eval(field, val):
-    if len(field) == 3 and field[2] in {int, float, Decimal}:
-        try:
-            return literal_eval(val)
-        except SyntaxError:
-            # remove leading 0s in the case of decimals
-            return literal_eval(val.lstrip("0"))
-
-    return val
 
 
 def _handle_surplus_data(data_dict):
@@ -262,8 +260,8 @@ def _handle_surplus_data(data_dict):
             left = data_dict[key][idx1]
             right = data_dict[key][idx2]
 
-            if isinstance(left, str):
-                data_dict[key][idx1 + 1 : idx2] = left
+            if isinstance(left, (str, time, date)):
+                data_dict[key][idx1 + 1 : idx2] = [left] * (idx2 - (idx1 + 1))
                 continue
 
             k = 1

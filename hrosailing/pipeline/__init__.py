@@ -15,11 +15,7 @@ import hrosailing.polardiagram as pol
 from hrosailing.pipelinecomponents.modelfunctions import (
     ws_s_wa_gauss_and_square,
 )
-from hrosailing.wind import _set_resolution
-
-
-class PipelineException(Exception):
-    """Exception raised if an error occurs in the pipeline"""
+from hrosailing.polardiagram._polardiagramtable import _set_resolution
 
 
 class PolarPipeline:
@@ -55,9 +51,9 @@ class PolarPipeline:
         self,
         extension,
         handler,
-        weigher = pc.CylindricMeanWeigher(),
-        filter_ = pc.QuantileFilter(),
-        influence_model = None,
+        weigher=pc.CylindricMeanWeigher(),
+        filter_=pc.QuantileFilter(),
+        influence_model=None,
     ):
         self.handler = handler
         self.influence_model = influence_model
@@ -68,22 +64,22 @@ class PolarPipeline:
     def __call__(
         self,
         data,
-        apparent_wind = False,
-        filtering = True,
-        n_zeros = 500,
-        _enable_logging = False,
+        apparent_wind=False,
+        filtering=True,
+        n_zeros=500,
+        _enable_logging=False,
     ) -> pol.PolarDiagram:
         """
         Parameters
         ----------
         data : compatible with `self.handler`
-            Data from which to create the polar diagram.
+            Data from which to create the polar diagram
+
             The input should be compatible with the DataHandler instance
             given in initialization of the pipeline instance
 
         apparent_wind : bool, optional
-            Specifies, if the wind components of the points are true
-            or appearent wind
+            Specifies if wind data is given in apparent wind 
 
             If `True`, wind will be converted to true wind
 
@@ -94,10 +90,12 @@ class PolarPipeline:
 
             Defaults to `True`
 
-        n_zeros: int, optional
-            If not None, describes the number of additional data points
-            at `(tws, 0)` and `(tws, 360)` respectively, which are appended
-            to the filtered data
+        n_zeros: positive int, optional
+            Specifies the number of additional data points at `(tws, 0)` and 
+            `(tws, 360)` respectively, which are appended to the filtered data
+
+            This is done to better simulate the behaviour of sailing vessels at
+            wind angle 0 / 360. 
 
             Defaults to `500`
 
@@ -108,25 +106,25 @@ class PolarPipeline:
             trends in `data`
 
             Type depends on the chosen `PipelineExtension` subclass
-
-        Raises
-        ------
-        PipelineException
         """
         data = self.handler.handle(data)
 
         if self._has_influence_model():
             data = self.influence_model.remove_influence(data)
 
-        weighted_points = pc.WeightedPoints(data, weigher=self.weigher, apparent_wind=apparent_wind, _enable_logging=_enable_logging)
+        weighted_points = pc.WeightedPoints(
+            data,
+            weigher=self.weigher,
+            apparent_wind=apparent_wind,
+            _enable_logging=_enable_logging,
+        )
 
         if filtering:
             self._filter_data(weighted_points)
 
-        if n_zeros:
-            weighted_points = _add_zeros(weighted_points, n_zeros)
+        weighted_points = _add_zeros(weighted_points, n_zeros)
 
-        self.extension.process(weighted_points)
+        return self.extension.process(weighted_points)
 
     def _has_influence_model(self):
         return self.influence_model is not None
@@ -149,7 +147,7 @@ def _add_zeros(weighted_points, n_zeros):
     original_weights = weighted_points.weights
 
     return pc.WeightedPoints(
-        points=np.concatenate([original_points, zeros, fulls]),
+        data=np.concatenate([original_points, zeros, fulls]),
         weights=np.concatenate([original_weights, np.ones(2 * n_zeros)]),
     )
 
@@ -202,8 +200,8 @@ class TableExtension(PipelineExtension):
     def __init__(
         self,
         wind_resolution=None,
-        neighbourhood = pc.Ball(radius=1),
-        interpolator = pc.ArithmeticMeanInterpolator(50),
+        neighbourhood=pc.Ball(radius=1),
+        interpolator=pc.ArithmeticMeanInterpolator(50),
     ):
         self.wind_resolution = wind_resolution
         self.neighbourhood = neighbourhood
@@ -229,15 +227,18 @@ class TableExtension(PipelineExtension):
             A polar diagram that should represent the trends captured
             in the raw data
         """
-        ws_resolution, wa_resolution = self._determine_table_size(weighted_points.points)
-        ws, wa = np.meshgrid(ws_resolution, wa_resolution)
-
-        i_points = np.column_stack((ws.ravel(), wa.ravel()))
-        bsps = _interpolate_points(
-            i_points, weighted_points, self.neighbourhood, self.interpolator
+        ws_resolution, wa_resolution = self._determine_table_size(
+            weighted_points.points
         )
+        ws, wa = np.meshgrid(ws_resolution, wa_resolution)
+        grid_points = np.column_stack((ws.ravel(), wa.ravel()))
 
-        bsps = np.asarray(bsp)[:, 2].reshape(len(wa_resolution), len(ws_resolution))
+        interpolated_points = _interpolate_points(
+            grid_points, weighted_points, self.neighbourhood, self.interpolator
+        )
+        bsps = _extract_boat_speed(
+            interpolated_points, len(wa_resolution), len(ws_resolution)
+        )
 
         return pol.PolarDiagramTable(ws_resolution, wa_resolution, bsps)
 
@@ -249,13 +250,17 @@ class TableExtension(PipelineExtension):
             self.wind_resolution = (None, None)
 
         ws_resolution, wa_resolution = self.wind_resolution
-        return _set_resolution(ws_resolution, "s"), _set_resolution(wa_resolution, "a")
+        return _set_resolution(ws_resolution, "s"), _set_resolution(
+            wa_resolution, "a"
+        )
+
 
 def _automatically_determined_resolution(points):
     ws_resolution = _extract_wind(pts[:, 0], 2, 100)
     wa_resolution = _extract_wind(pts[:, 1], 5, 30)
 
     return ws_resolution, wa_resolution
+
 
 def _extract_wind(points, n, threshhold):
     w_max = round(points.max())
@@ -276,6 +281,11 @@ def _extract_wind(points, n, threshhold):
             res.append(w)
 
     return res
+
+
+def _extract_boat_speed(interpolated_points, rows, cols):
+    bsps = interpolated_points[:, 2]
+    return bsps.reshape(rows, cols)
 
 
 class CurveExtension(PipelineExtension):
@@ -307,11 +317,11 @@ class CurveExtension(PipelineExtension):
 
     def __init__(
         self,
-        regressor = pc.ODRegressor(
+        regressor=pc.ODRegressor(
             model_func=ws_s_wa_gauss_and_square,
             init_values=(0.2, 0.2, 10, 0.001, 0.3, 110, 2000, 0.3, 250, 2000),
         ),
-        radians: bool = False,
+        radians=False,
     ):
         self.regressor = regressor
         self.radians = radians
@@ -343,7 +353,7 @@ class CurveExtension(PipelineExtension):
             radians=self.radians,
         )
 
-    def _use_radians():
+    def _use_radians(self):
         return self.radians
 
 
@@ -378,9 +388,9 @@ class PointcloudExtension(PipelineExtension):
 
     def __init__(
         self,
-        sampler = pc.UniformRandomSampler(2000),
-        neighbourhood = pc.Ball(radius=1),
-        interpolator = pc.ArithmeticMeanInterpolator(50),
+        sampler=pc.UniformRandomSampler(2000),
+        neighbourhood=pc.Ball(radius=1),
+        interpolator=pc.ArithmeticMeanInterpolator(50),
     ):
         self.sampler = sampler
         self.neighbourhood = neighbourhood
@@ -409,10 +419,13 @@ class PointcloudExtension(PipelineExtension):
         """
         sample_points = self.sampler.sample(weighted_points.points)
         interpolated_points = _interpolate_points(
-            sample_points, weighted_points, self.neighbourhood, self.interpolator
+            sample_points,
+            weighted_points,
+            self.neighbourhood,
+            self.interpolator,
         )
 
-        return pol.PolarDiagramPointcloud(pts=interpolarted_points)
+        return pol.PolarDiagramPointcloud(interpolarted_points)
 
 
 class InterpolationWarning(Warning):
@@ -421,15 +434,19 @@ class InterpolationWarning(Warning):
     """
 
 
-def _interpolate_points(i_points, weighted_points, neighbourhood, interpolator):
+def _interpolate_points(
+    interpolating_points, weighted_points, neighbourhood, interpolator
+):
     interpolated_points = []
     warning_flag = True
 
-    for i_pt in i_points:
-        considered_points = neighbourhood.is_contained_in(weighted_points.points[:, :2] - i_pt)
+    for point in interpolating_points:
+        considered_points = neighbourhood.is_contained_in(
+            weighted_points.points[:, :2] - point
+        )
 
-        if _neighbourhood_to_small(considered_points):
-            pts.append(0)
+        if _neighbourhood_too_small(considered_points):
+            interpolated_points.append(0)
             if warning_flag:
                 warnings.warn(
                     "Neighbourhood possibly to `small`, or"
@@ -441,13 +458,14 @@ def _interpolate_points(i_points, weighted_points, neighbourhood, interpolator):
                 # Only warn once
                 warning_flag = False
 
-        interpolated_boat_speed = interpolator.interpolate(w_pts[considered_points], i_pt)
-        interpolated_point = np.array(list(i_pt) + [interpolated_boat_speed])
+        interpolated_bsp = interpolator.interpolate(
+            weighted_points[considered_points], point
+        )
+        interpolated_point = np.concatenate([point, interpolated_bsp])
         interpolated_points.append(interpolated_point)
 
-    return interpolated_points
+    return np.array(interpolated_points)
 
 
-def _neighbourhood_to_small(considered_points):
+def _neighbourhood_too_small(considered_points):
     return not np.any(considered_points)
-

@@ -63,7 +63,7 @@ def convert_true_wind_to_apparent(true_wind):
 def _convert_wind(wind, sign):
     # NaNs and infinite values will cause problems later on
     wind = np.asarray_chkfinite(wind)
-    
+
     if wind.dtype == object:
         raise WindConversionException("`wind` is not array_like")
     if wind.ndim != 2 or wind.shape[1] != 3:
@@ -82,7 +82,9 @@ def _convert_wind(wind, sign):
 
 
 def _convert_wind_speed(ws, wa, bsp, sign):
-    return np.sqrt(np.square(ws) + np.square(bsp) + 2 * sign * ws * bsp * np.cos(wa))
+    return np.sqrt(
+        np.square(ws) + np.square(bsp) + 2 * sign * ws * bsp * np.cos(wa)
+    )
 
 
 def _convert_wind_angle(converted_ws, ws, wa, bsp, sign):
@@ -98,47 +100,4 @@ def _convert_wind_angle(converted_ws, ws, wa, bsp, sign):
 def _standardize_converted_angles(converted_wa, wa_above_180):
     converted_wa[wa_above_180] = 360 - np.rad2deg(converted_wa[wa_above_180])
     converted_wa[~wa_above_180] = np.rad2deg(converted_wa[~wa_above_180])
-
-
-def _set_resolution(res: Optional[Union[Iter, int, float]], soa):
-    # check if wind or angle resolution should be set
-    soa = soa == "s"
-
-    if res is None:
-        return _standard_resolution(soa)
-
-    if isinstance(res, Iterable):
-        return _custom_iterable_resolution(res)
-        
-    return _custom_stepsize_resolution(res)
-
-
-def _standard_resolution(soa):
-    return np.arange(2, 42, 2) if soa else np.arange(0, 360, 5)
-
-
-def _custom_iterable_resolution(res):
-    # NaN's and infinite values cause problems later on
-    res = np.asarray_chkfinite(res)
-
-    if res.dtype == object:
-        raise ValueError("`res` is not array_like")
-
-    if not res.size or res.ndim != 1:
-        raise ValueError("`res` has incorrect shape")
-
-    if len(set(res)) != len(res):
-        warnings.warn(
-            "`res` contains duplicate data. "
-            "This may lead to unwanted behaviour"
-        )
-
-    return res
-
-
-def _custom_stepsize_resolution(res):
-    if res <= 0:
-        raise ValueError("`res` is nonpositive")
-
-    return np.arange(res, 40, res) if soa else np.arange(res, 360, res)
 

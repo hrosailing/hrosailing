@@ -33,27 +33,39 @@ logger = logging.getLogger(__name__)
 del log
 
 
-
+class WeightedPointsInitializationException(Exception):
+    """Exception raised if an error occurs during
+    initialization of WeightedPoints
+    """
 
 
 def _extract_points_from_data(data):
     if isinstance(data, np.ndarray):
         return data
 
-    ws = _get_wind_speeds_from_data(data)    
+    ws = _get_wind_speeds_from_data(data)
     wa = _get_wind_angles_from_data(data)
-    bsp = _get_boat_speeds_from_data(data) 
+    bsp = _get_boat_speeds_from_data(data)
 
     points = np.column_stack((ws, wa, bsp))
 
     if points.dtype is object:
-        raise WeightedPointsException("`points` is not array_like or has some non-scalar values")
+        raise WeightedInitializationPointsException(
+            "`points` is not array_like or has some non-scalar values"
+        )
 
     return np.column_stack((ws, wa, bsp))
 
 
 def _get_wind_speeds_from_data(data):
-    WIND_SPEED_KEYS = {"Wind Speed", "Wind speed", "wind speed", "wind_speed", "WS", "ws"}
+    WIND_SPEED_KEYS = {
+        "Wind Speed",
+        "Wind speed",
+        "wind speed",
+        "wind_speed",
+        "WS",
+        "ws",
+    }
 
     return _get_entries(data, WIND_SPEED_KEYS)
 
@@ -66,17 +78,53 @@ def _get_entries(data, keys):
         except KeyError:
             continue
     else:
-        raise WeightedPointsException("Essential data is missing, can't proceed")
+        raise WeightedPointsInitializationException(
+            "Essential data is missing, can't proceed"
+        )
 
 
 def _get_wind_angles_from_data(data):
-    WIND_ANGLE_KEYS = {"Wind Angle", "Wind angle", "wind angle", "wind_angle", "WA", "wa"}
+    WIND_ANGLE_KEYS = {
+        "Wind Angle",
+        "Wind angle",
+        "wind angle",
+        "wind_angle",
+        "WA",
+        "wa",
+    }
 
     return _get_entries(data, WIND_ANGLE_KEYS)
 
 
 def _get_boat_speeds_from_data(data):
-    BOAT_SPEED_KEYS = {"Boat Speed", "Boat speed", "boat speed", "boat_speed", "BSPS", "BSP", "bsps", "bsp", "Speed Over Ground", "Speed over ground", "Speed over Ground", "speed over ground", "speed_over_ground", "speed over ground knots", "speed_over_ground_knots", "SOG", "sog", "Water Speed", "Water speed", "water speed", "water_speed", "Water Speed knots", "Water speed knots", "water speed knots", "water_speed_knots" "WSP", "wsp"}
+    BOAT_SPEED_KEYS = {
+        "Boat Speed",
+        "Boat speed",
+        "boat speed",
+        "boat_speed",
+        "BSPS",
+        "BSP",
+        "bsps",
+        "bsp",
+        "Speed Over Ground",
+        "Speed over ground",
+        "Speed over Ground",
+        "speed over ground",
+        "speed_over_ground",
+        "speed over ground knots",
+        "speed_over_ground_knots",
+        "SOG",
+        "sog",
+        "Water Speed",
+        "Water speed",
+        "water speed",
+        "water_speed",
+        "Water Speed knots",
+        "Water speed knots",
+        "water speed knots",
+        "water_speed_knots" "WSP",
+        "wsp",
+    }
 
     return _get_entries(data, BOAT_SPEED_KEYS)
 
@@ -86,13 +134,16 @@ def _determine_weights(weigher, points, data, _enable_logging):
     weights = np.asarray(weights)
 
     if weights.dtype is object:
-        raise WeighingException("`weights` is not array_like or has some non-scalar values")
+        raise WeighingException(
+            "`weights` is not array_like or has some non-scalar values"
+        )
     if weights.shape != (points.shape[0],):
         raise Weighingexception("`weights` has incorrect shape")
 
     return weights
 
-def _wts_is_scalar(weights):
+
+def _weights_is_scalar(weights):
     return np.isscalar(weights)
 
 
@@ -187,7 +238,7 @@ class CylindricMeanWeigher(Weigher):
 
         for i, point in enumerate(points):
             weights[i] = self._calculate_weight(point, points)
-                        
+
         if _enable_logging:
             _log_unnormalized_weights(weights)
 
@@ -201,7 +252,7 @@ class CylindricMeanWeigher(Weigher):
     def _calculate_weight(self, point, points):
         points_in_cylinder = self._determine_points_in_cylinder(point, points)
 
-        std = _standard_deviation_in_cylinder(points_in_cylinder)            
+        std = _standard_deviation_in_cylinder(points_in_cylinder)
         mean = _mean_in_cylinder(points_in_cylinder)
 
         return np.abs(mean - point[2]) / std
@@ -212,7 +263,7 @@ class CylindricMeanWeigher(Weigher):
 
 
 def _standard_deviation_in_cylinder(points_in_cylinder):
-    return np.std(points_in_cylinder) or 1 # in case that there are no points
+    return np.std(points_in_cylinder) or 1  # in case that there are no points
 
 
 def _mean_in_cylinder(points_in_cylinder):
@@ -325,7 +376,7 @@ class CylindricMemberWeigher(Weigher):
         return weights
 
     def _calculate_weight(self, point, points):
-        no_points_in_cylinder = self._count_points_in_cylinder(point, points)
+        points_in_cylinder = self._count_points_in_cylinder(point, points)
         return len(points_in_cylinder) - 1
 
     def _count_points_in_cylinder(self, point, points):
@@ -338,18 +389,21 @@ class CylindricMemberWeigher(Weigher):
 
 
 class PastFluctuationWeigher(Weigher):
-    """"""
+    """STILL A WIP"""
 
     def __init__(self, timespan=13):
         self.timespan = timespan
 
-
     def weigh(self, points, extra_data, _enable_logging):
-        """"""
+        """WIP"""
         weights = np.zeros(len(points))
 
+        recording_times = _get_recording_times(extra_data)
+
         for i, point in enumerate(points):
-            weights[i] = self._calculate_weight(i, point, points, extra_data)
+            weights[i] = self._calculate_weight(
+                i, point, points, recording_times
+            )
 
         if _enable_logging:
             _log_unnormalized_weights(weights)
@@ -361,14 +415,15 @@ class PastFluctuationWeigher(Weigher):
 
         return weights
 
-    def _calculate_weight(self, index, point, points, data):
-        recording_times = _get_recording_times(data)
-        in_time_interval = self._get_points_in_time_interval(index, recording_times)
+    def _calculate_weight(self, index, point, points, recording_times):
+        in_time_interval = self._get_points_in_time_interval(
+            index, recording_times
+        )
         considered_points = points[in_time_interval]
-        
+
         return 1 / np.std(considered_points) ** 2
 
-    def _get_points_in_time_interval(index, recording_times):
+    def _get_points_in_time_interval(self, index, recording_times):
         in_time_interval = [index]
 
         reference_time = recording_times[index]
@@ -384,13 +439,16 @@ class PastFluctuationWeigher(Weigher):
         time_difference = reference_time - time
         return time_difference.total_seconds() <= self.timespan
 
-        
+
 def _get_recording_times(data):
-    time_stamps = _get_time_stamps(extra_data)
-    date_stamps = _get_date_stamps(extra_data)
+    time_stamps = _get_time_stamps(data)
+    date_stamps = _get_date_stamps(data)
 
     date_and_time_stamps = zip(date_stamps, time_stamps)
-    recording_times = [datetime.combine(date_stamp, time_stamp) for (date_stamp, time_stamp) in date_and_time_stamps]
+    recording_times = [
+        datetime.combine(date_stamp, time_stamp)
+        for (date_stamp, time_stamp) in date_and_time_stamps
+    ]
     return recording_times
 
 
@@ -407,17 +465,21 @@ def _get_date_stamps(data):
 
 
 class PastFutureFluctuationWeigher(Weigher):
-    """"""
+    """STILL A WIP"""
 
-    def __init___(self, timespan=6):
+    def __init__(self, timespan=6):
         self.timespan = timespan
 
     def weigh(self, points, extra_data, _enable_logging):
-        """"""
+        """WIP"""
         weights = np.zeros(len(points))
 
+        recording_times = _get_recording_times(extra_data)
+
         for i, point in enumerate(points):
-            weights[i] = self._calculate_weight(i, point, points, extra_data)
+            weights[i] = self._calculate_weight(
+                i, point, points, recording_times
+            )
 
         if _enable_logging:
             _log_unnormalized_weights(weights)
@@ -429,11 +491,12 @@ class PastFutureFluctuationWeigher(Weigher):
 
         return weights
 
-    def _calculate_weight(self, index, point, points, data):
-        recording_times = _get_recording_times(data)
-        in_time_interval = self._get_points_in_time_interval(index, recording_times)
+    def _calculate_weight(self, index, point, points, recording_times):
+        in_time_interval = self._get_points_in_time_interval(
+            index, recording_times
+        )
         considered_points = points[in_time_interval]
-        
+
         return 1 / np.std(considered_points) ** 2
 
     def _get_points_in_time_interval(self, index, recording_times):
@@ -454,12 +517,6 @@ class PastFutureFluctuationWeigher(Weigher):
             time_difference = time - reference_time
 
         return time_difference.total_seconds() <= self.timespan
-
-
-class WeightedPointsInitializationException(Exception):
-    """Exception raised if an error occurs during
-    initialization of WeightedPoints
-    """
 
 
 class WeightedPoints:
@@ -489,7 +546,7 @@ class WeightedPoints:
         If nothing is passed, it will default to `CylindricMeanWeigher()`
 
     apparent_wind : bool, optional
-        Specifies if wind data is given in apparent wind 
+        Specifies if wind data is given in apparent wind
 
         If `True`, data will be converted to true wind
 
@@ -503,10 +560,10 @@ class WeightedPoints:
     """
 
     def __init__(
-        self, 
-        data, 
-        weights=None, 
-        weigher = CylindricMeanWeigher(),
+        self,
+        data,
+        weights=None,
+        weigher=CylindricMeanWeigher(),
         apparent_wind=False,
         _enable_logging=False,
     ):
@@ -517,11 +574,15 @@ class WeightedPoints:
             self.points = np.asarray_chkfinite(points)
 
         if weights is None:
-                weights = _determine_weights(weigher, points, data, _enable_logging)
+            weights = _determine_weights(
+                weigher, points, data, _enable_logging
+            )
         elif _weights_is_scalar(weights):
-            weights = np.array([weights] * pts.shape[0])
+            weights = np.array([weights] * len(points))
 
-        self.weights = weights 
+        self.weights = weights
 
     def __getitem__(self, mask):
-        return WeightedPoints(points=self.points[mask], weights=self.weights[mask])
+        return WeightedPoints(
+            data=self.points[mask], weights=self.weights[mask]
+        )

@@ -16,11 +16,13 @@ from matplotlib.lines import Line2D
 from scipy.spatial import ConvexHull
 
 
-def plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
+def plot_polar(ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines, **plot_kw):
     """"""
     if ax is None:
         ax = _get_new_axis("polar")
     _set_polar_axis(ax)
+
+    _check_plot_kw(plot_kw, _lines)
 
     _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
@@ -32,6 +34,17 @@ def _get_new_axis(kind):
 def _set_polar_axis(ax):
     ax.set_theta_zero_location("N")
     ax.set_theta_direction("clockwise")
+
+
+def _check_plot_kw(plot_kw, lines=True):
+    ls = plot_kw.pop("linestyle", None) or plot_kw.pop("ls", None)
+    if ls is None:
+        plot_kw["ls"] = "-" if lines else ""
+    else:
+        plot_kw["ls"] = ls
+
+    if plot_kw.get("marker", None) is None and not lines:
+        plot_kw["marker"] = "o"
 
 
 def _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
@@ -47,7 +60,7 @@ def _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
 def _configure_colors(ax, ws, colors):
     if _only_one_color(colors):
         ax.set_prop_cycle("color", [colors])
-        return 
+        return
 
     if _more_colors_than_plots(ws, colors):
         ax.set_prop_cycle("color", colors)
@@ -102,21 +115,29 @@ def _set_color_gradient(ax, ws, colors):
 
 def _determine_color_gradient(colors, gradient):
     gradient_coeffs = _get_gradient_coefficients(gradient)
-    color_gradient = _determine_colors_from_coefficients(gradient_coeffs, colors)
+    color_gradient = _determine_colors_from_coefficients(
+        gradient_coeffs, colors
+    )
     return color_gradient
+
 
 def _get_gradient_coefficients(gradient):
     min_gradient = np.min(gradient)
     max_gradient = np.max(gradient)
 
-    return [(grad - min_gradient) / (max_gradient - min_gradient) for grad in gradient]
+    return [
+        (grad - min_gradient) / (max_gradient - min_gradient)
+        for grad in gradient
+    ]
 
 
 def _determine_colors_from_coefficients(coefficients, colors):
     min_color = np.array(to_rgb(colors[0]))
     max_color = np.array(to_rgb(colors[1]))
 
-    return [(1 - coeff) * min_color + coeff * max_color for coeff in coefficients]
+    return [
+        (1 - coeff) * min_color + coeff * max_color for coeff in coefficients
+    ]
 
 
 def _show_legend(ax, ws, colors, label, legend_kw):
@@ -146,26 +167,42 @@ def _plot_with_color_gradient(ws, colors):
 def _set_colormap(ws, colors, ax, label, **legend_kw):
     color_map = _create_color_map(colors)
     plt.colorbar(
-        ScalarMappable(norm=Normalize(vmin=min(ws), vmax=max(ws)), cmap=color_map),
+        ScalarMappable(
+            norm=Normalize(vmin=min(ws), vmax=max(ws)), cmap=color_map
+        ),
         ax=ax,
         **legend_kw,
     ).set_label(label)
 
 
 def _set_legend_without_wind_speeds(ax, colors, legend_kw):
-    ax.legend(handles=[Line2D([0],[0], color=color, lw=1, label=f"TWS {ws}") for (ws, color) in colors], **legend_kw)
+    ax.legend(
+        handles=[
+            Line2D([0], [0], color=color, lw=1, label=f"TWS {ws}")
+            for (ws, color) in colors
+        ],
+        **legend_kw,
+    )
 
 
 def _set_legend_with_wind_speeds(ax, colors, ws, legend_kw):
     slices = zip(ws, colors)
 
-    ax.legend(handles=[Line2D([0], [0], color=color, lw=1, label=f"TWS {ws}") for (ws, colors) in slices], **legend_kw)
+    ax.legend(
+        handles=[
+            Line2D([0], [0], color=color, lw=1, label=f"TWS {ws}")
+            for (ws, colors) in slices
+        ],
+        **legend_kw,
+    )
 
 
-def plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
+def plot_flat(ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines, **plot_kw):
     """"""
     if ax is None:
         ax = _get_new_axis("rectlinear")
+
+    _check_plot_kw(plot_kw, _lines)
 
     _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
@@ -191,7 +228,7 @@ def plot3d(ws, wa, bsp, ax, colors, **plot_kw):
         ax = _get_new_axis("3d")
 
     _set_3d_axis_labels(ax)
-    _remove_3d_axis_labels_for_polar_coordinates(ax) 
+    _remove_3d_axis_labels_for_polar_coordinates(ax)
 
     color_map = _create_color_map(colors)
 
@@ -218,10 +255,10 @@ def plot_surface(ws, wa, bsp, ax, colors):
         ax = _get_new_axis("3d")
 
     _set_3d_axis_labels(ax)
-    _remove_3d_tick_labels_for_polar_coordinates(ax) 
+    _remove_3d_tick_labels_for_polar_coordinates(ax)
 
-    color_map = _create_color_map(colors)    
-    face_colors = _determine_face_colors(color_map, ws) 
+    color_map = _create_color_map(colors)
+    face_colors = _determine_face_colors(color_map, ws)
 
     ax.plot_surface(ws, wa, bsp, facecolors=face_colors)
 
@@ -231,12 +268,14 @@ def _determine_face_colors(color_map, ws):
 
 
 def plot_convex_hull(
-    ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw
+    ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines, **plot_kw
 ):
     """"""
     if ax is None:
         ax = _get_new_axis("polar")
     _set_polar_axis(ax)
+
+    _check_plot_kw(plot_kw, _lines)
 
     wa, bsp = _get_convex_hull(wa, bsp)
 
@@ -283,6 +322,8 @@ def plot_convex_hull_multisails(
         ax = _get_new_axis("polar")
 
     _set_polar_axis(ax)
+
+    _check_plot_kw(plot_kw)
 
     xs, ys, members = _get_convex_hull_multisails(ws, wa, bsp, members)
 
