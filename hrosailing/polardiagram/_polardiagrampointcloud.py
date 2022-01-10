@@ -187,7 +187,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         sym_pts[:, 1] = 360 - sym_pts[:, 1]
         pts = np.row_stack((self.points, sym_pts))
 
-        return PolarDiagramPointcloud(pts=pts)
+        return PolarDiagramPointcloud(pts)
 
     def add_points(self, new_pts, apparent_wind=False):
         """Adds additional points to the point cloud

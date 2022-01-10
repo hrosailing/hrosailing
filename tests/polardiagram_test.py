@@ -290,16 +290,8 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         )
         self.pc = pol.PolarDiagramPointcloud(self.points)
 
-    def test_default_init(self):
-        pc = pol.PolarDiagramPointcloud()
-        self.assertEqual(pc.points.size, False)
-
     def test_init(self):
         np.testing.assert_array_equal(self.pc.points, self.points)
-
-    def test_init_exception_wrong_size(self):
-        with self.assertRaises(WindConversionException):
-            pol.PolarDiagramPointcloud([0])
 
     def test_wind_speeds(self):
         np.testing.assert_array_equal(self.pc.wind_speeds, [2, 4, 6, 8])
@@ -316,29 +308,6 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
             (self.points, np.array([[2.3, 15.5, 1.65], [3.7, 20.1, 2.43]]))
         )
         np.testing.assert_array_equal(self.pc.points, self.points)
-
-    def test_add_points_exception_empty_new_pts(self):
-        with self.assertRaises(WindConversionException):
-            self.pc.add_points([])
-
-    def test_add_points_exception_wrong_shape(self):
-        new_pts = [[0], [1, 2], [1, 2, 3, 4]]
-        for i, new_pt in enumerate(new_pts):
-            with self.subTest(i=i):
-                with self.assertRaises(WindConversionException):
-                    self.pc.add_points(new_pt)
-
-    def test_add_points_exception_not_array_like(self):
-        new_pts = [{}, set(), {1: 1, 2: 2, 3: 3}, {1, 2, 3}]
-        for i, new_pt in enumerate(new_pts):
-            with self.subTest(i=i):
-                with self.assertRaises(WindConversionException):
-                    self.pc.add_points(new_pt)
-
-    def test_symmetric_polar_diagram_no_points(self):
-        pc = pol.PolarDiagramPointcloud()
-        sym_pc = pc.symmetrize()
-        self.assertEqual(sym_pc.points.size, False)
 
     def test_symmetric_polar_diagram(self):
         sym_pc = self.pc.symmetrize()

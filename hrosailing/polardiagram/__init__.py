@@ -5,6 +5,9 @@ PolarDiagram classes to work with and represent PPDs in various forms
 
 import csv
 import pickle
+from ast import literal_eval
+
+import numpy as np
 
 from ._basepolardiagram import PolarDiagram
 from ._polardiagramcurve import PolarDiagramCurve
@@ -145,7 +148,7 @@ def _read_wind_angles_and_boat_speeds(csv_reader):
 
 
 def _read_opencpn_format(file):
-    csv_reader = csv.reader(file, delimiter="'")
+    csv_reader = csv.reader(file, delimiter=",")
 
     ws_res = _read_wind_speeds(csv_reader)
     wa_res, bsps = _read_wind_angles_and_boat_speeds(csv_reader)

@@ -500,7 +500,7 @@ class PolarDiagramTable(PolarDiagram):
         if below_180 and above_180:
             _warn_for_duplicate_data()
 
-        symmetric_wa_res = np.concatenate(
+        symmetric_wa_resolution = np.concatenate(
             [self.wind_angles, 360 - np.flip(self.wind_angles)]
         )
         symmetric_bsps = np.row_stack(
@@ -508,17 +508,19 @@ class PolarDiagramTable(PolarDiagram):
         )
 
         if 180 in self.wind_angles:
-            _delete_multiple_180_degree_occurences(
-                symmetric_wa_res, symmetric_bsps
+            symmetric_wa_resolution, symmetric_bsps = _delete_multiple_180_degree_occurences(
+                symmetric_wa_resolution, symmetric_bsps
             )
         if 0 in self.wind_angles:
-            _delete_multiple_0_degree_occurences(
-                symmetric_wa_res, symmetric_bsps
+            symmetric_wa_resolution, symmetric_bsps = _delete_multiple_0_degree_occurences(
+                symmetric_wa_resolution, symmetric_bsps
             )
 
         return PolarDiagramTable(
-            ws_res=self.wind_speeds, wa_res=wa_res, bsps=bsps
+            ws_resolution=self.wind_speeds, wa_resolution=symmetric_wa_resolution, bsps=symmetric_bsps
         )
+
+
 
     def change_entries(self, new_bsps, ws=None, wa=None):
         """Changes specified entries in the table
@@ -1042,11 +1044,12 @@ def _warn_for_duplicate_data():
 
 
 def _delete_multiple_180_degree_occurences(wa_resolution, bsps):
-    mid = np.where(wa_res == 180)[0][0]
+    mid = np.where(wa_resolution == 180)[0][0]
     wa_resolution = np.delete(wa_resolution, mid)
     bsps = np.row_stack((bsps[:mid, :], bsps[mid + 1 :, :]))
 
+    return wa_resolution, bsps
+
 
 def _delete_multiple_0_degree_occurences(wa_resolution, bsps):
-    bsps = bsps[:-1, :]
-    wa_resolution = wa_resolution[:-1]
+    return wa_resolution[:-1], bsps[:-1, :]
