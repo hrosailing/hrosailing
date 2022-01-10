@@ -3,6 +3,8 @@ Contains various helper functions for the plot_*-methods() of the
 PolarDiagram subclasses
 """
 
+# pylint: disable=missing-function-docstring, missing-module-docstring
+
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.cm import ScalarMappable
