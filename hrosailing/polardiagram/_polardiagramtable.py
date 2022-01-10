@@ -1042,4 +1042,4 @@ def _delete_multiple_180_degree_occurences(wa_resolution, bsps):
 
 def _delete_multiple_0_degree_occurences(wa_resolution, bsps):
     bsps = bsps[:-1, :]
-    wa_res = wa_res[:-1]
+    wa_resolution = wa_resolution[:-1]
