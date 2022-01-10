@@ -205,7 +205,7 @@ class ScalingBall(Neighbourhood):
         self._radius = np.sqrt(self._avg * self._area / (np.pi * self._n_pts))
 
     def _enough_points_in_ball(self, pts_in_ball):
-        self._min_pts <= len(pts_in_ball[pts_in_ball])
+        return self._min_pts <= len(pts_in_ball[pts_in_ball])
 
     def _expand_radius(self, dist, pts_in_ball):
         dist_of_not_included_pts = dist[~pts_in_ball]
