@@ -7,6 +7,8 @@ from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
 from ._basepolardiagram import *
 from ._plotting import *
 
+# pylint: disable=too-many-lines
+
 
 def _set_resolution(res, soa):
     # check if wind or angle resolution should be set
