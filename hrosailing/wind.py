@@ -2,7 +2,6 @@
 Functions to convert wind from apparent to true and vice versa
 """
 
-import warnings
 from collections.abc import Iterable
 
 import numpy as np
