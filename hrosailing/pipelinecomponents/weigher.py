@@ -77,9 +77,9 @@ def _get_entries(data, keys):
             return entry
         except KeyError:
             continue
-  
+
     raise WeightedPointsInitializationException(
-           "Essential data is missing, can't proceed"
+        "Essential data is missing, can't proceed"
     )
 
 
@@ -402,9 +402,7 @@ class PastFluctuationWeigher(Weigher):
         recording_times = _get_recording_times(extra_data)
 
         for i, point in enumerate(points):
-            weights[i] = self._calculate_weight(
-                i, points, recording_times
-            )
+            weights[i] = self._calculate_weight(i, points, recording_times)
 
         if _enable_logging:
             _log_unnormalized_weights(weights)
@@ -478,9 +476,7 @@ class PastFutureFluctuationWeigher(Weigher):
         recording_times = _get_recording_times(extra_data)
 
         for i, point in enumerate(points):
-            weights[i] = self._calculate_weight(
-                i, points, recording_times
-            )
+            weights[i] = self._calculate_weight(i, points, recording_times)
 
         if _enable_logging:
             _log_unnormalized_weights(weights)
