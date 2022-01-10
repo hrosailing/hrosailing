@@ -1,11 +1,8 @@
 import warnings
 from ast import literal_eval
 
-from hrosailing.pipelinecomponents import (
-    ArithmeticMeanInterpolator,
-    Ball,
-    WeightedPoints,
-)
+from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
+                                           WeightedPoints)
 from hrosailing.wind import convert_apparent_wind_to_true
 
 from ._basepolardiagram import *
