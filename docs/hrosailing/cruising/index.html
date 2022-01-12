@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.9.2" />
+<meta name="generator" content="pdoc 0.10.0" />
 <title>hrosailing.cruising API documentation</title>
 <meta name="description" content="Functions for navigation and weather routing using PPDs" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -34,7 +34,7 @@
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="hrosailing.cruising.convex_direction"><code class="name flex">
-<span>def <span class="ident">convex_direction</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, ws, direction, im: Union[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>, NoneType] = None, influence_data: Union[dict, NoneType] = None) ‑> List[<a title="hrosailing.cruising.Direction" href="#hrosailing.cruising.Direction">Direction</a>]</span>
+<span>def <span class="ident">convex_direction</span></span>(<span>pd: hrosailing.polardiagram._basepolardiagram.PolarDiagram, ws, direction, im: Optional[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>] = None, influence_data: Optional[dict] = None) ‑> List[<a title="hrosailing.cruising.Direction" href="#hrosailing.cruising.Direction">Direction</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Given a direction, computes the "fastest" way to sail in
@@ -77,7 +77,7 @@ to <code>direction</code></dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.cruising.cost_cruise"><code class="name flex">
-<span>def <span class="ident">cost_cruise</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, start, end, start_time: datetime.datetime, wm: <a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a>, cost_fun_dens=None, cost_fun_abs=&lt;function &lt;lambda&gt;&gt;, integration_method=&lt;function trapz&gt;, im: Union[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>, NoneType] = None, **ivp_kw)</span>
+<span>def <span class="ident">cost_cruise</span></span>(<span>pd: hrosailing.polardiagram._basepolardiagram.PolarDiagram, start, end, start_time: datetime.datetime, wm: <a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a>, cost_fun_dens=None, cost_fun_abs=&lt;function &lt;lambda&gt;&gt;, integration_method=&lt;function trapz&gt;, im: Optional[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>] = None, **ivp_kw)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Computes the total cost for traveling from a start position to an
@@ -138,7 +138,7 @@ in order to solve the initial value problem described above</p>
 </dl></div>
 </dd>
 <dt id="hrosailing.cruising.cruise"><code class="name flex">
-<span>def <span class="ident">cruise</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, ws, wdir, start, end, im: Union[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>, NoneType] = None, influence_data: Union[dict, NoneType] = None)</span>
+<span>def <span class="ident">cruise</span></span>(<span>pd: hrosailing.polardiagram._basepolardiagram.PolarDiagram, ws, wdir, start, end, im: Optional[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>] = None, influence_data: Optional[dict] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Given a starting point A and and end point B,the function calculates
@@ -152,7 +152,7 @@ time needed to sail in each direction to get to B.</p>
 <dd>The polar diagram of the vessel</dd>
 <dt><strong><code>ws</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
 <dd>The current wind speed given in knots</dd>
-<dt><strong><code>wdir</code></strong> :&ensp;<code>See below</code></dt>
+<dt><strong><code>wdir</code></strong> :&ensp;<code>float between 0 and 360</code> or <code>tuple</code></dt>
 <dd>
 <p>The direction of the wind given as either</p>
 <ul>
@@ -190,7 +190,7 @@ to get from start to end</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.cruising.isocrone"><code class="name flex">
-<span>def <span class="ident">isocrone</span></span>(<span>pd: <a title="hrosailing.polardiagram.PolarDiagram" href="../polardiagram/index.html#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a>, start, start_time, direction, wm: <a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a>, total_time=1, min_nodes=100, im: Union[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>, NoneType] = None)</span>
+<span>def <span class="ident">isocrone</span></span>(<span>pd: hrosailing.polardiagram._basepolardiagram.PolarDiagram, start, start_time, direction, wm: <a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a>, total_time=1, min_nodes=100, im: Optional[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Estimates the maximum distance that can be reached from a given start
@@ -236,7 +236,7 @@ total_time hours in the given direction</dd>
 <dl>
 <dt id="hrosailing.cruising.Direction"><code class="flex name class">
 <span>class <span class="ident">Direction</span></span>
-<span>(</span><span>angle: float, proportion: float, sail: Union[str, NoneType] = None)</span>
+<span>(</span><span>angle: float, proportion: float, sail: Optional[str] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Dataclass to represent sections of a sailing maneuver</p></div>
@@ -250,7 +250,7 @@ total_time hours in the given direction</dd>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="hrosailing.cruising.Direction.sail"><code class="name">var <span class="ident">sail</span> : Union[str, NoneType]</code></dt>
+<dt id="hrosailing.cruising.Direction.sail"><code class="name">var <span class="ident">sail</span> : Optional[str]</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -418,7 +418,7 @@ setTimeout(() => input.focus(), 100);
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.9.2</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
 </footer>
 </body>
 </html>

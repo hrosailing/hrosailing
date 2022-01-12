@@ -2,7 +2,6 @@
 Functions for navigation and weather routing using PPDs
 """
 
-# Author: Valentin Dannenberg & Robert Schueler
 
 import itertools
 from bisect import bisect_left
@@ -28,7 +27,7 @@ class Direction:
     # Proportion of time needed to sail into direction
     proportion: float
 
-    # Type/Name of Sail that should be hissed, when
+    # Type/Name of sail that should be hissed, when
     # sailing in the direction (if existent)
     sail: Optional[str] = None
 
@@ -105,7 +104,6 @@ def convex_direction(
     conv = ConvexHull(polar_pts)
     vert = sorted(conv.vertices)
 
-    # Account for computational error?
     wa = np.rad2deg(wa)
 
     for left, right in zip(vert, vert[1:]):
@@ -164,7 +162,7 @@ def cruise(
     ws : int or float
         The current wind speed given in knots
 
-    wdir : See below
+    wdir : float between 0 and 360 or tuple
         The direction of the wind given as either
 
         - the wind angle relative to north
@@ -546,15 +544,13 @@ def isocrone(
 
 
 def _inverse_mercator_proj(pt, lat_mp):
-    # computes lattitude and longitude of a projected point
-    # where the projection midpoint has lattitude lat_mp
+    """Computes point from its mercator projection with reference point lat_mp"""
     x, y = pt / 69
     return x + lat_mp, 180 / np.pi * np.arcsin(np.tanh(y))
 
 
 def _mercator_proj(pt, lat_mp):
-    # projects a point given as lattitude and longitude tupel using mercator
-    # projection where the projection midponit has lattitude lat_mp
+    """Computes the mercator projection with reference point lat_mp of a point"""
     lat, long = pt
 
     # 69 nautical miles between two lattitudes
@@ -564,6 +560,7 @@ def _mercator_proj(pt, lat_mp):
 
 
 def _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im):
+    """"""
     lat, long = _inverse_mercator_proj(pos, lat_mp)
     time = start_time + timedelta(hours=t)
     try:
@@ -585,6 +582,7 @@ def _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im):
 
 
 def _interpolate_weather_data(data, idxs, point, flags, grid):
+    """"""
     # point is a grid point
     if len(idxs) == 1:
         i, j, k = idxs.T
@@ -621,6 +619,9 @@ def _interpolate_weather_data(data, idxs, point, flags, grid):
 
 
 def _right_handing_course(a, b):
+    """Calculates course between two points on the surface of the earth
+    relative to true north
+    """
     numerator = np.cos(a[1]) * np.sin(b[1]) - np.cos(a[0] - b[0]) * np.cos(
         b[1]
     ) * np.sin(a[1])
@@ -632,17 +633,32 @@ def _right_handing_course(a, b):
 
 
 def _wind_relative_to_north(wdir):
+    """Calculates the wind direction relative to true north
+
+    Parameters
+    ----------
+    wdir : float between 0 and 360 or tuple
+        The direction of the wind given as either
+
+        - the wind angle relative to north
+        - the true wind angle and the boat direction relative to north
+        - a (ugrd, vgrd) tuple from grib data
+    Returns
+    -------
+    ndir : float between 0 and 360
+        Wind direction relative to true north
+    """
     return wdir
 
     # gribdata:
-    # wdir = 180 / pi * np.arctan2(vgrd, ugrd) + 180
+    # wdir = 180 / np.pi * np.arctan2(vgrd, ugrd) + 180
 
     # twa + bd:
     # wdir = (rwSK + twa) % 360 ?
 
 
 def _uvgrid_to_tw(ugrid, vgrid, hdt):
-    # TODO: check
+    """Calculates the true wind speed and wind angle fron given gribdata"""
     tws = np.sqrt(ugrid ** 2 + vgrid ** 2)
     wa = (180 + 180 / np.pi * np.arctan2(vgrid, ugrid)) % 360
     twa = (hdt - wa) % 360
@@ -654,6 +670,9 @@ EQUATOR_CIRCUMFERENCE = 40075.017
 
 
 def _great_earth_elipsoid_distance(a, b):
+    """Calculates the distance on the surface for two points on the
+    earth surface
+    """
     f = (a[1] + b[1]) / 2
     g = (a[1] - b[1]) / 2
     lat = (a[0] - b[0]) / 2

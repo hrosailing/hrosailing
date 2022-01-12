@@ -9,8 +9,6 @@ Subclasses of Filter can be used with the PolarPipeline class
 in the hrosailing.pipeline module
 """
 
-# Author: Valentin Dannenberg
-
 
 import logging.handlers
 from abc import ABC, abstractmethod
@@ -64,11 +62,12 @@ class QuantileFilter(Filter):
     percent: int or float, optional
         The quantile to be calculated
 
-        Defaults to 25
+        Defaults to `25`
 
-
-    Raises a FilterInitializationException, if percent
-    is not in the interval [0, 100]
+    Raises
+    ------
+    FilterInitializationException
+        If percent is not in the interval [0, 100]
     """
 
     def __init__(self, percent=50):
@@ -82,31 +81,40 @@ class QuantileFilter(Filter):
     def __repr__(self):
         return f"QuantileFilter(percent={self._percent})"
 
-    def filter(self, wts):
+    def filter(self, wts, _enable_logging=False):
         """Filters a set of points given by their resp. weights
         according to the above described method
 
         Parameters
         ----------
-        wts : numpy.ndarray of shape (n, )
+        wts : numpy.ndarray of shape (n,)
             Weights of the points that are to be filtered, given
             as a sequence of scalars
 
         Returns
         -------
-        mask : numpy.ndarray of shape (n, )
-            Boolean array describing with points are filtered
+        filtered_points : numpy.ndarray of shape (n,)
+            Boolean array describing which points are filtered
             depending on their resp. weight
         """
-        mask = wts >= np.percentile(wts, self._percent)
+        filtered_points = self._calculate_quantile(wts)
 
-        logger.info(f"Total amount of filtered points: {wts[mask].shape[0]}")
-        logger.info(
-            f"Percentage of filtered "
-            f"points: {wts[mask].shape[0]/ wts.shape[0]}"
-        )
+        if _enable_logging:
+            _log_filtered_points(filtered_points)
 
-        return mask
+        return filtered_points
+
+    def _calculate_quantile(self, wts):
+        return wts >= np.percentile(wts, self._percent)
+
+
+def _log_filtered_points(filtered_points):
+    amount = len(filtered_points[filtered_points])
+
+    logger.info(f"Total amount of filtered points: {amount}")
+    logger.info(
+        f"Percentage of filtered points: {amount / len(filtered_points)}"
+    )
 
 
 class BoundFilter(Filter):
@@ -118,16 +126,17 @@ class BoundFilter(Filter):
     upper_bound : int or float, optional
         The upper bound for the filter
 
-        Defaults to 1
+        Defaults to `1`
 
     lower_bound : int or float, optional
         The lower bound for the filter
 
-        Defaults to 0.5
+        Defaults to `0.5`
 
-
-    Raises a FilterInitializationException if
-    lower_bound is greater than upper_bound
+    Raises
+    ------
+    FilterInitializationException
+        If lower_bound is greater than upper_bound
     """
 
     def __init__(self, upper_bound=1, lower_bound=0.5):
@@ -142,30 +151,31 @@ class BoundFilter(Filter):
     def __repr__(self):
         return f"BoundFilter(upper_bound={self._u_b}, lower_bound={self._l_b})"
 
-    def filter(self, wts):
+    def filter(self, wts, _enable_logging=False):
         """Filters a set of points given by their resp. weights
         according to the above described method
 
         Parameters
         ----------
-        wts : numpy.ndarray of shape (n, )
+        wts : numpy.ndarray of shape (n,)
             Weights of the points that are to be filtered, given
             as a sequence of scalars
 
         Returns
         -------
-        mask : numpy.ndarray of shape (n, )
+        filtered_points : numpy.ndarray of shape (n,)
             Boolean array describing with points are filtered
             depending on their resp. weight
         """
-        mask_1 = wts >= self._l_b
-        mask_2 = wts <= self._u_b
-        mask = mask_1 & mask_2
+        filtered_points = self._determine_points_within_bound(wts)
 
-        logger.info(f"Total amount of filtered points: {wts[mask].shape[0]}")
-        logger.info(
-            f"Percentage of filtered "
-            f"points: {wts[mask].shape[0] / wts.shape[0]}"
-        )
+        if _enable_logging:
+            _log_filtered_points(filtered_points)
 
-        return mask
+        return filtered_points
+
+    def _determine_points_within_bound(self, wts):
+        points_above_lower_bound = wts >= self._l_b
+        points_below_upper_bound = wts <= self._u_b
+
+        return points_above_lower_bound & points_below_upper_bound

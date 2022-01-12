@@ -7,17 +7,16 @@ and the CylindricMemberWeigher, aswell as the WeightedPoints class, used to
 represent data points together with their respective weights
 """
 
-# Author: Valentin Dannenberg
-
 
 import logging.handlers
 from abc import ABC, abstractmethod
+from datetime import datetime
 from typing import Callable
 
 import numpy as np
 
 import hrosailing._logfolder as log
-from hrosailing.wind import _convert_wind
+from hrosailing.wind import convert_apparent_wind_to_true
 
 from ._utils import scaled_euclidean_norm
 
@@ -32,6 +31,121 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 del log
+
+
+class WeightedPointsInitializationException(Exception):
+    """Exception raised if an error occurs during
+    initialization of WeightedPoints
+    """
+
+
+def _extract_points_from_data(data):
+    if isinstance(data, np.ndarray):
+        return data
+
+    ws = _get_wind_speeds_from_data(data)
+    wa = _get_wind_angles_from_data(data)
+    bsp = _get_boat_speeds_from_data(data)
+
+    points = np.column_stack((ws, wa, bsp))
+
+    if points.dtype is object:
+        raise WeightedInitializationPointsException(
+            "`points` is not array_like or has some non-scalar values"
+        )
+
+    return np.column_stack((ws, wa, bsp))
+
+
+def _get_wind_speeds_from_data(data):
+    WIND_SPEED_KEYS = {
+        "Wind Speed",
+        "Wind speed",
+        "wind speed",
+        "wind_speed",
+        "WS",
+        "ws",
+    }
+
+    return _get_entries(data, WIND_SPEED_KEYS)
+
+
+def _get_entries(data, keys):
+    for key in keys:
+        try:
+            entry = data.pop(key)
+            return entry
+        except KeyError:
+            continue
+
+    raise WeightedPointsInitializationException(
+        "Essential data is missing, can't proceed"
+    )
+
+
+def _get_wind_angles_from_data(data):
+    WIND_ANGLE_KEYS = {
+        "Wind Angle",
+        "Wind angle",
+        "wind angle",
+        "wind_angle",
+        "WA",
+        "wa",
+    }
+
+    return _get_entries(data, WIND_ANGLE_KEYS)
+
+
+def _get_boat_speeds_from_data(data):
+    BOAT_SPEED_KEYS = {
+        "Boat Speed",
+        "Boat speed",
+        "boat speed",
+        "boat_speed",
+        "BSPS",
+        "BSP",
+        "bsps",
+        "bsp",
+        "Speed Over Ground",
+        "Speed over ground",
+        "Speed over Ground",
+        "speed over ground",
+        "speed_over_ground",
+        "speed over ground knots",
+        "speed_over_ground_knots",
+        "SOG",
+        "sog",
+        "Water Speed",
+        "Water speed",
+        "water speed",
+        "water_speed",
+        "Water Speed knots",
+        "Water speed knots",
+        "water speed knots",
+        "water_speed_knots",
+        "WSP",
+        "wsp",
+    }
+
+    return _get_entries(data, BOAT_SPEED_KEYS)
+
+
+def _determine_weights(weigher, points, data, _enable_logging):
+    weights = weigher.weigh(points, data, _enable_logging)
+    weights = np.asarray(weights)
+
+    if weights.dtype is object:
+        raise WeighingException(
+            "`weights` is not array_like or has some non-scalar values"
+        )
+    if weights.shape != (points.shape[0],):
+        raise Weighingexception("`weights` has incorrect shape")
+
+    return weights
+
+
+def _weights_is_scalar(weights):
+    return np.isscalar(weights)
 
 
 class WeigherInitializationException(Exception):
@@ -55,9 +169,10 @@ class Weigher(ABC):
     """
 
     @abstractmethod
-    def weigh(self, pts):
-        """This method should be used, given certain points,
-        to determine their weights according to a weighing method
+    def weigh(self, points, extra_data):
+        """This method should be used, given certain point
+        to determine their weights according to a weighing method, which
+        can also use some extra data, depending on the points
         """
 
 
@@ -77,15 +192,17 @@ class CylindricMeanWeigher(Weigher):
     radius : positive int or float, optional
         The radius of the considered cylinder, with infinite height, ie r
 
-        Defaults to 0.05
+        Defaults to `0.05`
 
     norm : function or callable, optional
         Norm with which to evaluate the distances, ie ||.||
 
         If nothing is passed, it will default to ||.||_2
 
-
-    Raises a WeigherInitializationException if radius is nonpositive
+    Raises
+    ------
+    WeigherInitializationException
+        If radius is nonpositive
     """
 
     def __init__(
@@ -105,41 +222,71 @@ class CylindricMeanWeigher(Weigher):
             f"norm={self._norm.__name__})"
         )
 
-    def weigh(self, pts):
+    def weigh(self, points, extra_data, _enable_logging):
         """Weigh given points according to the method described above
 
         Parameters
         ----------
-        pts : numpy.ndarray of shape (n, 3)
+        points : numpy.ndarray of shape (n, 3)
             Points to be weight
 
         Returns
         -------
-        wts : numpy.ndarray of shape (n, )
+        weights : numpy.ndarray of shape (n,)
             Normalized weights of the input points
         """
-        shape = pts.shape
-        wts = np.zeros(shape[0])
+        weights = np.zeros(len(points))
 
-        for i, pt in enumerate(pts):
-            mask = self._norm(pts[:, :2] - pt[:2]) <= self._radius
-            cylinder = pts[mask][:, 2]
+        for i, point in enumerate(points):
+            weights[i] = self._calculate_weight(point, points)
 
-            # in case there are on points in cylinder
-            std = np.std(cylinder) or 1
-            mean = np.mean(cylinder)
+        if _enable_logging:
+            _log_unnormalized_weights(weights)
 
-            wts[i] = np.abs(mean - pt[2]) / std
+        weights = 1 - _normalize_weights(weights)
 
-        logger.info(f"Mean (non-normalized) weight: {np.mean(wts)}")
-        logger.info(f"Maximum (non-normalized) weight: {np.max(wts)}")
-        logger.info(f"Minimum (non-normalized) weight: {np.min(wts)}")
+        if _enable_logging:
+            _log_normalized_weights(weights)
 
-        wts = 1 - wts / max(wts)
+        return weights
 
-        logger.info(f"Mean (normalized) weight: {np.mean(wts)}")
-        logger.info(f"Final (normalized) weights calculated for {pts}: {wts}")
-        return wts
+    def _calculate_weight(self, point, points):
+        points_in_cylinder = self._determine_points_in_cylinder(point, points)
+
+        std = _standard_deviation_in_cylinder(points_in_cylinder)
+        mean = _mean_in_cylinder(points_in_cylinder)
+
+        return np.abs(mean - point[2]) / std
+
+    def _determine_points_in_cylinder(self, point, points):
+        in_cylinder = self._norm(points[:, :2] - point[:2]) <= self._radius
+        return points[in_cylinder][:, 2]
+
+
+def _standard_deviation_in_cylinder(points_in_cylinder):
+    return np.std(points_in_cylinder) or 1  # in case that there are no points
+
+
+def _mean_in_cylinder(points_in_cylinder):
+    return np.mean(points_in_cylinder)
+
+
+def _normalize_weights(weights):
+    return weights / np.max(weights)
+
+
+def _log_unnormalized_weights(weights):
+    logger.info(f"Unnormalized weights: {weights}")
+    logger.info(f"Unnormalized mean weight: {np.mean(weights)}")
+    logger.info(f"Unnormalized maximum weight: {np.max(weights)}")
+    logger.info(f"Unnormalized minimum weight: {np.min(weights)}")
+
+
+def _log_normalized_weights(weights):
+    logger.info(f"Normalized weights: {weights}")
+    logger.info(f"Normalized mean weight: {np.mean(weights)}")
+    logger.info(f"Normalized maximum weight: {np.max(weights)}")
+    logger.info(f"Normalized minimum weight: {np.min(weights)}")
 
 
 class CylindricMemberWeigher(Weigher):
@@ -157,25 +304,26 @@ class CylindricMemberWeigher(Weigher):
     radius : positive int or float, optional
         The radius of the considered cylinder, ie r
 
-        Defaults to 0.05
+        Defaults to `0.05`
 
     length : nonnegative int of float, optional
         The height of the considered cylinder, ie h
 
         If length is 0, the cylinder is a d-1 dimensional ball
 
-        Defaults to 0.05
+        Defaults to `0.05`
 
     norm : function or callable, optional
         Norm with which to evaluate the distances, ie ||.||
 
         If nothing is passed, it will default to ||.||_2
 
+    Raises
+    ------
+    WeigherInitializationException
 
-    Raises a WeigherInitializationException
-
-    - if radius is nonpositive
-    - if length is negative
+        - If radius is nonpositive
+        - If length is negative
     """
 
     def __init__(
@@ -200,34 +348,172 @@ class CylindricMemberWeigher(Weigher):
             f"length={self._length}, norm={self._norm.__name__})"
         )
 
-    def weigh(self, pts):
+    def weigh(self, points, extra_data, _enable_logging):
         """Weigh given points according to the method described above
 
         Parameters
         ----------
-        pts : numpy.ndarray of shape (n, 3)
+        points : numpy.ndarray of shape (n, 3)
             Points to be weight
 
         Returns
         -------
-        wts : numpy.ndarray of shape (n, )
+        weights : numpy.ndarray of shape (n,)
             Normalized weights of the input points
         """
-        wts = np.zeros(pts.shape[0])
-        for i, pt in enumerate(pts):
-            mask_l = np.abs(pts[:, 0] - pt[0]) <= self._length
-            mask_r = self._norm(pts[:, 1:] - pt[1:]) <= self._radius
-            wts[i] = len(pts[mask_l & mask_r]) - 1
+        weights = np.zeros(len(points))
 
-        logger.info(f"Mean (non-normalized) weight: {np.mean(wts)}")
-        logger.info(f"Maximum (non-normalized) weight: {np.max(wts)}")
-        logger.info(f"Minimum (non-normalized) weight: {np.min(wts)}")
+        for i, point in enumerate(points):
+            weights[i] = self._calculate_weight(point, points)
 
-        wts = wts / max(wts)
+        if _enable_logging:
+            _log_unnormalized_weights(weights)
 
-        logger.info(f"Mean (normalized) weight: {np.mean(wts)}")
-        logger.info(f"Final (normalized) weights calculated for {pts}: {wts}")
-        return wts
+        weights = _normalize_weights(weights)
+
+        if _enable_logging:
+            _log_normalized_weights(weights)
+
+        return weights
+
+    def _calculate_weight(self, point, points):
+        points_in_cylinder = self._count_points_in_cylinder(point, points)
+        return len(points_in_cylinder) - 1
+
+    def _count_points_in_cylinder(self, point, points):
+        height = np.abs(points[:, 0] - point[0]) <= self._length
+        radius = self._norm(points[:, 1:] - point[1:]) <= self._radius
+
+        cylinder = height & radius
+        points_in_cylinder = cylinder[cylinder]
+        return points_in_cylinder
+
+
+class PastFluctuationWeigher(Weigher):
+    """STILL A WIP"""
+
+    def __init__(self, timespan=13):
+        self.timespan = timespan
+
+    def weigh(self, points, extra_data, _enable_logging):
+        """WIP"""
+        weights = np.zeros(len(points))
+
+        recording_times = _get_recording_times(extra_data)
+
+        for i, point in enumerate(points):
+            weights[i] = self._calculate_weight(i, points, recording_times)
+
+        if _enable_logging:
+            _log_unnormalized_weights(weights)
+
+        weights = len(weights) * _normalize_weights(weights)
+
+        if _enable_logging:
+            _log_normalized_weights(weights)
+
+        return weights
+
+    def _calculate_weight(self, index, points, recording_times):
+        in_time_interval = self._get_points_in_time_interval(
+            index, recording_times
+        )
+        considered_points = points[in_time_interval]
+
+        return 1 / np.std(considered_points) ** 2
+
+    def _get_points_in_time_interval(self, index, recording_times):
+        in_time_interval = [index]
+
+        reference_time = recording_times[index]
+        times_up_to_reference_time = recording_times[:index]
+
+        for i, time in enumerate(times_up_to_reference_time):
+            if self._in_time_interval(time, reference_time):
+                in_time_interval.append(i)
+
+        return in_time_interval
+
+    def _in_time_interval(self, time, reference_time):
+        time_difference = reference_time - time
+        return time_difference.total_seconds() <= self.timespan
+
+
+def _get_recording_times(data):
+    time_stamps = _get_time_stamps(data)
+    date_stamps = _get_date_stamps(data)
+
+    date_and_time_stamps = zip(date_stamps, time_stamps)
+    recording_times = [
+        datetime.combine(date_stamp, time_stamp)
+        for (date_stamp, time_stamp) in date_and_time_stamps
+    ]
+    return recording_times
+
+
+def _get_time_stamps(data):
+    TIME_STAMP_KEYS = {"Timestamp", "timestamp", "Time", "time", "time_stamp"}
+
+    return _get_entries(data, TIME_STAMP_KEYS)
+
+
+def _get_date_stamps(data):
+    DATE_STAMP_KEYS = {"Datestamp", "datestamp", "Date", "date", "date_stamp"}
+
+    return _get_entries(data, DATE_STAMP_KEYS)
+
+
+class PastFutureFluctuationWeigher(Weigher):
+    """STILL A WIP"""
+
+    def __init__(self, timespan=6):
+        self.timespan = timespan
+
+    def weigh(self, points, extra_data, _enable_logging):
+        """WIP"""
+        weights = np.zeros(len(points))
+
+        recording_times = _get_recording_times(extra_data)
+
+        for i, point in enumerate(points):
+            weights[i] = self._calculate_weight(i, points, recording_times)
+
+        if _enable_logging:
+            _log_unnormalized_weights(weights)
+
+        weights = len(weights) * _normalize_weights(weights)
+
+        if _enable_logging:
+            _log_normalized_weights(weights)
+
+        return weights
+
+    def _calculate_weight(self, index, points, recording_times):
+        in_time_interval = self._get_points_in_time_interval(
+            index, recording_times
+        )
+        considered_points = points[in_time_interval]
+
+        return 1 / np.std(considered_points) ** 2
+
+    def _get_points_in_time_interval(self, index, recording_times):
+        in_time_interval = []
+
+        reference_time = recording_times[index]
+
+        for i, time in enumerate(recording_times):
+            if self._in_time_interval(time, reference_time):
+                in_time_interval.append(i)
+
+        return in_time_interval
+
+    def _in_time_interval(self, time, reference_time):
+        if time <= reference_time:
+            time_difference = reference_time - time
+        else:
+            time_difference = time - reference_time
+
+        return time_difference.total_seconds() <= self.timespan
 
 
 class WeightedPoints:
@@ -236,10 +522,10 @@ class WeightedPoints:
 
     Parameters
     ----------
-    pts : array_like of shape (n, 3)
+    data : dict or numpy.ndarray
         Points that will be weight or paired with given weights
 
-    wts : int, float or array_like of shape (n, ), optional
+    weights : scalar or array_like of shape (n,), optional
         If the weights of the points are known beforehand,
         they can be given as an argument. If weights are
         passed, they will be assigned to the points
@@ -248,71 +534,52 @@ class WeightedPoints:
         If a scalar is passed, the points will all be assigned
         the same weight
 
-        Defaults to None
+        Defaults to `None`
 
     weigher : Weigher, optional
         Instance of a Weigher class, which will weigh the points
+        Will only be used if weights is `None`
 
-        Will only be used if weights is None
+        If nothing is passed, it will default to `CylindricMeanWeigher()`
 
-        If nothing is passed, it will default to CylindricMeanWeigher()
+    apparent_wind : bool, optional
+        Specifies if wind data is given in apparent wind
 
-    tw : bool, optional
-        Specifies if the given wind data should be viewed as true wind
+        If `True`, data will be converted to true wind
 
-        If False, wind data will be converted to true wind
+        Defaults to `False`
 
-        Defaults to True
+    Raises
+    ------
+    WeightedPointsInitializationException
 
+    WeighingException
     """
 
     def __init__(
         self,
-        pts,
-        wts=None,
-        weigher: Weigher = CylindricMeanWeigher,
-        tw=True,
-        _checks=True,
+        data,
+        weights=None,
+        weigher=CylindricMeanWeigher(),
+        apparent_wind=False,
+        _enable_logging=False,
     ):
-        if _checks:
-            pts = _convert_wind(pts, -1, tw=tw, _check_finite=True)
-
-        self._pts = pts
-
-        shape = pts.shape[0]
-
-        if wts is None:
-            self._wts = _sanity_checks(weigher.weigh(pts), shape)
-        elif isinstance(wts, (int, float)):
-            self._wts = np.array([wts] * shape)
-        elif _checks:
-            self._wts = _sanity_checks(wts, shape)
+        points = _extract_points_from_data(data)
+        if apparent_wind:
+            self.points = convert_apparent_wind_to_true(points)
         else:
-            self._wts = wts
+            self.points = np.asarray_chkfinite(points)
+
+        if weights is None:
+            weights = _determine_weights(
+                weigher, points, data, _enable_logging
+            )
+        elif _weights_is_scalar(weights):
+            weights = np.array([weights] * len(points))
+
+        self.weights = weights
 
     def __getitem__(self, mask):
         return WeightedPoints(
-            pts=self.points[mask], wts=self.weights[mask], _checks=False
+            data=self.points[mask], weights=self.weights[mask]
         )
-
-    @property
-    def points(self):
-        """Returns a read-only version of self._pts"""
-        return self._pts.copy()
-
-    @property
-    def weights(self):
-        """Returns a read-only version of self._wts"""
-        return self._wts.copy()
-
-
-def _sanity_checks(wts, shape):
-    wts = np.asarray(wts)
-
-    if wts.dtype is object:
-        raise WeighingException("`wts` is not array_like")
-
-    if wts.shape != (shape,):
-        raise WeighingException("`wts` has incorrect shape")
-
-    return wts

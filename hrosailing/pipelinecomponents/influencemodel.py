@@ -10,7 +10,6 @@ Subclasses of InfluenceModel can be used with
 - various functions in the hrosailing.cruising module
 """
 
-# Author: Valentin Dannenberg
 
 from abc import ABC, abstractmethod
 
