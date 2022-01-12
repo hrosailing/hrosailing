@@ -16,6 +16,7 @@ in the hrosailing.pipeline module
 import csv
 from abc import ABC, abstractmethod
 from ast import literal_eval
+from datetime import date, time
 from decimal import Decimal
 
 import numpy as np
