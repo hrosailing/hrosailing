@@ -8,7 +8,9 @@ import numpy as np
 
 import hrosailing.polardiagram as pol
 from hrosailing.polardiagram._basepolardiagram import (
-    PolarDiagramException, PolarDiagramInitializationException)
+    PolarDiagramException,
+    PolarDiagramInitializationException,
+)
 from hrosailing.wind import WindConversionException
 
 
@@ -25,7 +27,9 @@ class PolarDiagramTableTest(unittest.TestCase):
                 [2, 3, 3.8, 4.6],
             ]
         )
-        self.pd = pol.PolarDiagramTable(self.ws_resolution, self.wa_resolution, self.bsp)
+        self.pd = pol.PolarDiagramTable(
+            self.ws_resolution, self.wa_resolution, self.bsp
+        )
 
     @staticmethod
     def test_default_init():
@@ -52,7 +56,9 @@ class PolarDiagramTableTest(unittest.TestCase):
         np.testing.assert_array_equal(pd.boat_speeds, np.zeros((4, 20)))
 
     def test_init_ws_wa_resolution(self):
-        pd = pol.PolarDiagramTable(ws_resolution=self.ws_resolution, wa_resolution=self.wa_resolution)
+        pd = pol.PolarDiagramTable(
+            ws_resolution=self.ws_resolution, wa_resolution=self.wa_resolution
+        )
         np.testing.assert_array_equal(pd.wind_speeds, self.ws_resolution)
         np.testing.assert_array_equal(pd.wind_angles, self.wa_resolution)
         np.testing.assert_array_equal(pd.boat_speeds, np.zeros((4, 4)))
@@ -157,7 +163,9 @@ class PolarDiagramTableTest(unittest.TestCase):
     def test_symmetric_polar_diagram_no_180(self):
         sym_pd = self.pd.symmetrize()
 
-        sym_wa_resolution = np.concatenate([self.wa_resolution, 360 - np.flip(self.wa_resolution)])
+        sym_wa_resolution = np.concatenate(
+            [self.wa_resolution, 360 - np.flip(self.wa_resolution)]
+        )
         sym_bsp = np.row_stack((self.bsp, np.flip(self.bsp, axis=0)))
 
         np.testing.assert_array_equal(sym_pd.wind_speeds, self.pd.wind_speeds)
@@ -167,7 +175,9 @@ class PolarDiagramTableTest(unittest.TestCase):
     def test_symmetric_polar_diagram_w_180_and_0(self):
         wa_resolution = [0, 90, 180]
         pd = pol.PolarDiagramTable(
-            ws_resolution=self.ws_resolution, wa_resolution=wa_resolution, bsps=self.bsp[:3, :]
+            ws_resolution=self.ws_resolution,
+            wa_resolution=wa_resolution,
+            bsps=self.bsp[:3, :],
         )
         sym_pd = pd.symmetrize()
         sym_bsps = np.row_stack((self.bsp[:3, :], self.bsp[1, :]))
