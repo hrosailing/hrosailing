@@ -149,3 +149,7 @@ logging/
 
 # Don't track main.py
 main.py
+
+
+# Don't track virtual environment
+.sailing/
