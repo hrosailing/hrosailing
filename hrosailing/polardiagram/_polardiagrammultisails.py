@@ -1,9 +1,17 @@
+# pylint: disable=missing-module-docstring
+
+import csv
+import itertools
 import warnings
 from ast import literal_eval
 
-from ._basepolardiagram import *
-from ._plotting import *
-from ._polardiagramtable import *
+import matplotlib.pyplot as plt
+import numpy as np
+
+from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
+                                PolarDiagramInitializationException)
+from ._plotting import plot_convex_hull_multisails
+from ._polardiagramtable import PolarDiagramTable
 
 
 class NotYetImplementedWarning(Warning):

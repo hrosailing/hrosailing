@@ -4,7 +4,6 @@ PolarDiagram classes to work with and represent PPDs in various forms
 
 
 import csv
-import pickle
 from ast import literal_eval
 
 import numpy as np

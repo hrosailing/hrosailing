@@ -1,4 +1,6 @@
-import csv
+# pylint: disable=missing-module-docstring
+# pylint: disable=import-outside-toplevel
+
 from abc import ABC, abstractmethod
 
 

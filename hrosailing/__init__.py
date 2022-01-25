@@ -16,7 +16,6 @@ log.create_log_folder()
 
 del log
 
-
 # Tell users if and which hard depencencies are missing
 hard_dependencies = ("numpy", "matplotlib", "scipy")
 # soft_dependencies = ("pandas", "pynmea2")
