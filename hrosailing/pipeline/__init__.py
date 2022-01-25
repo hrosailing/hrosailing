@@ -3,10 +3,8 @@ Pipeline to create PPDs from raw data
 """
 
 
-import logging.handlers
 import warnings
 from abc import ABC, abstractmethod
-from typing import Optional
 
 import numpy as np
 

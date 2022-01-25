@@ -8,14 +8,13 @@ represent data points together with their respective weights
 """
 
 
-import logging.handlers
+import logging
 from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import Callable
 
 import numpy as np
 
-import hrosailing._logfolder as log
 from hrosailing.wind import convert_apparent_wind_to_true
 
 from ._utils import scaled_euclidean_norm
@@ -25,18 +24,28 @@ logging.basicConfig(
     level=logging.INFO,
     handlers=[
         logging.handlers.TimedRotatingFileHandler(
-            log.log_folder + "/pipeline.log", when="midnight"
+            "hrosailing.log", when="midnight"
         )
     ],
 )
 logger = logging.getLogger(__name__)
-del log
 
 
 class WeightedPointsInitializationException(Exception):
     """Exception raised if an error occurs during
     initialization of WeightedPoints
     """
+
+
+class WeigherInitializationException(Exception):
+    """Exception raised if an error occurs during
+    initialization of a Weigher
+    """
+
+
+class WeighingException(Exception):
+    """Exception raised if an error occurs during the calling
+    of the .weigh() method"""
 
 
 def _extract_points_from_data(data):
@@ -50,7 +59,7 @@ def _extract_points_from_data(data):
     points = np.column_stack((ws, wa, bsp))
 
     if points.dtype is object:
-        raise WeightedInitializationPointsException(
+        raise WeightedPointsInitializationException(
             "`points` is not array_like or has some non-scalar values"
         )
 
@@ -139,24 +148,13 @@ def _determine_weights(weigher, points, data, _enable_logging):
             "`weights` is not array_like or has some non-scalar values"
         )
     if weights.shape != (points.shape[0],):
-        raise Weighingexception("`weights` has incorrect shape")
+        raise WeighingException("`weights` has incorrect shape")
 
     return weights
 
 
 def _weights_is_scalar(weights):
     return np.isscalar(weights)
-
-
-class WeigherInitializationException(Exception):
-    """Exception raised if an error occurs during
-    initialization of a Weigher
-    """
-
-
-class WeighingException(Exception):
-    """Exception raised if an error occurs during the calling
-    of the .weigh() method"""
 
 
 class Weigher(ABC):

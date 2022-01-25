@@ -10,7 +10,7 @@ in the hrosailing.pipeline module
 
 
 import inspect
-import logging.handlers
+import logging
 from abc import ABC, abstractmethod
 from typing import Callable
 
@@ -18,19 +18,16 @@ import numpy as np
 from scipy.odr.odrpack import ODR, Data, Model
 from scipy.optimize import curve_fit
 
-import hrosailing._logfolder as log
-
 logging.basicConfig(
     format="%(asctime)s %(levelname)s: %(message)s",
     level=logging.INFO,
     handlers=[
         logging.handlers.TimedRotatingFileHandler(
-            log.log_folder + "/pipeline.log", when="midnight"
+            "hrosailing.log", when="midnight"
         )
     ],
 )
 logger = logging.getLogger(__name__)
-del log
 
 
 class Regressor(ABC):
@@ -145,9 +142,9 @@ class ODRegressor(Regressor):
         self._popt = out.beta
 
         if _enable_logging:
-            self._log_outcome_of_regression(out)
+            self._log_outcome_of_regression(out, y)
 
-    def _log_outcome_of_regression(self, out):
+    def _log_outcome_of_regression(self, out, y):
         indep_vars = len(self._popt)
         dof = y.shape[0] - indep_vars
         chi_squared = np.sum(np.square(out.eps))
@@ -249,7 +246,7 @@ class LeastSquareRegressor(Regressor):
         self._popt = self._get_optimal_parameters(X, y)
 
         if _enable_logging:
-            self._log_outcome_of_regression()
+            self._log_outcome_of_regression(X, y)
 
     def _get_optimal_parameters(self, X, y):
         optimal_parameters, _ = curve_fit(
@@ -258,7 +255,7 @@ class LeastSquareRegressor(Regressor):
 
         return optimal_parameters
 
-    def _log_outcome_of_regression(self):
+    def _log_outcome_of_regression(self, X, y):
         sr = np.square(self._func(X[:, 0], X[:, 1], *self._popt) - y)
         ssr = np.sum(sr)
         mean = np.mean(y)

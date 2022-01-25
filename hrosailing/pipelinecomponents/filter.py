@@ -10,24 +10,22 @@ in the hrosailing.pipeline module
 """
 
 
-import logging.handlers
+import logging
 from abc import ABC, abstractmethod
 
 import numpy as np
 
-import hrosailing._logfolder as log
 
 logging.basicConfig(
     format="%(asctime)s %(levelname)s: %(message)s",
     level=logging.INFO,
     handlers=[
         logging.handlers.TimedRotatingFileHandler(
-            log.log_folder + "/pipeline.log", when="midnight"
+            "hrosailing.log", when="midnight"
         )
     ],
 )
 logger = logging.getLogger(__name__)
-del log
 
 
 class FilterInitializationException(Exception):
