@@ -2,8 +2,11 @@ import warnings
 from ast import literal_eval
 from typing import Iterable
 
-from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
-                                           WeightedPoints)
+from hrosailing.pipelinecomponents import (
+    ArithmeticMeanInterpolator,
+    Ball,
+    WeightedPoints,
+)
 
 from ._basepolardiagram import *
 from ._plotting import *
@@ -505,19 +508,25 @@ class PolarDiagramTable(PolarDiagram):
         )
 
         if 180 in self.wind_angles:
-            symmetric_wa_resolution, symmetric_bsps = _delete_multiple_180_degree_occurences(
+            (
+                symmetric_wa_resolution,
+                symmetric_bsps,
+            ) = _delete_multiple_180_degree_occurences(
                 symmetric_wa_resolution, symmetric_bsps
             )
         if 0 in self.wind_angles:
-            symmetric_wa_resolution, symmetric_bsps = _delete_multiple_0_degree_occurences(
+            (
+                symmetric_wa_resolution,
+                symmetric_bsps,
+            ) = _delete_multiple_0_degree_occurences(
                 symmetric_wa_resolution, symmetric_bsps
             )
 
         return PolarDiagramTable(
-            ws_resolution=self.wind_speeds, wa_resolution=symmetric_wa_resolution, bsps=symmetric_bsps
+            ws_resolution=self.wind_speeds,
+            wa_resolution=symmetric_wa_resolution,
+            bsps=symmetric_bsps,
         )
-
-
 
     def change_entries(self, new_bsps, ws=None, wa=None):
         """Changes specified entries in the table

@@ -15,12 +15,8 @@ class ConvertWind(TestCase):
             with self.subTest(i=i):
                 tw = np.array([[3, 0, 3]])
                 aw = np.array([[3, 180, 3]])
-                np.testing.assert_array_equal(
-                    convert_wind(iter_, 1), tw
-                )
-                np.testing.assert_array_equal(
-                    convert_wind(iter_, -1), aw
-                )
+                np.testing.assert_array_equal(convert_wind(iter_, 1), tw)
+                np.testing.assert_array_equal(convert_wind(iter_, -1), aw)
 
     def test_non_array_like(self):
         iters = [{}, set()]
@@ -63,4 +59,3 @@ class ConvertWind(TestCase):
             with self.subTest(i=i):
                 with self.assertRaises(ValueError):
                     convert_wind(iter_, 1)
-
