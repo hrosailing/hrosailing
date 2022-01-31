@@ -629,7 +629,7 @@ def _right_handing_course(a, b):
         a[1]
     ) * np.cos(b[1])
 
-    return np.arccos(numerator / np.sqrt(1 - denominator ** 2))
+    return np.arccos(numerator / np.sqrt(1 - denominator**2))
 
 
 def _wind_relative_to_north(wdir):
@@ -659,7 +659,7 @@ def _wind_relative_to_north(wdir):
 
 def _uvgrid_to_tw(ugrid, vgrid, hdt):
     """Calculates the true wind speed and wind angle fron given gribdata"""
-    tws = np.sqrt(ugrid ** 2 + vgrid ** 2)
+    tws = np.sqrt(ugrid**2 + vgrid**2)
     wa = (180 + 180 / np.pi * np.arctan2(vgrid, ugrid)) % 360
     twa = (hdt - wa) % 360
     return tws, twa
