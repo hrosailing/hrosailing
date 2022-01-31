@@ -8,7 +8,7 @@ represent data points together with their respective weights
 """
 
 
-import logging
+import logging.handlers
 from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import Callable

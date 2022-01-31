@@ -10,7 +10,7 @@ in the hrosailing.pipeline module
 """
 
 
-import logging
+import logging.handlers
 from abc import ABC, abstractmethod
 
 import numpy as np

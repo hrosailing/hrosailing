@@ -10,7 +10,7 @@ in the hrosailing.pipeline module
 
 
 import inspect
-import logging
+import logging.handlers
 from abc import ABC, abstractmethod
 from typing import Callable
 
