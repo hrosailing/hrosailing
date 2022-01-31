@@ -124,7 +124,7 @@ import hrosailing.pipeline as pipe
 import hrosailing.pipelinecomponents as pcomp
 
 
-pps = [
+pol_pips = [
     pipe.PolarPipeline(
         handler=pcomp.ArrayHandler(),
         extension=pipe.TableExtension()
@@ -139,7 +139,7 @@ pps = [
     )
 ]
 
-pds = [pp((data, ["Wind angle", "Wind speed", "Boat speed"])) for pp in pps]
+pds = [pol_pip((data, ["Wind angle", "Wind speed", "Boat speed"])) for pol_pip in pol_pips]
 
 for i, pd in enumerate(pds):
     pd.plot_polar(ws=ws, ax=plt.subplot(1, 3, i+1, projection="polar"))
@@ -192,7 +192,7 @@ def my_norm(pt):
     return np.linalg.norm(pt, axis=1)**4
 
 
-my_pp = pipe.PolarPipeline(
+my_pol_pip = pipe.PolarPipeline(
     handler=pcomp.ArrayHandler(),
     im=MyInfluenceModel(),
     weigher=pcomp.CylindricMeanWeigher(radius=2, norm=my_norm),
@@ -200,7 +200,7 @@ my_pp = pipe.PolarPipeline(
     filter_=MyFilter()
 )
 
-my_pd = my_pp((data, ["Wind angle", "Wind speed", "Boat speed"]))
+my_pd = my_pol_pip((data, ["Wind angle", "Wind speed", "Boat speed"]))
 ```
 
 Of course, the customizations above are arbitrary and lead to comparibly bad results:
@@ -213,11 +213,6 @@ plt.show()
 ![custom_plot](https://user-images.githubusercontent.com/70914876/146348767-f1af3957-8e62-42fa-9f1e-36e872f598c2.png)
 
 We clearly need more sophisticated approaches for good results.
-
-Now suppose we have a fairly good polar diagram and want to use it in sailing assistance software or sailing simulations.
-We could get a steering recomandation:
-
-TODO
 
 For the next example we initialize a simple influence model and a random weather model.
 
