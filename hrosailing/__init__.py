@@ -1,25 +1,16 @@
-# pylint: disable=wrong-import-order, wrong-import-position
+# pylint: disable=wrong-import-order
+# pylint: disable=wrong-import-position
+# pylint: disable=unused-import
 
 from ._doc import doc
 from ._pdoc import pdoc
-from ._version import __version__
+from ._version import __version__ as version
 
 __doc__ = doc
-version = __version__
 __pdoc__ = pdoc
 
 
-# create folder for logging, where script is located, if it doesn't exist
-import hrosailing._logfolder as log
-
-path = log.get_script_path()
-log.set_log_folder(path)
-log.create_log_folder()
-
-del log
-
-
-# Tell users if hard depencencies are missing
+# Tell users if and which hard depencencies are missing
 hard_dependencies = ("numpy", "matplotlib", "scipy")
 # soft_dependencies = ("pandas", "pynmea2")
 missing_dependencies = []

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.9.2" />
+<meta name="generator" content="pdoc 0.10.0" />
 <title>hrosailing.pipelinecomponents.interpolator API documentation</title>
 <meta name="description" content="Classes used for modular modeling of different interpolation methods …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -40,22 +40,13 @@ class in the hrosailing.polardiagram module</li>
 <section>
 </section>
 <section>
-<h2 class="section-title" id="header-functions">Functions</h2>
-<dl>
-<dt id="hrosailing.pipelinecomponents.interpolator.gauss_potential"><code class="name flex">
-<span>def <span class="ident">gauss_potential</span></span>(<span>distances, weights, *params)</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
 <dt id="hrosailing.pipelinecomponents.interpolator.ArithmeticMeanInterpolator"><code class="flex name class">
 <span>class <span class="ident">ArithmeticMeanInterpolator</span></span>
-<span>(</span><span>*params, s=1, norm: Callable = &lt;function _scaled_norm.&lt;locals&gt;.s_norm&gt;, distribution: Callable = &lt;function gauss_potential&gt;)</span>
+<span>(</span><span>*params, s=1, norm: Callable = &lt;function _scaled_norm.&lt;locals&gt;.s_norm&gt;, distribution: Callable = &lt;function _gauss_potential&gt;)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>An Interpolator that gets the interpolated value according
@@ -96,7 +87,11 @@ calculated weights based on the formula
 </dl>
 <p>params:
 Parameters to be passed to distribution</p>
-<p>Raises an InterpolatorInitializationException if s is nonpositive</p></div>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="hrosailing.pipelinecomponents.interpolator.InterpolatorInitializationException" href="#hrosailing.pipelinecomponents.interpolator.InterpolatorInitializationException">InterpolatorInitializationException</a></code></dt>
+<dd>If s is nonpositive</dd>
+</dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.pipelinecomponents.interpolator.Interpolator" href="#hrosailing.pipelinecomponents.interpolator.Interpolator">Interpolator</a></li>
@@ -120,7 +115,7 @@ above described method</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>out</code></strong> :&ensp;<code>int / float</code></dt>
-<dd>Interpolated values at grid_pt</dd>
+<dd>Interpolated value at grid_pt</dd>
 </dl></div>
 </dd>
 </dl>
@@ -150,7 +145,11 @@ or if grid_pt is already a measured point pt<em>, it will equal pt</em>[2]</p>
 version of ||.||_2</p>
 </dd>
 </dl>
-<p>Raises an InterpolatorInitializationException if p is negative</p></div>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="hrosailing.pipelinecomponents.interpolator.InterpolatorInitializationException" href="#hrosailing.pipelinecomponents.interpolator.InterpolatorInitializationException">InterpolatorInitializationException</a></code></dt>
+<dd>If p is negative</dd>
+</dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.pipelinecomponents.interpolator.Interpolator" href="#hrosailing.pipelinecomponents.interpolator.Interpolator">Interpolator</a></li>
@@ -174,7 +173,7 @@ above described method</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>out</code></strong> :&ensp;<code>int / float</code></dt>
-<dd>Interpolated values at grid_pt</dd>
+<dd>Interpolated value at grid_pt</dd>
 </dl></div>
 </dd>
 </dl>
@@ -228,7 +227,7 @@ above described method</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>out</code></strong> :&ensp;<code>int / float</code></dt>
-<dd>Interpolated values at grid_pt</dd>
+<dd>Interpolated value at grid_pt</dd>
 </dl></div>
 </dd>
 </dl>
@@ -297,11 +296,16 @@ function for irregulary-spaced data"</p>
 version of ||.||_2</p>
 </dd>
 </dl>
-<p>Raises an InterpolatorInitializationException</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="hrosailing.pipelinecomponents.interpolator.InterpolatorInitializationException" href="#hrosailing.pipelinecomponents.interpolator.InterpolatorInitializationException">InterpolatorInitializationException</a></code></dt>
+<dd>
 <ul>
-<li>if tol is nonpositive</li>
-<li>if slope is nonpositive</li>
-</ul></div>
+<li>If tol is nonpositive</li>
+<li>If slope is nonpositive</li>
+</ul>
+</dd>
+</dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="hrosailing.pipelinecomponents.interpolator.Interpolator" href="#hrosailing.pipelinecomponents.interpolator.Interpolator">Interpolator</a></li>
@@ -325,7 +329,7 @@ above described method</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>out</code></strong> :&ensp;<code>int / float</code></dt>
-<dd>Interpolated values at grid_pt</dd>
+<dd>Interpolated value at grid_pt</dd>
 </dl></div>
 </dd>
 </dl>
@@ -395,11 +399,6 @@ setTimeout(() => input.focus(), 100);
 <li><code><a title="hrosailing.pipelinecomponents" href="index.html">hrosailing.pipelinecomponents</a></code></li>
 </ul>
 </li>
-<li><h3><a href="#header-functions">Functions</a></h3>
-<ul class="">
-<li><code><a title="hrosailing.pipelinecomponents.interpolator.gauss_potential" href="#hrosailing.pipelinecomponents.interpolator.gauss_potential">gauss_potential</a></code></li>
-</ul>
-</li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
@@ -441,7 +440,7 @@ setTimeout(() => input.focus(), 100);
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.9.2</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
 </footer>
 </body>
 </html>

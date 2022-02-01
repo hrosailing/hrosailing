@@ -9,8 +9,6 @@ Subclasses of Neighbourhood can be used with the TableExtension and
 the PointcloudExtension class in the hrosailing.pipeline module
 """
 
-# Author: Valentin Dannenberg
-
 
 from abc import ABC, abstractmethod
 from typing import Callable
@@ -60,10 +58,12 @@ class Ball(Neighbourhood):
     radius : positive int or float, optional
         The radius of the ball, ie r
 
-        Defaults to 0.05
+        Defaults to `0.05`
 
-
-    Raises a NeighbourhoodInitializationException if radius is nonpositive
+    Raises
+    ------
+    NeighbourhoodInitializationException
+        If radius is nonpositive
     """
 
     def __init__(
@@ -130,11 +130,13 @@ class ScalingBall(Neighbourhood):
         If nothing is passed, it will default to a scaled version
         of ||.||_2
 
+    Raises
+    ------
+    NeighbourhoodInitializationException
 
-    Raises a NeighbourhoodInitializationException
+        - If min_pts or max_pts are nonpositive
+        - If max_pts is less than or equal to min_pts
 
-     - if min_pts or max_pts are nonpositive
-     - if max_pts is less than or equal to min_pts
     """
 
     def __init__(
@@ -161,7 +163,6 @@ class ScalingBall(Neighbourhood):
         self._max_pts = max_pts
         self._norm = norm
         self._avg = (min_pts + max_pts) / 2
-        self._first_call = True
 
         self._n_pts = None
         self._area = None
@@ -181,31 +182,34 @@ class ScalingBall(Neighbourhood):
 
         Returns
         -------
-        mask : numpy.ndarray of shape (n, )
+        points_in_ball : boolean numpy.ndarray of shape (n, )
             Boolean array describing which of the input points
             is a member of the neighbourhood
         """
-        if self._first_call:
-            pts = np.asarray(pts)
+        pts = np.asarray(pts)
 
-            # initial guess for suitable radius.
-            self._n_pts = pts.shape[0]
-            self._area = ConvexHull(pts).volume
-            self._radius = np.sqrt(
-                self._avg * self._area / (np.pi * self._n_pts)
-            )
-
-            self._first_call = False
+        self._guess_initial_suitable_radius(pts)
 
         dist = self._norm(pts)
-        mask = dist <= self._radius
-        if self._min_pts <= len(pts[mask]):
-            return mask
 
-        # expand radius the smallest possible amount, such
-        # that a new point will be in scaling ball
-        self._radius = np.min(dist[np.logical_not(mask)])
-        return self.is_contained_in(pts)
+        while True:
+            pts_in_ball = dist <= self._radius
+            if self._enough_points_in_ball(pts_in_ball):
+                return points_in_ball
+
+            self._expand_radius(dist, pts_in_ball)
+
+    def _guess_initial_suitable_radius(self, pts):
+        self._n_pts = pts.shape[0]
+        self._area = ConvexHull(pts).volume
+        self._radius = np.sqrt(self._avg * self._area / (np.pi * self._n_pts))
+
+    def _enough_points_in_ball(self, pts_in_ball):
+        return self._min_pts <= len(pts_in_ball[pts_in_ball])
+
+    def _expand_radius(self, dist, pts_in_ball):
+        dist_of_not_included_pts = dist[~pts_in_ball]
+        self._radius = np.min(dist_of_not_included_pts)
 
 
 class Ellipsoid(Neighbourhood):
@@ -238,10 +242,12 @@ class Ellipsoid(Neighbourhood):
         Defaults to 0.05
 
 
-    Raises a NeighbourhoodInitializationException
+    Raises
+    ------
+    NeighbourhoodInitializationException
 
-    - if radius is nonpositive
-    - if lin_trans is not a (2,2)-array or is not invertible
+        - If radius is nonpositive
+        - If lin_trans is not a (2,2)-array or is not invertible
     """
 
     def __init__(
@@ -270,10 +276,7 @@ class Ellipsoid(Neighbourhood):
                 "`radius` is not positive"
             )
 
-        # invert lin_trans in initialization to later
-        # transform ellipsoid to a ball
         self._T = np.linalg.inv(lin_trans)
-
         self._norm = norm
         self._radius = radius
 
@@ -299,10 +302,12 @@ class Ellipsoid(Neighbourhood):
         """
         pts = np.asarray(pts)
 
-        # transform the ellipsoid to a ball
-        pts = (self._T @ pts.T).T
+        pts = self._transform_ellipsoid_to_ball(pts)
 
         return self._norm(pts) <= self._radius
+
+    def _transform_ellipsoid_to_ball(self, pts):
+        return (self._T @ pts.T).T
 
 
 class Cuboid(Neighbourhood):
@@ -378,7 +383,10 @@ class Polytope(Neighbourhood):
         If nothing is passed, it will default to (0.05,...,0.05)
 
 
-    Raises a NeighbourhoodException if mat and b are not of matching shape
+    Raises
+    ------
+    NeighbourhoodException
+        If mat and b are not of matching shape
 
 
     Warning

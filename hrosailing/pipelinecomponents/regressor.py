@@ -8,8 +8,6 @@ Subclasses of Regressor can be used with the CurveExtension class
 in the hrosailing.pipeline module
 """
 
-# Author: Valentin Dannenberg
-
 
 import inspect
 import logging.handlers
@@ -20,25 +18,16 @@ import numpy as np
 from scipy.odr.odrpack import ODR, Data, Model
 from scipy.optimize import curve_fit
 
-import hrosailing._logfolder as log
-
 logging.basicConfig(
     format="%(asctime)s %(levelname)s: %(message)s",
     level=logging.INFO,
     handlers=[
         logging.handlers.TimedRotatingFileHandler(
-            log.log_folder + "/pipeline.log", when="midnight"
+            "hrosailing.log", when="midnight"
         )
     ],
 )
 logger = logging.getLogger(__name__)
-del log
-
-
-class RegressorException(Exception):
-    """Custom exception for errors that may appear whilst
-    working with the Regressor class and subclasses
-    """
 
 
 class Regressor(ABC):
@@ -126,7 +115,7 @@ class ODRegressor(Regressor):
         """Returns a read-only version of self._popt"""
         return self._popt
 
-    def fit(self, data):
+    def fit(self, data, _enable_logging=False):
         """Fits the model function to the given data, ie calculates
         the optimal parameters to minimize an objective
         function based on the data, see also
@@ -152,9 +141,10 @@ class ODRegressor(Regressor):
 
         self._popt = out.beta
 
-        logger.info(f"Modelfunction: {self._func}")
-        logger.info(f"Optimal parameters: {self._popt}")
+        if _enable_logging:
+            self._log_outcome_of_regression(out, y)
 
+    def _log_outcome_of_regression(self, out, y):
         indep_vars = len(self._popt)
         dof = y.shape[0] - indep_vars
         chi_squared = np.sum(np.square(out.eps))
@@ -162,7 +152,6 @@ class ODRegressor(Regressor):
         sse = np.sum(np.square(y - mean))
         ssr = out.sum_square
         sst = ssr + sse
-
         logger.info(f"Sum of squared residuals: {ssr}")
         logger.info(f"Explained sum of squared residuals: {sse}")
         logger.info(f"Total sum of squared residuals: {sst}")
@@ -238,14 +227,12 @@ class LeastSquareRegressor(Regressor):
         """Returns a read-only version of self._popt"""
         return self._popt
 
-    def fit(self, data):
-        # pylint: disable=line-too-long
+    def fit(self, data, _enable_logging=False):
         """Fits the model function to the given data, ie calculates
         the optimal parameters to minimize the sum of the squares of
         the residuals, see also
-        [curve_fit](
-        https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html
-        )
+        [curve_fit](https://docs.scipy.org/doc/scipy/reference/generated/\
+        scipy.optimize.curve_fit.html)
 
         Parameters
         ----------
@@ -254,16 +241,21 @@ class LeastSquareRegressor(Regressor):
             a sequence of points consisting of wind speed, wind angle
             and boat speed
         """
-        # pylint: enable=line-too-long
         X, y = data[:, :2], data[:, 2]
 
-        self._popt, _ = curve_fit(
+        self._popt = self._get_optimal_parameters(X, y)
+
+        if _enable_logging:
+            self._log_outcome_of_regression(X, y)
+
+    def _get_optimal_parameters(self, X, y):
+        optimal_parameters, _ = curve_fit(
             self._fitting_func, X, y, p0=self._init_vals, sigma=self._weights
         )
 
-        logger.info(f"Model-function: {self._func}")
-        logger.info(f"Optimal parameters: {self._popt}")
+        return optimal_parameters
 
+    def _log_outcome_of_regression(self, X, y):
         sr = np.square(self._func(X[:, 0], X[:, 1], *self._popt) - y)
         ssr = np.sum(sr)
         mean = np.mean(y)
@@ -273,6 +265,8 @@ class LeastSquareRegressor(Regressor):
         dof = y.shape[0] - indep_vars - 1
         chi_squared = np.sum(sr / y)
 
+        logger.info(f"Model-function: {self._func}")
+        logger.info(f"Optimal parameters: {self._popt}")
         logger.info(f"Max squared error: {np.max(sr)}")
         logger.info(f"Min squared error: {np.min(sr)}")
         logger.info(f"Sum of squared residuals: {ssr}")

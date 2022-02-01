@@ -1,4 +1,5 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 [![linter](https://github.com/hrosailing/hrosailing/actions/workflows/linting.yml/badge.svg)](https://github.com/hrosailing/hrosailing/actions/workflows/linting.yml)
 [![tester](https://github.com/hrosailing/hrosailing/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/hrosailing/hrosailing/actions/workflows/build-and-test.yml)
 [![CodeFactor](https://www.codefactor.io/repository/github/hrosailing/hrosailing/badge)](https://www.codefactor.io/repository/github/hrosailing/hrosailing)
@@ -18,8 +19,7 @@ You can find the documentation [here](https://hrosailing.github.io/hrosailing/ "
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
 
 The `hrosailing` module might also be compatible (in large) with earlier versions of Python (`3.5`, `3.6`), together with some earlier
-version of some of the used packages, namely `numpy`, `scipy`, and `matplotlib`, aswell as Python `3.10`, but since it was released 
-recently, we can't guarantee that.
+version of some of the used packages, namely `numpy`, `scipy`, and `matplotlib`.
 
 
 ### Installation
@@ -35,6 +35,7 @@ The recommended way to install `hrosailing` is with
 ### License 
 
 The `hrosailing` module is published under the [Apache 2.0 License](https://choosealicense.com/licenses/apache-2.0/), see also [License](LICENSE)
+
 
 ### Examples
 
@@ -284,3 +285,9 @@ plt.show()
 ```
 
 ![icochrone_net](https://user-images.githubusercontent.com/70914876/146554921-befa7bfe-b88f-4c55-93da-8b40aa65f29e.png)
+=======
+
+### TODO
+
+[Todo](TODO.md)
+

@@ -8,7 +8,6 @@ Subclasses of Sampler can be used with the PointcloudExtension class
 in the hrosailing.pipeline module
 """
 
-# Author: Valentin Dannenberg & Robert Schüler
 
 from abc import ABC, abstractmethod
 
@@ -48,8 +47,10 @@ class UniformRandomSampler(Sampler):
     n_samples : positive int
         Amount of samples that will be produced by the sampler
 
-
-    Raises SamplerInitializationException if n_samples is nonpositive
+    Raises
+    ------
+    SamplerInitializationException
+        If n_samples is nonpositive
     """
 
     def __init__(self, n_samples):
@@ -112,8 +113,10 @@ class FibonacciSampler(Sampler):
     n_samples : positive int
         Amount of samples that will be produced by the sampler
 
-
-    Raises SamplerInitializationException if n_samples is nonpositive
+    Raises
+    ------
+    SamplerInitializationException
+        If n_samples is nonpositive
     """
 
     def __init__(self, n_samples):
@@ -177,8 +180,10 @@ class ArchimedianSampler(Sampler):
     n_samples : positive int
         Amount of samples that will be produced by the sampler
 
-
-    Raises SamplerInitializationException if n_samples is nonpositive
+    Raises
+    ------
+    SamplerInitializationException
+        If n_samples is nonpositive
     """
 
     def __init__(self, n_samples):
@@ -226,6 +231,7 @@ class ArchimedianSampler(Sampler):
 
 
 def _binary_rescale(n_samples, generate_sample, start_value):
+    """"""
     # performs binary search to create a sample
     # of size n_samples by calling generate_sample(t),
     # where t is the parameter modified
@@ -249,6 +255,7 @@ def _binary_rescale(n_samples, generate_sample, start_value):
 
 
 def _sample_generator(base_set, midpoint, ineqs):
+    """"""
     # creates a function which generates samples as a scaled base_set
     # translated in midpoint and forfilling the
     # inequalities ineqs
@@ -261,6 +268,7 @@ def _sample_generator(base_set, midpoint, ineqs):
 
 
 def _make_circle(pts, eps=0.0001):
+    """"""
     pts = pts.copy()
     np.random.shuffle(pts)
     k = []  # list of necessary boundary points
@@ -292,11 +300,13 @@ def _make_circle(pts, eps=0.0001):
 
 
 def _is_in_circle(p, circle, eps):
+    """"""
     mp, r = circle
     return np.linalg.norm(p - mp) < r + eps
 
 
 def _small_circle(pts):
+    """"""
     if len(pts) == 0:
         return np.zeros((2,)), 0
     if len(pts) == 1:
@@ -312,5 +322,5 @@ def _small_circle(pts):
         circle_b = np.array([-np.linalg.norm(p) ** 2 for p in pts])
         # TODO: handling for degenerate case
         a, b, c = np.linalg.inv(circle_m) @ circle_b
-        return np.array([b / 2, c / 2]), np.sqrt(b ** 2 / 4 + c ** 2 / 4 - a)
+        return np.array([b / 2, c / 2]), np.sqrt(b**2 / 4 + c**2 / 4 - a)
     raise ValueError(f"len(k) should be <= 3 but k = {pts}")
