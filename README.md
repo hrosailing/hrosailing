@@ -8,8 +8,8 @@
     <img src="https://raw.githubusercontent.com/hrosailing/hrosailing/main/logo.png" width=300px height=300px alt="hrosailing">
 </p>
 
-hrosailing - Sailing made in Rostock
-====================================
+hrosailing 
+==========
 
 You can find the documentation [here](https://hrosailing.github.io/hrosailing/ "hrosailing").
 
@@ -18,7 +18,7 @@ You can find the documentation [here](https://hrosailing.github.io/hrosailing/ "
 [![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/)
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
 
-The `hrosailing` module might also be compatible (in large) with earlier versions of Python (`3.5`, `3.6`), together with some earlier
+The `hrosailing` package might also be compatible (in large) with earlier versions of Python (`3.5`, `3.6`), together with some earlier
 version of some of the used packages, namely `numpy`, `scipy`, and `matplotlib`.
 
 
@@ -34,7 +34,7 @@ The recommended way to install `hrosailing` is with
 
 ### License 
 
-The `hrosailing` module is published under the [Apache 2.0 License](https://choosealicense.com/licenses/apache-2.0/), see also [License](LICENSE)
+The `hrosailing` package is published under the [Apache 2.0 License](https://choosealicense.com/licenses/apache-2.0/), see also [License](LICENSE)
 
 
 ### Examples
