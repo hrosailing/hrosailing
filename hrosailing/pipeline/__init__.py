@@ -422,7 +422,7 @@ class PointcloudExtension(PipelineExtension):
             self.interpolator,
         )
 
-        return pol.PolarDiagramPointcloud(interpolarted_points)
+        return pol.PolarDiagramPointcloud(interpolated_points)
 
 
 class InterpolationWarning(Warning):
@@ -434,34 +434,35 @@ class InterpolationWarning(Warning):
 def _interpolate_points(
     interpolating_points, weighted_points, neighbourhood, interpolator
 ):
-    interpolated_points = []
-    warning_flag = True
-
-    for point in interpolating_points:
-        considered_points = neighbourhood.is_contained_in(
-            weighted_points.points[:, :2] - point
-        )
-
-        if _neighbourhood_too_small(considered_points):
-            interpolated_points.append(0)
-            if warning_flag:
-                warnings.warn(
-                    "Neighbourhood possibly to `small`, or"
-                    "chosen resolution not fitting for data. "
-                    "Interpolation will not lead to complete results",
-                    category=InterpolationWarning,
-                )
-
-                # Only warn once
-                warning_flag = False
-
-        interpolated_bsp = interpolator.interpolate(
-            weighted_points[considered_points], point
-        )
-        interpolated_point = np.concatenate([point, interpolated_bsp])
-        interpolated_points.append(interpolated_point)
+    interpolated_points = [
+            _interpolate_point(
+                point, weighted_points, neighbourhood, interpolator
+            )
+            for point in interpolating_points
+    ]
 
     return np.array(interpolated_points)
+
+
+def _interpolate_point(point, weighted_points, neighbourhood, interpolator):
+    considered = neighbourhood.is_contained_in(
+        weighted_points.points[:, :2] - point
+    )
+
+    if _neighbourhood_too_small(considered):
+        warnings.warn(
+            "Neighbourhood possibly to `small`, or"
+            "chosen resolution not fitting for data. "
+            "Interpolation will not lead to complete results",
+            category=InterpolationWarning,
+        )
+        return np.concatenate([point, 0])
+
+    interpolated_value = interpolator.interpolate(
+        weighted_points[considered], point
+    )
+
+    return np.concatenate([point, interpolated_value])
 
 
 def _neighbourhood_too_small(considered_points):
