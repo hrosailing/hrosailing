@@ -41,6 +41,8 @@ The `hrosailing` module is published under the [Apache 2.0 License](https://choo
 In the following we showcase via multiple examples some of the capabilities of the hrosailing module.
 To avoid redundancies, all definitions of an example code might be used in the succeeding examples.
 
+#### Loading and saving polar diagrams
+
 For a first example, we download some table with performance diagram data available [here](https://www.seapilot.com/wp-content/uploads/2018/05/60ftmono.txt) and save it as testdata.csv.
 This data is given in a tab seperated format which is supported by the keyword ```fmt=array``` of the ```from_csv``` method.
 Since this data is only defined for wind angles between 0° and 180° we use the symmetrize function to obtain a symmetric polar diagram with wind angles between 0° and 360°.
@@ -50,19 +52,14 @@ import hrosailing.polardiagram as pol
 pd = pol.from_csv("testdata.csv", fmt="array").symmetrize()
 ```
 
-We can save and load polar diagrams with pickle or as csv files:
+We can save and load polar diagrams as csv files:
 
 ```python
-import pickle
-
-pd.pickling("polar_diagram.pkl")
-
-with open("polar_diagram.pkl", "rb") as file:
-    pd2 = pickle.load(file)
-
 pd.to_csv("polar_diagram.csv")
 pd3 = pol.from_csv("polar_diagram.csv")
 ```
+
+#### Plotting polar diagrams
 
 We can use the supported plot functions to get visualizations of the polar diagram.
 
@@ -94,6 +91,8 @@ Results in:
 
 ![3d_plot](https://user-images.githubusercontent.com/70914876/146153719-826e8c93-09ab-4387-b13c-e942139fcce6.png)
 
+#### Iterate over polar diagram data
+
 We can also directly iterate and/or evaluate the wind_angles, wind_speeds and boat_speeds of the polar diagram.
 For example to artificially create random measurements.
 
@@ -118,6 +117,8 @@ data = data[np.random.choice(len(data), size=500)]
 ```
 
 In the following we treat ```data``` like some real life measurement data and try to obtain polar diagrams of different types from it.
+
+#### Creating polar diagrams from data
 
 ```python
 import hrosailing.pipeline as pipe
@@ -153,6 +154,9 @@ This results in the following diagram, displaying the different polar diagrams d
 ![pipeline_plots](https://user-images.githubusercontent.com/70914876/146170918-66224c66-05c4-49db-a1a5-ddfc2a13b9f1.png)
 
 If we are unhappy with the default behaviour of the pipelines, we can customize one or more components of it.
+
+#### Customizing the polar pipeline
+
 In the following example we change many components to showcase the supported modularity:
 
 ```python
@@ -214,6 +218,8 @@ plt.show()
 
 We clearly need more sophisticated approaches for good results.
 
+#### Use influence and weather models
+
 For the next example we initialize a simple influence model and a random weather model.
 
 ```python
@@ -247,6 +253,8 @@ wm = cruise.WeatherModel(
     attrs=["UGRID", "VGRID"]
 )
 ```
+
+#### Compute Isochrones
 
 Let's use these models to calculate and plot an isochrone net:
 
