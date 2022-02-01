@@ -1,19 +1,19 @@
 URLS=[
 "hrosailing/index.html",
-"hrosailing/cruising/index.html",
+"hrosailing/polardiagram/index.html",
 "hrosailing/pipeline/index.html",
 "hrosailing/pipelinecomponents/index.html",
 "hrosailing/pipelinecomponents/modelfunctions/index.html",
-"hrosailing/pipelinecomponents/influencemodel.html",
-"hrosailing/pipelinecomponents/interpolator.html",
-"hrosailing/pipelinecomponents/sampler.html",
-"hrosailing/pipelinecomponents/neighbourhood.html",
 "hrosailing/pipelinecomponents/regressor.html",
-"hrosailing/pipelinecomponents/datahandler.html",
+"hrosailing/pipelinecomponents/interpolator.html",
 "hrosailing/pipelinecomponents/filter.html",
+"hrosailing/pipelinecomponents/influencemodel.html",
 "hrosailing/pipelinecomponents/weigher.html",
-"hrosailing/polardiagram/index.html",
-"hrosailing/wind.html"
+"hrosailing/pipelinecomponents/neighbourhood.html",
+"hrosailing/pipelinecomponents/datahandler.html",
+"hrosailing/pipelinecomponents/sampler.html",
+"hrosailing/wind.html",
+"hrosailing/cruising/index.html"
 ];
 INDEX=[
 {
@@ -22,68 +22,19 @@ INDEX=[
 "doc":"The Python package hrosailing provides classes and functions   polar diagrams   sailing   from data  . pipeline  . machine learning  . modular   Installation       hrosailing can be installed using  pip install hrosailing . It requires Python  ., aswell as numpy  ., matplotlib  . and scipy  . to run. Getting Started        - Contributing       License    - Authors    - Valentin Dannenberg (valentin.dannenberg2@uni-rostock.de) Robert Schueler (robert.schueler2@uni-rostock.de)"
 },
 {
-"ref":"hrosailing.cruising",
+"ref":"hrosailing.polardiagram",
 "url":1,
-"doc":"Functions for navigation and weather routing using PPDs"
+"doc":"PolarDiagram classes to work with and represent PPDs in various forms"
 },
 {
-"ref":"hrosailing.cruising.Direction",
+"ref":"hrosailing.polardiagram.FileReadingException",
 "url":1,
-"doc":"Dataclass to represent sections of a sailing maneuver"
+"doc":"Exception raised if non-oserror error occurs, when reading a file"
 },
 {
-"ref":"hrosailing.cruising.Direction.angle",
+"ref":"hrosailing.polardiagram.from_csv",
 "url":1,
-"doc":""
-},
-{
-"ref":"hrosailing.cruising.Direction.proportion",
-"url":1,
-"doc":""
-},
-{
-"ref":"hrosailing.cruising.Direction.sail",
-"url":1,
-"doc":""
-},
-{
-"ref":"hrosailing.cruising.convex_direction",
-"url":1,
-"doc":"Given a direction, computes the \"fastest\" way to sail in that direction, assuming constant wind speed  ws If sailing straight into direction is the fastest way, function returns that direction. Otherwise function returns two directions aswell as their proportions, such that sailing into one direction for a corresponding proportion of a time segment and then into the other direction for a corresponding proportion of a time segment will be equal to sailing into  direction but faster. Parameters      pd : PolarDiagram The polar diagram of the vessel ws : int / float The current wind speed given in knots direction : int / float Angle to the wind direction im : InfluenceModel, optional The influence model used to consider additional influences on the boat speed Defaults to  None influence_data: dict, optional Data containing information that might influence the boat speed of the vessel (eg. current, wave height), to be passed to the used influence model Only used, if  im is not  None Defaults to  None Returns    - edge : list of Directions Either just one Direction instance, if sailing into  direction is the optimal way, or two Direction instances, that will \"equal\" to  direction ",
-"func":1
-},
-{
-"ref":"hrosailing.cruising.cruise",
-"url":1,
-"doc":"Given a starting point A and and end point B,the function calculates the fastest time and sailing direction it takes for a sailing vessel to reach B from A, under constant wind. If needed the function will calculate two directions as well as the time needed to sail in each direction to get to B. Parameters      pd : PolarDiagram The polar diagram of the vessel ws : int or float The current wind speed given in knots wdir : float between 0 and 360 or tuple The direction of the wind given as either - the wind angle relative to north - the true wind angle and the boat direction relative to north - a (ugrd, vgrd) tuple from grib data start : tuple of length 2 Coordinates of the starting point of the cruising maneuver, given in longitude and latitude end : tuple of length 2 Coordinates of the end point of the cruising maneuver, given in longitude and latitude im : InfluenceModel, optional The influence model used to consider additional influences on the boat speed Defaults to  None influence_data: dict, optional Data containing information that might influence the boat speed of the vessel (eg. current, wave height), to be passed to the used influence model Only used, if  im is not  None Defaults to  None Returns    - directions : list of tuples Directions as well as the time needed to sail along those, to get from start to end",
-"func":1
-},
-{
-"ref":"hrosailing.cruising.OutsideGridException",
-"url":1,
-"doc":"Exception raised if point accessed in weather model lies outside the available grid"
-},
-{
-"ref":"hrosailing.cruising.WeatherModel",
-"url":1,
-"doc":"Models a weather model as a 3-dimensional space-time grid where each space-time point has certain values of a given list of attributes Parameters      data : array_like of shape (n, m, r, s) Weather data at different space-time grid points times : list of length n Sorted list of time values of the space-time grid lats : list of length m Sorted list of lattitude values of the space-time grid lons : list of length r Sorted list of longitude values of the space-time grid attrs : list of length s List of different (scalar) attributes of weather"
-},
-{
-"ref":"hrosailing.cruising.WeatherModel.get_weather",
-"url":1,
-"doc":"Given a space-time point, uses the available weather model to calculate the weather at that point If the point is not a grid point, the weather data will be affinely interpolated, starting with the time-component, using the (at most) 8 grid points that span the vertices of a cube, which contains the given point Parameters      point: tuple of length 3 Space-time point given as tuple of time, lattitude and longitude Returns    - weather : dict The weather data at the given point. If it is a grid point, the weather data is taken straight from the model, else it is interpolated as described above",
-"func":1
-},
-{
-"ref":"hrosailing.cruising.cost_cruise",
-"url":1,
-"doc":"Computes the total cost for traveling from a start position to an end position. To be precise, it calculates for a given cost density function cost and absolute function abs_cost int_0^l cost(s, t(s ds + abs_cost(t(l), l), where s is the distance travelled, l is the total distance from start to end and t(s) is the time travelled. t(s) is the solution of the initial value problem t(0) = 0, dt/ds = 1/bsp(s,t). The costs also depend on the weather forecast data, organized by a WeatherModel, distances are computed using the mercator projection Parameters      pd : PolarDiagram Polar diagram of the vessel start : tuple of two floats Coordinates of the starting point end : tuple of two floats Coordinates of the end point start_time : datetime.datetime The time at which the traveling starts wm : WeatherModel, optional The WeatherModel used cost_fun_dens : callable, optional Function giving a cost density for given time as datetime.datetime, lattitude as float, longitude as float and WeatherModel cost_fun_dens(t,lat,long,wm) corresponds to costs(s,t) above Defaults to  None cost_fun_abs : callable, optional Corresponds to  abs_costs Defaults to  lambda total_t, total_s: total_t integration_method : callable, optional Function that takes two (n,) arrays y, x and computes an approximative integral from that. Is only used if  cost_fun_dens is not None Defaults to  scipy.integrate.trapezoid im : InfluenceModel, optional The influence model used to consider additional influences on the boat speed Defaults to  None ivp_kw : Keyword arguments which will be passed to scipy.integrate.solve_ivp in order to solve the initial value problem described above Returns    - cost : float The total cost calculated as described above",
-"func":1
-},
-{
-"ref":"hrosailing.cruising.isocrone",
-"url":1,
-"doc":"Estimates the maximum distance that can be reached from a given start point in a given amount of time without tacks and jibes. This is done by sampling the position space and using mercator projection. A weather forecast, organized by a WeatherModel and an InfluenceModel are included in the computation. Parameters      pd : PolarDiagram The polar diagram of the used vessel start : 2-tuple of floats The lattitude and longitude of the starting point start_time : datetime.datetime The time at which the traveling starts direction : float The angle between North and the direction in which we aim to travel. wm : WeatherModel, optional The weather model used. total_time : float The time in hours that the vessel is supposed to travel in the given direction. min_nodes : int, optional The minimum amount of sample points to sample the position space. Defaults to 100. im : InfluenceModel, optional The influence model used. Defaults to  . Returns    - end : 2-tuple of floats Lattitude and Longitude of the position that is reached when traveling total_time hours in the given direction s : float The length of the way traveled from start to end",
+"doc":"Reads a .csv file and returns the PolarDiagram instance contained in it Parameters      csv_path : path-like Path to a .csv file fmt : str The format of the .csv file. -  hro : format created by the to_csv-method of the PolarDiagram class -  orc : format found at [ORC](https: jieter.github.io/orc-data/site/) -  opencpn : format created by the [OpenCPN Polar Plugin](https: opencpn.org/OpenCPN/plugins/polar.html) -  array : tab-seperated polar diagram in form of a table, also see the example files for a better look at the format Returns    - out : PolarDiagram PolarDiagram instance contained in the .csv file Raises    FileReadingException - If an unknown format was specified - If, in the format  hro , the first row does not match any PolarDiagram subclass OSError If file does not exist or no read permision for that file is given. Examples     (For the following and more files also see [examples](https: github.com/hrosailing/hrosailing/tree/main/examples >>> from hrosailing.polardiagram import from_csv >>> pd = from_csv(\"table_hro_format_example.csv\", fmt=\"hro\") >>> print(pd) TWA / TWS 6.0 8.0 10.0 12.0 14.0 16.0 20.0      -   -   -                52.0 3.74 4.48 4.96 5.27 5.47 5.66 5.81 60.0 3.98 4.73 5.18 5.44 5.67 5.94 6.17 75.0 4.16 4.93 5.35 5.66 5.95 6.27 6.86 90.0 4.35 5.19 5.64 6.09 6.49 6.70 7.35 110.0 4.39 5.22 5.68 6.19 6.79 7.48 8.76 120.0 4.23 5.11 5.58 6.06 6.62 7.32 9.74 135.0 3.72 4.64 5.33 5.74 6.22 6.77 8.34 150.0 3.21 4.10 4.87 5.40 5.78 6.22 7.32",
 "func":1
 },
 {
@@ -204,25 +155,71 @@ INDEX=[
 "func":1
 },
 {
-"ref":"hrosailing.pipelinecomponents.influencemodel",
+"ref":"hrosailing.pipelinecomponents.regressor",
 "url":5,
-"doc":"Classes used for Defines the InfluenceModel Abstract Base Class that can be used to create custom Subclasses of InfluenceModel can be used with - the PolarPipeline class in the hrosailing.pipeline module - various functions in the hrosailing.cruising module"
+"doc":"Classes used for modular modeling of different regression methods Defines the Regressor Abstract Base Class that can be used to create custom regression methods Subclasses of Regressor can be used with the CurveExtension class in the hrosailing.pipeline module"
 },
 {
-"ref":"hrosailing.pipelinecomponents.influencemodel.InfluenceModel",
+"ref":"hrosailing.pipelinecomponents.regressor.Regressor",
 "url":5,
-"doc":"Base class for all InfluenceModel classes Abstract Methods         remove_influence(data) add_influence(pd, influence_data)"
+"doc":"Base class for all regressor classes Abstract Methods         model_func optimal_params set_weights(self, X_weights, y_weights) fit(self, data)"
 },
 {
-"ref":"hrosailing.pipelinecomponents.influencemodel.InfluenceModel.remove_influence",
+"ref":"hrosailing.pipelinecomponents.regressor.Regressor.model_func",
 "url":5,
-"doc":"This method should be used, given a dictionary containing lists of diffrent data at points in time, to get a nx3 array_like output where the columns correspond to wind speed, wind angle and boat speed respectively. The dictionary should contain atleast keys for Wind speed, Wind angle and either Speed over ground, Speed over water or Boat speed",
+"doc":"This property should return a version of the in the regression used model function"
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.Regressor.optimal_params",
+"url":5,
+"doc":"This property should return a version of the through regression determined optimal parameters of the model function"
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.Regressor.fit",
+"url":5,
+"doc":"This method should, given data, be used to determine optimal parameters for the model function",
 "func":1
 },
 {
-"ref":"hrosailing.pipelinecomponents.influencemodel.InfluenceModel.add_influence",
+"ref":"hrosailing.pipelinecomponents.regressor.ODRegressor",
 "url":5,
-"doc":"This method should be used, given a polar diagram and a dictionary, to obtain a modified boat speed of that given in the polar diagram, based on the influencences presented in the given dictionary, such as wave height, underlying currents etc.",
+"doc":"An orthogonal distance regressor based on scipy.odr.odrpack Parameters      model_func : function The function which describes the model and is to be fitted. The function signature should be f(ws, wa,  params) -> bsp, where ws and wa are numpy.ndarrays resp. and params is a sequence of parameters that will be fitted init_values : array_like, optional Inital guesses for the optimal parameters of model_func that are passed to the scipy.odr.ODR class Defaults to None max_it : int, optional Maximum number of iterations done by scipy.odr.ODR. Defaults to 1000"
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.ODRegressor.model_func",
+"url":5,
+"doc":"Returns a read-only version of self._func"
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.ODRegressor.optimal_params",
+"url":5,
+"doc":"Returns a read-only version of self._popt"
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.ODRegressor.fit",
+"url":5,
+"doc":"Fits the model function to the given data, ie calculates the optimal parameters to minimize an objective function based on the data, see also [ODRPACK](https: docs.scipy.org/doc/external/odrpack_guide.pdf) Parameters      data : array_like of shape (n, 3) Data to which the model function will be fitted, given as a sequence of points consisting of wind speed, wind angle and boat speed",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.LeastSquareRegressor",
+"url":5,
+"doc":"A least square regressor based on scipy.optimize.curve_fit Parameters      model_func : function or callable The function which describes the model and is to be fitted. The function signature should be f(ws, wa,  params) -> bsp, where ws and wa are numpy.ndarrays resp. and params is a sequence of parameters that will be fitted init_vals : array_like ,optional Inital guesses for the optimal parameters of model_func that are passed to scipy.optimize.curve_fit Defaults to None"
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.model_func",
+"url":5,
+"doc":"Returns a read-only version of self._func"
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.optimal_params",
+"url":5,
+"doc":"Returns a read-only version of self._popt"
+},
+{
+"ref":"hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.fit",
+"url":5,
+"doc":"Fits the model function to the given data, ie calculates the optimal parameters to minimize the sum of the squares of the residuals, see also [curve_fit](https: docs.scipy.org/doc/scipy/reference/generated/ scipy.optimize.curve_fit.html) Parameters      data : array_like of shape (n, 3) Data to which the model function will be fitted, given as a sequence of points consisting of wind speed, wind angle and boat speed",
 "func":1
 },
 {
@@ -291,441 +288,444 @@ INDEX=[
 "func":1
 },
 {
-"ref":"hrosailing.pipelinecomponents.sampler",
-"url":7,
-"doc":"Classes used for modular modeling of different sampling methods Defines the Sampler Abstract Base Class that can be used to create custom sampling methods Subclasses of Sampler can be used with the PointcloudExtension class in the hrosailing.pipeline module"
-},
-{
-"ref":"hrosailing.pipelinecomponents.sampler.SamplerInitializationException",
-"url":7,
-"doc":"Exception raised if an error occurs during initialization of a Sampler"
-},
-{
-"ref":"hrosailing.pipelinecomponents.sampler.Sampler",
-"url":7,
-"doc":"Base class for all sampler classes Abstract Methods         sample(self, pts)"
-},
-{
-"ref":"hrosailing.pipelinecomponents.sampler.Sampler.sample",
-"url":7,
-"doc":"This method should be used, given certain points, to determine a constant number of sample points that lie in the convex hull of pts and are more or less representative of the trend of the given points",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.sampler.UniformRandomSampler",
-"url":7,
-"doc":"A sampler that produces a number of uniformly distributed samples, which all lie in the convex hull of certain given points Parameters      n_samples : positive int Amount of samples that will be produced by the sampler Raises    SamplerInitializationException If n_samples is nonpositive"
-},
-{
-"ref":"hrosailing.pipelinecomponents.sampler.UniformRandomSampler.sample",
-"url":7,
-"doc":"Produces samples according to the above described procedure Parameters      pts : array_like of shape (n, 2) Points in whose convex hull the produced samples will lie Returns    - samples : numpy.ndarray of shape (n_samples, 2) samples produced by the above described method",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.sampler.FibonacciSampler",
-"url":7,
-"doc":"A sampler that produces sample points on a moved and scaled version of the spiral (sqrt(x) cos(x), sqrt(x) sin(x , such that the angles are distributed equidistantly by the inverse golden ratio. The sample points all lie in the smallest enclosing circle of given data points. Inspired by \u00c1lvaro Gonzz\u00e1lez - \"Measurement of areas on a sphere using Fibonacci and latitude\u2013longitude lattices\" Parameters      n_samples : positive int Amount of samples that will be produced by the sampler Raises    SamplerInitializationException If n_samples is nonpositive"
-},
-{
-"ref":"hrosailing.pipelinecomponents.sampler.FibonacciSampler.sample",
-"url":7,
-"doc":"Produces samples according to the above described procedure Parameters      pts : array_like of shape (n, 2) Points in whose convex hull the produced samples will lie Returns    - samples : numpy.ndarray of shape (n_samples, 2) samples produced by the above described method",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.sampler.ArchimedianSampler",
-"url":7,
-"doc":"A sampler that produces a number of approximately equidistant sample points on a moved and scaled version of the archimedean spiral (x cos(x), x sin(x . The sample points all lie in the smallest enclosing circle of given data points. Inspired by https: agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2007GC001581 Parameters      n_samples : positive int Amount of samples that will be produced by the sampler Raises    SamplerInitializationException If n_samples is nonpositive"
-},
-{
-"ref":"hrosailing.pipelinecomponents.sampler.ArchimedianSampler.sample",
-"url":7,
-"doc":"Produces samples according to the above described procedure Parameters      pts : array_like of shape (n, 2) Points in whose convex hull the produced samples will lie Returns    - samples : numpy.ndarray of shape (n_samples, 2) samples produced by the above described method",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.neighbourhood",
-"url":8,
-"doc":"Classes used to model various geometric shapes centered around the origin Defines the Neighbourhood Abstract Base Class that can be used to create custom geometric shapes Subclasses of Neighbourhood can be used with the TableExtension and the PointcloudExtension class in the hrosailing.pipeline module"
-},
-{
-"ref":"hrosailing.pipelinecomponents.neighbourhood.NeighbourhoodInitializationException",
-"url":8,
-"doc":"Exception raised if an error occurs during initialization of a Neighbourhood"
-},
-{
-"ref":"hrosailing.pipelinecomponents.neighbourhood.Neighbourhood",
-"url":8,
-"doc":"Base class for all neighbourhood classes Abstract Methods         is_contained_in(self, pts)"
-},
-{
-"ref":"hrosailing.pipelinecomponents.neighbourhood.Neighbourhood.is_contained_in",
-"url":8,
-"doc":"This method should be used, given certain points, to determine which of these points lie in the neighbourhood and which do not, by producing a boolean array of the same size as pts",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.neighbourhood.Ball",
-"url":8,
-"doc":"A class to describe a closed 2-dimensional ball centered around the origin, ie { x in R^2 :  x <= r } Parameters      norm : function or callable, optional The norm for which the ball is described, ie  . If nothing is passed, it will default to a scaled version of  . _2 radius : positive int or float, optional The radius of the ball, ie r Defaults to  0.05 Raises    NeighbourhoodInitializationException If radius is nonpositive"
-},
-{
-"ref":"hrosailing.pipelinecomponents.neighbourhood.Ball.is_contained_in",
-"url":8,
-"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.neighbourhood.ScalingBall",
-"url":8,
-"doc":"A class to represent a closed 2-dimensional ball centered around the origin, ie { x in R^2 :  x <= r }, where the radius r will be dynamically determined, such that there are always a certain amount of given points contained in the ball Parameters      min_pts : positive int The minimal amount of certain given points that should be contained in the scaling ball max_pts : positive int The \"maximal\" amount of certain given points that should be contained in the scaling ball. Mostly used for initial guess of a \"good\" radius. Also to guarantee that on average, the scaling ball will contain (min_pts + max_pts) / 2 points of certain given points It is also unlikely that the scaling ball will contain more than max_pts points norm : function or callable, optional The norm for which the scaling ball is described, ie  . If nothing is passed, it will default to a scaled version of  . _2 Raises    NeighbourhoodInitializationException - If min_pts or max_pts are nonpositive - If max_pts is less than or equal to min_pts"
-},
-{
-"ref":"hrosailing.pipelinecomponents.neighbourhood.ScalingBall.is_contained_in",
-"url":8,
-"doc":"Checks given points for membership, and scales ball so that at least min_pts points are contained in it Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - points_in_ball : boolean numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.neighbourhood.Ellipsoid",
-"url":8,
-"doc":"A class to represent a closed d-dimensional ellipsoid centered around the origin, ie T(B), where T is an invertible linear transformation, and B is a closed d-dimensional ball, centered around the origin. It will be represented using the equivalent formulation: { x in R^2 :  T^-1 x <= r } Parameters      lin_trans: array_like of shape (2,2), optional The linear transformation which transforms the ball into the given ellipsoid, ie T If nothing is passed, it will default to I_2, the 2x2 unit matrix, ie the ellipsoid will be a ball norm : function or callable, optional The norm for which the ellipsoid is described, ie  . If nothing is passed, it will default to a scaled version of  . _2 radius : positive int or float, optional The radius of the ellipsoid, ie r Defaults to 0.05 Raises    NeighbourhoodInitializationException - If radius is nonpositive - If lin_trans is not a (2,2)-array or is not invertible"
-},
-{
-"ref":"hrosailing.pipelinecomponents.neighbourhood.Ellipsoid.is_contained_in",
-"url":8,
-"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.neighbourhood.Cuboid",
-"url":8,
-"doc":"A class to represent a d-dimensional closed cuboid, ie { x in R^2 : |x_i| <= b_i, i=1,2 } Parameters      norm : function or callable, optional The 1-d norm used to measure the length of the x_i, ie |.| If nothing is passed, it will default to the absolute value |.| dimensions: subscriptable of length 2, optional The 'length' of the 'sides' of the cuboid, ie the b_i If nothing is passed, it will default to (0.05, 0.05)"
-},
-{
-"ref":"hrosailing.pipelinecomponents.neighbourhood.Cuboid.is_contained_in",
-"url":8,
-"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.neighbourhood.Polytope",
-"url":8,
-"doc":"A class to represent a general 2-dimensional polytope, ie the convex hull P = conv(x_1,  ., x_n) of some n points x_1 , ., x_n or equivalent as the (bounded) intersection of m half spaces P = { x in R^2 : Ax <= b } Parameters      mat: array_like of shape (m, 2), optional matrix to represent the normal vectors a_i of the half spaces, ie A = (a_1,  . , a_m)^t If nothing is passed, it will default to (I_2, -I_2)^t, where I_d is the d-dimensional unit matrix b: array_like of shape (m, ), optional vector to represent the  . b_i of the half spaces, ie b = (b_1,  . , b_m)^t If nothing is passed, it will default to (0.05, .,0.05) Raises    NeighbourhoodException If mat and b are not of matching shape Warning    - Does not check wether the polytope given by mat and b is a polytope, ie if P is actually bounded"
-},
-{
-"ref":"hrosailing.pipelinecomponents.neighbourhood.Polytope.is_contained_in",
-"url":8,
-"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.regressor",
-"url":9,
-"doc":"Classes used for modular modeling of different regression methods Defines the Regressor Abstract Base Class that can be used to create custom regression methods Subclasses of Regressor can be used with the CurveExtension class in the hrosailing.pipeline module"
-},
-{
-"ref":"hrosailing.pipelinecomponents.regressor.Regressor",
-"url":9,
-"doc":"Base class for all regressor classes Abstract Methods         model_func optimal_params set_weights(self, X_weights, y_weights) fit(self, data)"
-},
-{
-"ref":"hrosailing.pipelinecomponents.regressor.Regressor.model_func",
-"url":9,
-"doc":"This property should return a version of the in the regression used model function"
-},
-{
-"ref":"hrosailing.pipelinecomponents.regressor.Regressor.optimal_params",
-"url":9,
-"doc":"This property should return a version of the through regression determined optimal parameters of the model function"
-},
-{
-"ref":"hrosailing.pipelinecomponents.regressor.Regressor.fit",
-"url":9,
-"doc":"This method should, given data, be used to determine optimal parameters for the model function",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.regressor.ODRegressor",
-"url":9,
-"doc":"An orthogonal distance regressor based on scipy.odr.odrpack Parameters      model_func : function The function which describes the model and is to be fitted. The function signature should be f(ws, wa,  params) -> bsp, where ws and wa are numpy.ndarrays resp. and params is a sequence of parameters that will be fitted init_values : array_like, optional Inital guesses for the optimal parameters of model_func that are passed to the scipy.odr.ODR class Defaults to None max_it : int, optional Maximum number of iterations done by scipy.odr.ODR. Defaults to 1000"
-},
-{
-"ref":"hrosailing.pipelinecomponents.regressor.ODRegressor.model_func",
-"url":9,
-"doc":"Returns a read-only version of self._func"
-},
-{
-"ref":"hrosailing.pipelinecomponents.regressor.ODRegressor.optimal_params",
-"url":9,
-"doc":"Returns a read-only version of self._popt"
-},
-{
-"ref":"hrosailing.pipelinecomponents.regressor.ODRegressor.fit",
-"url":9,
-"doc":"Fits the model function to the given data, ie calculates the optimal parameters to minimize an objective function based on the data, see also [ODRPACK](https: docs.scipy.org/doc/external/odrpack_guide.pdf) Parameters      data : array_like of shape (n, 3) Data to which the model function will be fitted, given as a sequence of points consisting of wind speed, wind angle and boat speed",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.regressor.LeastSquareRegressor",
-"url":9,
-"doc":"A least square regressor based on scipy.optimize.curve_fit Parameters      model_func : function or callable The function which describes the model and is to be fitted. The function signature should be f(ws, wa,  params) -> bsp, where ws and wa are numpy.ndarrays resp. and params is a sequence of parameters that will be fitted init_vals : array_like ,optional Inital guesses for the optimal parameters of model_func that are passed to scipy.optimize.curve_fit Defaults to None"
-},
-{
-"ref":"hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.model_func",
-"url":9,
-"doc":"Returns a read-only version of self._func"
-},
-{
-"ref":"hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.optimal_params",
-"url":9,
-"doc":"Returns a read-only version of self._popt"
-},
-{
-"ref":"hrosailing.pipelinecomponents.regressor.LeastSquareRegressor.fit",
-"url":9,
-"doc":"Fits the model function to the given data, ie calculates the optimal parameters to minimize the sum of the squares of the residuals, see also [curve_fit](https: docs.scipy.org/doc/scipy/reference/generated/ scipy.optimize.curve_fit.html) Parameters      data : array_like of shape (n, 3) Data to which the model function will be fitted, given as a sequence of points consisting of wind speed, wind angle and boat speed",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.datahandler",
-"url":10,
-"doc":"Classes used to Defines the DataHandler Abstract Base Class that can be used to create custom Subclasses of DataHandler can be used with the PolarPipeline class in the hrosailing.pipeline module"
-},
-{
-"ref":"hrosailing.pipelinecomponents.datahandler.HandlerInitializationException",
-"url":10,
-"doc":"Exception raised if an error occurs during initialization of a DataHandler"
-},
-{
-"ref":"hrosailing.pipelinecomponents.datahandler.HandleException",
-"url":10,
-"doc":"Exception raised if an error occurs during calling of the .handle() method"
-},
-{
-"ref":"hrosailing.pipelinecomponents.datahandler.DataHandler",
-"url":10,
-"doc":"Base class for all datahandler classes Abstract Methods         handle(self, data)"
-},
-{
-"ref":"hrosailing.pipelinecomponents.datahandler.DataHandler.handle",
-"url":10,
-"doc":"This method should be used, given some data in a format that is dependent on the handler, to output a dictionary containing the given data, where the values should be lists. The dictionary should atleast contain the following keys: 'Wind speed', 'Wind angle' and one of 'Speed over ground knots', 'Water speed knots' or 'Boat speed' The names of the keys in the dictionary should also be compatible with the keys that a possible InfluenceModel instance might use",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.datahandler.ArrayHandler",
-"url":10,
-"doc":"A data handler to convert data given as an array-type to a dictionary"
-},
-{
-"ref":"hrosailing.pipelinecomponents.datahandler.ArrayHandler.pand",
-"url":10,
-"doc":""
-},
-{
-"ref":"hrosailing.pipelinecomponents.datahandler.ArrayHandler.pd",
-"url":10,
-"doc":""
-},
-{
-"ref":"hrosailing.pipelinecomponents.datahandler.ArrayHandler.handle",
-"url":10,
-"doc":"Extracts data from array-types of data Parameters      data: pandas.DataFrame or tuple of array_like and ordered iterable Data contained in a pandas.DataFrame or in an array_like. Returns    - data_dict: dict If data is a pandas.DataFrame, data_dict is the output of the DataFrame.to_dict()-method, otherwise the keys of the dict will be the entries of the ordered iterable with the value being the corresponding column of the array_like Raises    HandleException",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.datahandler.CsvFileHandler",
-"url":10,
-"doc":"A data handler to extract data from a .csv file and convert it to a dictionary .csv file should be ordered in a column-wise fashion, with the first row, describing what each column represents"
-},
-{
-"ref":"hrosailing.pipelinecomponents.datahandler.CsvFileHandler.pand",
-"url":10,
-"doc":""
-},
-{
-"ref":"hrosailing.pipelinecomponents.datahandler.CsvFileHandler.pd",
-"url":10,
-"doc":""
-},
-{
-"ref":"hrosailing.pipelinecomponents.datahandler.CsvFileHandler.handle",
-"url":10,
-"doc":"Reads a .csv file and extracts the contained data points The delimiter used in the .csv file Parameters      data : path_like Path to a .csv file Returns    - data_dict : dict Dictionary having the first row entries as keys and as values the corresponding columns given as lists Raises    OSError If no read permission is given for file",
-"func":1
-},
-{
-"ref":"hrosailing.pipelinecomponents.datahandler.NMEAFileHandler",
-"url":10,
-"doc":"A data handler to extract data from a text file containing certain nmea sentences and convert it to a dictionary Parameters     - sentences : Iterable of str, attributes : Iterable of str,"
-},
-{
-"ref":"hrosailing.pipelinecomponents.datahandler.NMEAFileHandler.handle",
-"url":10,
-"doc":"Reads a text file containing nmea-sentences and extracts data points Parameters      data : path-like Path to a text file, containing nmea-0183 sentences Returns    - data_dict : dict Dictionary where the keys are the given attributes Raises    OSError If no read permission is given for file",
-"func":1
-},
-{
 "ref":"hrosailing.pipelinecomponents.filter",
-"url":11,
+"url":7,
 "doc":"Classes used for modular modeling of different filtering methods based on weights Defines the Filter Abstract Base Class that can be used to create custom filtering methods Subclasses of Filter can be used with the PolarPipeline class in the hrosailing.pipeline module"
 },
 {
 "ref":"hrosailing.pipelinecomponents.filter.FilterInitializationException",
-"url":11,
+"url":7,
 "doc":"Exception raised if an error occurs during initialization of a Filter"
 },
 {
 "ref":"hrosailing.pipelinecomponents.filter.Filter",
-"url":11,
+"url":7,
 "doc":"Base class for all filter classes Abstract Methods         filter(self, weights)"
 },
 {
 "ref":"hrosailing.pipelinecomponents.filter.Filter.filter",
-"url":11,
+"url":7,
 "doc":"This method should be used, given an array of weights, to filter out points based on their weights, and produce a boolean array of the same size as wts",
 "func":1
 },
 {
 "ref":"hrosailing.pipelinecomponents.filter.QuantileFilter",
-"url":11,
+"url":7,
 "doc":"A filter that filteres all points based on if their resp. weight lies above a certain quantile Parameters      percent: int or float, optional The quantile to be calculated Defaults to  25 Raises    FilterInitializationException If percent is not in the interval [0, 100]"
 },
 {
 "ref":"hrosailing.pipelinecomponents.filter.QuantileFilter.filter",
-"url":11,
+"url":7,
 "doc":"Filters a set of points given by their resp. weights according to the above described method Parameters      wts : numpy.ndarray of shape (n,) Weights of the points that are to be filtered, given as a sequence of scalars Returns    - filtered_points : numpy.ndarray of shape (n,) Boolean array describing which points are filtered depending on their resp. weight",
 "func":1
 },
 {
 "ref":"hrosailing.pipelinecomponents.filter.BoundFilter",
-"url":11,
+"url":7,
 "doc":"A filter that filters all points based on if their weight is outside an interval given by a lower and upper bound Parameters      upper_bound : int or float, optional The upper bound for the filter Defaults to  1 lower_bound : int or float, optional The lower bound for the filter Defaults to  0.5 Raises    FilterInitializationException If lower_bound is greater than upper_bound"
 },
 {
 "ref":"hrosailing.pipelinecomponents.filter.BoundFilter.filter",
-"url":11,
+"url":7,
 "doc":"Filters a set of points given by their resp. weights according to the above described method Parameters      wts : numpy.ndarray of shape (n,) Weights of the points that are to be filtered, given as a sequence of scalars Returns    - filtered_points : numpy.ndarray of shape (n,) Boolean array describing with points are filtered depending on their resp. weight",
 "func":1
 },
 {
+"ref":"hrosailing.pipelinecomponents.influencemodel",
+"url":8,
+"doc":"Classes used for Defines the InfluenceModel Abstract Base Class that can be used to create custom Subclasses of InfluenceModel can be used with - the PolarPipeline class in the hrosailing.pipeline module - various functions in the hrosailing.cruising module"
+},
+{
+"ref":"hrosailing.pipelinecomponents.influencemodel.InfluenceModel",
+"url":8,
+"doc":"Base class for all InfluenceModel classes Abstract Methods         remove_influence(data) add_influence(pd, influence_data)"
+},
+{
+"ref":"hrosailing.pipelinecomponents.influencemodel.InfluenceModel.remove_influence",
+"url":8,
+"doc":"This method should be used, given a dictionary containing lists of diffrent data at points in time, to get a nx3 array_like output where the columns correspond to wind speed, wind angle and boat speed respectively. The dictionary should contain atleast keys for Wind speed, Wind angle and either Speed over ground, Speed over water or Boat speed",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.influencemodel.InfluenceModel.add_influence",
+"url":8,
+"doc":"This method should be used, given a polar diagram and a dictionary, to obtain a modified boat speed of that given in the polar diagram, based on the influencences presented in the given dictionary, such as wave height, underlying currents etc.",
+"func":1
+},
+{
 "ref":"hrosailing.pipelinecomponents.weigher",
-"url":12,
+"url":9,
 "doc":"Contains the baseclass for Weighers used in the PolarPipeline class, that can also be used to create custom Weighers. Also contains two predefined and useable weighers, the CylindricMeanWeigher and the CylindricMemberWeigher, aswell as the WeightedPoints class, used to represent data points together with their respective weights"
 },
 {
 "ref":"hrosailing.pipelinecomponents.weigher.WeightedPointsInitializationException",
-"url":12,
+"url":9,
 "doc":"Exception raised if an error occurs during initialization of WeightedPoints"
 },
 {
 "ref":"hrosailing.pipelinecomponents.weigher.WeigherInitializationException",
-"url":12,
+"url":9,
 "doc":"Exception raised if an error occurs during initialization of a Weigher"
 },
 {
 "ref":"hrosailing.pipelinecomponents.weigher.WeighingException",
-"url":12,
+"url":9,
 "doc":"Exception raised if an error occurs during the calling of the .weigh() method"
 },
 {
 "ref":"hrosailing.pipelinecomponents.weigher.Weigher",
-"url":12,
+"url":9,
 "doc":"Base class for all weigher classes Abstract Methods         weight(self, pts)"
 },
 {
 "ref":"hrosailing.pipelinecomponents.weigher.Weigher.weigh",
-"url":12,
+"url":9,
 "doc":"This method should be used, given certain point to determine their weights according to a weighing method, which can also use some extra data, depending on the points",
 "func":1
 },
 {
 "ref":"hrosailing.pipelinecomponents.weigher.CylindricMeanWeigher",
-"url":12,
+"url":9,
 "doc":"A weigher that weighs given points according to the following procedure: For a given point p and points pts we look at all the points pt in pts such that  pt[:d-1] - p[:d-1] <= r Then we take the mean m_p and standard deviation std_p of the dth component of all those points and set w_p = | m_p - p[d-1] | / std_p Parameters      radius : positive int or float, optional The radius of the considered cylinder, with infinite height, ie r Defaults to  0.05 norm : function or callable, optional Norm with which to evaluate the distances, ie  . If nothing is passed, it will default to  . _2 Raises    WeigherInitializationException If radius is nonpositive"
 },
 {
 "ref":"hrosailing.pipelinecomponents.weigher.CylindricMeanWeigher.weigh",
-"url":12,
+"url":9,
 "doc":"Weigh given points according to the method described above Parameters      points : numpy.ndarray of shape (n, 3) Points to be weight Returns    - weights : numpy.ndarray of shape (n,) Normalized weights of the input points",
 "func":1
 },
 {
 "ref":"hrosailing.pipelinecomponents.weigher.CylindricMemberWeigher",
-"url":12,
+"url":9,
 "doc":"A weigher that weighs given points according to the following procedure: For a given point p and points pts we look at all the points pt in pts such that |pt[0] - p[0]| <= h and  pt[1:] - p[1:] <= r Call the set of all such points P, then w_p =  P - 1 Parameters      radius : positive int or float, optional The radius of the considered cylinder, ie r Defaults to  0.05 length : nonnegative int of float, optional The height of the considered cylinder, ie h If length is 0, the cylinder is a d-1 dimensional ball Defaults to  0.05 norm : function or callable, optional Norm with which to evaluate the distances, ie  . If nothing is passed, it will default to  . _2 Raises    WeigherInitializationException - If radius is nonpositive - If length is negative"
 },
 {
 "ref":"hrosailing.pipelinecomponents.weigher.CylindricMemberWeigher.weigh",
-"url":12,
+"url":9,
 "doc":"Weigh given points according to the method described above Parameters      points : numpy.ndarray of shape (n, 3) Points to be weight Returns    - weights : numpy.ndarray of shape (n,) Normalized weights of the input points",
 "func":1
 },
 {
 "ref":"hrosailing.pipelinecomponents.weigher.PastFluctuationWeigher",
-"url":12,
+"url":9,
 "doc":"STILL A WIP"
 },
 {
 "ref":"hrosailing.pipelinecomponents.weigher.PastFluctuationWeigher.weigh",
-"url":12,
+"url":9,
 "doc":"WIP",
 "func":1
 },
 {
 "ref":"hrosailing.pipelinecomponents.weigher.PastFutureFluctuationWeigher",
-"url":12,
+"url":9,
 "doc":"STILL A WIP"
 },
 {
 "ref":"hrosailing.pipelinecomponents.weigher.PastFutureFluctuationWeigher.weigh",
-"url":12,
+"url":9,
 "doc":"WIP",
 "func":1
 },
 {
 "ref":"hrosailing.pipelinecomponents.weigher.WeightedPoints",
-"url":12,
+"url":9,
 "doc":"A class to weigh data points and represent them together with their respective weights Parameters      data : dict or numpy.ndarray Points that will be weight or paired with given weights weights : scalar or array_like of shape (n,), optional If the weights of the points are known beforehand, they can be given as an argument. If weights are passed, they will be assigned to the points and no further weighing will take place If a scalar is passed, the points will all be assigned the same weight Defaults to  None weigher : Weigher, optional Instance of a Weigher class, which will weigh the points Will only be used if weights is  None If nothing is passed, it will default to  CylindricMeanWeigher() apparent_wind : bool, optional Specifies if wind data is given in apparent wind If  True , data will be converted to true wind Defaults to  False Raises    WeightedPointsInitializationException WeighingException"
 },
 {
-"ref":"hrosailing.polardiagram",
-"url":13,
-"doc":"PolarDiagram classes to work with and represent PPDs in various forms"
+"ref":"hrosailing.pipelinecomponents.neighbourhood",
+"url":10,
+"doc":"Classes used to model various geometric shapes centered around the origin Defines the Neighbourhood Abstract Base Class that can be used to create custom geometric shapes Subclasses of Neighbourhood can be used with the TableExtension and the PointcloudExtension class in the hrosailing.pipeline module"
 },
 {
-"ref":"hrosailing.polardiagram.FileReadingException",
-"url":13,
-"doc":"Exception raised if non-oserror error occurs, when reading a file"
+"ref":"hrosailing.pipelinecomponents.neighbourhood.NeighbourhoodInitializationException",
+"url":10,
+"doc":"Exception raised if an error occurs during initialization of a Neighbourhood"
 },
 {
-"ref":"hrosailing.polardiagram.from_csv",
-"url":13,
-"doc":"Reads a .csv file and returns the PolarDiagram instance contained in it Parameters      csv_path : path-like Path to a .csv file fmt : str The format of the .csv file. -  hro : format created by the to_csv-method of the PolarDiagram class -  orc : format found at [ORC](https: jieter.github.io/orc-data/site/) -  opencpn : format created by the [OpenCPN Polar Plugin](https: opencpn.org/OpenCPN/plugins/polar.html) -  array : tab-seperated polar diagram in form of a table, also see the example files for a better look at the format Returns    - out : PolarDiagram PolarDiagram instance contained in the .csv file Raises    FileReadingException - If an unknown format was specified - If, in the format  hro , the first row does not match any PolarDiagram subclass OSError If file does not exist or no read permision for that file is given. Examples     (For the following and more files also see [examples](https: github.com/hrosailing/hrosailing/tree/main/examples >>> from hrosailing.polardiagram import from_csv >>> pd = from_csv(\"table_hro_format_example.csv\", fmt=\"hro\") >>> print(pd) TWA / TWS 6.0 8.0 10.0 12.0 14.0 16.0 20.0      -   -   -                52.0 3.74 4.48 4.96 5.27 5.47 5.66 5.81 60.0 3.98 4.73 5.18 5.44 5.67 5.94 6.17 75.0 4.16 4.93 5.35 5.66 5.95 6.27 6.86 90.0 4.35 5.19 5.64 6.09 6.49 6.70 7.35 110.0 4.39 5.22 5.68 6.19 6.79 7.48 8.76 120.0 4.23 5.11 5.58 6.06 6.62 7.32 9.74 135.0 3.72 4.64 5.33 5.74 6.22 6.77 8.34 150.0 3.21 4.10 4.87 5.40 5.78 6.22 7.32",
+"ref":"hrosailing.pipelinecomponents.neighbourhood.Neighbourhood",
+"url":10,
+"doc":"Base class for all neighbourhood classes Abstract Methods         is_contained_in(self, pts)"
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.Neighbourhood.is_contained_in",
+"url":10,
+"doc":"This method should be used, given certain points, to determine which of these points lie in the neighbourhood and which do not, by producing a boolean array of the same size as pts",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.Ball",
+"url":10,
+"doc":"A class to describe a closed 2-dimensional ball centered around the origin, ie { x in R^2 :  x <= r } Parameters      norm : function or callable, optional The norm for which the ball is described, ie  . If nothing is passed, it will default to a scaled version of  . _2 radius : positive int or float, optional The radius of the ball, ie r Defaults to  0.05 Raises    NeighbourhoodInitializationException If radius is nonpositive"
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.Ball.is_contained_in",
+"url":10,
+"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.ScalingBall",
+"url":10,
+"doc":"A class to represent a closed 2-dimensional ball centered around the origin, ie { x in R^2 :  x <= r }, where the radius r will be dynamically determined, such that there are always a certain amount of given points contained in the ball Parameters      min_pts : positive int The minimal amount of certain given points that should be contained in the scaling ball max_pts : positive int The \"maximal\" amount of certain given points that should be contained in the scaling ball. Mostly used for initial guess of a \"good\" radius. Also to guarantee that on average, the scaling ball will contain (min_pts + max_pts) / 2 points of certain given points It is also unlikely that the scaling ball will contain more than max_pts points norm : function or callable, optional The norm for which the scaling ball is described, ie  . If nothing is passed, it will default to a scaled version of  . _2 Raises    NeighbourhoodInitializationException - If min_pts or max_pts are nonpositive - If max_pts is less than or equal to min_pts"
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.ScalingBall.is_contained_in",
+"url":10,
+"doc":"Checks given points for membership, and scales ball so that at least min_pts points are contained in it Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - points_in_ball : boolean numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.Ellipsoid",
+"url":10,
+"doc":"A class to represent a closed d-dimensional ellipsoid centered around the origin, ie T(B), where T is an invertible linear transformation, and B is a closed d-dimensional ball, centered around the origin. It will be represented using the equivalent formulation: { x in R^2 :  T^-1 x <= r } Parameters      lin_trans: array_like of shape (2,2), optional The linear transformation which transforms the ball into the given ellipsoid, ie T If nothing is passed, it will default to I_2, the 2x2 unit matrix, ie the ellipsoid will be a ball norm : function or callable, optional The norm for which the ellipsoid is described, ie  . If nothing is passed, it will default to a scaled version of  . _2 radius : positive int or float, optional The radius of the ellipsoid, ie r Defaults to 0.05 Raises    NeighbourhoodInitializationException - If radius is nonpositive - If lin_trans is not a (2,2)-array or is not invertible"
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.Ellipsoid.is_contained_in",
+"url":10,
+"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.Cuboid",
+"url":10,
+"doc":"A class to represent a d-dimensional closed cuboid, ie { x in R^2 : |x_i| <= b_i, i=1,2 } Parameters      norm : function or callable, optional The 1-d norm used to measure the length of the x_i, ie |.| If nothing is passed, it will default to the absolute value |.| dimensions: subscriptable of length 2, optional The 'length' of the 'sides' of the cuboid, ie the b_i If nothing is passed, it will default to (0.05, 0.05)"
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.Cuboid.is_contained_in",
+"url":10,
+"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.Polytope",
+"url":10,
+"doc":"A class to represent a general 2-dimensional polytope, ie the convex hull P = conv(x_1,  ., x_n) of some n points x_1 , ., x_n or equivalent as the (bounded) intersection of m half spaces P = { x in R^2 : Ax <= b } Parameters      mat: array_like of shape (m, 2), optional matrix to represent the normal vectors a_i of the half spaces, ie A = (a_1,  . , a_m)^t If nothing is passed, it will default to (I_2, -I_2)^t, where I_d is the d-dimensional unit matrix b: array_like of shape (m, ), optional vector to represent the  . b_i of the half spaces, ie b = (b_1,  . , b_m)^t If nothing is passed, it will default to (0.05, .,0.05) Raises    NeighbourhoodException If mat and b are not of matching shape Warning    - Does not check wether the polytope given by mat and b is a polytope, ie if P is actually bounded"
+},
+{
+"ref":"hrosailing.pipelinecomponents.neighbourhood.Polytope.is_contained_in",
+"url":10,
+"doc":"Checks given points for membership. Parameters      pts : array_like of shape (n, 2) Points that will be checked for membership Returns    - mask : numpy.ndarray of shape (n, ) Boolean array describing which of the input points is a member of the neighbourhood",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler",
+"url":11,
+"doc":"Classes used to Defines the DataHandler Abstract Base Class that can be used to create custom Subclasses of DataHandler can be used with the PolarPipeline class in the hrosailing.pipeline module"
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.HandlerInitializationException",
+"url":11,
+"doc":"Exception raised if an error occurs during initialization of a DataHandler"
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.HandleException",
+"url":11,
+"doc":"Exception raised if an error occurs during calling of the .handle() method"
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.DataHandler",
+"url":11,
+"doc":"Base class for all datahandler classes Abstract Methods         handle(self, data)"
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.DataHandler.handle",
+"url":11,
+"doc":"This method should be used, given some data in a format that is dependent on the handler, to output a dictionary containing the given data, where the values should be lists. The dictionary should atleast contain the following keys: 'Wind speed', 'Wind angle' and one of 'Speed over ground knots', 'Water speed knots' or 'Boat speed' The names of the keys in the dictionary should also be compatible with the keys that a possible InfluenceModel instance might use",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.ArrayHandler",
+"url":11,
+"doc":"A data handler to convert data given as an array-type to a dictionary"
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.ArrayHandler.pand",
+"url":11,
+"doc":""
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.ArrayHandler.pd",
+"url":11,
+"doc":""
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.ArrayHandler.handle",
+"url":11,
+"doc":"Extracts data from array-types of data Parameters      data: pandas.DataFrame or tuple of array_like and ordered iterable Data contained in a pandas.DataFrame or in an array_like. Returns    - data_dict: dict If data is a pandas.DataFrame, data_dict is the output of the DataFrame.to_dict()-method, otherwise the keys of the dict will be the entries of the ordered iterable with the value being the corresponding column of the array_like Raises    HandleException",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.CsvFileHandler",
+"url":11,
+"doc":"A data handler to extract data from a .csv file and convert it to a dictionary .csv file should be ordered in a column-wise fashion, with the first row, describing what each column represents"
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.CsvFileHandler.pand",
+"url":11,
+"doc":""
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.CsvFileHandler.pd",
+"url":11,
+"doc":""
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.CsvFileHandler.handle",
+"url":11,
+"doc":"Reads a .csv file and extracts the contained data points The delimiter used in the .csv file Parameters      data : path_like Path to a .csv file Returns    - data_dict : dict Dictionary having the first row entries as keys and as values the corresponding columns given as lists Raises    OSError If no read permission is given for file",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.NMEAFileHandler",
+"url":11,
+"doc":"A data handler to extract data from a text file containing certain nmea sentences and convert it to a dictionary Parameters     - sentences : Iterable of str, attributes : Iterable of str,"
+},
+{
+"ref":"hrosailing.pipelinecomponents.datahandler.NMEAFileHandler.handle",
+"url":11,
+"doc":"Reads a text file containing nmea-sentences and extracts data points Parameters      data : path-like Path to a text file, containing nmea-0183 sentences Returns    - data_dict : dict Dictionary where the keys are the given attributes Raises    OSError If no read permission is given for file",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler",
+"url":12,
+"doc":"Classes used for modular modeling of different sampling methods Defines the Sampler Abstract Base Class that can be used to create custom sampling methods Subclasses of Sampler can be used with the PointcloudExtension class in the hrosailing.pipeline module"
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler.SamplerInitializationException",
+"url":12,
+"doc":"Exception raised if an error occurs during initialization of a Sampler"
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler.Sampler",
+"url":12,
+"doc":"Base class for all sampler classes Abstract Methods         sample(self, pts)"
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler.Sampler.sample",
+"url":12,
+"doc":"This method should be used, given certain points, to determine a constant number of sample points that lie in the convex hull of pts and are more or less representative of the trend of the given points",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler.UniformRandomSampler",
+"url":12,
+"doc":"A sampler that produces a number of uniformly distributed samples, which all lie in the convex hull of certain given points Parameters      n_samples : positive int Amount of samples that will be produced by the sampler Raises    SamplerInitializationException If n_samples is nonpositive"
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler.UniformRandomSampler.sample",
+"url":12,
+"doc":"Produces samples according to the above described procedure Parameters      pts : array_like of shape (n, 2) Points in whose convex hull the produced samples will lie Returns    - samples : numpy.ndarray of shape (n_samples, 2) samples produced by the above described method",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler.FibonacciSampler",
+"url":12,
+"doc":"A sampler that produces sample points on a moved and scaled version of the spiral (sqrt(x) cos(x), sqrt(x) sin(x , such that the angles are distributed equidistantly by the inverse golden ratio. The sample points all lie in the smallest enclosing circle of given data points. Inspired by \u00c1lvaro Gonzz\u00e1lez - \"Measurement of areas on a sphere using Fibonacci and latitude\u2013longitude lattices\" Parameters      n_samples : positive int Amount of samples that will be produced by the sampler Raises    SamplerInitializationException If n_samples is nonpositive"
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler.FibonacciSampler.sample",
+"url":12,
+"doc":"Produces samples according to the above described procedure Parameters      pts : array_like of shape (n, 2) Points in whose convex hull the produced samples will lie Returns    - samples : numpy.ndarray of shape (n_samples, 2) samples produced by the above described method",
+"func":1
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler.ArchimedianSampler",
+"url":12,
+"doc":"A sampler that produces a number of approximately equidistant sample points on a moved and scaled version of the archimedean spiral (x cos(x), x sin(x . The sample points all lie in the smallest enclosing circle of given data points. Inspired by https: agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2007GC001581 Parameters      n_samples : positive int Amount of samples that will be produced by the sampler Raises    SamplerInitializationException If n_samples is nonpositive"
+},
+{
+"ref":"hrosailing.pipelinecomponents.sampler.ArchimedianSampler.sample",
+"url":12,
+"doc":"Produces samples according to the above described procedure Parameters      pts : array_like of shape (n, 2) Points in whose convex hull the produced samples will lie Returns    - samples : numpy.ndarray of shape (n_samples, 2) samples produced by the above described method",
 "func":1
 },
 {
 "ref":"hrosailing.wind",
-"url":14,
+"url":13,
 "doc":"Functions to convert wind from apparent to true and vice versa"
 },
 {
 "ref":"hrosailing.wind.WindConversionException",
-"url":14,
+"url":13,
 "doc":"Exception raised if an error occurs during wind conversion"
 },
 {
 "ref":"hrosailing.wind.convert_apparent_wind_to_true",
-"url":14,
+"url":13,
 "doc":"Converts apparent wind to true wind Parameters      apparent_wind : array_like of shape (n, 3) Wind data given as a sequence of points consisting of wind speed, wind angle and boat speed, where the wind speed and wind angle are measured as apparent wind Returns    - true_wind : numpy.ndarray of shape (n, 3) Array containing the same data as wind_arr, but the wind speed and wind angle now measured as true wind Raises    WindConversionException",
 "func":1
 },
 {
 "ref":"hrosailing.wind.convert_true_wind_to_apparent",
-"url":14,
+"url":13,
 "doc":"Converts true wind to apparent wind Parameters      true_wind : array_like of shape (n, 3) Wind data given as a sequence of points consisting of wind speed, wind angle and boat speed, where the wind speed and wind angle are measured as true wind Returns    - true_wind : numpy.ndarray of shape (n, 3) Array containing the same data as wind_arr, but the wind speed and wind angle now measured as apparent wind Raises    WindConversionException",
+"func":1
+},
+{
+"ref":"hrosailing.cruising",
+"url":14,
+"doc":"Functions for navigation and weather routing using PPDs"
+},
+{
+"ref":"hrosailing.cruising.Direction",
+"url":14,
+"doc":"Dataclass to represent sections of a sailing maneuver"
+},
+{
+"ref":"hrosailing.cruising.Direction.angle",
+"url":14,
+"doc":""
+},
+{
+"ref":"hrosailing.cruising.Direction.proportion",
+"url":14,
+"doc":""
+},
+{
+"ref":"hrosailing.cruising.Direction.sail",
+"url":14,
+"doc":""
+},
+{
+"ref":"hrosailing.cruising.convex_direction",
+"url":14,
+"doc":"Given a direction, computes the \"fastest\" way to sail in that direction, assuming constant wind speed  ws If sailing straight into direction is the fastest way, function returns that direction. Otherwise function returns two directions aswell as their proportions, such that sailing into one direction for a corresponding proportion of a time segment and then into the other direction for a corresponding proportion of a time segment will be equal to sailing into  direction but faster. Parameters      pd : PolarDiagram The polar diagram of the vessel ws : int / float The current wind speed given in knots direction : int / float Angle to the wind direction im : InfluenceModel, optional The influence model used to consider additional influences on the boat speed Defaults to  None influence_data: dict, optional Data containing information that might influence the boat speed of the vessel (eg. current, wave height), to be passed to the used influence model Only used, if  im is not  None Defaults to  None Returns    - edge : list of Directions Either just one Direction instance, if sailing into  direction is the optimal way, or two Direction instances, that will \"equal\" to  direction ",
+"func":1
+},
+{
+"ref":"hrosailing.cruising.cruise",
+"url":14,
+"doc":"Given a starting point A and and end point B,the function calculates the fastest time and sailing direction it takes for a sailing vessel to reach B from A, under constant wind. If needed the function will calculate two directions as well as the time needed to sail in each direction to get to B. Parameters      pd : PolarDiagram The polar diagram of the vessel ws : int or float The current wind speed given in knots wdir : float between 0 and 360 or tuple The direction of the wind given as either - the wind angle relative to north - the true wind angle and the boat direction relative to north - a (ugrd, vgrd) tuple from grib data start : tuple of length 2 Coordinates of the starting point of the cruising maneuver, given in longitude and latitude end : tuple of length 2 Coordinates of the end point of the cruising maneuver, given in longitude and latitude im : InfluenceModel, optional The influence model used to consider additional influences on the boat speed Defaults to  None influence_data: dict, optional Data containing information that might influence the boat speed of the vessel (eg. current, wave height), to be passed to the used influence model Only used, if  im is not  None Defaults to  None Returns    - directions : list of tuples Directions as well as the time needed to sail along those, to get from start to end",
+"func":1
+},
+{
+"ref":"hrosailing.cruising.OutsideGridException",
+"url":14,
+"doc":"Exception raised if point accessed in weather model lies outside the available grid"
+},
+{
+"ref":"hrosailing.cruising.WeatherModel",
+"url":14,
+"doc":"Models a weather model as a 3-dimensional space-time grid where each space-time point has certain values of a given list of attributes Parameters      data : array_like of shape (n, m, r, s) Weather data at different space-time grid points times : list of length n Sorted list of time values of the space-time grid lats : list of length m Sorted list of lattitude values of the space-time grid lons : list of length r Sorted list of longitude values of the space-time grid attrs : list of length s List of different (scalar) attributes of weather"
+},
+{
+"ref":"hrosailing.cruising.WeatherModel.get_weather",
+"url":14,
+"doc":"Given a space-time point, uses the available weather model to calculate the weather at that point If the point is not a grid point, the weather data will be affinely interpolated, starting with the time-component, using the (at most) 8 grid points that span the vertices of a cube, which contains the given point Parameters      point: tuple of length 3 Space-time point given as tuple of time, lattitude and longitude Returns    - weather : dict The weather data at the given point. If it is a grid point, the weather data is taken straight from the model, else it is interpolated as described above",
+"func":1
+},
+{
+"ref":"hrosailing.cruising.cost_cruise",
+"url":14,
+"doc":"Computes the total cost for traveling from a start position to an end position. To be precise, it calculates for a given cost density function cost and absolute function abs_cost int_0^l cost(s, t(s ds + abs_cost(t(l), l), where s is the distance travelled, l is the total distance from start to end and t(s) is the time travelled. t(s) is the solution of the initial value problem t(0) = 0, dt/ds = 1/bsp(s,t). The costs also depend on the weather forecast data, organized by a WeatherModel, distances are computed using the mercator projection Parameters      pd : PolarDiagram Polar diagram of the vessel start : tuple of two floats Coordinates of the starting point end : tuple of two floats Coordinates of the end point start_time : datetime.datetime The time at which the traveling starts wm : WeatherModel, optional The WeatherModel used cost_fun_dens : callable, optional Function giving a cost density for given time as datetime.datetime, lattitude as float, longitude as float and WeatherModel cost_fun_dens(t,lat,long,wm) corresponds to costs(s,t) above Defaults to  None cost_fun_abs : callable, optional Corresponds to  abs_costs Defaults to  lambda total_t, total_s: total_t integration_method : callable, optional Function that takes two (n,) arrays y, x and computes an approximative integral from that. Is only used if  cost_fun_dens is not None Defaults to  scipy.integrate.trapezoid im : InfluenceModel, optional The influence model used to consider additional influences on the boat speed Defaults to  None ivp_kw : Keyword arguments which will be passed to scipy.integrate.solve_ivp in order to solve the initial value problem described above Returns    - cost : float The total cost calculated as described above",
+"func":1
+},
+{
+"ref":"hrosailing.cruising.isocrone",
+"url":14,
+"doc":"Estimates the maximum distance that can be reached from a given start point in a given amount of time without tacks and jibes. This is done by sampling the position space and using mercator projection. A weather forecast, organized by a WeatherModel and an InfluenceModel are included in the computation. Parameters      pd : PolarDiagram The polar diagram of the used vessel start : 2-tuple of floats The lattitude and longitude of the starting point start_time : datetime.datetime The time at which the traveling starts direction : float The angle between North and the direction in which we aim to travel. wm : WeatherModel, optional The weather model used. total_time : float The time in hours that the vessel is supposed to travel in the given direction. min_nodes : int, optional The minimum amount of sample points to sample the position space. Defaults to 100. im : InfluenceModel, optional The influence model used. Defaults to  . Returns    - end : 2-tuple of floats Lattitude and Longitude of the position that is reached when traveling total_time hours in the given direction s : float The length of the way traveled from start to end",
 "func":1
 }
 ]
