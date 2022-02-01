@@ -39,7 +39,7 @@ The `hrosailing` package is published under the [Apache 2.0 License](https://cho
 
 ### Examples
 
-In the following we showcase via multiple examples some of the capabilities of the hrosailing module.
+In the following we showcase via multiple examples some of the capabilities of the hrosailing package.
 To avoid redundancies, all definitions of an example code might be used in the succeeding examples.
 
 #### Loading and saving polar diagrams
