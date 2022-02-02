@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: check if documentation was changed
-      - uses: dorny/paths-filter@v2
+        uses: dorny/paths-filter@v2
         id: changes
         with:
           filters: |
@@ -18,8 +18,8 @@ jobs:
               - 'docs/**'
       
       - name: deploy to gh-pages
-      - if: steps.changes.outputs.src == 'true'
-      - uses: peaceiris/actions-gh-pages@v3
+        if: steps.changes.outputs.src == 'true'
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
