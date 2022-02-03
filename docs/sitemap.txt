@@ -1,0 +1,14 @@
+https://hrosailing.github.io/hrosailing
+https://hrosailing.github.io/hrosailing/wind.html
+https://hrosailing.github.io/hrosailing/polardiagram.html
+https://hrosailing.github.io/hrosailing/cruising.html
+https://hrosailing.github.io/hrosailing/pipeline.html
+https://hrosailing.github.io/hrosailing/pipelinecomponents/datahandler.html
+https://hrosailing.github.io/hrosailing/pipelinecomponents/filter.html
+https://hrosailing.github.io/hrosailing/pipelinecomponents/influencemodel.html
+https://hrosailing.github.io/hrosailing/pipelinecomponents/interpolator.html
+https://hrosailing.github.io/hrosailing/pipelinecomponents/neighbourhood.html
+https://hrosailing.github.io/hrosailing/pipelinecomponents/regressor.html
+https://hrosailing.github.io/hrosailing/pipelinecomponents/sampler.html
+https://hrosailing.github.io/hrosailing/pipelinecomponents/weigher.html
+https://hrosailing.github.io/hrosailing/pipelinecomponents/modelfunctions.html
