@@ -205,7 +205,9 @@ class TableExtension(PipelineExtension):
         self.neighbourhood = neighbourhood
         self.interpolator = interpolator
 
-    def process(self, weighted_points, _enable_logging) -> pol.PolarDiagramTable:
+    def process(
+        self, weighted_points, _enable_logging
+    ) -> pol.PolarDiagramTable:
         """Creates a PolarDiagramTable instance from preprocessed data,
         by first determining a wind speed / wind angle grid, using
         `self.w_res`, and then interpolating the boat speed values at the
@@ -324,7 +326,9 @@ class CurveExtension(PipelineExtension):
         self.regressor = regressor
         self.radians = radians
 
-    def process(self, weighted_points, _enable_logging) -> pol.PolarDiagramCurve:
+    def process(
+        self, weighted_points, _enable_logging
+    ) -> pol.PolarDiagramCurve:
         """Creates a PolarDiagramCurve instance from preprocessed data,
         by fitting a given function to said data, using a regression
         method determined by `self.regressor`
@@ -343,7 +347,9 @@ class CurveExtension(PipelineExtension):
         if self._use_radians():
             _convert_angles_to_radians(weighted_points)
 
-        self.regressor.fit(weighted_points.points, _enable_logging=_enable_logging)
+        self.regressor.fit(
+            weighted_points.points, _enable_logging=_enable_logging
+        )
 
         return pol.PolarDiagramCurve(
             self.regressor.model_func,
@@ -394,7 +400,9 @@ class PointcloudExtension(PipelineExtension):
         self.neighbourhood = neighbourhood
         self.interpolator = interpolator
 
-    def process(self, weighted_points, _enable_logging) -> pol.PolarDiagramPointcloud:
+    def process(
+        self, weighted_points, _enable_logging
+    ) -> pol.PolarDiagramPointcloud:
         """Creates a PolarDiagramPointcloud instance from preprocessed data,
         first creating a set number of points by sampling the wind speed,
         wind angle space of the data points and capturing the underlying

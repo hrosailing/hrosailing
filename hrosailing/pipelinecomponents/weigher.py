@@ -382,7 +382,10 @@ class PastFluctuationWeigher(Weigher):
     def weigh(self, points, extra_data, _enable_logging):
         """WIP"""
         recording_times = _get_recording_times(extra_data)
-        weights = [self._calculate_weight(i, points, recording_times) for i in range(len(points))]
+        weights = [
+            self._calculate_weight(i, points, recording_times)
+            for i in range(len(points))
+        ]
         weights = np.array(weights)
         return len(weights) * _log_and_normalize(weights, _enable_logging)
 
@@ -395,7 +398,11 @@ class PastFluctuationWeigher(Weigher):
     def _get_points_in_time_interval(self, index, recording_times):
         reference_time = recording_times[index]
         times_up_to_reference_time = recording_times[:index]
-        return [i for i, time in enumerate(times_up_to_reference_time) if self._in_time_interval(time, reference_time)]
+        return [
+            i
+            for i, time in enumerate(times_up_to_reference_time)
+            if self._in_time_interval(time, reference_time)
+        ]
 
     def _in_time_interval(self, time, reference_time):
         time_difference = reference_time - time
@@ -433,7 +440,10 @@ class PastFutureFluctuationWeigher(Weigher):
     def weigh(self, points, extra_data, _enable_logging):
         """WIP"""
         recording_times = _get_recording_times(extra_data)
-        weights = [self._calculate_weight(i, points, recording_times) for i in range(len(points))]
+        weights = [
+            self._calculate_weight(i, points, recording_times)
+            for i in range(len(points))
+        ]
         weights = np.array(weights)
         return len(weights) * _log_and_normalize(weights, _enable_logging)
 
@@ -445,10 +455,18 @@ class PastFutureFluctuationWeigher(Weigher):
 
     def _get_points_in_time_interval(self, index, recording_times):
         reference_time = recording_times[index]
-        return [i for i, time in enumerate(recording_times) if self._in_time_interval(time, reference_time)]
+        return [
+            i
+            for i, time in enumerate(recording_times)
+            if self._in_time_interval(time, reference_time)
+        ]
 
     def _in_time_interval(self, time, reference_time):
-        time_difference = reference_time - time if time <= reference_time else time - reference_time
+        time_difference = (
+            reference_time - time
+            if time <= reference_time
+            else time - reference_time
+        )
         return time_difference.total_seconds() <= self.timespan
 
 

@@ -36,11 +36,11 @@ import hrosailing.polardiagram
 import hrosailing.wind
 
 __all__ = [
-        "cruising",
-        "pipeline",
-        "pipelinecomponents",
-        "polardiagram",
-        "wind",
-        "version",
-        "__doc__",
+    "cruising",
+    "pipeline",
+    "pipelinecomponents",
+    "polardiagram",
+    "wind",
+    "version",
+    "__doc__",
 ]

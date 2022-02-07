@@ -7,10 +7,10 @@ model certain ship behaviours
 
 
 from ._models2d import (
-        concave_function,
-        inverted_shifted_parabola,
-        s_shaped,
-        gaussian_model,
+    concave_function,
+    inverted_shifted_parabola,
+    s_shaped,
+    gaussian_model,
 )
 import numpy as np
 
