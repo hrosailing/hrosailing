@@ -6,7 +6,13 @@ model certain ship behaviours
 # Author: Valentin F. Dannenberg / Ente
 
 
-from ._models2d import *
+from ._models2d import (
+        concave_function,
+        inverted_shifted_parabola,
+        s_shaped,
+        gaussian_model,
+)
+import numpy as np
 
 
 def ws_times_wa(ws, wa, scal):
