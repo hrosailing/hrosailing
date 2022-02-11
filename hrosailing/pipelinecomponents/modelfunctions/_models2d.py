@@ -66,7 +66,7 @@ def concave_function(x, *params, downturn=True, sat_limit=False):
     )
 
 
-def s_shaped(x, *params, downturn=False):
+def s_shaped(x, *params, downturn=True):
     val = params[2] / (1 + np.exp(params[0] - params[1] * x))
     if downturn:
         val -= params[3] * np.square(x)
