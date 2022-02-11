@@ -1,0 +1,2350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>hrosailing.polardiagram API documentation</title>
+<meta name="description" content="PolarDiagram classes to work with and represent PPDs in various forms" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}#lunr-search{width:100%;font-size:1em;padding:6px 9px 5px 9px;border:1px solid silver}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML" integrity="sha256-kZafAc6mZvK3W3v1pHOcUix30OHQN6pU/NO2oFkqZVw=" crossorigin></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/hrosailing/hrosailing/main/logo.png" sizes="512x512" itemprop="image logo">
+<title>hrosailing</title>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>hrosailing.polardiagram</code></h1>
+</header>
+<section id="section-intro">
+<p>PolarDiagram classes to work with and represent PPDs in various forms</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="hrosailing.polardiagram.from_csv"><code class="name flex">
+<span>def <span class="ident">from_csv</span></span>(<span>csv_path, fmt='hro')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Reads a .csv file and returns the PolarDiagram
+instance contained in it</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>csv_path</code></strong> :&ensp;<code>path-like</code></dt>
+<dd>Path to a .csv file</dd>
+<dt><strong><code>fmt</code></strong> :&ensp;<code>str</code></dt>
+<dd>
+<p>The format of the .csv file.</p>
+<ul>
+<li><code>hro</code> : format created by the to_csv-method of the PolarDiagram class</li>
+<li><code>orc</code> : format found at <a href="https://
+jieter.github.io/orc-data/site/">ORC</a></li>
+<li><code>opencpn</code> : format created by the <a href="https://
+opencpn.org/OpenCPN/plugins/polar.html">OpenCPN Polar Plugin</a></li>
+<li><code>array</code> : tab-seperated polar diagram in form of a table, also
+see the example files for a better look at the format</li>
+</ul>
+</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>out</code></strong> :&ensp;<code><a title="hrosailing.polardiagram.PolarDiagram" href="#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a></code></dt>
+<dd>PolarDiagram instance contained in the .csv file</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="hrosailing.polardiagram.FileReadingException" href="#hrosailing.polardiagram.FileReadingException">FileReadingException</a></code></dt>
+<dd>
+<ul>
+<li>If an unknown format was specified</li>
+<li>If, in the format <code>hro</code>, the first row does not match any
+PolarDiagram subclass</li>
+</ul>
+</dd>
+<dt><code>OSError</code></dt>
+<dd>If file does not exist or no read permision for that file is given.</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<p>(For the following and more files also see
+<a href="https://github.com/hrosailing/hrosailing/tree/main/examples">examples</a>)</p>
+<pre><code>&gt;&gt;&gt; from hrosailing.polardiagram import from_csv
+&gt;&gt;&gt; pd = from_csv("table_hro_format_example.csv", fmt="hro")
+&gt;&gt;&gt; print(pd)
+  TWA / TWS    6.0    8.0    10.0    12.0    14.0    16.0    20.0
+-----------  -----  -----  ------  ------  ------  ------  ------
+52.0          3.74   4.48    4.96    5.27    5.47    5.66    5.81
+60.0          3.98   4.73    5.18    5.44    5.67    5.94    6.17
+75.0          4.16   4.93    5.35    5.66    5.95    6.27    6.86
+90.0          4.35   5.19    5.64    6.09    6.49    6.70    7.35
+110.0         4.39   5.22    5.68    6.19    6.79    7.48    8.76
+120.0         4.23   5.11    5.58    6.06    6.62    7.32    9.74
+135.0         3.72   4.64    5.33    5.74    6.22    6.77    8.34
+150.0         3.21   4.10    4.87    5.40    5.78    6.22    7.32
+</code></pre></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="hrosailing.polardiagram.FileReadingException"><code class="flex name class">
+<span>class <span class="ident">FileReadingException</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Exception raised if non-oserror error occurs,
+when reading a file</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagram"><code class="flex name class">
+<span>class <span class="ident">PolarDiagram</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Base class for all polar diagrams</p>
+<h2 id="abstract-methods">Abstract Methods</h2>
+<p>to_csv(csv_path)</p>
+<p>symmetrize()</p>
+<p>get_slices(ws)</p>
+<p>plot_polar(
+ws,
+ax=None,
+colors=("green", "red"),
+show_legend=False,
+legend_kw=None,
+**plot_kw
+)</p>
+<p>plot_flat(
+ws,
+ax=None,
+colors=("green", "red"),
+show_legend=False,
+legend_kw=None,
+**plot_kw
+)</p>
+<p>plot_3d(ax=None, **plot_kw)</p>
+<p>plot_color_gradient(
+ax=None,
+colors=("green", "red"),
+marker=None,
+ms=None,
+show_legend=False,
+**legend_kw,
+)</p>
+<p>plot_convex_hull(
+ws,
+ax=None,
+colors=("green", "red"),
+show_legend=False,
+legend_kw=None,
+**plot_kw,
+)</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>abc.ABC</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li>hrosailing.polardiagram._polardiagramcurve.PolarDiagramCurve</li>
+<li>hrosailing.polardiagram._polardiagrammultisails.PolarDiagramMultiSails</li>
+<li>hrosailing.polardiagram._polardiagrampointcloud.PolarDiagramPointcloud</li>
+<li>hrosailing.polardiagram._polardiagramtable.PolarDiagramTable</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="hrosailing.polardiagram.PolarDiagram.get_slices"><code class="name flex">
+<span>def <span class="ident">get_slices</span></span>(<span>self, ws)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This method should, given a number of wind speeds, return
+a list of the given wind speeds as well as wind angles and
+corresponding boat speeds, that reflect how the vessel behaves at
+the given wind speeds</p></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagram.plot_3d"><code class="name flex">
+<span>def <span class="ident">plot_3d</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This method should create a 3d plot of the polar diagram object</p></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagram.plot_color_gradient"><code class="name flex">
+<span>def <span class="ident">plot_color_gradient</span></span>(<span>self, ax=None, colors=('green', 'red'), marker=None, ms=None, show_legend=False, **legend_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This method should create 'wind speed vs. wind angle'
+color gradient plot of the polar diagram object with respect
+to the corresponding boat speeds</p></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagram.plot_convex_hull"><code class="name flex">
+<span>def <span class="ident">plot_convex_hull</span></span>(<span>self, ws=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This method should compute the convex hull of one or multiple
+slices, corresponding to <code>ws</code>, of the polar diagram and then create
+a polar plot of them</p></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagram.plot_convex_hull_slice"><code class="name flex">
+<span>def <span class="ident">plot_convex_hull_slice</span></span>(<span>self, ws, ax=None, **plot_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Computes the convex hull of a given slice of
+the polar diagram and creates a polar plot of it</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>int/float</code></dt>
+<dd>
+<p>Slice of the polar diagram</p>
+<p>For a description of what the slice is made of,
+see the plot_convex_hull()-method of the respective
+PolarDiagram subclass</p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
+<dd>
+<p>Axes instance where the plot will be created.</p>
+<p>If nothing is passed, the function will create
+a suitable axes</p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>Keyword arguments that will be passed to the
+matplotlib.axes.Axes.plot function, to change
+certain appearences of the plot</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagram.plot_flat"><code class="name flex">
+<span>def <span class="ident">plot_flat</span></span>(<span>self, ws=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This method should create a cartesian plot of one or more slices,
+corresponding to <code>ws</code>, of the polar diagram object</p></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagram.plot_flat_slice"><code class="name flex">
+<span>def <span class="ident">plot_flat_slice</span></span>(<span>self, ws, ax=None, **plot_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a cartesian plot of a given slice of the
+polar diagram</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>int/float</code></dt>
+<dd>
+<p>Slice of the polar diagram</p>
+<p>For a description of what the slice is made of,
+see the plot_flat()-method of the respective
+PolarDiagram subclass</p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
+<dd>
+<p>Axes instance where the plot will be created.</p>
+<p>If nothing is passed, the function will create
+a suitable axes</p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>Keyword arguments that will be passed to the
+matplotlib.axes.Axes.plot function, to change
+certain appearences of the plot</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagram.plot_polar"><code class="name flex">
+<span>def <span class="ident">plot_polar</span></span>(<span>self, ws=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This method should create a polar plot of one or more slices,
+corresponding to <code>ws</code>, of the polar diagram object.</p></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagram.plot_polar_slice"><code class="name flex">
+<span>def <span class="ident">plot_polar_slice</span></span>(<span>self, ws, ax=None, **plot_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a polar plot of a given slice of the
+polar diagram</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>int/float</code></dt>
+<dd>
+<p>Slice of the polar diagram</p>
+<p>For a description of what the slice is made of,
+see the plot_polar()-method of the respective
+PolarDiagram subclasses</p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
+<dd>
+<p>Axes instance where the plot will be created</p>
+<p>If nothing is passed, the function will create
+a suitable axes</p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>Keyword arguments that will be passed to the
+matplotlib.axes.Axes.plot function, to change
+certain appearences of the plot</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagram.symmetrize"><code class="name flex">
+<span>def <span class="ident">symmetrize</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This method should return a new PolarDiagram object that is a
+symmetric (i.e. mirrored along the 0 - 180° axis) version of the
+polar diagram object that called the method</p></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagram.to_csv"><code class="name flex">
+<span>def <span class="ident">to_csv</span></span>(<span>self, csv_path)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This method should, given a path, write a .csv file in
+the location, containing human readable information about the
+polar diagram object that called the method</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramCurve"><code class="flex name class">
+<span>class <span class="ident">PolarDiagramCurve</span></span>
+<span>(</span><span>f, *params, radians=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A class to represent, visualize and work with a polar diagram
+given by a fitted curve/surface.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>f</code></strong> :&ensp;<code>function</code></dt>
+<dd>Curve/surface that describes the polar diagram, given as
+a function, with the signature <code>f(ws, wa, *params) -&gt; bsp</code>,
+where <code>ws</code>, <code>wa</code> and should be <code>array_like</code> of shape <code>(n,)</code></dd>
+<dt><strong><code>params</code></strong> :&ensp;<code>Sequence</code></dt>
+<dd>Optimal parameters for <code>f</code></dd>
+<dt><strong><code>radians</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies if <code>f</code> takes the wind angles in radians or degrees</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PolarDiagramInitializationException</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>hrosailing.polardiagram._basepolardiagram.PolarDiagram</li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="hrosailing.polardiagram.PolarDiagramCurve.curve"><code class="name">var <span class="ident">curve</span></code></dt>
+<dd>
+<div class="desc"><p>Returns a read only version of self._f</p></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramCurve.parameters"><code class="name">var <span class="ident">parameters</span></code></dt>
+<dd>
+<div class="desc"><p>Returns a read only version of self._params</p></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramCurve.radians"><code class="name">var <span class="ident">radians</span></code></dt>
+<dd>
+<div class="desc"><p>Returns a read only version of self._rad</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="hrosailing.polardiagram.PolarDiagramCurve.get_slices"><code class="name flex">
+<span>def <span class="ident">get_slices</span></span>(<span>self, ws, stepsize=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>For given wind speeds, return the slices of the polar diagram
+corresponding to them</p>
+<p>Slices are equal to self(w, wa) where w goes through
+the given values in <code>ws</code> and wa goes through a fixed
+number of angles between 0° and 360°</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram given as either</p>
+<ul>
+<li>a tuple of length 2, specifying an interval of considered
+wind speeds. The amount of slices taken from that interval are
+determined by the parameter <code>stepsize</code></li>
+<li>an iterable of specific wind speeds</li>
+<li>a single wind speed</li>
+</ul>
+<p>If nothing is passed, it will default to (0, 20)</p>
+</dd>
+<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Specfies the amount of slices taken from the given
+wind speed interval</p>
+<p>Will only be used if <code>ws</code> is a tuple of length 2</p>
+<p>If nothing is passed, it will default to ws[1] - ws[0]</p>
+</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>slices</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>Slices of the polar diagram, given as a tuple of length 3,
+consisting of the given wind speeds <code>ws</code>, self.wind_angles (in rad)
+and a list of arrays containing the corresponding boat speeds</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PolarDiagramException</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramCurve.plot_3d"><code class="name flex">
+<span>def <span class="ident">plot_3d</span></span>(<span>self, ws=None, stepsize=None, ax=None, colors=('green', 'red'))</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a 3d plot of a part of the polar diagram</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2</code>, optional</dt>
+<dd>
+<p>A region of the polar diagram given as an interval of
+wind speeds</p>
+<p>Slices will then equal self(w, wa) where w goes through
+the given values in <code>ws</code> and wa goes through a fixed
+number of angles between 0° and 360°</p>
+<p>If nothing is passed, it will default to (0, 20)</p>
+</dd>
+<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Specfies the amount of slices taken from the given
+interval in <code>ws</code></p>
+<p>If nothing is passed, it will default to 100</p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>mpl_toolkits.mplot3d.axes3d.Axes3D</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code>, optional</dt>
+<dd>
+<p>Color pair determining the color gradient with which the
+polar diagram will be plotted</p>
+<p>Will be determined by the corresponding wind speeds</p>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramCurve.plot_color_gradient"><code class="name flex">
+<span>def <span class="ident">plot_color_gradient</span></span>(<span>self, ws=None, stepsize=None, ax=None, colors=('green', 'red'), marker=None, ms=None, show_legend=False, **legend_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a 'wind speed vs. wind angle' color gradient plot
+of a part of the polar diagram with respect to the corresponding
+boat speeds</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code> tuple</code> of <code>length 3</code>, optional</dt>
+<dd>
+<p>A region of the polar diagram given as an interval of
+wind speeds</p>
+<p>Slices will then equal self(w, wa) where w goes through
+the given values in <code>ws</code> and wa goes through a fixed
+number of angles between 0° and 360°</p>
+<p>If nothing is passed, it will default to (0, 20)</p>
+</dd>
+<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Specfies the amount of slices taken from the given
+interval in <code>ws</code></p>
+<p>If nothing is passed, it will default to 100</p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code>, optional</dt>
+<dd>
+<p>Color pair determining the color gradient with which the
+polar diagram will be plotted</p>
+<p>Will be determined by the corresponding boat speed</p>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>marker</code></strong> :&ensp;<code>matplotlib.markers.Markerstyle</code> or <code>equivalent</code>, optional</dt>
+<dd>
+<p>Markerstyle for the created scatter plot</p>
+<p>Defaults to <code>"o"</code></p>
+</dd>
+<dt><strong><code>ms</code></strong> :&ensp;<code>float</code> or <code>array_like</code> of <code>fitting shape</code>, optional</dt>
+<dd>Marker size in points**2</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next
+to the plot</p>
+<p>Legend will be a <code>matplotlib.colorbar.Colorbar</code> instance</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.legend.Legend for possible keywords and
+their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramCurve.plot_convex_hull"><code class="name flex">
+<span>def <span class="ident">plot_convex_hull</span></span>(<span>self, ws=None, stepsize=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Computes the (seperate) convex hull of one or more
+slices of the polar diagram and creates a polar plot of them</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram given as either</p>
+<ul>
+<li>a tuple of length 2, specifying an interval of considered
+wind speeds. The amount of slices taken from that interval are
+determined by the parameter <code>stepsize</code></li>
+<li>an iterable of specific wind speeds</li>
+<li>a single wind speed</li>
+</ul>
+<p>Slices will then equal self(w, wa) where w goes through
+the given values in <code>ws</code> and wa goes through a fixed
+number of angles between 0° and 360°</p>
+<p>If nothing is passed, it will default to (0, 20)</p>
+</dd>
+<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Specfies the amount of slices taken from the given
+wind speed interval</p>
+<p>Will only be used if <code>ws</code> is a tuple of length 2</p>
+<p>If nothing is passed, it will default to ws[1] - ws[0]</p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
+<dd>Axes instance where the plot will be create</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
+<dd>
+<p>Specifies the colors to be used for the different slices</p>
+<ul>
+<li>If 2 colors are passed, slices will be plotted with a color
+gradient that is determined by the corresponding wind speed</li>
+<li>Otherwise the slices will be colored in turn with the specified
+colors or the color <code>"blue"</code>, if there are too few colors. The
+order is determined by the corresponding wind speeds</li>
+<li>Alternatively one can specify certain slices to be plotted in
+a color out of order by passing a <code>(ws, color)</code> pair</li>
+</ul>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>The type of legend depends on the color options</p>
+<p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
+will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+possible keywords and their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change various appearences of the plot</p>
+<p>See matplotlib.axes.Axes.plot for possible keywords and their
+effects</p>
+</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramCurve.plot_flat"><code class="name flex">
+<span>def <span class="ident">plot_flat</span></span>(<span>self, ws=None, stepsize=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a cartesian plot of one or more slices of the polar diagram</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram given as either</p>
+<ul>
+<li>a tuple of length 2, specifying an interval of considered
+wind speeds. The amount of slices taken from that interval are
+determined by the parameter <code>stepsize</code></li>
+<li>an iterable of specific wind speeds</li>
+<li>a single wind speed</li>
+</ul>
+<p>Slices will then equal self(w, wa) where w goes through
+the given values in <code>ws</code> and wa goes through a fixed
+number of angles between 0° and 360°</p>
+<p>If nothing is passed, it will default to (0, 20)</p>
+</dd>
+<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Specfies the amount of slices taken from the given
+wind speed interval</p>
+<p>Will only be used if <code>ws</code> is a tuple of length 2</p>
+<p>If nothing is passed, it will default to ws[1] - ws[0]</p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
+<dd>
+<p>Specifies the colors to be used for the different slices</p>
+<ul>
+<li>If 2 colors are passed, slices will be plotted with a color
+gradient that is determined by the corresponding wind speed</li>
+<li>Otherwise the slices will be colored in turn with the specified
+colors or the color <code>"blue"</code>, if there are too few colors. The
+order is determined by the corresponding wind speeds</li>
+<li>Alternatively one can specify certain slices to be plotted in
+a color out of order by passing a <code>(ws, color)</code> pair</li>
+</ul>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>The type of legend depends on the color options</p>
+<p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
+will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+possible keywords and their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change various appearences of the plot</p>
+<p>See matplotlib.axes.Axes.plot for possible keywords and their
+effects</p>
+</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramCurve.plot_polar"><code class="name flex">
+<span>def <span class="ident">plot_polar</span></span>(<span>self, ws=None, stepsize=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a polar plot of one or more slices of the polar diagram</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram given as either</p>
+<ul>
+<li>a tuple of length 2, specifying an interval of considered
+wind speeds. The amount of slices taken from that interval are
+determined by the parameter <code>stepsize</code></li>
+<li>an iterable of specific wind speeds</li>
+<li>a single wind speed</li>
+</ul>
+<p>Slices will then equal self(w, wa) where w goes through
+the given values in <code>ws</code> and wa goes through a fixed
+number of angles between 0° and 360°</p>
+<p>If nothing is passed, it will default to (0, 20)</p>
+</dd>
+<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Specfies the amount of slices taken from the given
+wind speed interval</p>
+<p>Will only be used if <code>ws</code> is a tuple of length 2</p>
+<p>If nothing is passed, it will default to ws[1] - ws[0]</p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
+<dd>
+<p>Specifies the colors to be used for the different slices</p>
+<ul>
+<li>If 2 colors are passed, slices will be plotted with a color
+gradient that is determined by the corresponding wind speed</li>
+<li>Otherwise the slices will be colored in turn with the specified
+colors or the color <code>"blue"</code>, if there are too few colors. The
+order is determined by the corresponding wind speeds</li>
+<li>Alternatively one can specify certain slices to be plotted in
+a color out of order by passing a <code>(ws, color)</code> pair</li>
+</ul>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>The type of legend depends on the color options</p>
+<p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
+will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+possible keywords and their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change various appearences of the plot</p>
+<p>See matplotlib.axes.Axes.plot for possible keywords and their
+effects</p>
+</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramCurve.symmetrize"><code class="name flex">
+<span>def <span class="ident">symmetrize</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Constructs a symmetric version of the polar diagram,
+by mirroring it at the 0° - 180° axis and returning a new instance</p></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramCurve.to_csv"><code class="name flex">
+<span>def <span class="ident">to_csv</span></span>(<span>self, csv_path)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a .csv file with delimiter ':' and the
+following format:</p>
+<pre><code>PolarDiagramCurve
+Function: self.curve.__name__
+Radians: self.rad
+Parameters: self.parameters
+</code></pre>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>csv_path</code></strong> :&ensp;<code>path-like</code></dt>
+<dd>Path to a .csv file or where a new .csv file will be created</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>OSError</code></dt>
+<dd>If no write permission is given for file</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramMultiSails"><code class="flex name class">
+<span>class <span class="ident">PolarDiagramMultiSails</span></span>
+<span>(</span><span>pds, sails=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A class to represent, visualize and work with
+a polar diagram made up of multiple sets of sails,
+represented by a PolarDiagramTable</p>
+<p>Class methods aren't fully developed yet. Take care when
+using this class</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>pds</code></strong> :&ensp;<code>Sequence</code> of <code><a title="hrosailing.polardiagram.PolarDiagramTable" href="#hrosailing.polardiagram.PolarDiagramTable">PolarDiagramTable</a> objects</code></dt>
+<dd>Polar diagrams belonging to different sets of sails,
+given as tables, that share the same wind speeds</dd>
+<dt><strong><code>sails</code></strong> :&ensp;<code>Sequence</code>, optional</dt>
+<dd>
+<p>Custom names for the sails. Length should be equal to pds
+If it is not equal it will either be cut off at the appropriate
+length or will be addended with <code>"Sail i"</code> to the appropriate length</p>
+<p>Only important for the legend of plots or the to_csv()-method</p>
+<p>If nothing is passed, the names will be <code>"Sail i"</code>, i = 0&hellip;n-1,
+where <code>len(pds) = n</code>.</p>
+</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PolarDiagramInitializationException</code></dt>
+<dd>If the polar tables don't share the same wind speeds</dd>
+</dl></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>hrosailing.polardiagram._basepolardiagram.PolarDiagram</li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="hrosailing.polardiagram.PolarDiagramMultiSails.sails"><code class="name">var <span class="ident">sails</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramMultiSails.tables"><code class="name">var <span class="ident">tables</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramMultiSails.wind_speeds"><code class="name">var <span class="ident">wind_speeds</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="hrosailing.polardiagram.PolarDiagramMultiSails.get_slices"><code class="name flex">
+<span>def <span class="ident">get_slices</span></span>(<span>self, ws)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>For given wind speeds, return the slices of the polar diagram
+corresponding to them</p>
+<p>The slices are equal to the corresponding
+columns of the table together with self.wind_angles</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram table, given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of considered
+wind speeds</li>
+<li>an iterable containing only elements of self.wind_speeds</li>
+<li>a single element of self.wind_speeds</li>
+</ul>
+<p>If nothing it passed, it will default to self.wind_speeds</p>
+</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>slices</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramMultiSails.plot_3d"><code class="name flex">
+<span>def <span class="ident">plot_3d</span></span>(<span>self, ax=None, colors=('green', 'red'))</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a 3d plot of the polar diagram</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ax</code></strong> :&ensp;<code>mpl_toolkits.mplot3d.axes3d.Axes3D</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code>, optional</dt>
+<dd>
+<p>Color pair determining the color gradient with which the
+polar diagram will be plotted</p>
+<p>Will be determined by the corresponding wind speeds</p>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramMultiSails.plot_color_gradient"><code class="name flex">
+<span>def <span class="ident">plot_color_gradient</span></span>(<span>self, ax=None, colors=('green', 'red'), marker=None, ms=None, show_legend=False, **legend_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code>, optional</dt>
+<dd>
+<p>Color pair determining the color gradient with which the
+polar diagram will be plotted</p>
+<p>Will be determined by the corresponding boat speed</p>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>marker</code></strong> :&ensp;<code>matplotlib.markers.Markerstyle</code> or <code>equivalent</code>, optional</dt>
+<dd>
+<p>Markerstyle for the created scatter plot</p>
+<p>Defaults to <code>"o"</code></p>
+</dd>
+<dt><strong><code>ms</code></strong> :&ensp;<code>float</code> or <code>array_like</code> of <code>fitting shape</code>, optional</dt>
+<dd>Marker size in points**2</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next
+to the plot</p>
+<p>Legend will be a <code>matplotlib.colorbar.Colorbar</code> instance</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.legend.Legend for possible keywords and
+their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramMultiSails.plot_convex_hull"><code class="name flex">
+<span>def <span class="ident">plot_convex_hull</span></span>(<span>self, ws=None, ax=None, colors=None, show_legend=False, legend_kw=None, **plot_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Computes the (seperate) convex hull of one or more
+slices of the polar diagram and creates a polar plot of them</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram table, given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of considered
+wind speeds</li>
+<li>an iterable containing only elements of self.wind_speeds</li>
+<li>a single element of self.wind_speeds</li>
+</ul>
+<p>The slices are then equal to the corresponding
+columns of the table together with self.wind_angles</p>
+<p>If nothing it passed, it will default to self.wind_speeds</p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>subscriptable iterable</code> of <code>color_likes</code>, optional</dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>The type of legend depends on the color options</p>
+<p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
+will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+possible keywords and their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change various appearences of the plot</p>
+<p>See matplotlib.axes.Axes.plot for possible keywords and their
+effects</p>
+</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PolarDiagramException</code></dt>
+<dd>If at least one element of <code>ws</code> is not in <code>self.wind_speeds</code></dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramMultiSails.plot_flat"><code class="name flex">
+<span>def <span class="ident">plot_flat</span></span>(<span>self, ws=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a cartesian plot of one or more slices of the polar diagram</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram table, given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of considered
+wind speeds</li>
+<li>an iterable containing only elements of self.wind_speeds</li>
+<li>a single element of self.wind_speeds</li>
+</ul>
+<p>The slices are then equal to the corresponding
+columns of the table together with self.wind_angles</p>
+<p>If nothing it passed, it will default to self.wind_speeds</p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
+<dd>
+<p>Specifies the colors to be used for the different slices</p>
+<ul>
+<li>If 2 colors are passed, slices will be plotted with a color
+gradient that is determined by the corresponding wind speed</li>
+<li>Otherwise the slices will be colored in turn with the specified
+colors or the color <code>"blue"</code>, if there are too few colors. The
+order is determined by the corresponding wind speeds</li>
+<li>Alternatively one can specify certain slices to be plotted in
+a color out of order by passing a <code>(ws, color)</code> pair</li>
+</ul>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>The type of legend depends on the color options</p>
+<p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
+will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+possible keywords and their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change various appearences of the plot</p>
+<p>See matplotlib.axes.Axes.plot for possible keywords and their
+effects</p>
+</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PolarDiagramException</code></dt>
+<dd>
+<ul>
+<li>If at least one element of <code>ws</code> is not in <code>self.wind_speeds</code></li>
+<li>If the given interval doesn't contain any slices of the
+polar diagram</li>
+</ul>
+</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramMultiSails.plot_polar"><code class="name flex">
+<span>def <span class="ident">plot_polar</span></span>(<span>self, ws=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a polar plot of one or more slices of the polar diagram</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram table, given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of considered
+wind speeds</li>
+<li>an iterable containing only elements of self.wind_speeds</li>
+<li>a single element of self.wind_speeds</li>
+</ul>
+<p>The slices are then equal to the corresponding
+columns of the table together with self.wind_angles</p>
+<p>If nothing it passed, it will default to self.wind_speeds</p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
+<dd>
+<p>Specifies the colors to be used for the different slices</p>
+<ul>
+<li>If 2 colors are passed, slices will be plotted with a color
+gradient that is determined by the corresponding wind speed</li>
+<li>Otherwise the slices will be colored in turn with the specified
+colors or the color <code>"blue"</code>, if there are too few colors. The
+order is determined by the corresponding wind speeds</li>
+<li>Alternatively one can specify certain slices to be plotted in
+a color out of order by passing a <code>(ws, color)</code> pair</li>
+</ul>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>The type of legend depends on the color options</p>
+<p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
+will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+possible keywords and their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change various appearences of the plot</p>
+<p>See matplotlib.axes.Axes.plot for possible keywords and their
+effects</p>
+</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PolarDiagramException</code></dt>
+<dd>
+<ul>
+<li>If at least one element of <code>ws</code> is not in <code>self.wind_speeds</code></li>
+<li>If the given interval doesn't contain any slices of the
+polar diagram</li>
+</ul>
+</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramMultiSails.symmetrize"><code class="name flex">
+<span>def <span class="ident">symmetrize</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Constructs a symmetric version of the polar diagram, by
+mirroring each PolarDiagramTable at the 0° - 180° axis and
+returning a new instance. See also the symmetrizce()-method
+of the PolarDiagramTable class</p>
+<h2 id="warning">Warning</h2>
+<p>Should only be used if all the wind angles of the PolarDiagramTables
+are each on one side of the 0° - 180° axis, otherwise this can lead
+to duplicate data, which can overwrite or live alongside old data</p></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramMultiSails.to_csv"><code class="name flex">
+<span>def <span class="ident">to_csv</span></span>(<span>self, csv_path)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a .csv file with delimiter ',' and the
+following format:</p>
+<pre><code>PolarDiagramMultiSails
+TWS:
+self.wind_speeds
+[Sail
+TWA:
+table.wind_angles
+Boat speeds:
+table.boat_speeds]
+</code></pre>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>csv_path</code></strong> :&ensp;<code>path_like</code></dt>
+<dd>Path to a .csv file or where a new .csv file will be created</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramPointcloud"><code class="flex name class">
+<span>class <span class="ident">PolarDiagramPointcloud</span></span>
+<span>(</span><span>points, apparent_wind=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A class to represent, visualize and work with a polar diagram
+given by a point cloud</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>points</code></strong> :&ensp;<code>array_like</code> of <code>shape (n, 3)</code></dt>
+<dd>Initial points of the point cloud, given as a sequence of
+points consisting of wind speed, wind angle and boat speed</dd>
+<dt><strong><code>apparent_wind</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies if wind data is given in apparent wind</p>
+<p>If <code>True</code>, data will be converted to true wind</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+</dl></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>hrosailing.polardiagram._basepolardiagram.PolarDiagram</li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="hrosailing.polardiagram.PolarDiagramPointcloud.boat_speeds"><code class="name">var <span class="ident">boat_speeds</span></code></dt>
+<dd>
+<div class="desc"><p>Returns all occuring boat speeds in the point cloud
+(including duplicates)</p></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramPointcloud.points"><code class="name">var <span class="ident">points</span></code></dt>
+<dd>
+<div class="desc"><p>Returns a read only version of self._points</p></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramPointcloud.wind_angles"><code class="name">var <span class="ident">wind_angles</span></code></dt>
+<dd>
+<div class="desc"><p>Returns all unique wind angles in the point cloud</p></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramPointcloud.wind_speeds"><code class="name">var <span class="ident">wind_speeds</span></code></dt>
+<dd>
+<div class="desc"><p>Returns all unique wind speeds in the point cloud</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="hrosailing.polardiagram.PolarDiagramPointcloud.add_points"><code class="name flex">
+<span>def <span class="ident">add_points</span></span>(<span>self, new_pts, apparent_wind=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds additional points to the point cloud</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>new_pts</code></strong> :&ensp;<code>array_like</code> of <code>shape (n, 3)</code></dt>
+<dd>New points to be added to the point cloud given as a sequence
+of points consisting of wind speed, wind angle and boat speed</dd>
+<dt><strong><code>apparent_wind</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies if wind data is given in apparent_wind</p>
+<p>If <code>True</code>, data will be converted to true wind</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramPointcloud.get_slices"><code class="name flex">
+<span>def <span class="ident">get_slices</span></span>(<span>self, ws, stepsize=None, range_=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>For given wind speeds, return the slices of the polar diagram
+corresponding to them</p>
+<p>A slice then consists of all rows in self.wind_speeds whose
+first entry lies in the interval given by w in <code>ws</code></p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable , int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of considered
+wind speeds. The amount of slices taken from that interval are
+determined by the parameter <code>stepsize</code></li>
+<li>an iterable of tuples of length 2 and int/float values
+which will be interpreted as individual slices. If a w in <code>ws</code>
+is an int or float, the given interval will be determined by
+the
+parameter <code>range_</code>. If it is a tuple, it will be interpreted
+as an inverval as is</li>
+<li>a single wind speed. The given interval is then determined by
+the parameter <code>range_</code></li>
+</ul>
+<p>If nothing is passed, it will default to
+(min(self.wind_speeds), max(self.wind_speeds))</p>
+</dd>
+<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
+<dd>
+<p>Specfies the amount of slices taken from the given
+interval in <code>ws</code></p>
+<p>Will only be used if <code>ws</code> is a tuple of length 2</p>
+<p>If nothing is passed it will default to int(round(ws[1] - ws[0]))</p>
+</dd>
+<dt><strong><code>range_</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Used to convert and int or float w in <code>ws</code> to the interval
+(w - range_, w + range_</p>
+<p>Will only be used if <code>ws</code> is int or float or
+if any w in <code>ws</code> is an int or float</p>
+<p>Defaults to 1</p>
+</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>slices</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PolarDiagramException</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramPointcloud.plot_3d"><code class="name flex">
+<span>def <span class="ident">plot_3d</span></span>(<span>self, ax=None, colors=('green', 'red'), **plot_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a 3d plot of the polar diagram</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ax</code></strong> :&ensp;<code>mpl_toolkits.mplot3d.axes3d.Axes3D</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code>, optional</dt>
+<dd>
+<p>Color pair determining the color gradient with which the
+polar diagram will be plotted</p>
+<p>Will be determined by the corresponding wind speeds</p>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change various appearences of the plot</p>
+<p>See matplotlib.axes.Axes.plot for possible keywords and their
+effects</p>
+</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PolarDiagramException</code></dt>
+<dd>If there are no points in the point cloud</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramPointcloud.plot_color_gradient"><code class="name flex">
+<span>def <span class="ident">plot_color_gradient</span></span>(<span>self, ax=None, colors=('green', 'red'), marker=None, ms=None, show_legend=False, **legend_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a 'wind speed vs. wind angle' color gradient plot
+of the polar diagram with respect to the corresponding boat speeds</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code>, optional</dt>
+<dd>
+<p>Color pair determining the color gradient with which the
+polar diagram will be plotted</p>
+<p>Will be determined by the corresponding boat speed</p>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>marker</code></strong> :&ensp;<code>matplotlib.markers.Markerstyle</code> or <code>equivalent</code>, optional</dt>
+<dd>
+<p>Markerstyle for the created scatter plot</p>
+<p>Defaults to <code>"o"</code></p>
+</dd>
+<dt><strong><code>ms</code></strong> :&ensp;<code>float</code> or <code>array_like</code> of <code>fitting shape</code>, optional</dt>
+<dd>Marker size in points**2</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next
+to the plot</p>
+<p>Legend will be a <code>matplotlib.colorbar.Colorbar</code> instance</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.legend.Legend for possible keywords and
+their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PolarDiagramException</code></dt>
+<dd>If there are no points in the point cloud</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramPointcloud.plot_convex_hull"><code class="name flex">
+<span>def <span class="ident">plot_convex_hull</span></span>(<span>self, ws=None, stepsize=None, range_=1, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Computes the (seperate) convex hull of one or more
+slices of the polar diagram and creates a polar plot of them</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable , int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of considered
+wind speeds. The amount of slices taken from that interval are
+determined by the parameter <code>stepsize</code></li>
+<li>an iterable of tuples of length 2 and int/float values
+which will be interpreted as individual slices. If a w in <code>ws</code>
+is an int or float, the given interval will be determined by
+the
+parameter <code>range_</code>. If it is a tuple, it will be interpreted
+as an inverval as is</li>
+<li>a single wind speed. The given interval is then determined by
+the parameter <code>range_</code></li>
+</ul>
+<p>A slice then consists of all rows in self.wind_speeds whose
+first entry lies in the interval given by w in <code>ws</code></p>
+<p>If nothing is passed, it will default to
+(min(self.wind_speeds), max(self.wind_speeds)</p>
+</dd>
+<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
+<dd>
+<p>Specfies the amount of slices taken from the given
+interval in <code>ws</code></p>
+<p>Will only be used if <code>ws</code> is a tuple of length 2</p>
+<p>Defaults to int(round(ws[1] - ws[0]))</p>
+</dd>
+<dt><strong><code>range_</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Will only be used if <code>ws</code> is int or float or
+if any w in <code>ws</code> is an int or float</p>
+<p>Defaults to 1</p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
+<dd>Axes instance where the plot will be create</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
+<dd>
+<p>Specifies the colors to be used for the different slices</p>
+<ul>
+<li>If 2 colors are passed, slices will be plotted with a color
+gradient that is determined by the corresponding wind speed</li>
+<li>Otherwise the slices will be colored in turn with the specified
+colors or the color <code>"blue"</code>, if there are too few colors. The
+order is determined by the corresponding wind speeds</li>
+<li>Alternatively one can specify certain slices to be plotted in
+a color out of order by passing a <code>(ws, color)</code> pair</li>
+</ul>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>The type of legend depends on the color options</p>
+<p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
+will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+possible keywords and their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change various appearences of the plot</p>
+<p>See matplotlib.axes.Axes.plot for possible keywords and their
+effects</p>
+</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PolarDiagramException</code></dt>
+<dd>If ws is given as a single value or a list and there is a
+value w in ws, such that there are no rows in self.points
+whose first entry is equal to w</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramPointcloud.plot_flat"><code class="name flex">
+<span>def <span class="ident">plot_flat</span></span>(<span>self, ws=None, stepsize=None, range_=1, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a cartesian plot of one or more slices of the polar diagram</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable , int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of considered
+wind speeds. The amount of slices taken from that interval are
+determined by the parameter <code>stepsize</code></li>
+<li>an iterable of tuples of length 2 and int/float values
+which will be interpreted as individual slices. If a w in <code>ws</code>
+is an int or float, the given interval will be determined by
+the
+parameter <code>range_</code>. If it is a tuple, it will be interpreted
+as an inverval as is</li>
+<li>a single wind speed. The given interval is then determined by
+the parameter <code>range_</code></li>
+</ul>
+<p>A slice then consists of all rows in self.wind_speeds whose
+first entry lies in the interval given by w in <code>ws</code></p>
+<p>If nothing is passed, it will default to
+(min(self.wind_speeds), max(self.wind_speeds)</p>
+</dd>
+<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
+<dd>
+<p>Specfies the amount of slices taken from the given
+interval in <code>ws</code></p>
+<p>Will only be used if <code>ws</code> is a tuple of length 2</p>
+<p>If nothing is passed it will default to int(round(ws[1] - ws[0]))</p>
+</dd>
+<dt><strong><code>range_</code></strong> :&ensp;<code>positive scalar</code>, optional</dt>
+<dd>
+<p>Used to convert a scalar <code>w</code> in <code>ws</code> to the interval
+<code>(w - range_, w + range_)</code></p>
+<p>Will only be used if <code>ws</code> is scalar or
+if any <code>w</code> in <code>ws</code> is a scalar</p>
+<p>Defaults to <code>1</code></p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
+<dd>
+<p>Specifies the colors to be used for the different slices</p>
+<ul>
+<li>If 2 colors are passed, slices will be plotted with a color
+gradient that is determined by the corresponding wind speed</li>
+<li>Otherwise the slices will be colored in turn with the specified
+colors or the color <code>"blue"</code>, if there are too few colors. The
+order is determined by the corresponding wind speeds</li>
+<li>Alternatively one can specify certain slices to be plotted in
+a color out of order by passing a <code>(ws, color)</code> pair</li>
+</ul>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>The type of legend depends on the color options</p>
+<p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
+will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+possible keywords and their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change various appearences of the plot</p>
+<p>See matplotlib.axes.Axes.plot for possible keywords and their
+effects</p>
+</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PolarDiagramException</code></dt>
+<dd>If ws is given as a single value or a list and there is a
+value w in ws, such that there are no rows in self.points
+whose first entry is equal to w</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramPointcloud.plot_polar"><code class="name flex">
+<span>def <span class="ident">plot_polar</span></span>(<span>self, ws=None, stepsize=None, range_=1, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a polar plot of one or more slices of the polar diagram</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable , int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of considered
+wind speeds. The amount of slices taken from that interval are
+determined by the parameter <code>stepsize</code></li>
+<li>an iterable of tuples of length 2 and int/float values
+which will be interpreted as individual slices. If a w in <code>ws</code>
+is an int or float, the given interval will be determined by
+the
+parameter <code>range_</code>. If it is a tuple, it will be interpreted
+as an inverval as is</li>
+<li>a single wind speed. The given interval is then determined by
+the parameter <code>range_</code></li>
+</ul>
+<p>A slice then consists of all rows in self.wind_speeds whose
+first entry lies in the interval given by w in <code>ws</code></p>
+<p>If nothing is passed, it will default to
+(min(self.wind_speeds), max(self.wind_speeds))</p>
+</dd>
+<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
+<dd>
+<p>Specfies the amount of slices taken from the given
+interval in <code>ws</code></p>
+<p>Will only be used if <code>ws</code> is a tuple of length 2</p>
+<p>If nothing is passed it will default to int(round(ws[1] - ws[0]))</p>
+</dd>
+<dt><strong><code>range_</code></strong> :&ensp;<code>positive scalar</code>, optional</dt>
+<dd>
+<p>Used to convert a scalar <code>w</code> in <code>ws</code> to the interval
+<code>(w - range_, w + range_)</code></p>
+<p>Will only be used if <code>ws</code> is scalar or
+if any <code>w</code> in <code>ws</code> is a scalar</p>
+<p>Defaults to <code>1</code></p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
+<dd>
+<p>Specifies the colors to be used for the different slices</p>
+<ul>
+<li>If 2 colors are passed, slices will be plotted with a color
+gradient that is determined by the corresponding wind speed</li>
+<li>Otherwise the slices will be colored in turn with the specified
+colors or the color <code>"blue"</code>, if there are too few colors. The
+order is determined by the corresponding wind speeds</li>
+<li>Alternatively one can specify certain slices to be plotted in
+a color out of order by passing a <code>(ws, color)</code> pair</li>
+</ul>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>The type of legend depends on the color options</p>
+<p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
+will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+possible keywords and their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change various appearences of the plot</p>
+<p>See matplotlib.axes.Axes.plot for possible keywords and their
+effects</p>
+</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PolarDiagramException</code></dt>
+<dd>If ws is given as a single value or a list and there is a
+value w in ws, such that there are no rows in self.points
+whose first entry is equal to w</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramPointcloud.symmetrize"><code class="name flex">
+<span>def <span class="ident">symmetrize</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Constructs a symmetric version of the polar diagram,
+by mirroring it at the 0° - 180° axis and returning a new instance</p>
+<h2 id="warning">Warning</h2>
+<p>Should only be used if all the wind angles of the initial
+polar diagram are on one side of the 0° - 180° axis,
+otherwise this can result in the construction of duplicate points,
+that might overwrite or live alongside old points</p></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramPointcloud.to_csv"><code class="name flex">
+<span>def <span class="ident">to_csv</span></span>(<span>self, csv_path)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a .csv file with delimiter ',' and the
+following format:</p>
+<pre><code>PolarDiagramPointcloud
+TWS ,TWA ,BSP
+self.points
+</code></pre>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>csv_path</code></strong> :&ensp;<code>path-like</code></dt>
+<dd>Path to a .csv-file or where a new .csv file will be created</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramTable"><code class="flex name class">
+<span>class <span class="ident">PolarDiagramTable</span></span>
+<span>(</span><span>ws_resolution=None, wa_resolution=None, bsps=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A class to represent, visualize and work with a polar diagram
+in the form of a table.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws_resolution</code></strong> :&ensp;<code>array_like</code> of <code>positive scalars</code> or <code>positive scalar</code>, optional</dt>
+<dd>
+<p>Wind speeds that will correspond to the columns
+of the table</p>
+<ul>
+<li>If array_like, resolution</li>
+<li>If a scalar <code>num</code>, resolution will be <code>numpy.arange(num, 40, num)</code></li>
+</ul>
+<p>Defaults to <code>numpy.arange(2, 42, 2)</code></p>
+</dd>
+<dt><strong><code>wa_resolution</code></strong> :&ensp;<code>array_like</code> of <code>positive scalars</code> or <code>positive scalar</code>, optional</dt>
+<dd>
+<p>Wind angles that will correspond to the rows of the table.
+Should be between 0° and 360°</p>
+<ul>
+<li>If array_like, resolution</li>
+<li>If a scalar <code>num</code>, resolution will be <code>numpy.arange(num, 360, num)</code></li>
+</ul>
+<p>Defaults to <code>numpy.arange(0, 360, 5)</code></p>
+</dd>
+<dt><strong><code>bsps</code></strong> :&ensp;<code>array_like</code> of <code>shape (rdim, cdim)</code>, optional</dt>
+<dd>
+<p>Boat speeds that will correspond to the entries of the table</p>
+<p>Needs to have dimensions matching <code>ws_resolution</code> and <code>wa_resolution</code></p>
+<p>Defaults to <code>numpy.zeros((rdim, cdim))</code></p>
+</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PolarDiagramInitializationException</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code>&gt;&gt;&gt; pd = PolarDiagramTable()
+&gt;&gt;&gt; pd.wind_speeds
+[ 2  4  6  8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40]
+&gt;&gt;&gt; pd.wind_angles
+[  0   5  10  15  20  25  30  35  40  45  50  55  60  65  70  75  80
+  85  90  95 100 105 110 115 120 125 130 135 140 145 150 155 160 165
+ 170 175 180 185 190 195 200 205 210 215 220 225 230 235 240 245 250
+ 255 260 265 270 275 280 285 290 295 300 305 310 315 320 325 330 335
+ 340 345 350 355]
+&gt;&gt;&gt; pd = PolarDiagramTable(
+...     bsps=[
+...         [5.33, 6.32, 6.96, 7.24, 7.35],
+...         [5.64, 6.61, 7.14, 7.42, 7.56],
+...         [5.89, 6.82, 7.28, 7.59, 7.84],
+...         [5.92, 6.98, 7.42, 7.62, 7.93],
+...         [5.98, 7.07, 7.59, 8.02, 8.34],
+...         [5.8, 6.95, 7.51, 7.98, 8.52],
+...         [5.2, 6.41, 7.19, 7.66, 8.14]
+...     ],
+...     ws_resolution=[6, 8, 10, 12, 14],
+...     wa_resolution=[52, 60, 75, 90, 110, 120, 135],
+... )
+&gt;&gt;&gt; print(pd)
+  TWA / TWS    6.0    8.0    10.0    12.0    14.0
+-----------  -----  -----  ------  ------  ------
+52.0          5.33   6.32    6.96    7.24    7.35
+60.0          5.64   6.61    7.14    7.42    7.56
+75.0          5.89   6.82    7.28    7.59    7.84
+90.0          5.92   6.98    7.42    7.62    7.93
+110.0         5.98   7.07    7.59    8.02    8.34
+120.0         5.80   6.95    7.51    7.98    8.52
+135.0         5.20   6.41    7.19    7.66    8.14
+</code></pre></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>hrosailing.polardiagram._basepolardiagram.PolarDiagram</li>
+<li>abc.ABC</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="hrosailing.polardiagram.PolarDiagramTable.boat_speeds"><code class="name">var <span class="ident">boat_speeds</span></code></dt>
+<dd>
+<div class="desc"><p>Returns a read only version of self._boat_speeds</p></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramTable.wind_angles"><code class="name">var <span class="ident">wind_angles</span></code></dt>
+<dd>
+<div class="desc"><p>Returns a read only version of self._res_wind_angle</p></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramTable.wind_speeds"><code class="name">var <span class="ident">wind_speeds</span></code></dt>
+<dd>
+<div class="desc"><p>Returns a read only version of self._res_wind_speed</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="hrosailing.polardiagram.PolarDiagramTable.change_entries"><code class="name flex">
+<span>def <span class="ident">change_entries</span></span>(<span>self, new_bsps, ws=None, wa=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Changes specified entries in the table</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>new_bsps</code></strong> :&ensp;<code>array_like</code> of <code>matching shape</code></dt>
+<dd>Sequence containing the new boat speeds to be inserted
+in the specified entries</dd>
+<dt><strong><code>ws</code></strong> :&ensp;<code>Iterable</code> or <code>int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Element(s) of self.wind_speeds, specifying the columns,
+where new boat speeds will be inserted</p>
+<p>Defaults to <code>self.wind_speeds</code></p>
+</dd>
+<dt><strong><code>wa</code></strong> :&ensp;<code>Iterable</code> or <code>int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Element(s) of self.wind_angles, specifiying the rows,
+where new boat speeds will be inserted</p>
+<p>Defaults to <code>self.wind_angles</code></p>
+</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PolarDiagramException</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code>&gt;&gt;&gt; pd = PolarDiagramTable(
+...     ws_res=[6, 8, 10, 12, 14],
+...     wa_res=[52, 60, 75, 90, 110, 120, 135]
+... )
+&gt;&gt;&gt; print(pd)
+  TWA / TWS    6.0    8.0    10.0    12.0    14.0
+-----------  -----  -----  ------  ------  ------
+52.0          0.00   0.00    0.00    0.00    0.00
+60.0          0.00   0.00    0.00    0.00    0.00
+75.0          0.00   0.00    0.00    0.00    0.00
+90.0          0.00   0.00    0.00    0.00    0.00
+110.0         0.00   0.00    0.00    0.00    0.00
+120.0         0.00   0.00    0.00    0.00    0.00
+135.0         0.00   0.00    0.00    0.00    0.00
+&gt;&gt;&gt; pd.change_entries(
+...     new_bsps=[5.33, 5.64, 5.89, 5.92, 5.98, 5.8, 5.2],
+...     ws=6
+... )
+&gt;&gt;&gt; print(pd)
+  TWA / TWS    6.0    8.0    10.0    12.0    14.0
+-----------  -----  -----  ------  ------  ------
+52.0          5.33   0.00    0.00    0.00    0.00
+60.0          5.64   0.00    0.00    0.00    0.00
+75.0          5.89   0.00    0.00    0.00    0.00
+90.0          5.92   0.00    0.00    0.00    0.00
+110.0         5.98   0.00    0.00    0.00    0.00
+120.0         5.80   0.00    0.00    0.00    0.00
+135.0         5.20   0.00    0.00    0.00    0.00
+&gt;&gt;&gt; pd.change_entries(
+...     new_bsps=[5.7, 6.32, 6.96, 7.24, 7.35],
+...     wa=52
+... )
+</code></pre></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramTable.get_slices"><code class="name flex">
+<span>def <span class="ident">get_slices</span></span>(<span>self, ws=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>For given wind speeds, return the slices of the polar diagram
+corresponding to them</p>
+<p>The slices are equal to the corresponding columns of the table
+together with self.wind_angles</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable</code> or <code>scalar</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram table, given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of
+considered wind speeds</li>
+<li>an iterable containing only elements of <code>self.wind_speeds</code></li>
+<li>a single element of <code>self.wind_speeds</code></li>
+</ul>
+<p>Defaults to <code>self.wind_speeds</code></p>
+</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><strong><code>slices</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>Slices of the polar diagram, given as a tuple of length 3,
+consisting of the given wind speeds <code>ws</code>, <code>self.wind_angles</code>
+(in rad) and an array with the corresponding columns of the table</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PolarDiagramException</code></dt>
+<dd>If no slices where specified</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramTable.plot_3d"><code class="name flex">
+<span>def <span class="ident">plot_3d</span></span>(<span>self, ax=None, colors=('green', 'red'))</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a 3d plot of the polar diagram</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ax</code></strong> :&ensp;<code>mpl_toolkits.mplot3d.axes3d.Axes3D</code>, optional</dt>
+<dd>Axes instance where the plot will be created</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code>, optional</dt>
+<dd>
+<p>Color pair determining the color gradient with which the
+polar diagram will be plotted</p>
+<p>Will be determined by the corresponding wind speeds</p>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramTable.plot_color_gradient"><code class="name flex">
+<span>def <span class="ident">plot_color_gradient</span></span>(<span>self, ax=None, colors=('green', 'red'), marker=None, ms=None, show_legend=False, **legend_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a 'wind speed vs. wind angle' color gradient plot
+of the polar diagram with respect to the corresponding boat speeds</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code>, optional</dt>
+<dd>
+<p>Color pair determining the color gradient with which the
+polar diagram will be plotted</p>
+<p>Will be determined by the corresponding boat speed</p>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>marker</code></strong> :&ensp;<code>matplotlib.markers.Markerstyle</code> or <code>equivalent</code>, optional</dt>
+<dd>
+<p>Markerstyle for the created scatter plot</p>
+<p>Defaults to <code>"o"</code></p>
+</dd>
+<dt><strong><code>ms</code></strong> :&ensp;<code>float</code> or <code>array_like</code> of <code>fitting shape</code>, optional</dt>
+<dd>Marker size in points**2</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next
+to the plot</p>
+<p>Legend will be a <code>matplotlib.colorbar.Colorbar</code> instance</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.legend.Legend for possible keywords and
+their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramTable.plot_convex_hull"><code class="name flex">
+<span>def <span class="ident">plot_convex_hull</span></span>(<span>self, ws=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Computes the (seperate) convex hull of one or more
+slices of the polar diagram and creates a polar plot of them</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, scalar</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram table, given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of considered
+wind speeds</li>
+<li>an iterable containing only elements of <code>self.wind_speeds</code></li>
+<li>a single element of <code>self.wind_speeds</code></li>
+</ul>
+<p>The slices are then equal to the corresponding
+columns of the table together with self.wind_angles</p>
+<p>Defaults to <code>self.wind_speeds</code></p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
+<dd>Axes instance where the plot will be create</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
+<dd>
+<p>Specifies the colors to be used for the different slices</p>
+<ul>
+<li>If 2 colors are passed, slices will be plotted with a color
+gradient that is determined by the corresponding wind speed</li>
+<li>Otherwise the slices will be colored in turn with the specified
+colors or the color <code>"blue"</code>, if there are too few colors. The
+order is determined by the corresponding wind speeds</li>
+<li>Alternatively one can specify certain slices to be plotted in
+a color out of order by passing a <code>(ws, color)</code> pair</li>
+</ul>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>The type of legend depends on the color options</p>
+<p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
+will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+possible keywords and their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change various appearences of the plot</p>
+<p>See matplotlib.axes.Axes.plot for possible keywords and their
+effects</p>
+</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PolarDiagramException</code></dt>
+<dd>
+<ul>
+<li>If at least one element of <code>ws</code> is not in <code>self.wind_speeds</code></li>
+<li>If the given interval doesn't contain any slices of the
+polar diagram</li>
+</ul>
+</dd>
+</dl></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramTable.plot_flat"><code class="name flex">
+<span>def <span class="ident">plot_flat</span></span>(<span>self, ws=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a cartesian plot of one or more slices of the polar diagram</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable,</code> or <code>scalar</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram table, given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of considered
+wind speeds</li>
+<li>an iterable containing only elements of <code>self.wind_speeds</code></li>
+<li>a single element of <code>self.wind_speeds</code></li>
+</ul>
+<p>The slices are then equal to the corresponding
+columns of the table together with <code>self.wind_angles</code></p>
+<p>Defaults to <code>self.wind_speeds</code></p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
+<dd>
+<p>Specifies the colors to be used for the different slices</p>
+<ul>
+<li>If 2 colors are passed, slices will be plotted with a color
+gradient that is determined by the corresponding wind speed</li>
+<li>Otherwise the slices will be colored in turn with the specified
+colors or the color <code>"blue"</code>, if there are too few colors. The
+order is determined by the corresponding wind speeds</li>
+<li>Alternatively one can specify certain slices to be plotted in
+a color out of order by passing a <code>(ws, color)</code> pair</li>
+</ul>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>The type of legend depends on the color options</p>
+<p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
+will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+possible keywords and their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change various appearences of the plot</p>
+<p>See matplotlib.axes.Axes.plot for possible keywords and their
+effects</p>
+</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PolarDiagramException</code></dt>
+<dd>
+<ul>
+<li>If at least one element of <code>ws</code> is not in <code>self.wind_speeds</code></li>
+<li>If the given interval doesn't contain any slices of the
+polar diagram</li>
+</ul>
+</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code>&gt;&gt;&gt; import matplotlib.pyplot as pyplot
+&gt;&gt;&gt; pd = from_csv("src/polar_diagrams/orc/A-35.csv", fmt="orc")
+&gt;&gt;&gt; pd.plot_flat(
+...     ws=[6, 8], show_legend=True, ls="-", lw=1.5, marker=""
+... )
+&gt;&gt;&gt; pyplot.show()
+</code></pre>
+<p><img alt="" src="https://raw.githubusercontent.com/hrosailing/hrosailing
+/main/examples/pictures/table_plot_flat.png"></p></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramTable.plot_polar"><code class="name flex">
+<span>def <span class="ident">plot_polar</span></span>(<span>self, ws=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a polar plot of one or more slices of the polar diagram</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable,</code> or <code>scalar</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram table, given as either</p>
+<ul>
+<li>a tuple of length 2 specifying an interval of
+considered wind speeds</li>
+<li>an iterable containing only elements of <code>self.wind_speeds</code></li>
+<li>a single element of <code>self.wind_speeds</code></li>
+</ul>
+<p>The slices are then equal to the corresponding
+columns of the table together with <code>self.wind_angles</code></p>
+<p>Defaults to <code>self.wind_speeds</code></p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
+<dd>
+<p>Specifies the colors to be used for the different slices</p>
+<ul>
+<li>If 2 colors are passed, slices will be plotted with a color
+gradient that is determined by the corresponding wind speed</li>
+<li>Otherwise the slices will be colored in turn with the specified
+colors or the color <code>"blue"</code>, if there are too few colors. The
+order is determined by the corresponding wind speeds</li>
+<li>Alternatively one can specify certain slices to be plotted in
+a color out of order by passing a <code>(ws, color)</code> pair</li>
+</ul>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>The type of legend depends on the color options</p>
+<p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
+will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+possible keywords and their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change various appearences of the plot</p>
+<p>See matplotlib.axes.Axes.plot for possible keywords and their
+effects</p>
+</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PolarDiagramException</code></dt>
+<dd>
+<ul>
+<li>If at least one element of <code>ws</code> is not in <code>self.wind_speeds</code></li>
+<li>If the given interval doesn't contain any slices of the
+polar diagram</li>
+</ul>
+</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code>&gt;&gt;&gt; import matplotlib.pyplot as pyplot
+&gt;&gt;&gt; pd = from_csv("src/polar_diagrams/orc/A-35.csv", fmt="orc")
+&gt;&gt;&gt; pd.plot_polar(
+...     ws=[6, 8], show_legend=True, ls="-", lw=1.5, marker=""
+... )
+&gt;&gt;&gt; pyplot.show()
+</code></pre>
+<p><img alt="" src="https://raw.githubusercontent.com/hrosailing/hrosailing
+/main/examples/pictures/table_plot_polar.png"></p></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramTable.symmetrize"><code class="name flex">
+<span>def <span class="ident">symmetrize</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Constructs a symmetric version of the
+polar diagram, by mirroring it at the 0° - 180° axis
+and returning a new instance</p>
+<h2 id="warning">Warning</h2>
+<p>Should only be used if all the wind angles of the initial
+polar diagram are on one side of the 0° - 180° axis,
+otherwise this can lead to duplicate data, which can
+overwrite or live alongside old data</p>
+<h2 id="examples">Examples</h2>
+<pre><code>&gt;&gt;&gt; pd = PolarDiagramTable(
+...     bsps=[
+...         [5.33, 6.32, 6.96, 7.24, 7.35],
+...         [5.64, 6.61, 7.14, 7.42, 7.56],
+...         [5.89, 6.82, 7.28, 7.59, 7.84],
+...         [5.92, 6.98, 7.42, 7.62, 7.93],
+...     ],
+...     ws_res = [6, 8, 10, 12, 14],
+...     wa_res = [52, 60, 75, 90]
+... )
+&gt;&gt;&gt; print(pd)
+  TWA / TWS    6.0    8.0    10.0    12.0    14.0
+-----------  -----  -----  ------  ------  ------
+52.0          5.33   6.32    6.96    7.24    7.35
+60.0          5.64   6.61    7.14    7.42    7.56
+75.0          5.89   6.82    7.28    7.59    7.84
+90.0          5.92   6.98    7.42    7.62    7.93
+&gt;&gt;&gt; sym_pd = pd.symmetrize()
+&gt;&gt;&gt; print(sym_pd)
+  TWA / TWS    6.0    8.0    10.0    12.0    14.0
+-----------  -----  -----  ------  ------  ------
+52.0          5.33   6.32    6.96    7.24    7.35
+60.0          5.64   6.61    7.14    7.42    7.56
+75.0          5.89   6.82    7.28    7.59    7.84
+90.0          5.92   6.98    7.42    7.62    7.93
+270.0         5.92   6.98    7.42    7.62    7.93
+285.0         5.89   6.82    7.28    7.59    7.84
+300.0         5.64   6.61    7.14    7.42    7.56
+308.0         5.33   6.32    6.96    7.24    7.35
+</code></pre></div>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramTable.to_csv"><code class="name flex">
+<span>def <span class="ident">to_csv</span></span>(<span>self, csv_path, fmt='hro')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a .csv file with delimiter ',' and the
+following format:</p>
+<pre><code>PolarDiagramTable
+TWS:
+self.wind_speeds
+TWA:
+self.wind_angles
+Boat speeds:
+self.boat_speeds
+</code></pre>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>csv_path</code></strong> :&ensp;<code>path-like</code></dt>
+<dd>Path to a .csv file or where a new .csv file will be created</dd>
+<dt><strong><code>fmt</code></strong> :&ensp;<code>str</code></dt>
+<dd>Format in which the .csv file should be written,
+refer to <code><a title="hrosailing.polardiagram.from_csv" href="#hrosailing.polardiagram.from_csv">from_csv()</a></code> for the possible formats</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>PolarDiagramException</code></dt>
+<dd>If an unknown format was specified</dd>
+<dt><code>OSError</code></dt>
+<dd>If no write permission is granted for file</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code>&gt;&gt;&gt; pd = PolarDiagramTable(
+...     bsps=[
+...         [5.33, 6.32, 6.96, 7.24, 7.35],
+...         [5.64, 6.61, 7.14, 7.42, 7.56],
+...         [5.89, 6.82, 7.28, 7.59, 7.84],
+...         [5.92, 6.98, 7.42, 7.62, 7.93],
+...         [5.98, 7.07, 7.59, 8.02, 8.34],
+...         [5.8, 6.95, 7.51, 7.98, 8.52],
+...         [5.2, 6.41, 7.19, 7.66, 8.14]
+...     ],
+...     ws_res=[6, 8, 10, 12, 14],
+...     wa_res=[52, 60, 75, 90, 110, 120, 135],
+... )
+&gt;&gt;&gt; print(pd)
+  TWA / TWS    6.0    8.0    10.0    12.0    14.0
+-----------  -----  -----  ------  ------  ------
+52.0          5.33   6.32    6.96    7.24    7.35
+60.0          5.64   6.61    7.14    7.42    7.56
+75.0          5.89   6.82    7.28    7.59    7.84
+90.0          5.92   6.98    7.42    7.62    7.93
+110.0         5.98   7.07    7.59    8.02    8.34
+120.0         5.80   6.95    7.51    7.98    8.52
+135.0         5.20   6.41    7.19    7.66    8.14
+&gt;&gt;&gt; pd.to_csv("example.csv")
+&gt;&gt;&gt; pd2 = from_csv("example.csv")
+&gt;&gt;&gt; print(pd2)
+  TWA / TWS    6.0    8.0    10.0    12.0    14.0
+-----------  -----  -----  ------  ------  ------
+52.0          5.33   6.32    6.96    7.24    7.35
+60.0          5.64   6.61    7.14    7.42    7.56
+75.0          5.89   6.82    7.28    7.59    7.84
+90.0          5.92   6.98    7.42    7.62    7.93
+110.0         5.98   7.07    7.59    8.02    8.34
+120.0         5.80   6.95    7.51    7.98    8.52
+135.0         5.20   6.41    7.19    7.66    8.14
+</code></pre></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<header>
+<a class="homelink" rel="home" title="hrosailing Home" href="https://hrosailing.github.io/hrosailing">
+<img src="https://raw.githubusercontent.com/hrosailing/hrosailing/main/logo.png" alt="logo" width=100px height=100px>
+</a>
+</header>
+<form>
+<input id="lunr-search" name="q" placeholder="🔎 Search ..." aria-label="Search"
+disabled minlength="2">
+</form>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.css" integrity="sha512-j1u8eUJ4f23xPPxwOrLUPQaCD2dwzNqqmDDcWS4deWsMv2ohLqmXXuP3hU7g8TyzbMSakP/mMqoNBYWj8AEIFg==" crossorigin>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tingle/0.15.3/tingle.min.js" integrity="sha512-plGUER9JkeEWPPqQBE4sdLqBoQug5Ap+BCGMc7bJ8BXkm+VVj6QzkpBz5Yv2yPkkq+cqg9IpkBaGCas6uDbW8g==" crossorigin></script>
+<style>
+.modal-dialog iframe {
+width: 100vw;
+height: calc(100vh - 80px);
+}
+@media screen and (min-width: 700px) {
+.modal-dialog iframe {
+width: 70vw;
+height: 80vh;
+}
+}
+.modal-dialog .tingle-modal-box {width: auto;}
+.modal-dialog .tingle-modal-box__content {padding: 0;}
+</style>
+<script>
+const input = document.getElementById('lunr-search');
+input.disabled = false;
+input.form.addEventListener('submit', (ev) => {
+ev.preventDefault();
+const url = new URL(window.location);
+url.searchParams.set('q', input.value);
+history.replaceState({}, null, url.toString());
+search(input.value);
+});
+const query = new URL(window.location).searchParams.get('q');
+if (query)
+search(query);
+function search(query) {
+const url = '../../doc-search.html#' + encodeURIComponent(query);
+new tingle.modal({
+cssClass: ['modal-dialog'],
+onClose: () => {
+const url = new URL(window.location);
+url.searchParams.delete('q');
+history.replaceState({}, null, url.toString());
+setTimeout(() => input.focus(), 100);
+}
+}).setContent('<iframe src="' + url + '"></iframe>').open();
+}
+</script>
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="hrosailing" href="../index.html">hrosailing</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="hrosailing.polardiagram.from_csv" href="#hrosailing.polardiagram.from_csv">from_csv</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="hrosailing.polardiagram.FileReadingException" href="#hrosailing.polardiagram.FileReadingException">FileReadingException</a></code></h4>
+</li>
+<li>
+<h4><code><a title="hrosailing.polardiagram.PolarDiagram" href="#hrosailing.polardiagram.PolarDiagram">PolarDiagram</a></code></h4>
+<ul class="">
+<li><code><a title="hrosailing.polardiagram.PolarDiagram.get_slices" href="#hrosailing.polardiagram.PolarDiagram.get_slices">get_slices</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagram.plot_3d" href="#hrosailing.polardiagram.PolarDiagram.plot_3d">plot_3d</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagram.plot_color_gradient" href="#hrosailing.polardiagram.PolarDiagram.plot_color_gradient">plot_color_gradient</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagram.plot_convex_hull" href="#hrosailing.polardiagram.PolarDiagram.plot_convex_hull">plot_convex_hull</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagram.plot_convex_hull_slice" href="#hrosailing.polardiagram.PolarDiagram.plot_convex_hull_slice">plot_convex_hull_slice</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagram.plot_flat" href="#hrosailing.polardiagram.PolarDiagram.plot_flat">plot_flat</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagram.plot_flat_slice" href="#hrosailing.polardiagram.PolarDiagram.plot_flat_slice">plot_flat_slice</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagram.plot_polar" href="#hrosailing.polardiagram.PolarDiagram.plot_polar">plot_polar</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagram.plot_polar_slice" href="#hrosailing.polardiagram.PolarDiagram.plot_polar_slice">plot_polar_slice</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagram.symmetrize" href="#hrosailing.polardiagram.PolarDiagram.symmetrize">symmetrize</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagram.to_csv" href="#hrosailing.polardiagram.PolarDiagram.to_csv">to_csv</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hrosailing.polardiagram.PolarDiagramCurve" href="#hrosailing.polardiagram.PolarDiagramCurve">PolarDiagramCurve</a></code></h4>
+<ul class="two-column">
+<li><code><a title="hrosailing.polardiagram.PolarDiagramCurve.curve" href="#hrosailing.polardiagram.PolarDiagramCurve.curve">curve</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramCurve.get_slices" href="#hrosailing.polardiagram.PolarDiagramCurve.get_slices">get_slices</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramCurve.parameters" href="#hrosailing.polardiagram.PolarDiagramCurve.parameters">parameters</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramCurve.plot_3d" href="#hrosailing.polardiagram.PolarDiagramCurve.plot_3d">plot_3d</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramCurve.plot_color_gradient" href="#hrosailing.polardiagram.PolarDiagramCurve.plot_color_gradient">plot_color_gradient</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramCurve.plot_convex_hull" href="#hrosailing.polardiagram.PolarDiagramCurve.plot_convex_hull">plot_convex_hull</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramCurve.plot_flat" href="#hrosailing.polardiagram.PolarDiagramCurve.plot_flat">plot_flat</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramCurve.plot_polar" href="#hrosailing.polardiagram.PolarDiagramCurve.plot_polar">plot_polar</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramCurve.radians" href="#hrosailing.polardiagram.PolarDiagramCurve.radians">radians</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramCurve.symmetrize" href="#hrosailing.polardiagram.PolarDiagramCurve.symmetrize">symmetrize</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramCurve.to_csv" href="#hrosailing.polardiagram.PolarDiagramCurve.to_csv">to_csv</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails" href="#hrosailing.polardiagram.PolarDiagramMultiSails">PolarDiagramMultiSails</a></code></h4>
+<ul class="two-column">
+<li><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails.get_slices" href="#hrosailing.polardiagram.PolarDiagramMultiSails.get_slices">get_slices</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails.plot_3d" href="#hrosailing.polardiagram.PolarDiagramMultiSails.plot_3d">plot_3d</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails.plot_color_gradient" href="#hrosailing.polardiagram.PolarDiagramMultiSails.plot_color_gradient">plot_color_gradient</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails.plot_convex_hull" href="#hrosailing.polardiagram.PolarDiagramMultiSails.plot_convex_hull">plot_convex_hull</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails.plot_flat" href="#hrosailing.polardiagram.PolarDiagramMultiSails.plot_flat">plot_flat</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails.plot_polar" href="#hrosailing.polardiagram.PolarDiagramMultiSails.plot_polar">plot_polar</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails.sails" href="#hrosailing.polardiagram.PolarDiagramMultiSails.sails">sails</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails.symmetrize" href="#hrosailing.polardiagram.PolarDiagramMultiSails.symmetrize">symmetrize</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails.tables" href="#hrosailing.polardiagram.PolarDiagramMultiSails.tables">tables</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails.to_csv" href="#hrosailing.polardiagram.PolarDiagramMultiSails.to_csv">to_csv</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails.wind_speeds" href="#hrosailing.polardiagram.PolarDiagramMultiSails.wind_speeds">wind_speeds</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud" href="#hrosailing.polardiagram.PolarDiagramPointcloud">PolarDiagramPointcloud</a></code></h4>
+<ul class="two-column">
+<li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.add_points" href="#hrosailing.polardiagram.PolarDiagramPointcloud.add_points">add_points</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.boat_speeds" href="#hrosailing.polardiagram.PolarDiagramPointcloud.boat_speeds">boat_speeds</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.get_slices" href="#hrosailing.polardiagram.PolarDiagramPointcloud.get_slices">get_slices</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.plot_3d" href="#hrosailing.polardiagram.PolarDiagramPointcloud.plot_3d">plot_3d</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.plot_color_gradient" href="#hrosailing.polardiagram.PolarDiagramPointcloud.plot_color_gradient">plot_color_gradient</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.plot_convex_hull" href="#hrosailing.polardiagram.PolarDiagramPointcloud.plot_convex_hull">plot_convex_hull</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.plot_flat" href="#hrosailing.polardiagram.PolarDiagramPointcloud.plot_flat">plot_flat</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.plot_polar" href="#hrosailing.polardiagram.PolarDiagramPointcloud.plot_polar">plot_polar</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.points" href="#hrosailing.polardiagram.PolarDiagramPointcloud.points">points</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.symmetrize" href="#hrosailing.polardiagram.PolarDiagramPointcloud.symmetrize">symmetrize</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.to_csv" href="#hrosailing.polardiagram.PolarDiagramPointcloud.to_csv">to_csv</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.wind_angles" href="#hrosailing.polardiagram.PolarDiagramPointcloud.wind_angles">wind_angles</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramPointcloud.wind_speeds" href="#hrosailing.polardiagram.PolarDiagramPointcloud.wind_speeds">wind_speeds</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hrosailing.polardiagram.PolarDiagramTable" href="#hrosailing.polardiagram.PolarDiagramTable">PolarDiagramTable</a></code></h4>
+<ul class="two-column">
+<li><code><a title="hrosailing.polardiagram.PolarDiagramTable.boat_speeds" href="#hrosailing.polardiagram.PolarDiagramTable.boat_speeds">boat_speeds</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramTable.change_entries" href="#hrosailing.polardiagram.PolarDiagramTable.change_entries">change_entries</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramTable.get_slices" href="#hrosailing.polardiagram.PolarDiagramTable.get_slices">get_slices</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramTable.plot_3d" href="#hrosailing.polardiagram.PolarDiagramTable.plot_3d">plot_3d</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramTable.plot_color_gradient" href="#hrosailing.polardiagram.PolarDiagramTable.plot_color_gradient">plot_color_gradient</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramTable.plot_convex_hull" href="#hrosailing.polardiagram.PolarDiagramTable.plot_convex_hull">plot_convex_hull</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramTable.plot_flat" href="#hrosailing.polardiagram.PolarDiagramTable.plot_flat">plot_flat</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramTable.plot_polar" href="#hrosailing.polardiagram.PolarDiagramTable.plot_polar">plot_polar</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramTable.symmetrize" href="#hrosailing.polardiagram.PolarDiagramTable.symmetrize">symmetrize</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramTable.to_csv" href="#hrosailing.polardiagram.PolarDiagramTable.to_csv">to_csv</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramTable.wind_angles" href="#hrosailing.polardiagram.PolarDiagramTable.wind_angles">wind_angles</a></code></li>
+<li><code><a title="hrosailing.polardiagram.PolarDiagramTable.wind_speeds" href="#hrosailing.polardiagram.PolarDiagramTable.wind_speeds">wind_speeds</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
