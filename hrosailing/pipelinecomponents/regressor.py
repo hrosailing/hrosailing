@@ -93,15 +93,15 @@ class ODRegressor(Regressor):
 
     def __init__(self, model_func: Callable, init_values=None, max_it=1000):
         def odr_model_func(params, x):
-            tws = x[0, :]
-            twa = x[1, :]
-            return model_func(tws, twa, *params)
+            ws = x[0, :]
+            wa = x[1, :]
+            return model_func(ws, wa, *params)
 
         self._func = model_func
         self._model = Model(odr_model_func)
         self._init_vals = init_values
-        self._weights_X = None
-        self._weights_y = None
+        # self._weights_X = None
+        # self._weights_y = None
         self._maxit = max_it
         self._popt = None
 
@@ -130,9 +130,7 @@ class ODRegressor(Regressor):
         """
         X, y = data[:, :2], data[:, 2]
 
-        odr_data = Data(
-            (X[:, 0], X[:, 1]), y, wd=self._weights_X, we=self._weights_y
-        )
+        odr_data = Data((X[:, 0], X[:, 1]), y)
         odr = ODR(
             odr_data, self._model, beta0=self._init_vals, maxit=self._maxit
         )
@@ -215,7 +213,6 @@ class LeastSquareRegressor(Regressor):
         self._fitting_func = fitting_func
         self._init_vals = init_vals
         self._popt = None
-        self._weights = None
 
     @property
     def model_func(self):
@@ -250,9 +247,8 @@ class LeastSquareRegressor(Regressor):
 
     def _get_optimal_parameters(self, X, y):
         optimal_parameters, _ = curve_fit(
-            self._fitting_func, X, y, p0=self._init_vals, sigma=self._weights
+            self._fitting_func, X, y, p0=self._init_vals
         )
-
         return optimal_parameters
 
     def _log_outcome_of_regression(self, X, y):
