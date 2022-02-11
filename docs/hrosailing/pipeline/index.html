@@ -72,7 +72,7 @@ radians</p>
 <h3>Methods</h3>
 <dl>
 <dt id="hrosailing.pipeline.CurveExtension.process"><code class="name flex">
-<span>def <span class="ident">process</span></span>(<span>self, weighted_points, _enable_logging) ‑> hrosailing.polardiagram._polardiagramcurve.PolarDiagramCurve</span>
+<span>def <span class="ident">process</span></span>(<span>self, weighted_points, _enable_logging)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a PolarDiagramCurve instance from preprocessed data,
@@ -126,7 +126,7 @@ successful interpolation</p></div>
 <h3>Methods</h3>
 <dl>
 <dt id="hrosailing.pipeline.PipelineExtension.process"><code class="name flex">
-<span>def <span class="ident">process</span></span>(<span>self, weighted_points, _enable_logging) ‑> hrosailing.polardiagram._basepolardiagram.PolarDiagram</span>
+<span>def <span class="ident">process</span></span>(<span>self, weighted_points, _enable_logging)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>This method, given an instance of WeightedPoints, should
@@ -171,7 +171,7 @@ the data points used in the interpolation of that point</p>
 <h3>Methods</h3>
 <dl>
 <dt id="hrosailing.pipeline.PointcloudExtension.process"><code class="name flex">
-<span>def <span class="ident">process</span></span>(<span>self, weighted_points, _enable_logging) ‑> hrosailing.polardiagram._polardiagrampointcloud.PolarDiagramPointcloud</span>
+<span>def <span class="ident">process</span></span>(<span>self, weighted_points, _enable_logging)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a PolarDiagramPointcloud instance from preprocessed data,
@@ -208,7 +208,7 @@ in the raw data</dd>
 <dd>
 <p>Extension that is called in the pipeline, after all preprocessing
 is done, to generate a polar diagram from the processed data.</p>
-<p>Determines the subclass of PolarDiagram, that the pipeline will
+<p>Determines the subclass of <code>PolarDiagram</code>, that the pipeline will
 produce</p>
 </dd>
 <dt><strong><code>handler</code></strong> :&ensp;<code>DataHandler</code></dt>
@@ -219,19 +219,19 @@ produce</p>
 <dt><strong><code>weigher</code></strong> :&ensp;<code>Weigher</code>, optional</dt>
 <dd>
 <p>Determines the method with which the points will be weight.</p>
-<p>Defaults to CylindricMeanWeigher()</p>
+<p>Defaults to <code>CylindricMeanWeigher()</code></p>
 </dd>
 <dt><strong><code>filter_</code></strong> :&ensp;<code>Filter</code>, optional</dt>
 <dd>
 <p>Determines the methods with which the points will be filtered,
-if <code>filtering</code> is <code>True</code> in <strong>call</strong> method</p>
-<p>Defaults to QuantileFilter()</p>
+if <code>filtering</code> in <strong>call</strong> method</p>
+<p>Defaults to <code>QuantileFilter()</code></p>
 </dd>
 </dl></div>
 <h3>Methods</h3>
 <dl>
 <dt id="hrosailing.pipeline.PolarPipeline.__call__"><code class="name flex">
-<span>def <span class="ident">__call__</span></span>(<span>self, data, apparent_wind=False, filtering=True, n_zeros=500) ‑> hrosailing.polardiagram._basepolardiagram.PolarDiagram</span>
+<span>def <span class="ident">__call__</span></span>(<span>self, data, apparent_wind=False, filtering=True, n_zeros=500)</span>
 </code></dt>
 <dd>
 <div class="desc"><h2 id="parameters">Parameters</h2>
@@ -316,7 +316,7 @@ the data points used in the interpolation of that point</p>
 <h3>Methods</h3>
 <dl>
 <dt id="hrosailing.pipeline.TableExtension.process"><code class="name flex">
-<span>def <span class="ident">process</span></span>(<span>self, weighted_points, _enable_logging) ‑> hrosailing.polardiagram._polardiagramtable.PolarDiagramTable</span>
+<span>def <span class="ident">process</span></span>(<span>self, weighted_points, _enable_logging)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a PolarDiagramTable instance from preprocessed data,

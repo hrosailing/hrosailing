@@ -44,7 +44,7 @@ class Direction:
 
 
 def convex_direction(
-    pd: pol.PolarDiagram,
+    pd,
     ws,
     direction,
     im: Optional[InfluenceModel] = None,
@@ -139,7 +139,7 @@ def convex_direction(
 
 
 def cruise(
-    pd: pol.PolarDiagram,
+    pd,
     ws,
     wdir,
     start,
@@ -327,7 +327,7 @@ class WeatherModel:
 
 
 def cost_cruise(
-    pd: pol.PolarDiagram,
+    pd,
     start,
     end,
     start_time: datetime,
@@ -448,7 +448,7 @@ def cost_cruise(
 
 
 def isocrone(
-    pd: pol.PolarDiagram,
+    pd,
     start,
     start_time,
     direction,

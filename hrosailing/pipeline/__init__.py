@@ -13,7 +13,6 @@ import hrosailing.polardiagram as pol
 from hrosailing.pipelinecomponents.modelfunctions import (
     ws_s_wa_gauss_and_square,
 )
-from hrosailing.polardiagram._polardiagramtable import _set_resolution
 
 
 class PolarPipeline:
@@ -25,7 +24,7 @@ class PolarPipeline:
         Extension that is called in the pipeline, after all preprocessing
         is done, to generate a polar diagram from the processed data.
 
-        Determines the subclass of PolarDiagram, that the pipeline will
+        Determines the subclass of `PolarDiagram`, that the pipeline will
         produce
 
     handler : DataHandler
@@ -36,13 +35,13 @@ class PolarPipeline:
     weigher : Weigher, optional
         Determines the method with which the points will be weight.
 
-        Defaults to CylindricMeanWeigher()
+        Defaults to `CylindricMeanWeigher()`
 
     filter_ : Filter, optional
         Determines the methods with which the points will be filtered,
-        if `filtering` is `True` in __call__ method
+        if `filtering` in __call__ method
 
-        Defaults to QuantileFilter()
+        Defaults to `QuantileFilter()`
     """
 
     def __init__(
@@ -66,7 +65,7 @@ class PolarPipeline:
         filtering=True,
         n_zeros=500,
         _enable_logging=False,
-    ) -> pol.PolarDiagram:
+    ):
         """
         Parameters
         ----------
@@ -159,7 +158,7 @@ class PipelineExtension(ABC):
     """
 
     @abstractmethod
-    def process(self, weighted_points, _enable_logging) -> pol.PolarDiagram:
+    def process(self, weighted_points, _enable_logging):
         """This method, given an instance of WeightedPoints, should
         return a polar diagram object, which represents the trends
         and data contained in the WeightedPoints instance
@@ -205,9 +204,7 @@ class TableExtension(PipelineExtension):
         self.neighbourhood = neighbourhood
         self.interpolator = interpolator
 
-    def process(
-        self, weighted_points, _enable_logging
-    ) -> pol.PolarDiagramTable:
+    def process(self, weighted_points, _enable_logging):
         """Creates a PolarDiagramTable instance from preprocessed data,
         by first determining a wind speed / wind angle grid, using
         `self.w_res`, and then interpolating the boat speed values at the
@@ -243,6 +240,8 @@ class TableExtension(PipelineExtension):
         return pol.PolarDiagramTable(ws_resolution, wa_resolution, bsps)
 
     def _determine_table_size(self, points):
+        from hrosailing.polardiagram._polardiagramtable import _set_resolution
+
         if self.wind_resolution == "auto":
             return _automatically_determined_resolution(points)
 
@@ -326,9 +325,7 @@ class CurveExtension(PipelineExtension):
         self.regressor = regressor
         self.radians = radians
 
-    def process(
-        self, weighted_points, _enable_logging
-    ) -> pol.PolarDiagramCurve:
+    def process(self, weighted_points, _enable_logging):
         """Creates a PolarDiagramCurve instance from preprocessed data,
         by fitting a given function to said data, using a regression
         method determined by `self.regressor`
@@ -400,9 +397,7 @@ class PointcloudExtension(PipelineExtension):
         self.neighbourhood = neighbourhood
         self.interpolator = interpolator
 
-    def process(
-        self, weighted_points, _enable_logging
-    ) -> pol.PolarDiagramPointcloud:
+    def process(self, weighted_points, _enable_logging):
         """Creates a PolarDiagramPointcloud instance from preprocessed data,
         first creating a set number of points by sampling the wind speed,
         wind angle space of the data points and capturing the underlying
