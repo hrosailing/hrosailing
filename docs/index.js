@@ -405,7 +405,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipeline.PolarPipeline",
 "url":2,
-"doc":"A Pipeline class to create polar diagrams from raw data Parameters      extension: PipelineExtension Extension that is called in the pipeline, after all preprocessing is done, to generate a polar diagram from the processed data. Determines the subclass of PolarDiagram, that the pipeline will produce handler : DataHandler Handler that is responsible to extract actual data from the input Determines the type and format of input the pipeline should accept weigher : Weigher, optional Determines the method with which the points will be weight. Defaults to CylindricMeanWeigher() filter_ : Filter, optional Determines the methods with which the points will be filtered, if  filtering is  True in __call__ method Defaults to QuantileFilter()"
+"doc":"A Pipeline class to create polar diagrams from raw data Parameters      extension: PipelineExtension Extension that is called in the pipeline, after all preprocessing is done, to generate a polar diagram from the processed data. Determines the subclass of  PolarDiagram , that the pipeline will produce handler : DataHandler Handler that is responsible to extract actual data from the input Determines the type and format of input the pipeline should accept weigher : Weigher, optional Determines the method with which the points will be weight. Defaults to  CylindricMeanWeigher() filter_ : Filter, optional Determines the methods with which the points will be filtered, if  filtering in __call__ method Defaults to  QuantileFilter() "
 },
 {
 "ref":"hrosailing.pipeline.PolarPipeline.__call__",
