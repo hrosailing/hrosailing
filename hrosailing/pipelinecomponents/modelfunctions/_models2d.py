@@ -4,6 +4,11 @@ import numpy as np
 
 
 def polynomial_function(x, *params, deg=1):
+    """If `deg=n`, models the function
+    \\[
+        a_0 + a_1x + \\dots + a_nx^n
+    \\]
+    """
     val = 0
     for i in range(deg + 1):
         val += params[i] * np.power(x, i)
@@ -12,14 +17,37 @@ def polynomial_function(x, *params, deg=1):
 
 
 def inverted_parabola(x, *params):
+    """Models the function
+    \\[
+        a_1 + a_2(x - a_0)^2
+    \\]
+    """
     return params[1] + params[2] * np.square(x - params[0])
 
 
 def inverted_shifted_parabola(x, *params):
+    """Models the function
+    \\[
+        a_0x + a_2(x - a_1)^2
+    \\]
+    """
     return params[0] * x + params[2] * np.square(x - params[1])
 
 
 def concave_function(x, *params, downturn=True, sat_limit=False):
+    """If `downturn` and `sat_limit`, models the function
+    \\[
+        a_2 - a_0e^{a_1 - x} - a_3x^2
+    \\]
+    If just `sat_limit`, models the function
+    \\[
+        a_2 - a_0e^{a_1 - x}
+    \\]
+    If just `downturn`, models the function
+    \\[
+        a_0 + a_1x - a_2x^2
+    \\]
+    """
     if sat_limit and downturn:
         return (
             params[2]
