@@ -511,7 +511,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.modelfunctions.ws_s_wa_gauss_and_square",
 "url":4,
-"doc":"Models the function \\[ \\left(\\frac{a_2}{1 + e^{a_0 - a_1x - a_3x^2 + x\\left(a_4\\exp\\left(\\frac{-(y - a_5)^2}{2a_6}\\right) + a_7\\exp\\left(\\frac{- 360 - y) - a_8)}{2a_9}\\right)\\right) y(360 - y) \\]",
+"doc":"Models the function \\[ \\left(\\frac{a_2}{1 + e^{a_0 - a_1x - a_3x^2 + x\\left(a_4\\exp\\left(\\frac{-(y - a_5)^2}{2a_6}\\right) + a_7\\exp\\left(\\frac{- 360 - y) - a_8)}{2a_9}\\right)\\right)\\right) y(360 - y) \\]",
 "func":1
 },
 {
