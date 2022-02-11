@@ -405,7 +405,7 @@ INDEX=[
 {
 "ref":"hrosailing.pipeline.PolarPipeline",
 "url":2,
-"doc":"A Pipeline class to create polar diagrams from raw data Parameters      extension: PipelineExtension Extension that is called in the pipeline, after all preprocessing is done, to generate a polar diagram from the processed data. Determines the subclass of PolarDiagram, that the pipeline will produce handler : DataHandler Handler that is responsible to extract actual data from the input Determines the type and format of input the pipeline should accept weigher : Weigher, optional Determines the method with which the points will be weight. Defaults to CylindricMeanWeigher() filter_ : Filter, optional Determines the methods with which the points will be filtered, if  filtering is  True in __call__ method Defaults to QuantileFilter()"
+"doc":"A Pipeline class to create polar diagrams from raw data Parameters      extension: PipelineExtension Extension that is called in the pipeline, after all preprocessing is done, to generate a polar diagram from the processed data. Determines the subclass of  PolarDiagram , that the pipeline will produce handler : DataHandler Handler that is responsible to extract actual data from the input Determines the type and format of input the pipeline should accept weigher : Weigher, optional Determines the method with which the points will be weight. Defaults to  CylindricMeanWeigher() filter_ : Filter, optional Determines the methods with which the points will be filtered, if  filtering in __call__ method Defaults to  QuantileFilter() "
 },
 {
 "ref":"hrosailing.pipeline.PolarPipeline.__call__",
@@ -481,37 +481,37 @@ INDEX=[
 {
 "ref":"hrosailing.pipelinecomponents.modelfunctions.ws_concave_dt_wa",
 "url":4,
-"doc":"",
+"doc":"Models the function \\[ a_0 + a_1x - a_2x^2 + a_3y + a_5(y - a_4)^2 + a_6xy + a_7(360 - y) + a_9 360 -y) - a_8)^2 + a_{10}xy \\]",
 "func":1
 },
 {
 "ref":"hrosailing.pipelinecomponents.modelfunctions.ws_wa_s_dt",
 "url":4,
-"doc":"",
+"doc":"Models the function \\[ \\frac{a_2}{1 + e^{a_0 - a_1x - a_3x^2 + \\frac{a_6}{1 + e^{a_4 - a_5y - a_7y^2 + a_8xy + \\frac{a_{11 {1 + e^{a_9 - a_{10}(360 - y) - a_{12}(360 - y)^2 + a_{13}x(360-y) \\]",
 "func":1
 },
 {
 "ref":"hrosailing.pipelinecomponents.modelfunctions.ws_s_dt_wa_gauss",
 "url":4,
-"doc":"",
+"doc":"Models the function \\[ \\frac{a_2}{1 + e^{a_0 - a_1x - a_3x^2 + + a_4\\exp\\left(\\frac{-(y - a_5)^2}{2a_6}\\right) + a_7\\exp\\left(\\frac{- 360 - y) - a_8)^2}{2a_9}\\right) \\]",
 "func":1
 },
 {
 "ref":"hrosailing.pipelinecomponents.modelfunctions.ws_s_s_dt_wa_gauss_comb",
 "url":4,
-"doc":"",
+"doc":"Models the function \\[ \\frac{a_2}{1 + e^{a_0 - a_1x - a_3x^2 + + a_4\\exp\\left(\\frac{-(y - a_5)^2}{2a_6}\\right) + a_7xy + a_8\\exp\\left(\\frac{- 360 - y) - a_9)^2}{2a_{10 \\right) + a_11x(360 -y) \\]",
 "func":1
 },
 {
 "ref":"hrosailing.pipelinecomponents.modelfunctions.ws_s_wa_gauss",
 "url":4,
-"doc":"",
+"doc":"Models the function \\[ \\frac{a_2}{1 + e^{a_0 - a_1x + + a_3\\exp\\left(\\frac{-(y - a_4)^2}{2a_5}\\right) + a_6\\exp\\left(\\frac{- 360 - y) - a_7)^2}{2a_8}\\right) \\]",
 "func":1
 },
 {
 "ref":"hrosailing.pipelinecomponents.modelfunctions.ws_s_wa_gauss_and_square",
 "url":4,
-"doc":"",
+"doc":"Models the function \\[ \\left(\\frac{a_2}{1 + e^{a_0 - a_1x - a_3x^2 + x\\left(a_4\\exp\\left(\\frac{-(y - a_5)^2}{2a_6}\\right) + a_7\\exp\\left(\\frac{- 360 - y) - a_8)}{2a_9}\\right)\\right) y(360 - y) \\]",
 "func":1
 },
 {
