@@ -9,7 +9,7 @@
     html_lang = 'en'
     show_inherited_members = False
     extract_module_toc_into_sidebar = True
-    list_class_variables_in_index = True
+    list_class_variables_in_index = False 
     sort_identifiers = True
     show_type_annotations = True
 
@@ -36,7 +36,7 @@
     # Set the style keyword such as 'atom-one-light' or 'github-gist'
     #     Options: https://github.com/highlightjs/highlight.js/tree/master/src/styles
     #     Demo: https://highlightjs.org/static/demo/
-    hljs_style = 'github'
+    hljs_style = 'rainbow'
 
     # If set, insert Google Analytics tracking code. Value is GA
     # tracking id (UA-XXXXXX-Y).
@@ -53,7 +53,7 @@
     # If 'index_docstrings' is False, a shorter index is built, indexing only
     # the full object reference names.
     lunr_search = {'fuzziness': 1, 'index_docstrings': True}
-    #lunr_search = False
+    lunr_search = True
 
     # If set, render LaTeX math syntax within \(...\) (inline equations),
     # or within \[...\] or $$...$$ or `.. math::` (block equations)
