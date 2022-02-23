@@ -10,7 +10,8 @@ The recommended way to install `hrosailing` is with
 
     pip install hrosailing
 
-[![PyPi version](https://badge.fury.io/py/hrosailing.svg)](https://badge.fury.io/py/hrosailing)
+[![PyPi version](https://badge.fury.io/py/hrosailing.svg)](https://badge.\
+        fury.io/py/hrosailing)
 
 
 Getting Started
@@ -22,11 +23,6 @@ Contributing
 License
 -------
 
-The `hrosailing` package is published under the [Apache 2.0 License](https://choosealicense.com/licenses/apache-2.0/), see also [License](LICENSE)
-
-Authors
--------
-Valentin Dannenberg (valentin.dannenberg2@uni-rostock.de)
-
-Robert Schueler (robert.schueler2@uni-rostock.de)
+The `hrosailing` package is published under the [Apache 2.0 License](https://\
+        choosealicense.com/licenses/apache-2.0/)
 """
