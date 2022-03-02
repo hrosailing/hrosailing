@@ -337,7 +337,6 @@ def plot_convex_hull_multisails(
 
 
 def _get_convex_hull_multisails(ws, wa, bsp, members):
-    members = members[0]
     xs = []
     ys = []
     membs = []
@@ -345,7 +344,7 @@ def _get_convex_hull_multisails(ws, wa, bsp, members):
         w = np.asarray(w)
         b = np.asarray(b)
         conv = _convex_hull_in_polar_coordinates(w, b)
-        vert = sorted(conv.vertices)
+        vert = conv.vertices
 
         x, y, memb = zip(
             *(
@@ -358,9 +357,9 @@ def _get_convex_hull_multisails(ws, wa, bsp, members):
         memb = list(memb)
 
         for i in range(len(vert)):
-            xs.append(x[i : i + 2])
-            ys.append(y[i : i + 2])
-            membs.append(memb[i : i + 2] + [s])
+            xs.append(x[i:i + 2])
+            ys.append(y[i:i + 2])
+            membs.append(memb[i:i + 2] + [s])
 
     return xs, ys, membs
 
@@ -369,9 +368,6 @@ def _set_colors_multisails(ax, members, colors):
     colorlist = []
 
     for member in members:
-        # check if edge belongs to one or two sails
-        # If it belongs to one sail, color it in that sails color
-        # else color it in neutral color
         if len(set(member[:2])) == 1:
             color = colors.get(member[0], "blue")
         else:
