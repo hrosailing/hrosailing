@@ -235,7 +235,7 @@ class CylindricMeanWeigher(Weigher):
         """
         weights = [self._calculate_weight(point, points) for point in points]
         weights = np.array(weights)
-        return 1 - _log_and_normalize(weights, _enable_logging)
+        return 1 - _log_and_normalize(weights, np.max, _enable_logging)
 
     def _calculate_weight(self, point, points):
         points_in_cylinder = self._determine_points_in_cylinder(point, points)
@@ -258,11 +258,11 @@ def _mean_of(points_in_cylinder):
     return np.mean(points_in_cylinder)
 
 
-def _log_and_normalize(weights, _enable_logging):
+def _log_and_normalize(weights, normalizer, _enable_logging):
     if _enable_logging:
         _log_unnormalized(weights)
 
-    weights = weights / np.max(weights)
+    weights = weights / normalizer(weights)
 
     if _enable_logging:
         _log_normalized(weights)
@@ -358,7 +358,7 @@ class CylindricMemberWeigher(Weigher):
         """
         weights = [self._calculate_weight(point, points) for point in points]
         weights = np.array(weights)
-        return _log_and_normalize(weights, _enable_logging)
+        return _log_and_normalize(weights, np.max, _enable_logging)
 
     def _calculate_weight(self, point, points):
         points_in_cylinder = self._count_points_in_cylinder(point, points)
@@ -387,7 +387,7 @@ class PastFluctuationWeigher(Weigher):
             for i in range(len(points))
         ]
         weights = np.array(weights)
-        return len(weights) * _log_and_normalize(weights, _enable_logging)
+        return len(weights) * _log_and_normalize(weights, np.sum, _enable_logging)
 
     def _calculate_weight(self, index, points, recording_times):
         in_time_interval = self._get_points_in_time_interval(
@@ -441,20 +441,19 @@ class PastFutureFluctuationWeigher(Weigher):
         """WIP"""
         recording_times = _get_recording_times(extra_data)
         weights = [
-            self._calculate_weight(i, points, recording_times)
-            for i in range(len(points))
+            self._calculate_weight(time, points, recording_times)
+            for time in recording_times
         ]
         weights = np.array(weights)
-        return len(weights) * _log_and_normalize(weights, _enable_logging)
+        return len(weights) * _log_and_normalize(weights, np.sum, _enable_logging)
 
-    def _calculate_weight(self, index, points, recording_times):
+    def _calculate_weight(self, reference_time, points, recording_times):
         in_time_interval = self._get_points_in_time_interval(
-            index, recording_times
+            reference_time, recording_times
         )
         return 1 / np.std(points[in_time_interval]) ** 2
 
-    def _get_points_in_time_interval(self, index, recording_times):
-        reference_time = recording_times[index]
+    def _get_points_in_time_interval(self, reference_time, recording_times):
         return [
             i
             for i, time in enumerate(recording_times)
