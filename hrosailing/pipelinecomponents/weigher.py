@@ -387,7 +387,9 @@ class PastFluctuationWeigher(Weigher):
             for i in range(len(points))
         ]
         weights = np.array(weights)
-        return len(weights) * _log_and_normalize(weights, np.sum, _enable_logging)
+        return len(weights) * _log_and_normalize(
+            weights, np.sum, _enable_logging
+        )
 
     def _calculate_weight(self, index, points, recording_times):
         in_time_interval = self._get_points_in_time_interval(
@@ -445,7 +447,9 @@ class PastFutureFluctuationWeigher(Weigher):
             for time in recording_times
         ]
         weights = np.array(weights)
-        return len(weights) * _log_and_normalize(weights, np.sum, _enable_logging)
+        return len(weights) * _log_and_normalize(
+            weights, np.sum, _enable_logging
+        )
 
     def _calculate_weight(self, reference_time, points, recording_times):
         in_time_interval = self._get_points_in_time_interval(

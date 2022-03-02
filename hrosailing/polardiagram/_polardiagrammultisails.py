@@ -8,8 +8,11 @@ from ast import literal_eval
 import matplotlib.pyplot as plt
 import numpy as np
 
-from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
-                                PolarDiagramInitializationException)
+from ._basepolardiagram import (
+    PolarDiagram,
+    PolarDiagramException,
+    PolarDiagramInitializationException,
+)
 from ._plotting import plot_convex_hull_multisails
 from ._polardiagramtable import PolarDiagramTable
 
@@ -231,90 +234,90 @@ class PolarDiagramMultiSails(PolarDiagram):
         return ws, wa, bsp, members
 
     def plot_polar(
-            self,
-            ws=None,
-            ax=None,
-            colors=("green", "red"),
-            show_legend=False,
-            legend_kw=None,
-            **plot_kw,
-        ):
-            """Creates a polar plot of one or more slices of the polar diagram
+        self,
+        ws=None,
+        ax=None,
+        colors=("green", "red"),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw,
+    ):
+        """Creates a polar plot of one or more slices of the polar diagram
 
-            Parameters
-            ----------
-            ws : tuple of length 2, iterable, int or float, optional
-                Slices of the polar diagram table, given as either
+        Parameters
+        ----------
+        ws : tuple of length 2, iterable, int or float, optional
+            Slices of the polar diagram table, given as either
 
-                - a tuple of length 2 specifying an interval of considered
-                wind speeds
-                - an iterable containing only elements of self.wind_speeds
-                - a single element of self.wind_speeds
+            - a tuple of length 2 specifying an interval of considered
+            wind speeds
+            - an iterable containing only elements of self.wind_speeds
+            - a single element of self.wind_speeds
 
-                The slices are then equal to the corresponding
-                columns of the table together with self.wind_angles
+            The slices are then equal to the corresponding
+            columns of the table together with self.wind_angles
 
-                If nothing it passed, it will default to self.wind_speeds
+            If nothing it passed, it will default to self.wind_speeds
 
-            ax : matplotlib.projections.polar.PolarAxes, optional
-                Axes instance where the plot will be created.
+        ax : matplotlib.projections.polar.PolarAxes, optional
+            Axes instance where the plot will be created.
 
-            colors : sequence of color_likes or (ws, color_like) pairs, optional
-                Specifies the colors to be used for the different slices
+        colors : sequence of color_likes or (ws, color_like) pairs, optional
+            Specifies the colors to be used for the different slices
 
-                - If 2 colors are passed, slices will be plotted with a color
-                gradient that is determined by the corresponding wind speed
-                - Otherwise the slices will be colored in turn with the specified
-                colors or the color `"blue"`, if there are too few colors. The
-                order is determined by the corresponding wind speeds
-                - Alternatively one can specify certain slices to be plotted in
-                a color out of order by passing a `(ws, color)` pair
+            - If 2 colors are passed, slices will be plotted with a color
+            gradient that is determined by the corresponding wind speed
+            - Otherwise the slices will be colored in turn with the specified
+            colors or the color `"blue"`, if there are too few colors. The
+            order is determined by the corresponding wind speeds
+            - Alternatively one can specify certain slices to be plotted in
+            a color out of order by passing a `(ws, color)` pair
 
-                Defaults to `("green", "red")`
+            Defaults to `("green", "red")`
 
-            show_legend : bool, optional
-                Specifies wether or not a legend will be shown next to the plot
+        show_legend : bool, optional
+            Specifies wether or not a legend will be shown next to the plot
 
-                The type of legend depends on the color options
+            The type of legend depends on the color options
 
-                If plotted with a color gradient, a `matplotlib.colorbar.Colorbar`
-                will be created, otherwise a `matplotlib.legend.Legend`
+            If plotted with a color gradient, a `matplotlib.colorbar.Colorbar`
+            will be created, otherwise a `matplotlib.legend.Legend`
 
-                Defaults to `False`
+            Defaults to `False`
 
-            legend_kw : dict, optional
-                Keyword arguments to change position and appearence of the legend
+        legend_kw : dict, optional
+            Keyword arguments to change position and appearence of the legend
 
-                See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-                possible keywords and their effects
+            See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+            possible keywords and their effects
 
-                Will only be used if show_legend is `True`
+            Will only be used if show_legend is `True`
 
-            plot_kw : Keyword arguments
-                Keyword arguments to change various appearences of the plot
+        plot_kw : Keyword arguments
+            Keyword arguments to change various appearences of the plot
 
-                See matplotlib.axes.Axes.plot for possible keywords and their
-                effects
+            See matplotlib.axes.Axes.plot for possible keywords and their
+            effects
 
-            Raises
-            ------
-            PolarDiagramException
+        Raises
+        ------
+        PolarDiagramException
 
-                - If at least one element of `ws` is not in `self.wind_speeds`
-                - If the given interval doesn't contain any slices of the
-                polar diagram
-            """
-            if ax is None:
-                ax = plt.axes(projection="polar")
+            - If at least one element of `ws` is not in `self.wind_speeds`
+            - If the given interval doesn't contain any slices of the
+            polar diagram
+        """
+        if ax is None:
+            ax = plt.axes(projection="polar")
 
-            for i, pd in enumerate(self._tables):
-                if i == 0 and show_legend:
-                    pd.plot_polar(
-                        ws, ax, colors, show_legend, legend_kw, **plot_kw
-                    )
-                    continue
+        for i, pd in enumerate(self._tables):
+            if i == 0 and show_legend:
+                pd.plot_polar(
+                    ws, ax, colors, show_legend, legend_kw, **plot_kw
+                )
+                continue
 
-                pd.plot_polar(ws, ax, colors, False, None, **plot_kw)
+            pd.plot_polar(ws, ax, colors, False, None, **plot_kw)
 
     def plot_flat(
         self,
