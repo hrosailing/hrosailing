@@ -45,7 +45,7 @@ def convert_true_wind_to_apparent(true_wind):
 
     Returns
     -------
-    true_wind : numpy.ndarray of shape (n, 3)
+    apparent_wind : numpy.ndarray of shape (n, 3)
         Array containing the same data as wind_arr, but the wind speed
         and wind angle now measured as apparent wind
 
@@ -57,7 +57,6 @@ def convert_true_wind_to_apparent(true_wind):
 
 
 def _convert_wind(wind, sign):
-    # NaNs and infinite values will cause problems later on
     wind = np.asarray_chkfinite(wind)
 
     if wind.dtype == object:
