@@ -36,6 +36,11 @@ The recommended way to install `hrosailing` is with
 
 The `hrosailing` package is published under the [Apache 2.0 License](https://choosealicense.com/licenses/apache-2.0/), see also [License](LICENSE)
 
+### Citing
+
+See also [Citation](CITATION.cff)
+[![DOI](https://zenodo.org/badge/409121004.svg)](https://zenodo.org/badge/latestdoi/409121004)
+
 
 ### Examples
 
