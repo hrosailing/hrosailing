@@ -44,7 +44,7 @@ class Direction:
 
 
 def convex_direction(
-    pd: pol.PolarDiagram,
+    pd,
     ws,
     direction,
     im: Optional[InfluenceModel] = None,
@@ -139,7 +139,7 @@ def convex_direction(
 
 
 def cruise(
-    pd: pol.PolarDiagram,
+    pd,
     ws,
     wdir,
     start,
@@ -327,7 +327,7 @@ class WeatherModel:
 
 
 def cost_cruise(
-    pd: pol.PolarDiagram,
+    pd,
     start,
     end,
     start_time: datetime,
@@ -448,7 +448,7 @@ def cost_cruise(
 
 
 def isocrone(
-    pd: pol.PolarDiagram,
+    pd,
     start,
     start_time,
     direction,
@@ -552,6 +552,7 @@ def _inverse_mercator_proj(pt, lat_mp):
 def _mercator_proj(pt, lat_mp):
     """Computes the mercator projection with reference point lat_mp of a point"""
     lat, long = pt
+
     # 69 nautical miles between two lattitudes
     return 69 * np.array(
         [(lat - lat_mp), np.arcsinh(np.tan(np.pi * long / 180))]
@@ -628,7 +629,7 @@ def _right_handing_course(a, b):
         a[1]
     ) * np.cos(b[1])
 
-    return np.arccos(numerator / np.sqrt(1 - denominator ** 2))
+    return np.arccos(numerator / np.sqrt(1 - denominator**2))
 
 
 def _wind_relative_to_north(wdir):
@@ -658,7 +659,7 @@ def _wind_relative_to_north(wdir):
 
 def _uvgrid_to_tw(ugrid, vgrid, hdt):
     """Calculates the true wind speed and wind angle fron given gribdata"""
-    tws = np.sqrt(ugrid ** 2 + vgrid ** 2)
+    tws = np.sqrt(ugrid**2 + vgrid**2)
     wa = (180 + 180 / np.pi * np.arctan2(vgrid, ugrid)) % 360
     twa = (hdt - wa) % 360
     return tws, twa

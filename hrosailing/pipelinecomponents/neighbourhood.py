@@ -193,11 +193,11 @@ class ScalingBall(Neighbourhood):
         dist = self._norm(pts)
 
         while True:
-            pts_in_ball = dist <= self._radius
-            if self._enough_points_in_ball(pts_in_ball):
-                return points_in_ball
+            in_ball = dist <= self._radius
+            if self._enough_points(in_ball):
+                return in_ball
 
-            self._expand_radius(dist, pts_in_ball)
+            self._expand_radius(dist, in_ball)
 
     def _guess_initial_suitable_radius(self, pts):
         self._n_pts = pts.shape[0]

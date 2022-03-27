@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Dannenberg"
+  given-names: "Valentin"
+- family-names: "Schüler"
+  given-names: "Robert"
+title: "hrosailing"
+version: 0.9.6.2
+doi: 10.5281/zenodo.6322872
+date-released: 2022-03-02
+url: "https://github.com/hrosailing/hrosailing"
+

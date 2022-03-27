@@ -1,5 +1,14 @@
-from ._basepolardiagram import *
-from ._plotting import *
+# pylint: disable=missing-module-docstring
+
+import csv
+from ast import literal_eval
+
+import numpy as np
+
+from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
+                                PolarDiagramInitializationException)
+from ._plotting import (plot_color_gradient, plot_convex_hull, plot_flat,
+                        plot_polar, plot_surface)
 
 
 class PolarDiagramCurve(PolarDiagram):
@@ -104,7 +113,7 @@ class PolarDiagramCurve(PolarDiagram):
         radians = literal_eval(next(csv_reader)[1])
         params = [literal_eval(param) for param in next(csv_reader)[1:]]
 
-        func = _extract_function_if_defined(func)
+        func = cls._extract_function_if_defined(func)
 
         return PolarDiagramCurve(func, *params, radians=radians)
 
@@ -380,7 +389,8 @@ class PolarDiagramCurve(PolarDiagram):
             colors,
             show_legend,
             legend_kw,
-            _lines=True ** plot_kw,
+            _lines=True,
+            **plot_kw,
         )
 
     def plot_3d(
@@ -604,5 +614,6 @@ class PolarDiagramCurve(PolarDiagram):
             colors,
             show_legend,
             legend_kw,
-            _lines=True ** plot_kw,
+            _lines=True,
+            **plot_kw,
         )

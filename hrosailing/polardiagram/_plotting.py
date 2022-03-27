@@ -8,12 +8,8 @@ PolarDiagram subclasses
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.cm import ScalarMappable
-from matplotlib.colors import (
-    LinearSegmentedColormap,
-    Normalize,
-    is_color_like,
-    to_rgb,
-)
+from matplotlib.colors import (LinearSegmentedColormap, Normalize,
+                               is_color_like, to_rgb)
 from matplotlib.lines import Line2D
 from scipy.spatial import ConvexHull
 
@@ -194,7 +190,7 @@ def _set_legend_with_wind_speeds(ax, colors, ws, legend_kw):
     ax.legend(
         handles=[
             Line2D([0], [0], color=color, lw=1, label=f"TWS {ws}")
-            for (ws, colors) in slices
+            for (ws, color) in slices
         ],
         **legend_kw,
     )
@@ -230,7 +226,7 @@ def plot3d(ws, wa, bsp, ax, colors, **plot_kw):
         ax = _get_new_axis("3d")
 
     _set_3d_axis_labels(ax)
-    _remove_3d_axis_labels_for_polar_coordinates(ax)
+    _remove_3d_tick_labels_for_polar_coordinates(ax)
 
     color_map = _create_color_map(colors)
 
@@ -287,15 +283,15 @@ def _get_convex_hull(wa, bsp):
     ys = []
     slices = zip(wa, bsp)
 
-    for wa, bsp in slices:
-        wa = np.asarray(wa)
-        bsp = np.asarray(bsp)
+    for w, b in slices:
+        w = np.asarray(w)
+        b = np.asarray(b)
 
         # convex hull is line between the two points
         # or is equal to one point
-        if len(wa) < 3:
-            xs.append(wa)
-            ys.append(bsp)
+        if len(w) < 3:
+            xs.append(w)
+            ys.append(b)
             continue
 
         conv = _convex_hull_in_polar_coordinates(w, b)
@@ -341,15 +337,14 @@ def plot_convex_hull_multisails(
 
 
 def _get_convex_hull_multisails(ws, wa, bsp, members):
-    members = members[0]
     xs = []
     ys = []
     membs = []
     for s, w, b in zip(ws, wa, bsp):
         w = np.asarray(w)
         b = np.asarray(b)
-        conv = _convex_hull_polar(w, b)
-        vert = sorted(conv.vertices)
+        conv = _convex_hull_in_polar_coordinates(w, b)
+        vert = conv.vertices
 
         x, y, memb = zip(
             *(
@@ -373,9 +368,6 @@ def _set_colors_multisails(ax, members, colors):
     colorlist = []
 
     for member in members:
-        # check if edge belongs to one or two sails
-        # If it belongs to one sail, color it in that sails color
-        # else color it in neutral color
         if len(set(member[:2])) == 1:
             color = colors.get(member[0], "blue")
         else:

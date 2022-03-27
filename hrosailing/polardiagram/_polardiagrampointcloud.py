@@ -1,15 +1,18 @@
+# pylint: disable=missing-module-docstring
+
+import csv
 import warnings
 from ast import literal_eval
 
-from hrosailing.pipelinecomponents import (
-    ArithmeticMeanInterpolator,
-    Ball,
-    WeightedPoints,
-)
+import numpy as np
+
+from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
+                                           WeightedPoints)
 from hrosailing.wind import convert_apparent_wind_to_true
 
-from ._basepolardiagram import *
-from ._plotting import *
+from ._basepolardiagram import PolarDiagram, PolarDiagramException
+from ._plotting import (plot3d, plot_color_gradient, plot_convex_hull,
+                        plot_flat, plot_polar)
 
 
 class PolarDiagramPointcloud(PolarDiagram):
@@ -102,7 +105,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             return point[2]
 
         point = np.array([ws, wa])
-        weighted_points = WeightedPoints(points=cloud, weights=1)
+        weighted_points = WeightedPoints(data=cloud, weights=1)
 
         considered_points = neighbourhood.is_contained_in(cloud[:, :2] - point)
 
@@ -154,11 +157,11 @@ class PolarDiagramPointcloud(PolarDiagram):
     @classmethod
     def __from_csv__(cls, csv_reader):
         next(csv_reader)
-        pts = np.array(
-            [[literal_eval(pt) for pt in row] for row in csv_reader]
+        points = np.array(
+            [[literal_eval(point) for point in row] for row in csv_reader]
         )
 
-        return PolarDiagramPointcloud(pts)
+        return PolarDiagramPointcloud(points)
 
     def symmetrize(self):
         """Constructs a symmetric version of the polar diagram,
@@ -183,11 +186,11 @@ class PolarDiagramPointcloud(PolarDiagram):
                 "which can overwrite or live alongside old data"
             )
 
-        sym_pts = self.points
-        sym_pts[:, 1] = 360 - sym_pts[:, 1]
-        pts = np.row_stack((self.points, sym_pts))
+        mirrored_points = self.points
+        mirrored_points[:, 1] = 360 - mirrored_points[:, 1]
+        symmetric_points = np.row_stack((self.points, mirrored_points))
 
-        return PolarDiagramPointcloud(pts)
+        return PolarDiagramPointcloud(symmetric_points)
 
     def add_points(self, new_pts, apparent_wind=False):
         """Adds additional points to the point cloud

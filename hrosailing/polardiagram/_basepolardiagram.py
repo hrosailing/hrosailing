@@ -1,4 +1,5 @@
-import csv
+# pylint: disable=missing-module-docstring
+
 from abc import ABC, abstractmethod
 
 
@@ -63,24 +64,6 @@ class PolarDiagram(ABC):
         **plot_kw,
     )
     """
-
-    def pickling(self, pkl_path):
-        """Writes PolarDiagram instance to a .pkl file
-
-        Since the pickle module can't guarantee security, but
-        we have found no other way to serialize toplevel functions
-        in python, we have decided to omit a depickling function
-        and leave that up to the user.
-
-        Parameters
-        ----------
-        pkl_path: path-like
-            Path to a .pkl file or where a new .pkl file will be created
-        """
-        with open(pkl_path, "wb") as file:
-            import pickle
-
-            pickle.dump(self, file)
 
     @abstractmethod
     def to_csv(self, csv_path):

@@ -1,12 +1,18 @@
 # pylint: disable=missing-docstring
-doc = """The Python package hrosailing provides classes and functions ....
+doc = """The hrosailing package provides classes and functions ....
 polar diagrams .... sailing .... from data ... pipeline ... machine learning
 ... modular ....
 
 Installation
 ------------
-hrosailing can be installed using `pip install hrosailing`. It requires
-Python ..., aswell as numpy ..., matplotlib ... and scipy ... to run.
+The recommended way to install `hrosailing` is with
+[pip](http://pypi.python.org/pypi/pip)
+
+    pip install hrosailing
+
+[![PyPi version](https://badge.fury.io/py/hrosailing.svg)](https://badge.\
+        fury.io/py/hrosailing)
+
 
 Getting Started
 ---------------
@@ -17,9 +23,6 @@ Contributing
 License
 -------
 
-Authors
--------
-Valentin Dannenberg (valentin.dannenberg2@uni-rostock.de)
-
-Robert Schueler (robert.schueler2@uni-rostock.de)
+The `hrosailing` package is published under the [Apache 2.0 License](https://\
+        choosealicense.com/licenses/apache-2.0/)
 """

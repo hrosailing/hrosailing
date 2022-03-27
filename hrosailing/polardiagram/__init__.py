@@ -4,7 +4,6 @@ PolarDiagram classes to work with and represent PPDs in various forms
 
 
 import csv
-import pickle
 from ast import literal_eval
 
 import numpy as np
@@ -14,6 +13,16 @@ from ._polardiagramcurve import PolarDiagramCurve
 from ._polardiagrammultisails import PolarDiagramMultiSails
 from ._polardiagrampointcloud import PolarDiagramPointcloud
 from ._polardiagramtable import PolarDiagramTable
+
+__all__ = [
+    "PolarDiagram",
+    "PolarDiagramCurve",
+    "PolarDiagramMultiSails",
+    "PolarDiagramPointcloud",
+    "PolarDiagramTable",
+    "from_csv",
+    "FileReadingException",
+]
 
 
 class FileReadingException(Exception):

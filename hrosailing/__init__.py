@@ -1,4 +1,6 @@
-# pylint: disable=wrong-import-order, wrong-import-position, unused-import
+# pylint: disable=wrong-import-order
+# pylint: disable=wrong-import-position
+# pylint: disable=unused-import
 
 from ._doc import doc
 from ._pdoc import pdoc
@@ -6,15 +8,6 @@ from ._version import __version__ as version
 
 __doc__ = doc
 __pdoc__ = pdoc
-
-# create folder for logging, where script is located, if it doesn't exist
-import hrosailing._logfolder as log
-
-path = log.get_script_path()
-log.set_log_folder(path)
-log.create_log_folder()
-
-del log
 
 
 # Tell users if and which hard depencencies are missing
@@ -41,3 +34,13 @@ import hrosailing.pipeline
 import hrosailing.pipelinecomponents
 import hrosailing.polardiagram
 import hrosailing.wind
+
+__all__ = [
+    "cruising",
+    "pipeline",
+    "pipelinecomponents",
+    "polardiagram",
+    "wind",
+    "version",
+    "__doc__",
+]

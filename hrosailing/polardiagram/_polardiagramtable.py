@@ -1,17 +1,20 @@
+# pylint: disable=missing-module-docstring
+# pylint: disable=too-many-lines
+
+import csv
 import warnings
 from ast import literal_eval
 from typing import Iterable
 
-from hrosailing.pipelinecomponents import (
-    ArithmeticMeanInterpolator,
-    Ball,
-    WeightedPoints,
-)
+import numpy as np
 
-from ._basepolardiagram import *
-from ._plotting import *
+from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
+                                           WeightedPoints)
 
-# pylint: disable=too-many-lines
+from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
+                                PolarDiagramInitializationException)
+from ._plotting import (plot_color_gradient, plot_convex_hull, plot_flat,
+                        plot_polar, plot_surface)
 
 
 def _set_resolution(res, soa):
@@ -24,7 +27,7 @@ def _set_resolution(res, soa):
     if isinstance(res, Iterable):
         return _custom_iterable_resolution(res)
 
-    return _custom_stepsize_resolution(res)
+    return _custom_stepsize_resolution(res, soa)
 
 
 def _standard_resolution(soa):
@@ -50,7 +53,7 @@ def _custom_iterable_resolution(res):
     return res
 
 
-def _custom_stepsize_resolution(res):
+def _custom_stepsize_resolution(res, soa):
     if res <= 0:
         raise ValueError("`res` is nonpositive")
 
@@ -735,12 +738,12 @@ class PolarDiagramTable(PolarDiagram):
             See matplotlib.axes.Axes.plot for possible keywords and their
             effects
 
-        Raises 
+        Raises
         ------
         PolarDiagramException
 
             - If at least one element of `ws` is not in `self.wind_speeds`
-            - If the given interval doesn't contain any slices of the 
+            - If the given interval doesn't contain any slices of the
             polar diagram
 
         Examples
@@ -766,7 +769,8 @@ class PolarDiagramTable(PolarDiagram):
             colors,
             show_legend,
             legend_kw,
-            _lines=True ** plot_kw,
+            _lines=True,
+            **plot_kw,
         )
 
     def plot_flat(
@@ -806,7 +810,7 @@ class PolarDiagramTable(PolarDiagram):
             - Otherwise the slices will be colored in turn with the specified
             colors or the color `"blue"`, if there are too few colors. The
             order is determined by the corresponding wind speeds
-            - Alternatively one can specify certain slices to be plotted in 
+            - Alternatively one can specify certain slices to be plotted in
             a color out of order by passing a `(ws, color)` pair
 
             Defaults to `("green", "red")`
