@@ -102,7 +102,7 @@ def _read_intern_format(file):
     try:
         dialect = csv.Sniffer().sniff(file.read(1024), delimiters=",")
         csv_reader = csv.reader(file, dialect=dialect)
-    except ValueError:
+    except csv.Error:
         delimiter = ","
         csv_reader = csv.reader(file, delimiter=delimiter)
 
