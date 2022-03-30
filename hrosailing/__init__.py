@@ -67,5 +67,4 @@ __all__ = [
     "polardiagram",
     "wind",
     "version",
-    "__doc__",
 ]
