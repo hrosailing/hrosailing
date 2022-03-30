@@ -1,17 +1,15 @@
-"""
-Functions to convert wind from apparent to true and vice versa
-"""
+"""Functions to convert wind from apparent to true and vice versa."""
 
 
 import numpy as np
 
 
 class WindConversionException(Exception):
-    """Exception raised if an error occurs during wind conversion"""
+    """Exception raised if an error occurs during wind conversion."""
 
 
 def convert_apparent_wind_to_true(apparent_wind):
-    """Converts apparent wind to true wind
+    """Convert apparent wind to true wind.
 
     Parameters
     ----------
@@ -34,7 +32,7 @@ def convert_apparent_wind_to_true(apparent_wind):
 
 
 def convert_true_wind_to_apparent(true_wind):
-    """Converts true wind to apparent wind
+    """Convert true wind to apparent wind.
 
     Parameters
     ----------
