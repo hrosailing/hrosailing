@@ -123,7 +123,7 @@ class PolarDiagramCurve(PolarDiagram):
 
         if func not in globals_:
             raise PolarDiagramException(
-                "No function with the name `func` is currently defined. "
+                f"No function with the name `{func}` is currently defined. "
                 "Deserializing not possible"
             )
 
@@ -209,6 +209,7 @@ class PolarDiagramCurve(PolarDiagram):
 
         return ws, wa, bsp
 
+    # pylint: disable=arguments-renamed
     def plot_polar(
         self,
         ws=None,
@@ -301,6 +302,7 @@ class PolarDiagramCurve(PolarDiagram):
             **plot_kw,
         )
 
+    # pylint: disable=arguments-renamed
     def plot_flat(
         self,
         ws=None,
@@ -525,6 +527,7 @@ class PolarDiagramCurve(PolarDiagram):
             **legend_kw,
         )
 
+    # pylint: disable=arguments-renamed
     def plot_convex_hull(
         self,
         ws=None,

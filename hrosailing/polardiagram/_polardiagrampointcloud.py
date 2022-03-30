@@ -323,6 +323,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         return wa, bsp
 
+    # pylint: disable=arguments-renamed
     def plot_polar(
         self,
         ws=None,
@@ -435,6 +436,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             **plot_kw,
         )
 
+    # pylint: disable=arguments-renamed
     def plot_flat(
         self,
         ws=None,
@@ -651,6 +653,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             ws, wa, bsp, ax, colors, marker, ms, show_legend, **legend_kw
         )
 
+    # pylint: disable=arguments-renamed
     def plot_convex_hull(
         self,
         ws=None,
