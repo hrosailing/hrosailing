@@ -6,13 +6,21 @@ from ast import literal_eval
 
 import numpy as np
 
-from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
-                                           WeightedPoints)
+from hrosailing.pipelinecomponents import (
+    ArithmeticMeanInterpolator,
+    Ball,
+    WeightedPoints,
+)
 from hrosailing.wind import convert_apparent_wind_to_true
 
 from ._basepolardiagram import PolarDiagram, PolarDiagramException
-from ._plotting import (plot3d, plot_color_gradient, plot_convex_hull,
-                        plot_flat, plot_polar)
+from ._plotting import (
+    plot3d,
+    plot_color_gradient,
+    plot_convex_hull,
+    plot_flat,
+    plot_polar,
+)
 
 
 class PolarDiagramPointcloud(PolarDiagram):
@@ -323,6 +331,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         return wa, bsp
 
+    # pylint: disable=arguments-renamed
     def plot_polar(
         self,
         ws=None,
@@ -435,6 +444,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             **plot_kw,
         )
 
+    # pylint: disable=arguments-renamed
     def plot_flat(
         self,
         ws=None,
@@ -651,6 +661,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             ws, wa, bsp, ax, colors, marker, ms, show_legend, **legend_kw
         )
 
+    # pylint: disable=arguments-renamed
     def plot_convex_hull(
         self,
         ws=None,

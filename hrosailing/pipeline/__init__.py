@@ -10,8 +10,9 @@ import numpy as np
 
 import hrosailing.pipelinecomponents as pc
 import hrosailing.polardiagram as pol
-from hrosailing.pipelinecomponents.modelfunctions import \
-    ws_s_wa_gauss_and_square
+from hrosailing.pipelinecomponents.modelfunctions import (
+    ws_s_wa_gauss_and_square,
+)
 
 
 class PolarPipeline:
@@ -463,7 +464,7 @@ def _interpolate_point(point, weighted_points, neighbourhood, interpolator):
         weighted_points[considered], point
     )
 
-    return np.concatenate([point, interpolated_value])
+    return np.concatenate([point, [interpolated_value]])
 
 
 def _neighbourhood_too_small(considered_points):

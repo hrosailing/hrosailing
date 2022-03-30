@@ -99,7 +99,13 @@ def from_csv(csv_path, fmt="hro"):
 def _read_intern_format(file):
     subclasses = {cls.__name__: cls for cls in PolarDiagram.__subclasses__()}
 
-    csv_reader = csv.reader(file, delimiter=",")
+    try:
+        dialect = csv.Sniffer().sniff(file.read(1024), delimiters=",")
+        csv_reader = csv.reader(file, dialect=dialect)
+    except csv.Error:
+        delimiter = ","
+        csv_reader = csv.reader(file, delimiter=delimiter)
+
     first_row = next(csv_reader)[0]
 
     if first_row not in subclasses:

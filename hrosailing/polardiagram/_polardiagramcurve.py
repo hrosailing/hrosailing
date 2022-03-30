@@ -5,10 +5,18 @@ from ast import literal_eval
 
 import numpy as np
 
-from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
-                                PolarDiagramInitializationException)
-from ._plotting import (plot_color_gradient, plot_convex_hull, plot_flat,
-                        plot_polar, plot_surface)
+from ._basepolardiagram import (
+    PolarDiagram,
+    PolarDiagramException,
+    PolarDiagramInitializationException,
+)
+from ._plotting import (
+    plot_color_gradient,
+    plot_convex_hull,
+    plot_flat,
+    plot_polar,
+    plot_surface,
+)
 
 
 class PolarDiagramCurve(PolarDiagram):
@@ -106,29 +114,6 @@ class PolarDiagramCurve(PolarDiagram):
             csv_writer.writerow(["Radians"] + [str(self.radians)])
             csv_writer.writerow(["Parameters"] + list(self.parameters))
 
-    @classmethod
-    def __from_csv__(cls, csv_reader):
-        """"""
-        func = next(csv_reader)[1]
-        radians = literal_eval(next(csv_reader)[1])
-        params = [literal_eval(param) for param in next(csv_reader)[1:]]
-
-        func = cls._extract_function_if_defined(func)
-
-        return PolarDiagramCurve(func, *params, radians=radians)
-
-    @staticmethod
-    def _extract_function_if_defined(func):
-        globals_ = globals()
-
-        if func not in globals_:
-            raise PolarDiagramException(
-                "No function with the name `func` is currently defined. "
-                "Deserializing not possible"
-            )
-
-        return globals_[func]
-
     def symmetrize(self):
         """Constructs a symmetric version of the polar diagram,
         by mirroring it at the 0° - 180° axis and returning a new instance
@@ -209,6 +194,7 @@ class PolarDiagramCurve(PolarDiagram):
 
         return ws, wa, bsp
 
+    # pylint: disable=arguments-renamed
     def plot_polar(
         self,
         ws=None,
@@ -301,6 +287,7 @@ class PolarDiagramCurve(PolarDiagram):
             **plot_kw,
         )
 
+    # pylint: disable=arguments-renamed
     def plot_flat(
         self,
         ws=None,
@@ -525,6 +512,7 @@ class PolarDiagramCurve(PolarDiagram):
             **legend_kw,
         )
 
+    # pylint: disable=arguments-renamed
     def plot_convex_hull(
         self,
         ws=None,
