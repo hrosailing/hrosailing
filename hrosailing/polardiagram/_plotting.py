@@ -1,7 +1,4 @@
-"""
-Contains various helper functions for the plot_*-methods() of the
-PolarDiagram subclasses
-"""
+"""Contains various helper functions for the plot_*-methods()."""
 
 # pylint: disable=missing-function-docstring, missing-module-docstring
 
