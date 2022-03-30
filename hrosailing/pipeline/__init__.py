@@ -463,7 +463,7 @@ def _interpolate_point(point, weighted_points, neighbourhood, interpolator):
         weighted_points[considered], point
     )
 
-    return np.concatenate([point, interpolated_value])
+    return np.concatenate([point, [interpolated_value]])
 
 
 def _neighbourhood_too_small(considered_points):
