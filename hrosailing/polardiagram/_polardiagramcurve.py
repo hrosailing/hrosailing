@@ -106,29 +106,6 @@ class PolarDiagramCurve(PolarDiagram):
             csv_writer.writerow(["Radians"] + [str(self.radians)])
             csv_writer.writerow(["Parameters"] + list(self.parameters))
 
-    @classmethod
-    def __from_csv__(cls, csv_reader):
-        """"""
-        func = next(csv_reader)[1]
-        radians = literal_eval(next(csv_reader)[1])
-        params = [literal_eval(param) for param in next(csv_reader)[1:]]
-
-        func = cls._extract_function_if_defined(func)
-
-        return PolarDiagramCurve(func, *params, radians=radians)
-
-    @staticmethod
-    def _extract_function_if_defined(func):
-        globals_ = globals()
-
-        if func not in globals_:
-            raise PolarDiagramException(
-                f"No function with the name `{func}` is currently defined. "
-                "Deserializing not possible"
-            )
-
-        return globals_[func]
-
     def symmetrize(self):
         """Constructs a symmetric version of the polar diagram,
         by mirroring it at the 0° - 180° axis and returning a new instance
