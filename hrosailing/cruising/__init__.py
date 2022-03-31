@@ -214,12 +214,12 @@ def cruise(
 
     dist = _great_earth_elipsoid_distance(start, end)
 
-    bsp1 = bsp[np.where(wa == d1.angle)[0][0]]
+    bsp1 = bsp[np.where(wa == d1.angle)[0]]
     if not d2:
         return [(d1.angle, dist / bsp1)]
 
     d2 = d2[0]
-    bsp2 = bsp[np.where(wa == d2.angle)[0][0]]
+    bsp2 = bsp[np.where(wa == d2.angle)[0]]
 
     t = dist / (d1.proportion * bsp1 + d2.proportion * bsp2)
     t1, t2 = d1.proportion * t, d2.proportion * t
