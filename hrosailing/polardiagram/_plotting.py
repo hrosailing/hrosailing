@@ -1,6 +1,6 @@
 """Contains various helper functions for the plot_*-methods()."""
 
-# pylint: disable=missing-function-docstring, missing-module-docstring
+# pylint: disable=missing-function-docstring 
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -166,13 +166,19 @@ def _plot_with_color_gradient(ws, colors):
 
 def _set_colormap(ws, colors, ax, label, **legend_kw):
     color_map = _create_color_map(colors)
+
+    label_kw, legend_kw = _extract_possible_text_kw(legend_kw)
     plt.colorbar(
         ScalarMappable(
             norm=Normalize(vmin=min(ws), vmax=max(ws)), cmap=color_map
         ),
         ax=ax,
         **legend_kw,
-    ).set_label(label)
+    ).set_label(label, **label_kw)
+
+
+def _extract_possible_text_kw(legend_kw):
+    return {}, legend_kw
 
 
 def _set_legend_without_wind_speeds(ax, colors, legend_kw):
@@ -227,7 +233,7 @@ def plot3d(ws, wa, bsp, ax, colors, **plot_kw):
         ax = _get_new_axis("3d")
 
     _set_3d_axis_labels(ax)
-    _remove_3d_tick_labels_for_polar_coordinates(ax)
+    _remove_3d_axis_labels_for_polar_coordinates(ax)
 
     color_map = _create_color_map(colors)
 
@@ -274,25 +280,22 @@ def plot_convex_hull(
 
     _check_plot_kw(plot_kw, _lines)
 
-    wa, bsp = _get_convex_hull(wa, bsp)
+    wa, bsp = _convex_hull(zip(wa, bsp))
 
     _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
 
-def _get_convex_hull(wa, bsp):
-    xs = []
-    ys = []
-    slices = zip(wa, bsp)
-
-    for w, b in slices:
-        w = np.asarray(w)
-        b = np.asarray(b)
+def _convex_hull(slices):
+    xs, ys = [], []
+    for wa, bsp in slices:
+        wa = np.asarray(wa)
+        bsp = np.asarray(bsp)
 
         # convex hull is line between the two points
         # or is equal to one point
-        if len(w) < 3:
-            xs.append(w)
-            ys.append(b)
+        if len(wa) < 3:
+            xs.append(wa)
+            ys.append(bsp)
             continue
 
         conv = _convex_hull_in_polar_coordinates(w, b)
@@ -307,8 +310,8 @@ def _get_convex_hull(wa, bsp):
 
 
 def _convex_hull_in_polar_coordinates(wa, bsp):
-    polar_pts = np.column_stack((bsp * np.cos(wa), bsp * np.sin(wa)))
-    return ConvexHull(polar_pts)
+    polar_points = np.column_stack((bsp * np.cos(wa), bsp * np.sin(wa)))
+    return ConvexHull(polar_points)
 
 
 def plot_convex_hull_multisails(
@@ -338,14 +341,15 @@ def plot_convex_hull_multisails(
 
 
 def _get_convex_hull_multisails(ws, wa, bsp, members):
+    members = members[0]
     xs = []
     ys = []
     membs = []
     for s, w, b in zip(ws, wa, bsp):
         w = np.asarray(w)
         b = np.asarray(b)
-        conv = _convex_hull_in_polar_coordinates(w, b)
-        vert = conv.vertices
+        conv = _convex_hull_polar(w, b)
+        vert = sorted(conv.vertices)
 
         x, y, memb = zip(
             *(
@@ -369,6 +373,9 @@ def _set_colors_multisails(ax, members, colors):
     colorlist = []
 
     for member in members:
+        # check if edge belongs to one or two sails
+        # If it belongs to one sail, color it in that sails color
+        # else color it in neutral color
         if len(set(member[:2])) == 1:
             color = colors.get(member[0], "blue")
         else:
