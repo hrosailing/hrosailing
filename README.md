@@ -12,65 +12,79 @@
 
 hrosailing 
 ==========
+![Still in active development]!
+---------------------------
+
+The `hrosailing` package provides various tools and interfaces to
+visualize, create and work with Polar (Performance) Diagrams.
+
+The main interface being the `PolarDiagram` interface for 
+the creation of custom polar diagrams, who compatible with
+the functionalities of this package. `hrosailing` also provides some
+pre-implemented examples of `PolarDiagram` which can be used as well.
+
+The package contains a data processing framework centered around a
+`PolarPipeline` class, to generate polar diagrams from raw data. 
+
+`pipelinecomponents` provides many out of the box parts for
+the aforementioned framework, as well as the possibility to easily
+create ones own. 
+
+The package also provides many navigational usages of Polar
+(Performance) Diagrams with `cruising`.
 
 You can find the documentation [here](https://hrosailing.github.io/hrosailing/ "hrosailing").
-
-### Compatibility 
-[![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/downloads/release/python-370/)
-[![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/)
-[![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
-
-The `hrosailing` package might also be compatible (in large) with earlier versions of Python (`3.5`, `3.6`), together with some earlier
-version of some of the used packages, namely `numpy`, `scipy`, and `matplotlib`.
+See also the examples below for some showcases.
 
 
 ### Installation
+[![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/downloads/release/python-370/)
+[![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-380/)
+[![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
+[![PyPI version](https://badge.fury.io/py/hrosailing.svg)](https://badge.fury.io/py/hrosailing)
 
 The recommended way to install `hrosailing` is with 
 [pip](http://pypi.python.org/pypi/pip/):
     
     pip install hrosailing
 
-[![PyPI version](https://badge.fury.io/py/hrosailing.svg)](https://badge.fury.io/py/hrosailing)
-
-
-### License 
-
-The `hrosailing` package is published under the [Apache 2.0 License](https://choosealicense.com/licenses/apache-2.0/), see also [License](LICENSE)
-
-### Citing
-
-See also [Citation](CITATION.cff)
-[![DOI](https://zenodo.org/badge/409121004.svg)](https://zenodo.org/badge/latestdoi/409121004)
+The `hrosailing` package might also be compatible (in large) with 
+earlier versions of Python, together with some earlier version of some 
+of the used packages, namely `numpy`, `scipy`, and `matplotlib`.
 
 
 ### Examples
+In the following we showcase some of the capabilities of `hrosailing`.
+All definitions of an example code might be used in the succeeding examples.
 
-In the following we showcase via multiple examples some of the capabilities of the hrosailing package.
-To avoid redundancies, all definitions of an example code might be used in the succeeding examples.
 
-#### Loading and saving polar diagrams
-
-For a first example, we download some table with performance diagram data available [here](https://www.seapilot.com/wp-content/uploads/2018/05/60ftmono.txt) and save it as testdata.csv.
-This data is given in a tab seperated format which is supported by the keyword ```fmt=array``` of the ```from_csv``` method.
-Since this data is only defined for wind angles between 0° and 180° we use the symmetrize function to obtain a symmetric polar diagram with wind angles between 0° and 360°.
+#### Serialization of `PolarDiagram` objects.
+For a first example, lets say we obtained some table with polar 
+performance diagram data, like the one available 
+[here](https://www.seapilot.com/wp-content/uploads/2018/05/60ftmono.txt), 
+and call the file testdata.csv.
 
 ```python
 import hrosailing.polardiagram as pol
-pd = pol.from_csv("testdata.csv", fmt="array").symmetrize()
-```
+# the format of `testdata.csv` is a tab separated one 
+# supported by the keyword `array`
+pd = pol.from_csv("testdata.csv", fmt="array")
 
-We can save and load polar diagrams as csv files:
-
-```python
+# serialized the polar diagram to a .csv file 
+# in the style of an intern format
 pd.to_csv("polar_diagram.csv")
-pd3 = pol.from_csv("polar_diagram.csv")
+# the default format is the intern format `hro` 
+pd2 = pol.from_csv("polar_diagram.csv")
 ```
 
-#### Plotting polar diagrams
+Currently serialization is only supported for some csv-format, see also
+[csv-format-examples](https://github.com/hrosailing/hrosailing/tree/main/examples/csv-format-examples)
+for example files for the currently supported format. See also 
+[Issue #1](https://github.com/hrosailing/hrosailing/issues/1) for a plan
+to add more serialization options.
 
-We can use the supported plot functions to get visualizations of the polar diagram.
 
+#### Visualizing polar diagrams
 ```python
 import matplotlib.pyplot as plt
 
@@ -83,26 +97,19 @@ pd.plot_color_gradient(ax=plt.subplot(2, 2, 4))
 
 plt.show()
 ```
-
-This results in the following matplotlib diagram:
-
 ![flat_plots](https://user-images.githubusercontent.com/70914876/146026223-fc58a914-9b01-47ae-bf9c-6429113dbf4a.png)
 
-We can also visualize the data in a three dimensional plot.
-
+3d visualization is also supported.
 ```python
 pd.plot_3d()
 plt.show()
 ```
-
-Results in:
-
 ![3d_plot](https://user-images.githubusercontent.com/70914876/146153719-826e8c93-09ab-4387-b13c-e942139fcce6.png)
 
-#### Iterate over polar diagram data
 
-We can also directly iterate and/or evaluate the wind_angles, wind_speeds and boat_speeds of the polar diagram.
-For example to artificially create random measurements.
+#### Iterate over polar diagram data
+We can also directly iterate and/or evaluate the wind angles, 
+wind speeds and boat speeds of the polar diagram.
 
 ```python
 import numpy as np
@@ -116,7 +123,7 @@ def random_shifted_pt(pt, mul):
 
 
 data = np.array([
-    random_shifted_pt([ws, wa, pd.boat_speeds[i, j]], [10, 5, 2])
+    random_shifted_pt([ws, wa, pd[i, j]], [10, 5, 2])
     for i, ws in enumerate(pd.wind_angles)
     for j, wa in enumerate(pd.wind_speeds)
     for _ in range(6)
@@ -124,10 +131,8 @@ data = np.array([
 data = data[np.random.choice(len(data), size=500)]
 ```
 
-In the following we treat ```data``` like some real life measurement data and try to obtain polar diagrams of different types from it.
 
-#### Creating polar diagrams from data
-
+#### Creating polar diagrams from raw data
 ```python
 import hrosailing.pipeline as pipe
 import hrosailing.pipelinecomponents as pcomp
@@ -148,7 +153,12 @@ pol_pips = [
     )
 ]
 
-pds = [pol_pip((data, ["Wind angle", "Wind speed", "Boat speed"])) for pol_pip in pol_pips]
+# here `data` is treated as some obtained measurements given as 
+# a numpy.ndarray
+pds = [
+	pol_pip((data, ["Wind angle", "Wind speed", "Boat speed"])) 
+	for pol_pip in pol_pips
+]
 
 for i, pd in enumerate(pds):
     pd.plot_polar(ws=ws, ax=plt.subplot(1, 3, i+1, projection="polar"))
@@ -156,17 +166,13 @@ for i, pd in enumerate(pds):
 plt.tight_layout()
 plt.show()
 ```
-
-This results in the following diagram, displaying the different polar diagrams derived from the data:
-
 ![pipeline_plots](https://user-images.githubusercontent.com/70914876/146170918-66224c66-05c4-49db-a1a5-ddfc2a13b9f1.png)
 
-If we are unhappy with the default behaviour of the pipelines, we can customize one or more components of it.
+If we are unhappy with the default behaviour of the pipelines, 
+we can customize one or more components of it.
 
-#### Customizing the polar pipeline
 
-In the following example we change many components to showcase the supported modularity:
-
+#### Customizing `PolarPipeline`
 ```python
 class MyInfluenceModel(pcomp.InfluenceModel):
     def remove_influence(self, data: dict):
@@ -215,20 +221,18 @@ my_pol_pip = pipe.PolarPipeline(
 my_pd = my_pol_pip((data, ["Wind angle", "Wind speed", "Boat speed"]))
 ```
 
-Of course, the customizations above are arbitrary and lead to comparibly bad results:
+The customizations above are arbitrary and lead to comparably bad results:
 
 ```python
 my_pd.plot_polar(ws=ws)
 plt.show()
 ```
-
 ![custom_plot](https://user-images.githubusercontent.com/70914876/146348767-f1af3957-8e62-42fa-9f1e-36e872f598c2.png)
 
-We clearly need more sophisticated approaches for good results.
 
-#### Use influence and weather models
-
-For the next example we initialize a simple influence model and a random weather model.
+#### Including Influences and Weather models
+For the next example we initialize a simple influence model and 
+a random weather model.
 
 ```python
 from datetime import timedelta
@@ -262,10 +266,7 @@ wm = cruise.WeatherModel(
 )
 ```
 
-#### Compute Isochrones
-
-Let's use these models to calculate and plot an isochrone net:
-
+#### Computing Isochrones
 ```python
 start = (42.5, 43.5)
 
@@ -290,11 +291,20 @@ plt.plot(lats, longs, ls="", marker=".")
 
 plt.show()
 ```
-
 ![icochrone_net](https://user-images.githubusercontent.com/70914876/146554921-befa7bfe-b88f-4c55-93da-8b40aa65f29e.png)
-=======
+
+
+### License 
+The `hrosailing` package is published under the 
+[Apache 2.0 License](https://choosealicense.com/licenses/apache-2.0/), 
+see also [License](LICENSE)
+
+
+### Citing
+[![DOI](https://zenodo.org/badge/409121004.svg)](https://zenodo.org/badge/latestdoi/409121004)
+
+Also see [Citation](CITATION.cff). 
+
 
 ### TODO
-
 [Todo](TODO.md)
-
