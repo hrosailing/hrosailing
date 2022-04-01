@@ -5,18 +5,10 @@ from ast import literal_eval
 
 import numpy as np
 
-from ._basepolardiagram import (
-    PolarDiagram,
-    PolarDiagramException,
-    PolarDiagramInitializationException,
-)
-from ._plotting import (
-    plot_color_gradient,
-    plot_convex_hull,
-    plot_flat,
-    plot_polar,
-    plot_surface,
-)
+from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
+                                PolarDiagramInitializationException)
+from ._plotting import (plot_color_gradient, plot_convex_hull, plot_flat,
+                        plot_polar, plot_surface)
 
 
 class PolarDiagramCurve(PolarDiagram):
