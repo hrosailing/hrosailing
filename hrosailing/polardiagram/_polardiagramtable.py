@@ -8,13 +8,24 @@ from typing import Iterable
 
 import numpy as np
 
-from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
-                                           WeightedPoints)
+from hrosailing.pipelinecomponents import (
+    ArithmeticMeanInterpolator,
+    Ball,
+    WeightedPoints,
+)
 
-from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
-                                PolarDiagramInitializationException)
-from ._plotting import (plot_color_gradient, plot_convex_hull, plot_flat,
-                        plot_polar, plot_surface)
+from ._basepolardiagram import (
+    PolarDiagram,
+    PolarDiagramException,
+    PolarDiagramInitializationException,
+)
+from ._plotting import (
+    plot_color_gradient,
+    plot_convex_hull,
+    plot_flat,
+    plot_polar,
+    plot_surface,
+)
 
 
 def _set_resolution(res, soa):
@@ -135,42 +146,35 @@ class PolarDiagramTable(PolarDiagram):
         ws_resolution = _set_resolution(ws_resolution, soa="s")
         wa_resolution = _set_resolution(wa_resolution, soa="a")
 
-        # standardize wind angles to the interval [0, 360)
         wa_resolution %= 360
 
-        rows, cols = len(wa_resolution), len(ws_resolution)
         if bsps is None:
-            self._boat_speeds = np.zeros((rows, cols))
-            self._res_wind_speed = sorted(ws_resolution)
-            self._res_wind_angle = sorted(wa_resolution)
+            self._create_zero_table(ws_resolution, wa_resolution)
             return
 
-        # NaN's and infinite values can't be handled
+        # No NaNs or infinite values
         bsps = np.asarray_chkfinite(bsps, float)
 
         if bsps.dtype is object:
             raise PolarDiagramInitializationException(
                 "`bsps` is not array_like"
             )
-
-        if bsps.shape != (rows, cols):
+        if _incompatible_shapes(bsps, ws_resolution, wa_resolution):
             raise PolarDiagramInitializationException(
                 "`bsps` has incorrect shape"
             )
 
-        # Sort wind angles and the corresponding order of rows in bsps
-        wa_resolution, bsps = zip(
-            *sorted(zip(wa_resolution, bsps), key=lambda x: x[0])
-        )
-        self._res_wind_angle = np.array(wa_resolution)
-        bsps = np.array(bsps, float)
+        (
+            self._ws_resolution,
+            self._wa_resolution,
+            self._boat_speeds,
+        ) = _sort_table_in_ascending_order(ws_resolution, wa_resolution, bsps)
 
-        # Sort wind speeds and the corresponding order of columns in bsps
-        ws_resolution, bsps = zip(
-            *sorted(zip(ws_resolution, bsps.T), key=lambda x: x[0])
-        )
-        self._res_wind_speed = np.array(ws_resolution)
-        self._boat_speeds = np.array(bsps, float).T
+    def _create_zero_table(self, ws_resolution, wa_resolution):
+        rows, cols = len(wa_resolution), len(ws_resolution)
+        self._boat_speeds = np.zeros((rows, cols))
+        self._res_wind_speed = sorted(ws_resolution)
+        self._res_wind_angle = sorted(wa_resolution)
 
     def __str__(self):
         table = ["  TWA / TWS"]
@@ -314,12 +318,12 @@ class PolarDiagramTable(PolarDiagram):
     @property
     def wind_angles(self):
         """Returns a read only version of self._res_wind_angle"""
-        return self._res_wind_angle.copy()
+        return self._wa_resolution.copy()
 
     @property
     def wind_speeds(self):
         """Returns a read only version of self._res_wind_speed"""
-        return self._res_wind_speed.copy()
+        return self._ws_resolution.copy()
 
     @property
     def boat_speeds(self):
@@ -366,8 +370,8 @@ class PolarDiagramTable(PolarDiagram):
             ...         [5.8, 6.95, 7.51, 7.98, 8.52],
             ...         [5.2, 6.41, 7.19, 7.66, 8.14]
             ...     ],
-            ...     ws_res=[6, 8, 10, 12, 14],
-            ...     wa_res=[52, 60, 75, 90, 110, 120, 135],
+            ...     ws_resolution=[6, 8, 10, 12, 14],
+            ...     wa_resolution=[52, 60, 75, 90, 110, 120, 135],
             ... )
             >>> print(pd)
               TWA / TWS    6.0    8.0    10.0    12.0    14.0
@@ -425,22 +429,22 @@ class PolarDiagramTable(PolarDiagram):
 
     def _write_array_format(self, file):
         csv_writer = csv.writer(file, delimiter="\t")
-        csv_writer.writerow(["TWA \\ TWS"] + self.wind_speeds)
+        csv_writer.writerow([r"TWA \ TWS"] + self.wind_speeds)
 
         self._write_rows(csv_writer)
 
     def _write_opencpn_format(self, csv_writer):
-        csv_writer.writerow(["TWA \\ TWS"] + self.wind_speeds)
+        csv_writer.writerow([r"TWA \ TWS"] + self.wind_speeds)
 
         self._write_rows(csv_writer)
 
     def _write_hro_format(self, csv_writer):
         csv_writer.writerow([self.__class__.__name__])
-        csv_writer.writerow(["TWS:"])
+        csv_writer.writerow(["TWS"])
         csv_writer.writerow(self.wind_speeds)
-        csv_writer.writerow(["TWA:"])
+        csv_writer.writerow(["TWA"])
         csv_writer.writerow(self.wind_angles)
-        csv_writer.writerow(["Boat speeds:"])
+        csv_writer.writerow(["Boat speeds"])
         csv_writer.writerows(self.boat_speeds)
 
     @classmethod
@@ -475,8 +479,8 @@ class PolarDiagramTable(PolarDiagram):
             ...         [5.89, 6.82, 7.28, 7.59, 7.84],
             ...         [5.92, 6.98, 7.42, 7.62, 7.93],
             ...     ],
-            ...     ws_res = [6, 8, 10, 12, 14],
-            ...     wa_res = [52, 60, 75, 90]
+            ...     ws_resolution = [6, 8, 10, 12, 14],
+            ...     wa_resolution = [52, 60, 75, 90]
             ... )
             >>> print(pd)
               TWA / TWS    6.0    8.0    10.0    12.0    14.0
@@ -559,8 +563,8 @@ class PolarDiagramTable(PolarDiagram):
         Examples
         --------
             >>> pd = PolarDiagramTable(
-            ...     ws_res=[6, 8, 10, 12, 14],
-            ...     wa_res=[52, 60, 75, 90, 110, 120, 135]
+            ...     ws_resolution=[6, 8, 10, 12, 14],
+            ...     wa_resolution=[52, 60, 75, 90, 110, 120, 135]
             ... )
             >>> print(pd)
               TWA / TWS    6.0    8.0    10.0    12.0    14.0
@@ -1043,6 +1047,28 @@ class PolarDiagramTable(PolarDiagram):
             _lines=True,
             **plot_kw,
         )
+
+
+def _incompatible_shapes(bsps, ws_resolution, wa_resolution):
+    rows, cols = len(wa_resolution), len(ws_resolution)
+    return bsps.shape != (rows, cols)
+
+
+def _sort_table_in_ascending_order(ws_resolution, wa_resolution, bsps):
+    wa_resolution, bsps = zip(
+        *sorted(zip(wa_resolution, bsps), key=lambda x: x[0])
+    )
+    bsps = np.array(bsps, float)
+
+    ws_resolution, bsps = zip(
+        *sorted(zip(ws_resolution, bsps.T), key=lambda x: x[0])
+    )
+
+    return (
+        np.array(ws_resolution, float),
+        np.array(wa_resolution, float),
+        np.array(bsps, float).T,
+    )
 
 
 def _warn_for_duplicate_data():
