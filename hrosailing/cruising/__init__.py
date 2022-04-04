@@ -544,13 +544,17 @@ def isocrone(
 
 
 def _inverse_mercator_proj(pt, lat_mp):
-    """Computes point from its mercator projection with reference point lat_mp"""
+    """
+    Computes point from its mercator projection with reference point lat_mp
+    """
     x, y = pt / 69
     return x + lat_mp, 180 / np.pi * np.arcsin(np.tanh(y))
 
 
 def _mercator_proj(pt, lat_mp):
-    """Computes the mercator projection with reference point lat_mp of a point"""
+    """
+    Computes the mercator projection with reference point lat_mp of a point
+    """
     lat, long = pt
 
     # 69 nautical miles between two lattitudes
