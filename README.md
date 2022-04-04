@@ -19,16 +19,16 @@ The `hrosailing` package provides various tools and interfaces to
 visualize, create and work with Polar (Performance) Diagrams.
 
 The main interface being the `PolarDiagram` interface for 
-the creation of custom polar diagrams, who compatible with
+the creation of custom polar diagrams, which is compatible with
 the functionalities of this package. `hrosailing` also provides some
-pre-implemented examples of `PolarDiagram` which can be used as well.
+pre-implemented classes inheriting from `PolarDiagram` which can be used as well.
 
-The package contains a data processing framework centered around a
+The package contains a data processing framework centered around the
 `PolarPipeline` class, to generate polar diagrams from raw data. 
 
 `pipelinecomponents` provides many out of the box parts for
 the aforementioned framework, as well as the possibility to easily
-create ones own. 
+create own ones. 
 
 The package also provides many navigational usages of Polar
 (Performance) Diagrams with `cruising`.
