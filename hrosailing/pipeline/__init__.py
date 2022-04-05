@@ -5,6 +5,7 @@ Pipeline to create polar diagrams from raw data.
 
 import warnings
 from abc import ABC, abstractmethod
+from typing import NamedTuple
 
 import numpy as np
 
@@ -13,6 +14,25 @@ import hrosailing.polardiagram as pol
 from hrosailing.pipelinecomponents.modelfunctions import (
     ws_s_wa_gauss_and_square,
 )
+
+class Statistics(NamedTuple):
+    """"""
+    data_handler: dict
+    pre_weigher: dict
+    pre_filter: dict
+    influence_model: dict
+    post_weigher: dict
+    post_filter: dict
+    injector: dict
+    extension: dict
+    qa: dict
+
+
+class PipelineOutput(NamedTuple):
+    """"""
+    polardiagram: pol.PolarDiagram
+    training_statistics: Statistics
+    test_statistics: Statistics
 
 
 class PolarPipeline:
@@ -170,11 +190,7 @@ class PolarPipeline:
 
         Returns
         -------
-        pd : PolarDiagram
-            `PolarDiagram` subclass instance, which represents the
-            trends in `data`
-
-            Type depends on the chosen `PipelineExtension` subclass
+        out : PipelineOutput
         """
         data = self.handler.handle(data)
 
@@ -193,7 +209,10 @@ class PolarPipeline:
 
         weighted_points = _add_zeros(weighted_points, n_zeros)
 
-        return self.extension.process(weighted_points, _enable_logging)
+        pd, extension_stats = self.extension.process(weighted_points, _enable_logging)
+
+        output = PipelineOutput(pd, Statistics({}, {}, {}, {}, {}, {}, {}, {}, {}), Statistics({}, {}, {}, {}, {}, {}, {}, {}, {}))
+        return output
 
     def _has_influence_model(self):
         return self.influence_model is not None
@@ -296,6 +315,7 @@ class TableExtension(PipelineExtension):
             A polar diagram that should represent the trends captured
             in the raw data
         """
+        extension_stats = {}
         ws_resolution, wa_resolution = self._determine_table_size(
             weighted_points.points
         )
@@ -309,7 +329,7 @@ class TableExtension(PipelineExtension):
             interpolated_points, len(wa_resolution), len(ws_resolution)
         )
 
-        return pol.PolarDiagramTable(ws_resolution, wa_resolution, bsps)
+        return pol.PolarDiagramTable(ws_resolution, wa_resolution, bsps), extension_stats
 
     def _determine_table_size(self, points):
         from hrosailing.polardiagram._polardiagramtable import _Resolution
@@ -414,6 +434,7 @@ class CurveExtension(PipelineExtension):
             A polar diagram that should represent the trends captured
             in the raw data
         """
+        extension_stats = {}
         if self._use_radians():
             _convert_angles_to_radians(weighted_points)
 
@@ -425,7 +446,7 @@ class CurveExtension(PipelineExtension):
             self.regressor.model_func,
             *self.regressor.optimal_params,
             radians=self.radians,
-        )
+        ), extension_stats
 
     def _use_radians(self):
         return self.radians
@@ -491,6 +512,7 @@ class PointcloudExtension(PipelineExtension):
             A polar diagram that should represent the trends captured
             in the raw data
         """
+        extension_stats = {}
         sample_points = self.sampler.sample(weighted_points.points)
         interpolated_points = _interpolate_points(
             sample_points,
@@ -499,7 +521,7 @@ class PointcloudExtension(PipelineExtension):
             self.interpolator,
         )
 
-        return pol.PolarDiagramPointcloud(interpolated_points)
+        return pol.PolarDiagramPointcloud(interpolated_points), extension_stats
 
 
 class InterpolationWarning(Warning):
