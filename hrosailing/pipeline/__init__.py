@@ -20,6 +20,48 @@ class PolarPipeline:
 
     Parameters
     ----------
+
+    data_handler : DataHandler
+        Handler that is responsible to extract actual data from the input
+
+        Determines the type and format of input the pipeline should accept
+
+    pre_weigher : Weigher, optional
+        Determines the method with which the points will be weight before
+        application of the influence model.
+
+        Defaults to `CylindricMeanWeigher()`
+
+    pre_filter : Filter, optional
+        Determines the methods with which the points will be filtered,
+        if `pre_filtering` in __call__ method
+
+        Defaults to `QuantileFilter()`
+
+    influence_model : InfluenceModel, optional
+        Determines the influence model which is applied and fitted to the data
+
+        Defaults to 'None'
+
+    post_weigher : Weigher, optional
+        Determines the method with which the points will be weight after
+        application of the influence model.
+
+        Defaults to `CylindricMeanWeigher()`
+
+    post_filter : Filter, optional
+        Determines the methods with which the points will be filtered
+        after the apllication of the influence model,
+        if `post_filtering` in __call__ method
+
+        Defaults to `QuantileFilter()`
+
+    injector : Injector, optional
+        Determines the method to add additional artificial data points to the
+        data
+
+        Defaults to 'None'
+
     extension: PipelineExtension
         Extension that is called in the pipeline, after all preprocessing
         is done, to generate a polar diagram from the processed data.
@@ -27,36 +69,34 @@ class PolarPipeline:
         Determines the subclass of `PolarDiagram`, that the pipeline will
         produce
 
-    handler : DataHandler
-        Handler that is responsible to extract actual data from the input
+        Defaults to 'None'
 
-        Determines the type and format of input the pipeline should accept
-
-    weigher : Weigher, optional
-        Determines the method with which the points will be weight.
-
-        Defaults to `CylindricMeanWeigher()`
-
-    filter_ : Filter, optional
-        Determines the methods with which the points will be filtered,
-        if `filtering` in __call__ method
-
-        Defaults to `QuantileFilter()`
+    quality_assurance : QualityAssurance, optional
+        Determines the method which is used to measure the quality of the
+        resulting polar diagram using preprocessed test_data
     """
 
     def __init__(
         self,
-        extension,
-        handler,
-        weigher=pc.CylindricMeanWeigher(),
-        filter_=pc.QuantileFilter(),
+        data_handler,
+        pre_weigher=pc.CylindricMeanWeigher(),
+        pre_filter=pc.QuantileFilter(),
         influence_model=None,
+        post_weigher=pc.CylindricMeanWeigher(),
+        post_filter=pc.QuantileFilter(),
+        injector=None,
+        extension=None,
+        quality_assurance=None
     ):
-        self.handler = handler
+        self.data_handler = data_handler
+        self.pre_weigher=pre_weigher
+        self.pre_filter = pre_filter
         self.influence_model = influence_model
-        self.weigher = weigher
-        self.filter = filter_
+        self.post_weigher = post_weigher
+        self.post_filter = post_filter
+        self.injector = injector
         self.extension = extension
+        self.quality_assurance = quality_assurance
 
     def __call__(
         self,
