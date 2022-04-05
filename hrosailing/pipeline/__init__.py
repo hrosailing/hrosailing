@@ -200,9 +200,8 @@ class PolarPipeline:
             post_filtering
         )
 
-        if injecting:
-            training_data, injector_statistics \
-                = self.injector.inject(training_data)
+        training_data, injector_statistics \
+            = self.injector.inject(training_data) if injecting else None, None
 
         pd, extension_statistics \
             = self.extension.process(training_data)
@@ -215,9 +214,8 @@ class PolarPipeline:
             post_filtering
         ) if testing and test_data is not None else None, None
 
-        if testing:
-            quality_assurance_statistics = \
-                self.quality_assurance.check(pd, test_data)
+        quality_assurance_statistics = \
+            self.quality_assurance.check(pd, test_data) if testing else None
 
         training_statistics = Statistics(
             pp_training_statistics.data_handler,
