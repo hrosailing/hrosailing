@@ -100,20 +100,33 @@ class PolarPipeline:
 
     def __call__(
         self,
-        data,
+        training_data,
+        test_data=None,
         apparent_wind=False,
-        filtering=True,
-        n_zeros=500,
-        _enable_logging=False,
+        pre_weighing=True,
+        pre_filtering=True,
+        post_weighing=True,
+        post_filtering=True,
+        injecting=True,
+        testing=True
     ):
         """
         Parameters
         ----------
-        data : compatible with `self.handler`
+        training_data : compatible with `self.data_handler`
             Data from which to create the polar diagram
 
             The input should be compatible with the DataHandler instance
             given in initialization of the pipeline instance
+
+        test_data: compatible with 'self.data_handler'
+            Data which is preprocessed and then used to check the quality of
+            the resulting polar diagram
+
+            The input should be compatible with the DataHandler instance
+            given in initialization of the pipeline instance
+
+            Default to 'None'
 
         apparent_wind : bool, optional
             Specifies if wind data is given in apparent wind
@@ -122,19 +135,38 @@ class PolarPipeline:
 
             Defaults to `False`
 
-        filtering : bool, optional
-            Specifies, if points should be filtered after weighing
+        pre_weighing : bool, optional
+            Specifies, if points should be weighed before application of the
+            influence model.
+            Otherwise each point will be assigned the weight 1.
+
+            Defaults to 'True'
+
+        pre_filtering : bool, optional
+            Specifies, if points should be filtered after pre_weighing
 
             Defaults to `True`
 
-        n_zeros: positive int, optional
-            Specifies the number of additional data points at `(tws, 0)` and
-            `(tws, 360)` respectively, which are appended to the filtered data
+        post_weighing : bool, optional
+            Specifies, if points should be weighed after application of the
+            influence model.
+            Otherwise each point will be assigned the weight 1.
 
-            This is done to better simulate the behaviour of sailing vessels at
-            wind angle 0 / 360.
+            Defaults to 'True'
 
-            Defaults to `500`
+        post_filtering : bool, optional
+            Specifies, if points should be filtered after post_weighing
+
+            Defaults to `True`
+
+        injecting : bool, optional
+            Specifies, if artificial points should be added to the data
+
+            Defaults to 'True'
+
+        testing : bool, optional
+            Specifies, if the resulting polar diagram should be tested against
+            test data
 
         Returns
         -------
