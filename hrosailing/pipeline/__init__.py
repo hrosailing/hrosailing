@@ -25,7 +25,7 @@ class Statistics(NamedTuple):
     post_filter: dict
     injector: dict
     extension: dict
-    qa: dict
+    quality_assurance: dict
 
 
 class PipelineOutput(NamedTuple):
@@ -192,34 +192,66 @@ class PolarPipeline:
         -------
         out : PipelineOutput
         """
-        data = self.handler.handle(data)
-
-        if self._has_influence_model():
-            data = self.influence_model.remove_influence(data)
-
-        weighted_points = pc.WeightedPoints(
-            data,
-            weigher=self.weigher,
-            apparent_wind=apparent_wind,
-            _enable_logging=_enable_logging,
+        training_data, training_statistics = self._preprocess(
+            training_data,
+            pre_weighing,
+            pre_filtering,
+            post_weighing,
+            post_filtering
         )
 
-        if filtering:
-            self._filter_data(weighted_points)
+        if injecting:
+            training_data, training_statistics.injector \
+                = self.injector.inject(training_data)
 
-        weighted_points = _add_zeros(weighted_points, n_zeros)
+        pd, training_statistics.extension \
+            = self.extension.process(training_data)
 
-        pd, extension_stats = self.extension.process(weighted_points, _enable_logging)
+        test_data, test_statistics = self._preprocess(
+            test_data,
+            pre_weighing,
+            pre_filtering,
+            post_weighing,
+            post_filtering
+        ) if testing and test_data is not None else None, None
 
-        output = PipelineOutput(pd, Statistics({}, {}, {}, {}, {}, {}, {}, {}, {}), Statistics({}, {}, {}, {}, {}, {}, {}, {}, {}))
+        if testing:
+            training_data, training_statistics.quality_assurance = \
+                self.quality_assurance.check(pd, test_data)
+
+        # if self._has_influence_model():
+        #     data = self.influence_model.remove_influence(data)
+        #
+        # weighted_points = pc.WeightedPoints(
+        #     data,
+        #     weigher=self.weigher
+        # )
+        #
+        # if filtering:
+        #     self._filter_data(weighted_points)
+        #
+        # weighted_points = _add_zeros(weighted_points, n_zeros)
+        #
+        # pd, extension_stats = self.extension.process(weighted_points, _enable_logging)
+
+        output = PipelineOutput(pd, training_statistics, test_statistics)
         return output
-
-    def _has_influence_model(self):
-        return self.influence_model is not None
 
     def _filter_data(self, weighted_points):
         points_to_filter = self.filter.filter(weighted_points.weights)
         weighted_points = weighted_points[points_to_filter]
+
+    def _preprocess(
+        self,
+        data,
+        pre_weighing,
+        pre_filtering,
+        post_weighing,
+        post_filtering
+    ):
+        return None, None
+
+
 
 
 def _add_zeros(weighted_points, n_zeros):
