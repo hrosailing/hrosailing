@@ -192,7 +192,7 @@ class PolarPipeline:
         -------
         out : PipelineOutput
         """
-        training_data, training_statistics = self._preprocess(
+        training_data, pp_training_statistics = self._preprocess(
             training_data,
             pre_weighing,
             pre_filtering,
@@ -201,10 +201,10 @@ class PolarPipeline:
         )
 
         if injecting:
-            training_data, training_statistics.injector \
+            training_data, injector_statistics \
                 = self.injector.inject(training_data)
 
-        pd, training_statistics.extension \
+        pd, extension_statistics \
             = self.extension.process(training_data)
 
         test_data, test_statistics = self._preprocess(
@@ -216,9 +216,35 @@ class PolarPipeline:
         ) if testing and test_data is not None else None, None
 
         if testing:
-            training_data, training_statistics.quality_assurance = \
+            quality_assurance_statistics = \
                 self.quality_assurance.check(pd, test_data)
 
+        training_statistics = Statistics(
+            pp_training_statistics.data_handler,
+            pp_training_statistics.pre_weigher,
+            pp_training_statistics.pre_filter,
+            pp_training_statistics.influence_model,
+            pp_training_statistics.post_weigher,
+            pp_training_statistics.post_filter,
+            injector_statistics,
+            extension_statistics,
+            quality_assurance_statistics
+        )
+
+        return PipelineOutput(pd, training_statistics, test_statistics)
+
+    def _filter_data(self, weighted_points):
+        points_to_filter = self.filter.filter(weighted_points.weights)
+        weighted_points = weighted_points[points_to_filter]
+
+    def _preprocess(
+        self,
+        data,
+        pre_weighing,
+        pre_filtering,
+        post_weighing,
+        post_filtering
+    ):
         # if self._has_influence_model():
         #     data = self.influence_model.remove_influence(data)
         #
@@ -234,21 +260,6 @@ class PolarPipeline:
         #
         # pd, extension_stats = self.extension.process(weighted_points, _enable_logging)
 
-        output = PipelineOutput(pd, training_statistics, test_statistics)
-        return output
-
-    def _filter_data(self, weighted_points):
-        points_to_filter = self.filter.filter(weighted_points.weights)
-        weighted_points = weighted_points[points_to_filter]
-
-    def _preprocess(
-        self,
-        data,
-        pre_weighing,
-        pre_filtering,
-        post_weighing,
-        post_filtering
-    ):
         return None, None
 
 
