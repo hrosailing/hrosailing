@@ -162,8 +162,8 @@ class PolarDiagramTable(PolarDiagram):
     def _create_zero_table(self, ws_resolution, wa_resolution):
         rows, cols = len(wa_resolution), len(ws_resolution)
         self._boat_speeds = np.zeros((rows, cols))
-        self._res_wind_speed = sorted(ws_resolution)
-        self._res_wind_angle = sorted(wa_resolution)
+        self._ws_resolution = sorted(ws_resolution)
+        self._wa_resolution = sorted(wa_resolution)
 
     def __str__(self):
         table = ["  TWA / TWS"]
@@ -306,12 +306,12 @@ class PolarDiagramTable(PolarDiagram):
 
     @property
     def wind_angles(self):
-        """Returns a read only version of self._res_wind_angle"""
+        """Returns a read only version of self._wa_resolution"""
         return self._wa_resolution.copy()
 
     @property
     def wind_speeds(self):
-        """Returns a read only version of self._res_wind_speed"""
+        """Returns a read only version of self._ws_resolution"""
         return self._ws_resolution.copy()
 
     @property
