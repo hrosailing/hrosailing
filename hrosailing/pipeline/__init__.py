@@ -198,7 +198,8 @@ class PolarPipeline:
             pre_weighing,
             pre_filtering,
             post_weighing,
-            post_filtering
+            post_filtering,
+            True
         )
 
         injected_training_data, injector_statistics \
@@ -213,7 +214,8 @@ class PolarPipeline:
             pre_weighing,
             pre_filtering,
             post_weighing,
-            post_filtering
+            post_filtering,
+            False
         ) if testing and test_data is not None else test_data, {}
 
         quality_assurance_statistics = \
@@ -244,7 +246,8 @@ class PolarPipeline:
         pre_weighing,
         pre_filtering,
         post_weighing,
-        post_filtering
+        post_filtering,
+        influence_fitting
     ):
 
         handled_data, handler_statistics = self.data_handler.handle(data)
@@ -258,8 +261,14 @@ class PolarPipeline:
                 pre_filtering
             )
 
+        influence_fit_statistics = \
+            self.influence_model.fit(data) if influence_fitting \
+            else {}
+
         influence_free_data, influence_statistics = \
             self.influence_model.remove_influence(pre_filtered_data)
+
+        influence_statistics.update(influence_fit_statistics)
 
         post_filtered_data, post_weigher_statistics, post_filter_statistics = \
             self._weigh_and_filter(
