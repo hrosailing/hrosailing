@@ -201,7 +201,8 @@ class PolarPipeline:
         )
 
         training_data, injector_statistics \
-            = self.injector.inject(training_data) if injecting else None, None
+            = self.injector.inject(training_data) if injecting \
+            else training_data, {}
 
         pd, extension_statistics \
             = self.extension.process(training_data)
@@ -212,10 +213,10 @@ class PolarPipeline:
             pre_filtering,
             post_weighing,
             post_filtering
-        ) if testing and test_data is not None else None, None
+        ) if testing and test_data is not None else test_data, {}
 
         quality_assurance_statistics = \
-            self.quality_assurance.check(pd, test_data) if testing else None
+            self.quality_assurance.check(pd, test_data) if testing else {}
 
         training_statistics = Statistics(
             pp_training_statistics.data_handler,
@@ -231,10 +232,6 @@ class PolarPipeline:
 
         return PipelineOutput(pd, training_statistics, test_statistics)
 
-    def _filter_data(self, weighted_points):
-        points_to_filter = self.filter.filter(weighted_points.weights)
-        weighted_points = weighted_points[points_to_filter]
-
     def _preprocess(
         self,
         data,
@@ -243,24 +240,68 @@ class PolarPipeline:
         post_weighing,
         post_filtering
     ):
-        # if self._has_influence_model():
-        #     data = self.influence_model.remove_influence(data)
-        #
-        # weighted_points = pc.WeightedPoints(
-        #     data,
-        #     weigher=self.weigher
-        # )
-        #
-        # if filtering:
-        #     self._filter_data(weighted_points)
-        #
-        # weighted_points = _add_zeros(weighted_points, n_zeros)
-        #
-        # pd, extension_stats = self.extension.process(weighted_points, _enable_logging)
 
-        return None, None
+        handled_data, handler_statistics = self.data_handler.handle(data)
+
+        pre_filtered_data, pre_weigher_statistics, pre_filter_statistics = \
+            self._weigh_and_filter(
+                handled_data,
+                self.pre_weigher,
+                self.pre_filter,
+                pre_weighing,
+                pre_filtering
+            )
+
+        influence_free_data, influence_statistics = \
+            self.influence_model.remove_influence(pre_filtered_data)
+
+        post_filtered_data, post_weigher_statistics, post_filter_statistics = \
+            self._weigh_and_filter(
+                influence_free_data,
+                self.post_weigher,
+                self.post_filter,
+                post_weighing,
+                post_filtering
+            )
+
+        statistics = Statistics(
+            handler_statistics,
+            pre_weigher_statistics,
+            pre_filter_statistics,
+            influence_statistics,
+            post_weigher_statistics,
+            post_filter_statistics,
+            {},
+            {},
+            {}
+        )
+
+        return data, statistics
 
 
+def _weigh_and_filter(
+    data,
+    weigher,
+    filter_,
+    weighing,
+    filtering
+):
+    weighed_data, weigher_statistics = \
+        weigher.weigh(data) if weighing \
+        else pc.AllOneWeigher().weigh(data)
+    #TODO: create weigh method in weigher and create AllOneWeigher
+
+    filtered_data, filter_statistics = \
+        _filter_data(filter_, weighed_data) if filtering \
+        else weighed_data, {}
+
+    return filtered_data, weigher_statistics, filter_statistics
+
+
+def _filter_data(filter, weighted_points):
+    points_to_filter, filter_statistics = \
+        filter.filter(weighted_points.weights)
+    return weighted_points[points_to_filter], filter_statistics
 
 
 def _add_zeros(weighted_points, n_zeros):
