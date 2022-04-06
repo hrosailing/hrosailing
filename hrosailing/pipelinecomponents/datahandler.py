@@ -171,9 +171,36 @@ class NMEAFileHandler(DataHandler):
 
     """
 
-    def __init__(self, sentences, attributes):
-        self._wanted_sentences = sentences
-        self._wanted_attributes = attributes
+    def __init__(
+            self,
+            wanted_sentences=None,
+            wanted_attributes=None,
+            unwanted_sentences=None,
+            unwanted_attributes=None
+    ):
+        if wanted_sentences is not None:
+            self._sentence_filter = lambda line: any(
+                    sentence in line for sentence in wanted_sentences
+                )
+        elif unwanted_sentences is not None:
+            self._sentence_filter = lambda line: all(
+                    sentence not in line for sentence in unwanted_sentences
+                )
+        else:
+            self._sentence_filter = lambda line: True
+
+        if wanted_attributes is not None:
+            self._attribute_filter = lambda field: any(
+                field[0] == attribute
+                for attribute in wanted_attributes
+                )
+        elif unwanted_attributes is not None:
+            self._attribute_filter = lambda field: all(
+                field[0] != attribute
+                for attribute in unwanted_attributes
+                )
+        else:
+            self._attribute_filter = lambda field: True
 
     def handle(self, data) -> dict:
         """Reads a text file containing nmea-sentences and extracts
@@ -196,30 +223,27 @@ class NMEAFileHandler(DataHandler):
         """
         from pynmea2 import parse
 
-        data_dict = {attribute: [] for attribute in self._wanted_attributes}
+        data_dict = {}
         ndata = 0
 
         with open(data, "r", encoding="utf-8") as file:
             nmea_sentences = filter(
-                lambda line: any(
-                    sentence in line for sentence in self._wanted_sentences
-                ),
+                self._sentence_filter,
                 file,
             )
 
             for sentence in nmea_sentences:
                 parsed_sentence = parse(sentence)
                 wanted_fields = filter(
-                    lambda field: any(
-                        field[0] == attribute
-                        for attribute in self._wanted_attributes
-                    ),
+                    self._attribute_filter,
                     parsed_sentence.fields,
                 )
 
                 wanted_fields = map(lambda x: x[:2], wanted_fields)
 
                 for name, attribute in wanted_fields:
+                    if name not in data_dict:
+                        data_dict[name] = []
                     length = len(data_dict[name])
                     if length == ndata:
                         ndata += 1
@@ -233,11 +257,13 @@ class NMEAFileHandler(DataHandler):
                     data_dict[name].append(value)
 
             # fill last entries
-            for attribute in self._wanted_attributes:
+            for attribute in data_dict:
                 length = len(data_dict[attribute])
                 data_dict[attribute].extend([None] * (ndata - length))
 
         # componentwise completion of data entries
+        data_dict = {key : value for key, value in data_dict.items()
+                     if not all([v is None for v in value])}
         _handle_surplus_data(data_dict)
         return data_dict
 
@@ -260,14 +286,14 @@ def _handle_surplus_data(data_dict):
             left = data_dict[key][idx1]
             right = data_dict[key][idx2]
 
-            if isinstance(left, (str, time, date)):
+            if isinstance(left, (str, date, time)):
                 data_dict[key][idx1 + 1 : idx2] = [left] * (idx2 - (idx1 + 1))
                 continue
 
             k = 1
             for i in range(idx1 + 1, idx2):
                 mu = k / lambda_
-                data_dict[key][i] = mu * left + (1 - mu) * right
+                data_dict[key][i] = mu * right + (1 - mu) * left
                 k += 1
 
         # every entry after the last non-None entry gets the value of
