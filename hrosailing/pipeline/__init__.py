@@ -192,7 +192,7 @@ class PolarPipeline:
         -------
         out : PipelineOutput
         """
-        training_data, pp_training_statistics = self._preprocess(
+        preproc_training_data, pp_training_statistics = self._preprocess(
             training_data,
             pre_weighing,
             pre_filtering,
@@ -200,14 +200,14 @@ class PolarPipeline:
             post_filtering
         )
 
-        training_data, injector_statistics \
-            = self.injector.inject(training_data) if injecting \
+        injected_training_data, injector_statistics \
+            = self.injector.inject(preproc_training_data) if injecting \
             else training_data, {}
 
-        pd, extension_statistics \
-            = self.extension.process(training_data)
+        polar_diagram, extension_statistics \
+            = self.extension.process(injected_training_data)
 
-        test_data, test_statistics = self._preprocess(
+        preproc_test_data, test_statistics = self._preprocess(
             test_data,
             pre_weighing,
             pre_filtering,
@@ -216,7 +216,8 @@ class PolarPipeline:
         ) if testing and test_data is not None else test_data, {}
 
         quality_assurance_statistics = \
-            self.quality_assurance.check(pd, test_data) if testing else {}
+            self.quality_assurance.check(polar_diagram, preproc_test_data)\
+            if testing else {}
 
         training_statistics = Statistics(
             pp_training_statistics.data_handler,
@@ -230,7 +231,11 @@ class PolarPipeline:
             quality_assurance_statistics
         )
 
-        return PipelineOutput(pd, training_statistics, test_statistics)
+        return PipelineOutput(
+            polar_diagram,
+            training_statistics,
+            test_statistics
+        )
 
     def _preprocess(
         self,
