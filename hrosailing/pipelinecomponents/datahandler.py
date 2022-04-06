@@ -78,26 +78,35 @@ class ArrayHandler(DataHandler):
 
         Returns
         -------
-        data_dict: dict
+        data_dict, statistics: (dict, dict)
             If data is a pandas.DataFrame, data_dict is the output
             of the DataFrame.to_dict()-method, otherwise the keys of
             the dict will be the entries of the ordered iterable with the
             value being the corresponding column of the array_like
+
+            statistics contains the number of read lines as key 'n_lines_read'
 
         Raises
         ------
         HandleException
         """
         if self.pand and isinstance(data, self.pd.DataFrame):
-            return data.to_dict()
+            data_dict = data.to_dict()
+        else:
+            arr, keys = data
+            arr = np.asarray(arr)
 
-        arr, keys = data
-        arr = np.asarray(arr)
+            if len(keys) != arr.shape[1]:
+                raise HandleException("Too few keys for data")
 
-        if len(keys) != arr.shape[1]:
-            raise HandleException("Too few keys for data")
+            data_dict = {key: arr[:, i] for i, key in enumerate(keys)}
 
-        return {key: arr[:, i] for i, key in enumerate(keys)}
+        statistics = {
+            "n_lines_read": len(data_dict)
+        }
+
+        return data_dict, statistics
+
 
 
 class CsvFileHandler(DataHandler):
