@@ -165,10 +165,37 @@ class NMEAFileHandler(DataHandler):
 
     Parameters
     ---------
-    sentences : Iterable of str,
+    wanted_sentences : Iterable of str, optional
+        NMEA sentences that will be read
 
-    attributes : Iterable of str,
+        Default to 'None'
 
+    unwanted_sentences : Iterable of str, optional
+        NMEA sentences that will be ignored.
+        If 'wanted_sentences' is set this keyword is ignored
+        If both 'wanted_sentences' and 'unwanted_sentences' are None,
+        all NMEA sentences will be read
+
+        Defaults to 'None'
+
+        wanted_sentences : Iterable of str,
+        NMEA sentences that will be read
+
+        Default to 'None'
+
+
+    wanted_sentences : Iterable of str, optional
+        NMEA attributes that will be added to the output dictionary
+
+        Default to 'None'
+
+    unwanted_attributes : Iterable of str, optional
+        NMEA attributes that will be ignored
+        If 'wanted_attributes' is set this option is ignored
+        If both 'wanted_sentences' and 'unwanted_sentences' are None,
+        all NMEA sentences will be read
+
+        Defaults to 'None'
     """
 
     def __init__(
