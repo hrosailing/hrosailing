@@ -108,7 +108,6 @@ class ArrayHandler(DataHandler):
         return data_dict, statistics
 
 
-
 class CsvFileHandler(DataHandler):
     """A data handler to extract data from a .csv file and convert it
     to a dictionary
@@ -138,9 +137,11 @@ class CsvFileHandler(DataHandler):
 
         Returns
         -------
-        data_dict : dict
-            Dictionary having the first row entries as keys and
+        data_dict, statistics : dict, dict
+            data_dict is a dictionary having the first row entries as keys and
             as values the corresponding columns given as lists
+
+            statistics contains the number of read lines as key 'n_lines_read'
 
         Raises
         ------
@@ -159,7 +160,7 @@ class CsvFileHandler(DataHandler):
                 for i, entry in enumerate(row):
                     data_dict[keys[i]].append(literal_eval(entry))
 
-        return data_dict
+        return data_dict, {"n_lines_read": len(data_dict)}
 
 
 class NMEAFileHandler(DataHandler):
@@ -199,6 +200,14 @@ class NMEAFileHandler(DataHandler):
         all NMEA sentences will be read
 
         Defaults to 'None'
+
+    Returns
+    -------
+    data_dict, statistics : dict, dict
+        data_dict is a dictionary having the first row entries as keys and
+        as values the corresponding columns given as lists
+
+        statistics contains the number of read lines as key 'n_lines_read'
     """
 
     def __init__(
@@ -295,7 +304,7 @@ class NMEAFileHandler(DataHandler):
         data_dict = {key : value for key, value in data_dict.items()
                      if not all([v is None for v in value])}
         _handle_surplus_data(data_dict)
-        return data_dict
+        return data_dict, {"n_lines_read": len(data_dict)}
 
 
 def _handle_surplus_data(data_dict):
