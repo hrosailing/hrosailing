@@ -106,11 +106,8 @@ class ArrayHandler(DataHandler):
 
             data_dict = {key: arr[:, i] for i, key in enumerate(keys)}
 
-        statistics = {
-            "n_lines_read": len(data_dict)
-        }
-
-        return hrosailing_standard_format(data_dict), statistics
+        return hrosailing_standard_format(data_dict),\
+               {"n_lines_read": len(data_dict[data_dict.keys()[0]])}
 
 
 class CsvFileHandler(DataHandler):
@@ -166,7 +163,7 @@ class CsvFileHandler(DataHandler):
                     data_dict[keys[i]].append(literal_eval(entry))
 
         return hrosailing_standard_format(data_dict),\
-               {"n_lines_read": len(data_dict)}
+               {"n_lines_read": len(data_dict[data_dict.keys()[0]])}
 
 
 class NMEAFileHandler(DataHandler):
@@ -311,7 +308,7 @@ class NMEAFileHandler(DataHandler):
                      if not all([v is None for v in value])}
         _handle_surplus_data(data_dict)
         return hrosailing_standard_format(data_dict), \
-               {"n_lines_read": len(data_dict)}
+               {"n_lines_read": len(data_dict[data_dict.keys()[0]])}
 
 
 def _handle_surplus_data(data_dict):
