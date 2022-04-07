@@ -371,5 +371,5 @@ def hrosailing_standard_format(data_dict):
         lkey = lkey.strip()
         return KEYSYNONYMS[lkey] if lkey in KEYSYNONYMS else key
 
-    return {standard_key(key): value for key, value in data_dict}
+    return {standard_key(key): value for key, value in data_dict.items()}
 
