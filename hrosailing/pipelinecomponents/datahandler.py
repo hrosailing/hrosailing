@@ -52,6 +52,9 @@ class DataHandler(ABC):
         The output should be a tuple of two dictionaries, the first should be
         a dictionary with str keys and list values containing the read data,
         the second should be a dictionary of relevant statistics.
+
+        We recommend using 'hrosailing_standard_format' at the end of your
+        custom handler.
         """
 
 
@@ -344,6 +347,20 @@ def _handle_surplus_data(data_dict):
 
 
 def hrosailing_standard_format(data_dict):
+    """
+    Parameters
+    ----------
+
+    data_dict: dict,
+        dictionary, keys possibly not in hrosailing standard
+
+    Returns
+    ----------
+
+    standard_dict: dict,
+        dictionary with hrosailing standard keys where possible and the
+        same values as data_dict
+    """
     def standard_key(key):
         seperators = ["_", "-", "\n", "\t"]
         lkey = key.lower()
@@ -352,5 +369,5 @@ def hrosailing_standard_format(data_dict):
         lkey = lkey.strip()
         return KEYSYNONYMS[lkey] if lkey in KEYSYNONYMS else key
 
-    return {standard_key(key) : value for key, value in data_dict}
+    return {standard_key(key): value for key, value in data_dict}
 
