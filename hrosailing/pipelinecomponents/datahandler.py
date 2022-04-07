@@ -89,7 +89,7 @@ class ArrayHandler(DataHandler):
             the dict will be the entries of the ordered iterable with the
             value being the corresponding column of the array_like
 
-            statistics contains the number of read lines as key 'n_lines_read'
+            statistics contains the number of created lines as key 'n_lines'
 
         Raises
         ------
