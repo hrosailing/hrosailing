@@ -21,6 +21,8 @@ from decimal import Decimal
 
 import numpy as np
 
+from hrosailing.pipelinecomponents.constants import KEYSYNONYMS
+
 
 class HandlerInitializationException(Exception):
     """Exception raised if an error occurs during
@@ -339,3 +341,16 @@ def _handle_surplus_data(data_dict):
         # the last non-None entry
         last = data_dict[key][idx[-1]]
         data_dict[key][idx[-1] :] = [last] * (len(data_dict[key]) - idx[-1])
+
+
+def hrosailing_standard_format(data_dict):
+    def standard_key(key):
+        seperators = ["_", "-", "\n", "\t"]
+        lkey = key.lower()
+        for sep in seperators:
+            lkey = lkey.replace("_", " ")
+        lkey = lkey.strip()
+        return KEYSYNONYMS[lkey] if lkey in KEYSYNONYMS else key
+
+    return {standard_key(key) : value for key, value in data_dict}
+
