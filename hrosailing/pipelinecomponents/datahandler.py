@@ -365,7 +365,7 @@ def hrosailing_standard_format(data_dict):
         seperators = ["_", "-", "\n", "\t"]
         lkey = key.lower()
         for sep in seperators:
-            lkey = lkey.replace("_", " ")
+            lkey = lkey.replace(sep, " ")
         lkey = lkey.strip()
         return KEYSYNONYMS[lkey] if lkey in KEYSYNONYMS else key
 
