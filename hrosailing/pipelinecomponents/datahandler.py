@@ -110,7 +110,7 @@ class ArrayHandler(DataHandler):
             "n_lines_read": len(data_dict)
         }
 
-        return data_dict, statistics
+        return hrosailing_standard_format(data_dict), statistics
 
 
 class CsvFileHandler(DataHandler):
@@ -131,7 +131,7 @@ class CsvFileHandler(DataHandler):
     if pand:
         import pandas as pd
 
-    def handle(self, data) -> dict:
+    def handle(self, data) -> (dict, dict):
         """Reads a .csv file and extracts the contained data points
         The delimiter used in the .csv file
 
@@ -165,7 +165,8 @@ class CsvFileHandler(DataHandler):
                 for i, entry in enumerate(row):
                     data_dict[keys[i]].append(literal_eval(entry))
 
-        return data_dict, {"n_lines_read": len(data_dict)}
+        return hrosailing_standard_format(data_dict),\
+               {"n_lines_read": len(data_dict)}
 
 
 class NMEAFileHandler(DataHandler):
@@ -246,7 +247,7 @@ class NMEAFileHandler(DataHandler):
         else:
             self._attribute_filter = lambda field: True
 
-    def handle(self, data) -> dict:
+    def handle(self, data) -> (dict, dict):
         """Reads a text file containing nmea-sentences and extracts
         data points
 
@@ -309,7 +310,8 @@ class NMEAFileHandler(DataHandler):
         data_dict = {key : value for key, value in data_dict.items()
                      if not all([v is None for v in value])}
         _handle_surplus_data(data_dict)
-        return data_dict, {"n_lines_read": len(data_dict)}
+        return hrosailing_standard_format(data_dict), \
+               {"n_lines_read": len(data_dict)}
 
 
 def _handle_surplus_data(data_dict):
