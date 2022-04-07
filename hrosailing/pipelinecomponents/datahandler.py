@@ -107,7 +107,7 @@ class ArrayHandler(DataHandler):
             data_dict = {key: arr[:, i] for i, key in enumerate(keys)}
 
         return hrosailing_standard_format(data_dict),\
-               {"n_lines_read": len(data_dict[data_dict.keys()[0]])}
+               {"n_lines": len(list(data_dict.values())[0])}
 
 
 class CsvFileHandler(DataHandler):
@@ -140,10 +140,12 @@ class CsvFileHandler(DataHandler):
         Returns
         -------
         data_dict, statistics : dict, dict
-            data_dict is a dictionary having the first row entries as keys and
+            data_dict is a dictionary having the hrosailing standard version of
+            the first row entries as keys and
             as values the corresponding columns given as lists
 
-            statistics contains the number of read lines as key 'n_lines_read'
+            statistics contains the number of created data points
+            as key 'n_lines'
 
         Raises
         ------
@@ -163,7 +165,7 @@ class CsvFileHandler(DataHandler):
                     data_dict[keys[i]].append(literal_eval(entry))
 
         return hrosailing_standard_format(data_dict),\
-               {"n_lines_read": len(data_dict[data_dict.keys()[0]])}
+            {"n_lines": len(list(data_dict.values())[0])}
 
 
 class NMEAFileHandler(DataHandler):
@@ -207,10 +209,12 @@ class NMEAFileHandler(DataHandler):
     Returns
     -------
     data_dict, statistics : dict, dict
-        data_dict is a dictionary having the first row entries as keys and
+        data_dict is a dictionary having the hrosailing standard version of the
+        first row entries as keys and
         as values the corresponding columns given as lists
 
-        statistics contains the number of read lines as key 'n_lines_read'
+        statistics contains the number of created data points
+        as key 'n_lines'
     """
 
     def __init__(
@@ -255,8 +259,13 @@ class NMEAFileHandler(DataHandler):
 
         Returns
         -------
-        data_dict : dict
-            Dictionary where the keys are the given attributes
+        data_dict, statistics : dict, dict
+            data_dict is a dictionary where the keys are the
+            hrosailing standard version of the
+            (possibly filtered) attributes of the NMEA file
+
+            statistics contains the number of created data points
+            as key 'n_lines'
 
         Raises
         ------
@@ -308,7 +317,7 @@ class NMEAFileHandler(DataHandler):
                      if not all([v is None for v in value])}
         _handle_surplus_data(data_dict)
         return hrosailing_standard_format(data_dict), \
-               {"n_lines_read": len(data_dict[data_dict.keys()[0]])}
+            {"n_lines": len(list(data_dict.values())[0])}
 
 
 def _handle_surplus_data(data_dict):
