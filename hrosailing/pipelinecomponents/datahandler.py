@@ -319,11 +319,6 @@ class NMEAFileHandler(DataHandler):
                 data_dict[attribute].extend([None] * (ndata - length))
 
         data_dict = hrosailing_standard_format(data_dict)
-        # remove all None fields
-        #data_dict = {key: value for key, value in data_dict.items()
-        #             if not all([v is None for v in value])}
-        # componentwise completion of data entries
-        #_handle_surplus_data(data_dict)
         return data_dict, \
             {"n_lines": len(list(data_dict.values())[0])}
 

@@ -16,3 +16,4 @@ from .sampler import (ArchimedianSampler, FibonacciSampler, Sampler,
                       UniformRandomSampler)
 from .weigher import (CylindricMeanWeigher, CylindricMemberWeigher, Weigher,
                       WeightedPoints)
+from .imputator import FillLocalImputator
