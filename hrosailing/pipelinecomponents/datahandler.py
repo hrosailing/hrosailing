@@ -16,7 +16,7 @@ in the hrosailing.pipeline module
 import csv
 from abc import ABC, abstractmethod
 from ast import literal_eval
-from datetime import date, time
+from datetime import date, time, datetime
 from decimal import Decimal
 
 import numpy as np
@@ -290,16 +290,22 @@ class NMEAFileHandler(DataHandler):
                     parsed_sentence.fields,
                 )
 
-                wanted_fields = map(lambda x: x[:2], wanted_fields)
+                wanted_fields = [x[:2] for x in wanted_fields]
+
+                max_len = max([
+                    len(data_dict[name]) if name in data_dict else 0
+                    for name, _ in wanted_fields
+                ])
+
+                if max_len == ndata:
+                    ndata += 1
 
                 for name, attribute in wanted_fields:
                     if name not in data_dict:
                         data_dict[name] = []
+
                     length = len(data_dict[name])
-                    if length == ndata:
-                        ndata += 1
-                    else:
-                        data_dict[name].extend([None] * (ndata - length - 1))
+                    data_dict[name].extend([None] * (ndata - length -1))
 
                     value = getattr(parsed_sentence, attribute)
                     if isinstance(value, Decimal):
@@ -312,11 +318,13 @@ class NMEAFileHandler(DataHandler):
                 length = len(data_dict[attribute])
                 data_dict[attribute].extend([None] * (ndata - length))
 
+        data_dict = hrosailing_standard_format(data_dict)
+        # remove all None fields
+        #data_dict = {key: value for key, value in data_dict.items()
+        #             if not all([v is None for v in value])}
         # componentwise completion of data entries
-        data_dict = {key : value for key, value in data_dict.items()
-                     if not all([v is None for v in value])}
-        _handle_surplus_data(data_dict)
-        return hrosailing_standard_format(data_dict), \
+        #_handle_surplus_data(data_dict)
+        return data_dict, \
             {"n_lines": len(list(data_dict.values())[0])}
 
 
@@ -344,8 +352,12 @@ def _handle_surplus_data(data_dict):
 
             k = 1
             for i in range(idx1 + 1, idx2):
+                #data_dict[key][i] = left
                 mu = k / lambda_
-                data_dict[key][i] = mu * right + (1 - mu) * left
+                data_dict[key][i] = left + mu*(right - left)
+                #data_dict[key][i] = mu * right + (1 - mu) * left
+                #data_dict[key][i] = left
+                #data_dict[key][i] = mu*left + (1-mu)*right
                 k += 1
 
         # every entry after the last non-None entry gets the value of
@@ -367,15 +379,34 @@ def hrosailing_standard_format(data_dict):
 
     standard_dict: dict,
         dictionary with hrosailing standard keys where possible and the
-        same values as data_dict
+        same values as data_dict, date and time fields will be aggregated
+        to datetime
     """
     def standard_key(key):
-        seperators = ["_", "-", "\n", "\t"]
+        seperators = ["_", "-", "+", "&", "\n", "\t"]
         lkey = key.lower()
         for sep in seperators:
             lkey = lkey.replace(sep, " ")
         lkey = lkey.strip()
         return KEYSYNONYMS[lkey] if lkey in KEYSYNONYMS else key
 
-    return {standard_key(key): value for key, value in data_dict.items()}
+    standard_dict = \
+        {standard_key(key): value for key, value in data_dict.items()}
+
+    if "time" in standard_dict and "date" in standard_dict:
+
+        def combine(date, time):
+            if date is None or time is None:
+                return None
+            else:
+                return datetime.combine(date, time)
+
+        standard_dict["datetime"] = [
+           combine(date, time)
+           for date, time in zip(standard_dict["date"], standard_dict["time"])
+        ]
+        del standard_dict["date"]
+        del standard_dict["time"]
+
+    return standard_dict
 
