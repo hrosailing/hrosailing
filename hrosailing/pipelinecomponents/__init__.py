@@ -38,3 +38,4 @@ from .weigher import (
     Weigher,
     WeightedPoints,
 )
+from .imputator import FillLocalImputator
