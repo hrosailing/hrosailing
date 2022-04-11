@@ -46,6 +46,7 @@ KEYSYNONYMS = {
     "speed over ground knots": "SOG",
     "og": "SOG",
     "sog": "SOG",
+    "spd over grnd": "SOG",
 
     "date": "date",
     "datestamp": "date",
@@ -53,5 +54,8 @@ KEYSYNONYMS = {
 
     "time": "time",
     "timestamp": "time",
-    "time stamp": "time"
+    "time stamp": "time",
+    
+    "datetime": "datetime",
+    "date time": "datetime",
 }
