@@ -121,7 +121,7 @@ class PolarPipeline:
     ):
         self.data_handler = data_handler
         self.imputator = imputator
-        self.pre_weigher=pre_weigher
+        self.pre_weigher = pre_weigher
         self.pre_filter = pre_filter
         self.influence_model = influence_model
         self.post_weigher = post_weigher
