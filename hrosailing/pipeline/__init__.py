@@ -18,6 +18,7 @@ from hrosailing.pipelinecomponents.modelfunctions import (
 class Statistics(NamedTuple):
     """"""
     data_handler: dict
+    imputator: dict
     pre_weigher: dict
     pre_filter: dict
     influence_model: dict
@@ -26,6 +27,9 @@ class Statistics(NamedTuple):
     injector: dict
     extension: dict
     quality_assurance: dict
+
+
+_EMPTY_STATISTIC = Statistics({}, {}, {}, {}, {}, {}, {}, {}, {}, {})
 
 
 class PipelineOutput(NamedTuple):
@@ -45,6 +49,12 @@ class PolarPipeline:
         Handler that is responsible to extract actual data from the input
 
         Determines the type and format of input the pipeline should accept
+
+    imputator : Imputator, optional
+        Determines the method which will be used to produce data without
+        None entries
+
+        Defaults to 'FillLocalImputator()'
 
     pre_weigher : Weigher, optional
         Determines the method with which the points will be weight before
@@ -99,6 +109,7 @@ class PolarPipeline:
     def __init__(
         self,
         data_handler,
+        imputator=pc.FillLocalImputator(),
         pre_weigher=pc.CylindricMeanWeigher(),
         pre_filter=pc.QuantileFilter(),
         influence_model=None,
@@ -109,6 +120,7 @@ class PolarPipeline:
         quality_assurance=None
     ):
         self.data_handler = data_handler
+        self.imputator = imputator
         self.pre_weigher=pre_weigher
         self.pre_filter = pre_filter
         self.influence_model = influence_model
@@ -215,7 +227,7 @@ class PolarPipeline:
             post_weighing,
             post_filtering,
             False
-        ) if testing and test_data is not None else test_data, {}
+        ) if testing and test_data is not None else test_data, _EMPTY_STATISTIC
 
         quality_assurance_statistics = \
             self.quality_assurance.check(polar_diagram, preproc_test_data)\
@@ -223,6 +235,7 @@ class PolarPipeline:
 
         training_statistics = Statistics(
             pp_training_statistics.data_handler,
+            pp_training_statistics.imputator,
             pp_training_statistics.pre_weigher,
             pp_training_statistics.pre_filter,
             pp_training_statistics.influence_model,
@@ -251,9 +264,12 @@ class PolarPipeline:
 
         handled_data, handler_statistics = self.data_handler.handle(data)
 
+        imputated_data, imputator_statistics = \
+            self.imputator.imputate(handled_data)
+
         pre_filtered_data, pre_weigher_statistics, pre_filter_statistics = \
             self._weigh_and_filter(
-                handled_data,
+                imputated_data,
                 self.pre_weigher,
                 self.pre_filter,
                 pre_weighing,
@@ -280,6 +296,7 @@ class PolarPipeline:
 
         statistics = Statistics(
             handler_statistics,
+            imputator_statistics,
             pre_weigher_statistics,
             pre_filter_statistics,
             influence_statistics,
