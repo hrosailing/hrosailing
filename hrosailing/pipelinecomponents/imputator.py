@@ -25,13 +25,67 @@ class Imputator(ABC):
 
 class FillLocalImputator(Imputator):
     """
-    An Imputator which fills missing data by ....
+    An Imputator which assumes that the data has been stored chronologically
+    and contains some datestamps.
+    Fills missing data by:
+    - deleting columns that only contain None values
+    - delete rows without datetime-stamp which lie between two data_points
+        which are far apart in time, before the first or after the last
+        datestamp
+    - affine interpolation of datetime-stamps between two data_points which
+        are not far apart in time
+    - fill data before and after a not-None value which are not too far apart
+        in time according to certain functions ('fill_before' and 'fill_after)
+    - fill data between a pair of not-None values which are not too far apart
+        in time according to a certain function ('fill_between')
+
+    Parameters:
+    -----------------
+    fill_before: (str, object, float) -> object, optional
+        The function which will be used to fill None fields before a not-None
+        field.
+
+        First argument is the attribute name, second is the value of the
+        not_None field mentioned before, third argument is the relative
+        position (in time) between the earliest applicable data and the
+        mentioned not-None data. Returns the value to be filled
+
+        Defaults to 'lambda name, right, mu: right'
+
+    fill_between: (str, object, object, float) -> object
+        The function which will be used to fill None fields between
+        two not-None field.
+
+        First argument is the attribute name, second and third are the values
+        of the not_None fields mentioned before in chronological order,
+        last argument is the relative position (in time) between
+        the the two mentioned not-None data points.
+        Returns the value to be filled
+
+        Defaults to 'lambda name, left, right, mu: left'
+
+    fill_after: (str, object, float) -> object, optional
+        The function which will be used to fill None fields after a not-None
+        field.
+
+        First argument is the attribute name, second is the value of the
+        not_None field mentioned before, third argument is the relative
+        position (in time) between the mentioned not-None data and the
+        latest applicable data. Returns the value to be filled
+
+        Defaults to 'lambda name, left, mu: left'
+
+    max_time_diff: datetime.timedelta, optional
+        Two data points are treated as 'close in time' if their time difference
+        is smaller than 'max_time_diff'
+
+        Defaults to 2 minutes
     """
 
     def __init__(
         self,
         fill_before=lambda name, right, mu: right,
-        fill_between=lambda name, right, left, mu: right,
+        fill_between=lambda name, left, right, mu: left,
         fill_after=lambda name, left, mu: left,
         max_time_diff=timedelta(minutes=2)
     ):
@@ -47,6 +101,25 @@ class FillLocalImputator(Imputator):
         self,
         data_dict
     ):
+        """
+        Creates a dictionary that does not contain None values by the method
+        described above.
+
+        Parameters
+        ----------------
+        data_dict: dict
+            The dictionary to be imputated
+
+        Returns
+        -------------
+        data_dict, statistics: dict, dict
+            data_dict is the resulting dictionary containing no None values
+            statistics contains the number of removed columns, the number of
+            removed rows, the number of filled fields and the number of rows and
+            columns in the resulting dictionary as
+            "n_removed_cols", "n_removed_rows", "n_filled_fields",
+            "n_rows" and "n_cols" respectively
+        """
         self._n_filled = 0
         n_removed_cols = len(data_dict)
         # remove all None fields
