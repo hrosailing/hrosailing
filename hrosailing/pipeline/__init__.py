@@ -317,9 +317,11 @@ def _weigh_and_filter(
     weighing,
     filtering
 ):
-    weighed_data, weigher_statistics = \
+    weights, weigher_statistics = \
         weigher.weigh(data) if weighing \
         else pc.AllOneWeigher().weigh(data)
+
+    weighed_data = pc.WeightedPoints(data, weights)
     #TODO: create weigh method in weigher and create AllOneWeigher
 
     filtered_data, filter_statistics = \
