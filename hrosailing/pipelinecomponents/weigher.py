@@ -167,10 +167,11 @@ class Weigher(ABC):
     """
 
     @abstractmethod
-    def weigh(self, points, extra_data):
-        """This method should be used, given certain point
-        to determine their weights according to a weighing method, which
-        can also use some extra data, depending on the points
+    def weigh(self, points) -> (WeightedPoints, dict):
+        """This method should be used, to determine a weight for each point
+        where the points might be given as data_dicts or as np.arrays
+        and return the result as WeightedPoints as well as a dictionary
+        with statistics
         """
 
 
@@ -197,6 +198,13 @@ class CylindricMeanWeigher(Weigher):
 
         If nothing is passed, it will default to ||.||_2
 
+    dimensions : [str], optional
+        If the data is given as dict, 'dimensions' contains the keys
+        which should be used in conjunction in order to create the
+        data space
+
+        Defaults to ["TWA", "TWS", "BSP"]
+
     Raises
     ------
     WeigherInitializationException
@@ -207,12 +215,14 @@ class CylindricMeanWeigher(Weigher):
         self,
         radius=0.05,
         norm: Callable = scaled_euclidean_norm,
+        dimensions=["TWA", "TWS", "BSP"]
     ):
         if radius <= 0:
             raise WeigherInitializationException("`radius` is not positive")
 
         self._radius = radius
         self._norm = norm
+        self._dimensions = dimensions
 
     def __repr__(self):
         return (
@@ -220,12 +230,12 @@ class CylindricMeanWeigher(Weigher):
             f"norm={self._norm.__name__})"
         )
 
-    def weigh(self, points, extra_data, _enable_logging):
+    def weigh(self, points, extra_data):
         """Weigh given points according to the method described above
 
         Parameters
         ----------
-        points : numpy.ndarray of shape (n, 3)
+        points : numpy.ndarray of shape (n, d) with d>=3 or dict
             Points to be weight
 
         Returns
