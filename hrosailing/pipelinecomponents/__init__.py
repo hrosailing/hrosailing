@@ -26,16 +26,10 @@ from .neighbourhood import (
     ScalingBall,
 )
 from .regressor import LeastSquareRegressor, ODRegressor, Regressor
-from .sampler import (
-    ArchimedianSampler,
-    FibonacciSampler,
-    Sampler,
-    UniformRandomSampler,
-)
-from .weigher import (
-    CylindricMeanWeigher,
-    CylindricMemberWeigher,
-    Weigher,
-    WeightedPoints,
-)
+
+from .sampler import (ArchimedianSampler, FibonacciSampler, Sampler,
+                      UniformRandomSampler)
+from .weigher import (CylindricMeanWeigher, CylindricMemberWeigher, Weigher,
+                      WeightedPoints, AllOneWeigher,
+                      PastFutureFluctuationWeigher, PastFluctuationWeigher)
 from .imputator import FillLocalImputator
