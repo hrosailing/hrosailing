@@ -338,44 +338,6 @@ class NMEAFileHandler(DataHandler):
         return data_dict, statistics
 
 
-def _handle_surplus_data(data_dict):
-    idx_dict = {
-        key: [i for i, data in enumerate(data_dict[key]) if data is not None]
-        for key in data_dict
-    }
-
-    for key, idx in idx_dict.items():
-        # every entry before the first non-None entry gets the value of
-        # the first non-None entry
-        first = data_dict[key][idx[0]]
-        data_dict[key][0 : idx[0]] = [first] * idx[0]
-
-        # convex interpolation of entries between non-None entries
-        for idx1, idx2 in zip(idx, idx[1:]):
-            lambda_ = idx2 - idx1
-            left = data_dict[key][idx1]
-            right = data_dict[key][idx2]
-
-            if isinstance(left, (str, date, time)):
-                data_dict[key][idx1 + 1 : idx2] = [left] * (idx2 - (idx1 + 1))
-                continue
-
-            k = 1
-            for i in range(idx1 + 1, idx2):
-                #data_dict[key][i] = left
-                mu = k / lambda_
-                data_dict[key][i] = left + mu*(right - left)
-                #data_dict[key][i] = mu * right + (1 - mu) * left
-                #data_dict[key][i] = left
-                #data_dict[key][i] = mu*left + (1-mu)*right
-                k += 1
-
-        # every entry after the last non-None entry gets the value of
-        # the last non-None entry
-        last = data_dict[key][idx[-1]]
-        data_dict[key][idx[-1] :] = [last] * (len(data_dict[key]) - idx[-1])
-
-
 def hrosailing_standard_format(data_dict):
     """
     Parameters
