@@ -148,6 +148,13 @@ class Weigher(ABC):
         with statistics
         """
 
+class AllOneWeigher(Weigher):
+    """A weigher that functions mainly as a stand in if the weighing options
+    of the pipeline are set to False. Weighs everything as 1"""
+
+    def weigh(self, points) -> (np.ndarray, dict):
+        return np.ones(len(points))
+
 
 class CylindricMeanWeigher(Weigher):
     """A weigher that weighs given points according to the
