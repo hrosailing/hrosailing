@@ -89,7 +89,8 @@ class ArrayHandler(DataHandler):
             the dict will be the entries of the ordered iterable with the
             value being the corresponding column of the array_like
 
-            statistics contains the number of created lines as key 'n_lines'
+            statistics contains the number of created rows and colums
+            as 'n_rows' and 'n_cols' respectively
 
         Raises
         ------
@@ -149,8 +150,8 @@ class CsvFileHandler(DataHandler):
             the first row entries as keys and
             as values the corresponding columns given as lists
 
-            statistics contains the number of created data points
-            as key 'n_lines'
+            statistics contains the number of created rows and colums
+            as 'n_rows' and 'n_cols' respectively
 
         Raises
         ------
@@ -223,8 +224,8 @@ class NMEAFileHandler(DataHandler):
         first row entries as keys and
         as values the corresponding columns given as lists
 
-        statistics contains the number of created data points
-        as key 'n_lines'
+        statistics contains the number of created rows and colums
+        as 'n_rows' and 'n_cols' respectively
     """
 
     def __init__(
@@ -274,8 +275,8 @@ class NMEAFileHandler(DataHandler):
             hrosailing standard version of the
             (possibly filtered) attributes of the NMEA file
 
-            statistics contains the number of created data points
-            as key 'n_lines'
+            statistics contains the number of created rows and colums
+            as 'n_rows' and 'n_cols' respectively
 
         Raises
         ------
