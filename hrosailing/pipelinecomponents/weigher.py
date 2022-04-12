@@ -238,16 +238,26 @@ def _determine_weights(weigher, points, data, _enable_logging):
 def _weights_is_scalar(weights):
     return np.isscalar(weights)
 
+
 def get_weight_statistics(weights):
+    """
+    produces hrosailing standard statistics for weighers, namely the average,
+    minimal and maximal weight as well as a list of percentages how many
+    weights are contained in each 10th of the span between the minimal and
+    maximal weight.
+    The respective keys are 'average_weight', 'min_weight', 'max_weight' and
+    'quantiles'.
+    """
+    span = np.max(weights) - np.min(weights)
     return {
         "average_weight": round(np.mean(weights), 4),
-        "minimal_weight": np.min(weights),
-        "maximal_weight": np.max(weights),
+        "minimal_weight": round(np.min(weights), 4),
+        "maximal_weight": round(np.max(weights), 4),
         "quantiles": [
             round(
                 100 * len(
                     [w for w in weights if
-                     (w > i / 10) and (w <= (i + 1) / 10)]
+                     (w > span*i / 10) and (w <= span*(i + 1) / 10)]
                 ) / len(weights),
                 2
             ) for i in range(10)
@@ -475,7 +485,7 @@ class CylindricMemberWeigher(Weigher):
 
         Parameters
         ----------
-        points : numpy.ndarray of shape (n, 3)
+        points : numpy.ndarray of shape (n, d) or dict
             Points to be weight
 
         Returns
@@ -489,7 +499,10 @@ class CylindricMemberWeigher(Weigher):
 
         weights = [self._calculate_weight(point, points) for point in points]
         weights = np.array(weights)
-        return _normalize(weights, np.max)
+        weights = _normalize(weights, np.max)
+
+        statistics = get_weight_statistics(weights)
+        return weights, statistics
 
     def _calculate_weight(self, point, points):
         points_in_cylinder = self._count_points_in_cylinder(point, points)
@@ -507,26 +520,32 @@ class CylindricMemberWeigher(Weigher):
 class PastFluctuationWeigher(Weigher):
     """STILL A WIP"""
 
-    def __init__(self, timespan=13):
+    def __init__(self, timespan=13, dimensions=["TWA", "TWS", "BSP"]):
         self.timespan = timespan
+        self._dimensions = dimensions
 
-    def weigh(self, points, extra_data, _enable_logging):
+    def weigh(self, points):
         """WIP"""
-        recording_times = _get_recording_times(extra_data)
+        recording_times = np.array(points["datetime"])
+        if isinstance(points, dict):
+            points = data_dict_to_numpy(points, self._dimensions)
         weights = [
             self._calculate_weight(i, points, recording_times)
             for i in range(len(points))
         ]
         weights = np.array(weights)
-        return len(weights) * _log_and_normalize(
-            weights, np.sum, _enable_logging
+        weights = len(weights) * _normalize(
+            weights, np.sum
         )
+        statistics = get_weight_statistics(weights)
+        return weights, statistics
 
     def _calculate_weight(self, index, points, recording_times):
         in_time_interval = self._get_points_in_time_interval(
             index, recording_times
         )
-        return 1 / np.std(points[in_time_interval]) ** 2
+        s2 = np.std(points[in_time_interval]) ** 2
+        return 1/s2 if s2>0 else 0
 
     def _get_points_in_time_interval(self, index, recording_times):
         reference_time = recording_times[index]
@@ -567,20 +586,29 @@ def _get_date_stamps(data):
 class PastFutureFluctuationWeigher(Weigher):
     """STILL A WIP"""
 
-    def __init__(self, timespan=6):
+    def __init__(self, timespan=6, dimensions=["TWA", "TWS", "BSP"]):
         self.timespan = timespan
+        self._dimensions = dimensions
 
-    def weigh(self, points, extra_data, _enable_logging):
+    def weigh(self, points):
         """WIP"""
-        recording_times = _get_recording_times(extra_data)
+        if not isinstance(points, dict):
+            raise WeighingException(
+                "PastFluctuationWeigher can only be used as a Pre Weigher"
+            )
+        recording_times = np.array(points["datetime"])
+        points = data_dict_to_numpy(points, self._dimensions)
         weights = [
             self._calculate_weight(time, points, recording_times)
             for time in recording_times
         ]
         weights = np.array(weights)
-        return len(weights) * _log_and_normalize(
-            weights, np.sum, _enable_logging
+        weights = len(weights) * _normalize(
+            weights, np.sum
         )
+
+        statistics = get_weight_statistics(weights)
+        return weights, statistics
 
     def _calculate_weight(self, reference_time, points, recording_times):
         in_time_interval = self._get_points_in_time_interval(
