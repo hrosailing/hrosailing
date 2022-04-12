@@ -238,6 +238,22 @@ def _determine_weights(weigher, points, data, _enable_logging):
 def _weights_is_scalar(weights):
     return np.isscalar(weights)
 
+def get_weight_statistics(weights):
+    return {
+        "average_weight": round(np.mean(weights), 4),
+        "minimal_weight": np.min(weights),
+        "maximal_weight": np.max(weights),
+        "quantiles": [
+            round(
+                100 * len(
+                    [w for w in weights if
+                     (w > i / 10) and (w <= (i + 1) / 10)]
+                ) / len(weights),
+                2
+            ) for i in range(10)
+        ]
+    }
+
 
 class Weigher(ABC):
     """Base class for all weigher classes
@@ -331,19 +347,7 @@ class CylindricMeanWeigher(Weigher):
         weights = np.array(weights)
         weights = 1 - _normalize(weights, np.max)
 
-        statistics = {
-            "average_weight": round(np.mean(weights), 4),
-            "minimal_weight": np.min(weights),
-            "maximal_weight": np.max(weights),
-            "quantiles": [
-                round(
-                    100*len(
-                        [w for w in weights if (w > i/10) and (w <= (i+1)/10)]
-                    )/len(weights),
-                    2
-                ) for i in range(10)
-            ]
-        }
+        statistics = get_weight_statistics(weights)
 
         return weights, statistics
 
@@ -427,6 +431,13 @@ class CylindricMemberWeigher(Weigher):
 
         If nothing is passed, it will default to ||.||_2
 
+    dimensions : [str], optional
+        If the data is given as dict, 'dimensions' contains the keys
+        which should be used in conjunction in order to create the
+        data space
+
+        Defaults to ["TWA", "TWS", "BSP"]
+
     Raises
     ------
     WeigherInitializationException
@@ -451,6 +462,7 @@ class CylindricMemberWeigher(Weigher):
         self._radius = radius
         self._length = length
         self._norm = norm
+        self._dimensions = dimensions
 
     def __repr__(self):
         return (
@@ -471,9 +483,13 @@ class CylindricMemberWeigher(Weigher):
         weights : numpy.ndarray of shape (n,)
             Normalized weights of the input points
         """
+
+        if isinstance(points, dict):
+            points = data_dict_to_numpy(points, self._dimensions)
+
         weights = [self._calculate_weight(point, points) for point in points]
         weights = np.array(weights)
-        return _log_and_normalize(weights, np.max, _enable_logging)
+        return _normalize(weights, np.max)
 
     def _calculate_weight(self, point, points):
         points_in_cylinder = self._count_points_in_cylinder(point, points)
