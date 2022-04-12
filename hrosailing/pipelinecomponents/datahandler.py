@@ -109,10 +109,7 @@ class ArrayHandler(DataHandler):
 
         data_dict = hrosailing_standard_format(data_dict)
 
-        statistics = {
-            "n_rows": len(list(data_dict.values())[0]),
-            "n_cols": len(data_dict)
-        }
+        statistics = get_datahandler_statistics(data_dict)
         return data_dict, statistics
 
 
@@ -172,10 +169,7 @@ class CsvFileHandler(DataHandler):
 
         data_dict = hrosailing_standard_format(data_dict)
 
-        statistics = {
-            "n_rows": len(list(data_dict.values())[0]),
-            "n_cols": len(data_dict)
-        }
+        statistics = get_datahandler_statistics(data_dict)
         return data_dict, statistics
 
 
@@ -331,11 +325,14 @@ class NMEAFileHandler(DataHandler):
 
         data_dict = hrosailing_standard_format(data_dict)
 
-        statistics = {
-            "n_rows": len(list(data_dict.values())[0]),
-            "n_cols": len(data_dict)
-        }
+        statistics = get_datahandler_statistics(data_dict)
         return data_dict, statistics
+
+def get_datahandler_statistics(data_dict):
+    return {
+        "n_rows": len(list(data_dict.values())[0]),
+        "n_cols": len(data_dict)
+    }
 
 
 def hrosailing_standard_format(data_dict):
