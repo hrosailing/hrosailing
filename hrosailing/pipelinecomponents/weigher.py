@@ -248,16 +248,18 @@ def get_weight_statistics(weights):
     The respective keys are 'average_weight', 'min_weight', 'max_weight' and
     'quantiles'.
     """
-    span = np.max(weights) - np.min(weights)
+    minw = np.min(weights)
+    span = np.max(weights) - minw
     return {
         "average_weight": round(np.mean(weights), 4),
-        "minimal_weight": round(np.min(weights), 4),
+        "minimal_weight": round(minw, 4),
         "maximal_weight": round(np.max(weights), 4),
         "quantiles": [
             round(
                 100 * len(
                     [w for w in weights if
-                     (w > span*i / 10) and (w <= span*(i + 1) / 10)]
+                     (w >= minw + span*i / 10)
+                     and (w <= minw + span*(i + 1) / 10)]
                 ) / len(weights),
                 2
             ) for i in range(10)
