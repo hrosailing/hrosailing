@@ -15,5 +15,6 @@ from .regressor import LeastSquareRegressor, ODRegressor, Regressor
 from .sampler import (ArchimedianSampler, FibonacciSampler, Sampler,
                       UniformRandomSampler)
 from .weigher import (CylindricMeanWeigher, CylindricMemberWeigher, Weigher,
-                      WeightedPoints, AllOneWeigher)
+                      WeightedPoints, AllOneWeigher,
+                      PastFutureFluctuationWeigher, PastFluctuationWeigher)
 from .imputator import FillLocalImputator
