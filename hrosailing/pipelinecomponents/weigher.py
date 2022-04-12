@@ -48,6 +48,27 @@ class WeighingException(Exception):
     of the .weigh() method"""
 
 
+def data_dict_to_numpy(data_dict, keys):
+    """
+    Method to transform a dictionary of lists of floats into a numpy array
+
+    Parameter
+    ---------
+    data_dict : dict,
+        dictionary to transform
+
+    keys : [str],
+        keys that indicate which lists of the data dictionary should be used
+        to create the columns of the resulting array
+
+    Returns
+    --------
+    (n, d) array where 'n' is the length of a list in the data dictionary and
+    'd' is 'len(keys)'
+    """
+    return np.column_stack(data_dict[key] for key in keys)
+
+
 def _extract_points_from_data(data):
     if isinstance(data, np.ndarray):
         return data
