@@ -10,21 +10,18 @@ in the hrosailing.pipeline module
 """
 
 
-import logging.handlers
 from abc import ABC, abstractmethod
 
 import numpy as np
 
-logging.basicConfig(
-    format="%(asctime)s %(levelname)s: %(message)s",
-    level=logging.INFO,
-    handlers=[
-        logging.handlers.TimedRotatingFileHandler(
-            "hrosailing.log", when="midnight"
-        )
-    ],
-)
-logger = logging.getLogger(__name__)
+
+def get_filter_statistics(filtered_points):
+    n_filtered_points = len([f for f in filtered_points if not f])
+
+    return {
+        "n_filtered_points": n_filtered_points,
+        "n_rows": len(filtered_points) - n_filtered_points
+    }
 
 
 class FilterInitializationException(Exception):
@@ -46,7 +43,8 @@ class Filter(ABC):
     def filter(self, wts):
         """This method should be used, given an array of weights,
         to filter out points based on their weights, and produce a
-        boolean array of the same size as wts
+        boolean array of the same size as wts and a dictionary containing
+        statistics
         """
 
 
@@ -78,7 +76,7 @@ class QuantileFilter(Filter):
     def __repr__(self):
         return f"QuantileFilter(percent={self._percent})"
 
-    def filter(self, wts, _enable_logging=False):
+    def filter(self, wts):
         """Filters a set of points given by their resp. weights
         according to the above described method
 
@@ -96,22 +94,12 @@ class QuantileFilter(Filter):
         """
         filtered_points = self._calculate_quantile(wts)
 
-        if _enable_logging:
-            _log_filtered_points(filtered_points)
+        statistics = get_filter_statistics(filtered_points)
 
-        return filtered_points
+        return filtered_points, statistics
 
     def _calculate_quantile(self, wts):
         return wts >= np.percentile(wts, self._percent)
-
-
-def _log_filtered_points(filtered_points):
-    amount = len(filtered_points[filtered_points])
-
-    logger.info(f"Total amount of filtered points: {amount}")
-    logger.info(
-        f"Percentage of filtered points: {amount / len(filtered_points)}"
-    )
 
 
 class BoundFilter(Filter):
@@ -148,7 +136,7 @@ class BoundFilter(Filter):
     def __repr__(self):
         return f"BoundFilter(upper_bound={self._u_b}, lower_bound={self._l_b})"
 
-    def filter(self, wts, _enable_logging=False):
+    def filter(self, wts):
         """Filters a set of points given by their resp. weights
         according to the above described method
 
@@ -166,10 +154,9 @@ class BoundFilter(Filter):
         """
         filtered_points = self._determine_points_within_bound(wts)
 
-        if _enable_logging:
-            _log_filtered_points(filtered_points)
+        statistics = get_filter_statistics(filtered_points)
 
-        return filtered_points
+        return filtered_points, statistics
 
     def _determine_points_within_bound(self, wts):
         points_above_lower_bound = wts >= self._l_b
