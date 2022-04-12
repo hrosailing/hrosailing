@@ -237,8 +237,9 @@ class FillLocalImputator(Imputator):
             )
 
         #remove rows which still have None values
-        remove_rows = [i for i, (key, val) in enumerate(data_dict.items())
-                       if any([v is None for v in val])]
+        remove_rows = [i for i, _ in enumerate(data_dict["datetime"])
+                       if any([data_dict[key][i] is None
+                               for key in data_dict.keys()])]
 
         data_dict = \
             {key: [v for i, v in enumerate(value)
