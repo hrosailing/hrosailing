@@ -8,27 +8,12 @@ represent data points together with their respective weights
 """
 
 
-import logging.handlers
 from abc import ABC, abstractmethod
-from datetime import datetime
 from typing import Callable
 
 import numpy as np
 
-from hrosailing.wind import convert_apparent_wind_to_true
-
 from ._utils import scaled_euclidean_norm
-
-logging.basicConfig(
-    format="%(asctime)s %(levelname)s: %(message)s",
-    level=logging.INFO,
-    handlers=[
-        logging.handlers.TimedRotatingFileHandler(
-            "hrosailing.log", when="midnight"
-        )
-    ],
-)
-logger = logging.getLogger(__name__)
 
 
 class WeightedPointsInitializationException(Exception):
@@ -46,6 +31,7 @@ class WeigherInitializationException(Exception):
 class WeighingException(Exception):
     """Exception raised if an error occurs during the calling
     of the .weigh() method"""
+
 
 class WeightedPoints:
     """A class to weigh data points and represent them together
@@ -66,19 +52,6 @@ class WeightedPoints:
         the same weight
 
         Defaults to `None`
-
-    weigher : Weigher, optional
-        Instance of a Weigher class, which will weigh the points
-        Will only be used if weights is `None`
-
-        If nothing is passed, it will default to `CylindricMeanWeigher()`
-
-    apparent_wind : bool, optional
-        Specifies if wind data is given in apparent wind
-
-        If `True`, data will be converted to true wind
-
-        Defaults to `False`
 
     Raises
     ------
@@ -128,115 +101,6 @@ def data_dict_to_numpy(data_dict, keys):
     'd' is 'len(keys)'
     """
     return np.column_stack([data_dict[key] for key in keys])
-
-
-def _extract_points_from_data(data):
-    if isinstance(data, np.ndarray):
-        return data
-
-    ws = _get_wind_speeds_from_data(data)
-    wa = _get_wind_angles_from_data(data)
-    bsp = _get_boat_speeds_from_data(data)
-
-    points = np.column_stack((ws, wa, bsp))
-
-    if points.dtype is object:
-        raise WeightedPointsInitializationException(
-            "`points` is not array_like or has some non-scalar values"
-        )
-
-    return np.column_stack((ws, wa, bsp))
-
-
-def _get_wind_speeds_from_data(data):
-    WIND_SPEED_KEYS = {
-        "Wind Speed",
-        "Wind speed",
-        "wind speed",
-        "wind_speed",
-        "WS",
-        "ws",
-    }
-
-    return _get_entries(data, WIND_SPEED_KEYS)
-
-
-def _get_entries(data, keys):
-    for key in keys:
-        try:
-            entry = data.pop(key)
-            return entry
-        except KeyError:
-            continue
-
-    raise WeightedPointsInitializationException(
-        "Essential data is missing, can't proceed"
-    )
-
-
-def _get_wind_angles_from_data(data):
-    WIND_ANGLE_KEYS = {
-        "Wind Angle",
-        "Wind angle",
-        "wind angle",
-        "wind_angle",
-        "WA",
-        "wa",
-    }
-
-    return _get_entries(data, WIND_ANGLE_KEYS)
-
-
-def _get_boat_speeds_from_data(data):
-    BOAT_SPEED_KEYS = {
-        "Boat Speed",
-        "Boat speed",
-        "boat speed",
-        "boat_speed",
-        "BSPS",
-        "BSP",
-        "bsps",
-        "bsp",
-        "Speed Over Ground",
-        "Speed over ground",
-        "Speed over Ground",
-        "speed over ground",
-        "speed_over_ground",
-        "speed over ground knots",
-        "speed_over_ground_knots",
-        "SOG",
-        "sog",
-        "Water Speed",
-        "Water speed",
-        "water speed",
-        "water_speed",
-        "Water Speed knots",
-        "Water speed knots",
-        "water speed knots",
-        "water_speed_knots",
-        "WSP",
-        "wsp",
-    }
-
-    return _get_entries(data, BOAT_SPEED_KEYS)
-
-
-def _determine_weights(weigher, points, data, _enable_logging):
-    weights = weigher.weigh(points, data, _enable_logging)
-    weights = np.asarray(weights)
-
-    if weights.dtype is object:
-        raise WeighingException(
-            "`weights` is not array_like or has some non-scalar values"
-        )
-    if weights.shape != (points.shape[0],):
-        raise WeighingException("`weights` has incorrect shape")
-
-    return weights
-
-
-def _weights_is_scalar(weights):
-    return np.isscalar(weights)
 
 
 def get_weight_statistics(weights):
@@ -388,32 +252,6 @@ def _normalize(weights, normalizer):
     return weights / normalizer(weights)
 
 
-def _log_and_normalize(weights, normalizer, _enable_logging):
-    if _enable_logging:
-        _log_unnormalized(weights)
-
-    weights = weights / normalizer(weights)
-
-    if _enable_logging:
-        _log_normalized(weights)
-
-    return weights
-
-
-def _log_unnormalized(weights):
-    logger.info(f"Unnormalized weights: {weights}")
-    logger.info(f"Unnormalized mean weight: {np.mean(weights)}")
-    logger.info(f"Unnormalized maximum weight: {np.max(weights)}")
-    logger.info(f"Unnormalized minimum weight: {np.min(weights)}")
-
-
-def _log_normalized(weights):
-    logger.info(f"Normalized weights: {weights}")
-    logger.info(f"Normalized mean weight: {np.mean(weights)}")
-    logger.info(f"Normalized maximum weight: {np.max(weights)}")
-    logger.info(f"Normalized minimum weight: {np.min(weights)}")
-
-
 class CylindricMemberWeigher(Weigher):
     """A weigher that weighs given points according to the
     following procedure:
@@ -561,28 +399,6 @@ class PastFluctuationWeigher(Weigher):
     def _in_time_interval(self, time, reference_time):
         time_difference = reference_time - time
         return time_difference.total_seconds() <= self.timespan
-
-
-def _get_recording_times(data):
-    time_stamps = _get_time_stamps(data)
-    date_stamps = _get_date_stamps(data)
-
-    date_and_time_stamps = zip(date_stamps, time_stamps)
-    recording_times = [
-        datetime.combine(date_stamp, time_stamp)
-        for (date_stamp, time_stamp) in date_and_time_stamps
-    ]
-    return recording_times
-
-
-def _get_time_stamps(data):
-    TIME_STAMP_KEYS = {"Timestamp", "timestamp", "Time", "time", "time_stamp"}
-    return _get_entries(data, TIME_STAMP_KEYS)
-
-
-def _get_date_stamps(data):
-    DATE_STAMP_KEYS = {"Datestamp", "datestamp", "Date", "date", "date_stamp"}
-    return _get_entries(data, DATE_STAMP_KEYS)
 
 
 class PastFutureFluctuationWeigher(Weigher):
