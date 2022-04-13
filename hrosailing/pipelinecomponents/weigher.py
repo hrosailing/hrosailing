@@ -66,7 +66,10 @@ class WeightedPoints:
         weights=None
     ):
         self.data = data
-        self.weights = weights
+        if isinstance(weights, (float, int)):
+            self.weights = weights*np.ones(len(data))
+        else:
+            self.weights = weights
 
     def __getitem__(self, mask):
         if isinstance(self.data, dict):
