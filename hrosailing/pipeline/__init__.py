@@ -366,7 +366,7 @@ class PipelineExtension(ABC):
     """
 
     @abstractmethod
-    def process(self, weighted_points, _enable_logging):
+    def process(self, weighted_points):
         """This method, given an instance of WeightedPoints, should
         return a polar diagram object, which represents the trends
         and data contained in the WeightedPoints instance
@@ -412,7 +412,7 @@ class TableExtension(PipelineExtension):
         self.neighbourhood = neighbourhood
         self.interpolator = interpolator
 
-    def process(self, weighted_points, _enable_logging):
+    def process(self, weighted_points):
         """Creates a PolarDiagramTable instance from preprocessed data,
         by first determining a wind speed / wind angle grid, using
         `self.w_res`, and then interpolating the boat speed values at the
@@ -428,13 +428,14 @@ class TableExtension(PipelineExtension):
 
         Returns
         -------
-        polar_diagram : PolarDiagramTable
-            A polar diagram that should represent the trends captured
-            in the raw data
+        polar_diagram, statistics : PolarDiagramTable, dict
+            'polar_diagram' is a polar diagram that should represent the trends
+            captured in the raw data
+            'statistics' is {}
         """
         extension_stats = {}
         ws_resolution, wa_resolution = self._determine_table_size(
-            weighted_points.points
+            weighted_points.data
         )
         ws, wa = np.meshgrid(ws_resolution, wa_resolution)
         grid_points = np.column_stack((ws.ravel(), wa.ravel()))
@@ -446,7 +447,8 @@ class TableExtension(PipelineExtension):
             interpolated_points, len(wa_resolution), len(ws_resolution)
         )
 
-        return pol.PolarDiagramTable(ws_resolution, wa_resolution, bsps), extension_stats
+        return pol.PolarDiagramTable(ws_resolution, wa_resolution, bsps), \
+               extension_stats
 
     def _determine_table_size(self, points):
         from hrosailing.polardiagram._polardiagramtable import _Resolution
@@ -535,7 +537,7 @@ class CurveExtension(PipelineExtension):
         self.regressor = regressor
         self.radians = radians
 
-    def process(self, weighted_points, _enable_logging):
+    def process(self, weighted_points):
         """Creates a PolarDiagramCurve instance from preprocessed data,
         by fitting a given function to said data, using a regression
         method determined by `self.regressor`
@@ -547,9 +549,10 @@ class CurveExtension(PipelineExtension):
 
         Returns
         -------
-        pd : PolarDiagramCurve
+        pd, statistics : PolarDiagramCurve
             A polar diagram that should represent the trends captured
-            in the raw data
+            in the raw data,
+            'statistics' is {}
         """
         extension_stats = {}
         if self._use_radians():
@@ -608,7 +611,7 @@ class PointcloudExtension(PipelineExtension):
         self.neighbourhood = neighbourhood
         self.interpolator = interpolator
 
-    def process(self, weighted_points, _enable_logging):
+    def process(self, weighted_points):
         """Creates a PolarDiagramPointcloud instance from preprocessed data,
         first creating a set number of points by sampling the wind speed,
         wind angle space of the data points and capturing the underlying
@@ -625,9 +628,11 @@ class PointcloudExtension(PipelineExtension):
 
         Returns
         -------
-        pd : PolarDiagramPointcloud
+        pd, statistics : PolarDiagramPointcloud, dict
             A polar diagram that should represent the trends captured
             in the raw data
+
+            'statistics' is {}
         """
         extension_stats = {}
         sample_points = self.sampler.sample(weighted_points.points)
@@ -660,7 +665,7 @@ def _interpolate_points(
 
 def _interpolate_point(point, weighted_points, neighbourhood, interpolator):
     considered = neighbourhood.is_contained_in(
-        weighted_points.points[:, :2] - point
+        weighted_points.data[:, :2] - point
     )
 
     if _neighbourhood_too_small(considered):
@@ -670,7 +675,7 @@ def _interpolate_point(point, weighted_points, neighbourhood, interpolator):
             "Interpolation will not lead to complete results",
             category=InterpolationWarning,
         )
-        return np.concatenate([point, 0])
+        return np.concatenate([point, [0]])
 
     interpolated_value = interpolator.interpolate(
         weighted_points[considered], point
