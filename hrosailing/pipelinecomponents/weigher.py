@@ -81,6 +81,30 @@ class WeightedPoints:
             data=self.data[mask], weights=self.weights[mask]
         )
 
+    def extend(self, other):
+        """
+        Extends this weighted points by other weighted points.
+        If both data is given as a dictionary of lists, the respective lists
+        will be extended.
+        Keys that are not present in both dictionaries are discarded.
+
+        Parameter
+        ----------
+        other: WeightedPoints
+            points to be appended
+        """
+
+        if isinstance(self.data, dict):
+            self.data = {
+                key: value + other.data[key]
+                for key, value in self.data.items()
+                if key in other.data
+            }
+        else:
+            self.data = np.concatenate([self.data, other.data])
+
+        self.weights = np.concatenate([self.weights, other.weights])
+
 
 def get_weight_statistics(weights):
     """
