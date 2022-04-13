@@ -71,7 +71,7 @@ class PolarPipeline:
     influence_model : InfluenceModel, optional
         Determines the influence model which is applied and fitted to the data
 
-        Defaults to 'None'
+        Defaults to 'IdentityInfluenceModel()'
 
     post_weigher : Weigher, optional
         Determines the method with which the points will be weight after
@@ -112,7 +112,7 @@ class PolarPipeline:
         imputator=pc.FillLocalImputator(),
         pre_weigher=pc.CylindricMeanWeigher(),
         pre_filter=pc.QuantileFilter(),
-        influence_model=None,
+        influence_model=pc.IdentityInfluenceModel(),
         post_weigher=pc.CylindricMeanWeigher(),
         post_filter=pc.QuantileFilter(),
         injector=None,
@@ -276,12 +276,14 @@ class PolarPipeline:
                 pre_filtering
             )
 
+        data = pre_filtered_data.data
+
         influence_fit_statistics = \
             self.influence_model.fit(data) if influence_fitting \
             else {}
 
         influence_free_data, influence_statistics = \
-            self.influence_model.remove_influence(pre_filtered_data)
+            self.influence_model.remove_influence(data)
 
         influence_statistics.update(influence_fit_statistics)
 

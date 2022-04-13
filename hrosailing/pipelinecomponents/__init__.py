@@ -10,21 +10,11 @@ from .datahandler import (
     NMEAFileHandler,
 )
 from .filter import BoundFilter, Filter, QuantileFilter
-from .influencemodel import InfluenceModel
-from .interpolator import (
-    ArithmeticMeanInterpolator,
-    IDWInterpolator,
-    ImprovedIDWInterpolator,
-    Interpolator,
-)
-from .neighbourhood import (
-    Ball,
-    Cuboid,
-    Ellipsoid,
-    Neighbourhood,
-    Polytope,
-    ScalingBall,
-)
+from .influencemodel import InfluenceModel, IdentityInfluenceModel
+from .interpolator import (ArithmeticMeanInterpolator, IDWInterpolator,
+                           ImprovedIDWInterpolator, Interpolator)
+from .neighbourhood import (Ball, Cuboid, Ellipsoid, Neighbourhood, Polytope,
+                            ScalingBall)
 from .regressor import LeastSquareRegressor, ODRegressor, Regressor
 
 from .sampler import (ArchimedianSampler, FibonacciSampler, Sampler,
