@@ -284,7 +284,7 @@ class PolarDiagramTable(PolarDiagram):
         ws, wa = key[0]
         col = self._get_indices(np.atleast_1d(ws), "s")
         row = self._get_indices(np.atleast_1d(wa), "a")
-        return self.boat_speeds[row, col]
+        return float(self.boat_speeds[row, col])
 
     def _get_indices(self, wind, soa):
         res = self.wind_speeds if soa == "s" else self.wind_angles
