@@ -213,12 +213,14 @@ class PolarPipeline:
             True
         )
 
-        injected_training_data, injector_statistics \
+        pts_to_inject, injector_statistics \
             = self.injector.inject(preproc_training_data) if injecting \
-            else training_data, {}
+            else pc.WeightedPoints(np.array((0, 3)), np.array(0)), {}
+
+        preproc_training_data.extend(pts_to_inject)
 
         polar_diagram, extension_statistics \
-            = self.extension.process(injected_training_data)
+            = self.extension.process(preproc_training_data)
 
         preproc_test_data, test_statistics = self._preprocess(
             test_data,

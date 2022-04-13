@@ -23,3 +23,4 @@ from .weigher import (CylindricMeanWeigher, CylindricMemberWeigher, Weigher,
                       WeightedPoints, AllOneWeigher,
                       PastFutureFluctuationWeigher, PastFluctuationWeigher)
 from .imputator import FillLocalImputator
+from .injector import ZeroInjector
