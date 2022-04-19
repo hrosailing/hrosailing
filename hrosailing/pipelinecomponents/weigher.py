@@ -67,7 +67,11 @@ class WeightedPoints:
     ):
         self.data = data
         if isinstance(weights, (float, int)):
-            self.weights = weights*np.ones(len(data))
+            if isinstance(data, dict):
+                length = len(list(data.values())[0])
+            else:
+                length = len(data)
+            self.weights = weights*np.ones(length)
         else:
             self.weights = weights
 
