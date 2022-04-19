@@ -111,7 +111,7 @@ class PolarPipeline:
 
     def __init__(
         self,
-        data_handler,
+        data_handler=pc.NMEAFileHandler(),
         imputator=pc.FillLocalImputator(),
         pre_weigher=pc.CylindricMeanWeigher(),
         pre_filter=pc.QuantileFilter(),
@@ -120,7 +120,7 @@ class PolarPipeline:
         post_filter=pc.QuantileFilter(),
         injector=pc.ZeroInjector(500),
         extension=TableExtension(),
-        quality_assurance=None
+        quality_assurance=pc.MinimalQualityAssurance()
     ):
         self.data_handler = data_handler
         self.imputator = imputator
@@ -207,6 +207,10 @@ class PolarPipeline:
         -------
         out : PipelineOutput
         """
+
+        if test_data is None:
+            testing = False
+
         preproc_training_data, pp_training_statistics = self._preprocess(
             training_data,
             pre_weighing,
@@ -218,7 +222,7 @@ class PolarPipeline:
 
         pts_to_inject, injector_statistics \
             = self.injector.inject(preproc_training_data) if injecting \
-            else pc.WeightedPoints(np.array((0, 3)), np.array(0)), {}
+            else (c.WeightedPoints(np.array((0, 3)), np.array(0)), {})
 
         preproc_training_data.extend(pts_to_inject)
 
@@ -232,11 +236,13 @@ class PolarPipeline:
             post_weighing,
             post_filtering,
             False
-        ) if testing and test_data is not None else test_data, _EMPTY_STATISTIC
+        ) if testing else (test_data, _EMPTY_STATISTIC)
 
         quality_assurance_statistics = \
-            self.quality_assurance.check(polar_diagram, preproc_test_data)\
-            if testing else {}
+            self.quality_assurance.check(
+                polar_diagram,
+                preproc_test_data.data
+            ) if testing else {}
 
         training_statistics = Statistics(
             pp_training_statistics.data_handler,
@@ -273,7 +279,7 @@ class PolarPipeline:
             self.imputator.imputate(handled_data)
 
         pre_filtered_data, pre_weigher_statistics, pre_filter_statistics = \
-            self._weigh_and_filter(
+            _weigh_and_filter(
                 imputated_data,
                 self.pre_weigher,
                 self.pre_filter,
@@ -293,7 +299,7 @@ class PolarPipeline:
         influence_statistics.update(influence_fit_statistics)
 
         post_filtered_data, post_weigher_statistics, post_filter_statistics = \
-            self._weigh_and_filter(
+            _weigh_and_filter(
                 influence_free_data,
                 self.post_weigher,
                 self.post_filter,
@@ -314,7 +320,7 @@ class PolarPipeline:
             {}
         )
 
-        return data, statistics
+        return post_filtered_data, statistics
 
 
 def _weigh_and_filter(
@@ -329,11 +335,10 @@ def _weigh_and_filter(
         else pc.AllOneWeigher().weigh(data)
 
     weighed_data = pc.WeightedPoints(data, weights)
-    #TODO: create weigh method in weigher and create AllOneWeigher
 
     filtered_data, filter_statistics = \
         _filter_data(filter_, weighed_data) if filtering \
-        else weighed_data, {}
+        else (weighed_data, {})
 
     return filtered_data, weigher_statistics, filter_statistics
 
