@@ -1,4 +1,4 @@
-"""Functions to convert wind from apparent to true and vice versa."""
+"""Functions to convert wind from apparent to true and vice versa"""
 
 
 import numpy as np

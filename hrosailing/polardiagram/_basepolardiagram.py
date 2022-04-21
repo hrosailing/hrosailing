@@ -113,7 +113,7 @@ class PolarDiagram(ABC):
         plot_kw : Keyword arguments
             Keyword arguments that will be passed to the
             matplotlib.axes.Axes.plot function, to change
-            certain appearences of the plot
+            certain appearances of the plot
         """
         self.plot_polar(
             ws, ax, colors=None, show_legend=False, legend_kw=None, **plot_kw
@@ -189,7 +189,7 @@ class PolarDiagram(ABC):
         show_legend=False,
         **legend_kw,
     ):
-        """This method should create 'wind speed vs. wind angle'
+        """This method should create a 'wind speed vs. wind angle'
         color gradient plot of the polar diagram object with respect
         to the corresponding boat speeds
         """

@@ -1,6 +1,6 @@
 """
 Components for the PolarPipeline and PipelineExtension
-classes among other things.
+classes among other things
 """
 
 from .datahandler import (ArrayHandler, CsvFileHandler, DataHandler,
