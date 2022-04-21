@@ -68,7 +68,7 @@ class PolarDiagram(ABC):
     @abstractmethod
     def to_csv(self, csv_path):
         """This method should, given a path, write a .csv file in
-        the location, containing human readable information about the
+        the location, containing human-readable information about the
         polar diagram object that called the method
         """
 
@@ -141,7 +141,7 @@ class PolarDiagram(ABC):
         plot_kw : Keyword arguments
             Keyword arguments that will be passed to the
             matplotlib.axes.Axes.plot function, to change
-            certain appearences of the plot
+            certain appearances of the plot
         """
         self.plot_flat(
             ws, ax, colors=None, show_legend=False, legend_kw=None, **plot_kw
@@ -216,7 +216,7 @@ class PolarDiagram(ABC):
         plot_kw : Keyword arguments
             Keyword arguments that will be passed to the
             matplotlib.axes.Axes.plot function, to change
-            certain appearences of the plot
+            certain appearances of the plot
         """
         self.plot_convex_hull(
             ws, ax, colors=None, show_legend=False, legend_kw=None, **plot_kw

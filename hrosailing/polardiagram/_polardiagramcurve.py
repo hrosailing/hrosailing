@@ -125,8 +125,8 @@ class PolarDiagramCurve(PolarDiagram):
         """For given wind speeds, return the slices of the polar diagram
         corresponding to them
 
-        Slices are equal to self(w, wa) where w goes through
-        the given values in `ws` and wa goes through a fixed
+        Slices are equal to `self(w, wa)` where `w` goes through
+        the given values in `ws` and `wa` goes through a fixed
         number of angles between 0° and 360°
 
         Parameters
@@ -143,12 +143,12 @@ class PolarDiagramCurve(PolarDiagram):
             If nothing is passed, it will default to (0, 20)
 
         stepsize : positive int or float, optional
-            Specfies the amount of slices taken from the given
+            Specifies the amount of slices taken from the given
             wind speed interval
 
             Will only be used if `ws` is a tuple of length 2
 
-            If nothing is passed, it will default to ws[1] - ws[0]
+            If nothing is passed, it will default to `ws[1] - ws[0]`
 
         Returns
         -------
@@ -210,7 +210,7 @@ class PolarDiagramCurve(PolarDiagram):
             - an iterable of specific wind speeds
             - a single wind speed
 
-            Slices will then equal self(w, wa) where w goes through
+            Slices will then equal `self(w, wa)` where `w` goes through
             the given values in `ws` and wa goes through a fixed
             number of angles between 0° and 360°
 
@@ -222,10 +222,10 @@ class PolarDiagramCurve(PolarDiagram):
 
             Will only be used if `ws` is a tuple of length 2
 
-            If nothing is passed, it will default to ws[1] - ws[0]
+            If nothing is passed, it will default to `ws[1] - ws[0]`
 
         ax : matplotlib.projections.polar.PolarAxes, optional
-            Axes instance where the plot will be created.
+            Axes instance where the plot will be created
 
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
@@ -303,8 +303,8 @@ class PolarDiagramCurve(PolarDiagram):
             - an iterable of specific wind speeds
             - a single wind speed
 
-            Slices will then equal self(w, wa) where w goes through
-            the given values in `ws` and wa goes through a fixed
+            Slices will then equal `self(w, wa)` where `w` goes through
+            the given values in `ws` and `wa` goes through a fixed
             number of angles between 0° and 360°
 
             If nothing is passed, it will default to (0, 20)
@@ -315,10 +315,10 @@ class PolarDiagramCurve(PolarDiagram):
 
             Will only be used if `ws` is a tuple of length 2
 
-            If nothing is passed, it will default to ws[1] - ws[0]
+            If nothing is passed, it will default to `ws[1] - ws[0]`
 
         ax : matplotlib.axes.Axes, optional
-            Axes instance where the plot will be created.
+            Axes instance where the plot will be created
 
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
@@ -383,8 +383,8 @@ class PolarDiagramCurve(PolarDiagram):
             A region of the polar diagram given as an interval of
             wind speeds
 
-            Slices will then equal self(w, wa) where w goes through
-            the given values in `ws` and wa goes through a fixed
+            Slices will then equal `self(w, wa)` where `w` goes through
+            the given values in `ws` and `wa` goes through a fixed
             number of angles between 0° and 360°
 
             If nothing is passed, it will default to (0, 20)
@@ -396,9 +396,9 @@ class PolarDiagramCurve(PolarDiagram):
             If nothing is passed, it will default to 100
 
         ax : mpl_toolkits.mplot3d.axes3d.Axes3D, optional
-            Axes instance where the plot will be created.
+            Axes instance where the plot will be created
 
-        colors: sequence of color_likes, optional
+        colors : sequence of color_likes, optional
             Color pair determining the color gradient with which the
             polar diagram will be plotted
 
@@ -433,12 +433,12 @@ class PolarDiagramCurve(PolarDiagram):
 
         Parameters
         ----------
-        ws :  tuple of length 3, optional
+        ws :  tuple of length 2, optional
             A region of the polar diagram given as an interval of
             wind speeds
 
-            Slices will then equal self(w, wa) where w goes through
-            the given values in `ws` and wa goes through a fixed
+            Slices will then equal `self(w, wa)` where `w` goes through
+            the given values in `ws` and `wa` goes through a fixed
             number of angles between 0° and 360°
 
             If nothing is passed, it will default to (0, 20)
@@ -450,7 +450,7 @@ class PolarDiagramCurve(PolarDiagram):
             If nothing is passed, it will default to 100
 
         ax : matplotlib.axes.Axes, optional
-            Axes instance where the plot will be created.
+            Axes instance where the plot will be created
 
         colors : sequence of color_likes, optional
             Color pair determining the color gradient with which the
@@ -529,8 +529,8 @@ class PolarDiagramCurve(PolarDiagram):
             - an iterable of specific wind speeds
             - a single wind speed
 
-            Slices will then equal self(w, wa) where w goes through
-            the given values in `ws` and wa goes through a fixed
+            Slices will then equal `self(w, wa)` where `w` goes through
+            the given values in `ws` and `wa` goes through a fixed
             number of angles between 0° and 360°
 
             If nothing is passed, it will default to (0, 20)
@@ -541,7 +541,7 @@ class PolarDiagramCurve(PolarDiagram):
 
             Will only be used if `ws` is a tuple of length 2
 
-            If nothing is passed, it will default to ws[1] - ws[0]
+            If nothing is passed, it will default to `ws[1] - ws[0]`
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created

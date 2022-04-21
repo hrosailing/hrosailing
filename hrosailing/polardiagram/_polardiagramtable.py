@@ -245,7 +245,7 @@ class PolarDiagramTable(PolarDiagram):
 
         interpolator : Interpolator, optional
             Interpolator subclass that determines the interpolation
-            method used to determine the value at the ws-wa point
+            method used to determine the value at the `ws-wa` point
 
             Defaults to `ArithmeticMeanInterpolator(50)`
 
@@ -529,17 +529,17 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        new_bsps: array_like of matching shape
+        new_bsps : array_like of matching shape
             Sequence containing the new boat speeds to be inserted
             in the specified entries
 
-        ws: Iterable or int or float, optional
+        ws : Iterable or int or float, optional
             Element(s) of self.wind_speeds, specifying the columns,
             where new boat speeds will be inserted
 
             Defaults to `self.wind_speeds`
 
-        wa: Iterable or int or float, optional
+        wa : Iterable or int or float, optional
             Element(s) of self.wind_angles, specifiying the rows,
             where new boat speeds will be inserted
 
@@ -692,7 +692,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `self.wind_speeds`
 
         ax : matplotlib.projections.polar.PolarAxes, optional
-            Axes instance where the plot will be created.
+            Axes instance where the plot will be created
 
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
@@ -718,7 +718,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearence of the legend
+            Keyword arguments to change position and appearance of the legend
 
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
@@ -726,7 +726,7 @@ class PolarDiagramTable(PolarDiagram):
             Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearences of the plot
+            Keyword arguments to change various appearances of the plot
 
             See matplotlib.axes.Axes.plot for possible keywords and their
             effects
@@ -793,7 +793,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `self.wind_speeds`
 
         ax : matplotlib.axes.Axes, optional
-            Axes instance where the plot will be created.
+            Axes instance where the plot will be created
 
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
@@ -827,7 +827,7 @@ class PolarDiagramTable(PolarDiagram):
             Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearences of the plot
+            Keyword arguments to change various appearances of the plot
 
             See matplotlib.axes.Axes.plot for possible keywords and their
             effects
@@ -905,7 +905,7 @@ class PolarDiagramTable(PolarDiagram):
         Parameters
         ----------
         ax : matplotlib.axes.Axes, optional
-            Axes instance where the plot will be created.
+            Axes instance where the plot will be created
 
         colors : sequence of color_likes, optional
             Color pair determining the color gradient with which the
@@ -924,7 +924,7 @@ class PolarDiagramTable(PolarDiagram):
             Marker size in points**2
 
         show_legend : bool, optional
-            Specifies wether or not a legend will be shown next
+            Specifies whether or not a legend will be shown next
             to the plot
 
             Legend will be a `matplotlib.colorbar.Colorbar` instance
@@ -932,7 +932,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `False`
 
         legend_kw : Keyword arguments
-            Keyword arguments to change position and appearence of the legend
+            Keyword arguments to change position and appearance of the legend
 
             See matplotlib.legend.Legend for possible keywords and
             their effects
@@ -956,7 +956,7 @@ class PolarDiagramTable(PolarDiagram):
         legend_kw=None,
         **plot_kw,
     ):
-        """Computes the (seperate) convex hull of one or more
+        """Computes the (separate) convex hull of one or more
         slices of the polar diagram and creates a polar plot of them
 
         Parameters
@@ -975,7 +975,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `self.wind_speeds`
 
         ax : matplotlib.projections.polar.PolarAxes, optional
-            Axes instance where the plot will be create
+            Axes instance where the plot will be created
 
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
@@ -991,7 +991,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies wether or not a legend will be shown next to the plot
+            Specifies whether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -1001,7 +1001,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearence of the legend
+            Keyword arguments to change position and appearance of the legend
 
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
@@ -1009,7 +1009,7 @@ class PolarDiagramTable(PolarDiagram):
             Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearences of the plot
+            Keyword arguments to change various appearances of the plot
 
             See matplotlib.axes.Axes.plot for possible keywords and their
             effects
