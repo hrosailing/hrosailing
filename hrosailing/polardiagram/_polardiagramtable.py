@@ -230,9 +230,9 @@ class PolarDiagramTable(PolarDiagram):
         interpolator=ArithmeticMeanInterpolator(50),
         neighbourhood=Ball(radius=1),
     ):
-        """Returns the value of the polar diagram at a given ws-wa point
+        """Returns the value of the polar diagram at a given `ws-wa` point
 
-        If the ws-wa point is in the table, the corresponding entry is
+        If the `ws-wa` point is in the table, the corresponding entry is
         returned, otherwise the value is interpolated
 
         Parameters
@@ -708,7 +708,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies wether or not a legend will be shown next to the plot
+            Specifies whether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -809,7 +809,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies wether or not a legend will be shown next to the plot
+            Specifies whether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -819,7 +819,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearence of the legend
+            Keyword arguments to change position and appearance of the legend
 
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
@@ -970,7 +970,7 @@ class PolarDiagramTable(PolarDiagram):
             - a single element of `self.wind_speeds`
 
             The slices are then equal to the corresponding
-            columns of the table together with self.wind_angles
+            columns of the table together with `self.wind_angles`
 
             Defaults to `self.wind_speeds`
 
