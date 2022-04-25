@@ -51,7 +51,7 @@ class PolarDiagramMultiSails(PolarDiagram):
 
     def __init__(self, pds, sails=None):
         warnings.warn(
-            "Class features arent't all fully developed yet and/or might "
+            "Class features aren't all fully developed yet and/or might "
             "change behaviour heavily in the future. "
             "Take care when using this class",
             category=NotYetImplementedWarning,
@@ -120,12 +120,12 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             PolarDiagramMultiSails
             TWS:
-            self.wind_speeds
+            `self.wind_speeds`
             [Sail
             TWA:
-            table.wind_angles
+            `table.wind_angles`
             Boat speeds:
-            table.boat_speeds]
+            `table.boat_speeds`]
 
         Parameters
         ----------
@@ -192,7 +192,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         corresponding to them
 
         The slices are equal to the corresponding
-        columns of the table together with self.wind_angles
+        columns of the table together with `self.wind_angles`
 
         Parameters
         ----------
@@ -201,10 +201,10 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             - a tuple of length 2 specifying an interval of considered
             wind speeds
-            - an iterable containing only elements of self.wind_speeds
-            - a single element of self.wind_speeds
+            - an iterable containing only elements of `self.wind_speeds`
+            - a single element of `self.wind_speeds`
 
-            If nothing is passed, it will default to self.wind_speeds
+            If nothing is passed, it will default to `self.wind_speeds`
 
 
         Returns
@@ -248,13 +248,13 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             - a tuple of length 2 specifying an interval of considered
             wind speeds
-            - an iterable containing only elements of self.wind_speeds
-            - a single element of self.wind_speeds
+            - an iterable containing only elements of `self.wind_speeds`
+            - a single element of `self.wind_speeds`
 
             The slices are then equal to the corresponding
-            columns of the table together with self.wind_angles
+            columns of the table together with `self.wind_angles`
 
-            If nothing is passed, it will default to self.wind_speeds
+            If nothing is passed, it will default to `self.wind_speeds`
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created
@@ -288,7 +288,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearances of the plot
@@ -334,13 +334,13 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             - a tuple of length 2 specifying an interval of considered
             wind speeds
-            - an iterable containing only elements of self.wind_speeds
-            - a single element of self.wind_speeds
+            - an iterable containing only elements of `self.wind_speeds`
+            - a single element of `self.wind_speeds`
 
             The slices are then equal to the corresponding
-            columns of the table together with self.wind_angles
+            columns of the table together with `self.wind_angles`
 
-            If nothing is passed, it will default to self.wind_speeds
+            If nothing is passed, it will default to `self.wind_speeds`
 
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created
@@ -374,7 +374,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearances of the plot
@@ -465,7 +465,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             See matplotlib.legend.Legend for possible keywords and
             their effects
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         """
         warnings.warn(
@@ -491,13 +491,13 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             - a tuple of length 2 specifying an interval of considered
             wind speeds
-            - an iterable containing only elements of self.wind_speeds
-            - a single element of self.wind_speeds
+            - an iterable containing only elements of `self.wind_speeds`
+            - a single element of `self.wind_speeds`
 
             The slices are then equal to the corresponding
-            columns of the table together with self.wind_angles
+            columns of the table together with `self.wind_angles`
 
-            If nothing is passed, it will default to self.wind_speeds
+            If nothing is passed, it will default to `self.wind_speeds`
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created
@@ -520,7 +520,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearances of the plot

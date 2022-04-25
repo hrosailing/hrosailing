@@ -48,7 +48,7 @@ for depencency in hard_dependencies:
 
 if missing_dependencies:
     raise ImportError(
-        "Unable to import required depencencies:\n"
+        "Unable to import required dependencies:\n"
         + "\n".join(missing_dependencies)
     )
 del hard_dependencies, depencency, missing_dependencies

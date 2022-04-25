@@ -67,17 +67,17 @@ class PolarDiagramCurve(PolarDiagram):
 
     @property
     def curve(self):
-        """Returns a read only version of self._f"""
+        """Returns a read only version of `self._f`"""
         return self._f
 
     @property
     def parameters(self):
-        """Returns a read only version of self._params"""
+        """Returns a read only version of `self._params`"""
         return self._params
 
     @property
     def radians(self):
-        """Returns a read only version of self._rad"""
+        """Returns a read only version of `self._rad`"""
         return self._rad
 
     def to_csv(self, csv_path):
@@ -85,9 +85,9 @@ class PolarDiagramCurve(PolarDiagram):
         following format:
 
             PolarDiagramCurve
-            Function: self.curve.__name__
-            Radians: self.rad
-            Parameters: self.parameters
+            Function: `self.curve.__name__`
+            Radians: `self.rad`
+            Parameters: `self.parameters`
 
         Parameters
         ----------
@@ -154,7 +154,7 @@ class PolarDiagramCurve(PolarDiagram):
         -------
         slices : tuple
             Slices of the polar diagram, given as a tuple of length 3,
-            consisting of the given wind speeds `ws`, self.wind_angles (in rad)
+            consisting of the given wind speeds `ws`, `self.wind_angles` (in rad)
             and a list of arrays containing the corresponding boat speeds
 
         Raises
@@ -256,7 +256,7 @@ class PolarDiagramCurve(PolarDiagram):
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearances of the plot
@@ -349,7 +349,7 @@ class PolarDiagramCurve(PolarDiagram):
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearances of the plot
@@ -482,7 +482,7 @@ class PolarDiagramCurve(PolarDiagram):
             See matplotlib.legend.Legend for possible keywords and
             their effects
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
         """
         if stepsize is None:
             stepsize = 100
@@ -575,7 +575,7 @@ class PolarDiagramCurve(PolarDiagram):
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearances of the plot

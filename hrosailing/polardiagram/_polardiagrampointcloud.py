@@ -132,7 +132,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     @property
     def points(self):
-        """Returns a read only version of self._points"""
+        """Returns a read only version of `self._points`"""
         return self._points.copy()
 
     def to_csv(self, csv_path):
@@ -141,7 +141,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
             PolarDiagramPointcloud
             TWS ,TWA ,BSP
-            self.points
+            `self.points`
 
         Parameters
         ----------
@@ -219,7 +219,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         """For given wind speeds, return the slices of the polar diagram
         corresponding to them
 
-        A slice then consists of all rows in self.wind_speeds whose
+        A slice then consists of all rows in `self.wind_speeds` whose
         first entry lies in the interval given by `w` in `ws`
 
         Parameters
@@ -276,7 +276,7 @@ class PolarDiagramPointcloud(PolarDiagram):
                 stepsize = int(round(ws[1] - ws[0]))
 
             if stepsize <= 0:
-                raise PolarDiagramException("`stepsize` is not positive")
+                raise PolarDiagramException("`stepsize` is nonpositive")
 
             ws = np.linspace(ws[0], ws[1], stepsize)
 
@@ -353,7 +353,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             - a single wind speed. The given interval is then determined by
             the parameter `range_`
 
-            A slice then consists of all rows in self.wind_speeds whose
+            A slice then consists of all rows in `self.wind_speeds` whose
             first entry lies in the interval given by `w` in `ws`
 
             If nothing is passed, it will default to
@@ -408,7 +408,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearances of the plot
@@ -420,7 +420,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         ------
         PolarDiagramException
             If `ws` is given as a single value or a list and there is a
-            value `w` in `ws`, such that there are no rows in self.points
+            value `w` in `ws`, such that there are no rows in `self.points`
             whose first entry is equal to `w`
         """
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
@@ -466,7 +466,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             - a single wind speed. The given interval is then determined by
             the parameter `range_`
 
-            A slice then consists of all rows in self.wind_speeds whose
+            A slice then consists of all rows in `self.wind_speeds` whose
             first entry lies in the interval given by `w` in `ws`
 
             If nothing is passed, it will default to
@@ -521,7 +521,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearances of the plot
@@ -533,7 +533,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         ------
         PolarDiagramException
             If `ws` is given as a single value or a list and there is a
-            value `w` in `ws`, such that there are no rows in self.points
+            value `w` in `ws`, such that there are no rows in `self.points`
             whose first entry is equal to `w`
         """
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
@@ -635,7 +635,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             See matplotlib.legend.Legend for possible keywords and
             their effects
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         Raises
         ------
@@ -684,7 +684,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             - a single wind speed. The given interval is then determined by
             the parameter `range_`
 
-            A slice then consists of all rows in self.wind_speeds whose
+            A slice then consists of all rows in `self.wind_speeds` whose
             first entry lies in the interval given by `w` in `ws`
 
             If nothing is passed, it will default to
@@ -737,7 +737,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearances of the plot
@@ -749,7 +749,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         ------
         PolarDiagramException
             If `ws` is given as a single value or a list and there is a
-            value `w` in `ws`, such that there are no rows in self.points
+            value `w` in `ws`, such that there are no rows in `self.points`
             whose first entry is equal to `w`
         """
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
