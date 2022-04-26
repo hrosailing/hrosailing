@@ -2,6 +2,7 @@
 
 import csv
 from ast import literal_eval
+from inspect import getmembers, isfunction
 
 import numpy as np
 
@@ -9,6 +10,10 @@ from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
                                 PolarDiagramInitializationException)
 from ._plotting import (plot_color_gradient, plot_convex_hull, plot_flat,
                         plot_polar, plot_surface)
+import hrosailing.pipelinecomponents.modelfunctions as model
+
+
+MODEL_FUNCTIONS = dict(getmembers(model, isfunction))
 
 
 class PolarDiagramCurve(PolarDiagram):
@@ -105,6 +110,18 @@ class PolarDiagramCurve(PolarDiagram):
             csv_writer.writerow(["Function"] + [self.curve.__name__])
             csv_writer.writerow(["Radians"] + [str(self.radians)])
             csv_writer.writerow(["Parameters"] + list(self.parameters))
+
+    @classmethod
+    def __from_csv__(cls, csv_reader):
+        function = next(csv_reader)[1]
+        radians = next(csv_reader)[1]
+        params = [literal_eval(value) for value in next(csv_reader)[1:]]
+
+        if function not in MODEL_FUNCTIONS:
+            raise PolarDiagramInitializationException(f"No valid function, named {function}")
+
+        function = MODEL_FUNCTIONS[function]
+        return PolarDiagramCurve(function, *params, radians=radians)
 
     def symmetrize(self):
         """Constructs a symmetric version of the polar diagram,
