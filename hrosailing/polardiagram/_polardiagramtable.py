@@ -428,12 +428,12 @@ class PolarDiagramTable(PolarDiagram):
         self._write_rows(csv_writer)
 
     def _write_hro_format(self, csv_writer):
-        csv_writer.writerow([self.__class__.__name__])
+        csv_writer.writerow([self.__class__.__name__, ""])
         csv_writer.writerow(["TWS"])
         csv_writer.writerow(self.wind_speeds)
         csv_writer.writerow(["TWA"])
         csv_writer.writerow(self.wind_angles)
-        csv_writer.writerow(["Boat speeds"])
+        csv_writer.writerow(["BSP"])
         csv_writer.writerows(self.boat_speeds)
 
     @classmethod
