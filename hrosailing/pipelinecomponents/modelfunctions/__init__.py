@@ -6,12 +6,8 @@ model certain ship behaviours
 
 import numpy as np
 
-from ._models2d import (
-    concave_function,
-    gaussian_model,
-    inverted_shifted_parabola,
-    s_shaped,
-)
+from ._models2d import (concave_function, gaussian_model,
+                        inverted_shifted_parabola, s_shaped)
 
 
 def ws_times_wa(ws, wa, scal):
