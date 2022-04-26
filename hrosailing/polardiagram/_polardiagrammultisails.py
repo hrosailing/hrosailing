@@ -119,12 +119,12 @@ class PolarDiagramMultiSails(PolarDiagram):
         following format:
 
             PolarDiagramMultiSails
-            TWS:
+            TWS
             self.wind_speeds
             [Sail
-            TWA:
+            TWA
             table.wind_angles
-            Boat speeds:
+            Boat speeds
             table.boat_speeds]
 
         Parameters
@@ -134,42 +134,21 @@ class PolarDiagramMultiSails(PolarDiagram):
         """
         with open(csv_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file, delimiter=",")
-            csv_writer.writerow([self.__class__.__name__])
-            csv_writer.writerow(["TWS:"])
+            csv_writer.writerow([self.__class__.__name__, ""])
+            csv_writer.writerow(["TWS"])
             csv_writer.writerow(self.wind_speeds)
             for sail, table in zip(self.sails, self.tables):
                 csv_writer.writerow(sail)
-                csv_writer.writerow(["TWA:"])
+                csv_writer.writerow(["TWA"])
                 csv_writer.writerow(table.wind_angles)
-                csv_writer.writerow(["Boat speeds:"])
+                csv_writer.writerow(["BSP"])
                 csv_writer.writerows(table.boat_speeds)
 
     @classmethod
     def __from_csv__(cls, csv_reader):
         next(csv_reader)
-        ws_res = [literal_eval(ws) for ws in next(csv_reader)]
-        sails = []
-        wa_reses = []
-        bsps = []
-
-        i = 0
-        for row in csv_reader:
-            if i % 5 == 0:
-                sails.append(row[0])
-            elif i % 5 == 2:
-                wa_res = [literal_eval(wa) for wa in row]
-                wa_reses.append(wa_res)
-            elif i % 5 == 4:
-                bsp = [literal_eval(s) for s in row]
-                bsps.append(bsp)
-
-            i += 1
-
-        pds = [
-            PolarDiagramTable(ws_res, wa_res, bsp)
-            for wa_res, bsp in zip(wa_reses, bsps)
-        ]
-
+        ws_resolution = [literal_eval(ws) for ws in next(csv_reader)]
+        sails, pds = _extract_polardiagrams(csv_reader, ws_resolution)
         return PolarDiagramMultiSails(pds, sails)
 
     def symmetrize(self):
@@ -537,3 +516,23 @@ class PolarDiagramMultiSails(PolarDiagram):
         plot_convex_hull_multisails(
             ws, wa, bsp, members, ax, colors, show_legend, legend_kw, **plot_kw
         )
+
+
+def _extract_polardiagrams(csv_reader, ws_resolution):
+    sails = []
+    pds = []
+
+    while True:
+        try:
+            sails.append(next(csv_reader)[0])
+            next(csv_reader)
+            wa_resolution = [literal_eval(wa) for wa in next(csv_reader)]
+            bsps = [[literal_eval(bsp) for bsp in row]
+                    for row in itertools.islice(csv_reader, len(wa_resolution))]
+            pds.append(
+                PolarDiagramTable(ws_resolution, wa_resolution, bsps)
+            )
+        except StopIteration:
+            break
+
+    return sails, pds
