@@ -106,7 +106,7 @@ class PolarDiagramCurve(PolarDiagram):
         """
         with open(csv_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file, delimiter=":")
-            csv_writer.writerow([self.__class__.__name__])
+            csv_writer.writerow([self.__class__.__name__, ""])
             csv_writer.writerow(["Function"] + [self.curve.__name__])
             csv_writer.writerow(["Radians"] + [str(self.radians)])
             csv_writer.writerow(["Parameters"] + list(self.parameters))
