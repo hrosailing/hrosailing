@@ -6,10 +6,18 @@ from inspect import getmembers, isfunction
 
 import numpy as np
 
-from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
-                                PolarDiagramInitializationException)
-from ._plotting import (plot_color_gradient, plot_convex_hull, plot_flat,
-                        plot_polar, plot_surface)
+from ._basepolardiagram import (
+    PolarDiagram,
+    PolarDiagramException,
+    PolarDiagramInitializationException,
+)
+from ._plotting import (
+    plot_color_gradient,
+    plot_convex_hull,
+    plot_flat,
+    plot_polar,
+    plot_surface,
+)
 import hrosailing.pipelinecomponents.modelfunctions as model
 
 
@@ -118,7 +126,9 @@ class PolarDiagramCurve(PolarDiagram):
         params = [literal_eval(value) for value in next(csv_reader)[1:]]
 
         if function not in MODEL_FUNCTIONS:
-            raise PolarDiagramInitializationException(f"No valid function, named {function}")
+            raise PolarDiagramInitializationException(
+                f"No valid function, named {function}"
+            )
 
         function = MODEL_FUNCTIONS[function]
         return PolarDiagramCurve(function, *params, radians=radians)

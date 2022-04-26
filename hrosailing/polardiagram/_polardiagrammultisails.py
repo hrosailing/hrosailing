@@ -8,8 +8,11 @@ from ast import literal_eval
 import matplotlib.pyplot as plt
 import numpy as np
 
-from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
-                                PolarDiagramInitializationException)
+from ._basepolardiagram import (
+    PolarDiagram,
+    PolarDiagramException,
+    PolarDiagramInitializationException,
+)
 from ._plotting import plot_convex_hull_multisails
 from ._polardiagramtable import PolarDiagramTable
 
@@ -527,11 +530,11 @@ def _extract_polardiagrams(csv_reader, ws_resolution):
             sails.append(next(csv_reader)[0])
             next(csv_reader)
             wa_resolution = [literal_eval(wa) for wa in next(csv_reader)]
-            bsps = [[literal_eval(bsp) for bsp in row]
-                    for row in itertools.islice(csv_reader, len(wa_resolution))]
-            pds.append(
-                PolarDiagramTable(ws_resolution, wa_resolution, bsps)
-            )
+            bsps = [
+                [literal_eval(bsp) for bsp in row]
+                for row in itertools.islice(csv_reader, len(wa_resolution))
+            ]
+            pds.append(PolarDiagramTable(ws_resolution, wa_resolution, bsps))
         except StopIteration:
             break
 
