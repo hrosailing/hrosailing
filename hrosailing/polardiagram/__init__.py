@@ -127,7 +127,7 @@ def _read_extern_format(file, fmt):
 
 
 def _read_from_array(file):
-    file_data = np.genfromtxt(file, delimiter="\t")
+    file_data = np.genfromtxt(file)
     return file_data[0, 1:], file_data[1:, 0], file_data[1:, 1:]
 
 
