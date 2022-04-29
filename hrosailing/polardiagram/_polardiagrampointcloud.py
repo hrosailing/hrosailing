@@ -150,12 +150,13 @@ class PolarDiagramPointcloud(PolarDiagram):
         """
         with open(csv_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file, delimiter=",")
-            csv_writer.writerow([self.__class__.__name__, ""])
-            csv_writer.writerow(["TWS ", "TWA ", "BSP "])
+            csv_writer.writerow([self.__class__.__name__])
+            csv_writer.writerow(["TWS", "TWA", "BSP"])
             csv_writer.writerows(self.points)
 
     @classmethod
-    def __from_csv__(cls, csv_reader):
+    def __from_csv__(cls, file):
+        csv_reader = csv.reader(file, delimiter=",")
         next(csv_reader)
         points = np.array(
             [[literal_eval(point) for point in row] for row in csv_reader]

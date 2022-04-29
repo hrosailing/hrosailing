@@ -134,18 +134,19 @@ class PolarDiagramMultiSails(PolarDiagram):
         """
         with open(csv_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file, delimiter=",")
-            csv_writer.writerow([self.__class__.__name__, ""])
+            csv_writer.writerow([self.__class__.__name__])
             csv_writer.writerow(["TWS"])
             csv_writer.writerow(self.wind_speeds)
             for sail, table in zip(self.sails, self.tables):
-                csv_writer.writerow(sail)
+                csv_writer.writerow([sail])
                 csv_writer.writerow(["TWA"])
                 csv_writer.writerow(table.wind_angles)
                 csv_writer.writerow(["BSP"])
                 csv_writer.writerows(table.boat_speeds)
 
     @classmethod
-    def __from_csv__(cls, csv_reader):
+    def __from_csv__(cls, file):
+        csv_reader = csv.reader(file, delimiter=",")
         next(csv_reader)
         ws_resolution = [literal_eval(ws) for ws in next(csv_reader)]
         sails, pds = _extract_polardiagrams(csv_reader, ws_resolution)
@@ -529,7 +530,7 @@ def _extract_polardiagrams(csv_reader, ws_resolution):
             wa_resolution = [literal_eval(wa) for wa in next(csv_reader)]
             bsps = [
                 [literal_eval(bsp) for bsp in row]
-                for row in itertools.islice(csv_reader, len(wa_resolution))
+                for row in itertools.islice(csv_reader, len(wa_resolution) + 1)
             ]
             pds.append(PolarDiagramTable(ws_resolution, wa_resolution, bsps))
         except StopIteration:

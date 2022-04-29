@@ -428,7 +428,7 @@ class PolarDiagramTable(PolarDiagram):
         self._write_rows(csv_writer)
 
     def _write_hro_format(self, csv_writer):
-        csv_writer.writerow([self.__class__.__name__, ""])
+        csv_writer.writerow([self.__class__.__name__])
         csv_writer.writerow(["TWS"])
         csv_writer.writerow(self.wind_speeds)
         csv_writer.writerow(["TWA"])
@@ -437,7 +437,8 @@ class PolarDiagramTable(PolarDiagram):
         csv_writer.writerows(self.boat_speeds)
 
     @classmethod
-    def __from_csv__(cls, csv_reader):
+    def __from_csv__(cls, file):
+        csv_reader = csv.reader(file, delimiter=",")
         next(csv_reader)
         ws_res = [literal_eval(ws) for ws in next(csv_reader)]
         next(csv_reader)

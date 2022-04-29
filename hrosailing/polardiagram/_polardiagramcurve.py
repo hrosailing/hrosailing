@@ -106,13 +106,14 @@ class PolarDiagramCurve(PolarDiagram):
         """
         with open(csv_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file, delimiter=":")
-            csv_writer.writerow([self.__class__.__name__, ""])
+            csv_writer.writerow([self.__class__.__name__])
             csv_writer.writerow(["Function"] + [self.curve.__name__])
             csv_writer.writerow(["Radians"] + [str(self.radians)])
             csv_writer.writerow(["Parameters"] + list(self.parameters))
 
     @classmethod
-    def __from_csv__(cls, csv_reader):
+    def __from_csv__(cls, file):
+        csv_reader = csv.reader(file, delimiter=":")
         function = next(csv_reader)[1]
         radians = next(csv_reader)[1]
         params = [literal_eval(value) for value in next(csv_reader)[1:]]
@@ -131,7 +132,6 @@ class PolarDiagramCurve(PolarDiagram):
         """
 
         def sym_func(ws, wa, *params):
-            wa = np.atleast_1d(wa)
             return 0.5 * (
                 self.curve(ws, wa, *params) + self.curve(ws, 360 - wa, *params)
             )
