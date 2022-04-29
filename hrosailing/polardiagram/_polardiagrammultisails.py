@@ -528,9 +528,10 @@ def _extract_polardiagrams(csv_reader, ws_resolution):
             sails.append(next(csv_reader)[0])
             next(csv_reader)
             wa_resolution = [literal_eval(wa) for wa in next(csv_reader)]
+            next(csv_reader)
             bsps = [
                 [literal_eval(bsp) for bsp in row]
-                for row in itertools.islice(csv_reader, len(wa_resolution) + 1)
+                for row in itertools.islice(csv_reader, len(wa_resolution))
             ]
             pds.append(PolarDiagramTable(ws_resolution, wa_resolution, bsps))
         except StopIteration:
