@@ -203,7 +203,7 @@ def plot_flat(
     ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines, **plot_kw
 ):
     if ax is None:
-        ax = _get_new_axis("rectlinear")
+        ax = _get_new_axis("rectilinear")
 
     _check_plot_kw(plot_kw, _lines)
 
@@ -214,7 +214,7 @@ def plot_color_gradient(
     ws, wa, bsp, ax, colors, marker, ms, show_legend, **legend_kw
 ):
     if ax is None:
-        ax = _get_new_axis("rectlinear")
+        ax = _get_new_axis("rectilinear")
 
     if show_legend:
         _show_legend(ax, bsp, colors, "Boat Speed", legend_kw)
