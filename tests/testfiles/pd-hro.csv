@@ -1,9 +1,9 @@
-PolarDiagramTable
-Wind speed resolution:
+PolarDiagramTable,
+TWS,
 2,4,6,8,10
-Wind angle resolution:
+TWA,
 10,15,20,25,30
-Boat speeds:
+BSP,
 0,0,0,0,0
 0,0,0,0,0
 0,0,0,0,0

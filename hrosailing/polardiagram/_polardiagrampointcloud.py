@@ -150,7 +150,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         """
         with open(csv_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file, delimiter=",")
-            csv_writer.writerow([self.__class__.__name__])
+            csv_writer.writerow([self.__class__.__name__, ""])
             csv_writer.writerow(["TWS ", "TWA ", "BSP "])
             csv_writer.writerows(self.points)
 

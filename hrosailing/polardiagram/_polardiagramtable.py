@@ -162,8 +162,8 @@ class PolarDiagramTable(PolarDiagram):
     def _create_zero_table(self, ws_resolution, wa_resolution):
         rows, cols = len(wa_resolution), len(ws_resolution)
         self._boat_speeds = np.zeros((rows, cols))
-        self._res_wind_speed = sorted(ws_resolution)
-        self._res_wind_angle = sorted(wa_resolution)
+        self._ws_resolution = sorted(ws_resolution)
+        self._wa_resolution = sorted(wa_resolution)
 
     def __str__(self):
         table = ["  TWA / TWS"]
@@ -306,12 +306,12 @@ class PolarDiagramTable(PolarDiagram):
 
     @property
     def wind_angles(self):
-        """Returns a read only version of self._res_wind_angle"""
+        """Returns a read only version of self._wa_resolution"""
         return self._wa_resolution.copy()
 
     @property
     def wind_speeds(self):
-        """Returns a read only version of self._res_wind_speed"""
+        """Returns a read only version of self._ws_resolution"""
         return self._ws_resolution.copy()
 
     @property
@@ -428,12 +428,12 @@ class PolarDiagramTable(PolarDiagram):
         self._write_rows(csv_writer)
 
     def _write_hro_format(self, csv_writer):
-        csv_writer.writerow([self.__class__.__name__])
+        csv_writer.writerow([self.__class__.__name__, ""])
         csv_writer.writerow(["TWS"])
         csv_writer.writerow(self.wind_speeds)
         csv_writer.writerow(["TWA"])
         csv_writer.writerow(self.wind_angles)
-        csv_writer.writerow(["Boat speeds"])
+        csv_writer.writerow(["BSP"])
         csv_writer.writerows(self.boat_speeds)
 
     @classmethod

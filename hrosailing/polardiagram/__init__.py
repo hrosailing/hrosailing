@@ -99,22 +99,19 @@ def from_csv(csv_path, fmt="hro"):
 def _read_intern_format(file):
     subclasses = {cls.__name__: cls for cls in PolarDiagram.__subclasses__()}
 
-    try:
-        dialect = csv.Sniffer().sniff(file.read(1024), delimiters=",")
-        csv_reader = csv.reader(file, dialect=dialect)
-    except csv.Error:
-        delimiter = ","
-        csv_reader = csv.reader(file, delimiter=delimiter)
+    first_two_lines = "".join(file.readline() for _ in range(2))
+    print(first_two_lines)
+    dialect = csv.Sniffer().sniff(first_two_lines, delimiters=",;:")
+    file.seek(0)
+    csv_reader = csv.reader(file, dialect=dialect)
 
     first_row = next(csv_reader)[0]
-
     if first_row not in subclasses:
         raise FileReadingException(
             f"No polar diagram format with the name {first_row} exists"
         )
 
     pd = subclasses[first_row]
-
     return pd.__from_csv__(csv_reader)
 
 
