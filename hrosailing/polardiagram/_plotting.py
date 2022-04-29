@@ -243,7 +243,7 @@ def _set_3d_axis_labels(ax):
 
 def _remove_3d_tick_labels_for_polar_coordinates(ax):
     ax.yaxis.set_ticklabels([])
-    ax.zaxis.set_ticklabel([])
+    ax.zaxis.set_ticklabels([])
 
 
 def _create_color_map(colors):
