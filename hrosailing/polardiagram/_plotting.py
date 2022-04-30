@@ -233,7 +233,7 @@ def plot3d(ws, wa, bsp, ax, colors, **plot_kw):
         ax = _get_new_axis("3d")
 
     _set_3d_axis_labels(ax)
-    _remove_3d_axis_labels_for_polar_coordinates(ax)
+    _remove_3d_tick_labels_for_polar_coordinates(ax)
 
     color_map = _create_color_map(colors)
 
