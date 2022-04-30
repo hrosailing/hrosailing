@@ -123,7 +123,7 @@ class PolarDiagramCurve(PolarDiagram):
     def __from_csv__(cls, file):
         csv_reader = csv.reader(file, delimiter=":")
         function = next(csv_reader)[1]
-        radians = next(csv_reader)[1]
+        radians = literal_eval(next(csv_reader)[1])
         params = [literal_eval(value) for value in next(csv_reader)[1:]]
 
         if function not in MODEL_FUNCTIONS:
@@ -141,7 +141,7 @@ class PolarDiagramCurve(PolarDiagram):
 
         def sym_func(ws, wa, *params):
             return 0.5 * (
-                self.curve(ws, wa, *params) + self.curve(ws, 360 - wa, *params)
+                self._f(ws, wa, *params) + self._f(ws, 360 - wa, *params)
             )
 
         return PolarDiagramCurve(
