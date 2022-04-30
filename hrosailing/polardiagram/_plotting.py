@@ -298,10 +298,10 @@ def _convex_hull(slices):
             ys.append(bsp)
             continue
 
-        conv = _convex_hull_in_polar_coordinates(w, b)
+        conv = _convex_hull_in_polar_coordinates(wa, bsp)
         vert = sorted(conv.vertices)
         x, y = zip(
-            *([(w[i], b[i]) for i in vert] + [(w[vert[0]], b[vert[0]])])
+            *([(wa[i], bsp[i]) for i in vert] + [(wa[vert[0]], bsp[vert[0]])])
         )
         xs.append(list(x))
         ys.append(list(y))
@@ -348,7 +348,7 @@ def _get_convex_hull_multisails(ws, wa, bsp, members):
     for s, w, b in zip(ws, wa, bsp):
         w = np.asarray(w)
         b = np.asarray(b)
-        conv = _convex_hull_polar(w, b)
+        conv = _convex_hull_in_polar_coordinates(w, b)
         vert = sorted(conv.vertices)
 
         x, y, memb = zip(
