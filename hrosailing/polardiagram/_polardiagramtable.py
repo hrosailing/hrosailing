@@ -407,7 +407,7 @@ class PolarDiagramTable(PolarDiagram):
 
     def _write_orc_format(self, file):
         csv_writer = csv.writer(file, delimiter=";")
-        csv_writer.writerow(["twa/tws"] + self.wind_speeds)
+        csv_writer.writerow(["twa/tws"] + list(self.wind_speeds))
         csv_writer.writerow([0] * (len(self.wind_speeds) + 1))
 
         self._write_rows(csv_writer)
@@ -418,12 +418,12 @@ class PolarDiagramTable(PolarDiagram):
 
     def _write_array_format(self, file):
         csv_writer = csv.writer(file, delimiter="\t")
-        csv_writer.writerow([r"TWA \ TWS"] + self.wind_speeds)
+        csv_writer.writerow([r"TWA \ TWS"] + list(self.wind_speeds))
 
         self._write_rows(csv_writer)
 
     def _write_opencpn_format(self, csv_writer):
-        csv_writer.writerow([r"TWA \ TWS"] + self.wind_speeds)
+        csv_writer.writerow([r"TWA \ TWS"] + list(self.wind_speeds))
 
         self._write_rows(csv_writer)
 
