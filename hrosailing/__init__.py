@@ -35,23 +35,23 @@ from ._version import __version__ as version
 
 __pdoc__ = pdoc
 
-# Tell users if and which hard depencencies are missing
+# Tell users if and which hard dependencies are missing
 hard_dependencies = ("numpy", "matplotlib", "scipy")
 # soft_dependencies = ("pandas", "pynmea2")
 missing_dependencies = []
 
-for depencency in hard_dependencies:
+for dependency in hard_dependencies:
     try:
-        __import__(depencency)
+        __import__(dependency)
     except ImportError as ie:
-        missing_dependencies.append(f"{depencency}: {ie}")
+        missing_dependencies.append(f"{dependency}: {ie}")
 
 if missing_dependencies:
     raise ImportError(
-        "Unable to import required depencencies:\n"
+        "Unable to import required dependencies:\n"
         + "\n".join(missing_dependencies)
     )
-del hard_dependencies, depencency, missing_dependencies
+del hard_dependencies, dependency, missing_dependencies
 
 
 import hrosailing.cruising
