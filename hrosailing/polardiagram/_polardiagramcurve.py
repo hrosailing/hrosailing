@@ -179,6 +179,7 @@ class PolarDiagramCurve(PolarDiagram):
         Raises
         ------
         PolarDiagramException
+            If `stepsize` is nonpositive
         """
         if ws is None:
             ws = (0, 20)

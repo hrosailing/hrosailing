@@ -549,6 +549,9 @@ class PolarDiagramTable(PolarDiagram):
         Raises
         ------
         PolarDiagramException
+            If `new_bsps` is not array_like
+
+            If `new_bsps` has incorrect shape
 
         Examples
         --------

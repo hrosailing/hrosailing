@@ -266,6 +266,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         Raises
         ------
         PolarDiagramException
+            If `stepsize` is nonpositive
+
+            If `range_` is nonpositive
         """
         if ws is None:
             ws = self.wind_speeds
@@ -277,7 +280,7 @@ class PolarDiagramPointcloud(PolarDiagram):
                 stepsize = int(round(ws[1] - ws[0]))
 
             if stepsize <= 0:
-                raise PolarDiagramException("`stepsize` is not positive")
+                raise PolarDiagramException("`stepsize` is nonpositive")
 
             ws = np.linspace(ws[0], ws[1], stepsize)
 
