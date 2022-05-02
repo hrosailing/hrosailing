@@ -2,6 +2,9 @@
 
 # pylint: disable=missing-function-docstring
 
+
+import itertools
+
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.cm import ScalarMappable
@@ -62,11 +65,7 @@ def _configure_colors(ax, ws, colors):
         ax.set_prop_cycle("color", [colors])
         return
 
-    if _more_colors_than_plots(ws, colors):
-        ax.set_prop_cycle("color", colors)
-        return
-
-    if _no_color_gradient(colors):
+    if _more_colors_than_plots(ws, colors) or _no_color_gradient:
         _set_color_cycle(ax, ws, colors)
         return
 
@@ -94,18 +93,16 @@ def _set_color_cycle(ax, ws, colors):
 
 def _configure_color_cycle(color_cycle, colors, ws):
     if isinstance(colors[0], tuple):
-        if _only_one_color(colors[0]):
-            for i, c in enumerate(colors):
-                color_cycle[i] = c
-                return
-
-        for w, c in colors:
+        for w, color in colors:
             i = list(ws).index(w)
-            color_cycle[i] = c
-            return
+            color_cycle[i] = color
 
-    for i, c in enumerate(colors):
-        color_cycle[i] = c
+        return
+
+    colors = itertools.islice(colors, len(color_cycle))
+
+    for i, color in enumerate(colors):
+        color_cycle[i] = color
 
 
 def _set_color_gradient(ax, ws, colors):
