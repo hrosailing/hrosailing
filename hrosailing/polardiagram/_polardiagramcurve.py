@@ -38,6 +38,9 @@ class PolarDiagramCurve(PolarDiagram):
     Raises
     ------
     PolarDiagramInitializationException
+        If `f` is not callable
+
+        If `params` contains not enough parameters for `f`
     """
 
     def __init__(self, f, *params, radians=False):

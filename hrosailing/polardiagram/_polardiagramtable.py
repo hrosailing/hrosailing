@@ -94,6 +94,9 @@ class PolarDiagramTable(PolarDiagram):
     Raises
     ------
     PolarDiagramInitializationException
+        If `bsps` is not array_like
+
+        If `bsps` has incorrect shape
 
     Examples
     --------
