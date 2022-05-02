@@ -143,7 +143,7 @@ class PolarDiagramCurve(PolarDiagram):
             sym_func, *self.parameters, radians=self.radians
         )
 
-    def get_slices(self, ws, stepsize=None):
+    def get_slices(self, ws=None, stepsize=None):
         """For given wind speeds, return the slices of the polar diagram
         corresponding to them
 
