@@ -335,7 +335,10 @@ where <code>ws</code>, <code>wa</code> and should be <code>array_like</code> of 
 <h2 id="raises">Raises</h2>
 <dl>
 <dt><code><a title="hrosailing.polardiagram.PolarDiagramInitializationException" href="#hrosailing.polardiagram.PolarDiagramInitializationException">PolarDiagramInitializationException</a></code></dt>
-<dd>&nbsp;</dd>
+<dd>
+<p>If <code>f</code> is not callable</p>
+<p>If <code>params</code> contains not enough parameters for <code>f</code></p>
+</dd>
 </dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -400,7 +403,7 @@ and a list of arrays containing the corresponding boat speeds</dd>
 <h2 id="raises">Raises</h2>
 <dl>
 <dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
-<dd>&nbsp;</dd>
+<dd>If <code>stepsize</code> is nonpositive</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramCurve.plot_3d"><code class="name flex">
@@ -1236,7 +1239,10 @@ if any w in <code>ws</code> is an int or float</p>
 <h2 id="raises">Raises</h2>
 <dl>
 <dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
-<dd>&nbsp;</dd>
+<dd>
+<p>If <code>stepsize</code> is nonpositive</p>
+<p>If <code>range_</code> is nonpositive</p>
+</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.plot_3d"><code class="name flex">
@@ -1648,7 +1654,10 @@ Should be between 0° and 360°</p>
 <h2 id="raises">Raises</h2>
 <dl>
 <dt><code><a title="hrosailing.polardiagram.PolarDiagramInitializationException" href="#hrosailing.polardiagram.PolarDiagramInitializationException">PolarDiagramInitializationException</a></code></dt>
-<dd>&nbsp;</dd>
+<dd>
+<p>If <code>bsps</code> is not array_like</p>
+<p>If <code>bsps</code> has incorrect shape</p>
+</dd>
 </dl>
 <h2 id="examples">Examples</h2>
 <pre><code>&gt;&gt;&gt; pd = PolarDiagramTable()
@@ -1732,7 +1741,10 @@ where new boat speeds will be inserted</p>
 <h2 id="raises">Raises</h2>
 <dl>
 <dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
-<dd>&nbsp;</dd>
+<dd>
+<p>If <code>new_bsps</code> is not array_like</p>
+<p>If <code>new_bsps</code> has incorrect shape</p>
+</dd>
 </dl>
 <h2 id="examples">Examples</h2>
 <pre><code>&gt;&gt;&gt; pd = PolarDiagramTable(
