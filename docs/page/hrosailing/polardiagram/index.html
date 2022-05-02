@@ -334,8 +334,11 @@ where <code>ws</code>, <code>wa</code> and should be <code>array_like</code> of 
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>PolarDiagramInitializationException</code></dt>
-<dd>&nbsp;</dd>
+<dt><code><a title="hrosailing.polardiagram.PolarDiagramInitializationException" href="#hrosailing.polardiagram.PolarDiagramInitializationException">PolarDiagramInitializationException</a></code></dt>
+<dd>
+<p>If <code>f</code> is not callable</p>
+<p>If <code>params</code> contains not enough parameters for <code>f</code></p>
+</dd>
 </dl></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -360,7 +363,7 @@ where <code>ws</code>, <code>wa</code> and should be <code>array_like</code> of 
 <h3>Methods</h3>
 <dl>
 <dt id="hrosailing.polardiagram.PolarDiagramCurve.get_slices"><code class="name flex">
-<span>def <span class="ident">get_slices</span></span>(<span>self, ws, stepsize=None)</span>
+<span>def <span class="ident">get_slices</span></span>(<span>self, ws=None, stepsize=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>For given wind speeds, return the slices of the polar diagram
@@ -399,8 +402,8 @@ and a list of arrays containing the corresponding boat speeds</dd>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>PolarDiagramException</code></dt>
-<dd>&nbsp;</dd>
+<dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
+<dd>If <code>stepsize</code> is nonpositive</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramCurve.plot_3d"><code class="name flex">
@@ -728,6 +731,32 @@ Parameters: self.parameters
 </dd>
 </dl>
 </dd>
+<dt id="hrosailing.polardiagram.PolarDiagramException"><code class="flex name class">
+<span>class <span class="ident">PolarDiagramException</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Exception raised if some nonstandard error occurs,
+while doing something with polar diagrams</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="hrosailing.polardiagram.PolarDiagramInitializationException"><code class="flex name class">
+<span>class <span class="ident">PolarDiagramInitializationException</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Exception raised if an error occurs during
+initialization of a PolarDiagram</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
 <dt id="hrosailing.polardiagram.PolarDiagramMultiSails"><code class="flex name class">
 <span>class <span class="ident">PolarDiagramMultiSails</span></span>
 <span>(</span><span>pds, sails=None)</span>
@@ -755,7 +784,7 @@ where <code>len(pds) = n</code>.</p>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>PolarDiagramInitializationException</code></dt>
+<dt><code><a title="hrosailing.polardiagram.PolarDiagramInitializationException" href="#hrosailing.polardiagram.PolarDiagramInitializationException">PolarDiagramInitializationException</a></code></dt>
 <dd>If the polar tables don't share the same wind speeds</dd>
 </dl></div>
 <h3>Ancestors</h3>
@@ -913,7 +942,7 @@ effects</p>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>PolarDiagramException</code></dt>
+<dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
 <dd>If at least one element of <code>ws</code> is not in <code>self.wind_speeds</code></dd>
 </dl></div>
 </dd>
@@ -977,7 +1006,7 @@ effects</p>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>PolarDiagramException</code></dt>
+<dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
 <dd>
 <ul>
 <li>If at least one element of <code>ws</code> is not in <code>self.wind_speeds</code></li>
@@ -1047,7 +1076,7 @@ effects</p>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>PolarDiagramException</code></dt>
+<dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
 <dd>
 <ul>
 <li>If at least one element of <code>ws</code> is not in <code>self.wind_speeds</code></li>
@@ -1077,12 +1106,12 @@ to duplicate data, which can overwrite or live alongside old data</p></div>
 <div class="desc"><p>Creates a .csv file with delimiter ',' and the
 following format:</p>
 <pre><code>PolarDiagramMultiSails
-TWS:
+TWS
 self.wind_speeds
 [Sail
-TWA:
+TWA
 table.wind_angles
-Boat speeds:
+Boat speeds
 table.boat_speeds]
 </code></pre>
 <h2 id="parameters">Parameters</h2>
@@ -1209,8 +1238,11 @@ if any w in <code>ws</code> is an int or float</p>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>PolarDiagramException</code></dt>
-<dd>&nbsp;</dd>
+<dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
+<dd>
+<p>If <code>stepsize</code> is nonpositive</p>
+<p>If <code>range_</code> is nonpositive</p>
+</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.plot_3d"><code class="name flex">
@@ -1238,7 +1270,7 @@ effects</p>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>PolarDiagramException</code></dt>
+<dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
 <dd>If there are no points in the point cloud</dd>
 </dl></div>
 </dd>
@@ -1283,7 +1315,7 @@ their effects</p>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>PolarDiagramException</code></dt>
+<dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
 <dd>If there are no points in the point cloud</dd>
 </dl></div>
 </dd>
@@ -1369,7 +1401,7 @@ effects</p>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>PolarDiagramException</code></dt>
+<dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
 <dd>If ws is given as a single value or a list and there is a
 value w in ws, such that there are no rows in self.points
 whose first entry is equal to w</dd>
@@ -1458,7 +1490,7 @@ effects</p>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>PolarDiagramException</code></dt>
+<dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
 <dd>If ws is given as a single value or a list and there is a
 value w in ws, such that there are no rows in self.points
 whose first entry is equal to w</dd>
@@ -1547,7 +1579,7 @@ effects</p>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>PolarDiagramException</code></dt>
+<dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
 <dd>If ws is given as a single value or a list and there is a
 value w in ws, such that there are no rows in self.points
 whose first entry is equal to w</dd>
@@ -1621,8 +1653,11 @@ Should be between 0° and 360°</p>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>PolarDiagramInitializationException</code></dt>
-<dd>&nbsp;</dd>
+<dt><code><a title="hrosailing.polardiagram.PolarDiagramInitializationException" href="#hrosailing.polardiagram.PolarDiagramInitializationException">PolarDiagramInitializationException</a></code></dt>
+<dd>
+<p>If <code>bsps</code> is not array_like</p>
+<p>If <code>bsps</code> has incorrect shape</p>
+</dd>
 </dl>
 <h2 id="examples">Examples</h2>
 <pre><code>&gt;&gt;&gt; pd = PolarDiagramTable()
@@ -1671,11 +1706,11 @@ Should be between 0° and 360°</p>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.wind_angles"><code class="name">var <span class="ident">wind_angles</span></code></dt>
 <dd>
-<div class="desc"><p>Returns a read only version of self._res_wind_angle</p></div>
+<div class="desc"><p>Returns a read only version of self._wa_resolution</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.wind_speeds"><code class="name">var <span class="ident">wind_speeds</span></code></dt>
 <dd>
-<div class="desc"><p>Returns a read only version of self._res_wind_speed</p></div>
+<div class="desc"><p>Returns a read only version of self._ws_resolution</p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -1705,13 +1740,16 @@ where new boat speeds will be inserted</p>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>PolarDiagramException</code></dt>
-<dd>&nbsp;</dd>
+<dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
+<dd>
+<p>If <code>new_bsps</code> is not array_like</p>
+<p>If <code>new_bsps</code> has incorrect shape</p>
+</dd>
 </dl>
 <h2 id="examples">Examples</h2>
 <pre><code>&gt;&gt;&gt; pd = PolarDiagramTable(
-...     ws_res=[6, 8, 10, 12, 14],
-...     wa_res=[52, 60, 75, 90, 110, 120, 135]
+...     ws_resolution=[6, 8, 10, 12, 14],
+...     wa_resolution=[52, 60, 75, 90, 110, 120, 135]
 ... )
 &gt;&gt;&gt; print(pd)
   TWA / TWS    6.0    8.0    10.0    12.0    14.0
@@ -1741,6 +1779,16 @@ where new boat speeds will be inserted</p>
 ...     new_bsps=[5.7, 6.32, 6.96, 7.24, 7.35],
 ...     wa=52
 ... )
+&gt;&gt;&gt; print(pd)
+  TWA / TWS    6.0    8.0    10.0    12.0    14.0
+-----------  -----  -----  ------  ------  ------
+52.0          5.70   6.32    6.96    7.24    7.35
+60.0          5.64   0.00    0.00    0.00    0.00
+75.0          5.89   0.00    0.00    0.00    0.00
+90.0          5.92   0.00    0.00    0.00    0.00
+110.0         5.98   0.00    0.00    0.00    0.00
+120.0         5.80   0.00    0.00    0.00    0.00
+135.0         5.20   0.00    0.00    0.00    0.00
 </code></pre></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.get_slices"><code class="name flex">
@@ -1774,7 +1822,7 @@ consisting of the given wind speeds <code>ws</code>, <code>self.wind_angles</cod
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>PolarDiagramException</code></dt>
+<dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
 <dd>If no slices where specified</dd>
 </dl></div>
 </dd>
@@ -1897,7 +1945,7 @@ effects</p>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>PolarDiagramException</code></dt>
+<dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
 <dd>
 <ul>
 <li>If at least one element of <code>ws</code> is not in <code>self.wind_speeds</code></li>
@@ -1967,7 +2015,7 @@ effects</p>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>PolarDiagramException</code></dt>
+<dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
 <dd>
 <ul>
 <li>If at least one element of <code>ws</code> is not in <code>self.wind_speeds</code></li>
@@ -2047,7 +2095,7 @@ effects</p>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>PolarDiagramException</code></dt>
+<dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
 <dd>
 <ul>
 <li>If at least one element of <code>ws</code> is not in <code>self.wind_speeds</code></li>
@@ -2087,8 +2135,8 @@ overwrite or live alongside old data</p>
 ...         [5.89, 6.82, 7.28, 7.59, 7.84],
 ...         [5.92, 6.98, 7.42, 7.62, 7.93],
 ...     ],
-...     ws_res = [6, 8, 10, 12, 14],
-...     wa_res = [52, 60, 75, 90]
+...     ws_resolution = [6, 8, 10, 12, 14],
+...     wa_resolution = [52, 60, 75, 90]
 ... )
 &gt;&gt;&gt; print(pd)
   TWA / TWS    6.0    8.0    10.0    12.0    14.0
@@ -2135,7 +2183,7 @@ refer to <code><a title="hrosailing.polardiagram.from_csv" href="#hrosailing.pol
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>PolarDiagramException</code></dt>
+<dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
 <dd>If an unknown format was specified</dd>
 <dt><code>OSError</code></dt>
 <dd>If no write permission is granted for file</dd>
@@ -2151,8 +2199,8 @@ refer to <code><a title="hrosailing.polardiagram.from_csv" href="#hrosailing.pol
 ...         [5.8, 6.95, 7.51, 7.98, 8.52],
 ...         [5.2, 6.41, 7.19, 7.66, 8.14]
 ...     ],
-...     ws_res=[6, 8, 10, 12, 14],
-...     wa_res=[52, 60, 75, 90, 110, 120, 135],
+...     ws_resolution=[6, 8, 10, 12, 14],
+...     wa_resolution=[52, 60, 75, 90, 110, 120, 135],
 ... )
 &gt;&gt;&gt; print(pd)
   TWA / TWS    6.0    8.0    10.0    12.0    14.0
@@ -2283,6 +2331,12 @@ setTimeout(() => input.focus(), 100);
 <li><code><a title="hrosailing.polardiagram.PolarDiagramCurve.symmetrize" href="#hrosailing.polardiagram.PolarDiagramCurve.symmetrize">symmetrize</a></code></li>
 <li><code><a title="hrosailing.polardiagram.PolarDiagramCurve.to_csv" href="#hrosailing.polardiagram.PolarDiagramCurve.to_csv">to_csv</a></code></li>
 </ul>
+</li>
+<li>
+<h4><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></h4>
+</li>
+<li>
+<h4><code><a title="hrosailing.polardiagram.PolarDiagramInitializationException" href="#hrosailing.polardiagram.PolarDiagramInitializationException">PolarDiagramInitializationException</a></code></h4>
 </li>
 <li>
 <h4><code><a title="hrosailing.polardiagram.PolarDiagramMultiSails" href="#hrosailing.polardiagram.PolarDiagramMultiSails">PolarDiagramMultiSails</a></code></h4>

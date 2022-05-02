@@ -8,13 +8,24 @@ from typing import Iterable
 
 import numpy as np
 
-from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
-                                           WeightedPoints)
+from hrosailing.pipelinecomponents import (
+    ArithmeticMeanInterpolator,
+    Ball,
+    WeightedPoints,
+)
 
-from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
-                                PolarDiagramInitializationException)
-from ._plotting import (plot_color_gradient, plot_convex_hull, plot_flat,
-                        plot_polar, plot_surface)
+from ._basepolardiagram import (
+    PolarDiagram,
+    PolarDiagramException,
+    PolarDiagramInitializationException,
+)
+from ._plotting import (
+    plot_color_gradient,
+    plot_convex_hull,
+    plot_flat,
+    plot_polar,
+    plot_surface,
+)
 
 
 def _set_resolution(res, soa):
@@ -94,6 +105,9 @@ class PolarDiagramTable(PolarDiagram):
     Raises
     ------
     PolarDiagramInitializationException
+        If `bsps` is not array_like
+
+        If `bsps` has incorrect shape
 
     Examples
     --------
@@ -162,8 +176,8 @@ class PolarDiagramTable(PolarDiagram):
     def _create_zero_table(self, ws_resolution, wa_resolution):
         rows, cols = len(wa_resolution), len(ws_resolution)
         self._boat_speeds = np.zeros((rows, cols))
-        self._res_wind_speed = sorted(ws_resolution)
-        self._res_wind_angle = sorted(wa_resolution)
+        self._ws_resolution = sorted(ws_resolution)
+        self._wa_resolution = sorted(wa_resolution)
 
     def __str__(self):
         table = ["  TWA / TWS"]
@@ -230,9 +244,9 @@ class PolarDiagramTable(PolarDiagram):
         interpolator=ArithmeticMeanInterpolator(50),
         neighbourhood=Ball(radius=1),
     ):
-        """Returns the value of the polar diagram at a given `ws-wa` point
+        """Returns the value of the polar diagram at a given ws-wa point
 
-        If the `ws-wa` point is in the table, the corresponding entry is
+        If the ws-wa point is in the table, the corresponding entry is
         returned, otherwise the value is interpolated
 
         Parameters
@@ -245,7 +259,7 @@ class PolarDiagramTable(PolarDiagram):
 
         interpolator : Interpolator, optional
             Interpolator subclass that determines the interpolation
-            method used to determine the value at the `ws-wa` point
+            method used to determine the value at the ws-wa point
 
             Defaults to `ArithmeticMeanInterpolator(50)`
 
@@ -306,17 +320,17 @@ class PolarDiagramTable(PolarDiagram):
 
     @property
     def wind_angles(self):
-        """Returns a read only version of `self._res_wind_angle`"""
+        """Returns a read only version of self._wa_resolution"""
         return self._wa_resolution.copy()
 
     @property
     def wind_speeds(self):
-        """Returns a read only version of `self._res_wind_speed`"""
+        """Returns a read only version of self._ws_resolution"""
         return self._ws_resolution.copy()
 
     @property
     def boat_speeds(self):
-        """Returns a read only version of `self._boat_speeds`"""
+        """Returns a read only version of self._boat_speeds"""
         return self._boat_speeds.copy()
 
     def to_csv(self, csv_path, fmt="hro"):
@@ -325,11 +339,11 @@ class PolarDiagramTable(PolarDiagram):
 
             PolarDiagramTable
             TWS:
-            `self.wind_speeds`
+            self.wind_speeds
             TWA:
-            `self.wind_angles`
+            self.wind_angles
             Boat speeds:
-            `self.boat_speeds`
+            self.boat_speeds
 
         Parameters
         ----------
@@ -407,7 +421,7 @@ class PolarDiagramTable(PolarDiagram):
 
     def _write_orc_format(self, file):
         csv_writer = csv.writer(file, delimiter=";")
-        csv_writer.writerow(["twa/tws"] + self.wind_speeds)
+        csv_writer.writerow(["twa/tws"] + list(self.wind_speeds))
         csv_writer.writerow([0] * (len(self.wind_speeds) + 1))
 
         self._write_rows(csv_writer)
@@ -418,12 +432,12 @@ class PolarDiagramTable(PolarDiagram):
 
     def _write_array_format(self, file):
         csv_writer = csv.writer(file, delimiter="\t")
-        csv_writer.writerow([r"TWA \ TWS"] + self.wind_speeds)
+        csv_writer.writerow([r"TWA \ TWS"] + list(self.wind_speeds))
 
         self._write_rows(csv_writer)
 
     def _write_opencpn_format(self, csv_writer):
-        csv_writer.writerow([r"TWA \ TWS"] + self.wind_speeds)
+        csv_writer.writerow([r"TWA \ TWS"] + list(self.wind_speeds))
 
         self._write_rows(csv_writer)
 
@@ -433,11 +447,12 @@ class PolarDiagramTable(PolarDiagram):
         csv_writer.writerow(self.wind_speeds)
         csv_writer.writerow(["TWA"])
         csv_writer.writerow(self.wind_angles)
-        csv_writer.writerow(["Boat speeds"])
+        csv_writer.writerow(["BSP"])
         csv_writer.writerows(self.boat_speeds)
 
     @classmethod
-    def __from_csv__(cls, csv_reader):
+    def __from_csv__(cls, file):
+        csv_reader = csv.reader(file, delimiter=",")
         next(csv_reader)
         ws_res = [literal_eval(ws) for ws in next(csv_reader)]
         next(csv_reader)
@@ -529,18 +544,18 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        new_bsps : array_like of matching shape
+        new_bsps: array_like of matching shape
             Sequence containing the new boat speeds to be inserted
             in the specified entries
 
-        ws : Iterable or int or float, optional
-            Element(s) of `self.wind_speeds`, specifying the columns,
+        ws: Iterable or int or float, optional
+            Element(s) of self.wind_speeds, specifying the columns,
             where new boat speeds will be inserted
 
             Defaults to `self.wind_speeds`
 
-        wa : Iterable or int or float, optional
-            Element(s) of `self.wind_angles`, specifiying the rows,
+        wa: Iterable or int or float, optional
+            Element(s) of self.wind_angles, specifiying the rows,
             where new boat speeds will be inserted
 
             Defaults to `self.wind_angles`
@@ -548,6 +563,9 @@ class PolarDiagramTable(PolarDiagram):
         Raises
         ------
         PolarDiagramException
+            If `new_bsps` is not array_like
+
+            If `new_bsps` has incorrect shape
 
         Examples
         --------
@@ -583,8 +601,17 @@ class PolarDiagramTable(PolarDiagram):
             ...     new_bsps=[5.7, 6.32, 6.96, 7.24, 7.35],
             ...     wa=52
             ... )
+            >>> print(pd)
+              TWA / TWS    6.0    8.0    10.0    12.0    14.0
+            -----------  -----  -----  ------  ------  ------
+            52.0          5.70   6.32    6.96    7.24    7.35
+            60.0          5.64   0.00    0.00    0.00    0.00
+            75.0          5.89   0.00    0.00    0.00    0.00
+            90.0          5.92   0.00    0.00    0.00    0.00
+            110.0         5.98   0.00    0.00    0.00    0.00
+            120.0         5.80   0.00    0.00    0.00    0.00
+            135.0         5.20   0.00    0.00    0.00    0.00
         """
-        # allow numeric inputs
         new_bsps = np.atleast_1d(new_bsps)
 
         new_bsps = np.asarray_chkfinite(new_bsps)
@@ -624,7 +651,7 @@ class PolarDiagramTable(PolarDiagram):
         corresponding to them
 
         The slices are equal to the corresponding columns of the table
-        together with `self.wind_angles`
+        together with self.wind_angles
 
         Parameters
         ----------
@@ -692,7 +719,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `self.wind_speeds`
 
         ax : matplotlib.projections.polar.PolarAxes, optional
-            Axes instance where the plot will be created
+            Axes instance where the plot will be created.
 
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
@@ -708,7 +735,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot
+            Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -718,15 +745,15 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the legend
+            Keyword arguments to change position and appearence of the legend
 
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
 
-            Will only be used if `show_legend` is `True`
+            Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearances of the plot
+            Keyword arguments to change various appearences of the plot
 
             See matplotlib.axes.Axes.plot for possible keywords and their
             effects
@@ -793,7 +820,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `self.wind_speeds`
 
         ax : matplotlib.axes.Axes, optional
-            Axes instance where the plot will be created
+            Axes instance where the plot will be created.
 
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
@@ -809,7 +836,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot
+            Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -819,15 +846,15 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the legend
+            Keyword arguments to change position and appearence of the legend
 
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
 
-            Will only be used if `show_legend` is `True`
+            Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearances of the plot
+            Keyword arguments to change various appearences of the plot
 
             See matplotlib.axes.Axes.plot for possible keywords and their
             effects
@@ -905,7 +932,7 @@ class PolarDiagramTable(PolarDiagram):
         Parameters
         ----------
         ax : matplotlib.axes.Axes, optional
-            Axes instance where the plot will be created
+            Axes instance where the plot will be created.
 
         colors : sequence of color_likes, optional
             Color pair determining the color gradient with which the
@@ -924,7 +951,7 @@ class PolarDiagramTable(PolarDiagram):
             Marker size in points**2
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next
+            Specifies wether or not a legend will be shown next
             to the plot
 
             Legend will be a `matplotlib.colorbar.Colorbar` instance
@@ -932,12 +959,12 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `False`
 
         legend_kw : Keyword arguments
-            Keyword arguments to change position and appearance of the legend
+            Keyword arguments to change position and appearence of the legend
 
             See matplotlib.legend.Legend for possible keywords and
             their effects
 
-            Will only be used if `show_legend` is `True`
+            Will only be used if show_legend is `True`
         """
         ws, wa = np.meshgrid(self.wind_speeds, self.wind_angles)
         ws = ws.ravel()
@@ -956,7 +983,7 @@ class PolarDiagramTable(PolarDiagram):
         legend_kw=None,
         **plot_kw,
     ):
-        """Computes the (separate) convex hull of one or more
+        """Computes the (seperate) convex hull of one or more
         slices of the polar diagram and creates a polar plot of them
 
         Parameters
@@ -970,12 +997,12 @@ class PolarDiagramTable(PolarDiagram):
             - a single element of `self.wind_speeds`
 
             The slices are then equal to the corresponding
-            columns of the table together with `self.wind_angles`
+            columns of the table together with self.wind_angles
 
             Defaults to `self.wind_speeds`
 
         ax : matplotlib.projections.polar.PolarAxes, optional
-            Axes instance where the plot will be created
+            Axes instance where the plot will be create
 
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
@@ -991,7 +1018,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot
+            Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -1001,15 +1028,15 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the legend
+            Keyword arguments to change position and appearence of the legend
 
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
 
-            Will only be used if `show_legend` is `True`
+            Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearances of the plot
+            Keyword arguments to change various appearences of the plot
 
             See matplotlib.axes.Axes.plot for possible keywords and their
             effects

@@ -8,8 +8,11 @@ from ast import literal_eval
 import matplotlib.pyplot as plt
 import numpy as np
 
-from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
-                                PolarDiagramInitializationException)
+from ._basepolardiagram import (
+    PolarDiagram,
+    PolarDiagramException,
+    PolarDiagramInitializationException,
+)
 from ._plotting import plot_convex_hull_multisails
 from ._polardiagramtable import PolarDiagramTable
 
@@ -51,7 +54,7 @@ class PolarDiagramMultiSails(PolarDiagram):
 
     def __init__(self, pds, sails=None):
         warnings.warn(
-            "Class features aren't all fully developed yet and/or might "
+            "Class features arent't all fully developed yet and/or might "
             "change behaviour heavily in the future. "
             "Take care when using this class",
             category=NotYetImplementedWarning,
@@ -119,13 +122,13 @@ class PolarDiagramMultiSails(PolarDiagram):
         following format:
 
             PolarDiagramMultiSails
-            TWS:
-            `self.wind_speeds`
+            TWS
+            self.wind_speeds
             [Sail
-            TWA:
-            `table.wind_angles`
-            Boat speeds:
-            `table.boat_speeds`]
+            TWA
+            table.wind_angles
+            Boat speeds
+            table.boat_speeds]
 
         Parameters
         ----------
@@ -135,47 +138,27 @@ class PolarDiagramMultiSails(PolarDiagram):
         with open(csv_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file, delimiter=",")
             csv_writer.writerow([self.__class__.__name__])
-            csv_writer.writerow(["TWS:"])
+            csv_writer.writerow(["TWS"])
             csv_writer.writerow(self.wind_speeds)
             for sail, table in zip(self.sails, self.tables):
-                csv_writer.writerow(sail)
-                csv_writer.writerow(["TWA:"])
+                csv_writer.writerow([sail])
+                csv_writer.writerow(["TWA"])
                 csv_writer.writerow(table.wind_angles)
-                csv_writer.writerow(["Boat speeds:"])
+                csv_writer.writerow(["BSP"])
                 csv_writer.writerows(table.boat_speeds)
 
     @classmethod
-    def __from_csv__(cls, csv_reader):
+    def __from_csv__(cls, file):
+        csv_reader = csv.reader(file, delimiter=",")
         next(csv_reader)
-        ws_res = [literal_eval(ws) for ws in next(csv_reader)]
-        sails = []
-        wa_reses = []
-        bsps = []
-
-        i = 0
-        for row in csv_reader:
-            if i % 5 == 0:
-                sails.append(row[0])
-            elif i % 5 == 2:
-                wa_res = [literal_eval(wa) for wa in row]
-                wa_reses.append(wa_res)
-            elif i % 5 == 4:
-                bsp = [literal_eval(s) for s in row]
-                bsps.append(bsp)
-
-            i += 1
-
-        pds = [
-            PolarDiagramTable(ws_res, wa_res, bsp)
-            for wa_res, bsp in zip(wa_reses, bsps)
-        ]
-
+        ws_resolution = [literal_eval(ws) for ws in next(csv_reader)]
+        sails, pds = _extract_polardiagrams(csv_reader, ws_resolution)
         return PolarDiagramMultiSails(pds, sails)
 
     def symmetrize(self):
         """Constructs a symmetric version of the polar diagram, by
         mirroring each PolarDiagramTable at the 0° - 180° axis and
-        returning a new instance. See also the symmetrize()-method
+        returning a new instance. See also the symmetrizce()-method
         of the PolarDiagramTable class
 
         Warning
@@ -192,7 +175,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         corresponding to them
 
         The slices are equal to the corresponding
-        columns of the table together with `self.wind_angles`
+        columns of the table together with self.wind_angles
 
         Parameters
         ----------
@@ -201,10 +184,10 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             - a tuple of length 2 specifying an interval of considered
             wind speeds
-            - an iterable containing only elements of `self.wind_speeds`
-            - a single element of `self.wind_speeds`
+            - an iterable containing only elements of self.wind_speeds
+            - a single element of self.wind_speeds
 
-            If nothing is passed, it will default to `self.wind_speeds`
+            If nothing it passed, it will default to self.wind_speeds
 
 
         Returns
@@ -248,16 +231,16 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             - a tuple of length 2 specifying an interval of considered
             wind speeds
-            - an iterable containing only elements of `self.wind_speeds`
-            - a single element of `self.wind_speeds`
+            - an iterable containing only elements of self.wind_speeds
+            - a single element of self.wind_speeds
 
             The slices are then equal to the corresponding
-            columns of the table together with `self.wind_angles`
+            columns of the table together with self.wind_angles
 
-            If nothing is passed, it will default to `self.wind_speeds`
+            If nothing it passed, it will default to self.wind_speeds
 
         ax : matplotlib.projections.polar.PolarAxes, optional
-            Axes instance where the plot will be created
+            Axes instance where the plot will be created.
 
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
@@ -273,7 +256,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot
+            Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -283,15 +266,15 @@ class PolarDiagramMultiSails(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the legend
+            Keyword arguments to change position and appearence of the legend
 
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
 
-            Will only be used if `show_legend` is `True`
+            Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearances of the plot
+            Keyword arguments to change various appearences of the plot
 
             See matplotlib.axes.Axes.plot for possible keywords and their
             effects
@@ -334,16 +317,16 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             - a tuple of length 2 specifying an interval of considered
             wind speeds
-            - an iterable containing only elements of `self.wind_speeds`
-            - a single element of `self.wind_speeds`
+            - an iterable containing only elements of self.wind_speeds
+            - a single element of self.wind_speeds
 
             The slices are then equal to the corresponding
-            columns of the table together with `self.wind_angles`
+            columns of the table together with self.wind_angles
 
-            If nothing is passed, it will default to `self.wind_speeds`
+            If nothing it passed, it will default to self.wind_speeds
 
         ax : matplotlib.axes.Axes, optional
-            Axes instance where the plot will be created
+            Axes instance where the plot will be created.
 
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
@@ -359,7 +342,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot
+            Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -369,15 +352,15 @@ class PolarDiagramMultiSails(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the legend
+            Keyword arguments to change position and appearence of the legend
 
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
 
-            Will only be used if `show_legend` is `True`
+            Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearances of the plot
+            Keyword arguments to change various appearences of the plot
 
             See matplotlib.axes.Axes.plot for possible keywords and their
             effects
@@ -403,9 +386,9 @@ class PolarDiagramMultiSails(PolarDiagram):
         Parameters
         ----------
         ax : mpl_toolkits.mplot3d.axes3d.Axes3D, optional
-            Axes instance where the plot will be created
+            Axes instance where the plot will be created.
 
-        colors : sequence of color_likes, optional
+        colors: sequence of color_likes, optional
             Color pair determining the color gradient with which the
             polar diagram will be plotted
 
@@ -433,7 +416,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         Parameters
         ----------
         ax : matplotlib.axes.Axes, optional
-            Axes instance where the plot will be created
+            Axes instance where the plot will be created.
 
         colors : sequence of color_likes, optional
             Color pair determining the color gradient with which the
@@ -452,7 +435,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             Marker size in points**2
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next
+            Specifies wether or not a legend will be shown next
             to the plot
 
             Legend will be a `matplotlib.colorbar.Colorbar` instance
@@ -460,12 +443,12 @@ class PolarDiagramMultiSails(PolarDiagram):
             Defaults to `False`
 
         legend_kw : Keyword arguments
-            Keyword arguments to change position and appearance of the legend
+            Keyword arguments to change position and appearence of the legend
 
             See matplotlib.legend.Legend for possible keywords and
             their effects
 
-            Will only be used if `show_legend` is `True`
+            Will only be used if show_legend is `True`
 
         """
         warnings.warn(
@@ -481,7 +464,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         legend_kw=None,
         **plot_kw,
     ):
-        """Computes the (separate) convex hull of one or more
+        """Computes the (seperate) convex hull of one or more
         slices of the polar diagram and creates a polar plot of them
 
         Parameters
@@ -491,21 +474,21 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             - a tuple of length 2 specifying an interval of considered
             wind speeds
-            - an iterable containing only elements of `self.wind_speeds`
-            - a single element of `self.wind_speeds`
+            - an iterable containing only elements of self.wind_speeds
+            - a single element of self.wind_speeds
 
             The slices are then equal to the corresponding
-            columns of the table together with `self.wind_angles`
+            columns of the table together with self.wind_angles
 
-            If nothing is passed, it will default to `self.wind_speeds`
+            If nothing it passed, it will default to self.wind_speeds
 
         ax : matplotlib.projections.polar.PolarAxes, optional
-            Axes instance where the plot will be created
+            Axes instance where the plot will be created.
 
         colors : subscriptable iterable of color_likes, optional
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot
+            Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -515,15 +498,15 @@ class PolarDiagramMultiSails(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the legend
+            Keyword arguments to change position and appearence of the legend
 
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
 
-            Will only be used if `show_legend` is `True`
+            Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearances of the plot
+            Keyword arguments to change various appearences of the plot
 
             See matplotlib.axes.Axes.plot for possible keywords and their
             effects
@@ -537,3 +520,24 @@ class PolarDiagramMultiSails(PolarDiagram):
         plot_convex_hull_multisails(
             ws, wa, bsp, members, ax, colors, show_legend, legend_kw, **plot_kw
         )
+
+
+def _extract_polardiagrams(csv_reader, ws_resolution):
+    sails = []
+    pds = []
+
+    while True:
+        try:
+            sails.append(next(csv_reader)[0])
+            next(csv_reader)
+            wa_resolution = [literal_eval(wa) for wa in next(csv_reader)]
+            next(csv_reader)
+            bsps = [
+                [literal_eval(bsp) for bsp in row]
+                for row in itertools.islice(csv_reader, len(wa_resolution))
+            ]
+            pds.append(PolarDiagramTable(ws_resolution, wa_resolution, bsps))
+        except StopIteration:
+            break
+
+    return sails, pds

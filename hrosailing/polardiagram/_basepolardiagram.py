@@ -73,7 +73,7 @@ class PolarDiagram(ABC):
         """
 
     @classmethod
-    def __from_csv__(cls, csv_reader):
+    def __from_csv__(cls, file):
         raise NotImplementedError(f"hro-format for {cls} not implemented")
 
     @abstractmethod

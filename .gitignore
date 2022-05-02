@@ -150,6 +150,7 @@ logging/
 # Don't track main.py
 main.py
 
-
+# Don't track virtual environment
+.sailing/
 # Don't track logging files
 *.log*

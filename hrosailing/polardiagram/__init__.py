@@ -8,7 +8,11 @@ from ast import literal_eval
 
 import numpy as np
 
-from ._basepolardiagram import PolarDiagram
+from ._basepolardiagram import (
+    PolarDiagram,
+    PolarDiagramException,
+    PolarDiagramInitializationException,
+)
 from ._polardiagramcurve import PolarDiagramCurve
 from ._polardiagrammultisails import PolarDiagramMultiSails
 from ._polardiagrampointcloud import PolarDiagramPointcloud
@@ -22,6 +26,8 @@ __all__ = [
     "PolarDiagramTable",
     "from_csv",
     "FileReadingException",
+    "PolarDiagramException",
+    "PolarDiagramInitializationException",
 ]
 
 
@@ -99,23 +105,14 @@ def from_csv(csv_path, fmt="hro"):
 def _read_intern_format(file):
     subclasses = {cls.__name__: cls for cls in PolarDiagram.__subclasses__()}
 
-    try:
-        dialect = csv.Sniffer().sniff(file.read(1024), delimiters=",")
-        csv_reader = csv.reader(file, dialect=dialect)
-    except csv.Error:
-        delimiter = ","
-        csv_reader = csv.reader(file, delimiter=delimiter)
-
-    first_row = next(csv_reader)[0]
-
+    first_row = file.readline().rstrip()
     if first_row not in subclasses:
         raise FileReadingException(
             f"No polar diagram format with the name {first_row} exists"
         )
 
     pd = subclasses[first_row]
-
-    return pd.__from_csv__(csv_reader)
+    return pd.__from_csv__(file)
 
 
 def _read_extern_format(file, fmt):
@@ -130,7 +127,7 @@ def _read_extern_format(file, fmt):
 
 
 def _read_from_array(file):
-    file_data = np.genfromtxt(file, delimiter="\t")
+    file_data = np.genfromtxt(file)
     return file_data[0, 1:], file_data[1:, 0], file_data[1:, 1:]
 
 

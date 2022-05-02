@@ -1,12 +1,19 @@
 """Contains various helper functions for the plot_*-methods()."""
 
-# pylint: disable=missing-function-docstring, missing-module-docstring
+# pylint: disable=missing-function-docstring
+
+
+import itertools
 
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.cm import ScalarMappable
-from matplotlib.colors import (LinearSegmentedColormap, Normalize,
-                               is_color_like, to_rgb)
+from matplotlib.colors import (
+    LinearSegmentedColormap,
+    Normalize,
+    is_color_like,
+    to_rgb,
+)
 from matplotlib.lines import Line2D
 from scipy.spatial import ConvexHull
 
@@ -58,11 +65,7 @@ def _configure_colors(ax, ws, colors):
         ax.set_prop_cycle("color", [colors])
         return
 
-    if _more_colors_than_plots(ws, colors):
-        ax.set_prop_cycle("color", colors)
-        return
-
-    if _no_color_gradient(colors):
+    if _more_colors_than_plots(ws, colors) or _no_color_gradient:
         _set_color_cycle(ax, ws, colors)
         return
 
@@ -90,18 +93,16 @@ def _set_color_cycle(ax, ws, colors):
 
 def _configure_color_cycle(color_cycle, colors, ws):
     if isinstance(colors[0], tuple):
-        if _only_one_color(colors[0]):
-            for i, c in enumerate(colors):
-                color_cycle[i] = c
-                return
-
-        for w, c in colors:
+        for w, color in colors:
             i = list(ws).index(w)
-            color_cycle[i] = c
-            return
+            color_cycle[i] = color
 
-    for i, c in enumerate(colors):
-        color_cycle[i] = c
+        return
+
+    colors = itertools.islice(colors, len(color_cycle))
+
+    for i, color in enumerate(colors):
+        color_cycle[i] = color
 
 
 def _set_color_gradient(ax, ws, colors):
@@ -162,13 +163,19 @@ def _plot_with_color_gradient(ws, colors):
 
 def _set_colormap(ws, colors, ax, label, **legend_kw):
     color_map = _create_color_map(colors)
+
+    label_kw, legend_kw = _extract_possible_text_kw(legend_kw)
     plt.colorbar(
         ScalarMappable(
             norm=Normalize(vmin=min(ws), vmax=max(ws)), cmap=color_map
         ),
         ax=ax,
         **legend_kw,
-    ).set_label(label)
+    ).set_label(label, **label_kw)
+
+
+def _extract_possible_text_kw(legend_kw):
+    return {}, legend_kw
 
 
 def _set_legend_without_wind_speeds(ax, colors, legend_kw):
@@ -197,7 +204,7 @@ def plot_flat(
     ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines, **plot_kw
 ):
     if ax is None:
-        ax = _get_new_axis("rectlinear")
+        ax = _get_new_axis("rectilinear")
 
     _check_plot_kw(plot_kw, _lines)
 
@@ -208,7 +215,7 @@ def plot_color_gradient(
     ws, wa, bsp, ax, colors, marker, ms, show_legend, **legend_kw
 ):
     if ax is None:
-        ax = _get_new_axis("rectlinear")
+        ax = _get_new_axis("rectilinear")
 
     if show_legend:
         _show_legend(ax, bsp, colors, "Boat Speed", legend_kw)
@@ -237,7 +244,7 @@ def _set_3d_axis_labels(ax):
 
 def _remove_3d_tick_labels_for_polar_coordinates(ax):
     ax.yaxis.set_ticklabels([])
-    ax.zaxis.set_ticklabel([])
+    ax.zaxis.set_ticklabels([])
 
 
 def _create_color_map(colors):
@@ -270,31 +277,28 @@ def plot_convex_hull(
 
     _check_plot_kw(plot_kw, _lines)
 
-    wa, bsp = _get_convex_hull(wa, bsp)
+    wa, bsp = _convex_hull(zip(wa, bsp))
 
     _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
 
-def _get_convex_hull(wa, bsp):
-    xs = []
-    ys = []
-    slices = zip(wa, bsp)
-
-    for w, b in slices:
-        w = np.asarray(w)
-        b = np.asarray(b)
+def _convex_hull(slices):
+    xs, ys = [], []
+    for wa, bsp in slices:
+        wa = np.asarray(wa)
+        bsp = np.asarray(bsp)
 
         # convex hull is line between the two points
         # or is equal to one point
-        if len(w) < 3:
-            xs.append(w)
-            ys.append(b)
+        if len(wa) < 3:
+            xs.append(wa)
+            ys.append(bsp)
             continue
 
-        conv = _convex_hull_in_polar_coordinates(w, b)
+        conv = _convex_hull_in_polar_coordinates(wa, bsp)
         vert = sorted(conv.vertices)
         x, y = zip(
-            *([(w[i], b[i]) for i in vert] + [(w[vert[0]], b[vert[0]])])
+            *([(wa[i], bsp[i]) for i in vert] + [(wa[vert[0]], bsp[vert[0]])])
         )
         xs.append(list(x))
         ys.append(list(y))
@@ -303,8 +307,8 @@ def _get_convex_hull(wa, bsp):
 
 
 def _convex_hull_in_polar_coordinates(wa, bsp):
-    polar_pts = np.column_stack((bsp * np.cos(wa), bsp * np.sin(wa)))
-    return ConvexHull(polar_pts)
+    polar_points = np.column_stack((bsp * np.cos(wa), bsp * np.sin(wa)))
+    return ConvexHull(polar_points)
 
 
 def plot_convex_hull_multisails(
@@ -334,6 +338,7 @@ def plot_convex_hull_multisails(
 
 
 def _get_convex_hull_multisails(ws, wa, bsp, members):
+    members = members[0]
     xs = []
     ys = []
     membs = []
@@ -341,7 +346,7 @@ def _get_convex_hull_multisails(ws, wa, bsp, members):
         w = np.asarray(w)
         b = np.asarray(b)
         conv = _convex_hull_in_polar_coordinates(w, b)
-        vert = conv.vertices
+        vert = sorted(conv.vertices)
 
         x, y, memb = zip(
             *(
@@ -365,6 +370,9 @@ def _set_colors_multisails(ax, members, colors):
     colorlist = []
 
     for member in members:
+        # check if edge belongs to one or two sails
+        # If it belongs to one sail, color it in that sails color
+        # else color it in neutral color
         if len(set(member[:2])) == 1:
             color = colors.get(member[0], "blue")
         else:

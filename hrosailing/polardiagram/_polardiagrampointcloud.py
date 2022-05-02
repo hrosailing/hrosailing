@@ -6,13 +6,21 @@ from ast import literal_eval
 
 import numpy as np
 
-from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
-                                           WeightedPoints)
+from hrosailing.pipelinecomponents import (
+    ArithmeticMeanInterpolator,
+    Ball,
+    WeightedPoints,
+)
 from hrosailing.wind import convert_apparent_wind_to_true
 
 from ._basepolardiagram import PolarDiagram, PolarDiagramException
-from ._plotting import (plot3d, plot_color_gradient, plot_convex_hull,
-                        plot_flat, plot_polar)
+from ._plotting import (
+    plot3d,
+    plot_color_gradient,
+    plot_convex_hull,
+    plot_flat,
+    plot_polar,
+)
 
 
 class PolarDiagramPointcloud(PolarDiagram):
@@ -151,11 +159,12 @@ class PolarDiagramPointcloud(PolarDiagram):
         with open(csv_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file, delimiter=",")
             csv_writer.writerow([self.__class__.__name__])
-            csv_writer.writerow(["TWS ", "TWA ", "BSP "])
+            csv_writer.writerow(["TWS", "TWA", "BSP"])
             csv_writer.writerows(self.points)
 
     @classmethod
-    def __from_csv__(cls, csv_reader):
+    def __from_csv__(cls, file):
+        csv_reader = csv.reader(file, delimiter=",")
         next(csv_reader)
         points = np.array(
             [[literal_eval(point) for point in row] for row in csv_reader]
@@ -265,6 +274,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         Raises
         ------
         PolarDiagramException
+            If `stepsize` is nonpositive
+
+            If `range_` is nonpositive
         """
         if ws is None:
             ws = self.wind_speeds

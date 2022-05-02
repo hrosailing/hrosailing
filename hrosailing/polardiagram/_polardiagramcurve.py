@@ -2,13 +2,26 @@
 
 import csv
 from ast import literal_eval
+from inspect import getmembers, isfunction
 
 import numpy as np
 
-from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
-                                PolarDiagramInitializationException)
-from ._plotting import (plot_color_gradient, plot_convex_hull, plot_flat,
-                        plot_polar, plot_surface)
+import hrosailing.pipelinecomponents.modelfunctions as model
+
+from ._basepolardiagram import (
+    PolarDiagram,
+    PolarDiagramException,
+    PolarDiagramInitializationException,
+)
+from ._plotting import (
+    plot_color_gradient,
+    plot_convex_hull,
+    plot_flat,
+    plot_polar,
+    plot_surface,
+)
+
+MODEL_FUNCTIONS = dict(getmembers(model, isfunction))
 
 
 class PolarDiagramCurve(PolarDiagram):
@@ -33,6 +46,9 @@ class PolarDiagramCurve(PolarDiagram):
     Raises
     ------
     PolarDiagramInitializationException
+        If `f` is not callable
+
+        If `params` contains not enough parameters for `f`
     """
 
     def __init__(self, f, *params, radians=False):
@@ -106,22 +122,36 @@ class PolarDiagramCurve(PolarDiagram):
             csv_writer.writerow(["Radians"] + [str(self.radians)])
             csv_writer.writerow(["Parameters"] + list(self.parameters))
 
+    @classmethod
+    def __from_csv__(cls, file):
+        csv_reader = csv.reader(file, delimiter=":")
+        function = next(csv_reader)[1]
+        radians = literal_eval(next(csv_reader)[1])
+        params = [literal_eval(value) for value in next(csv_reader)[1:]]
+
+        if function not in MODEL_FUNCTIONS:
+            raise PolarDiagramInitializationException(
+                f"No valid function, named {function}"
+            )
+
+        function = MODEL_FUNCTIONS[function]
+        return PolarDiagramCurve(function, *params, radians=radians)
+
     def symmetrize(self):
         """Constructs a symmetric version of the polar diagram,
         by mirroring it at the 0° - 180° axis and returning a new instance
         """
 
         def sym_func(ws, wa, *params):
-            wa = np.atleast_1d(wa)
             return 0.5 * (
-                self.curve(ws, wa, *params) + self.curve(ws, 360 - wa, *params)
+                self._f(ws, wa, *params) + self._f(ws, 360 - wa, *params)
             )
 
         return PolarDiagramCurve(
             sym_func, *self.parameters, radians=self.radians
         )
 
-    def get_slices(self, ws, stepsize=None):
+    def get_slices(self, ws=None, stepsize=None):
         """For given wind speeds, return the slices of the polar diagram
         corresponding to them
 
@@ -160,6 +190,7 @@ class PolarDiagramCurve(PolarDiagram):
         Raises
         ------
         PolarDiagramException
+            If `stepsize` is nonpositive
         """
         if ws is None:
             ws = (0, 20)
