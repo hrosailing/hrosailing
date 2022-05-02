@@ -675,7 +675,10 @@ class PolarDiagramTable(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-            If no slices where specified
+
+            - If at least one element of `ws` is not in `self.wind_speeds`
+            - If the given interval doesn't contain any slices of the
+            polar diagram
         """
         if ws is None:
             ws = self.wind_speeds
