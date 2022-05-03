@@ -421,7 +421,7 @@ class PolarDiagramCurve(PolarDiagram):
         ax : mpl_toolkits.mplot3d.axes3d.Axes3D, optional
             Axes instance where the plot will be created.
 
-        colors: sequence of color_likes, optional
+        colors: tuple of two (2) color_likes, optional
             Color pair determining the color gradient with which the
             polar diagram will be plotted
 
@@ -475,7 +475,7 @@ class PolarDiagramCurve(PolarDiagram):
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
 
-        colors : sequence of color_likes, optional
+        colors : tuple of two (2) color_likes, optional
             Color pair determining the color gradient with which the
             polar diagram will be plotted
 
