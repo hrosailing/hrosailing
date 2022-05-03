@@ -132,7 +132,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     @property
     def points(self):
-        """Returns a read only version of self._points"""
+        """Returns a read only version of `self._points`"""
         return self._points.copy()
 
     def to_csv(self, csv_path):
@@ -140,8 +140,8 @@ class PolarDiagramPointcloud(PolarDiagram):
         following format:
 
             PolarDiagramPointcloud
-            TWS ,TWA ,BSP
-            self.points
+            TWS,TWA,BSP
+            `self.points`
 
         Parameters
         ----------
@@ -240,7 +240,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             the parameter `range_`
 
             If nothing is passed, it will default to
-            (min(self.wind_speeds), max(self.wind_speeds))
+            `(min(self.wind_speeds), max(self.wind_speeds))`
 
         stepsize : positive int, optional
             Specfies the amount of slices taken from the given
@@ -251,13 +251,13 @@ class PolarDiagramPointcloud(PolarDiagram):
             If nothing is passed it will default to int(round(ws[1] - ws[0]))
 
         range_ : positive int or float, optional
-            Used to convert and int or float w in `ws` to the interval
-            (w - range_, w + range_
+            Used to convert and int or float `w` in `ws` to the interval
+            `(w - range_, w + range_)`
 
             Will only be used if `ws` is int or float or
-            if any w in `ws` is an int or float
+            if any `w` in `ws` is an int or float
 
-            Defaults to 1
+            Defaults to `1`
 
         Returns
         -------
@@ -350,18 +350,18 @@ class PolarDiagramPointcloud(PolarDiagram):
             wind speeds. The amount of slices taken from that interval are
             determined by the parameter `stepsize`
             - an iterable of tuples of length 2 and int/float values
-            which will be interpreted as individual slices. If a w in `ws`
+            which will be interpreted as individual slices. If a `w` in `ws`
             is an int or float, the given interval will be determined by
             the  parameter `range_`. If it is a tuple, it will be interpreted
             as an inverval as is
             - a single wind speed. The given interval is then determined by
             the parameter `range_`
 
-            A slice then consists of all rows in self.wind_speeds whose
-            first entry lies in the interval given by w in `ws`
+            A slice then consists of all rows in `self.wind_speeds` whose
+            first entry lies in the interval given by `w` in `ws`
 
             If nothing is passed, it will default to
-            (min(self.wind_speeds), max(self.wind_speeds))
+            `(min(self.wind_speeds), max(self.wind_speeds))`
 
         stepsize : positive int, optional
             Specfies the amount of slices taken from the given
@@ -369,7 +369,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
             Will only be used if `ws` is a tuple of length 2
 
-            If nothing is passed it will default to int(round(ws[1] - ws[0]))
+            If nothing is passed it will default to `int(round(ws[1] - ws[0]))`
 
         range_ : positive scalar, optional
             Used to convert a scalar `w` in `ws` to the interval
@@ -423,9 +423,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-            If ws is given as a single value or a list and there is a
-            value w in ws, such that there are no rows in self.points
-            whose first entry is equal to w
+            If `ws` is given as a single value or a list and there is a
+            value `w` in `ws`, such that there are no rows in `self.points`
+            whose first entry is equal to `w`
         """
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
         plot_polar(
@@ -463,18 +463,18 @@ class PolarDiagramPointcloud(PolarDiagram):
             wind speeds. The amount of slices taken from that interval are
             determined by the parameter `stepsize`
             - an iterable of tuples of length 2 and int/float values
-            which will be interpreted as individual slices. If a w in `ws`
+            which will be interpreted as individual slices. If a `w` in `ws`
             is an int or float, the given interval will be determined by
             the  parameter `range_`. If it is a tuple, it will be interpreted
             as an inverval as is
             - a single wind speed. The given interval is then determined by
             the parameter `range_`
 
-            A slice then consists of all rows in self.wind_speeds whose
-            first entry lies in the interval given by w in `ws`
+            A slice then consists of all rows in `self.wind_speeds` whose
+            first entry lies in the interval given by `w` in `ws`
 
             If nothing is passed, it will default to
-            (min(self.wind_speeds), max(self.wind_speeds)
+            `(min(self.wind_speeds), max(self.wind_speeds)`
 
         stepsize : positive int, optional
             Specfies the amount of slices taken from the given
@@ -482,7 +482,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
             Will only be used if `ws` is a tuple of length 2
 
-            If nothing is passed it will default to int(round(ws[1] - ws[0]))
+            If nothing is passed it will default to `int(round(ws[1] - ws[0]))`
 
         range_ : positive scalar, optional
             Used to convert a scalar `w` in `ws` to the interval
@@ -536,9 +536,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-            If ws is given as a single value or a list and there is a
-            value w in ws, such that there are no rows in self.points
-            whose first entry is equal to w
+            If `ws` is given as a single value or a list and there is a
+            value `w` in `ws`, such that there are no rows in `self.points`
+            whose first entry is equal to `w`
         """
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
         wa = [np.rad2deg(a) for a in wa]
@@ -681,18 +681,18 @@ class PolarDiagramPointcloud(PolarDiagram):
             wind speeds. The amount of slices taken from that interval are
             determined by the parameter `stepsize`
             - an iterable of tuples of length 2 and int/float values
-            which will be interpreted as individual slices. If a w in `ws`
+            which will be interpreted as individual slices. If a `w` in `ws`
             is an int or float, the given interval will be determined by
             the  parameter `range_`. If it is a tuple, it will be interpreted
             as an inverval as is
             - a single wind speed. The given interval is then determined by
             the parameter `range_`
 
-            A slice then consists of all rows in self.wind_speeds whose
-            first entry lies in the interval given by w in `ws`
+            A slice then consists of all rows in `self.wind_speeds` whose
+            first entry lies in the interval given by `w` in `ws`
 
             If nothing is passed, it will default to
-            (min(self.wind_speeds), max(self.wind_speeds)
+            `(min(self.wind_speeds), max(self.wind_speeds)`
 
         stepsize : positive int, optional
             Specfies the amount of slices taken from the given
@@ -700,14 +700,14 @@ class PolarDiagramPointcloud(PolarDiagram):
 
             Will only be used if `ws` is a tuple of length 2
 
-            Defaults to int(round(ws[1] - ws[0]))
+            Defaults to `int(round(ws[1] - ws[0]))`
 
         range_ : positive int or float, optional
 
             Will only be used if `ws` is int or float or
-            if any w in `ws` is an int or float
+            if any `w` in `ws` is an int or float
 
-            Defaults to 1
+            Defaults to `1`
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be create
@@ -752,9 +752,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-            If ws is given as a single value or a list and there is a
-            value w in ws, such that there are no rows in self.points
-            whose first entry is equal to w
+            If `ws` is given as a single value or a list and there is a
+            value `w` in `ws`, such that there are no rows in `self.points`
+            whose first entry is equal to `w`
         """
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
 

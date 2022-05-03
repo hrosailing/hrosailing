@@ -75,17 +75,17 @@ class PolarDiagramCurve(PolarDiagram):
 
     @property
     def curve(self):
-        """Returns a read only version of self._f"""
+        """Returns a read only version of `self._f`"""
         return self._f
 
     @property
     def parameters(self):
-        """Returns a read only version of self._params"""
+        """Returns a read only version of `self._params`"""
         return self._params
 
     @property
     def radians(self):
-        """Returns a read only version of self._rad"""
+        """Returns a read only version of `self._rad`"""
         return self._rad
 
     def to_csv(self, csv_path):
@@ -93,9 +93,9 @@ class PolarDiagramCurve(PolarDiagram):
         following format:
 
             PolarDiagramCurve
-            Function: self.curve.__name__
-            Radians: self.rad
-            Parameters: self.parameters
+            Function: `self.curve.__name__`
+            Radians: `self.radians`
+            Parameters: `self.parameters`
 
         Parameters
         ----------
@@ -147,8 +147,8 @@ class PolarDiagramCurve(PolarDiagram):
         """For given wind speeds, return the slices of the polar diagram
         corresponding to them
 
-        Slices are equal to self(w, wa) where w goes through
-        the given values in `ws` and wa goes through a fixed
+        Slices are equal to `self(w, wa)` where `w` goes through
+        the given values in `ws` and `wa` goes through a fixed
         number of angles between 0° and 360°
 
         Parameters
@@ -162,7 +162,7 @@ class PolarDiagramCurve(PolarDiagram):
             - an iterable of specific wind speeds
             - a single wind speed
 
-            If nothing is passed, it will default to (0, 20)
+            If nothing is passed, it will default to `(0, 20)`
 
         stepsize : positive int or float, optional
             Specfies the amount of slices taken from the given
@@ -170,14 +170,15 @@ class PolarDiagramCurve(PolarDiagram):
 
             Will only be used if `ws` is a tuple of length 2
 
-            If nothing is passed, it will default to ws[1] - ws[0]
+            If nothing is passed, it will default to `ws[1] - ws[0]`
 
         Returns
         -------
         slices : tuple
             Slices of the polar diagram, given as a tuple of length 3,
-            consisting of the given wind speeds `ws`, self.wind_angles (in rad)
-            and a list of arrays containing the corresponding boat speeds
+            consisting of the given wind speeds `ws`, `self.wind_angles` 
+            (in rad) and a list of arrays containing the 
+            corresponding boat speeds
 
         Raises
         ------
@@ -233,11 +234,11 @@ class PolarDiagramCurve(PolarDiagram):
             - an iterable of specific wind speeds
             - a single wind speed
 
-            Slices will then equal self(w, wa) where w goes through
-            the given values in `ws` and wa goes through a fixed
+            Slices will then equal `self(w, wa)` where `w` goes through
+            the given values in `ws` and `wa` goes through a fixed
             number of angles between 0° and 360°
 
-            If nothing is passed, it will default to (0, 20)
+            If nothing is passed, it will default to `(0, 20)`
 
         stepsize : positive int or float, optional
             Specfies the amount of slices taken from the given
@@ -245,7 +246,7 @@ class PolarDiagramCurve(PolarDiagram):
 
             Will only be used if `ws` is a tuple of length 2
 
-            If nothing is passed, it will default to ws[1] - ws[0]
+            If nothing is passed, it will default to `ws[1] - ws[0]`
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
@@ -326,8 +327,8 @@ class PolarDiagramCurve(PolarDiagram):
             - an iterable of specific wind speeds
             - a single wind speed
 
-            Slices will then equal self(w, wa) where w goes through
-            the given values in `ws` and wa goes through a fixed
+            Slices will then equal `self(w, wa)` where `w` goes through
+            the given values in `ws` and `wa` goes through a fixed
             number of angles between 0° and 360°
 
             If nothing is passed, it will default to (0, 20)
@@ -338,7 +339,7 @@ class PolarDiagramCurve(PolarDiagram):
 
             Will only be used if `ws` is a tuple of length 2
 
-            If nothing is passed, it will default to ws[1] - ws[0]
+            If nothing is passed, it will default to `ws[1] - ws[0]`
 
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
@@ -406,17 +407,17 @@ class PolarDiagramCurve(PolarDiagram):
             A region of the polar diagram given as an interval of
             wind speeds
 
-            Slices will then equal self(w, wa) where w goes through
-            the given values in `ws` and wa goes through a fixed
+            Slices will then equal `self(w, wa)` where `w` goes through
+            the given values in `ws` and `wa` goes through a fixed
             number of angles between 0° and 360°
 
-            If nothing is passed, it will default to (0, 20)
+            If nothing is passed, it will default to `(0, 20)`
 
         stepsize : positive int or float, optional
             Specfies the amount of slices taken from the given
             interval in `ws`
 
-            If nothing is passed, it will default to 100
+            If nothing is passed, it will default to `100`
 
         ax : mpl_toolkits.mplot3d.axes3d.Axes3D, optional
             Axes instance where the plot will be created.
@@ -460,17 +461,17 @@ class PolarDiagramCurve(PolarDiagram):
             A region of the polar diagram given as an interval of
             wind speeds
 
-            Slices will then equal self(w, wa) where w goes through
-            the given values in `ws` and wa goes through a fixed
+            Slices will then equal `self(w, wa)` where `w` goes through
+            the given values in `ws` and `wa` goes through a fixed
             number of angles between 0° and 360°
 
-            If nothing is passed, it will default to (0, 20)
+            If nothing is passed, it will default to `(0, 20)`
 
         stepsize : positive int or float, optional
             Specfies the amount of slices taken from the given
             interval in `ws`
 
-            If nothing is passed, it will default to 100
+            If nothing is passed, it will default to `100`
 
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
@@ -552,11 +553,11 @@ class PolarDiagramCurve(PolarDiagram):
             - an iterable of specific wind speeds
             - a single wind speed
 
-            Slices will then equal self(w, wa) where w goes through
-            the given values in `ws` and wa goes through a fixed
+            Slices will then equal `self(w, wa)` where `w` goes through
+            the given values in `ws` and `wa` goes through a fixed
             number of angles between 0° and 360°
 
-            If nothing is passed, it will default to (0, 20)
+            If nothing is passed, it will default to `(0, 20)`
 
         stepsize : positive int or float, optional
             Specfies the amount of slices taken from the given
@@ -564,7 +565,7 @@ class PolarDiagramCurve(PolarDiagram):
 
             Will only be used if `ws` is a tuple of length 2
 
-            If nothing is passed, it will default to ws[1] - ws[0]
+            If nothing is passed, it will default to `ws[1] - ws[0]`
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be create

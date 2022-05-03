@@ -309,17 +309,17 @@ class PolarDiagramTable(PolarDiagram):
 
     @property
     def wind_angles(self):
-        """Returns a read only version of self._wa_resolution"""
+        """Returns a read only version of `self._wa_resolution`"""
         return self._wa_resolution.copy()
 
     @property
     def wind_speeds(self):
-        """Returns a read only version of self._ws_resolution"""
+        """Returns a read only version of `self._ws_resolution`"""
         return self._ws_resolution.copy()
 
     @property
     def boat_speeds(self):
-        """Returns a read only version of self._boat_speeds"""
+        """Returns a read only version of `self._boat_speeds`"""
         return self._boat_speeds.copy()
 
     def to_csv(self, csv_path, fmt="hro"):
@@ -328,11 +328,11 @@ class PolarDiagramTable(PolarDiagram):
 
             PolarDiagramTable
             TWS:
-            self.wind_speeds
+            `self.wind_speeds`
             TWA:
-            self.wind_angles
+            `self.wind_angles`
             Boat speeds:
-            self.boat_speeds
+            `self.boat_speeds`
 
         Parameters
         ----------
@@ -538,13 +538,13 @@ class PolarDiagramTable(PolarDiagram):
             in the specified entries
 
         ws: Iterable or int or float, optional
-            Element(s) of self.wind_speeds, specifying the columns,
+            Element(s) of `self.wind_speeds`, specifying the columns,
             where new boat speeds will be inserted
 
             Defaults to `self.wind_speeds`
 
         wa: Iterable or int or float, optional
-            Element(s) of self.wind_angles, specifiying the rows,
+            Element(s) of `self.wind_angles`, specifiying the rows,
             where new boat speeds will be inserted
 
             Defaults to `self.wind_angles`
@@ -986,7 +986,7 @@ class PolarDiagramTable(PolarDiagram):
             - a single element of `self.wind_speeds`
 
             The slices are then equal to the corresponding
-            columns of the table together with self.wind_angles
+            columns of the table together with `self.wind_angles`
 
             Defaults to `self.wind_speeds`
 
