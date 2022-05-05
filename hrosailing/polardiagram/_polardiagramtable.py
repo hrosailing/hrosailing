@@ -481,14 +481,14 @@ class PolarDiagramTable(PolarDiagram):
             (
                 symmetric_wa_resolution,
                 symmetric_bsps,
-            ) = _delete_multiple_180_degree_occurences(
+            ) = _delete_multiple_180_degree_occurrences(
                 symmetric_wa_resolution, symmetric_bsps
             )
         if 0 in self.wind_angles:
             (
                 symmetric_wa_resolution,
                 symmetric_bsps,
-            ) = _delete_multiple_0_degree_occurences(
+            ) = _delete_multiple_0_degree_occurrences(
                 symmetric_wa_resolution, symmetric_bsps
             )
 
@@ -1115,7 +1115,7 @@ def _warn_for_duplicate_data():
     )
 
 
-def _delete_multiple_180_degree_occurences(wa_resolution, bsps):
+def _delete_multiple_180_degree_occurrences(wa_resolution, bsps):
     mid = np.where(wa_resolution == 180)[0][0]
     wa_resolution = np.delete(wa_resolution, mid)
     bsps = np.row_stack((bsps[:mid, :], bsps[mid + 1 :, :]))
@@ -1123,5 +1123,5 @@ def _delete_multiple_180_degree_occurences(wa_resolution, bsps):
     return wa_resolution, bsps
 
 
-def _delete_multiple_0_degree_occurences(wa_resolution, bsps):
+def _delete_multiple_0_degree_occurrences(wa_resolution, bsps):
     return wa_resolution[:-1], bsps[:-1, :]
