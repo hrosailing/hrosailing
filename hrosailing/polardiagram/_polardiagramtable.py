@@ -2,6 +2,7 @@
 # pylint: disable=too-many-lines
 
 import csv
+import enum
 import warnings
 from ast import literal_eval
 from typing import Iterable
@@ -26,49 +27,6 @@ from ._plotting import (
     plot_polar,
     plot_surface,
 )
-
-
-def _set_resolution(res, soa):
-    # check if wind or angle resolution should be set
-    soa = soa == "s"
-
-    if res is None:
-        return _standard_resolution(soa)
-
-    if isinstance(res, Iterable):
-        return _custom_iterable_resolution(res)
-
-    return _custom_stepsize_resolution(res, soa)
-
-
-def _standard_resolution(soa):
-    return np.arange(2, 42, 2) if soa else np.arange(0, 360, 5)
-
-
-def _custom_iterable_resolution(res):
-    # NaN's and infinite values cause problems later on
-    res = np.asarray_chkfinite(res)
-
-    if res.dtype == object:
-        raise ValueError("`res` is not array_like")
-
-    if not res.size or res.ndim != 1:
-        raise ValueError("`res` has incorrect shape")
-
-    if len(set(res)) != len(res):
-        warnings.warn(
-            "`res` contains duplicate data. "
-            "This may lead to unwanted behaviour"
-        )
-
-    return res
-
-
-def _custom_stepsize_resolution(res, soa):
-    if res <= 0:
-        raise ValueError("`res` is nonpositive")
-
-    return np.arange(res, 40, res) if soa else np.arange(res, 360, res)
 
 
 class PolarDiagramTable(PolarDiagram):
@@ -146,18 +104,16 @@ class PolarDiagramTable(PolarDiagram):
     """
 
     def __init__(self, ws_resolution=None, wa_resolution=None, bsps=None):
-        ws_resolution = _set_resolution(ws_resolution, soa="s")
-        wa_resolution = _set_resolution(wa_resolution, soa="a")
-
-        wa_resolution %= 360
+        ws_resolution = Resolution.WIND_SPEED.set_resolution(ws_resolution)
+        wa_resolution = Resolution.WIND_ANGLE.set_resolution(wa_resolution)
 
         if bsps is None:
             self._create_zero_table(ws_resolution, wa_resolution)
             return
 
-        # No NaNs or infinite values
         bsps = np.asarray_chkfinite(bsps, float)
 
+        # sanity checks
         if bsps.dtype is object:
             raise PolarDiagramInitializationException(
                 "`bsps` is not array_like"
@@ -171,7 +127,7 @@ class PolarDiagramTable(PolarDiagram):
             self._ws_resolution,
             self._wa_resolution,
             self._boat_speeds,
-        ) = _sort_table_in_ascending_order(ws_resolution, wa_resolution, bsps)
+        ) = _sort_table(ws_resolution, wa_resolution, bsps)
 
     def _create_zero_table(self, ws_resolution, wa_resolution):
         rows, cols = len(wa_resolution), len(ws_resolution)
@@ -296,20 +252,23 @@ class PolarDiagramTable(PolarDiagram):
     def __getitem__(self, *key):
         """Returns the value of a given entry in the table"""
         ws, wa = key[0]
-        col = self._get_indices(np.atleast_1d(ws), "s")
-        row = self._get_indices(np.atleast_1d(wa), "a")
+        col = self._get_indices(np.atleast_1d(ws), Resolution.WIND_SPEED)
+        row = self._get_indices(np.atleast_1d(wa), Resolution.WIND_ANGlE)
         return self.boat_speeds[row, col]
 
     def _get_indices(self, wind, soa):
-        res = self.wind_speeds if soa == "s" else self.wind_angles
+        res = (
+            self.wind_speeds
+            if soa == Resolution.WIND_SPEED
+            else self.wind_angles
+        )
 
         if wind is None:
             return range(len(res))
 
-        # allow scalar inputs
-        wind = np.atleast_1d(wind)
+        wind = soa.normalize_wind(wind)
 
-        wind = set(wind)
+        # sanity checks
         if not wind:
             raise PolarDiagramException("Empty slice-list was passed")
 
@@ -620,8 +579,8 @@ class PolarDiagramTable(PolarDiagram):
         if new_bsps.dtype == object:
             raise PolarDiagramException("`new_bsps` is not array_like")
 
-        ws = self._get_indices(ws, "s")
-        wa = self._get_indices(wa, "a")
+        ws = self._get_indices(ws, Resolution.WIND_SPEED)
+        wa = self._get_indices(wa, Resolution.WIND_ANGLE)
 
         wa_len = len(wa) == 1
         ws_len = len(ws) == 1
@@ -1065,12 +1024,73 @@ class PolarDiagramTable(PolarDiagram):
         )
 
 
+class Resolution(enum.Enum):
+    WIND_SPEED = (np.arange(2, 42, 2), 40)
+    WIND_ANGLE = (np.arange(0, 360, 5), 360)
+
+    def __init__(self, standard_res, max_value):
+        self.standard_res = standard_res
+        self.max_value = max_value
+
+    def set_resolution(self, res):
+        if res is None:
+            return self.standard_res
+
+        if isinstance(res, Iterable):
+            return self._custom_iterable_resolution(res)
+
+        return self._custom_stepsize_resolution(res)
+
+    def _custom_iterable_resolution(self, res):
+        # NaN's and infinite values can cause problems later on
+        res = np.asarray_chkfinite(res)
+
+        if res.dtype == object:
+            raise ValueError("`res` is not array_like")
+
+        if not res.size or res.ndim != 1:
+            raise ValueError("`res` has incorred shape")
+
+        if len(set(res)) != len(res):
+            warnings.warn(
+                "`res` contains duplicate data. "
+                "This may lead to unwanted behaviour"
+            )
+
+        if self == Resolution.WIND_SPEED:
+            if np.any((res <= 0)):
+                raise ValueError("`res` contains nonpositive entries")
+
+        if self == Resolution.WIND_ANGLE:
+            res %= 360
+
+        return res
+
+    def _custom_stepsize_resolution(self, res):
+        if res <= 0:
+            raise ValueError("`res` is nonpositive")
+
+        return np.arange(res, self.max_value, res)
+
+    def normalize_wind(self, wind):
+        wind = np.atleast_1d(wind)  # allow scalar inputs
+
+        if self == Resolution.WIND_SPEED:
+            if np.any((wind <= 0)):
+                raise ValueError("`wind` is nonpositive")
+
+        if self == Resolution.WIND_ANGLE:
+            wind %= 360
+
+        wind = set(wind)
+
+
 def _incompatible_shapes(bsps, ws_resolution, wa_resolution):
     rows, cols = len(wa_resolution), len(ws_resolution)
     return bsps.shape != (rows, cols)
 
 
-def _sort_table_in_ascending_order(ws_resolution, wa_resolution, bsps):
+def _sort_table(ws_resolution, wa_resolution, bsps):
     wa_resolution, bsps = zip(
         *sorted(zip(wa_resolution, bsps), key=lambda x: x[0])
     )
