@@ -954,7 +954,7 @@ class PolarDiagramTable(PolarDiagram):
             Marker size in points**2
 
         show_legend : bool, optional
-            Specifies wether or not a legend will be shown next
+            Specifies whether or not a legend will be shown next
             to the plot
 
             Legend will be a `matplotlib.colorbar.Colorbar` instance
@@ -962,7 +962,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `False`
 
         legend_kw : Keyword arguments
-            Keyword arguments to change position and appearence of the legend
+            Keyword arguments to change position and appearance of the legend
 
             See matplotlib.legend.Legend for possible keywords and
             their effects
@@ -986,7 +986,7 @@ class PolarDiagramTable(PolarDiagram):
         legend_kw=None,
         **plot_kw,
     ):
-        """Computes the (seperate) convex hull of one or more
+        """Computes the (separate) convex hull of one or more
         slices of the polar diagram and creates a polar plot of them
 
         Parameters
@@ -1005,7 +1005,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `self.wind_speeds`
 
         ax : matplotlib.projections.polar.PolarAxes, optional
-            Axes instance where the plot will be create
+            Axes instance where the plot will be created.
 
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
@@ -1021,7 +1021,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies wether or not a legend will be shown next to the plot
+            Specifies whether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -1031,7 +1031,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearence of the legend
+            Keyword arguments to change position and appearance of the legend
 
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
@@ -1039,7 +1039,7 @@ class PolarDiagramTable(PolarDiagram):
             Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearences of the plot
+            Keyword arguments to change various appearances of the plot
 
             See matplotlib.axes.Axes.plot for possible keywords and their
             effects
