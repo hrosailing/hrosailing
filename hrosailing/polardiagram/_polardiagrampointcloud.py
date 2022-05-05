@@ -259,7 +259,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             If nothing is passed it will default to int(round(ws[1] - ws[0]))
 
         range_ : positive int or float, optional
-            Used to convert and int or float `w` in `ws` to the interval
+            Used to convert an int or float `w` in `ws` to the interval
             `(w - range_, w + range_)`
 
             Will only be used if `ws` is int or float or
