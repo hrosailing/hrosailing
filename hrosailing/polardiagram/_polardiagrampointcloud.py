@@ -133,7 +133,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     @property
     def boat_speeds(self):
-        """Returns all occuring boat speeds in the point cloud
+        """Returns all occurring boat speeds in the point cloud
         (including duplicates)
         """
         return self.points[:, 2]
