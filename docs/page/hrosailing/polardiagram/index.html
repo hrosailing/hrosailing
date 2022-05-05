@@ -349,15 +349,15 @@ where <code>ws</code>, <code>wa</code> and should be <code>array_like</code> of 
 <dl>
 <dt id="hrosailing.polardiagram.PolarDiagramCurve.curve"><code class="name">var <span class="ident">curve</span></code></dt>
 <dd>
-<div class="desc"><p>Returns a read only version of self._f</p></div>
+<div class="desc"><p>Returns a read only version of <code>self._f</code></p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramCurve.parameters"><code class="name">var <span class="ident">parameters</span></code></dt>
 <dd>
-<div class="desc"><p>Returns a read only version of self._params</p></div>
+<div class="desc"><p>Returns a read only version of <code>self._params</code></p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramCurve.radians"><code class="name">var <span class="ident">radians</span></code></dt>
 <dd>
-<div class="desc"><p>Returns a read only version of self._rad</p></div>
+<div class="desc"><p>Returns a read only version of <code>self._rad</code></p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -368,8 +368,8 @@ where <code>ws</code>, <code>wa</code> and should be <code>array_like</code> of 
 <dd>
 <div class="desc"><p>For given wind speeds, return the slices of the polar diagram
 corresponding to them</p>
-<p>Slices are equal to self(w, wa) where w goes through
-the given values in <code>ws</code> and wa goes through a fixed
+<p>Slices are equal to <code>self(w, wa)</code> where <code>w</code> goes through
+the given values in <code>ws</code> and <code>wa</code> goes through a fixed
 number of angles between 0° and 360°</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -383,22 +383,23 @@ determined by the parameter <code>stepsize</code></li>
 <li>an iterable of specific wind speeds</li>
 <li>a single wind speed</li>
 </ul>
-<p>If nothing is passed, it will default to (0, 20)</p>
+<p>If nothing is passed, it will default to <code>(0, 20)</code></p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
 <p>Specfies the amount of slices taken from the given
 wind speed interval</p>
 <p>Will only be used if <code>ws</code> is a tuple of length 2</p>
-<p>If nothing is passed, it will default to ws[1] - ws[0]</p>
+<p>If nothing is passed, it will default to <code>ws[1] - ws[0]</code></p>
 </dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>slices</code></strong> :&ensp;<code>tuple</code></dt>
 <dd>Slices of the polar diagram, given as a tuple of length 3,
-consisting of the given wind speeds <code>ws</code>, self.wind_angles (in rad)
-and a list of arrays containing the corresponding boat speeds</dd>
+consisting of the given wind speeds <code>ws</code>, <code>self.wind_angles</code>
+(in rad) and a list of arrays containing the
+corresponding boat speeds</dd>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
@@ -417,20 +418,20 @@ and a list of arrays containing the corresponding boat speeds</dd>
 <dd>
 <p>A region of the polar diagram given as an interval of
 wind speeds</p>
-<p>Slices will then equal self(w, wa) where w goes through
-the given values in <code>ws</code> and wa goes through a fixed
+<p>Slices will then equal <code>self(w, wa)</code> where <code>w</code> goes through
+the given values in <code>ws</code> and <code>wa</code> goes through a fixed
 number of angles between 0° and 360°</p>
-<p>If nothing is passed, it will default to (0, 20)</p>
+<p>If nothing is passed, it will default to <code>(0, 20)</code></p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
 <p>Specfies the amount of slices taken from the given
 interval in <code>ws</code></p>
-<p>If nothing is passed, it will default to 100</p>
+<p>If nothing is passed, it will default to <code>100</code></p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>mpl_toolkits.mplot3d.axes3d.Axes3D</code>, optional</dt>
 <dd>Axes instance where the plot will be created.</dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code> of <code>two (2) color_likes</code>, optional</dt>
 <dd>
 <p>Color pair determining the color gradient with which the
 polar diagram will be plotted</p>
@@ -452,20 +453,20 @@ boat speeds</p>
 <dd>
 <p>A region of the polar diagram given as an interval of
 wind speeds</p>
-<p>Slices will then equal self(w, wa) where w goes through
-the given values in <code>ws</code> and wa goes through a fixed
+<p>Slices will then equal <code>self(w, wa)</code> where <code>w</code> goes through
+the given values in <code>ws</code> and <code>wa</code> goes through a fixed
 number of angles between 0° and 360°</p>
-<p>If nothing is passed, it will default to (0, 20)</p>
+<p>If nothing is passed, it will default to <code>(0, 20)</code></p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
 <p>Specfies the amount of slices taken from the given
 interval in <code>ws</code></p>
-<p>If nothing is passed, it will default to 100</p>
+<p>If nothing is passed, it will default to <code>100</code></p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
 <dd>Axes instance where the plot will be created.</dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code> of <code>two (2) color_likes</code>, optional</dt>
 <dd>
 <p>Color pair determining the color gradient with which the
 polar diagram will be plotted</p>
@@ -513,17 +514,17 @@ determined by the parameter <code>stepsize</code></li>
 <li>an iterable of specific wind speeds</li>
 <li>a single wind speed</li>
 </ul>
-<p>Slices will then equal self(w, wa) where w goes through
-the given values in <code>ws</code> and wa goes through a fixed
+<p>Slices will then equal <code>self(w, wa)</code> where <code>w</code> goes through
+the given values in <code>ws</code> and <code>wa</code> goes through a fixed
 number of angles between 0° and 360°</p>
-<p>If nothing is passed, it will default to (0, 20)</p>
+<p>If nothing is passed, it will default to <code>(0, 20)</code></p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
 <p>Specfies the amount of slices taken from the given
 wind speed interval</p>
 <p>Will only be used if <code>ws</code> is a tuple of length 2</p>
-<p>If nothing is passed, it will default to ws[1] - ws[0]</p>
+<p>If nothing is passed, it will default to <code>ws[1] - ws[0]</code></p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
 <dd>Axes instance where the plot will be create</dd>
@@ -581,8 +582,8 @@ determined by the parameter <code>stepsize</code></li>
 <li>an iterable of specific wind speeds</li>
 <li>a single wind speed</li>
 </ul>
-<p>Slices will then equal self(w, wa) where w goes through
-the given values in <code>ws</code> and wa goes through a fixed
+<p>Slices will then equal <code>self(w, wa)</code> where <code>w</code> goes through
+the given values in <code>ws</code> and <code>wa</code> goes through a fixed
 number of angles between 0° and 360°</p>
 <p>If nothing is passed, it will default to (0, 20)</p>
 </dd>
@@ -591,7 +592,7 @@ number of angles between 0° and 360°</p>
 <p>Specfies the amount of slices taken from the given
 wind speed interval</p>
 <p>Will only be used if <code>ws</code> is a tuple of length 2</p>
-<p>If nothing is passed, it will default to ws[1] - ws[0]</p>
+<p>If nothing is passed, it will default to <code>ws[1] - ws[0]</code></p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
 <dd>Axes instance where the plot will be created.</dd>
@@ -649,17 +650,17 @@ determined by the parameter <code>stepsize</code></li>
 <li>an iterable of specific wind speeds</li>
 <li>a single wind speed</li>
 </ul>
-<p>Slices will then equal self(w, wa) where w goes through
-the given values in <code>ws</code> and wa goes through a fixed
+<p>Slices will then equal <code>self(w, wa)</code> where <code>w</code> goes through
+the given values in <code>ws</code> and <code>wa</code> goes through a fixed
 number of angles between 0° and 360°</p>
-<p>If nothing is passed, it will default to (0, 20)</p>
+<p>If nothing is passed, it will default to <code>(0, 20)</code></p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
 <p>Specfies the amount of slices taken from the given
 wind speed interval</p>
 <p>Will only be used if <code>ws</code> is a tuple of length 2</p>
-<p>If nothing is passed, it will default to ws[1] - ws[0]</p>
+<p>If nothing is passed, it will default to <code>ws[1] - ws[0]</code></p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
 <dd>Axes instance where the plot will be created.</dd>
@@ -714,9 +715,9 @@ by mirroring it at the 0° - 180° axis and returning a new instance</p></div>
 <div class="desc"><p>Creates a .csv file with delimiter ':' and the
 following format:</p>
 <pre><code>PolarDiagramCurve
-Function: self.curve.__name__
-Radians: self.rad
-Parameters: self.parameters
+Function: &lt;code&gt;self.curve.\_\_name\_\_&lt;/code&gt;
+Radians: &lt;code&gt;self.radians&lt;/code&gt;
+Parameters: &lt;code&gt;self.parameters&lt;/code&gt;
 </code></pre>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -816,7 +817,7 @@ where <code>len(pds) = n</code>.</p>
 <div class="desc"><p>For given wind speeds, return the slices of the polar diagram
 corresponding to them</p>
 <p>The slices are equal to the corresponding
-columns of the table together with self.wind_angles</p>
+columns of the table together with <code>self.wind_angles</code></p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
@@ -825,10 +826,10 @@ columns of the table together with self.wind_angles</p>
 <ul>
 <li>a tuple of length 2 specifying an interval of considered
 wind speeds</li>
-<li>an iterable containing only elements of self.wind_speeds</li>
-<li>a single element of self.wind_speeds</li>
+<li>an iterable containing only elements of <code>self.wind_speeds</code></li>
+<li>a single element of <code>self.wind_speeds</code></li>
 </ul>
-<p>If nothing it passed, it will default to self.wind_speeds</p>
+<p>If nothing it passed, it will default to <code>self.wind_speeds</code></p>
 </dd>
 </dl>
 <h2 id="returns">Returns</h2>
@@ -846,7 +847,7 @@ wind speeds</li>
 <dl>
 <dt><strong><code>ax</code></strong> :&ensp;<code>mpl_toolkits.mplot3d.axes3d.Axes3D</code>, optional</dt>
 <dd>Axes instance where the plot will be created.</dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code> of <code>two (2) color_likes</code>, optional</dt>
 <dd>
 <p>Color pair determining the color gradient with which the
 polar diagram will be plotted</p>
@@ -863,7 +864,7 @@ polar diagram will be plotted</p>
 <dl>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
 <dd>Axes instance where the plot will be created.</dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code> of <code>two (2) color_likes</code>, optional</dt>
 <dd>
 <p>Color pair determining the color gradient with which the
 polar diagram will be plotted</p>
@@ -907,12 +908,12 @@ slices of the polar diagram and creates a polar plot of them</p>
 <ul>
 <li>a tuple of length 2 specifying an interval of considered
 wind speeds</li>
-<li>an iterable containing only elements of self.wind_speeds</li>
-<li>a single element of self.wind_speeds</li>
+<li>an iterable containing only elements of <code>self.wind_speeds</code></li>
+<li>a single element of <code>self.wind_speeds</code></li>
 </ul>
 <p>The slices are then equal to the corresponding
-columns of the table together with self.wind_angles</p>
-<p>If nothing it passed, it will default to self.wind_speeds</p>
+columns of the table together with <code>self.wind_angles</code></p>
+<p>If nothing it passed, it will default to <code>self.wind_speeds</code></p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
 <dd>Axes instance where the plot will be created.</dd>
@@ -959,12 +960,12 @@ effects</p>
 <ul>
 <li>a tuple of length 2 specifying an interval of considered
 wind speeds</li>
-<li>an iterable containing only elements of self.wind_speeds</li>
-<li>a single element of self.wind_speeds</li>
+<li>an iterable containing only elements of <code>self.wind_speeds</code></li>
+<li>a single element of <code>self.wind_speeds</code></li>
 </ul>
 <p>The slices are then equal to the corresponding
-columns of the table together with self.wind_angles</p>
-<p>If nothing it passed, it will default to self.wind_speeds</p>
+columns of the table together with <code>self.wind_angles</code></p>
+<p>If nothing it passed, it will default to <code>self.wind_speeds</code></p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
 <dd>Axes instance where the plot will be created.</dd>
@@ -1029,12 +1030,12 @@ polar diagram</li>
 <ul>
 <li>a tuple of length 2 specifying an interval of considered
 wind speeds</li>
-<li>an iterable containing only elements of self.wind_speeds</li>
-<li>a single element of self.wind_speeds</li>
+<li>an iterable containing only elements of <code>self.wind_speeds</code></li>
+<li>a single element of <code>self.wind_speeds</code></li>
 </ul>
 <p>The slices are then equal to the corresponding
-columns of the table together with self.wind_angles</p>
-<p>If nothing it passed, it will default to self.wind_speeds</p>
+columns of the table together with <code>self.wind_angles</code></p>
+<p>If nothing it passed, it will default to <code>self.wind_speeds</code></p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
 <dd>Axes instance where the plot will be created.</dd>
@@ -1107,12 +1108,12 @@ to duplicate data, which can overwrite or live alongside old data</p></div>
 following format:</p>
 <pre><code>PolarDiagramMultiSails
 TWS
-self.wind_speeds
+&lt;code&gt;self.wind\_speeds&lt;/code&gt;
 [Sail
 TWA
-table.wind_angles
+`table.wind_angles`
 Boat speeds
-table.boat_speeds]
+&lt;code&gt;table.boat\_speeds&lt;/code&gt;]
 </code></pre>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -1155,7 +1156,7 @@ points consisting of wind speed, wind angle and boat speed</dd>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.points"><code class="name">var <span class="ident">points</span></code></dt>
 <dd>
-<div class="desc"><p>Returns a read only version of self._points</p></div>
+<div class="desc"><p>Returns a read only version of <code>self._points</code></p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.wind_angles"><code class="name">var <span class="ident">wind_angles</span></code></dt>
 <dd>
@@ -1213,7 +1214,7 @@ as an inverval as is</li>
 the parameter <code>range_</code></li>
 </ul>
 <p>If nothing is passed, it will default to
-(min(self.wind_speeds), max(self.wind_speeds))</p>
+<code>(min(self.wind_speeds), max(self.wind_speeds))</code></p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
 <dd>
@@ -1224,11 +1225,11 @@ interval in <code>ws</code></p>
 </dd>
 <dt><strong><code>range_</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Used to convert and int or float w in <code>ws</code> to the interval
-(w - range_, w + range_</p>
+<p>Used to convert and int or float <code>w</code> in <code>ws</code> to the interval
+<code>(w - range_, w + range_)</code></p>
 <p>Will only be used if <code>ws</code> is int or float or
-if any w in <code>ws</code> is an int or float</p>
-<p>Defaults to 1</p>
+if any <code>w</code> in <code>ws</code> is an int or float</p>
+<p>Defaults to <code>1</code></p>
 </dd>
 </dl>
 <h2 id="returns">Returns</h2>
@@ -1254,7 +1255,7 @@ if any w in <code>ws</code> is an int or float</p>
 <dl>
 <dt><strong><code>ax</code></strong> :&ensp;<code>mpl_toolkits.mplot3d.axes3d.Axes3D</code>, optional</dt>
 <dd>Axes instance where the plot will be created.</dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code> of <code>two (2) color_likes</code>, optional</dt>
 <dd>
 <p>Color pair determining the color gradient with which the
 polar diagram will be plotted</p>
@@ -1284,7 +1285,7 @@ of the polar diagram with respect to the corresponding boat speeds</p>
 <dl>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
 <dd>Axes instance where the plot will be created.</dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code> of <code>two (2) color_likes</code>, optional</dt>
 <dd>
 <p>Color pair determining the color gradient with which the
 polar diagram will be plotted</p>
@@ -1335,7 +1336,7 @@ slices of the polar diagram and creates a polar plot of them</p>
 wind speeds. The amount of slices taken from that interval are
 determined by the parameter <code>stepsize</code></li>
 <li>an iterable of tuples of length 2 and int/float values
-which will be interpreted as individual slices. If a w in <code>ws</code>
+which will be interpreted as individual slices. If a <code>w</code> in <code>ws</code>
 is an int or float, the given interval will be determined by
 the
 parameter <code>range_</code>. If it is a tuple, it will be interpreted
@@ -1343,23 +1344,23 @@ as an inverval as is</li>
 <li>a single wind speed. The given interval is then determined by
 the parameter <code>range_</code></li>
 </ul>
-<p>A slice then consists of all rows in self.wind_speeds whose
-first entry lies in the interval given by w in <code>ws</code></p>
+<p>A slice then consists of all rows in <code>self.wind_speeds</code> whose
+first entry lies in the interval given by <code>w</code> in <code>ws</code></p>
 <p>If nothing is passed, it will default to
-(min(self.wind_speeds), max(self.wind_speeds)</p>
+<code>(min(self.wind_speeds), max(self.wind_speeds)</code></p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
 <dd>
 <p>Specfies the amount of slices taken from the given
 interval in <code>ws</code></p>
 <p>Will only be used if <code>ws</code> is a tuple of length 2</p>
-<p>Defaults to int(round(ws[1] - ws[0]))</p>
+<p>Defaults to <code>int(round(ws[1] - ws[0]))</code></p>
 </dd>
 <dt><strong><code>range_</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
 <p>Will only be used if <code>ws</code> is int or float or
-if any w in <code>ws</code> is an int or float</p>
-<p>Defaults to 1</p>
+if any <code>w</code> in <code>ws</code> is an int or float</p>
+<p>Defaults to <code>1</code></p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
 <dd>Axes instance where the plot will be create</dd>
@@ -1402,9 +1403,9 @@ effects</p>
 <h2 id="raises">Raises</h2>
 <dl>
 <dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
-<dd>If ws is given as a single value or a list and there is a
-value w in ws, such that there are no rows in self.points
-whose first entry is equal to w</dd>
+<dd>If <code>ws</code> is given as a single value or a list and there is a
+value <code>w</code> in <code>ws</code>, such that there are no rows in <code>self.points</code>
+whose first entry is equal to <code>w</code></dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.plot_flat"><code class="name flex">
@@ -1422,7 +1423,7 @@ whose first entry is equal to w</dd>
 wind speeds. The amount of slices taken from that interval are
 determined by the parameter <code>stepsize</code></li>
 <li>an iterable of tuples of length 2 and int/float values
-which will be interpreted as individual slices. If a w in <code>ws</code>
+which will be interpreted as individual slices. If a <code>w</code> in <code>ws</code>
 is an int or float, the given interval will be determined by
 the
 parameter <code>range_</code>. If it is a tuple, it will be interpreted
@@ -1430,17 +1431,17 @@ as an inverval as is</li>
 <li>a single wind speed. The given interval is then determined by
 the parameter <code>range_</code></li>
 </ul>
-<p>A slice then consists of all rows in self.wind_speeds whose
-first entry lies in the interval given by w in <code>ws</code></p>
+<p>A slice then consists of all rows in <code>self.wind_speeds</code> whose
+first entry lies in the interval given by <code>w</code> in <code>ws</code></p>
 <p>If nothing is passed, it will default to
-(min(self.wind_speeds), max(self.wind_speeds)</p>
+<code>(min(self.wind_speeds), max(self.wind_speeds)</code></p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
 <dd>
 <p>Specfies the amount of slices taken from the given
 interval in <code>ws</code></p>
 <p>Will only be used if <code>ws</code> is a tuple of length 2</p>
-<p>If nothing is passed it will default to int(round(ws[1] - ws[0]))</p>
+<p>If nothing is passed it will default to <code>int(round(ws[1] - ws[0]))</code></p>
 </dd>
 <dt><strong><code>range_</code></strong> :&ensp;<code>positive scalar</code>, optional</dt>
 <dd>
@@ -1491,9 +1492,9 @@ effects</p>
 <h2 id="raises">Raises</h2>
 <dl>
 <dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
-<dd>If ws is given as a single value or a list and there is a
-value w in ws, such that there are no rows in self.points
-whose first entry is equal to w</dd>
+<dd>If <code>ws</code> is given as a single value or a list and there is a
+value <code>w</code> in <code>ws</code>, such that there are no rows in <code>self.points</code>
+whose first entry is equal to <code>w</code></dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.plot_polar"><code class="name flex">
@@ -1511,7 +1512,7 @@ whose first entry is equal to w</dd>
 wind speeds. The amount of slices taken from that interval are
 determined by the parameter <code>stepsize</code></li>
 <li>an iterable of tuples of length 2 and int/float values
-which will be interpreted as individual slices. If a w in <code>ws</code>
+which will be interpreted as individual slices. If a <code>w</code> in <code>ws</code>
 is an int or float, the given interval will be determined by
 the
 parameter <code>range_</code>. If it is a tuple, it will be interpreted
@@ -1519,17 +1520,17 @@ as an inverval as is</li>
 <li>a single wind speed. The given interval is then determined by
 the parameter <code>range_</code></li>
 </ul>
-<p>A slice then consists of all rows in self.wind_speeds whose
-first entry lies in the interval given by w in <code>ws</code></p>
+<p>A slice then consists of all rows in <code>self.wind_speeds</code> whose
+first entry lies in the interval given by <code>w</code> in <code>ws</code></p>
 <p>If nothing is passed, it will default to
-(min(self.wind_speeds), max(self.wind_speeds))</p>
+<code>(min(self.wind_speeds), max(self.wind_speeds))</code></p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
 <dd>
 <p>Specfies the amount of slices taken from the given
 interval in <code>ws</code></p>
 <p>Will only be used if <code>ws</code> is a tuple of length 2</p>
-<p>If nothing is passed it will default to int(round(ws[1] - ws[0]))</p>
+<p>If nothing is passed it will default to <code>int(round(ws[1] - ws[0]))</code></p>
 </dd>
 <dt><strong><code>range_</code></strong> :&ensp;<code>positive scalar</code>, optional</dt>
 <dd>
@@ -1580,9 +1581,9 @@ effects</p>
 <h2 id="raises">Raises</h2>
 <dl>
 <dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
-<dd>If ws is given as a single value or a list and there is a
-value w in ws, such that there are no rows in self.points
-whose first entry is equal to w</dd>
+<dd>If <code>ws</code> is given as a single value or a list and there is a
+value <code>w</code> in <code>ws</code>, such that there are no rows in <code>self.points</code>
+whose first entry is equal to <code>w</code></dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.symmetrize"><code class="name flex">
@@ -1604,8 +1605,8 @@ that might overwrite or live alongside old points</p></div>
 <div class="desc"><p>Creates a .csv file with delimiter ',' and the
 following format:</p>
 <pre><code>PolarDiagramPointcloud
-TWS ,TWA ,BSP
-self.points
+TWS,TWA,BSP
+&lt;code&gt;self.points&lt;/code&gt;
 </code></pre>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -1702,15 +1703,15 @@ Should be between 0° and 360°</p>
 <dl>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.boat_speeds"><code class="name">var <span class="ident">boat_speeds</span></code></dt>
 <dd>
-<div class="desc"><p>Returns a read only version of self._boat_speeds</p></div>
+<div class="desc"><p>Returns a read only version of <code>self._boat_speeds</code></p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.wind_angles"><code class="name">var <span class="ident">wind_angles</span></code></dt>
 <dd>
-<div class="desc"><p>Returns a read only version of self._wa_resolution</p></div>
+<div class="desc"><p>Returns a read only version of <code>self._wa_resolution</code></p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.wind_speeds"><code class="name">var <span class="ident">wind_speeds</span></code></dt>
 <dd>
-<div class="desc"><p>Returns a read only version of self._ws_resolution</p></div>
+<div class="desc"><p>Returns a read only version of <code>self._ws_resolution</code></p></div>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -1727,13 +1728,13 @@ Should be between 0° and 360°</p>
 in the specified entries</dd>
 <dt><strong><code>ws</code></strong> :&ensp;<code>Iterable</code> or <code>int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Element(s) of self.wind_speeds, specifying the columns,
+<p>Element(s) of <code>self.wind_speeds</code>, specifying the columns,
 where new boat speeds will be inserted</p>
 <p>Defaults to <code>self.wind_speeds</code></p>
 </dd>
 <dt><strong><code>wa</code></strong> :&ensp;<code>Iterable</code> or <code>int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Element(s) of self.wind_angles, specifiying the rows,
+<p>Element(s) of <code>self.wind_angles</code>, specifiying the rows,
 where new boat speeds will be inserted</p>
 <p>Defaults to <code>self.wind_angles</code></p>
 </dd>
@@ -1835,7 +1836,7 @@ consisting of the given wind speeds <code>ws</code>, <code>self.wind_angles</cod
 <dl>
 <dt><strong><code>ax</code></strong> :&ensp;<code>mpl_toolkits.mplot3d.axes3d.Axes3D</code>, optional</dt>
 <dd>Axes instance where the plot will be created</dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code> of <code>two (2) color_likes</code>, optional</dt>
 <dd>
 <p>Color pair determining the color gradient with which the
 polar diagram will be plotted</p>
@@ -1854,7 +1855,7 @@ of the polar diagram with respect to the corresponding boat speeds</p>
 <dl>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
 <dd>Axes instance where the plot will be created.</dd>
-<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code>, optional</dt>
+<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code> of <code>two (2) color_likes</code>, optional</dt>
 <dd>
 <p>Color pair determining the color gradient with which the
 polar diagram will be plotted</p>
@@ -1902,7 +1903,7 @@ wind speeds</li>
 <li>a single element of <code>self.wind_speeds</code></li>
 </ul>
 <p>The slices are then equal to the corresponding
-columns of the table together with self.wind_angles</p>
+columns of the table together with <code>self.wind_angles</code></p>
 <p>Defaults to <code>self.wind_speeds</code></p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
@@ -2167,11 +2168,11 @@ overwrite or live alongside old data</p>
 following format:</p>
 <pre><code>PolarDiagramTable
 TWS:
-self.wind_speeds
+&lt;code&gt;self.wind\_speeds&lt;/code&gt;
 TWA:
-self.wind_angles
+&lt;code&gt;self.wind\_angles&lt;/code&gt;
 Boat speeds:
-self.boat_speeds
+&lt;code&gt;self.boat\_speeds&lt;/code&gt;
 </code></pre>
 <h2 id="parameters">Parameters</h2>
 <dl>

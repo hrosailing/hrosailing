@@ -123,12 +123,12 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             PolarDiagramMultiSails
             TWS
-            self.wind_speeds
+            `self.wind_speeds`
             [Sail
             TWA
-            table.wind_angles
+            `table.wind_angles`
             Boat speeds
-            table.boat_speeds]
+            `table.boat_speeds`]
 
         Parameters
         ----------
@@ -175,7 +175,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         corresponding to them
 
         The slices are equal to the corresponding
-        columns of the table together with self.wind_angles
+        columns of the table together with `self.wind_angles`
 
         Parameters
         ----------
@@ -184,10 +184,10 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             - a tuple of length 2 specifying an interval of considered
             wind speeds
-            - an iterable containing only elements of self.wind_speeds
-            - a single element of self.wind_speeds
+            - an iterable containing only elements of `self.wind_speeds`
+            - a single element of `self.wind_speeds`
 
-            If nothing it passed, it will default to self.wind_speeds
+            If nothing it passed, it will default to `self.wind_speeds`
 
 
         Returns
@@ -231,13 +231,13 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             - a tuple of length 2 specifying an interval of considered
             wind speeds
-            - an iterable containing only elements of self.wind_speeds
-            - a single element of self.wind_speeds
+            - an iterable containing only elements of `self.wind_speeds`
+            - a single element of `self.wind_speeds`
 
             The slices are then equal to the corresponding
-            columns of the table together with self.wind_angles
+            columns of the table together with `self.wind_angles`
 
-            If nothing it passed, it will default to self.wind_speeds
+            If nothing it passed, it will default to `self.wind_speeds`
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
@@ -317,13 +317,13 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             - a tuple of length 2 specifying an interval of considered
             wind speeds
-            - an iterable containing only elements of self.wind_speeds
-            - a single element of self.wind_speeds
+            - an iterable containing only elements of `self.wind_speeds`
+            - a single element of `self.wind_speeds`
 
             The slices are then equal to the corresponding
-            columns of the table together with self.wind_angles
+            columns of the table together with `self.wind_angles`
 
-            If nothing it passed, it will default to self.wind_speeds
+            If nothing it passed, it will default to `self.wind_speeds`
 
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
@@ -388,7 +388,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         ax : mpl_toolkits.mplot3d.axes3d.Axes3D, optional
             Axes instance where the plot will be created.
 
-        colors: sequence of color_likes, optional
+        colors: tuple of two (2) color_likes, optional
             Color pair determining the color gradient with which the
             polar diagram will be plotted
 
@@ -418,7 +418,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
 
-        colors : sequence of color_likes, optional
+        colors : tuple of two (2) color_likes, optional
             Color pair determining the color gradient with which the
             polar diagram will be plotted
 
@@ -474,13 +474,13 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             - a tuple of length 2 specifying an interval of considered
             wind speeds
-            - an iterable containing only elements of self.wind_speeds
-            - a single element of self.wind_speeds
+            - an iterable containing only elements of `self.wind_speeds`
+            - a single element of `self.wind_speeds`
 
             The slices are then equal to the corresponding
-            columns of the table together with self.wind_angles
+            columns of the table together with `self.wind_angles`
 
-            If nothing it passed, it will default to self.wind_speeds
+            If nothing it passed, it will default to `self.wind_speeds`
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.

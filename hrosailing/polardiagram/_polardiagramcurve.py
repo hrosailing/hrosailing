@@ -102,7 +102,7 @@ class PolarDiagramCurve(PolarDiagram):
 
             PolarDiagramCurve
             Function: `self.curve.__name__`
-            Radians: `self.rad`
+            Radians: `self.radians`
             Parameters: `self.parameters`
 
         Parameters
@@ -170,10 +170,10 @@ class PolarDiagramCurve(PolarDiagram):
             - an iterable of specific wind speeds
             - a single wind speed
 
-            If nothing is passed, it will default to (0, 20)
+            If nothing is passed, it will default to `(0, 20)`
 
         stepsize : positive int or float, optional
-            Specifies the amount of slices taken from the given
+            Specfies the amount of slices taken from the given
             wind speed interval
 
             Will only be used if `ws` is a tuple of length 2
@@ -184,8 +184,9 @@ class PolarDiagramCurve(PolarDiagram):
         -------
         slices : tuple
             Slices of the polar diagram, given as a tuple of length 3,
-            consisting of the given wind speeds `ws`, `self.wind_angles` (in rad)
-            and a list of arrays containing the corresponding boat speeds
+            consisting of the given wind speeds `ws`, `self.wind_angles`
+            (in rad) and a list of arrays containing the
+            corresponding boat speeds
 
         Raises
         ------
@@ -242,13 +243,13 @@ class PolarDiagramCurve(PolarDiagram):
             - a single wind speed
 
             Slices will then equal `self(w, wa)` where `w` goes through
-            the given values in `ws` and wa goes through a fixed
+            the given values in `ws` and `wa` goes through a fixed
             number of angles between 0° and 360°
 
-            If nothing is passed, it will default to (0, 20)
+            If nothing is passed, it will default to `(0, 20)`
 
         stepsize : positive int or float, optional
-            Specifies the amount of slices taken from the given
+            Specfies the amount of slices taken from the given
             wind speed interval
 
             Will only be used if `ws` is a tuple of length 2
@@ -256,7 +257,7 @@ class PolarDiagramCurve(PolarDiagram):
             If nothing is passed, it will default to `ws[1] - ws[0]`
 
         ax : matplotlib.projections.polar.PolarAxes, optional
-            Axes instance where the plot will be created
+            Axes instance where the plot will be created.
 
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
@@ -272,7 +273,7 @@ class PolarDiagramCurve(PolarDiagram):
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot
+            Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -282,15 +283,15 @@ class PolarDiagramCurve(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the legend
+            Keyword arguments to change position and appearence of the legend
 
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
 
-            Will only be used if `show_legend` is `True`
+            Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearances of the plot
+            Keyword arguments to change various appearences of the plot
 
             See matplotlib.axes.Axes.plot for possible keywords and their
             effects
@@ -341,7 +342,7 @@ class PolarDiagramCurve(PolarDiagram):
             If nothing is passed, it will default to (0, 20)
 
         stepsize : positive int or float, optional
-            Specifies the amount of slices taken from the given
+            Specfies the amount of slices taken from the given
             wind speed interval
 
             Will only be used if `ws` is a tuple of length 2
@@ -349,7 +350,7 @@ class PolarDiagramCurve(PolarDiagram):
             If nothing is passed, it will default to `ws[1] - ws[0]`
 
         ax : matplotlib.axes.Axes, optional
-            Axes instance where the plot will be created
+            Axes instance where the plot will be created.
 
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
@@ -365,7 +366,7 @@ class PolarDiagramCurve(PolarDiagram):
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot
+            Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -375,15 +376,15 @@ class PolarDiagramCurve(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the legend
+            Keyword arguments to change position and appearence of the legend
 
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
 
-            Will only be used if `show_legend` is `True`
+            Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearances of the plot
+            Keyword arguments to change various appearences of the plot
 
             See matplotlib.axes.Axes.plot for possible keywords and their
             effects
@@ -418,18 +419,18 @@ class PolarDiagramCurve(PolarDiagram):
             the given values in `ws` and `wa` goes through a fixed
             number of angles between 0° and 360°
 
-            If nothing is passed, it will default to (0, 20)
+            If nothing is passed, it will default to `(0, 20)`
 
         stepsize : positive int or float, optional
-            Specifies the amount of slices taken from the given
+            Specfies the amount of slices taken from the given
             interval in `ws`
 
-            If nothing is passed, it will default to 100
+            If nothing is passed, it will default to `100`
 
         ax : mpl_toolkits.mplot3d.axes3d.Axes3D, optional
-            Axes instance where the plot will be created
+            Axes instance where the plot will be created.
 
-        colors : sequence of color_likes, optional
+        colors: tuple of two (2) color_likes, optional
             Color pair determining the color gradient with which the
             polar diagram will be plotted
 
@@ -464,7 +465,7 @@ class PolarDiagramCurve(PolarDiagram):
 
         Parameters
         ----------
-        ws :  tuple of length 2, optional
+        ws :  tuple of length 3, optional
             A region of the polar diagram given as an interval of
             wind speeds
 
@@ -472,18 +473,18 @@ class PolarDiagramCurve(PolarDiagram):
             the given values in `ws` and `wa` goes through a fixed
             number of angles between 0° and 360°
 
-            If nothing is passed, it will default to (0, 20)
+            If nothing is passed, it will default to `(0, 20)`
 
         stepsize : positive int or float, optional
-            Specifies the amount of slices taken from the given
+            Specfies the amount of slices taken from the given
             interval in `ws`
 
-            If nothing is passed, it will default to 100
+            If nothing is passed, it will default to `100`
 
         ax : matplotlib.axes.Axes, optional
-            Axes instance where the plot will be created
+            Axes instance where the plot will be created.
 
-        colors : sequence of color_likes, optional
+        colors : tuple of two (2) color_likes, optional
             Color pair determining the color gradient with which the
             polar diagram will be plotted
 
@@ -500,7 +501,7 @@ class PolarDiagramCurve(PolarDiagram):
             Marker size in points**2
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next
+            Specifies wether or not a legend will be shown next
             to the plot
 
             Legend will be a `matplotlib.colorbar.Colorbar` instance
@@ -508,12 +509,12 @@ class PolarDiagramCurve(PolarDiagram):
             Defaults to `False`
 
         legend_kw : Keyword arguments
-            Keyword arguments to change position and appearance of the legend
+            Keyword arguments to change position and appearence of the legend
 
             See matplotlib.legend.Legend for possible keywords and
             their effects
 
-            Will only be used if `show_legend` is `True`
+            Will only be used if show_legend is `True`
         """
         if stepsize is None:
             stepsize = 100
@@ -546,7 +547,7 @@ class PolarDiagramCurve(PolarDiagram):
         legend_kw=None,
         **plot_kw,
     ):
-        """Computes the (separate) convex hull of one or more
+        """Computes the (seperate) convex hull of one or more
         slices of the polar diagram and creates a polar plot of them
 
         Parameters
@@ -564,10 +565,10 @@ class PolarDiagramCurve(PolarDiagram):
             the given values in `ws` and `wa` goes through a fixed
             number of angles between 0° and 360°
 
-            If nothing is passed, it will default to (0, 20)
+            If nothing is passed, it will default to `(0, 20)`
 
         stepsize : positive int or float, optional
-            Specifies the amount of slices taken from the given
+            Specfies the amount of slices taken from the given
             wind speed interval
 
             Will only be used if `ws` is a tuple of length 2
@@ -575,7 +576,7 @@ class PolarDiagramCurve(PolarDiagram):
             If nothing is passed, it will default to `ws[1] - ws[0]`
 
         ax : matplotlib.projections.polar.PolarAxes, optional
-            Axes instance where the plot will be created
+            Axes instance where the plot will be create
 
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
@@ -591,7 +592,7 @@ class PolarDiagramCurve(PolarDiagram):
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot
+            Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -601,15 +602,15 @@ class PolarDiagramCurve(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the legend
+            Keyword arguments to change position and appearence of the legend
 
             See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
             possible keywords and their effects
 
-            Will only be used if `show_legend` is `True`
+            Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearances of the plot
+            Keyword arguments to change various appearences of the plot
 
             See matplotlib.axes.Axes.plot for possible keywords and their
             effects
