@@ -1071,7 +1071,7 @@ class Resolution(enum.Enum):
         if self == Resolution.WIND_ANGLE:
             wind %= 360
 
-        wind = set(wind)
+        return set(wind)
 
 
 def _incompatible_shapes(bsps, ws_resolution, wa_resolution):
