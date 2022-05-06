@@ -4,7 +4,11 @@ from unittest import TestCase
 
 import numpy as np
 
-from hrosailing.wind import WindConversionException, convert_apparent_wind_to_true, convert_true_wind_to_apparent
+from hrosailing.wind import (
+    WindConversionException,
+    convert_apparent_wind_to_true,
+    convert_true_wind_to_apparent,
+)
 
 
 class ConvertWind(TestCase):
@@ -14,8 +18,12 @@ class ConvertWind(TestCase):
             with self.subTest(i=i):
                 tw = np.array([[3, 0, 3]])
                 aw = np.array([[3, 180, 3]])
-                np.testing.assert_array_equal(convert_apparent_wind_to_true(iter_), tw)
-                np.testing.assert_array_equal(convert_true_wind_to_apparent(iter_), aw)
+                np.testing.assert_array_equal(
+                    convert_apparent_wind_to_true(iter_), tw
+                )
+                np.testing.assert_array_equal(
+                    convert_true_wind_to_apparent(iter_), aw
+                )
 
     def test_non_array_like(self):
         iters = [{}, set()]

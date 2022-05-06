@@ -6,14 +6,25 @@ from ast import literal_eval
 
 import numpy as np
 
-from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
-                                           WeightedPoints)
+from hrosailing.pipelinecomponents import (
+    ArithmeticMeanInterpolator,
+    Ball,
+    WeightedPoints,
+)
 from hrosailing.wind import convert_apparent_wind_to_true
 
-from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
-                                PolarDiagramInitializationException)
-from ._plotting import (plot3d, plot_color_gradient, plot_convex_hull,
-                        plot_flat, plot_polar)
+from ._basepolardiagram import (
+    PolarDiagram,
+    PolarDiagramException,
+    PolarDiagramInitializationException,
+)
+from ._plotting import (
+    plot3d,
+    plot_color_gradient,
+    plot_convex_hull,
+    plot_flat,
+    plot_polar,
+)
 
 
 class PolarDiagramPointcloud(PolarDiagram):
@@ -40,7 +51,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         else:
             points = np.asarray_chkfinite(points)
             if np.any((points[:, 0] <= 0)):
-                raise PolarDiagramInitializationException("`points` has nonpositive wind speeds")
+                raise PolarDiagramInitializationException(
+                    "`points` has nonpositive wind speeds"
+                )
             points[:, 1] %= 360
 
         self._points = points
@@ -220,7 +233,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         else:
             new_pts = np.asarray_chkfinite(new_pts)
             if np.any((new_pts[:, 0] <= 0)):
-                raise PolarDiagramException("`new_pts` has nonpositive wind speeds")
+                raise PolarDiagramException(
+                    "`new_pts` has nonpositive wind speeds"
+                )
             new_pts[:, 1] %= 360
 
         self._points = np.row_stack((self._points, new_pts))
