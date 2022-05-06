@@ -8,11 +8,8 @@ from ast import literal_eval
 
 import numpy as np
 
-from ._basepolardiagram import (
-    PolarDiagram,
-    PolarDiagramException,
-    PolarDiagramInitializationException,
-)
+from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
+                                PolarDiagramInitializationException)
 from ._polardiagramcurve import PolarDiagramCurve
 from ._polardiagrammultisails import PolarDiagramMultiSails
 from ._polardiagrampointcloud import PolarDiagramPointcloud

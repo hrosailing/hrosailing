@@ -1151,7 +1151,7 @@ points consisting of wind speed, wind angle and boat speed</dd>
 <dl>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.boat_speeds"><code class="name">var <span class="ident">boat_speeds</span></code></dt>
 <dd>
-<div class="desc"><p>Returns all occuring boat speeds in the point cloud
+<div class="desc"><p>Returns all occurring boat speeds in the point cloud
 (including duplicates)</p></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.points"><code class="name">var <span class="ident">points</span></code></dt>
@@ -1630,7 +1630,7 @@ in the form of a table.</p>
 <p>Wind speeds that will correspond to the columns
 of the table</p>
 <ul>
-<li>If array_like, resolution</li>
+<li>If array_like, resolution will be <code>np.array(ws_resolution)</code></li>
 <li>If a scalar <code>num</code>, resolution will be <code>numpy.arange(num, 40, num)</code></li>
 </ul>
 <p>Defaults to <code>numpy.arange(2, 42, 2)</code></p>
@@ -1640,7 +1640,7 @@ of the table</p>
 <p>Wind angles that will correspond to the rows of the table.
 Should be between 0° and 360°</p>
 <ul>
-<li>If array_like, resolution</li>
+<li>If array_like, resolution will be <code>np.array(wa_resolution)</code></li>
 <li>If a scalar <code>num</code>, resolution will be <code>numpy.arange(num, 360, num)</code></li>
 </ul>
 <p>Defaults to <code>numpy.arange(0, 360, 5)</code></p>
