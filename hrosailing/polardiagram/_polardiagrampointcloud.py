@@ -10,7 +10,8 @@ from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
                                            WeightedPoints)
 from hrosailing.wind import convert_apparent_wind_to_true
 
-from ._basepolardiagram import PolarDiagram, PolarDiagramException, PolarDiagramInitializationException
+from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
+                                PolarDiagramInitializationException)
 from ._plotting import (plot3d, plot_color_gradient, plot_convex_hull,
                         plot_flat, plot_polar)
 
