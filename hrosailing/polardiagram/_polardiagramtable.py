@@ -647,7 +647,7 @@ class PolarDiagramTable(PolarDiagram):
         if not ws:
             raise PolarDiagramException("No slices were given")
 
-        ind = self._get_indices(ws, "s")
+        ind = self._get_indices(ws, Resolution.WIND_SPEED)
         wa = np.deg2rad(self.wind_angles)
         return ws, wa, self.boat_speeds[:, ind]
 
