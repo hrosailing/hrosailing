@@ -31,7 +31,9 @@ class _Wind(enum.Enum):
         wa = np.deg2rad(wa)
 
         converted_ws = self._convert_wind_speed(ws, wa, bsp)
-        converted_wa = self._convert_wind_angle(converted_ws, ws, wa, bsp, wa_above_180)
+        converted_wa = self._convert_wind_angle(
+            converted_ws, ws, wa, bsp, wa_above_180
+        )
 
         return np.column_stack((converted_ws, converted_wa, bsp))
 
@@ -50,7 +52,9 @@ class _Wind(enum.Enum):
         temp[temp < -1] = -1
 
         converted_wa = np.arccos(temp)
-        converted_wa[wa_above_180] = 360 - np.rad2deg(converted_wa[wa_above_180])
+        converted_wa[wa_above_180] = 360 - np.rad2deg(
+            converted_wa[wa_above_180]
+        )
         converted_wa[~wa_above_180] = np.rad2deg(converted_wa[~wa_above_180])
 
         return converted_wa
