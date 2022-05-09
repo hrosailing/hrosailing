@@ -8,10 +8,18 @@ import numpy as np
 
 import hrosailing.pipelinecomponents.modelfunctions as model
 
-from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
-                                PolarDiagramInitializationException)
-from ._plotting import (plot_color_gradient, plot_convex_hull, plot_flat,
-                        plot_polar, plot_surface)
+from ._basepolardiagram import (
+    PolarDiagram,
+    PolarDiagramException,
+    PolarDiagramInitializationException,
+)
+from ._plotting import (
+    plot_color_gradient,
+    plot_convex_hull,
+    plot_flat,
+    plot_polar,
+    plot_surface,
+)
 
 MODEL_FUNCTIONS = dict(getmembers(model, isfunction))
 
@@ -71,6 +79,16 @@ class PolarDiagramCurve(PolarDiagram):
         )
 
     def __call__(self, ws, wa):
+        if np.any((ws <= 0)):
+            raise PolarDiagramException("`ws` is nonpositive")
+
+        if self.radians:
+            wa = np.rad2deg(wa)
+            wa %= 360
+            wa = np.deg2rad(wa)
+        else:
+            wa %= 360
+
         return self.curve(ws, wa, *self.parameters)
 
     @property
@@ -143,6 +161,7 @@ class PolarDiagramCurve(PolarDiagram):
             sym_func, *self.parameters, radians=self.radians
         )
 
+    # TODO Add positivity checks for ws in various cases
     def get_slices(self, ws=None, stepsize=None):
         """For given wind speeds, return the slices of the polar diagram
         corresponding to them

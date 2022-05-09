@@ -9,13 +9,24 @@ from typing import Iterable
 
 import numpy as np
 
-from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
-                                           WeightedPoints)
+from hrosailing.pipelinecomponents import (
+    ArithmeticMeanInterpolator,
+    Ball,
+    WeightedPoints,
+)
 
-from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
-                                PolarDiagramInitializationException)
-from ._plotting import (plot_color_gradient, plot_convex_hull, plot_flat,
-                        plot_polar, plot_surface)
+from ._basepolardiagram import (
+    PolarDiagram,
+    PolarDiagramException,
+    PolarDiagramInitializationException,
+)
+from ._plotting import (
+    plot_color_gradient,
+    plot_convex_hull,
+    plot_flat,
+    plot_polar,
+    plot_surface,
+)
 
 
 class PolarDiagramTable(PolarDiagram):
@@ -639,7 +650,7 @@ class PolarDiagramTable(PolarDiagram):
         if not ws:
             raise PolarDiagramException("No slices were given")
 
-        ind = self._get_indices(ws, "s")
+        ind = self._get_indices(ws, Resolution.WIND_SPEED)
         wa = np.deg2rad(self.wind_angles)
         return ws, wa, self.boat_speeds[:, ind]
 
@@ -1074,7 +1085,7 @@ class Resolution(enum.Enum):
         if self == Resolution.WIND_ANGLE:
             wind %= 360
 
-        wind = set(wind)
+        return set(wind)
 
 
 def _incompatible_shapes(bsps, ws_resolution, wa_resolution):

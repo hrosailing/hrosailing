@@ -4,8 +4,11 @@ from unittest import TestCase
 
 import numpy as np
 
-from hrosailing.wind import WindConversionException
-from hrosailing.wind import _convert_wind as convert_wind
+from hrosailing.wind import (
+    WindConversionException,
+    convert_apparent_wind_to_true,
+    convert_true_wind_to_apparent,
+)
 
 
 class ConvertWind(TestCase):
@@ -15,22 +18,26 @@ class ConvertWind(TestCase):
             with self.subTest(i=i):
                 tw = np.array([[3, 0, 3]])
                 aw = np.array([[3, 180, 3]])
-                np.testing.assert_array_equal(convert_wind(iter_, 1), tw)
-                np.testing.assert_array_equal(convert_wind(iter_, -1), aw)
+                np.testing.assert_array_equal(
+                    convert_apparent_wind_to_true(iter_), tw
+                )
+                np.testing.assert_array_equal(
+                    convert_true_wind_to_apparent(iter_), aw
+                )
 
     def test_non_array_like(self):
         iters = [{}, set()]
         for i, iter_ in enumerate(iters):
             with self.subTest(i=i):
                 with self.assertRaises(WindConversionException):
-                    convert_wind(iter_, 1)
+                    convert_apparent_wind_to_true(iter_)
 
     def test_empty_iter(self):
         iters = [[], (), np.array([])]
         for i, iter_ in enumerate(iters):
             with self.subTest(i=i):
                 with self.assertRaises(WindConversionException):
-                    convert_wind(iter_, 1)
+                    convert_apparent_wind_to_true(iter_)
 
     def test_wrong_shape(self):
         iters = [
@@ -46,7 +53,7 @@ class ConvertWind(TestCase):
         for i, iter_ in enumerate(iters):
             with self.subTest(i=i):
                 with self.assertRaises(WindConversionException):
-                    convert_wind(iter_, 1)
+                    convert_true_wind_to_apparent(iter_)
 
     def test_check_finite_on(self):
         iters = [
@@ -58,4 +65,4 @@ class ConvertWind(TestCase):
         for i, iter_ in enumerate(iters):
             with self.subTest(i=i):
                 with self.assertRaises(ValueError):
-                    convert_wind(iter_, 1)
+                    convert_true_wind_to_apparent(iter_)

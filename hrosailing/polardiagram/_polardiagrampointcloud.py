@@ -6,13 +6,25 @@ from ast import literal_eval
 
 import numpy as np
 
-from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
-                                           WeightedPoints)
+from hrosailing.pipelinecomponents import (
+    ArithmeticMeanInterpolator,
+    Ball,
+    WeightedPoints,
+)
 from hrosailing.wind import convert_apparent_wind_to_true
 
-from ._basepolardiagram import PolarDiagram, PolarDiagramException
-from ._plotting import (plot3d, plot_color_gradient, plot_convex_hull,
-                        plot_flat, plot_polar)
+from ._basepolardiagram import (
+    PolarDiagram,
+    PolarDiagramException,
+    PolarDiagramInitializationException,
+)
+from ._plotting import (
+    plot3d,
+    plot_color_gradient,
+    plot_convex_hull,
+    plot_flat,
+    plot_polar,
+)
 
 
 class PolarDiagramPointcloud(PolarDiagram):
@@ -38,9 +50,11 @@ class PolarDiagramPointcloud(PolarDiagram):
             points = convert_apparent_wind_to_true(points)
         else:
             points = np.asarray_chkfinite(points)
-
-        # standardize wind angles to the interval [0, 360)
-        points[:, 1] %= 360
+            if np.any((points[:, 0] <= 0)):
+                raise PolarDiagramInitializationException(
+                    "`points` has nonpositive wind speeds"
+                )
+            points[:, 1] %= 360
 
         self._points = points
 
@@ -99,6 +113,11 @@ class PolarDiagramPointcloud(PolarDiagram):
         bsp : scalar
             Boat speed value as determined above
         """
+        if np.any((ws <= 0)):
+            raise PolarDiagramException("`ws` is nonpositive")
+
+        wa %= 360
+
         cloud = self.points
         point = cloud[np.logical_and(cloud[:, 0] == ws, cloud[:, 1] == wa)]
         if point.size:
@@ -213,9 +232,15 @@ class PolarDiagramPointcloud(PolarDiagram):
             new_pts = convert_apparent_wind_to_true(new_pts)
         else:
             new_pts = np.asarray_chkfinite(new_pts)
+            if np.any((new_pts[:, 0] <= 0)):
+                raise PolarDiagramException(
+                    "`new_pts` has nonpositive wind speeds"
+                )
+            new_pts[:, 1] %= 360
 
         self._points = np.row_stack((self._points, new_pts))
 
+    # TODO Add positivity checks for ws in various cases
     def get_slices(self, ws, stepsize=None, range_=1):
         """For given wind speeds, return the slices of the polar diagram
         corresponding to them
