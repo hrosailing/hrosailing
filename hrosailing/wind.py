@@ -71,7 +71,7 @@ def convert_apparent_wind_to_true(apparent_wind):
     Returns
     -------
     true_wind : numpy.ndarray of shape (n, 3)
-        Array containing the same data as wind_arr, but the wind speed
+        Array containing the same data as `apparent_wind`, but the wind speed
         and wind angle now measured as true wind
 
     Raises
@@ -94,7 +94,7 @@ def convert_true_wind_to_apparent(true_wind):
     Returns
     -------
     apparent_wind : numpy.ndarray of shape (n, 3)
-        Array containing the same data as wind_arr, but the wind speed
+        Array containing the same data as `true_wind`, but the wind speed
         and wind angle now measured as apparent wind
 
     Raises
