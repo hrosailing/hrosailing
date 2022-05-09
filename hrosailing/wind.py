@@ -10,9 +10,9 @@ class WindConversionException(Exception):
     """Exception raised if an error occurs during wind conversion."""
 
 
-class Wind(enum.Enum):
-    TRUE = -1
-    APPARENT = 1
+class _Wind(enum.Enum):
+    TO_TRUE = -1
+    TO_APPARENT = 1
 
     def convert_wind(self, wind):
         wind = np.asarray_chkfinite(wind)
@@ -31,8 +31,7 @@ class Wind(enum.Enum):
         wa = np.deg2rad(wa)
 
         converted_ws = self._convert_wind_speed(ws, wa, bsp)
-        converted_wa = self._convert_wind_angle(converted_ws, ws, wa, bsp)
-        _standardize_converted_angles(converted_wa, wa_above_180)
+        converted_wa = self._convert_wind_angle(converted_ws, ws, wa, bsp, wa_above_180)
 
         return np.column_stack((converted_ws, converted_wa, bsp))
 
@@ -43,19 +42,18 @@ class Wind(enum.Enum):
             + 2 * self.value * ws * bsp * np.cos(wa)
         )
 
-    def _convert_wind_angle(self, converted_ws, ws, wa, bsp):
+    def _convert_wind_angle(self, converted_ws, ws, wa, bsp, wa_above_180):
         temp = (ws * np.cos(wa) + self.value * bsp) / converted_ws
 
-        # account for floating point limitations and errors
+        # account for floating point errors
         temp[temp > 1] = 1
         temp[temp < -1] = -1
 
-        return np.arccos(temp)
+        converted_wa = np.arccos(temp)
+        converted_wa[wa_above_180] = 360 - np.rad2deg(converted_wa[wa_above_180])
+        converted_wa[~wa_above_180] = np.rad2deg(converted_wa[~wa_above_180])
 
-
-def _standardize_converted_angles(converted_wa, wa_above_180):
-    converted_wa[wa_above_180] = 360 - np.rad2deg(converted_wa[wa_above_180])
-    converted_wa[~wa_above_180] = np.rad2deg(converted_wa[~wa_above_180])
+        return converted_wa
 
 
 def convert_apparent_wind_to_true(apparent_wind):
@@ -78,7 +76,7 @@ def convert_apparent_wind_to_true(apparent_wind):
     ------
     WindConversionException
     """
-    return Wind.TRUE.convert_wind(apparent_wind)
+    return _Wind.TO_TRUE.convert_wind(apparent_wind)
 
 
 def convert_true_wind_to_apparent(true_wind):
@@ -101,4 +99,4 @@ def convert_true_wind_to_apparent(true_wind):
     ------
     WindConversionException
     """
-    return Wind.APPARENT.convert_wind(true_wind)
+    return _Wind.TO_APPARENT.convert_wind(true_wind)

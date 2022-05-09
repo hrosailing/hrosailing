@@ -104,8 +104,8 @@ class PolarDiagramTable(PolarDiagram):
     """
 
     def __init__(self, ws_resolution=None, wa_resolution=None, bsps=None):
-        ws_resolution = Resolution.WIND_SPEED.set_resolution(ws_resolution)
-        wa_resolution = Resolution.WIND_ANGLE.set_resolution(wa_resolution)
+        ws_resolution = _Resolution.WIND_SPEED.set_resolution(ws_resolution)
+        wa_resolution = _Resolution.WIND_ANGLE.set_resolution(wa_resolution)
 
         if bsps is None:
             self._create_zero_table(ws_resolution, wa_resolution)
@@ -252,14 +252,14 @@ class PolarDiagramTable(PolarDiagram):
     def __getitem__(self, *key):
         """Returns the value of a given entry in the table"""
         ws, wa = key[0]
-        col = self._get_indices(np.atleast_1d(ws), Resolution.WIND_SPEED)
-        row = self._get_indices(np.atleast_1d(wa), Resolution.WIND_ANGlE)
+        col = self._get_indices(np.atleast_1d(ws), _Resolution.WIND_SPEED)
+        row = self._get_indices(np.atleast_1d(wa), _Resolution.WIND_ANGlE)
         return self.boat_speeds[row, col]
 
     def _get_indices(self, wind, soa):
         res = (
             self.wind_speeds
-            if soa == Resolution.WIND_SPEED
+            if soa == _Resolution.WIND_SPEED
             else self.wind_angles
         )
 
@@ -579,8 +579,8 @@ class PolarDiagramTable(PolarDiagram):
         if new_bsps.dtype == object:
             raise PolarDiagramException("`new_bsps` is not array_like")
 
-        ws = self._get_indices(ws, Resolution.WIND_SPEED)
-        wa = self._get_indices(wa, Resolution.WIND_ANGLE)
+        ws = self._get_indices(ws, _Resolution.WIND_SPEED)
+        wa = self._get_indices(wa, _Resolution.WIND_ANGLE)
 
         wa_len = len(wa) == 1
         ws_len = len(ws) == 1
@@ -647,7 +647,7 @@ class PolarDiagramTable(PolarDiagram):
         if not ws:
             raise PolarDiagramException("No slices were given")
 
-        ind = self._get_indices(ws, Resolution.WIND_SPEED)
+        ind = self._get_indices(ws, _Resolution.WIND_SPEED)
         wa = np.deg2rad(self.wind_angles)
         return ws, wa, self.boat_speeds[:, ind]
 
@@ -1024,7 +1024,7 @@ class PolarDiagramTable(PolarDiagram):
         )
 
 
-class Resolution(enum.Enum):
+class _Resolution(enum.Enum):
     WIND_SPEED = (np.arange(2, 42, 2), 40)
     WIND_ANGLE = (np.arange(0, 360, 5), 360)
 
@@ -1057,11 +1057,11 @@ class Resolution(enum.Enum):
                 "This may lead to unwanted behaviour"
             )
 
-        if self == Resolution.WIND_SPEED:
+        if self == _Resolution.WIND_SPEED:
             if np.any((res <= 0)):
                 raise ValueError("`res` contains nonpositive entries")
 
-        if self == Resolution.WIND_ANGLE:
+        if self == _Resolution.WIND_ANGLE:
             res %= 360
 
         return res
@@ -1075,11 +1075,11 @@ class Resolution(enum.Enum):
     def normalize_wind(self, wind):
         wind = np.atleast_1d(wind)  # allow scalar inputs
 
-        if self == Resolution.WIND_SPEED:
+        if self == _Resolution.WIND_SPEED:
             if np.any((wind <= 0)):
                 raise ValueError("`wind` is nonpositive")
 
-        if self == Resolution.WIND_ANGLE:
+        if self == _Resolution.WIND_ANGLE:
             wind %= 360
 
         return set(wind)
