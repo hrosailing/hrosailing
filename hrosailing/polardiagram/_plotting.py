@@ -61,7 +61,7 @@ def _configure_colors(ax, ws, colors):
         ax.set_prop_cycle("color", [colors])
         return
 
-    if _more_colors_than_plots(ws, colors) and _no_color_gradient(colors):
+    if _more_colors_than_plots(ws, colors) or _no_color_gradient(colors):
         _set_color_cycle(ax, ws, colors)
         return
 
