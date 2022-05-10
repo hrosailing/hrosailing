@@ -5,6 +5,7 @@
 - [ ] Complete examples
 - [ ] Make descriptions of parameters and functionalities more verbose
 - [ ] Add 'Getting started' section to first site of documentation
+- [ ] Add Contributing.md
 
 ### Tests
 - [ ] Testsuite for cruising-Submodule
