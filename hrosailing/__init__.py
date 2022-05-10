@@ -26,15 +26,6 @@ The recommended way to install `hrosailing` is with
 [![PyPi version](https://badge.fury.io/py/hrosailing.svg)](https://badge.\
         fury.io/py/hrosailing)
 
-Contributing
-------------
-In alphabetical order:
-
-- Valentin Dannenberg : design and implementation
-- Julia Garbe : quality control
-- Robert Schüler : design and implementation
-
-
 License
 -------
 
