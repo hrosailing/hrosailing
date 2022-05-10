@@ -334,7 +334,6 @@ def plot_convex_hull_multisails(
 
 
 def _get_convex_hull_multisails(ws, wa, bsp, members):
-    members = members[0]
     xs = []
     ys = []
     membs = []
