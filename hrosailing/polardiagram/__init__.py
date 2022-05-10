@@ -1,5 +1,6 @@
 """
-PolarDiagram classes to work with and represent PPDs in various forms
+PolarDiagram classes to work with and represent polar diagrams in various
+forms.
 """
 
 

@@ -1,5 +1,5 @@
 """
-Pipeline to create PPDs from raw data
+Pipeline to create polar diagrams from raw data.
 """
 
 
