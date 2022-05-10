@@ -5,6 +5,7 @@ Currently, it implements the data processing framework described
 future.
 
 In particular, hrosailing provides:
+
 - four kinds of representations of polar diagrams,
 - serialization and visualization of polar diagrams,
 - creation of polar diagrams from measurement data using
@@ -28,6 +29,7 @@ The recommended way to install `hrosailing` is with
 Contributing
 ------------
 In alphabetical order:
+
 - Valentin Dannenberg : design and implementation
 - Julia Garbe : quality control
 - Robert Schüler : design and implementation
