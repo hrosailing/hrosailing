@@ -1,5 +1,5 @@
 """
-Pipeline to create PPDs from raw data
+Pipeline to create polar diagrams from raw data.
 """
 
 
@@ -10,9 +10,8 @@ import numpy as np
 
 import hrosailing.pipelinecomponents as pc
 import hrosailing.polardiagram as pol
-from hrosailing.pipelinecomponents.modelfunctions import (
-    ws_s_wa_gauss_and_square,
-)
+from hrosailing.pipelinecomponents.modelfunctions import \
+    ws_s_wa_gauss_and_square
 
 
 class PolarPipeline:

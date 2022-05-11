@@ -1,6 +1,20 @@
-"""The hrosailing package provides classes and functions ....
-polar diagrams .... sailing .... from data ... pipeline ... machine learning
-... modular ....
+"""The hrosailing package is a Python library that provides assistance for the
+scientific aspects of sailing.
+Currently, it implements the data processing framework described
+[here](https://www.mdpi.com/2076-3417/12/6/3085) and will be extended in the
+future.
+
+In particular, hrosailing provides:
+
+- four kinds of representations of polar diagrams,
+- serialization and visualization of polar diagrams,
+- creation of polar diagrams from measurement data using
+a modular pipeline model and suitable data science methods,
+- wind conversion,
+- suggesting optimal tacks and jibes,
+- calculating the costs of a sailing trip with respect to the
+weather on the way,
+- calculating isocrone points with respect to the weather along the way.
 
 Installation
 ------------
@@ -11,13 +25,6 @@ The recommended way to install `hrosailing` is with
 
 [![PyPi version](https://badge.fury.io/py/hrosailing.svg)](https://badge.\
         fury.io/py/hrosailing)
-
-
-Getting Started
----------------
-
-Contributing
-------------
 
 License
 -------

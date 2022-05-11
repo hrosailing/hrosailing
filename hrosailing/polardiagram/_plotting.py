@@ -8,12 +8,8 @@ import itertools
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.cm import ScalarMappable
-from matplotlib.colors import (
-    LinearSegmentedColormap,
-    Normalize,
-    is_color_like,
-    to_rgb,
-)
+from matplotlib.colors import (LinearSegmentedColormap, Normalize,
+                               is_color_like, to_rgb)
 from matplotlib.lines import Line2D
 from scipy.spatial import ConvexHull
 
@@ -65,7 +61,7 @@ def _configure_colors(ax, ws, colors):
         ax.set_prop_cycle("color", [colors])
         return
 
-    if _more_colors_than_plots(ws, colors) and _no_color_gradient(colors):
+    if _more_colors_than_plots(ws, colors) or _no_color_gradient(colors):
         _set_color_cycle(ax, ws, colors)
         return
 
@@ -338,7 +334,6 @@ def plot_convex_hull_multisails(
 
 
 def _get_convex_hull_multisails(ws, wa, bsp, members):
-    members = members[0]
     xs = []
     ys = []
     membs = []

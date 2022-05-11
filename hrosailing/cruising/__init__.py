@@ -1,5 +1,5 @@
 """
-Functions for navigation and weather routing using PPDs
+Functions for navigation and weather routing using polar diagrams.
 """
 
 

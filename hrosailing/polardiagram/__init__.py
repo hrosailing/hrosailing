@@ -1,5 +1,6 @@
 """
-PolarDiagram classes to work with and represent PPDs in various forms
+PolarDiagram classes to work with and represent polar diagrams in various
+forms.
 """
 
 
@@ -8,11 +9,8 @@ from ast import literal_eval
 
 import numpy as np
 
-from ._basepolardiagram import (
-    PolarDiagram,
-    PolarDiagramException,
-    PolarDiagramInitializationException,
-)
+from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
+                                PolarDiagramInitializationException)
 from ._polardiagramcurve import PolarDiagramCurve
 from ._polardiagrammultisails import PolarDiagramMultiSails
 from ._polardiagrampointcloud import PolarDiagramPointcloud
