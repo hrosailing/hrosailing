@@ -557,7 +557,7 @@ def _mercator_proj(pt, lat_mp):
     """
     lat, long = pt
 
-    # 69 nautical miles between two lattitudes
+    # 69 nautical miles between two latitudes
     return 69 * np.array(
         [(lat - lat_mp), np.arcsinh(np.tan(np.pi * long / 180))]
     )
@@ -592,7 +592,7 @@ def _interpolate_weather_data(data, idxs, point, flags, grid):
         i, j, k = idxs.T
         return data[i, j, k, :]
 
-    # lexicograpic first and last vertex of cube
+    # lexicographic first and last vertex of cube
     start = idxs[0]
     end = idxs[-1]
 
