@@ -167,7 +167,7 @@ def cruise(
 
         - the wind angle relative to north
         - the true wind angle and the boat direction relative to north
-        - a (ugrd, vgrd) tuple from grid data
+        - a (ugrd, vgrd) tuple from grib data
 
     start : tuple of length 2
         Coordinates of the starting point of the cruising maneuver,
@@ -646,7 +646,7 @@ def _wind_relative_to_north(wdir):
 
         - the wind angle relative to north
         - the true wind angle and the boat direction relative to north
-        - a (ugrd, vgrd) tuple from grid data
+        - a (ugrd, vgrd) tuple from grib data
     Returns
     -------
     ndir : float between 0 and 360
@@ -654,7 +654,7 @@ def _wind_relative_to_north(wdir):
     """
     return wdir
 
-    # grid data:
+    # grib data:
     # wdir = 180 / np.pi * np.arctan2(vgrd, ugrd) + 180
 
     # twa + bd:
@@ -662,7 +662,7 @@ def _wind_relative_to_north(wdir):
 
 
 def _uvgrid_to_tw(ugrid, vgrid, hdt):
-    """Calculates the true wind speed and wind angle from given grid data"""
+    """Calculates the true wind speed and wind angle from given grib data"""
     tws = np.sqrt(ugrid**2 + vgrid**2)
     wa = (180 + 180 / np.pi * np.arctan2(vgrid, ugrid)) % 360
     twa = (hdt - wa) % 360
