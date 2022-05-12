@@ -77,7 +77,7 @@ class PolarDiagram(ABC):
     @abstractmethod
     @classmethod
     def __from_csv__(cls, file):
-        raise NotImplementedError(f"hro-format for {cls} not implemented")
+        """"""
 
     @abstractmethod
     def symmetrize(self):
