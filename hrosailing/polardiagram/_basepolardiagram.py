@@ -74,8 +74,8 @@ class PolarDiagram(ABC):
         polar diagram object that called the method
         """
 
-    @abstractmethod
     @classmethod
+    @abstractmethod
     def __from_csv__(cls, file):
         """"""
 
