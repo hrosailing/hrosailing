@@ -17,13 +17,19 @@ jobs:
           python3 -m pip install --upgrade pip
           pip3 install pdoc3
           if [ -f requirements.txt ]; then pip3 install -r requirements.txt; fi
-      - name: run pdoc3 to update documentation
-        run: |
-          pdoc3 --html --output-dir docs/page --template-dir templates --force hrosailing
+      - name: create temporary remote
+        run: | 
           git config --global user.name ${GITHUB_ACTOR}
           git config --global user.email ${GITHUB_ACTOR}@users.noreply.github.com
           git remote add documentation "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
           git pull documentation ${GITHUB_REF} --ff-only
+      - name: run pdoc3
+        continue-on-error: true
+        run: |
+          pdoc3 --html --output-dir docs/page --template-dir templates --force hrosailing
+      - name: push updated docs
+        continue-on-error: true
+        run: |
           git add ${GITUHB_WORKSPACE}/docs/page
           git commit -m "updated docs"
           git push documentation HEAD:${GITHUB_REF}
