@@ -22,6 +22,8 @@ class PolarDiagram(ABC):
     ----------------
     to_csv(csv_path)
 
+    __from_csv__(cls, file)
+
     symmetrize()
 
     get_slices(ws)
@@ -72,9 +74,10 @@ class PolarDiagram(ABC):
         polar diagram object that called the method
         """
 
+    @abstractmethod
     @classmethod
     def __from_csv__(cls, file):
-        raise NotImplementedError(f"hro-format for {cls} not implemented")
+        """"""
 
     @abstractmethod
     def symmetrize(self):
