@@ -532,8 +532,8 @@ def isocrone(
         t += der * step_size
         steps += 1
 
-    # we end up with s, t such that t >= total_cost and steps > min_nodes
-    # still need to correct the last step such that t == total_cost
+    # we end up with s, t such that t >= total_time and steps > min_nodes
+    # still need to correct the last step such that t == total_time
 
     s = (total_time + der * s - t) / der
 
