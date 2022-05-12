@@ -21,7 +21,7 @@ class PolarDiagram(ABC):
     Abstract Methods
     ----------------
     to_csv(csv_path)
-    
+
     __from_csv__(cls, file)
 
     symmetrize()
