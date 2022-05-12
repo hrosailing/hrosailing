@@ -30,7 +30,7 @@ jobs:
       - name: push updated docs
         continue-on-error: true
         run: |
-          git add ${GITUHB_WORKSPACE}/docs/page
+          git add ${GITHUB_WORKSPACE}/docs/page
           git commit -m "updated docs"
           git push documentation HEAD:${GITHUB_REF}
       - name: check if documentation was changed
