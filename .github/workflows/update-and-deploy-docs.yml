@@ -1,4 +1,4 @@
-name: gh-pages
+name: update-and-deploy
 on:
   push:
     branches:
@@ -16,7 +16,7 @@ jobs:
         run: |
           python3 -m pip install --upgrade pip
           pip3 install pdoc3
-          if [ -f requirements.txt]; then pip install -r requirements.txt; fi
+          if [ -f requirements.txt ]; then pip3 install -r requirements.txt; fi
       - name: run pdoc3 to update documentation
         run: |
           pdoc3 --html --output-dir docs/page --template-dir templates --force hrosailing
