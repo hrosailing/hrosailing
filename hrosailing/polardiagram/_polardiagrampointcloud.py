@@ -434,15 +434,15 @@ class PolarDiagramPointcloud(PolarDiagram):
         legend_kw : dict, optional
             Keyword arguments to change position and appearence of the legend
 
-            See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-            possible keywords and their effects
+            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
+            for possible keywords and their effects
 
             Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their
+            See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
 
         Raises
@@ -547,15 +547,15 @@ class PolarDiagramPointcloud(PolarDiagram):
         legend_kw : dict, optional
             Keyword arguments to change position and appearence of the legend
 
-            See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-            possible keywords and their effects
+            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
+            for possible keywords and their effects
 
             Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their
+            See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
 
         Raises
@@ -598,7 +598,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their
+            See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
 
         Raises
@@ -661,7 +661,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         legend_kw : Keyword arguments
             Keyword arguments to change position and appearence of the legend
 
-            See matplotlib.legend.Legend for possible keywords and
+            See `matplotlib.legend.Legend` for possible keywords and
             their effects
 
             Will only be used if show_legend is `True`
@@ -763,15 +763,15 @@ class PolarDiagramPointcloud(PolarDiagram):
         legend_kw : dict, optional
             Keyword arguments to change position and appearence of the legend
 
-            See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-            possible keywords and their effects
+            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
+            for possible keywords and their effects
 
             Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their
+            See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
 
         Raises

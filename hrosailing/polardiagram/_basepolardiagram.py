@@ -129,7 +129,7 @@ class PolarDiagram(ABC):
 
         plot_kw : Keyword arguments
             Keyword arguments that will be passed to the
-            matplotlib.axes.Axes.plot function, to change
+            `matplotlib.axes.Axes.plot` function, to change
             certain appearences of the plot
         """
         self.plot_polar(
@@ -157,7 +157,7 @@ class PolarDiagram(ABC):
 
         plot_kw : Keyword arguments
             Keyword arguments that will be passed to the
-            matplotlib.axes.Axes.plot function, to change
+            `matplotlib.axes.Axes.plot` function, to change
             certain appearences of the plot
         """
         self.plot_flat(
@@ -205,7 +205,7 @@ class PolarDiagram(ABC):
         legend_kw : dict, optional
             Keyword arguments to change position and appearence of the legend
 
-            See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+            See `matplotlib.colorbar.Colorbar` and matplotlib.legend.Legend for
             possible keywords and their effects
 
             Will only be used if show_legend is `True`
@@ -213,7 +213,7 @@ class PolarDiagram(ABC):
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their
+            See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
         """
 
@@ -260,7 +260,7 @@ class PolarDiagram(ABC):
         legend_kw : dict, optional
             Keyword arguments to change position and appearence of the legend
 
-            See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+            See `matplotlib.colorbar.Colorbar` and matplotlib.legend.Legend for
             possible keywords and their effects
 
             Will only be used if show_legend is `True`
@@ -268,7 +268,7 @@ class PolarDiagram(ABC):
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their
+            See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
         """
 
@@ -350,7 +350,7 @@ class PolarDiagram(ABC):
 
         plot_kw : Keyword arguments
             Keyword arguments that will be passed to the
-            matplotlib.axes.Axes.plot function, to change
+            `matplotlib.axes.Axes.plot` function, to change
             certain appearences of the plot
         """
         self.plot_convex_hull(
@@ -402,15 +402,15 @@ class PolarDiagram(ABC):
         legend_kw : dict, optional
             Keyword arguments to change position and appearence of the legend
 
-            See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-            possible keywords and their effects
+            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
+            for possible keywords and their effects
 
             Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their
+            See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
 
         """
