@@ -245,24 +245,25 @@ class PolarDiagramPointcloud(PolarDiagram):
         """For given wind speeds, return the slices of the polar diagram
         corresponding to them
 
-        A slice then consists of all rows in self.wind_speeds whose
-        first entry lies in the interval given by w in `ws`
+        The slices then consist of all points in the point cloud where the
+        wind speed lies in certain intervals determined by `ws` as below
 
         Parameters
         ----------
-        ws : tuple of length 2, iterable , int or float, optional
+        ws : See below, optional
             Slices of the polar diagram given as either
 
-            - a tuple of length 2 specifying an interval of considered
-            wind speeds. The amount of slices taken from that interval are
-            determined by the parameter `stepsize`
-            - an iterable of tuples of length 2 and int/float values
-            which will be interpreted as individual slices. If a w in `ws`
-            is an int or float, the given interval will be determined by
-            the  parameter `range_`. If it is a tuple, it will be interpreted
-            as an inverval as is
-            - a single wind speed. The given interval is then determined by
-            the parameter `range_`
+            - a tuple of 2 int/float values, which will be turned into the
+            iterable `numpy.linspace(ws[0], ws[1], stepsize)` of int/float values.
+            The iterable will then be interpreted as below
+            - a mixed iterable containing tuples of 2 int/float values or 
+            singular int/float values which will be interpreted as 
+            individual slices. For a tuple the corresponding interval is given
+            by the two values of the tuple interpreted as a lower and an upper
+            bound. For a singular int/float value `w` the corresponding 
+            interval will be `(w - range_, w + range_)`
+            - a singlular int/float value `w`. The corresponding interval will
+            be `(w - range_, w + range_)`
 
             If nothing is passed, it will default to
             `(min(self.wind_speeds), max(self.wind_speeds))`
@@ -273,7 +274,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
             Will only be used if `ws` is a tuple of length 2
 
-            If nothing is passed it will default to int(round(ws[1] - ws[0]))
+            If nothing is passed it will default to `int(round(ws[1] - ws[0]))`
 
         range_ : positive int or float, optional
             Used to convert and int or float `w` in `ws` to the interval
@@ -368,22 +369,20 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Parameters
         ----------
-        ws : tuple of length 2, iterable , int or float, optional
+        ws : See below, optional
             Slices of the polar diagram given as either
 
-            - a tuple of length 2 specifying an interval of considered
-            wind speeds. The amount of slices taken from that interval are
-            determined by the parameter `stepsize`
-            - an iterable of tuples of length 2 and int/float values
-            which will be interpreted as individual slices. If a `w` in `ws`
-            is an int or float, the given interval will be determined by
-            the  parameter `range_`. If it is a tuple, it will be interpreted
-            as an inverval as is
-            - a single wind speed. The given interval is then determined by
-            the parameter `range_`
-
-            A slice then consists of all rows in `self.wind_speeds` whose
-            first entry lies in the interval given by `w` in `ws`
+            - a tuple of 2 int/float values, which will be turned into the
+            iterable `numpy.linspace(ws[0], ws[1], stepsize)` of int/float values.
+            The iterable will then be interpreted as below
+            - a mixed iterable containing tuples of 2 int/float values or 
+            singular int/float values which will be interpreted as 
+            individual slices. For a tuple the corresponding interval is given
+            by the two values of the tuple interpreted as a lower and an upper
+            bound. For a singular int/float value `w` the corresponding 
+            interval will be `(w - range_, w + range_)`
+            - a singlular int/float value `w`. The corresponding interval will
+            be `(w - range_, w + range_)`
 
             If nothing is passed, it will default to
             `(min(self.wind_speeds), max(self.wind_speeds))`
@@ -481,25 +480,23 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Parameters
         ----------
-        ws : tuple of length 2, iterable , int or float, optional
+        ws : See below, optional
             Slices of the polar diagram given as either
 
-            - a tuple of length 2 specifying an interval of considered
-            wind speeds. The amount of slices taken from that interval are
-            determined by the parameter `stepsize`
-            - an iterable of tuples of length 2 and int/float values
-            which will be interpreted as individual slices. If a `w` in `ws`
-            is an int or float, the given interval will be determined by
-            the  parameter `range_`. If it is a tuple, it will be interpreted
-            as an inverval as is
-            - a single wind speed. The given interval is then determined by
-            the parameter `range_`
-
-            A slice then consists of all rows in `self.wind_speeds` whose
-            first entry lies in the interval given by `w` in `ws`
+            - a tuple of 2 int/float values, which will be turned into the
+            iterable `numpy.linspace(ws[0], ws[1], stepsize)` of int/float values.
+            The iterable will then be interpreted as below
+            - a mixed iterable containing tuples of 2 int/float values or 
+            singular int/float values which will be interpreted as 
+            individual slices. For a tuple the corresponding interval is given
+            by the two values of the tuple interpreted as a lower and an upper
+            bound. For a singular int/float value `w` the corresponding 
+            interval will be `(w - range_, w + range_)`
+            - a singlular int/float value `w`. The corresponding interval will
+            be `(w - range_, w + range_)`
 
             If nothing is passed, it will default to
-            `(min(self.wind_speeds), max(self.wind_speeds)`
+            `(min(self.wind_speeds), max(self.wind_speeds))`
 
         stepsize : positive int, optional
             Specfies the amount of slices taken from the given
@@ -699,25 +696,23 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Parameters
         ----------
-        ws : tuple of length 2, iterable , int or float, optional
+        ws : See below, optional
             Slices of the polar diagram given as either
 
-            - a tuple of length 2 specifying an interval of considered
-            wind speeds. The amount of slices taken from that interval are
-            determined by the parameter `stepsize`
-            - an iterable of tuples of length 2 and int/float values
-            which will be interpreted as individual slices. If a `w` in `ws`
-            is an int or float, the given interval will be determined by
-            the  parameter `range_`. If it is a tuple, it will be interpreted
-            as an inverval as is
-            - a single wind speed. The given interval is then determined by
-            the parameter `range_`
-
-            A slice then consists of all rows in `self.wind_speeds` whose
-            first entry lies in the interval given by `w` in `ws`
+            - a tuple of 2 int/float values, which will be turned into the
+            iterable `numpy.linspace(ws[0], ws[1], stepsize)` of int/float values.
+            The iterable will then be interpreted as below
+            - a mixed iterable containing tuples of 2 int/float values or 
+            singular int/float values which will be interpreted as 
+            individual slices. For a tuple the corresponding interval is given
+            by the two values of the tuple interpreted as a lower and an upper
+            bound. For a singular int/float value `w` the corresponding 
+            interval will be `(w - range_, w + range_)`
+            - a singlular int/float value `w`. The corresponding interval will
+            be `(w - range_, w + range_)`
 
             If nothing is passed, it will default to
-            `(min(self.wind_speeds), max(self.wind_speeds)`
+            `(min(self.wind_speeds), max(self.wind_speeds))`
 
         stepsize : positive int, optional
             Specfies the amount of slices taken from the given
