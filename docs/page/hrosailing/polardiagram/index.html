@@ -177,7 +177,17 @@ legend_kw=None,
 <div class="desc"><p>This method should, given a number of wind speeds, return
 a list of the given wind speeds as well as wind angles and
 corresponding boat speeds, that reflect how the vessel behaves at
-the given wind speeds</p></div>
+the given wind speeds</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>int/float</code></dt>
+<dd>
+<p>int/float
+description of slices of the polar diagram to be plotted.</p>
+<p>For a description of what the slice is made of,
+see the respective PolarDiagram subclass</p>
+</dd>
+</dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_3d"><code class="name flex">
 <span>def <span class="ident">plot_3d</span></span>(<span>self)</span>
@@ -191,7 +201,40 @@ the given wind speeds</p></div>
 <dd>
 <div class="desc"><p>This method should create 'wind speed vs. wind angle'
 color gradient plot of the polar diagram object with respect
-to the corresponding boat speeds</p></div>
+to the corresponding boat speeds</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code> of <code>two (2) color_likes</code>, optional</dt>
+<dd>
+<p>Color pair determining the color gradient with which the
+polar diagram will be plotted</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>marker</code></strong> :&ensp;<code>matplotlib.markers.Markerstyle</code> or <code>equivalent</code>, optional</dt>
+<dd>
+<p>Markerstyle for the created scatter plot</p>
+<p>Defaults to <code>"o"</code></p>
+</dd>
+<dt><strong><code>ms</code></strong> :&ensp;<code>float</code> or <code>array_like</code> of <code>fitting shape</code>, optional</dt>
+<dd>Marker size in points**2</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next
+to the plot</p>
+<p>Legend will be a <code>matplotlib.colorbar.Colorbar</code> instance</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.legend.Legend for possible keywords and
+their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+</dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_convex_hull"><code class="name flex">
 <span>def <span class="ident">plot_convex_hull</span></span>(<span>self, ws=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
@@ -199,7 +242,44 @@ to the corresponding boat speeds</p></div>
 <dd>
 <div class="desc"><p>This method should compute the convex hull of one or multiple
 slices, corresponding to <code>ws</code>, of the polar diagram and then create
-a polar plot of them</p></div>
+a polar plot of them</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram.</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
+<p>If nothing is passed, it will default to <code>(0, 20)</code></p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
+<dd>Axes instance where the plot will be create</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
+<dd>
+<p>Specifies the colors to be used for the different slices</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>The type of legend depends on the color options</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+possible keywords and their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change various appearences of the plot</p>
+<p>See matplotlib.axes.Axes.plot for possible keywords and their
+effects</p>
+</dd>
+</dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_convex_hull_slice"><code class="name flex">
 <span>def <span class="ident">plot_convex_hull_slice</span></span>(<span>self, ws, ax=None, **plot_kw)</span>
@@ -233,7 +313,43 @@ certain appearences of the plot</dd>
 </code></dt>
 <dd>
 <div class="desc"><p>This method should create a cartesian plot of one or more slices,
-corresponding to <code>ws</code>, of the polar diagram object</p></div>
+corresponding to <code>ws</code>, of the polar diagram object</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram.</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
+<p>If nothing is passed, it will default to (0, 20)</p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
+<dd>
+<p>Specifies the colors to be used for the different slices</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+possible keywords and their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change various appearences of the plot</p>
+<p>See matplotlib.axes.Axes.plot for possible keywords and their
+effects</p>
+</dd>
+</dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_flat_slice"><code class="name flex">
 <span>def <span class="ident">plot_flat_slice</span></span>(<span>self, ws, ax=None, **plot_kw)</span>
@@ -267,7 +383,42 @@ certain appearences of the plot</dd>
 </code></dt>
 <dd>
 <div class="desc"><p>This method should create a polar plot of one or more slices,
-corresponding to <code>ws</code>, of the polar diagram object.</p></div>
+corresponding to <code>ws</code>, of the polar diagram object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>int/float</code></dt>
+<dd>
+<p>description of slices of the polar diagram to be plotted.</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
+<dd>
+<p>Specifies the colors to be used for the different slices</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+possible keywords and their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change various appearences of the plot</p>
+<p>See matplotlib.axes.Axes.plot for possible keywords and their
+effects</p>
+</dd>
+</dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_polar_slice"><code class="name flex">
 <span>def <span class="ident">plot_polar_slice</span></span>(<span>self, ws, ax=None, **plot_kw)</span>
@@ -279,10 +430,10 @@ polar diagram</p>
 <dl>
 <dt><strong><code>ws</code></strong> :&ensp;<code>int/float</code></dt>
 <dd>
-<p>Slice of the polar diagram</p>
+<p>int/float
+description of slices of the polar diagram to be plotted.</p>
 <p>For a description of what the slice is made of,
-see the plot_polar()-method of the respective
-PolarDiagram subclasses</p>
+see the respective PolarDiagram subclass</p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
 <dd>
@@ -310,7 +461,12 @@ polar diagram object that called the method</p></div>
 <dd>
 <div class="desc"><p>This method should, given a path, write a .csv file in
 the location, containing human readable information about the
-polar diagram object that called the method</p></div>
+polar diagram object that called the method</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>csv_path</code></strong> :&ensp;<code>str,</code></dt>
+<dd>Path of the created csv file</dd>
+</dl></div>
 </dd>
 </dl>
 </dd>

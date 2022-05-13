@@ -72,6 +72,11 @@ class PolarDiagram(ABC):
         """This method should, given a path, write a .csv file in
         the location, containing human readable information about the
         polar diagram object that called the method
+
+        Parameters
+        ----------
+        csv_path: str,
+            Path of the created csv file
         """
 
     @classmethod
@@ -92,6 +97,15 @@ class PolarDiagram(ABC):
         a list of the given wind speeds as well as wind angles and
         corresponding boat speeds, that reflect how the vessel behaves at
         the given wind speeds
+
+        Parameters
+        ----------
+        ws : int/float
+            int/float
+            description of slices of the polar diagram to be plotted.
+
+            For a description of what the slice is made of,
+            see the respective PolarDiagram subclass
         """
 
     def plot_polar_slice(self, ws, ax=None, **plot_kw):
@@ -101,11 +115,11 @@ class PolarDiagram(ABC):
         Parameters
         ----------
         ws : int/float
-            Slice of the polar diagram
+            int/float
+            description of slices of the polar diagram to be plotted.
 
             For a description of what the slice is made of,
-            see the plot_polar()-method of the respective
-            PolarDiagram subclasses
+            see the respective PolarDiagram subclass
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created
@@ -162,6 +176,45 @@ class PolarDiagram(ABC):
     ):
         """This method should create a polar plot of one or more slices,
         corresponding to `ws`, of the polar diagram object.
+
+        Parameters
+        ---------
+
+        ws : int/float
+            description of slices of the polar diagram to be plotted.
+
+            For details refer to the respective PolarDiagram subclass.
+
+        ax : matplotlib.projections.polar.PolarAxes, optional
+            Axes instance where the plot will be created.
+
+        colors : sequence of color_likes or (ws, color_like) pairs, optional
+            Specifies the colors to be used for the different slices
+
+            For details refer to the respective PolarDiagram subclass.
+
+            Defaults to `("green", "red")`
+
+        show_legend : bool, optional
+            Specifies wether or not a legend will be shown next to the plot
+
+            For details refer to the respective PolarDiagram subclass.
+
+            Defaults to `False`
+
+        legend_kw : dict, optional
+            Keyword arguments to change position and appearence of the legend
+
+            See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+            possible keywords and their effects
+
+            Will only be used if show_legend is `True`
+
+        plot_kw : Keyword arguments
+            Keyword arguments to change various appearences of the plot
+
+            See matplotlib.axes.Axes.plot for possible keywords and their
+            effects
         """
 
     @abstractmethod
@@ -176,6 +229,47 @@ class PolarDiagram(ABC):
     ):
         """This method should create a cartesian plot of one or more slices,
         corresponding to `ws`, of the polar diagram object
+
+
+        Parameters
+        ----------
+        ws : tuple of length 2, iterable, int or float, optional
+            Slices of the polar diagram.
+
+            For details refer to the respective PolarDiagram subclass.
+
+            If nothing is passed, it will default to (0, 20)
+
+        ax : matplotlib.axes.Axes, optional
+            Axes instance where the plot will be created.
+
+        colors : sequence of color_likes or (ws, color_like) pairs, optional
+            Specifies the colors to be used for the different slices
+
+            For details refer to the respective PolarDiagram subclass.
+
+            Defaults to `("green", "red")`
+
+        show_legend : bool, optional
+            Specifies wether or not a legend will be shown next to the plot
+
+            For details refer to the respective PolarDiagram subclass.
+
+            Defaults to `False`
+
+        legend_kw : dict, optional
+            Keyword arguments to change position and appearence of the legend
+
+            See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+            possible keywords and their effects
+
+            Will only be used if show_legend is `True`
+
+        plot_kw : Keyword arguments
+            Keyword arguments to change various appearences of the plot
+
+            See matplotlib.axes.Axes.plot for possible keywords and their
+            effects
         """
 
     @abstractmethod
@@ -195,6 +289,44 @@ class PolarDiagram(ABC):
         """This method should create 'wind speed vs. wind angle'
         color gradient plot of the polar diagram object with respect
         to the corresponding boat speeds
+
+        Parameters
+        ----------
+
+        ax : matplotlib.axes.Axes, optional
+            Axes instance where the plot will be created.
+
+        colors : tuple of two (2) color_likes, optional
+            Color pair determining the color gradient with which the
+            polar diagram will be plotted
+
+            For details refer to the respective PolarDiagram subclass.
+
+            Defaults to `("green", "red")`
+
+        marker : matplotlib.markers.Markerstyle or equivalent, optional
+            Markerstyle for the created scatter plot
+
+            Defaults to `"o"`
+
+        ms : float or array_like of fitting shape, optional
+            Marker size in points**2
+
+        show_legend : bool, optional
+            Specifies wether or not a legend will be shown next
+            to the plot
+
+            Legend will be a `matplotlib.colorbar.Colorbar` instance
+
+            Defaults to `False`
+
+        legend_kw : Keyword arguments
+            Keyword arguments to change position and appearence of the legend
+
+            See matplotlib.legend.Legend for possible keywords and
+            their effects
+
+            Will only be used if show_legend is `True`
         """
 
     def plot_convex_hull_slice(self, ws, ax=None, **plot_kw):
@@ -238,4 +370,47 @@ class PolarDiagram(ABC):
         """This method should compute the convex hull of one or multiple
         slices, corresponding to `ws`, of the polar diagram and then create
         a polar plot of them
+
+        Parameters
+        ----------
+        ws : tuple of length 2, iterable, int or float, optional
+            Slices of the polar diagram.
+
+            For details refer to the respective PolarDiagram subclass.
+
+            If nothing is passed, it will default to `(0, 20)`
+
+        ax : matplotlib.projections.polar.PolarAxes, optional
+            Axes instance where the plot will be create
+
+        colors : sequence of color_likes or (ws, color_like) pairs, optional
+            Specifies the colors to be used for the different slices
+
+            For details refer to the respective PolarDiagram subclass.
+
+            Defaults to `("green", "red")`
+
+        show_legend : bool, optional
+            Specifies wether or not a legend will be shown next to the plot
+
+            The type of legend depends on the color options
+
+            For details refer to the respective PolarDiagram subclass.
+
+            Defaults to `False`
+
+        legend_kw : dict, optional
+            Keyword arguments to change position and appearence of the legend
+
+            See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+            possible keywords and their effects
+
+            Will only be used if show_legend is `True`
+
+        plot_kw : Keyword arguments
+            Keyword arguments to change various appearences of the plot
+
+            See matplotlib.axes.Axes.plot for possible keywords and their
+            effects
+
         """
