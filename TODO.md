@@ -31,6 +31,9 @@
 - [ ] implement plot_color_gradient()-method for PolarDiagramMultiSails
 - [ ] improve the coloring-API for PolarDiagramMultiSails
 
+### new API for plotting
+- [ ] create classes inheriting from matplotlib doing the plotting
+
 
 
 ### Administrative
