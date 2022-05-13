@@ -417,7 +417,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             colors or the color `"blue"`, if there are too few colors. The
             order is determined by the corresponding wind speeds
             - Alternatively one can specify certain slices to be plotted in
-            a color out of order by passing a `(ws, color)` pair
+            a color out of order by passing a sequence of `(ws, color)` pairs
 
             Defaults to `("green", "red")`
 
@@ -530,7 +530,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             colors or the color `"blue"`, if there are too few colors. The
             order is determined by the corresponding wind speeds
             - Alternatively one can specify certain slices to be plotted in
-            a color out of order by passing a `(ws, color)` pair
+            a color out of order by passing a sequence of `(ws, color)` pairs
 
             Defaults to `("green", "red")`
 
@@ -746,7 +746,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             colors or the color `"blue"`, if there are too few colors. The
             order is determined by the corresponding wind speeds
             - Alternatively one can specify certain slices to be plotted in
-            a color out of order by passing a `(ws, color)` pair
+            a color out of order by passing a sequence of `(ws, color)` pairs
 
             Defaults to `("green", "red")`
 
