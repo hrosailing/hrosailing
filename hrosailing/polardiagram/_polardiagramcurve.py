@@ -33,7 +33,7 @@ class PolarDiagramCurve(PolarDiagram):
     f : function
         Curve/surface that describes the polar diagram, given as
         a function, with the signature `f(ws, wa, *params) -> bsp`,
-        where `ws`, `wa` and should be `array_like` of shape `(n,)`
+        where `ws` and `wa` should be `array_like` of shape `(n,)`
 
     params : Sequence
         Optimal parameters for `f`
