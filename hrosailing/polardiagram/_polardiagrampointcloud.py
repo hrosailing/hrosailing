@@ -256,11 +256,11 @@ class PolarDiagramPointcloud(PolarDiagram):
             - a tuple of 2 int/float values, which will be turned into the
             iterable `numpy.linspace(ws[0], ws[1], stepsize)` of int/float values.
             The iterable will then be interpreted as below
-            - a mixed iterable containing tuples of 2 int/float values or 
-            singular int/float values which will be interpreted as 
+            - a mixed iterable containing tuples of 2 int/float values or
+            singular int/float values which will be interpreted as
             individual slices. For a tuple the corresponding interval is given
             by the two values of the tuple interpreted as a lower and an upper
-            bound. For a singular int/float value `w` the corresponding 
+            bound. For a singular int/float value `w` the corresponding
             interval will be `(w - range_, w + range_)`
             - a singlular int/float value `w`. The corresponding interval will
             be `(w - range_, w + range_)`
@@ -375,11 +375,11 @@ class PolarDiagramPointcloud(PolarDiagram):
             - a tuple of 2 int/float values, which will be turned into the
             iterable `numpy.linspace(ws[0], ws[1], stepsize)` of int/float values.
             The iterable will then be interpreted as below
-            - a mixed iterable containing tuples of 2 int/float values or 
-            singular int/float values which will be interpreted as 
+            - a mixed iterable containing tuples of 2 int/float values or
+            singular int/float values which will be interpreted as
             individual slices. For a tuple the corresponding interval is given
             by the two values of the tuple interpreted as a lower and an upper
-            bound. For a singular int/float value `w` the corresponding 
+            bound. For a singular int/float value `w` the corresponding
             interval will be `(w - range_, w + range_)`
             - a singlular int/float value `w`. The corresponding interval will
             be `(w - range_, w + range_)`
@@ -486,11 +486,11 @@ class PolarDiagramPointcloud(PolarDiagram):
             - a tuple of 2 int/float values, which will be turned into the
             iterable `numpy.linspace(ws[0], ws[1], stepsize)` of int/float values.
             The iterable will then be interpreted as below
-            - a mixed iterable containing tuples of 2 int/float values or 
-            singular int/float values which will be interpreted as 
+            - a mixed iterable containing tuples of 2 int/float values or
+            singular int/float values which will be interpreted as
             individual slices. For a tuple the corresponding interval is given
             by the two values of the tuple interpreted as a lower and an upper
-            bound. For a singular int/float value `w` the corresponding 
+            bound. For a singular int/float value `w` the corresponding
             interval will be `(w - range_, w + range_)`
             - a singlular int/float value `w`. The corresponding interval will
             be `(w - range_, w + range_)`
@@ -702,11 +702,11 @@ class PolarDiagramPointcloud(PolarDiagram):
             - a tuple of 2 int/float values, which will be turned into the
             iterable `numpy.linspace(ws[0], ws[1], stepsize)` of int/float values.
             The iterable will then be interpreted as below
-            - a mixed iterable containing tuples of 2 int/float values or 
-            singular int/float values which will be interpreted as 
+            - a mixed iterable containing tuples of 2 int/float values or
+            singular int/float values which will be interpreted as
             individual slices. For a tuple the corresponding interval is given
             by the two values of the tuple interpreted as a lower and an upper
-            bound. For a singular int/float value `w` the corresponding 
+            bound. For a singular int/float value `w` the corresponding
             interval will be `(w - range_, w + range_)`
             - a singlular int/float value `w`. The corresponding interval will
             be `(w - range_, w + range_)`
