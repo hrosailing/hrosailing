@@ -1352,25 +1352,25 @@ of points consisting of wind speed, wind angle and boat speed</dd>
 <dd>
 <div class="desc"><p>For given wind speeds, return the slices of the polar diagram
 corresponding to them</p>
-<p>A slice then consists of all rows in self.wind_speeds whose
-first entry lies in the interval given by w in <code>ws</code></p>
+<p>The slices then consist of all points in the point cloud where the
+wind speed lies in certain intervals determined by <code>ws</code> as below</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable , int</code> or <code>float</code>, optional</dt>
+<dt><strong><code>ws</code></strong> :&ensp;<code>See below</code>, optional</dt>
 <dd>
 <p>Slices of the polar diagram given as either</p>
 <ul>
-<li>a tuple of length 2 specifying an interval of considered
-wind speeds. The amount of slices taken from that interval are
-determined by the parameter <code>stepsize</code></li>
-<li>an iterable of tuples of length 2 and int/float values
-which will be interpreted as individual slices. If a w in <code>ws</code>
-is an int or float, the given interval will be determined by
-the
-parameter <code>range_</code>. If it is a tuple, it will be interpreted
-as an inverval as is</li>
-<li>a single wind speed. The given interval is then determined by
-the parameter <code>range_</code></li>
+<li>a tuple of 2 int/float values, which will be turned into the
+iterable <code>numpy.linspace(ws[0], ws[1], stepsize)</code> of int/float values.
+The iterable will then be interpreted as below</li>
+<li>a mixed iterable containing tuples of 2 int/float values or
+singular int/float values which will be interpreted as
+individual slices. For a tuple the corresponding interval is given
+by the two values of the tuple interpreted as a lower and an upper
+bound. For a singular int/float value <code>w</code> the corresponding
+interval will be <code>(w - range_, w + range_)</code></li>
+<li>a singlular int/float value <code>w</code>. The corresponding interval will
+be <code>(w - range_, w + range_)</code></li>
 </ul>
 <p>If nothing is passed, it will default to
 <code>(min(self.wind_speeds), max(self.wind_speeds))</code></p>
@@ -1380,7 +1380,7 @@ the parameter <code>range_</code></li>
 <p>Specfies the amount of slices taken from the given
 interval in <code>ws</code></p>
 <p>Will only be used if <code>ws</code> is a tuple of length 2</p>
-<p>If nothing is passed it will default to int(round(ws[1] - ws[0]))</p>
+<p>If nothing is passed it will default to <code>int(round(ws[1] - ws[0]))</code></p>
 </dd>
 <dt><strong><code>range_</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
@@ -1487,26 +1487,24 @@ their effects</p>
 slices of the polar diagram and creates a polar plot of them</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable , int</code> or <code>float</code>, optional</dt>
+<dt><strong><code>ws</code></strong> :&ensp;<code>See below</code>, optional</dt>
 <dd>
 <p>Slices of the polar diagram given as either</p>
 <ul>
-<li>a tuple of length 2 specifying an interval of considered
-wind speeds. The amount of slices taken from that interval are
-determined by the parameter <code>stepsize</code></li>
-<li>an iterable of tuples of length 2 and int/float values
-which will be interpreted as individual slices. If a <code>w</code> in <code>ws</code>
-is an int or float, the given interval will be determined by
-the
-parameter <code>range_</code>. If it is a tuple, it will be interpreted
-as an inverval as is</li>
-<li>a single wind speed. The given interval is then determined by
-the parameter <code>range_</code></li>
+<li>a tuple of 2 int/float values, which will be turned into the
+iterable <code>numpy.linspace(ws[0], ws[1], stepsize)</code> of int/float values.
+The iterable will then be interpreted as below</li>
+<li>a mixed iterable containing tuples of 2 int/float values or
+singular int/float values which will be interpreted as
+individual slices. For a tuple the corresponding interval is given
+by the two values of the tuple interpreted as a lower and an upper
+bound. For a singular int/float value <code>w</code> the corresponding
+interval will be <code>(w - range_, w + range_)</code></li>
+<li>a singlular int/float value <code>w</code>. The corresponding interval will
+be <code>(w - range_, w + range_)</code></li>
 </ul>
-<p>A slice then consists of all rows in <code>self.wind_speeds</code> whose
-first entry lies in the interval given by <code>w</code> in <code>ws</code></p>
 <p>If nothing is passed, it will default to
-<code>(min(self.wind_speeds), max(self.wind_speeds)</code></p>
+<code>(min(self.wind_speeds), max(self.wind_speeds))</code></p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
 <dd>
@@ -1574,26 +1572,24 @@ whose first entry is equal to <code>w</code></dd>
 <div class="desc"><p>Creates a cartesian plot of one or more slices of the polar diagram</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable , int</code> or <code>float</code>, optional</dt>
+<dt><strong><code>ws</code></strong> :&ensp;<code>See below</code>, optional</dt>
 <dd>
 <p>Slices of the polar diagram given as either</p>
 <ul>
-<li>a tuple of length 2 specifying an interval of considered
-wind speeds. The amount of slices taken from that interval are
-determined by the parameter <code>stepsize</code></li>
-<li>an iterable of tuples of length 2 and int/float values
-which will be interpreted as individual slices. If a <code>w</code> in <code>ws</code>
-is an int or float, the given interval will be determined by
-the
-parameter <code>range_</code>. If it is a tuple, it will be interpreted
-as an inverval as is</li>
-<li>a single wind speed. The given interval is then determined by
-the parameter <code>range_</code></li>
+<li>a tuple of 2 int/float values, which will be turned into the
+iterable <code>numpy.linspace(ws[0], ws[1], stepsize)</code> of int/float values.
+The iterable will then be interpreted as below</li>
+<li>a mixed iterable containing tuples of 2 int/float values or
+singular int/float values which will be interpreted as
+individual slices. For a tuple the corresponding interval is given
+by the two values of the tuple interpreted as a lower and an upper
+bound. For a singular int/float value <code>w</code> the corresponding
+interval will be <code>(w - range_, w + range_)</code></li>
+<li>a singlular int/float value <code>w</code>. The corresponding interval will
+be <code>(w - range_, w + range_)</code></li>
 </ul>
-<p>A slice then consists of all rows in <code>self.wind_speeds</code> whose
-first entry lies in the interval given by <code>w</code> in <code>ws</code></p>
 <p>If nothing is passed, it will default to
-<code>(min(self.wind_speeds), max(self.wind_speeds)</code></p>
+<code>(min(self.wind_speeds), max(self.wind_speeds))</code></p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
 <dd>
@@ -1663,24 +1659,22 @@ whose first entry is equal to <code>w</code></dd>
 <div class="desc"><p>Creates a polar plot of one or more slices of the polar diagram</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable , int</code> or <code>float</code>, optional</dt>
+<dt><strong><code>ws</code></strong> :&ensp;<code>See below</code>, optional</dt>
 <dd>
 <p>Slices of the polar diagram given as either</p>
 <ul>
-<li>a tuple of length 2 specifying an interval of considered
-wind speeds. The amount of slices taken from that interval are
-determined by the parameter <code>stepsize</code></li>
-<li>an iterable of tuples of length 2 and int/float values
-which will be interpreted as individual slices. If a <code>w</code> in <code>ws</code>
-is an int or float, the given interval will be determined by
-the
-parameter <code>range_</code>. If it is a tuple, it will be interpreted
-as an inverval as is</li>
-<li>a single wind speed. The given interval is then determined by
-the parameter <code>range_</code></li>
+<li>a tuple of 2 int/float values, which will be turned into the
+iterable <code>numpy.linspace(ws[0], ws[1], stepsize)</code> of int/float values.
+The iterable will then be interpreted as below</li>
+<li>a mixed iterable containing tuples of 2 int/float values or
+singular int/float values which will be interpreted as
+individual slices. For a tuple the corresponding interval is given
+by the two values of the tuple interpreted as a lower and an upper
+bound. For a singular int/float value <code>w</code> the corresponding
+interval will be <code>(w - range_, w + range_)</code></li>
+<li>a singlular int/float value <code>w</code>. The corresponding interval will
+be <code>(w - range_, w + range_)</code></li>
 </ul>
-<p>A slice then consists of all rows in <code>self.wind_speeds</code> whose
-first entry lies in the interval given by <code>w</code> in <code>ws</code></p>
 <p>If nothing is passed, it will default to
 <code>(min(self.wind_speeds), max(self.wind_speeds))</code></p>
 </dd>
