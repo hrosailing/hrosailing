@@ -269,14 +269,14 @@ a polar plot of them</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl></div>
@@ -304,7 +304,7 @@ a suitable axes</p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>Keyword arguments that will be passed to the
-matplotlib.axes.Axes.plot function, to change
+<code>matplotlib.axes.Axes.plot</code> function, to change
 certain appearences of the plot</dd>
 </dl></div>
 </dd>
@@ -339,14 +339,14 @@ corresponding to <code>ws</code>, of the polar diagram object</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+<p>See <code>matplotlib.colorbar.Colorbar</code> and matplotlib.legend.Legend for
 possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl></div>
@@ -374,7 +374,7 @@ a suitable axes</p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>Keyword arguments that will be passed to the
-matplotlib.axes.Axes.plot function, to change
+<code>matplotlib.axes.Axes.plot</code> function, to change
 certain appearences of the plot</dd>
 </dl></div>
 </dd>
@@ -408,14 +408,14 @@ corresponding to <code>ws</code>, of the polar diagram object.</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
+<p>See <code>matplotlib.colorbar.Colorbar</code> and matplotlib.legend.Legend for
 possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl></div>
@@ -443,7 +443,7 @@ a suitable axes</p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>Keyword arguments that will be passed to the
-matplotlib.axes.Axes.plot function, to change
+<code>matplotlib.axes.Axes.plot</code> function, to change
 certain appearences of the plot</dd>
 </dl></div>
 </dd>
@@ -482,7 +482,7 @@ given by a fitted curve/surface.</p>
 <dt><strong><code>f</code></strong> :&ensp;<code>function</code></dt>
 <dd>Curve/surface that describes the polar diagram, given as
 a function, with the signature <code>f(ws, wa, *params) -&gt; bsp</code>,
-where <code>ws</code>, <code>wa</code> and should be <code>array_like</code> of shape <code>(n,)</code></dd>
+where <code>ws</code> and <code>wa</code> should be <code>array_like</code> of shape <code>(n,)</code></dd>
 <dt><strong><code>params</code></strong> :&ensp;<code>Sequence</code></dt>
 <dd>Optimal parameters for <code>f</code></dd>
 <dt><strong><code>radians</code></strong> :&ensp;<code>bool</code>, optional</dt>
@@ -649,7 +649,7 @@ to the plot</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.legend.Legend for possible keywords and
+<p>See <code>matplotlib.legend.Legend</code> for possible keywords and
 their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
@@ -697,7 +697,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -712,14 +712,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl></div>
@@ -765,7 +765,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -780,14 +780,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl></div>
@@ -833,7 +833,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -848,14 +848,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl></div>
@@ -1047,7 +1047,7 @@ to the plot</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.legend.Legend for possible keywords and
+<p>See <code>matplotlib.legend.Legend</code> for possible keywords and
 their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
@@ -1089,14 +1089,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl>
@@ -1138,7 +1138,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -1153,14 +1153,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
-<p>Will only be used if show_legend is <code>True</code></p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
+<p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl>
@@ -1208,7 +1208,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -1223,14 +1223,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl>
@@ -1424,7 +1424,7 @@ polar diagram will be plotted</p>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl>
@@ -1468,7 +1468,7 @@ to the plot</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.legend.Legend for possible keywords and
+<p>See <code>matplotlib.legend.Legend</code> for possible keywords and
 their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
@@ -1533,7 +1533,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -1548,14 +1548,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl>
@@ -1622,7 +1622,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -1637,14 +1637,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl>
@@ -1711,7 +1711,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -1726,14 +1726,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl>
@@ -2038,7 +2038,7 @@ to the plot</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.legend.Legend for possible keywords and
+<p>See <code>matplotlib.legend.Legend</code> for possible keywords and
 their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
@@ -2077,7 +2077,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -2092,14 +2092,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl>
@@ -2147,7 +2147,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -2162,14 +2162,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl>
@@ -2227,7 +2227,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -2242,14 +2242,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl>
