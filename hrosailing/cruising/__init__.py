@@ -354,19 +354,28 @@ def cost_cruise(
     **ivp_kw,
 ):
     """Computes the total cost for traveling from a start position to an
-    end position. To be precise, it calculates for a given cost density
-    function cost and absolute function abs_cost
+    end position. To be precise:
+    Let l be the total distance of the start position and the end position,
+    cost be a density cost function describing the costs generated at each
+    point along the way (for example the indicator function for bad
+    weather) and abs_cost be a cost function describing the cost independent
+    from the weather along the way.
+    Note that abs_cost only depends on the exspected travel time and the
+    exspected travel distance.
 
-    int_0^l cost(s, t(s)) ds + abs_cost(t(l), l),
-
-    where s is the distance travelled, l is the total distance from
-    start to end and t(s) is the time travelled.
-    t(s) is the solution of the initial value problem
+    The method first approximates the travelled time (t)
+    as a function dependend on distance travelled (s) by numerically solving
+    the initial value problem
 
     t(0) = 0, dt/ds = 1/bsp(s,t).
 
-    The costs also depend on the weather forecast data, organized
-    by a WeatherModel, distances are computed using the mercator projection
+    Using this, it then uses numeric integration to predict the total costs as
+
+    int_0^l cost(s, t(s)) ds + abs_cost(t(l), l).
+
+    Note, that the costs in this mathematical description indirectly depend on
+    weather forecast data, organized by a 'WeatherModel'.
+    Distances are computed using the mercator projection
 
     Parameters
     ----------
