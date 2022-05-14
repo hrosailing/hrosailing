@@ -227,7 +227,7 @@ def cruise(
     heading = 180 - np.rad2deg(heading)
     d1, *d2 = convex_direction(pd, ws, heading)
 
-    dist = _great_earth_elipsoid_distance(start, end)
+    dist = _great_earth_ellipsoid_distance(start, end)
 
     bsp1 = bsp[np.where(wa == d1.angle)[0]]
     if not d2:
@@ -697,7 +697,7 @@ EARTH_FLATTENING = 1 / 298.257223563
 EQUATOR_CIRCUMFERENCE = 40075.017
 
 
-def _great_earth_elipsoid_distance(a, b):
+def _great_earth_ellipsoid_distance(a, b):
     """Calculates the distance on the surface for two points on the
     earth surface
     """
