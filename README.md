@@ -271,7 +271,7 @@ wm = cruise.WeatherModel(
 start = (42.5, 43.5)
 
 isocrones = [
-    cruise.isocrone(
+    cruise.isochrone(
             pd=pd,
             start=start,
             start_time=dt.now(),

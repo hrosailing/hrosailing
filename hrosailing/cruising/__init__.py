@@ -471,7 +471,7 @@ def cost_cruise(
     return absolute_cost + integration_method(costs, t_s.t)
 
 
-def isocrone(
+def isochrone(
     pd,
     start,
     start_time,
