@@ -69,7 +69,10 @@ def convex_direction(
         The current wind speed given in knots
 
     direction : int / float
-        Angle to the wind direction
+        Right handed angle between the heading of the boat and
+        the negative of the wind direction.
+        Numerically equals TWA, but interpreted from the perspective of the
+        boat.
 
     im : InfluenceModel, optional
         The influence model used to consider additional influences
