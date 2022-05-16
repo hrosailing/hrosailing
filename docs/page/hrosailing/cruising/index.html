@@ -112,7 +112,7 @@ Distances are computed using the mercator projection</p>
 <dd>Coordinates of the end point</dd>
 <dt><strong><code>start_time</code></strong> :&ensp;<code>datetime.datetime</code></dt>
 <dd>The time at which the traveling starts</dd>
-<dt><strong><code>wm</code></strong> :&ensp;<code><a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a></code>, optional</dt>
+<dt><strong><code>wm</code></strong> :&ensp;<code><a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a></code></dt>
 <dd>The WeatherModel used</dd>
 <dt><strong><code>cost_fun_dens</code></strong> :&ensp;<code>callable</code>, optional</dt>
 <dd>
@@ -339,6 +339,11 @@ and longitude</dd>
 <p>If it is a grid point, the weather data is taken straight
 from the model, else it is interpolated as described above</p>
 </dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="hrosailing.cruising.OutsideGridException" href="#hrosailing.cruising.OutsideGridException">OutsideGridException</a></code></dt>
+<dd>When <code>point</code> is not contained in any cell of the grid.</dd>
 </dl></div>
 </dd>
 </dl>
