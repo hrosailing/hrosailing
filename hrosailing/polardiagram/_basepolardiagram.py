@@ -70,7 +70,7 @@ class PolarDiagram(ABC):
     @abstractmethod
     def to_csv(self, csv_path):
         """This method should, given a path, write a .csv file in
-        the location, containing human readable information about the
+        the location, containing human-readable information about the
         polar diagram object that called the method
 
         Parameters
@@ -122,7 +122,7 @@ class PolarDiagram(ABC):
             see the respective PolarDiagram subclass
 
         ax : matplotlib.projections.polar.PolarAxes, optional
-            Axes instance where the plot will be created
+            Axes instance where the plot will be created.
 
             If nothing is passed, the function will create
             a suitable axes
@@ -130,7 +130,7 @@ class PolarDiagram(ABC):
         plot_kw : Keyword arguments
             Keyword arguments that will be passed to the
             `matplotlib.axes.Axes.plot` function, to change
-            certain appearences of the plot
+            certain appearances of the plot
         """
         self.plot_polar(
             ws, ax, colors=None, show_legend=False, legend_kw=None, **plot_kw
@@ -158,7 +158,7 @@ class PolarDiagram(ABC):
         plot_kw : Keyword arguments
             Keyword arguments that will be passed to the
             `matplotlib.axes.Axes.plot` function, to change
-            certain appearences of the plot
+            certain appearances of the plot
         """
         self.plot_flat(
             ws, ax, colors=None, show_legend=False, legend_kw=None, **plot_kw
@@ -196,22 +196,22 @@ class PolarDiagram(ABC):
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies wether or not a legend will be shown next to the plot
+            Specifies whether or not a legend will be shown next to the plot
 
             For details refer to the respective PolarDiagram subclass.
 
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearence of the legend
+            Keyword arguments to change position and appearance of the legend
 
-            See `matplotlib.colorbar.Colorbar` and matplotlib.legend.Legend for
+            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend` for
             possible keywords and their effects
 
             Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearences of the plot
+            Keyword arguments to change various appearances of the plot
 
             See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
@@ -251,22 +251,22 @@ class PolarDiagram(ABC):
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies wether or not a legend will be shown next to the plot
+            Specifies whether or not a legend will be shown next to the plot
 
             For details refer to the respective PolarDiagram subclass.
 
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearence of the legend
+            Keyword arguments to change position and appearance of the legend
 
-            See `matplotlib.colorbar.Colorbar` and matplotlib.legend.Legend for
+            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend` for
             possible keywords and their effects
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearences of the plot
+            Keyword arguments to change various appearances of the plot
 
             See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
@@ -313,7 +313,7 @@ class PolarDiagram(ABC):
             Marker size in points**2
 
         show_legend : bool, optional
-            Specifies wether or not a legend will be shown next
+            Specifies whether or not a legend will be shown next
             to the plot
 
             Legend will be a `matplotlib.colorbar.Colorbar` instance
@@ -321,12 +321,12 @@ class PolarDiagram(ABC):
             Defaults to `False`
 
         legend_kw : Keyword arguments
-            Keyword arguments to change position and appearence of the legend
+            Keyword arguments to change position and appearance of the legend
 
-            See matplotlib.legend.Legend for possible keywords and
+            See `matplotlib.legend.Legend` for possible keywords and
             their effects
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
         """
 
     def plot_convex_hull_slice(self, ws, ax=None, **plot_kw):
@@ -351,7 +351,7 @@ class PolarDiagram(ABC):
         plot_kw : Keyword arguments
             Keyword arguments that will be passed to the
             `matplotlib.axes.Axes.plot` function, to change
-            certain appearences of the plot
+            certain appearances of the plot
         """
         self.plot_convex_hull(
             ws, ax, colors=None, show_legend=False, legend_kw=None, **plot_kw
@@ -381,7 +381,7 @@ class PolarDiagram(ABC):
             If nothing is passed, it will default to `(0, 20)`
 
         ax : matplotlib.projections.polar.PolarAxes, optional
-            Axes instance where the plot will be create
+            Axes instance where the plot will be created.
 
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
@@ -391,7 +391,7 @@ class PolarDiagram(ABC):
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies wether or not a legend will be shown next to the plot
+            Specifies whether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -400,7 +400,7 @@ class PolarDiagram(ABC):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearence of the legend
+            Keyword arguments to change position and appearance of the legend
 
             See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
             for possible keywords and their effects
@@ -408,7 +408,7 @@ class PolarDiagram(ABC):
             Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearences of the plot
+            Keyword arguments to change various appearances of the plot
 
             See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
