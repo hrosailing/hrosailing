@@ -266,12 +266,17 @@ class PolarDiagramMultiSails(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearence of the legend
+            Keyword arguments to change position and appearence of the colorbar
+            or legend respectively
 
-            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
-            for possible keywords and their effects
+            - If 2 colors are passed, a colorbar will be created.
+            In this case see `matplotlib.colorbar.Colorbar` for possible
+            keywords and their effect
+            - Otherwise, a legend will be created.
+            In this case see 'matplotlib.legend.Legend' for possible keywords
+            and their effect.
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot
@@ -352,10 +357,15 @@ class PolarDiagramMultiSails(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearence of the legend
+            Keyword arguments to change position and appearence of the colorbar
+            or legend respectively
 
-            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
-            for possible keywords and their effects
+            - If 2 colors are passed, a colorbar will be created.
+            In this case see `matplotlib.colorbar.Colorbar` for possible
+            keywords and their effect
+            - Otherwise, a legend will be created.
+            In this case see 'matplotlib.legend.Legend' for possible keywords
+            and their effect.
 
             Will only be used if `show_legend` is `True`
 
@@ -442,13 +452,18 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             Defaults to `False`
 
-        legend_kw : Keyword arguments
-            Keyword arguments to change position and appearence of the legend
+        legend_kw : dict, optional
+            Keyword arguments to change position and appearence of the colorbar
+            or legend respectively
 
-            See `matplotlib.legend.Legend` for possible keywords and
-            their effects
+            - If 2 colors are passed, a colorbar will be created.
+            In this case see `matplotlib.colorbar.Colorbar` for possible
+            keywords and their effect
+            - Otherwise, a legend will be created.
+            In this case see 'matplotlib.legend.Legend' for possible keywords
+            and their effect.
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         """
         warnings.warn(
@@ -498,12 +513,17 @@ class PolarDiagramMultiSails(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearence of the legend
+            Keyword arguments to change position and appearence of the colorbar
+            or legend respectively
 
-            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
-            for possible keywords and their effects
+            - If 2 colors are passed, a colorbar will be created.
+            In this case see `matplotlib.colorbar.Colorbar` for possible
+            keywords and their effect
+            - Otherwise, a legend will be created.
+            In this case see 'matplotlib.legend.Legend' for possible keywords
+            and their effect.
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot

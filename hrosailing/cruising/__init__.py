@@ -302,6 +302,11 @@ class WeatherModel:
 
             If it is a grid point, the weather data is taken straight
             from the model, else it is interpolated as described above
+
+        Raises
+        ---------------
+        OutsideGridException
+            When `point` is not contained in any cell of the grid.
         """
         # check if given point lies in the grid
         fst = (self._times[0], self._lats[0], self._lons[0])
@@ -391,7 +396,7 @@ def cost_cruise(
     start_time : datetime.datetime
         The time at which the traveling starts
 
-    wm : WeatherModel, optional
+    wm : WeatherModel
         The WeatherModel used
 
     cost_fun_dens : callable, optional
