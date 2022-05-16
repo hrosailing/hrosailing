@@ -14,7 +14,7 @@ a modular pipeline model and suitable data science methods,
 - suggesting optimal tacks and jibes,
 - calculating the costs of a sailing trip with respect to the
 weather on the way,
-- calculating isocrone points with respect to the weather along the way.
+- calculating isochrone points with respect to the weather along the way.
 
 Installation
 ------------
