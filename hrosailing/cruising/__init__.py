@@ -391,7 +391,7 @@ def cost_cruise(
     start_time : datetime.datetime
         The time at which the traveling starts
 
-    wm : WeatherModel, optional
+    wm : WeatherModel
         The WeatherModel used
 
     cost_fun_dens : callable, optional
