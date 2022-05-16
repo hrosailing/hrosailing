@@ -8,11 +8,8 @@ from ast import literal_eval
 import matplotlib.pyplot as plt
 import numpy as np
 
-from ._basepolardiagram import (
-    PolarDiagram,
-    PolarDiagramException,
-    PolarDiagramInitializationException,
-)
+from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
+                                PolarDiagramInitializationException)
 from ._plotting import plot_convex_hull_multisails
 from ._polardiagramtable import PolarDiagramTable
 
@@ -251,7 +248,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             colors or the color `"blue"`, if there are too few colors. The
             order is determined by the corresponding wind speeds
             - Alternatively one can specify certain slices to be plotted in
-            a color out of order by passing a `(ws, color)` pair
+            a color out of order by passing a sequence of `(ws, color)` pairs
 
             Defaults to `("green", "red")`
 
@@ -268,15 +265,15 @@ class PolarDiagramMultiSails(PolarDiagram):
         legend_kw : dict, optional
             Keyword arguments to change position and appearance of the legend
 
-            See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-            possible keywords and their effects
+            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
+            for possible keywords and their effects
 
             Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearances of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their
+            See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
 
         Raises
@@ -337,7 +334,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             colors or the color `"blue"`, if there are too few colors. The
             order is determined by the corresponding wind speeds
             - Alternatively one can specify certain slices to be plotted in
-            a color out of order by passing a `(ws, color)` pair
+            a color out of order by passing a sequence of `(ws, color)` pairs
 
             Defaults to `("green", "red")`
 
@@ -354,15 +351,15 @@ class PolarDiagramMultiSails(PolarDiagram):
         legend_kw : dict, optional
             Keyword arguments to change position and appearance of the legend
 
-            See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-            possible keywords and their effects
+            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
+            for possible keywords and their effects
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearances of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their
+            See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
 
         Raises
@@ -445,7 +442,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         legend_kw : Keyword arguments
             Keyword arguments to change position and appearance of the legend
 
-            See matplotlib.legend.Legend for possible keywords and
+            See `matplotlib.legend.Legend` for possible keywords and
             their effects
 
             Will only be used if show_legend is `True`
@@ -500,15 +497,15 @@ class PolarDiagramMultiSails(PolarDiagram):
         legend_kw : dict, optional
             Keyword arguments to change position and appearance of the legend
 
-            See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-            possible keywords and their effects
+            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
+            for possible keywords and their effects
 
             Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearances of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their
+            See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
 
         Raises

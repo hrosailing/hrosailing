@@ -1,0 +1,51 @@
+name: update-and-deploy
+on:
+  push:
+    branches:
+      - main  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: set up python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip3 install pdoc3
+          if [ -f requirements.txt ]; then pip3 install -r requirements.txt; fi
+      - name: create temporary remote
+        run: | 
+          git config --global user.name ${GITHUB_ACTOR}
+          git config --global user.email ${GITHUB_ACTOR}@users.noreply.github.com
+          git remote add documentation "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+          git pull documentation ${GITHUB_REF} --ff-only
+      - name: run pdoc3
+        continue-on-error: true
+        run: |
+          pdoc3 --html --output-dir docs/page --template-dir templates --force hrosailing
+      - name: push updated docs
+        continue-on-error: true
+        run: |
+          git add ${GITHUB_WORKSPACE}/docs/page
+          git commit -m "updated docs"
+          git push documentation HEAD:${GITHUB_REF}
+      - name: check if documentation was changed
+        uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            src:
+              - 'docs/**'  
+      - name: deploy to gh-pages
+        if: steps.changes.outputs.src
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+    
+    
+    

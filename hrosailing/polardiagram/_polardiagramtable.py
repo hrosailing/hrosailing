@@ -9,24 +9,13 @@ from typing import Iterable
 
 import numpy as np
 
-from hrosailing.pipelinecomponents import (
-    ArithmeticMeanInterpolator,
-    Ball,
-    WeightedPoints,
-)
+from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
+                                           WeightedPoints)
 
-from ._basepolardiagram import (
-    PolarDiagram,
-    PolarDiagramException,
-    PolarDiagramInitializationException,
-)
-from ._plotting import (
-    plot_color_gradient,
-    plot_convex_hull,
-    plot_flat,
-    plot_polar,
-    plot_surface,
-)
+from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
+                                PolarDiagramInitializationException)
+from ._plotting import (plot_color_gradient, plot_convex_hull, plot_flat,
+                        plot_polar, plot_surface)
 
 
 class PolarDiagramTable(PolarDiagram):
@@ -692,7 +681,7 @@ class PolarDiagramTable(PolarDiagram):
             colors or the color `"blue"`, if there are too few colors. The
             order is determined by the corresponding wind speeds
             - Alternatively one can specify certain slices to be plotted in
-            a color out of order by passing a `(ws, color)` pair
+            a color out of order by passing a sequence of `(ws, color)` pairs
 
             Defaults to `("green", "red")`
 
@@ -709,15 +698,15 @@ class PolarDiagramTable(PolarDiagram):
         legend_kw : dict, optional
             Keyword arguments to change position and appearence of the legend
 
-            See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-            possible keywords and their effects
+            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
+            for possible keywords and their effects
 
             Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their
+            See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
 
         Raises
@@ -793,7 +782,7 @@ class PolarDiagramTable(PolarDiagram):
             colors or the color `"blue"`, if there are too few colors. The
             order is determined by the corresponding wind speeds
             - Alternatively one can specify certain slices to be plotted in
-            a color out of order by passing a `(ws, color)` pair
+            a color out of order by passing a sequence of `(ws, color)` pairs
 
             Defaults to `("green", "red")`
 
@@ -810,15 +799,15 @@ class PolarDiagramTable(PolarDiagram):
         legend_kw : dict, optional
             Keyword arguments to change position and appearence of the legend
 
-            See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-            possible keywords and their effects
+            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
+            for possible keywords and their effects
 
             Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their
+            See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
 
         Raises
@@ -923,7 +912,7 @@ class PolarDiagramTable(PolarDiagram):
         legend_kw : Keyword arguments
             Keyword arguments to change position and appearance of the legend
 
-            See matplotlib.legend.Legend for possible keywords and
+            See `matplotlib.legend.Legend` for possible keywords and
             their effects
 
             Will only be used if show_legend is `True`
@@ -975,7 +964,7 @@ class PolarDiagramTable(PolarDiagram):
             colors or the color `"blue"`, if there are too few colors. The
             order is determined by the corresponding wind speeds
             - Alternatively one can specify certain slices to be plotted in
-            a color out of order by passing a `(ws, color)` pair
+            a color out of order by passing a sequence of `(ws, color)` pairs
 
             Defaults to `("green", "red")`
 
@@ -992,15 +981,15 @@ class PolarDiagramTable(PolarDiagram):
         legend_kw : dict, optional
             Keyword arguments to change position and appearance of the legend
 
-            See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-            possible keywords and their effects
+            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
+            for possible keywords and their effects
 
             Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearances of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their
+            See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
 
         Raises

@@ -121,6 +121,7 @@ when reading a file</p></div>
 <div class="desc"><p>Base class for all polar diagrams</p>
 <h2 id="abstract-methods">Abstract Methods</h2>
 <p>to_csv(csv_path)</p>
+<p><strong>from_csv</strong>(cls, file)</p>
 <p>symmetrize()</p>
 <p>get_slices(ws)</p>
 <p>plot_polar(
@@ -176,7 +177,17 @@ legend_kw=None,
 <div class="desc"><p>This method should, given a number of wind speeds, return
 a list of the given wind speeds as well as wind angles and
 corresponding boat speeds, that reflect how the vessel behaves at
-the given wind speeds</p></div>
+the given wind speeds</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>int/float</code></dt>
+<dd>
+<p>int/float
+description of slices of the polar diagram to be plotted.</p>
+<p>For a description of what the slice is made of,
+see the respective PolarDiagram subclass</p>
+</dd>
+</dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_3d"><code class="name flex">
 <span>def <span class="ident">plot_3d</span></span>(<span>self)</span>
@@ -190,7 +201,40 @@ the given wind speeds</p></div>
 <dd>
 <div class="desc"><p>This method should create 'wind speed vs. wind angle'
 color gradient plot of the polar diagram object with respect
-to the corresponding boat speeds</p></div>
+to the corresponding boat speeds</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code> of <code>two (2) color_likes</code>, optional</dt>
+<dd>
+<p>Color pair determining the color gradient with which the
+polar diagram will be plotted</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>marker</code></strong> :&ensp;<code>matplotlib.markers.Markerstyle</code> or <code>equivalent</code>, optional</dt>
+<dd>
+<p>Markerstyle for the created scatter plot</p>
+<p>Defaults to <code>"o"</code></p>
+</dd>
+<dt><strong><code>ms</code></strong> :&ensp;<code>float</code> or <code>array_like</code> of <code>fitting shape</code>, optional</dt>
+<dd>Marker size in points**2</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next
+to the plot</p>
+<p>Legend will be a <code>matplotlib.colorbar.Colorbar</code> instance</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See matplotlib.legend.Legend for possible keywords and
+their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+</dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_convex_hull"><code class="name flex">
 <span>def <span class="ident">plot_convex_hull</span></span>(<span>self, ws=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
@@ -198,7 +242,44 @@ to the corresponding boat speeds</p></div>
 <dd>
 <div class="desc"><p>This method should compute the convex hull of one or multiple
 slices, corresponding to <code>ws</code>, of the polar diagram and then create
-a polar plot of them</p></div>
+a polar plot of them</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram.</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
+<p>If nothing is passed, it will default to <code>(0, 20)</code></p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
+<dd>Axes instance where the plot will be create</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
+<dd>
+<p>Specifies the colors to be used for the different slices</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>The type of legend depends on the color options</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change various appearences of the plot</p>
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
+effects</p>
+</dd>
+</dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_convex_hull_slice"><code class="name flex">
 <span>def <span class="ident">plot_convex_hull_slice</span></span>(<span>self, ws, ax=None, **plot_kw)</span>
@@ -223,7 +304,7 @@ a suitable axes</p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>Keyword arguments that will be passed to the
-matplotlib.axes.Axes.plot function, to change
+<code>matplotlib.axes.Axes.plot</code> function, to change
 certain appearences of the plot</dd>
 </dl></div>
 </dd>
@@ -232,7 +313,43 @@ certain appearences of the plot</dd>
 </code></dt>
 <dd>
 <div class="desc"><p>This method should create a cartesian plot of one or more slices,
-corresponding to <code>ws</code>, of the polar diagram object</p></div>
+corresponding to <code>ws</code>, of the polar diagram object</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable, int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>Slices of the polar diagram.</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
+<p>If nothing is passed, it will default to (0, 20)</p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
+<dd>
+<p>Specifies the colors to be used for the different slices</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and matplotlib.legend.Legend for
+possible keywords and their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change various appearences of the plot</p>
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
+effects</p>
+</dd>
+</dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_flat_slice"><code class="name flex">
 <span>def <span class="ident">plot_flat_slice</span></span>(<span>self, ws, ax=None, **plot_kw)</span>
@@ -257,7 +374,7 @@ a suitable axes</p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>Keyword arguments that will be passed to the
-matplotlib.axes.Axes.plot function, to change
+<code>matplotlib.axes.Axes.plot</code> function, to change
 certain appearences of the plot</dd>
 </dl></div>
 </dd>
@@ -266,7 +383,42 @@ certain appearences of the plot</dd>
 </code></dt>
 <dd>
 <div class="desc"><p>This method should create a polar plot of one or more slices,
-corresponding to <code>ws</code>, of the polar diagram object.</p></div>
+corresponding to <code>ws</code>, of the polar diagram object.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ws</code></strong> :&ensp;<code>int/float</code></dt>
+<dd>
+<p>description of slices of the polar diagram to be plotted.</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
+</dd>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
+<dd>Axes instance where the plot will be created.</dd>
+<dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
+<dd>
+<p>Specifies the colors to be used for the different slices</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
+<p>Defaults to <code>("green", "red")</code></p>
+</dd>
+<dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>
+<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
+<p>Defaults to <code>False</code></p>
+</dd>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>
+<p>Keyword arguments to change position and appearence of the legend</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and matplotlib.legend.Legend for
+possible keywords and their effects</p>
+<p>Will only be used if show_legend is <code>True</code></p>
+</dd>
+<dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>
+<p>Keyword arguments to change various appearences of the plot</p>
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
+effects</p>
+</dd>
+</dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_polar_slice"><code class="name flex">
 <span>def <span class="ident">plot_polar_slice</span></span>(<span>self, ws, ax=None, **plot_kw)</span>
@@ -278,10 +430,10 @@ polar diagram</p>
 <dl>
 <dt><strong><code>ws</code></strong> :&ensp;<code>int/float</code></dt>
 <dd>
-<p>Slice of the polar diagram</p>
+<p>int/float
+description of slices of the polar diagram to be plotted.</p>
 <p>For a description of what the slice is made of,
-see the plot_polar()-method of the respective
-PolarDiagram subclasses</p>
+see the respective PolarDiagram subclass</p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
 <dd>
@@ -291,7 +443,7 @@ a suitable axes</p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>Keyword arguments that will be passed to the
-matplotlib.axes.Axes.plot function, to change
+<code>matplotlib.axes.Axes.plot</code> function, to change
 certain appearences of the plot</dd>
 </dl></div>
 </dd>
@@ -309,7 +461,12 @@ polar diagram object that called the method</p></div>
 <dd>
 <div class="desc"><p>This method should, given a path, write a .csv file in
 the location, containing human readable information about the
-polar diagram object that called the method</p></div>
+polar diagram object that called the method</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>csv_path</code></strong> :&ensp;<code>str,</code></dt>
+<dd>Path of the created csv file</dd>
+</dl></div>
 </dd>
 </dl>
 </dd>
@@ -325,7 +482,7 @@ given by a fitted curve/surface.</p>
 <dt><strong><code>f</code></strong> :&ensp;<code>function</code></dt>
 <dd>Curve/surface that describes the polar diagram, given as
 a function, with the signature <code>f(ws, wa, *params) -&gt; bsp</code>,
-where <code>ws</code>, <code>wa</code> and should be <code>array_like</code> of shape <code>(n,)</code></dd>
+where <code>ws</code> and <code>wa</code> should be <code>array_like</code> of shape <code>(n,)</code></dd>
 <dt><strong><code>params</code></strong> :&ensp;<code>Sequence</code></dt>
 <dd>Optimal parameters for <code>f</code></dd>
 <dt><strong><code>radians</code></strong> :&ensp;<code>bool</code>, optional</dt>
@@ -492,7 +649,7 @@ to the plot</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.legend.Legend for possible keywords and
+<p>See <code>matplotlib.legend.Legend</code> for possible keywords and
 their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
@@ -540,7 +697,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -555,14 +712,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl></div>
@@ -608,7 +765,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -623,14 +780,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl></div>
@@ -676,7 +833,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -691,14 +848,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl></div>
@@ -890,7 +1047,7 @@ to the plot</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.legend.Legend for possible keywords and
+<p>See <code>matplotlib.legend.Legend</code> for possible keywords and
 their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
@@ -932,14 +1089,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl>
@@ -981,7 +1138,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -996,14 +1153,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
-<p>Will only be used if show_legend is <code>True</code></p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
+<p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl>
@@ -1051,7 +1208,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -1066,14 +1223,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl>
@@ -1195,25 +1352,25 @@ of points consisting of wind speed, wind angle and boat speed</dd>
 <dd>
 <div class="desc"><p>For given wind speeds, return the slices of the polar diagram
 corresponding to them</p>
-<p>A slice then consists of all rows in self.wind_speeds whose
-first entry lies in the interval given by w in <code>ws</code></p>
+<p>The slices then consist of all points in the point cloud where the
+wind speed lies in certain intervals determined by <code>ws</code> as below</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable , int</code> or <code>float</code>, optional</dt>
+<dt><strong><code>ws</code></strong> :&ensp;<code>See below</code>, optional</dt>
 <dd>
 <p>Slices of the polar diagram given as either</p>
 <ul>
-<li>a tuple of length 2 specifying an interval of considered
-wind speeds. The amount of slices taken from that interval are
-determined by the parameter <code>stepsize</code></li>
-<li>an iterable of tuples of length 2 and int/float values
-which will be interpreted as individual slices. If a w in <code>ws</code>
-is an int or float, the given interval will be determined by
-the
-parameter <code>range_</code>. If it is a tuple, it will be interpreted
-as an inverval as is</li>
-<li>a single wind speed. The given interval is then determined by
-the parameter <code>range_</code></li>
+<li>a tuple of 2 int/float values, which will be turned into the
+iterable <code>numpy.linspace(ws[0], ws[1], stepsize)</code> of int/float values.
+The iterable will then be interpreted as below</li>
+<li>a mixed iterable containing tuples of 2 int/float values or
+singular int/float values which will be interpreted as
+individual slices. For a tuple the corresponding interval is given
+by the two values of the tuple interpreted as a lower and an upper
+bound. For a singular int/float value <code>w</code> the corresponding
+interval will be <code>(w - range_, w + range_)</code></li>
+<li>a singlular int/float value <code>w</code>. The corresponding interval will
+be <code>(w - range_, w + range_)</code></li>
 </ul>
 <p>If nothing is passed, it will default to
 <code>(min(self.wind_speeds), max(self.wind_speeds))</code></p>
@@ -1223,7 +1380,7 @@ the parameter <code>range_</code></li>
 <p>Specfies the amount of slices taken from the given
 interval in <code>ws</code></p>
 <p>Will only be used if <code>ws</code> is a tuple of length 2</p>
-<p>If nothing is passed it will default to int(round(ws[1] - ws[0]))</p>
+<p>If nothing is passed it will default to <code>int(round(ws[1] - ws[0]))</code></p>
 </dd>
 <dt><strong><code>range_</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
@@ -1267,7 +1424,7 @@ polar diagram will be plotted</p>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl>
@@ -1311,7 +1468,7 @@ to the plot</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.legend.Legend for possible keywords and
+<p>See <code>matplotlib.legend.Legend</code> for possible keywords and
 their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
@@ -1330,26 +1487,24 @@ their effects</p>
 slices of the polar diagram and creates a polar plot of them</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable , int</code> or <code>float</code>, optional</dt>
+<dt><strong><code>ws</code></strong> :&ensp;<code>See below</code>, optional</dt>
 <dd>
 <p>Slices of the polar diagram given as either</p>
 <ul>
-<li>a tuple of length 2 specifying an interval of considered
-wind speeds. The amount of slices taken from that interval are
-determined by the parameter <code>stepsize</code></li>
-<li>an iterable of tuples of length 2 and int/float values
-which will be interpreted as individual slices. If a <code>w</code> in <code>ws</code>
-is an int or float, the given interval will be determined by
-the
-parameter <code>range_</code>. If it is a tuple, it will be interpreted
-as an inverval as is</li>
-<li>a single wind speed. The given interval is then determined by
-the parameter <code>range_</code></li>
+<li>a tuple of 2 int/float values, which will be turned into the
+iterable <code>numpy.linspace(ws[0], ws[1], stepsize)</code> of int/float values.
+The iterable will then be interpreted as below</li>
+<li>a mixed iterable containing tuples of 2 int/float values or
+singular int/float values which will be interpreted as
+individual slices. For a tuple the corresponding interval is given
+by the two values of the tuple interpreted as a lower and an upper
+bound. For a singular int/float value <code>w</code> the corresponding
+interval will be <code>(w - range_, w + range_)</code></li>
+<li>a singlular int/float value <code>w</code>. The corresponding interval will
+be <code>(w - range_, w + range_)</code></li>
 </ul>
-<p>A slice then consists of all rows in <code>self.wind_speeds</code> whose
-first entry lies in the interval given by <code>w</code> in <code>ws</code></p>
 <p>If nothing is passed, it will default to
-<code>(min(self.wind_speeds), max(self.wind_speeds)</code></p>
+<code>(min(self.wind_speeds), max(self.wind_speeds))</code></p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
 <dd>
@@ -1376,7 +1531,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -1391,14 +1546,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl>
@@ -1417,26 +1572,24 @@ whose first entry is equal to <code>w</code></dd>
 <div class="desc"><p>Creates a cartesian plot of one or more slices of the polar diagram</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable , int</code> or <code>float</code>, optional</dt>
+<dt><strong><code>ws</code></strong> :&ensp;<code>See below</code>, optional</dt>
 <dd>
 <p>Slices of the polar diagram given as either</p>
 <ul>
-<li>a tuple of length 2 specifying an interval of considered
-wind speeds. The amount of slices taken from that interval are
-determined by the parameter <code>stepsize</code></li>
-<li>an iterable of tuples of length 2 and int/float values
-which will be interpreted as individual slices. If a <code>w</code> in <code>ws</code>
-is an int or float, the given interval will be determined by
-the
-parameter <code>range_</code>. If it is a tuple, it will be interpreted
-as an inverval as is</li>
-<li>a single wind speed. The given interval is then determined by
-the parameter <code>range_</code></li>
+<li>a tuple of 2 int/float values, which will be turned into the
+iterable <code>numpy.linspace(ws[0], ws[1], stepsize)</code> of int/float values.
+The iterable will then be interpreted as below</li>
+<li>a mixed iterable containing tuples of 2 int/float values or
+singular int/float values which will be interpreted as
+individual slices. For a tuple the corresponding interval is given
+by the two values of the tuple interpreted as a lower and an upper
+bound. For a singular int/float value <code>w</code> the corresponding
+interval will be <code>(w - range_, w + range_)</code></li>
+<li>a singlular int/float value <code>w</code>. The corresponding interval will
+be <code>(w - range_, w + range_)</code></li>
 </ul>
-<p>A slice then consists of all rows in <code>self.wind_speeds</code> whose
-first entry lies in the interval given by <code>w</code> in <code>ws</code></p>
 <p>If nothing is passed, it will default to
-<code>(min(self.wind_speeds), max(self.wind_speeds)</code></p>
+<code>(min(self.wind_speeds), max(self.wind_speeds))</code></p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
 <dd>
@@ -1465,7 +1618,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -1480,14 +1633,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl>
@@ -1506,24 +1659,22 @@ whose first entry is equal to <code>w</code></dd>
 <div class="desc"><p>Creates a polar plot of one or more slices of the polar diagram</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>ws</code></strong> :&ensp;<code>tuple</code> of <code>length 2, iterable , int</code> or <code>float</code>, optional</dt>
+<dt><strong><code>ws</code></strong> :&ensp;<code>See below</code>, optional</dt>
 <dd>
 <p>Slices of the polar diagram given as either</p>
 <ul>
-<li>a tuple of length 2 specifying an interval of considered
-wind speeds. The amount of slices taken from that interval are
-determined by the parameter <code>stepsize</code></li>
-<li>an iterable of tuples of length 2 and int/float values
-which will be interpreted as individual slices. If a <code>w</code> in <code>ws</code>
-is an int or float, the given interval will be determined by
-the
-parameter <code>range_</code>. If it is a tuple, it will be interpreted
-as an inverval as is</li>
-<li>a single wind speed. The given interval is then determined by
-the parameter <code>range_</code></li>
+<li>a tuple of 2 int/float values, which will be turned into the
+iterable <code>numpy.linspace(ws[0], ws[1], stepsize)</code> of int/float values.
+The iterable will then be interpreted as below</li>
+<li>a mixed iterable containing tuples of 2 int/float values or
+singular int/float values which will be interpreted as
+individual slices. For a tuple the corresponding interval is given
+by the two values of the tuple interpreted as a lower and an upper
+bound. For a singular int/float value <code>w</code> the corresponding
+interval will be <code>(w - range_, w + range_)</code></li>
+<li>a singlular int/float value <code>w</code>. The corresponding interval will
+be <code>(w - range_, w + range_)</code></li>
 </ul>
-<p>A slice then consists of all rows in <code>self.wind_speeds</code> whose
-first entry lies in the interval given by <code>w</code> in <code>ws</code></p>
 <p>If nothing is passed, it will default to
 <code>(min(self.wind_speeds), max(self.wind_speeds))</code></p>
 </dd>
@@ -1554,7 +1705,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -1569,14 +1720,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl>
@@ -1881,7 +2032,7 @@ to the plot</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.legend.Legend for possible keywords and
+<p>See <code>matplotlib.legend.Legend</code> for possible keywords and
 their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
@@ -1920,7 +2071,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -1935,14 +2086,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl>
@@ -1990,7 +2141,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -2005,14 +2156,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl>
@@ -2070,7 +2221,7 @@ gradient that is determined by the corresponding wind speed</li>
 colors or the color <code>"blue"</code>, if there are too few colors. The
 order is determined by the corresponding wind speeds</li>
 <li>Alternatively one can specify certain slices to be plotted in
-a color out of order by passing a <code>(ws, color)</code> pair</li>
+a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li>
 </ul>
 <p>Defaults to <code>("green", "red")</code></p>
 </dd>
@@ -2085,14 +2236,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
+for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
 <p>Keyword arguments to change various appearences of the plot</p>
-<p>See matplotlib.axes.Axes.plot for possible keywords and their
+<p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
 </dl>

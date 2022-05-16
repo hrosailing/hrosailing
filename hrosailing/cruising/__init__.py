@@ -19,7 +19,19 @@ from hrosailing.pipelinecomponents import InfluenceModel
 
 @dataclass
 class Direction:
-    """Dataclass to represent sections of a sailing maneuver"""
+    """Dataclass to represent recommended sections of a sailing maneuver.
+
+    Attributes
+    ----------
+    angle: int/float
+        Right headed angle between the boat heading and the wind direction.
+        Same as TWA but from the boats perspective.
+    proportion: float
+        The recommended proportion of time needed to sail into this direction.
+        Given as number between 0 and 1.
+    sail: str, optional
+        The name of the sail recommended to use.
+    """
 
     # Angle to the wind direction in degrees
     angle: float
@@ -54,8 +66,8 @@ def convex_direction(
     that direction, assuming constant wind speed `ws`
 
     If sailing straight into direction is the fastest way, function
-    returns that direction. Otherwise, function returns two directions
-    as well as their proportions, such that sailing into one direction for
+    returns that direction. Otherwise function returns two directions
+    aswell as their proportions, such that sailing into one direction for
     a corresponding proportion of a time segment and then into the other
     direction for a corresponding proportion of a time segment will be
     equal to sailing into `direction` but faster.
@@ -69,7 +81,10 @@ def convex_direction(
         The current wind speed given in knots
 
     direction : int / float
-        Angle to the wind direction
+        Right handed angle between the heading of the boat and
+        the negative of the wind direction.
+        Numerically equals TWA, but interpreted from the perspective of the
+        boat.
 
     im : InfluenceModel, optional
         The influence model used to consider additional influences
@@ -77,20 +92,20 @@ def convex_direction(
 
         Defaults to `None`
 
-    influence_data : dict, optional
+    influence_data: dict, optional
         Data containing information that might influence the boat speed
-        of the vessel (e.g. current, wave height), to be passed to
+        of the vessel (eg. current, wave height), to be passed to
         the used influence model
 
-        Will only be used if `im` is not `None`
+        Only used, if `im` is not `None`
 
         Defaults to `None`
 
     Returns
     -------
     edge : list of Directions
-        Either just one `Direction` instance, if sailing into `direction`
-        is the optimal way, or two `Direction` instances, that will "equal"
+        Either just one Direction instance, if sailing into `direction`
+        is the optimal way, or two Direction instances, that will "equal"
         to `direction`
     """
     _, wa, bsp, *sails = pd.get_slices(ws)
@@ -147,8 +162,8 @@ def cruise(
     im: Optional[InfluenceModel] = None,
     influence_data: Optional[dict] = None,
 ):
-    """Given a starting point A and an end point B,the function calculates
-    the fastest time and sailing direction it takes for a sailing-vessel to
+    """Given a starting point A and and end point B,the function calculates
+    the fastest time and sailing direction it takes for a sailing vessel to
     reach B from A, under constant wind.
 
     If needed the function will calculate two directions as well as the
@@ -183,12 +198,12 @@ def cruise(
 
         Defaults to `None`
 
-    influence_data : dict, optional
+    influence_data: dict, optional
         Data containing information that might influence the boat speed
-        of the vessel (e.g. current, wave height), to be passed to
+        of the vessel (eg. current, wave height), to be passed to
         the used influence model
 
-        Will only be used if `im` is not `None`
+        Only used, if `im` is not `None`
 
         Defaults to `None`
 
@@ -212,7 +227,7 @@ def cruise(
     heading = 180 - np.rad2deg(heading)
     d1, *d2 = convex_direction(pd, ws, heading)
 
-    dist = _great_earth_elipsoid_distance(start, end)
+    dist = _great_earth_ellipsoid_distance(start, end)
 
     bsp1 = bsp[np.where(wa == d1.angle)[0]]
     if not d2:
@@ -246,7 +261,7 @@ class WeatherModel:
         Sorted list of time values of the space-time grid
 
     lats : list of length m
-        Sorted list of latitude values of the space-time grid
+        Sorted list of lattitude values of the space-time grid
 
     lons : list of length r
         Sorted list of longitude values of the space-time grid
@@ -276,8 +291,8 @@ class WeatherModel:
 
         Parameters
         ----------
-        point : tuple of length 3
-            Space-time point given as tuple of time, latitude
+        point: tuple of length 3
+            Space-time point given as tuple of time, lattitude
             and longitude
 
         Returns
@@ -339,19 +354,28 @@ def cost_cruise(
     **ivp_kw,
 ):
     """Computes the total cost for traveling from a start position to an
-    end position. To be precise, for a given cost density it calculates
-    function cost and absolute function abs_cost
+    end position. To be precise:
+    Let l be the total distance of the start position and the end position,
+    cost be a density cost function describing the costs generated at each
+    point along the way (for example the indicator function for bad
+    weather) and abs_cost be a cost function describing the cost independent
+    from the weather along the way.
+    Note that abs_cost only depends on the exspected travel time and the
+    exspected travel distance.
 
-    int_0^l cost(s, t(s)) ds + abs_cost(t(l), l),
-
-    where `s` is the distance travelled, `l` is the total distance from
-    start to end and `t(s)` is the time travelled.
-    `t(s)` is the solution of the initial value problem
+    The method first approximates the travelled time (t)
+    as a function dependend on distance travelled (s) by numerically solving
+    the initial value problem
 
     t(0) = 0, dt/ds = 1/bsp(s,t).
 
-    The costs also depend on the weather forecast data, organized
-    by a `WeatherModel`, distances are computed using the mercator projection
+    Using this, it then uses numeric integration to predict the total costs as
+
+    int_0^l cost(s, t(s)) ds + abs_cost(t(l), l).
+
+    Note, that the costs in this mathematical description indirectly depend on
+    weather forecast data, organized by a 'WeatherModel'.
+    Distances are computed using the mercator projection
 
     Parameters
     ----------
@@ -368,12 +392,12 @@ def cost_cruise(
         The time at which the traveling starts
 
     wm : WeatherModel, optional
-        The weather model used
+        The WeatherModel used
 
     cost_fun_dens : callable, optional
-        Function giving a cost density for given time as `datetime.datetime`,
-        latitude as float, longitude as float and `WeatherModel`
-        `cost_fun_dens(t,lat,long,wm)` corresponds to `costs(s,t)` above
+        Function giving a cost density for given time as datetime.datetime,
+        lattitude as float, longitude as float and WeatherModel
+        cost_fun_dens(t,lat,long,wm) corresponds to costs(s,t) above
 
         Defaults to `None`
 
@@ -385,7 +409,7 @@ def cost_cruise(
     integration_method : callable, optional
         Function that takes two (n,) arrays y, x and computes
         an approximative integral from that.
-        Will only be used if `cost_fun_dens` is not `None`
+        Is only used if `cost_fun_dens` is not None
 
         Defaults to `scipy.integrate.trapezoid`
 
@@ -395,8 +419,8 @@ def cost_cruise(
 
         Defaults to `None`
 
-    ivp_kw : Keyword arguments
-        Keyword arguments which will be passed to `scipy.integrate.solve_ivp`
+    ivp_kw :
+        Keyword arguments which will be passed to scipy.integrate.solve_ivp
         in order to solve the initial value problem described above
 
     Returns
@@ -447,7 +471,7 @@ def cost_cruise(
     return absolute_cost + integration_method(costs, t_s.t)
 
 
-def isocrone(
+def isochrone(
     pd,
     start,
     start_time,
@@ -461,7 +485,7 @@ def isocrone(
     Estimates the maximum distance that can be reached from a given start
     point in a given amount of time without tacks and jibes.
     This is done by sampling the position space and using mercator projection.
-    A weather forecast, organized by a `WeatherModel` and an `InfluenceModel`,
+    A weather forecast, organized by a WeatherModel and an InfluenceModel
     are included in the computation.
 
     Parameters
@@ -470,33 +494,33 @@ def isocrone(
         The polar diagram of the used vessel
 
     start : 2-tuple of floats
-        The latitude and longitude of the starting point
+        The lattitude and longitude of the starting point
 
     start_time : datetime.datetime
         The time at which the traveling starts
 
     direction : float
-        The angle between North and the direction in which we aim to travel
+        The angle between North and the direction in which we aim to travel.
 
     wm : WeatherModel, optional
-        The weather model used
+        The weather model used.
 
     total_time : float
         The time in hours that the vessel is supposed to travel
-        in the given direction
+        in the given direction.
 
     min_nodes : int, optional
-        The minimum amount of sample points to sample the position space
-        Defaults to 100
+        The minimum amount of sample points to sample the position space.
+        Defaults to 100.
 
     im : InfluenceModel, optional
-        The influence model used
-        Defaults to ??
+        The influence model used.
+        Defaults to ??.
 
     Returns
     -------
     end : 2-tuple of floats
-        Latitude and longitude of the position that is reached when traveling
+        Lattitude and Longitude of the position that is reached when traveling
         total_time hours in the given direction
 
     s : float
@@ -532,8 +556,8 @@ def isocrone(
         t += der * step_size
         steps += 1
 
-    # we end up with s, t such that t >= total_time and steps > min_nodes
-    # still need to correct the last step such that t == total_time
+    # we end up with s, t such that t >= total_cost and steps > min_nodes
+    # still need to correct the last step such that t == total_cost
 
     s = (total_time + der * s - t) / der
 
@@ -545,7 +569,7 @@ def isocrone(
 
 def _inverse_mercator_proj(pt, lat_mp):
     """
-    Computes point from its mercator projection with reference point `lat_mp`
+    Computes point from its mercator projection with reference point lat_mp
     """
     x, y = pt / 69
     return x + lat_mp, 180 / np.pi * np.arcsin(np.tanh(y))
@@ -553,11 +577,11 @@ def _inverse_mercator_proj(pt, lat_mp):
 
 def _mercator_proj(pt, lat_mp):
     """
-    Computes the mercator projection with reference point `lat_mp` of a point
+    Computes the mercator projection with reference point lat_mp of a point
     """
     lat, long = pt
 
-    # 69 nautical miles between two latitudes
+    # 69 nautical miles between two lattitudes
     return 69 * np.array(
         [(lat - lat_mp), np.arcsinh(np.tan(np.pi * long / 180))]
     )
@@ -592,7 +616,7 @@ def _interpolate_weather_data(data, idxs, point, flags, grid):
         i, j, k = idxs.T
         return data[i, j, k, :]
 
-    # lexicographic first and last vertex of cube
+    # lexicograpic first and last vertex of cube
     start = idxs[0]
     end = idxs[-1]
 
@@ -654,7 +678,7 @@ def _wind_relative_to_north(wdir):
     """
     return wdir
 
-    # grib data:
+    # gribdata:
     # wdir = 180 / np.pi * np.arctan2(vgrd, ugrd) + 180
 
     # twa + bd:
@@ -662,7 +686,7 @@ def _wind_relative_to_north(wdir):
 
 
 def _uvgrid_to_tw(ugrid, vgrid, hdt):
-    """Calculates the true wind speed and wind angle from given grib data"""
+    """Calculates the true wind speed and wind angle fron given gribdata"""
     tws = np.sqrt(ugrid**2 + vgrid**2)
     wa = (180 + 180 / np.pi * np.arctan2(vgrid, ugrid)) % 360
     twa = (hdt - wa) % 360
@@ -673,7 +697,7 @@ EARTH_FLATTENING = 1 / 298.257223563
 EQUATOR_CIRCUMFERENCE = 40075.017
 
 
-def _great_earth_elipsoid_distance(a, b):
+def _great_earth_ellipsoid_distance(a, b):
     """Calculates the distance on the surface for two points on the
     earth surface
     """

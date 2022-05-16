@@ -6,25 +6,14 @@ from ast import literal_eval
 
 import numpy as np
 
-from hrosailing.pipelinecomponents import (
-    ArithmeticMeanInterpolator,
-    Ball,
-    WeightedPoints,
-)
+from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
+                                           WeightedPoints)
 from hrosailing.wind import convert_apparent_wind_to_true
 
-from ._basepolardiagram import (
-    PolarDiagram,
-    PolarDiagramException,
-    PolarDiagramInitializationException,
-)
-from ._plotting import (
-    plot3d,
-    plot_color_gradient,
-    plot_convex_hull,
-    plot_flat,
-    plot_polar,
-)
+from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
+                                PolarDiagramInitializationException)
+from ._plotting import (plot3d, plot_color_gradient, plot_convex_hull,
+                        plot_flat, plot_polar)
 
 
 class PolarDiagramPointcloud(PolarDiagram):
@@ -245,38 +234,39 @@ class PolarDiagramPointcloud(PolarDiagram):
         """For given wind speeds, return the slices of the polar diagram
         corresponding to them
 
-        A slice then consists of all rows in self.wind_speeds whose
-        first entry lies in the interval given by w in `ws`
+        The slices then consist of all points in the point cloud where the
+        wind speed lies in certain intervals determined by `ws` as below
 
         Parameters
         ----------
-        ws : tuple of length 2, iterable , int or float, optional
+        ws : See below, optional
             Slices of the polar diagram given as either
 
-            - a tuple of length 2 specifying an interval of considered
-            wind speeds. The amount of slices taken from that interval are
-            determined by the parameter `stepsize`
-            - an iterable of tuples of length 2 and int/float values
-            which will be interpreted as individual slices. If a w in `ws`
-            is an int or float, the given interval will be determined by
-            the  parameter `range_`. If it is a tuple, it will be interpreted
-            as an interval as is
-            - a single wind speed. The given interval is then determined by
-            the parameter `range_`
+            - a tuple of 2 int/float values, which will be turned into the
+            iterable `numpy.linspace(ws[0], ws[1], stepsize)` of int/float values.
+            The iterable will then be interpreted as below
+            - a mixed iterable containing tuples of 2 int/float values or
+            singular int/float values which will be interpreted as
+            individual slices. For a tuple the corresponding interval is given
+            by the two values of the tuple interpreted as a lower and an upper
+            bound. For a singular int/float value `w` the corresponding
+            interval will be `(w - range_, w + range_)`
+            - a singlular int/float value `w`. The corresponding interval will
+            be `(w - range_, w + range_)`
 
             If nothing is passed, it will default to
             `(min(self.wind_speeds), max(self.wind_speeds))`
 
         stepsize : positive int, optional
-            Specifies the amount of slices taken from the given
+            Specfies the amount of slices taken from the given
             interval in `ws`
 
             Will only be used if `ws` is a tuple of length 2
 
-            If nothing is passed it will default to int(round(ws[1] - ws[0]))
+            If nothing is passed it will default to `int(round(ws[1] - ws[0]))`
 
         range_ : positive int or float, optional
-            Used to convert an int or float `w` in `ws` to the interval
+            Used to convert and int or float `w` in `ws` to the interval
             `(w - range_, w + range_)`
 
             Will only be used if `ws` is int or float or
@@ -368,28 +358,26 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Parameters
         ----------
-        ws : tuple of length 2, iterable , int or float, optional
+        ws : See below, optional
             Slices of the polar diagram given as either
 
-            - a tuple of length 2 specifying an interval of considered
-            wind speeds. The amount of slices taken from that interval are
-            determined by the parameter `stepsize`
-            - an iterable of tuples of length 2 and int/float values
-            which will be interpreted as individual slices. If a `w` in `ws`
-            is an int or float, the given interval will be determined by
-            the  parameter `range_`. If it is a tuple, it will be interpreted
-            as an interval as is
-            - a single wind speed. The given interval is then determined by
-            the parameter `range_`
-
-            A slice then consists of all rows in `self.wind_speeds` whose
-            first entry lies in the interval given by `w` in `ws`
+            - a tuple of 2 int/float values, which will be turned into the
+            iterable `numpy.linspace(ws[0], ws[1], stepsize)` of int/float values.
+            The iterable will then be interpreted as below
+            - a mixed iterable containing tuples of 2 int/float values or
+            singular int/float values which will be interpreted as
+            individual slices. For a tuple the corresponding interval is given
+            by the two values of the tuple interpreted as a lower and an upper
+            bound. For a singular int/float value `w` the corresponding
+            interval will be `(w - range_, w + range_)`
+            - a singlular int/float value `w`. The corresponding interval will
+            be `(w - range_, w + range_)`
 
             If nothing is passed, it will default to
             `(min(self.wind_speeds), max(self.wind_speeds))`
 
         stepsize : positive int, optional
-            Specifies the amount of slices taken from the given
+            Specfies the amount of slices taken from the given
             interval in `ws`
 
             Will only be used if `ws` is a tuple of length 2
@@ -417,12 +405,12 @@ class PolarDiagramPointcloud(PolarDiagram):
             colors or the color `"blue"`, if there are too few colors. The
             order is determined by the corresponding wind speeds
             - Alternatively one can specify certain slices to be plotted in
-            a color out of order by passing a `(ws, color)` pair
+            a color out of order by passing a sequence of `(ws, color)` pairs
 
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot
+            Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -432,17 +420,17 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the legend
+            Keyword arguments to change position and appearence of the legend
 
-            See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-            possible keywords and their effects
+            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
+            for possible keywords and their effects
 
             Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearances of the plot
+            Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their
+            See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
 
         Raises
@@ -481,28 +469,26 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Parameters
         ----------
-        ws : tuple of length 2, iterable , int or float, optional
+        ws : See below, optional
             Slices of the polar diagram given as either
 
-            - a tuple of length 2 specifying an interval of considered
-            wind speeds. The amount of slices taken from that interval are
-            determined by the parameter `stepsize`
-            - an iterable of tuples of length 2 and int/float values
-            which will be interpreted as individual slices. If a `w` in `ws`
-            is an int or float, the given interval will be determined by
-            the  parameter `range_`. If it is a tuple, it will be interpreted
-            as an interval as is
-            - a single wind speed. The given interval is then determined by
-            the parameter `range_`
-
-            A slice then consists of all rows in `self.wind_speeds` whose
-            first entry lies in the interval given by `w` in `ws`
+            - a tuple of 2 int/float values, which will be turned into the
+            iterable `numpy.linspace(ws[0], ws[1], stepsize)` of int/float values.
+            The iterable will then be interpreted as below
+            - a mixed iterable containing tuples of 2 int/float values or
+            singular int/float values which will be interpreted as
+            individual slices. For a tuple the corresponding interval is given
+            by the two values of the tuple interpreted as a lower and an upper
+            bound. For a singular int/float value `w` the corresponding
+            interval will be `(w - range_, w + range_)`
+            - a singlular int/float value `w`. The corresponding interval will
+            be `(w - range_, w + range_)`
 
             If nothing is passed, it will default to
             `(min(self.wind_speeds), max(self.wind_speeds))`
 
         stepsize : positive int, optional
-            Specifies the amount of slices taken from the given
+            Specfies the amount of slices taken from the given
             interval in `ws`
 
             Will only be used if `ws` is a tuple of length 2
@@ -530,12 +516,12 @@ class PolarDiagramPointcloud(PolarDiagram):
             colors or the color `"blue"`, if there are too few colors. The
             order is determined by the corresponding wind speeds
             - Alternatively one can specify certain slices to be plotted in
-            a color out of order by passing a `(ws, color)` pair
+            a color out of order by passing a sequence of `(ws, color)` pairs
 
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot
+            Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -545,17 +531,17 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the legend
+            Keyword arguments to change position and appearence of the legend
 
-            See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-            possible keywords and their effects
+            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
+            for possible keywords and their effects
 
             Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearances of the plot
+            Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their
+            See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
 
         Raises
@@ -596,9 +582,9 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to `("green", "red")`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearances of the plot
+            Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their
+            See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
 
         Raises
@@ -651,7 +637,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Marker size in points**2
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next
+            Specifies wether or not a legend will be shown next
             to the plot
 
             Legend will be a `matplotlib.colorbar.Colorbar` instance
@@ -659,9 +645,9 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to `False`
 
         legend_kw : Keyword arguments
-            Keyword arguments to change position and appearance of the legend
+            Keyword arguments to change position and appearence of the legend
 
-            See matplotlib.legend.Legend for possible keywords and
+            See `matplotlib.legend.Legend` for possible keywords and
             their effects
 
             Will only be used if show_legend is `True`
@@ -694,33 +680,31 @@ class PolarDiagramPointcloud(PolarDiagram):
         legend_kw=None,
         **plot_kw,
     ):
-        """Computes the (separate) convex hull of one or more
+        """Computes the (seperate) convex hull of one or more
         slices of the polar diagram and creates a polar plot of them
 
         Parameters
         ----------
-        ws : tuple of length 2, iterable , int or float, optional
+        ws : See below, optional
             Slices of the polar diagram given as either
 
-            - a tuple of length 2 specifying an interval of considered
-            wind speeds. The amount of slices taken from that interval are
-            determined by the parameter `stepsize`
-            - an iterable of tuples of length 2 and int/float values
-            which will be interpreted as individual slices. If a `w` in `ws`
-            is an int or float, the given interval will be determined by
-            the  parameter `range_`. If it is a tuple, it will be interpreted
-            as an interval as is
-            - a single wind speed. The given interval is then determined by
-            the parameter `range_`
-
-            A slice then consists of all rows in `self.wind_speeds` whose
-            first entry lies in the interval given by `w` in `ws`
+            - a tuple of 2 int/float values, which will be turned into the
+            iterable `numpy.linspace(ws[0], ws[1], stepsize)` of int/float values.
+            The iterable will then be interpreted as below
+            - a mixed iterable containing tuples of 2 int/float values or
+            singular int/float values which will be interpreted as
+            individual slices. For a tuple the corresponding interval is given
+            by the two values of the tuple interpreted as a lower and an upper
+            bound. For a singular int/float value `w` the corresponding
+            interval will be `(w - range_, w + range_)`
+            - a singlular int/float value `w`. The corresponding interval will
+            be `(w - range_, w + range_)`
 
             If nothing is passed, it will default to
             `(min(self.wind_speeds), max(self.wind_speeds))`
 
         stepsize : positive int, optional
-            Specifies the amount of slices taken from the given
+            Specfies the amount of slices taken from the given
             interval in `ws`
 
             Will only be used if `ws` is a tuple of length 2
@@ -735,7 +719,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to `1`
 
         ax : matplotlib.projections.polar.PolarAxes, optional
-            Axes instance where the plot will be created.
+            Axes instance where the plot will be create
 
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
@@ -746,12 +730,12 @@ class PolarDiagramPointcloud(PolarDiagram):
             colors or the color `"blue"`, if there are too few colors. The
             order is determined by the corresponding wind speeds
             - Alternatively one can specify certain slices to be plotted in
-            a color out of order by passing a `(ws, color)` pair
+            a color out of order by passing a sequence of `(ws, color)` pairs
 
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot
+            Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -761,17 +745,17 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the legend
+            Keyword arguments to change position and appearence of the legend
 
-            See matplotlib.colorbar.Colorbar and matplotlib.legend.Legend for
-            possible keywords and their effects
+            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
+            for possible keywords and their effects
 
             Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearances of the plot
+            Keyword arguments to change various appearences of the plot
 
-            See matplotlib.axes.Axes.plot for possible keywords and their
+            See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
 
         Raises

@@ -53,7 +53,10 @@ equal to sailing into <code>direction</code> but faster.</p>
 <dt><strong><code>ws</code></strong> :&ensp;<code>int / float</code></dt>
 <dd>The current wind speed given in knots</dd>
 <dt><strong><code>direction</code></strong> :&ensp;<code>int / float</code></dt>
-<dd>Angle to the wind direction</dd>
+<dd>Right handed angle between the heading of the boat and
+the negative of the wind direction.
+Numerically equals TWA, but interpreted from the perspective of the
+boat.</dd>
 <dt><strong><code>im</code></strong> :&ensp;<code>InfluenceModel</code>, optional</dt>
 <dd>
 <p>The influence model used to consider additional influences
@@ -82,15 +85,23 @@ to <code>direction</code></dd>
 </code></dt>
 <dd>
 <div class="desc"><p>Computes the total cost for traveling from a start position to an
-end position. To be precise, it calculates for a given cost density
-function cost and absolute function abs_cost</p>
-<p>int_0^l cost(s, t(s)) ds + abs_cost(t(l), l),</p>
-<p>where s is the distance travelled, l is the total distance from
-start to end and t(s) is the time travelled.
-t(s) is the solution of the initial value problem</p>
+end position. To be precise:
+Let l be the total distance of the start position and the end position,
+cost be a density cost function describing the costs generated at each
+point along the way (for example the indicator function for bad
+weather) and abs_cost be a cost function describing the cost independent
+from the weather along the way.
+Note that abs_cost only depends on the exspected travel time and the
+exspected travel distance.</p>
+<p>The method first approximates the travelled time (t)
+as a function dependend on distance travelled (s) by numerically solving
+the initial value problem</p>
 <p>t(0) = 0, dt/ds = 1/bsp(s,t).</p>
-<p>The costs also depend on the weather forecast data, organized
-by a WeatherModel, distances are computed using the mercator projection</p>
+<p>Using this, it then uses numeric integration to predict the total costs as</p>
+<p>int_0^l cost(s, t(s)) ds + abs_cost(t(l), l).</p>
+<p>Note, that the costs in this mathematical description indirectly depend on
+weather forecast data, organized by a 'WeatherModel'.
+Distances are computed using the mercator projection</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>pd</code></strong> :&ensp;<code>PolarDiagram</code></dt>
@@ -190,8 +201,8 @@ the used influence model</p>
 to get from start to end</dd>
 </dl></div>
 </dd>
-<dt id="hrosailing.cruising.isocrone"><code class="name flex">
-<span>def <span class="ident">isocrone</span></span>(<span>pd, start, start_time, direction, wm: <a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a>, total_time=1, min_nodes=100, im: Optional[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>] = None)</span>
+<dt id="hrosailing.cruising.isochrone"><code class="name flex">
+<span>def <span class="ident">isochrone</span></span>(<span>pd, start, start_time, direction, wm: <a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a>, total_time=1, min_nodes=100, im: Optional[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Estimates the maximum distance that can be reached from a given start
@@ -240,7 +251,18 @@ total_time hours in the given direction</dd>
 <span>(</span><span>angle: float, proportion: float, sail: Optional[str] = None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Dataclass to represent sections of a sailing maneuver</p></div>
+<div class="desc"><p>Dataclass to represent recommended sections of a sailing maneuver.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>angle</code></strong> :&ensp;<code>int/float</code></dt>
+<dd>Right headed angle between the boat heading and the wind direction.
+Same as TWA but from the boats perspective.</dd>
+<dt><strong><code>proportion</code></strong> :&ensp;<code>float</code></dt>
+<dd>The recommended proportion of time needed to sail into this direction.
+Given as number between 0 and 1.</dd>
+<dt><strong><code>sail</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>The name of the sail recommended to use.</dd>
+</dl></div>
 <h3>Class variables</h3>
 <dl>
 <dt id="hrosailing.cruising.Direction.angle"><code class="name">var <span class="ident">angle</span> : float</code></dt>
@@ -391,7 +413,7 @@ setTimeout(() => input.focus(), 100);
 <li><code><a title="hrosailing.cruising.convex_direction" href="#hrosailing.cruising.convex_direction">convex_direction</a></code></li>
 <li><code><a title="hrosailing.cruising.cost_cruise" href="#hrosailing.cruising.cost_cruise">cost_cruise</a></code></li>
 <li><code><a title="hrosailing.cruising.cruise" href="#hrosailing.cruising.cruise">cruise</a></code></li>
-<li><code><a title="hrosailing.cruising.isocrone" href="#hrosailing.cruising.isocrone">isocrone</a></code></li>
+<li><code><a title="hrosailing.cruising.isochrone" href="#hrosailing.cruising.isochrone">isochrone</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
