@@ -25,12 +25,12 @@ class Direction:
     ----------
     angle : int/float
         Right headed angle between the boat heading and the wind direction.
-        Same as TWA but from the boats perspective.
+        Same as TWA but from the boats perspective
     proportion : float
         The recommended proportion of time needed to sail into this direction.
-        Given as number between 0 and 1.
+        Given as number between 0 and 1
     sail : str, optional
-        The name of the sail recommended to use.
+        The name of the sail recommended to use
     """
 
     # Angle to the wind direction in degrees
