@@ -111,7 +111,7 @@ def convex_direction(
     _, wa, bsp, *sails = pd.get_slices(ws)
     if im:
         bsp = im.add_influence(pd, influence_data)
-    bsp = bsp.ravel()
+    bsp = np.array(bsp).ravel()
 
     polar_pts = np.column_stack(
         (bsp * np.cos(wa).ravel(), bsp * np.sin(wa).ravel())
