@@ -39,7 +39,7 @@ class PolarDiagramTable(PolarDiagram):
         Wind speeds that will correspond to the columns
         of the table
 
-        - If array_like, resolution will be `np.array(ws_resolution)`
+        - If array_like, resolution will be `numpy.array(ws_resolution)`
         - If a scalar `num`, resolution will be `numpy.arange(num, 40, num)`
 
         Defaults to `numpy.arange(2, 42, 2)`
@@ -48,7 +48,7 @@ class PolarDiagramTable(PolarDiagram):
         Wind angles that will correspond to the rows of the table.
         Should be between 0° and 360°
 
-        - If array_like, resolution will be `np.array(wa_resolution)`
+        - If array_like, resolution will be `numpy.array(wa_resolution)`
         - If a scalar `num`, resolution will be `numpy.arange(num, 360, num)`
 
         Defaults to `numpy.arange(0, 360, 5)`
