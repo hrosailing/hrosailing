@@ -408,8 +408,10 @@ corresponding to <code>ws</code>, of the polar diagram object.</p>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Keyword arguments to change position and appearence of the legend</p>
-<p>See <code>matplotlib.colorbar.Colorbar</code> and matplotlib.legend.Legend for
-possible keywords and their effects</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> for possible keywords
+when a colorbar is created and matplotlib.legend.Legend for
+possible keywords in cases where a Legend is created.</p>
+<p>For details refer to the respective PolarDiagram subclass.</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
@@ -646,12 +648,19 @@ to the plot</p>
 <p>Legend will be a <code>matplotlib.colorbar.Colorbar</code> instance</p>
 <p>Defaults to <code>False</code></p>
 </dd>
-<dt><strong><code>legend_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the legend</p>
-<p>See <code>matplotlib.legend.Legend</code> for possible keywords and
-their effects</p>
-<p>Will only be used if show_legend is <code>True</code></p>
+<p>Keyword arguments to change position and appearence of the colorbar
+or legend respectively</p>
+<ul>
+<li>If 2 colors are passed, a colorbar will be created.
+In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
+keywords and their effect</li>
+<li>Otherwise, a legend will be created.
+In this case see 'matplotlib.legend.Legend' for possible keywords
+and their effect.</li>
+</ul>
+<p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 </dl></div>
 </dd>
@@ -711,10 +720,17 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the legend</p>
-<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
-for possible keywords and their effects</p>
-<p>Will only be used if show_legend is <code>True</code></p>
+<p>Keyword arguments to change position and appearence of the colorbar
+or legend respectively</p>
+<ul>
+<li>If 2 colors are passed, a colorbar will be created.
+In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
+keywords and their effect</li>
+<li>Otherwise, a legend will be created.
+In this case see 'matplotlib.legend.Legend' for possible keywords
+and their effect.</li>
+</ul>
+<p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
@@ -779,9 +795,16 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the legend</p>
-<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
-for possible keywords and their effects</p>
+<p>Keyword arguments to change position and appearence of the colorbar
+or legend respectively</p>
+<ul>
+<li>If 2 colors are passed, a colorbar will be created.
+In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
+keywords and their effect</li>
+<li>Otherwise, a legend will be created.
+In this case see 'matplotlib.legend.Legend' for possible keywords
+and their effect.</li>
+</ul>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
@@ -847,10 +870,17 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the legend</p>
-<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
-for possible keywords and their effects</p>
-<p>Will only be used if show_legend is <code>True</code></p>
+<p>Keyword arguments to change position and appearence of the colorbar
+or legend respectively</p>
+<ul>
+<li>If 2 colors are passed, a colorbar will be created.
+In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
+keywords and their effect</li>
+<li>Otherwise, a legend will be created.
+In this case see 'matplotlib.legend.Legend' for possible keywords
+and their effect.</li>
+</ul>
+<p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
@@ -1044,12 +1074,19 @@ to the plot</p>
 <p>Legend will be a <code>matplotlib.colorbar.Colorbar</code> instance</p>
 <p>Defaults to <code>False</code></p>
 </dd>
-<dt><strong><code>legend_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the legend</p>
-<p>See <code>matplotlib.legend.Legend</code> for possible keywords and
-their effects</p>
-<p>Will only be used if show_legend is <code>True</code></p>
+<p>Keyword arguments to change position and appearence of the colorbar
+or legend respectively</p>
+<ul>
+<li>If 2 colors are passed, a colorbar will be created.
+In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
+keywords and their effect</li>
+<li>Otherwise, a legend will be created.
+In this case see 'matplotlib.legend.Legend' for possible keywords
+and their effect.</li>
+</ul>
+<p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 </dl></div>
 </dd>
@@ -1088,10 +1125,17 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the legend</p>
-<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
-for possible keywords and their effects</p>
-<p>Will only be used if show_legend is <code>True</code></p>
+<p>Keyword arguments to change position and appearence of the colorbar
+or legend respectively</p>
+<ul>
+<li>If 2 colors are passed, a colorbar will be created.
+In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
+keywords and their effect</li>
+<li>Otherwise, a legend will be created.
+In this case see 'matplotlib.legend.Legend' for possible keywords
+and their effect.</li>
+</ul>
+<p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
@@ -1152,9 +1196,16 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the legend</p>
-<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
-for possible keywords and their effects</p>
+<p>Keyword arguments to change position and appearence of the colorbar
+or legend respectively</p>
+<ul>
+<li>If 2 colors are passed, a colorbar will be created.
+In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
+keywords and their effect</li>
+<li>Otherwise, a legend will be created.
+In this case see 'matplotlib.legend.Legend' for possible keywords
+and their effect.</li>
+</ul>
 <p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
@@ -1222,10 +1273,17 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the legend</p>
-<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
-for possible keywords and their effects</p>
-<p>Will only be used if show_legend is <code>True</code></p>
+<p>Keyword arguments to change position and appearence of the colorbar
+or legend respectively</p>
+<ul>
+<li>If 2 colors are passed, a colorbar will be created.
+In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
+keywords and their effect</li>
+<li>Otherwise, a legend will be created.
+In this case see 'matplotlib.legend.Legend' for possible keywords
+and their effect.</li>
+</ul>
+<p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
@@ -1465,12 +1523,19 @@ to the plot</p>
 <p>Legend will be a <code>matplotlib.colorbar.Colorbar</code> instance</p>
 <p>Defaults to <code>False</code></p>
 </dd>
-<dt><strong><code>legend_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the legend</p>
-<p>See <code>matplotlib.legend.Legend</code> for possible keywords and
-their effects</p>
-<p>Will only be used if show_legend is <code>True</code></p>
+<p>Keyword arguments to change position and appearence of the colorbar
+or legend respectively</p>
+<ul>
+<li>If 2 colors are passed, a colorbar will be created.
+In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
+keywords and their effect</li>
+<li>Otherwise, a legend will be created.
+In this case see 'matplotlib.legend.Legend' for possible keywords
+and their effect.</li>
+</ul>
+<p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 </dl>
 <h2 id="raises">Raises</h2>
@@ -1545,10 +1610,17 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the legend</p>
-<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
-for possible keywords and their effects</p>
-<p>Will only be used if show_legend is <code>True</code></p>
+<p>Keyword arguments to change position and appearence of the colorbar
+or legend respectively</p>
+<ul>
+<li>If 2 colors are passed, a colorbar will be created.
+In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
+keywords and their effect</li>
+<li>Otherwise, a legend will be created.
+In this case see 'matplotlib.legend.Legend' for possible keywords
+and their effect.</li>
+</ul>
+<p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
@@ -1562,7 +1634,7 @@ effects</p>
 <dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
 <dd>If <code>ws</code> is given as a single value or a list and there is a
 value <code>w</code> in <code>ws</code>, such that there are no rows in <code>self.points</code>
-whose first entry is equal to <code>w</code></dd>
+whose first entry 'w' is in the interval <code>(w-range_, w+range)</code>.</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.plot_flat"><code class="name flex">
@@ -1649,7 +1721,7 @@ effects</p>
 <dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
 <dd>If <code>ws</code> is given as a single value or a list and there is a
 value <code>w</code> in <code>ws</code>, such that there are no rows in <code>self.points</code>
-whose first entry is equal to <code>w</code></dd>
+whose first entry 'w' is in the interval `(w-range_, w+range).</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.plot_polar"><code class="name flex">
@@ -1736,7 +1808,7 @@ effects</p>
 <dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
 <dd>If <code>ws</code> is given as a single value or a list and there is a
 value <code>w</code> in <code>ws</code>, such that there are no rows in <code>self.points</code>
-whose first entry is equal to <code>w</code></dd>
+whose first entry 'w' is in the interval `(w-range_, w+range).</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.symmetrize"><code class="name flex">
@@ -2029,12 +2101,19 @@ to the plot</p>
 <p>Legend will be a <code>matplotlib.colorbar.Colorbar</code> instance</p>
 <p>Defaults to <code>False</code></p>
 </dd>
-<dt><strong><code>legend_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the legend</p>
-<p>See <code>matplotlib.legend.Legend</code> for possible keywords and
-their effects</p>
-<p>Will only be used if show_legend is <code>True</code></p>
+<p>Keyword arguments to change position and appearence of the colorbar
+or legend respectively</p>
+<ul>
+<li>If 2 colors are passed, a colorbar will be created.
+In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
+keywords and their effect</li>
+<li>Otherwise, a legend will be created.
+In this case see 'matplotlib.legend.Legend' for possible keywords
+and their effect.</li>
+</ul>
+<p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 </dl></div>
 </dd>
@@ -2085,10 +2164,17 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the legend</p>
-<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
-for possible keywords and their effects</p>
-<p>Will only be used if show_legend is <code>True</code></p>
+<p>Keyword arguments to change position and appearence of the colorbar
+or legend respectively</p>
+<ul>
+<li>If 2 colors are passed, a colorbar will be created.
+In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
+keywords and their effect</li>
+<li>Otherwise, a legend will be created.
+In this case see 'matplotlib.legend.Legend' for possible keywords
+and their effect.</li>
+</ul>
+<p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
@@ -2155,10 +2241,17 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the legend</p>
-<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
-for possible keywords and their effects</p>
-<p>Will only be used if show_legend is <code>True</code></p>
+<p>Keyword arguments to change position and appearence of the colorbar
+or legend respectively</p>
+<ul>
+<li>If 2 colors are passed, a colorbar will be created.
+In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
+keywords and their effect</li>
+<li>Otherwise, a legend will be created.
+In this case see 'matplotlib.legend.Legend' for possible keywords
+and their effect.</li>
+</ul>
+<p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
@@ -2235,10 +2328,17 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the legend</p>
-<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
-for possible keywords and their effects</p>
-<p>Will only be used if show_legend is <code>True</code></p>
+<p>Keyword arguments to change position and appearence of the colorbar
+or legend respectively</p>
+<ul>
+<li>If 2 colors are passed, a colorbar will be created.
+In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
+keywords and their effect</li>
+<li>Otherwise, a legend will be created.
+In this case see 'matplotlib.legend.Legend' for possible keywords
+and their effect.</li>
+</ul>
+<p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>

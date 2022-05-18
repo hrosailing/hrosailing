@@ -8,8 +8,11 @@ from ast import literal_eval
 import matplotlib.pyplot as plt
 import numpy as np
 
-from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
-                                PolarDiagramInitializationException)
+from ._basepolardiagram import (
+    PolarDiagram,
+    PolarDiagramException,
+    PolarDiagramInitializationException,
+)
 from ._plotting import plot_convex_hull_multisails
 from ._polardiagramtable import PolarDiagramTable
 
@@ -263,12 +266,17 @@ class PolarDiagramMultiSails(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the legend
+            Keyword arguments to change position and appearance of the colorbar
+            or legend respectively
 
-            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
-            for possible keywords and their effects
+            - If 2 colors are passed, a colorbar will be created.
+            In this case see `matplotlib.colorbar.Colorbar` for possible
+            keywords and their effect
+            - Otherwise, a legend will be created.
+            In this case see `matplotlib.legend.Legend` for possible keywords
+            and their effect.
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearances of the plot
@@ -349,10 +357,15 @@ class PolarDiagramMultiSails(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the legend
+            Keyword arguments to change position and appearance of the colorbar
+            or legend respectively
 
-            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
-            for possible keywords and their effects
+            - If 2 colors are passed, a colorbar will be created.
+            In this case see `matplotlib.colorbar.Colorbar` for possible
+            keywords and their effect
+            - Otherwise, a legend will be created.
+            In this case see `matplotlib.legend.Legend` for possible keywords
+            and their effect.
 
             Will only be used if `show_legend` is `True`
 
@@ -439,13 +452,18 @@ class PolarDiagramMultiSails(PolarDiagram):
 
             Defaults to `False`
 
-        legend_kw : Keyword arguments
-            Keyword arguments to change position and appearance of the legend
+        legend_kw : dict, optional
+            Keyword arguments to change position and appearance of the colorbar
+            or legend respectively
 
-            See `matplotlib.legend.Legend` for possible keywords and
-            their effects
+            - If 2 colors are passed, a colorbar will be created.
+            In this case see `matplotlib.colorbar.Colorbar` for possible
+            keywords and their effect
+            - Otherwise, a legend will be created.
+            In this case see `matplotlib.legend.Legend` for possible keywords
+            and their effect.
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         """
         warnings.warn(
@@ -495,12 +513,17 @@ class PolarDiagramMultiSails(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the legend
+            Keyword arguments to change position and appearance of the colorbar
+            or legend respectively
 
-            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
-            for possible keywords and their effects
+            - If 2 colors are passed, a colorbar will be created.
+            In this case see `matplotlib.colorbar.Colorbar` for possible
+            keywords and their effect
+            - Otherwise, a legend will be created.
+            In this case see `matplotlib.legend.Legend` for possible keywords
+            and their effect.
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearances of the plot

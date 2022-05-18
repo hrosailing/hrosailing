@@ -6,14 +6,25 @@ from ast import literal_eval
 
 import numpy as np
 
-from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
-                                           WeightedPoints)
+from hrosailing.pipelinecomponents import (
+    ArithmeticMeanInterpolator,
+    Ball,
+    WeightedPoints,
+)
 from hrosailing.wind import convert_apparent_wind_to_true
 
-from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
-                                PolarDiagramInitializationException)
-from ._plotting import (plot3d, plot_color_gradient, plot_convex_hull,
-                        plot_flat, plot_polar)
+from ._basepolardiagram import (
+    PolarDiagram,
+    PolarDiagramException,
+    PolarDiagramInitializationException,
+)
+from ._plotting import (
+    plot3d,
+    plot_color_gradient,
+    plot_convex_hull,
+    plot_flat,
+    plot_polar,
+)
 
 
 class PolarDiagramPointcloud(PolarDiagram):
@@ -438,7 +449,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         PolarDiagramException
             If `ws` is given as a single value or a list and there is a
             value `w` in `ws`, such that there are no rows in `self.points`
-            whose first entry is equal to `w`
+            whose first entry 'w' is in the interval `(w-range_, w+range).
         """
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
         plot_polar(
@@ -549,7 +560,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         PolarDiagramException
             If `ws` is given as a single value or a list and there is a
             value `w` in `ws`, such that there are no rows in `self.points`
-            whose first entry is equal to `w`
+            whose first entry 'w' is in the interval `(w-range_, w+range).
         """
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
         wa = [np.rad2deg(a) for a in wa]
@@ -644,13 +655,18 @@ class PolarDiagramPointcloud(PolarDiagram):
 
             Defaults to `False`
 
-        legend_kw : Keyword arguments
-            Keyword arguments to change position and appearance of the legend
+        legend_kw : dict, optional
+            Keyword arguments to change position and appearance of the colorbar
+            or legend respectively
 
-            See `matplotlib.legend.Legend` for possible keywords and
-            their effects
+            - If 2 colors are passed, a colorbar will be created.
+            In this case see `matplotlib.colorbar.Colorbar` for possible
+            keywords and their effect
+            - Otherwise, a legend will be created.
+            In this case see `matplotlib.legend.Legend` for possible keywords
+            and their effect.
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         Raises
         ------
@@ -745,12 +761,17 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the legend
+            Keyword arguments to change position and appearance of the colorbar
+            or legend respectively
 
-            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
-            for possible keywords and their effects
+            - If 2 colors are passed, a colorbar will be created.
+            In this case see `matplotlib.colorbar.Colorbar` for possible
+            keywords and their effect
+            - Otherwise, a legend will be created.
+            In this case see `matplotlib.legend.Legend` for possible keywords
+            and their effect.
 
-            Will only be used if show_legend is `True`
+            Will only be used if `show_legend` is `True`
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearances of the plot
@@ -763,7 +784,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         PolarDiagramException
             If `ws` is given as a single value or a list and there is a
             value `w` in `ws`, such that there are no rows in `self.points`
-            whose first entry is equal to `w`
+            whose first entry 'w' is in the interval `(w-range_, w+range)`.
         """
         ws, wa, bsp = self.get_slices(ws, stepsize, range_)
 

@@ -111,7 +111,8 @@ def convex_direction(
     _, wa, bsp, *sails = pd.get_slices(ws)
     if im:
         bsp = im.add_influence(pd, influence_data)
-    bsp = bsp.ravel()
+    bsp = np.array(bsp).ravel()
+    wa = np.array(wa).ravel()
 
     polar_pts = np.column_stack(
         (bsp * np.cos(wa).ravel(), bsp * np.sin(wa).ravel())
@@ -302,6 +303,11 @@ class WeatherModel:
 
             If it is a grid point, the weather data is taken straight
             from the model, else it is interpolated as described above
+
+        Raises
+        ---------------
+        OutsideGridException
+            When `point` is not contained in any cell of the grid.
         """
         # check if given point lies in the grid
         fst = (self._times[0], self._lats[0], self._lons[0])
