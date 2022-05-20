@@ -79,8 +79,8 @@ class PolarDiagramCurve(PolarDiagram):
         )
 
     def __call__(self, ws, wa):
-        if np.any((ws <= 0)):
-            raise PolarDiagramException("`ws` is nonpositive")
+        if np.any((ws < 0)):
+            raise PolarDiagramException("`ws` is negative")
 
         if self.radians:
             wa = np.rad2deg(wa)
