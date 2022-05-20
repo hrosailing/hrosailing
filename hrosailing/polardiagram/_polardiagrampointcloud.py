@@ -301,7 +301,11 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         if isinstance(ws, (int, float)):
             ws = [ws]
-        elif isinstance(ws, tuple) and len(ws) == 2:
+        elif (
+            isinstance(ws, tuple) and
+            len(ws) == 2 and
+            all([isinstance(w, (int, float)) for w in ws])
+        ):
             if stepsize is None:
                 stepsize = int(round(ws[1] - ws[0]))
 
