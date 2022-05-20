@@ -17,6 +17,11 @@ import hrosailing.polardiagram as pol
 from hrosailing.pipelinecomponents import InfluenceModel
 
 
+class CruisingException(Exception):
+    """Exception which will be raised if a non-Standard error in a cruising
+    method occurs."""
+
+
 @dataclass
 class Direction:
     """Dataclass to represent recommended sections of a sailing maneuver."""
@@ -97,6 +102,13 @@ def convex_direction(
         Either just one Direction instance, if sailing into `direction`
         is the optimal way, or two Direction instances, that will "equal"
         to `direction`
+
+    Raises
+    -------
+    CruisingException:
+        If the given polar diagram slice can not be evaluated in the given
+        direction. For example, this could be the case, if the polar diagram
+        only has data for angles between 0 and 180 degrees.
     """
     _, wa, bsp, *sails = pd.get_slices(ws)
     if im:
@@ -119,6 +131,10 @@ def convex_direction(
             break
     else:
         i1, i2 = vert[0], vert[-1]
+        if abs(wa[i1] - wa[i2]) < 180:
+            raise CruisingException(
+                "The given direction is not supported by the given polar_diagram."
+            )
         edge = [Direction(wa[i1], 1), Direction(wa[i2], 1)]
 
     if sails:
