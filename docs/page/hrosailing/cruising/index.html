@@ -78,7 +78,12 @@ the used influence model</p>
 <dd>Either just one Direction instance, if sailing into <code>direction</code>
 is the optimal way, or two Direction instances, that will "equal"
 to <code>direction</code></dd>
-</dl></div>
+</dl>
+<h2 id="raises">Raises</h2>
+<h2 id="cruisingexception">Cruisingexception</h2>
+<p>If the given polar diagram slice can not be evaluated in the given
+direction. For example, this could be the case, if the polar diagram
+only has data for angles between 0 and 180 degrees.</p></div>
 </dd>
 <dt id="hrosailing.cruising.cost_cruise"><code class="name flex">
 <span>def <span class="ident">cost_cruise</span></span>(<span>pd, start, end, start_time: datetime.datetime, wm: <a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a>, cost_fun_dens=None, cost_fun_abs=&lt;function &lt;lambda&gt;&gt;, integration_method=&lt;function trapz&gt;, im: Optional[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>] = None, **ivp_kw)</span>
@@ -246,6 +251,19 @@ total_time hours in the given direction</dd>
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
+<dt id="hrosailing.cruising.CruisingException"><code class="flex name class">
+<span>class <span class="ident">CruisingException</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Exception which will be raised if a non-Standard error in a cruising
+method occurs.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
 <dt id="hrosailing.cruising.Direction"><code class="flex name class">
 <span>class <span class="ident">Direction</span></span>
 <span>(</span><span>angle: float, proportion: float, sail: Optional[str] = None)</span>
@@ -415,6 +433,9 @@ setTimeout(() => input.focus(), 100);
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
+<li>
+<h4><code><a title="hrosailing.cruising.CruisingException" href="#hrosailing.cruising.CruisingException">CruisingException</a></code></h4>
+</li>
 <li>
 <h4><code><a title="hrosailing.cruising.Direction" href="#hrosailing.cruising.Direction">Direction</a></code></h4>
 </li>
