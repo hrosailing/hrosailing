@@ -10,7 +10,7 @@ import numpy as np
 
 from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
                                 PolarDiagramInitializationException)
-from ._plotting import plot_convex_hull_multisails
+from ._plotting import plot_convex_hull_multisails, _get_new_axis
 from ._polardiagramtable import PolarDiagramTable
 
 
@@ -380,6 +380,9 @@ class PolarDiagramMultiSails(PolarDiagram):
             - If the given interval doesn't contain any slices of the
             polar diagram
         """
+        if ax is None:
+            ax = _get_new_axis("rectilinear")
+
         for i, pd in enumerate(self._tables):
             if i == 0 and show_legend:
                 pd.plot_flat(ws, ax, colors, show_legend, legend_kw, **plot_kw)
