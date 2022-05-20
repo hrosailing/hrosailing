@@ -19,8 +19,7 @@ from hrosailing.pipelinecomponents import InfluenceModel
 
 @dataclass
 class Direction:
-    """Dataclass to represent recommended sections of a sailing maneuver.
-    """
+    """Dataclass to represent recommended sections of a sailing maneuver."""
 
     #: Right headed angle between the boat heading and the wind direction.
     #:   Same as TWA but from the boats perspective.
@@ -29,7 +28,6 @@ class Direction:
     #: The recommended proportion of time needed to sail into this direction.
     #: Given as number between 0 and 1.
     proportion: float
-
 
     #: Type/Name of sail that should be hissed, when
     #: sailing in the direction (if existent)
