@@ -239,7 +239,7 @@ def cruise(
 
     bsp1 = bsp[np.where(wa == d1.angle)[0]]
     if not d2:
-        return [(d1.angle, dist / bsp1)]
+        return [(d1.angle, float(dist / bsp1))]
 
     d2 = d2[0]
     bsp2 = bsp[np.where(wa == d2.angle)[0]]
@@ -247,7 +247,7 @@ def cruise(
     t = dist / (d1.proportion * bsp1 + d2.proportion * bsp2)
     t1, t2 = d1.proportion * t, d2.proportion * t
 
-    return [(d1.angle, t1[0]), (d2.angle, t2[0])]
+    return [(d1.angle, float(t1)), (d2.angle, float(t2))]
 
 
 class OutsideGridException(Exception):
