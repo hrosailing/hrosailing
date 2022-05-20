@@ -207,7 +207,7 @@ def cruise(
     _, wa, bsp, *_ = pd.get_slices(ws)
     if im:
         bsp = im.add_influence(pd, influence_data)
-    bsp = bsp.ravel()
+    bsp = np.array(bsp).ravel()
 
     rhc = _right_handing_course(start, end)
     wdir = _wind_relative_to_north(wdir)
