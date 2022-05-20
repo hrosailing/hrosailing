@@ -205,6 +205,7 @@ def cruise(
         to get from start to end
     """
     _, wa, bsp, *_ = pd.get_slices(ws)
+    wa = np.rad2deg(wa)
     if im:
         bsp = im.add_influence(pd, influence_data)
     bsp = np.array(bsp).ravel()
@@ -230,7 +231,7 @@ def cruise(
     t = dist / (d1.proportion * bsp1 + d2.proportion * bsp2)
     t1, t2 = d1.proportion * t, d2.proportion * t
 
-    return [(d1.angle, t1), (d2.angle, t2)]
+    return [(d1.angle, t1[0]), (d2.angle, t2[0])]
 
 
 class OutsideGridException(Exception):
