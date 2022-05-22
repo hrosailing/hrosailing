@@ -55,7 +55,7 @@ instance contained in it</p>
 jieter.github.io/orc-data/site/">ORC</a></li>
 <li><code>opencpn</code> : format created by the <a href="https://
 opencpn.org/OpenCPN/plugins/polar.html">OpenCPN Polar Plugin</a></li>
-<li><code>array</code> : tab-seperated polar diagram in form of a table, also
+<li><code>array</code> : tab-separated polar diagram in form of a table, also
 see the example files for a better look at the format</li>
 </ul>
 </dd>
@@ -76,7 +76,7 @@ PolarDiagram subclass</li>
 </ul>
 </dd>
 <dt><code>OSError</code></dt>
-<dd>If file does not exist or no read permision for that file is given.</dd>
+<dd>If file does not exist or no read permission for that file is given.</dd>
 </dl>
 <h2 id="examples">Examples</h2>
 <p>(For the following and more files also see
@@ -222,17 +222,17 @@ polar diagram will be plotted</p>
 <dd>Marker size in points**2</dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
-<p>Specifies wether or not a legend will be shown next
+<p>Specifies whether or not a legend will be shown next
 to the plot</p>
 <p>Legend will be a <code>matplotlib.colorbar.Colorbar</code> instance</p>
 <p>Defaults to <code>False</code></p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the legend</p>
-<p>See matplotlib.legend.Legend for possible keywords and
+<p>Keyword arguments to change position and appearance of the legend</p>
+<p>See <code>matplotlib.legend.Legend</code> for possible keywords and
 their effects</p>
-<p>Will only be used if show_legend is <code>True</code></p>
+<p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 </dl></div>
 </dd>
@@ -252,7 +252,7 @@ a polar plot of them</p>
 <p>If nothing is passed, it will default to <code>(0, 20)</code></p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
-<dd>Axes instance where the plot will be create</dd>
+<dd>Axes instance where the plot will be created.</dd>
 <dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different slices</p>
@@ -261,21 +261,21 @@ a polar plot of them</p>
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
-<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>Specifies whether or not a legend will be shown next to the plot</p>
 <p>The type of legend depends on the color options</p>
 <p>For details refer to the respective PolarDiagram subclass.</p>
 <p>Defaults to <code>False</code></p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the legend</p>
+<p>Keyword arguments to change position and appearance of the legend</p>
 <p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
 for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
-<p>Keyword arguments to change various appearences of the plot</p>
+<p>Keyword arguments to change various appearances of the plot</p>
 <p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
@@ -305,7 +305,7 @@ a suitable axes</p>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>Keyword arguments that will be passed to the
 <code>matplotlib.axes.Axes.plot</code> function, to change
-certain appearences of the plot</dd>
+certain appearances of the plot</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_flat"><code class="name flex">
@@ -332,20 +332,20 @@ corresponding to <code>ws</code>, of the polar diagram object</p>
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
-<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>Specifies whether or not a legend will be shown next to the plot</p>
 <p>For details refer to the respective PolarDiagram subclass.</p>
 <p>Defaults to <code>False</code></p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the legend</p>
-<p>See <code>matplotlib.colorbar.Colorbar</code> and matplotlib.legend.Legend for
+<p>Keyword arguments to change position and appearance of the legend</p>
+<p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code> for
 possible keywords and their effects</p>
-<p>Will only be used if show_legend is <code>True</code></p>
+<p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
-<p>Keyword arguments to change various appearences of the plot</p>
+<p>Keyword arguments to change various appearances of the plot</p>
 <p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
@@ -375,7 +375,7 @@ a suitable axes</p>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>Keyword arguments that will be passed to the
 <code>matplotlib.axes.Axes.plot</code> function, to change
-certain appearences of the plot</dd>
+certain appearances of the plot</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.plot_polar"><code class="name flex">
@@ -401,22 +401,22 @@ corresponding to <code>ws</code>, of the polar diagram object.</p>
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
-<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>Specifies whether or not a legend will be shown next to the plot</p>
 <p>For details refer to the respective PolarDiagram subclass.</p>
 <p>Defaults to <code>False</code></p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the legend</p>
+<p>Keyword arguments to change position and appearance of the legend</p>
 <p>See <code>matplotlib.colorbar.Colorbar</code> for possible keywords
-when a colorbar is created and matplotlib.legend.Legend for
+when a colorbar is created and <code>matplotlib.legend.Legend</code> for
 possible keywords in cases where a Legend is created.</p>
 <p>For details refer to the respective PolarDiagram subclass.</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
-<p>Keyword arguments to change various appearences of the plot</p>
+<p>Keyword arguments to change various appearances of the plot</p>
 <p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
@@ -439,14 +439,14 @@ see the respective PolarDiagram subclass</p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
 <dd>
-<p>Axes instance where the plot will be created</p>
+<p>Axes instance where the plot will be created.</p>
 <p>If nothing is passed, the function will create
 a suitable axes</p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>Keyword arguments that will be passed to the
 <code>matplotlib.axes.Axes.plot</code> function, to change
-certain appearences of the plot</dd>
+certain appearances of the plot</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagram.symmetrize"><code class="name flex">
@@ -462,7 +462,7 @@ polar diagram object that called the method</p></div>
 </code></dt>
 <dd>
 <div class="desc"><p>This method should, given a path, write a .csv file in
-the location, containing human readable information about the
+the location, containing human-readable information about the
 polar diagram object that called the method</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -548,7 +548,7 @@ determined by the parameter <code>stepsize</code></li>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Specfies the amount of slices taken from the given
+<p>Specifies the amount of slices taken from the given
 wind speed interval</p>
 <p>Will only be used if <code>ws</code> is a tuple of length 2</p>
 <p>If nothing is passed, it will default to <code>ws[1] - ws[0]</code></p>
@@ -586,7 +586,7 @@ number of angles between 0° and 360°</p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Specfies the amount of slices taken from the given
+<p>Specifies the amount of slices taken from the given
 interval in <code>ws</code></p>
 <p>If nothing is passed, it will default to <code>100</code></p>
 </dd>
@@ -621,7 +621,7 @@ number of angles between 0° and 360°</p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Specfies the amount of slices taken from the given
+<p>Specifies the amount of slices taken from the given
 interval in <code>ws</code></p>
 <p>If nothing is passed, it will default to <code>100</code></p>
 </dd>
@@ -643,21 +643,21 @@ polar diagram will be plotted</p>
 <dd>Marker size in points**2</dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
-<p>Specifies wether or not a legend will be shown next
+<p>Specifies whether or not a legend will be shown next
 to the plot</p>
 <p>Legend will be a <code>matplotlib.colorbar.Colorbar</code> instance</p>
 <p>Defaults to <code>False</code></p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the colorbar
+<p>Keyword arguments to change position and appearance of the colorbar
 or legend respectively</p>
 <ul>
 <li>If 2 colors are passed, a colorbar will be created.
 In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
 keywords and their effect</li>
 <li>Otherwise, a legend will be created.
-In this case see 'matplotlib.legend.Legend' for possible keywords
+In this case see <code>matplotlib.legend.Legend</code> for possible keywords
 and their effect.</li>
 </ul>
 <p>Will only be used if <code>show_legend</code> is <code>True</code></p>
@@ -668,7 +668,7 @@ and their effect.</li>
 <span>def <span class="ident">plot_convex_hull</span></span>(<span>self, ws=None, stepsize=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Computes the (seperate) convex hull of one or more
+<div class="desc"><p>Computes the (separate) convex hull of one or more
 slices of the polar diagram and creates a polar plot of them</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -689,13 +689,13 @@ number of angles between 0° and 360°</p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Specfies the amount of slices taken from the given
+<p>Specifies the amount of slices taken from the given
 wind speed interval</p>
 <p>Will only be used if <code>ws</code> is a tuple of length 2</p>
 <p>If nothing is passed, it will default to <code>ws[1] - ws[0]</code></p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
-<dd>Axes instance where the plot will be create</dd>
+<dd>Axes instance where the plot will be created.</dd>
 <dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different slices</p>
@@ -712,7 +712,7 @@ a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
-<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>Specifies whether or not a legend will be shown next to the plot</p>
 <p>The type of legend depends on the color options</p>
 <p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
 will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
@@ -720,21 +720,21 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the colorbar
+<p>Keyword arguments to change position and appearance of the colorbar
 or legend respectively</p>
 <ul>
 <li>If 2 colors are passed, a colorbar will be created.
 In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
 keywords and their effect</li>
 <li>Otherwise, a legend will be created.
-In this case see 'matplotlib.legend.Legend' for possible keywords
+In this case see <code>matplotlib.legend.Legend</code> for possible keywords
 and their effect.</li>
 </ul>
 <p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
-<p>Keyword arguments to change various appearences of the plot</p>
+<p>Keyword arguments to change various appearances of the plot</p>
 <p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
@@ -764,7 +764,7 @@ number of angles between 0° and 360°</p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Specfies the amount of slices taken from the given
+<p>Specifies the amount of slices taken from the given
 wind speed interval</p>
 <p>Will only be used if <code>ws</code> is a tuple of length 2</p>
 <p>If nothing is passed, it will default to <code>ws[1] - ws[0]</code></p>
@@ -787,7 +787,7 @@ a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
-<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>Specifies whether or not a legend will be shown next to the plot</p>
 <p>The type of legend depends on the color options</p>
 <p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
 will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
@@ -795,21 +795,21 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the colorbar
+<p>Keyword arguments to change position and appearance of the colorbar
 or legend respectively</p>
 <ul>
 <li>If 2 colors are passed, a colorbar will be created.
 In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
 keywords and their effect</li>
 <li>Otherwise, a legend will be created.
-In this case see 'matplotlib.legend.Legend' for possible keywords
+In this case see <code>matplotlib.legend.Legend</code> for possible keywords
 and their effect.</li>
 </ul>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
-<p>Keyword arguments to change various appearences of the plot</p>
+<p>Keyword arguments to change various appearances of the plot</p>
 <p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
@@ -839,7 +839,7 @@ number of angles between 0° and 360°</p>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Specfies the amount of slices taken from the given
+<p>Specifies the amount of slices taken from the given
 wind speed interval</p>
 <p>Will only be used if <code>ws</code> is a tuple of length 2</p>
 <p>If nothing is passed, it will default to <code>ws[1] - ws[0]</code></p>
@@ -862,7 +862,7 @@ a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
-<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>Specifies whether or not a legend will be shown next to the plot</p>
 <p>The type of legend depends on the color options</p>
 <p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
 will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
@@ -870,21 +870,21 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the colorbar
+<p>Keyword arguments to change position and appearance of the colorbar
 or legend respectively</p>
 <ul>
 <li>If 2 colors are passed, a colorbar will be created.
 In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
 keywords and their effect</li>
 <li>Otherwise, a legend will be created.
-In this case see 'matplotlib.legend.Legend' for possible keywords
+In this case see <code>matplotlib.legend.Legend</code> for possible keywords
 and their effect.</li>
 </ul>
 <p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
-<p>Keyword arguments to change various appearences of the plot</p>
+<p>Keyword arguments to change various appearances of the plot</p>
 <p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
@@ -1069,21 +1069,21 @@ polar diagram will be plotted</p>
 <dd>Marker size in points**2</dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
-<p>Specifies wether or not a legend will be shown next
+<p>Specifies whether or not a legend will be shown next
 to the plot</p>
 <p>Legend will be a <code>matplotlib.colorbar.Colorbar</code> instance</p>
 <p>Defaults to <code>False</code></p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the colorbar
+<p>Keyword arguments to change position and appearance of the colorbar
 or legend respectively</p>
 <ul>
 <li>If 2 colors are passed, a colorbar will be created.
 In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
 keywords and their effect</li>
 <li>Otherwise, a legend will be created.
-In this case see 'matplotlib.legend.Legend' for possible keywords
+In this case see <code>matplotlib.legend.Legend</code> for possible keywords
 and their effect.</li>
 </ul>
 <p>Will only be used if <code>show_legend</code> is <code>True</code></p>
@@ -1094,7 +1094,7 @@ and their effect.</li>
 <span>def <span class="ident">plot_convex_hull</span></span>(<span>self, ws=None, ax=None, colors=None, show_legend=False, legend_kw=None, **plot_kw)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Computes the (seperate) convex hull of one or more
+<div class="desc"><p>Computes the (separate) convex hull of one or more
 slices of the polar diagram and creates a polar plot of them</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -1117,7 +1117,7 @@ columns of the table together with <code>self.wind_angles</code></p>
 <dd>&nbsp;</dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
-<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>Specifies whether or not a legend will be shown next to the plot</p>
 <p>The type of legend depends on the color options</p>
 <p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
 will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
@@ -1125,21 +1125,21 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the colorbar
+<p>Keyword arguments to change position and appearance of the colorbar
 or legend respectively</p>
 <ul>
 <li>If 2 colors are passed, a colorbar will be created.
 In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
 keywords and their effect</li>
 <li>Otherwise, a legend will be created.
-In this case see 'matplotlib.legend.Legend' for possible keywords
+In this case see <code>matplotlib.legend.Legend</code> for possible keywords
 and their effect.</li>
 </ul>
 <p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
-<p>Keyword arguments to change various appearences of the plot</p>
+<p>Keyword arguments to change various appearances of the plot</p>
 <p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
@@ -1188,7 +1188,7 @@ a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
-<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>Specifies whether or not a legend will be shown next to the plot</p>
 <p>The type of legend depends on the color options</p>
 <p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
 will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
@@ -1196,21 +1196,21 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the colorbar
+<p>Keyword arguments to change position and appearance of the colorbar
 or legend respectively</p>
 <ul>
 <li>If 2 colors are passed, a colorbar will be created.
 In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
 keywords and their effect</li>
 <li>Otherwise, a legend will be created.
-In this case see 'matplotlib.legend.Legend' for possible keywords
+In this case see <code>matplotlib.legend.Legend</code> for possible keywords
 and their effect.</li>
 </ul>
 <p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
-<p>Keyword arguments to change various appearences of the plot</p>
+<p>Keyword arguments to change various appearances of the plot</p>
 <p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
@@ -1265,7 +1265,7 @@ a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
-<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>Specifies whether or not a legend will be shown next to the plot</p>
 <p>The type of legend depends on the color options</p>
 <p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
 will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
@@ -1273,21 +1273,21 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the colorbar
+<p>Keyword arguments to change position and appearance of the colorbar
 or legend respectively</p>
 <ul>
 <li>If 2 colors are passed, a colorbar will be created.
 In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
 keywords and their effect</li>
 <li>Otherwise, a legend will be created.
-In this case see 'matplotlib.legend.Legend' for possible keywords
+In this case see <code>matplotlib.legend.Legend</code> for possible keywords
 and their effect.</li>
 </ul>
 <p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
-<p>Keyword arguments to change various appearences of the plot</p>
+<p>Keyword arguments to change various appearances of the plot</p>
 <p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
@@ -1310,7 +1310,7 @@ polar diagram</li>
 <dd>
 <div class="desc"><p>Constructs a symmetric version of the polar diagram, by
 mirroring each PolarDiagramTable at the 0° - 180° axis and
-returning a new instance. See also the symmetrizce()-method
+returning a new instance. See also the symmetrize()-method
 of the PolarDiagramTable class</p>
 <h2 id="warning">Warning</h2>
 <p>Should only be used if all the wind angles of the PolarDiagramTables
@@ -1427,7 +1427,7 @@ individual slices. For a tuple the corresponding interval is given
 by the two values of the tuple interpreted as a lower and an upper
 bound. For a singular int/float value <code>w</code> the corresponding
 interval will be <code>(w - range_, w + range_)</code></li>
-<li>a singlular int/float value <code>w</code>. The corresponding interval will
+<li>a singular int/float value <code>w</code>. The corresponding interval will
 be <code>(w - range_, w + range_)</code></li>
 </ul>
 <p>If nothing is passed, it will default to
@@ -1435,14 +1435,14 @@ be <code>(w - range_, w + range_)</code></li>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
 <dd>
-<p>Specfies the amount of slices taken from the given
+<p>Specifies the amount of slices taken from the given
 interval in <code>ws</code></p>
 <p>Will only be used if <code>ws</code> is a tuple of length 2</p>
 <p>If nothing is passed it will default to <code>int(round(ws[1] - ws[0]))</code></p>
 </dd>
 <dt><strong><code>range_</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
-<p>Used to convert and int or float <code>w</code> in <code>ws</code> to the interval
+<p>Used to convert an int or float <code>w</code> in <code>ws</code> to the interval
 <code>(w - range_, w + range_)</code></p>
 <p>Will only be used if <code>ws</code> is int or float or
 if any <code>w</code> in <code>ws</code> is an int or float</p>
@@ -1481,7 +1481,7 @@ polar diagram will be plotted</p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
-<p>Keyword arguments to change various appearences of the plot</p>
+<p>Keyword arguments to change various appearances of the plot</p>
 <p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
@@ -1501,7 +1501,7 @@ of the polar diagram with respect to the corresponding boat speeds</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code>, optional</dt>
-<dd>Axes instance where the plot will be created.</dd>
+<dd>Axes instance where the plot will be created</dd>
 <dt><strong><code>colors</code></strong> :&ensp;<code>tuple</code> of <code>two (2) color_likes</code>, optional</dt>
 <dd>
 <p>Color pair determining the color gradient with which the
@@ -1518,21 +1518,21 @@ polar diagram will be plotted</p>
 <dd>Marker size in points**2</dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
-<p>Specifies wether or not a legend will be shown next
+<p>Specifies whether or not a legend will be shown next
 to the plot</p>
 <p>Legend will be a <code>matplotlib.colorbar.Colorbar</code> instance</p>
 <p>Defaults to <code>False</code></p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the colorbar
+<p>Keyword arguments to change position and appearance of the colorbar
 or legend respectively</p>
 <ul>
 <li>If 2 colors are passed, a colorbar will be created.
 In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
 keywords and their effect</li>
 <li>Otherwise, a legend will be created.
-In this case see 'matplotlib.legend.Legend' for possible keywords
+In this case see <code>matplotlib.legend.Legend</code> for possible keywords
 and their effect.</li>
 </ul>
 <p>Will only be used if <code>show_legend</code> is <code>True</code></p>
@@ -1548,7 +1548,7 @@ and their effect.</li>
 <span>def <span class="ident">plot_convex_hull</span></span>(<span>self, ws=None, stepsize=None, range_=1, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Computes the (seperate) convex hull of one or more
+<div class="desc"><p>Computes the (separate) convex hull of one or more
 slices of the polar diagram and creates a polar plot of them</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -1565,7 +1565,7 @@ individual slices. For a tuple the corresponding interval is given
 by the two values of the tuple interpreted as a lower and an upper
 bound. For a singular int/float value <code>w</code> the corresponding
 interval will be <code>(w - range_, w + range_)</code></li>
-<li>a singlular int/float value <code>w</code>. The corresponding interval will
+<li>a singular int/float value <code>w</code>. The corresponding interval will
 be <code>(w - range_, w + range_)</code></li>
 </ul>
 <p>If nothing is passed, it will default to
@@ -1573,7 +1573,7 @@ be <code>(w - range_, w + range_)</code></li>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
 <dd>
-<p>Specfies the amount of slices taken from the given
+<p>Specifies the amount of slices taken from the given
 interval in <code>ws</code></p>
 <p>Will only be used if <code>ws</code> is a tuple of length 2</p>
 <p>Defaults to <code>int(round(ws[1] - ws[0]))</code></p>
@@ -1585,7 +1585,7 @@ if any <code>w</code> in <code>ws</code> is an int or float</p>
 <p>Defaults to <code>1</code></p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
-<dd>Axes instance where the plot will be create</dd>
+<dd>Axes instance where the plot will be created</dd>
 <dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different slices</p>
@@ -1602,7 +1602,7 @@ a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
-<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>Specifies whether or not a legend will be shown next to the plot</p>
 <p>The type of legend depends on the color options</p>
 <p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
 will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
@@ -1610,21 +1610,21 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the colorbar
+<p>Keyword arguments to change position and appearance of the colorbar
 or legend respectively</p>
 <ul>
 <li>If 2 colors are passed, a colorbar will be created.
 In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
 keywords and their effect</li>
 <li>Otherwise, a legend will be created.
-In this case see 'matplotlib.legend.Legend' for possible keywords
+In this case see <code>matplotlib.legend.Legend</code> for possible keywords
 and their effect.</li>
 </ul>
 <p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
-<p>Keyword arguments to change various appearences of the plot</p>
+<p>Keyword arguments to change various appearances of the plot</p>
 <p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
@@ -1657,7 +1657,7 @@ individual slices. For a tuple the corresponding interval is given
 by the two values of the tuple interpreted as a lower and an upper
 bound. For a singular int/float value <code>w</code> the corresponding
 interval will be <code>(w - range_, w + range_)</code></li>
-<li>a singlular int/float value <code>w</code>. The corresponding interval will
+<li>a singular int/float value <code>w</code>. The corresponding interval will
 be <code>(w - range_, w + range_)</code></li>
 </ul>
 <p>If nothing is passed, it will default to
@@ -1665,7 +1665,7 @@ be <code>(w - range_, w + range_)</code></li>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
 <dd>
-<p>Specfies the amount of slices taken from the given
+<p>Specifies the amount of slices taken from the given
 interval in <code>ws</code></p>
 <p>Will only be used if <code>ws</code> is a tuple of length 2</p>
 <p>If nothing is passed it will default to <code>int(round(ws[1] - ws[0]))</code></p>
@@ -1696,7 +1696,7 @@ a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
-<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>Specifies whether or not a legend will be shown next to the plot</p>
 <p>The type of legend depends on the color options</p>
 <p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
 will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
@@ -1704,14 +1704,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the legend</p>
+<p>Keyword arguments to change position and appearance of the legend</p>
 <p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
 for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
-<p>Keyword arguments to change various appearences of the plot</p>
+<p>Keyword arguments to change various appearances of the plot</p>
 <p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
@@ -1744,7 +1744,7 @@ individual slices. For a tuple the corresponding interval is given
 by the two values of the tuple interpreted as a lower and an upper
 bound. For a singular int/float value <code>w</code> the corresponding
 interval will be <code>(w - range_, w + range_)</code></li>
-<li>a singlular int/float value <code>w</code>. The corresponding interval will
+<li>a singular int/float value <code>w</code>. The corresponding interval will
 be <code>(w - range_, w + range_)</code></li>
 </ul>
 <p>If nothing is passed, it will default to
@@ -1752,7 +1752,7 @@ be <code>(w - range_, w + range_)</code></li>
 </dd>
 <dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
 <dd>
-<p>Specfies the amount of slices taken from the given
+<p>Specifies the amount of slices taken from the given
 interval in <code>ws</code></p>
 <p>Will only be used if <code>ws</code> is a tuple of length 2</p>
 <p>If nothing is passed it will default to <code>int(round(ws[1] - ws[0]))</code></p>
@@ -1783,7 +1783,7 @@ a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
-<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>Specifies whether or not a legend will be shown next to the plot</p>
 <p>The type of legend depends on the color options</p>
 <p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
 will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
@@ -1791,14 +1791,14 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the legend</p>
+<p>Keyword arguments to change position and appearance of the legend</p>
 <p>See <code>matplotlib.colorbar.Colorbar</code> and <code>matplotlib.legend.Legend</code>
 for possible keywords and their effects</p>
 <p>Will only be used if show_legend is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
-<p>Keyword arguments to change various appearences of the plot</p>
+<p>Keyword arguments to change various appearances of the plot</p>
 <p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
@@ -1855,7 +1855,7 @@ in the form of a table.</p>
 <p>Wind speeds that will correspond to the columns
 of the table</p>
 <ul>
-<li>If array_like, resolution will be <code>np.array(ws_resolution)</code></li>
+<li>If array_like, resolution will be <code>numpy.array(ws_resolution)</code></li>
 <li>If a scalar <code>num</code>, resolution will be <code>numpy.arange(num, 40, num)</code></li>
 </ul>
 <p>Defaults to <code>numpy.arange(2, 42, 2)</code></p>
@@ -1865,7 +1865,7 @@ of the table</p>
 <p>Wind angles that will correspond to the rows of the table.
 Should be between 0° and 360°</p>
 <ul>
-<li>If array_like, resolution will be <code>np.array(wa_resolution)</code></li>
+<li>If array_like, resolution will be <code>numpy.array(wa_resolution)</code></li>
 <li>If a scalar <code>num</code>, resolution will be <code>numpy.arange(num, 360, num)</code></li>
 </ul>
 <p>Defaults to <code>numpy.arange(0, 360, 5)</code></p>
@@ -2049,7 +2049,13 @@ consisting of the given wind speeds <code>ws</code>, <code>self.wind_angles</cod
 <h2 id="raises">Raises</h2>
 <dl>
 <dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
-<dd>If no slices where specified</dd>
+<dd>
+<ul>
+<li>If at least one element of <code>ws</code> is not in <code>self.wind_speeds</code></li>
+<li>If the given interval doesn't contain any slices of the
+polar diagram</li>
+</ul>
+</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramTable.plot_3d"><code class="name flex">
@@ -2096,21 +2102,21 @@ polar diagram will be plotted</p>
 <dd>Marker size in points**2</dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
-<p>Specifies wether or not a legend will be shown next
+<p>Specifies whether or not a legend will be shown next
 to the plot</p>
 <p>Legend will be a <code>matplotlib.colorbar.Colorbar</code> instance</p>
 <p>Defaults to <code>False</code></p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the colorbar
+<p>Keyword arguments to change position and appearance of the colorbar
 or legend respectively</p>
 <ul>
 <li>If 2 colors are passed, a colorbar will be created.
 In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
 keywords and their effect</li>
 <li>Otherwise, a legend will be created.
-In this case see 'matplotlib.legend.Legend' for possible keywords
+In this case see <code>matplotlib.legend.Legend</code> for possible keywords
 and their effect.</li>
 </ul>
 <p>Will only be used if <code>show_legend</code> is <code>True</code></p>
@@ -2121,7 +2127,7 @@ and their effect.</li>
 <span>def <span class="ident">plot_convex_hull</span></span>(<span>self, ws=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Computes the (seperate) convex hull of one or more
+<div class="desc"><p>Computes the (separate) convex hull of one or more
 slices of the polar diagram and creates a polar plot of them</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
@@ -2139,7 +2145,7 @@ columns of the table together with <code>self.wind_angles</code></p>
 <p>Defaults to <code>self.wind_speeds</code></p>
 </dd>
 <dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.projections.polar.PolarAxes</code>, optional</dt>
-<dd>Axes instance where the plot will be create</dd>
+<dd>Axes instance where the plot will be created.</dd>
 <dt><strong><code>colors</code></strong> :&ensp;<code>sequence</code> of <code>color_likes</code> or <code>(ws, color_like) pairs</code>, optional</dt>
 <dd>
 <p>Specifies the colors to be used for the different slices</p>
@@ -2156,7 +2162,7 @@ a color out of order by passing a sequence of <code>(ws, color)</code> pairs</li
 </dd>
 <dt><strong><code>show_legend</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
-<p>Specifies wether or not a legend will be shown next to the plot</p>
+<p>Specifies whether or not a legend will be shown next to the plot</p>
 <p>The type of legend depends on the color options</p>
 <p>If plotted with a color gradient, a <code>matplotlib.colorbar.Colorbar</code>
 will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
@@ -2164,21 +2170,21 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code></p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the colorbar
+<p>Keyword arguments to change position and appearance of the colorbar
 or legend respectively</p>
 <ul>
 <li>If 2 colors are passed, a colorbar will be created.
 In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
 keywords and their effect</li>
 <li>Otherwise, a legend will be created.
-In this case see 'matplotlib.legend.Legend' for possible keywords
+In this case see <code>matplotlib.legend.Legend</code> for possible keywords
 and their effect.</li>
 </ul>
 <p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
-<p>Keyword arguments to change various appearences of the plot</p>
+<p>Keyword arguments to change various appearances of the plot</p>
 <p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
@@ -2241,21 +2247,21 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the colorbar
+<p>Keyword arguments to change position and appearance of the colorbar
 or legend respectively</p>
 <ul>
 <li>If 2 colors are passed, a colorbar will be created.
 In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
 keywords and their effect</li>
 <li>Otherwise, a legend will be created.
-In this case see 'matplotlib.legend.Legend' for possible keywords
+In this case see <code>matplotlib.legend.Legend</code> for possible keywords
 and their effect.</li>
 </ul>
 <p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
-<p>Keyword arguments to change various appearences of the plot</p>
+<p>Keyword arguments to change various appearances of the plot</p>
 <p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>
@@ -2328,21 +2334,21 @@ will be created, otherwise a <code>matplotlib.legend.Legend</code> instance</p>
 </dd>
 <dt><strong><code>legend_kw</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Keyword arguments to change position and appearence of the colorbar
+<p>Keyword arguments to change position and appearance of the colorbar
 or legend respectively</p>
 <ul>
 <li>If 2 colors are passed, a colorbar will be created.
 In this case see <code>matplotlib.colorbar.Colorbar</code> for possible
 keywords and their effect</li>
 <li>Otherwise, a legend will be created.
-In this case see 'matplotlib.legend.Legend' for possible keywords
+In this case see <code>matplotlib.legend.Legend</code> for possible keywords
 and their effect.</li>
 </ul>
 <p>Will only be used if <code>show_legend</code> is <code>True</code></p>
 </dd>
 <dt><strong><code>plot_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
 <dd>
-<p>Keyword arguments to change various appearences of the plot</p>
+<p>Keyword arguments to change various appearances of the plot</p>
 <p>See <code>matplotlib.axes.Axes.plot</code> for possible keywords and their
 effects</p>
 </dd>

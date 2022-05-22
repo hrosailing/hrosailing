@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>hrosailing.wind API documentation</title>
-<meta name="description" content="Functions to convert wind from apparent to true and vice versa." />
+<meta name="description" content="Functions to convert wind from apparent to true and vice versa" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/base16/gruvbox-dark-hard.min.css" crossorigin>
@@ -25,7 +25,7 @@
 <h1 class="title">Module <code>hrosailing.wind</code></h1>
 </header>
 <section id="section-intro">
-<p>Functions to convert wind from apparent to true and vice versa.</p>
+<p>Functions to convert wind from apparent to true and vice versa</p>
 </section>
 <section>
 </section>
@@ -49,7 +49,7 @@ measured as apparent wind</dd>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>true_wind</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (n, 3)</code></dt>
-<dd>Array containing the same data as wind_arr, but the wind speed
+<dd>Array containing the same data as <code>apparent_wind</code>, but the wind speed
 and wind angle now measured as true wind</dd>
 </dl>
 <h2 id="raises">Raises</h2>
@@ -73,7 +73,7 @@ measured as true wind</dd>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>apparent_wind</code></strong> :&ensp;<code>numpy.ndarray</code> of <code>shape (n, 3)</code></dt>
-<dd>Array containing the same data as wind_arr, but the wind speed
+<dd>Array containing the same data as <code>true_wind</code>, but the wind speed
 and wind angle now measured as apparent wind</dd>
 </dl>
 <h2 id="raises">Raises</h2>

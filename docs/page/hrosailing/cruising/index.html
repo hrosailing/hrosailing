@@ -41,8 +41,8 @@
 <div class="desc"><p>Given a direction, computes the "fastest" way to sail in
 that direction, assuming constant wind speed <code>ws</code></p>
 <p>If sailing straight into direction is the fastest way, function
-returns that direction. Otherwise function returns two directions
-aswell as their proportions, such that sailing into one direction for
+returns that direction. Otherwise, function returns two directions
+as well as their proportions, such that sailing into one direction for
 a corresponding proportion of a time segment and then into the other
 direction for a corresponding proportion of a time segment will be
 equal to sailing into <code>direction</code> but faster.</p>
@@ -66,17 +66,17 @@ on the boat speed</p>
 <dt><strong><code>influence_data</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Data containing information that might influence the boat speed
-of the vessel (eg. current, wave height), to be passed to
+of the vessel (e.g. current, wave height), to be passed to
 the used influence model</p>
-<p>Only used, if <code>im</code> is not <code>None</code></p>
+<p>Will only be used if <code>im</code> is not <code>None</code></p>
 <p>Defaults to <code>None</code></p>
 </dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>edge</code></strong> :&ensp;<code>list</code> of <code>Directions</code></dt>
-<dd>Either just one Direction instance, if sailing into <code>direction</code>
-is the optimal way, or two Direction instances, that will "equal"
+<dd>Either just one <code><a title="hrosailing.cruising.Direction" href="#hrosailing.cruising.Direction">Direction</a></code> instance, if sailing into <code>direction</code>
+is the optimal way, or two <code><a title="hrosailing.cruising.Direction" href="#hrosailing.cruising.Direction">Direction</a></code> instances, that will "equal"
 to <code>direction</code></dd>
 </dl>
 <h2 id="raises">Raises</h2>
@@ -91,20 +91,20 @@ only has data for angles between 0 and 180 degrees.</p></div>
 <dd>
 <div class="desc"><p>Computes the total cost for traveling from a start position to an
 end position. To be precise:
-Let l be the total distance of the start position and the end position,
-cost be a density cost function describing the costs generated at each
+Let 'l' be the total distance of the start position and the end position,
+'cost' be a density cost function describing the costs generated at each
 point along the way (for example the indicator function for bad
-weather) and abs_cost be a cost function describing the cost independent
-from the weather along the way.
-Note that abs_cost only depends on the exspected travel time and the
-exspected travel distance.</p>
+weather) and 'abs_cost' be a cost function describing the cost independent
+of the weather along the way.
+Note that 'abs_cost' only depends on the expected travel time and the
+expected travel distance.</p>
 <p>The method first approximates the travelled time (t)
-as a function dependend on distance travelled (s) by numerically solving
+as a function dependent on distance travelled (s) by numerically solving
 the initial value problem</p>
 <p>t(0) = 0, dt/ds = 1/bsp(s,t).</p>
 <p>Using this, it then uses numeric integration to predict the total costs as</p>
 <p>int_0^l cost(s, t(s)) ds + abs_cost(t(l), l).</p>
-<p>Note, that the costs in this mathematical description indirectly depend on
+<p>Note that the costs in this mathematical description indirectly depend on
 weather forecast data, organized by a 'WeatherModel'.
 Distances are computed using the mercator projection</p>
 <h2 id="parameters">Parameters</h2>
@@ -117,13 +117,13 @@ Distances are computed using the mercator projection</p>
 <dd>Coordinates of the end point</dd>
 <dt><strong><code>start_time</code></strong> :&ensp;<code>datetime.datetime</code></dt>
 <dd>The time at which the traveling starts</dd>
-<dt><strong><code>wm</code></strong> :&ensp;<code><a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a></code></dt>
-<dd>The WeatherModel used</dd>
+<dt><strong><code>wm</code></strong> :&ensp;<code><a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a></code>, optional</dt>
+<dd>The weather model used</dd>
 <dt><strong><code>cost_fun_dens</code></strong> :&ensp;<code>callable</code>, optional</dt>
 <dd>
-<p>Function giving a cost density for given time as datetime.datetime,
-lattitude as float, longitude as float and WeatherModel
-cost_fun_dens(t,lat,long,wm) corresponds to costs(s,t) above</p>
+<p>Function giving a cost density for given time as <code>datetime.datetime</code>,
+latitude as float, longitude as float and WeatherModel
+<code>cost_fun_dens(t,lat,long,wm)</code> corresponds to <code>costs(s,t)</code> above</p>
 <p>Defaults to <code>None</code></p>
 </dd>
 <dt><strong><code>cost_fun_abs</code></strong> :&ensp;<code>callable</code>, optional</dt>
@@ -135,7 +135,7 @@ cost_fun_dens(t,lat,long,wm) corresponds to costs(s,t) above</p>
 <dd>
 <p>Function that takes two (n,) arrays y, x and computes
 an approximative integral from that.
-Is only used if <code>cost_fun_dens</code> is not None</p>
+Will only be used if <code>cost_fun_dens</code> is not <code>None</code></p>
 <p>Defaults to <code>scipy.integrate.trapezoid</code></p>
 </dd>
 <dt><strong><code>im</code></strong> :&ensp;<code>InfluenceModel</code>, optional</dt>
@@ -144,10 +144,10 @@ Is only used if <code>cost_fun_dens</code> is not None</p>
 on the boat speed</p>
 <p>Defaults to <code>None</code></p>
 </dd>
+<dt><strong><code>ivp_kw</code></strong> :&ensp;<code>Keyword arguments</code></dt>
+<dd>Keyword arguments which will be passed to <code>scipy.integrate.solve_ivp</code>
+in order to solve the initial value problem described above</dd>
 </dl>
-<p>ivp_kw :
-Keyword arguments which will be passed to scipy.integrate.solve_ivp
-in order to solve the initial value problem described above</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>cost</code></strong> :&ensp;<code>float</code></dt>
@@ -158,8 +158,8 @@ in order to solve the initial value problem described above</p>
 <span>def <span class="ident">cruise</span></span>(<span>pd, ws, wdir, start, end, im: Optional[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>] = None, influence_data: Optional[dict] = None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Given a starting point A and and end point B,the function calculates
-the fastest time and sailing direction it takes for a sailing vessel to
+<div class="desc"><p>Given a starting point A and an end point B,the function calculates
+the fastest time and sailing direction it takes for a sailing-vessel to
 reach B from A, under constant wind.</p>
 <p>If needed the function will calculate two directions as well as the
 time needed to sail in each direction to get to B.</p>
@@ -193,9 +193,9 @@ on the boat speed</p>
 <dt><strong><code>influence_data</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
 <p>Data containing information that might influence the boat speed
-of the vessel (eg. current, wave height), to be passed to
+of the vessel (e.g. current, wave height), to be passed to
 the used influence model</p>
-<p>Only used, if <code>im</code> is not <code>None</code></p>
+<p>Will only be used if <code>im</code> is not <code>None</code></p>
 <p>Defaults to <code>None</code></p>
 </dd>
 </dl>
@@ -220,27 +220,31 @@ are included in the computation.</p>
 <dt><strong><code>pd</code></strong> :&ensp;<code>PolarDiagram</code></dt>
 <dd>The polar diagram of the used vessel</dd>
 <dt><strong><code>start</code></strong> :&ensp;<code>2-tuple</code> of <code>floats</code></dt>
-<dd>The lattitude and longitude of the starting point</dd>
+<dd>The latitude and longitude of the starting point</dd>
 <dt><strong><code>start_time</code></strong> :&ensp;<code>datetime.datetime</code></dt>
 <dd>The time at which the traveling starts</dd>
 <dt><strong><code>direction</code></strong> :&ensp;<code>float</code></dt>
 <dd>The angle between North and the direction in which we aim to travel.</dd>
 <dt><strong><code>wm</code></strong> :&ensp;<code><a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a></code>, optional</dt>
-<dd>The weather model used.</dd>
+<dd>The weather model used</dd>
 <dt><strong><code>total_time</code></strong> :&ensp;<code>float</code></dt>
 <dd>The time in hours that the vessel is supposed to travel
-in the given direction.</dd>
+in the given direction</dd>
 <dt><strong><code>min_nodes</code></strong> :&ensp;<code>int</code>, optional</dt>
-<dd>The minimum amount of sample points to sample the position space.
-Defaults to 100.</dd>
+<dd>
+<p>The minimum amount of sample points to sample the position space</p>
+<p>Defaults to 100</p>
+</dd>
 <dt><strong><code>im</code></strong> :&ensp;<code>InfluenceModel</code>, optional</dt>
-<dd>The influence model used.
-Defaults to ??.</dd>
+<dd>
+<p>The influence model used</p>
+<p>Defaults to ??</p>
+</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>end</code></strong> :&ensp;<code>2-tuple</code> of <code>floats</code></dt>
-<dd>Lattitude and Longitude of the position that is reached when traveling
+<dd>Latitude and longitude of the position that is reached when traveling
 total_time hours in the given direction</dd>
 <dt><strong><code>s</code></strong> :&ensp;<code>float</code></dt>
 <dd>The length of the way traveled from start to end</dd>
@@ -317,7 +321,7 @@ of attributes</p>
 <dt><strong><code>times</code></strong> :&ensp;<code>list</code> of <code>length n</code></dt>
 <dd>Sorted list of time values of the space-time grid</dd>
 <dt><strong><code>lats</code></strong> :&ensp;<code>list</code> of <code>length m</code></dt>
-<dd>Sorted list of lattitude values of the space-time grid</dd>
+<dd>Sorted list of latitude values of the space-time grid</dd>
 <dt><strong><code>lons</code></strong> :&ensp;<code>list</code> of <code>length r</code></dt>
 <dd>Sorted list of longitude values of the space-time grid</dd>
 <dt><strong><code>attrs</code></strong> :&ensp;<code>list</code> of <code>length s</code></dt>
@@ -338,7 +342,7 @@ contains the given point</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>point</code></strong> :&ensp;<code>tuple</code> of <code>length 3</code></dt>
-<dd>Space-time point given as tuple of time, lattitude
+<dd>Space-time point given as tuple of time, latitude
 and longitude</dd>
 </dl>
 <h2 id="returns">Returns</h2>
