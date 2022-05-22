@@ -17,30 +17,25 @@ import hrosailing.polardiagram as pol
 from hrosailing.pipelinecomponents import InfluenceModel
 
 
+class CruisingException(Exception):
+    """Exception which will be raised if a non-Standard error in a cruising
+    method occurs."""
+
+
 @dataclass
 class Direction:
-    """Dataclass to represent recommended sections of a sailing maneuver.
+    """Dataclass to represent recommended sections of a sailing maneuver."""
 
-    Attributes
-    ----------
-    angle : int/float
-        Right headed angle between the boat heading and the wind direction.
-        Same as TWA but from the boats perspective
-    proportion : float
-        The recommended proportion of time needed to sail into this direction.
-        Given as number between 0 and 1
-    sail : str, optional
-        The name of the sail recommended to use
-    """
-
-    # Angle to the wind direction in degrees
+    #: Right headed angle between the boat heading and the wind direction.
+    #:   Same as TWA but from the boats perspective.
     angle: float
 
-    # Proportion of time needed to sail into direction
+    #: The recommended proportion of time needed to sail into this direction.
+    #: Given as number between 0 and 1.
     proportion: float
 
-    # Type/Name of sail that should be hissed, when
-    # sailing in the direction (if existent)
+    #: Type/Name of sail that should be hissed, when
+    #: sailing in the direction (if existent)
     sail: Optional[str] = None
 
     def __str__(self):
@@ -107,6 +102,13 @@ def convex_direction(
         Either just one `Direction` instance, if sailing into `direction`
         is the optimal way, or two `Direction` instances, that will "equal"
         to `direction`
+
+    Raises
+    -------
+    CruisingException:
+        If the given polar diagram slice can not be evaluated in the given
+        direction. For example, this could be the case, if the polar diagram
+        only has data for angles between 0 and 180 degrees.
     """
     _, wa, bsp, *sails = pd.get_slices(ws)
     if im:
@@ -129,6 +131,10 @@ def convex_direction(
             break
     else:
         i1, i2 = vert[0], vert[-1]
+        if abs(wa[i1] - wa[i2]) < 180:
+            raise CruisingException(
+                "The given direction is not supported by the given polar_diagram."
+            )
         edge = [Direction(wa[i1], 1), Direction(wa[i2], 1)]
 
     if sails:
@@ -215,9 +221,10 @@ def cruise(
         to get from start to end
     """
     _, wa, bsp, *_ = pd.get_slices(ws)
+    wa = np.rad2deg(wa)
     if im:
         bsp = im.add_influence(pd, influence_data)
-    bsp = bsp.ravel()
+    bsp = np.array(bsp).ravel()
 
     rhc = _right_handing_course(start, end)
     wdir = _wind_relative_to_north(wdir)
@@ -232,7 +239,7 @@ def cruise(
 
     bsp1 = bsp[np.where(wa == d1.angle)[0]]
     if not d2:
-        return [(d1.angle, dist / bsp1)]
+        return [(d1.angle, float(dist / bsp1))]
 
     d2 = d2[0]
     bsp2 = bsp[np.where(wa == d2.angle)[0]]
@@ -240,7 +247,7 @@ def cruise(
     t = dist / (d1.proportion * bsp1 + d2.proportion * bsp2)
     t1, t2 = d1.proportion * t, d2.proportion * t
 
-    return [(d1.angle, t1), (d2.angle, t2)]
+    return [(d1.angle, float(t1)), (d2.angle, float(t2))]
 
 
 class OutsideGridException(Exception):

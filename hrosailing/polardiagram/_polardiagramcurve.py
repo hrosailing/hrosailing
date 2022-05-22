@@ -8,18 +8,10 @@ import numpy as np
 
 import hrosailing.pipelinecomponents.modelfunctions as model
 
-from ._basepolardiagram import (
-    PolarDiagram,
-    PolarDiagramException,
-    PolarDiagramInitializationException,
-)
-from ._plotting import (
-    plot_color_gradient,
-    plot_convex_hull,
-    plot_flat,
-    plot_polar,
-    plot_surface,
-)
+from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
+                                PolarDiagramInitializationException)
+from ._plotting import (plot_color_gradient, plot_convex_hull, plot_flat,
+                        plot_polar, plot_surface)
 
 MODEL_FUNCTIONS = dict(getmembers(model, isfunction))
 
@@ -79,8 +71,8 @@ class PolarDiagramCurve(PolarDiagram):
         )
 
     def __call__(self, ws, wa):
-        if np.any((ws <= 0)):
-            raise PolarDiagramException("`ws` is nonpositive")
+        if np.any((ws < 0)):
+            raise PolarDiagramException("`ws` is negative")
 
         if self.radians:
             wa = np.rad2deg(wa)

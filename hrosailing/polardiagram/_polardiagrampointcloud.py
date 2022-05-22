@@ -6,25 +6,14 @@ from ast import literal_eval
 
 import numpy as np
 
-from hrosailing.pipelinecomponents import (
-    ArithmeticMeanInterpolator,
-    Ball,
-    WeightedPoints,
-)
+from hrosailing.pipelinecomponents import (ArithmeticMeanInterpolator, Ball,
+                                           WeightedPoints)
 from hrosailing.wind import convert_apparent_wind_to_true
 
-from ._basepolardiagram import (
-    PolarDiagram,
-    PolarDiagramException,
-    PolarDiagramInitializationException,
-)
-from ._plotting import (
-    plot3d,
-    plot_color_gradient,
-    plot_convex_hull,
-    plot_flat,
-    plot_polar,
-)
+from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
+                                PolarDiagramInitializationException)
+from ._plotting import (plot3d, plot_color_gradient, plot_convex_hull,
+                        plot_flat, plot_polar)
 
 
 class PolarDiagramPointcloud(PolarDiagram):
@@ -301,7 +290,11 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         if isinstance(ws, (int, float)):
             ws = [ws]
-        elif isinstance(ws, tuple) and len(ws) == 2:
+        elif (
+            isinstance(ws, tuple)
+            and len(ws) == 2
+            and all([isinstance(w, (int, float)) for w in ws])
+        ):
             if stepsize is None:
                 stepsize = int(round(ws[1] - ws[0]))
 
