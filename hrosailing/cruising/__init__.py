@@ -61,8 +61,8 @@ def convex_direction(
     that direction, assuming constant wind speed `ws`
 
     If sailing straight into direction is the fastest way, function
-    returns that direction. Otherwise function returns two directions
-    aswell as their proportions, such that sailing into one direction for
+    returns that direction. Otherwise, function returns two directions
+    as well as their proportions, such that sailing into one direction for
     a corresponding proportion of a time segment and then into the other
     direction for a corresponding proportion of a time segment will be
     equal to sailing into `direction` but faster.
@@ -87,20 +87,20 @@ def convex_direction(
 
         Defaults to `None`
 
-    influence_data: dict, optional
+    influence_data : dict, optional
         Data containing information that might influence the boat speed
-        of the vessel (eg. current, wave height), to be passed to
+        of the vessel (e.g. current, wave height), to be passed to
         the used influence model
 
-        Only used, if `im` is not `None`
+        Will only be used if `im` is not `None`
 
         Defaults to `None`
 
     Returns
     -------
     edge : list of Directions
-        Either just one Direction instance, if sailing into `direction`
-        is the optimal way, or two Direction instances, that will "equal"
+        Either just one `Direction` instance, if sailing into `direction`
+        is the optimal way, or two `Direction` instances, that will "equal"
         to `direction`
 
     Raises
@@ -169,8 +169,8 @@ def cruise(
     im: Optional[InfluenceModel] = None,
     influence_data: Optional[dict] = None,
 ):
-    """Given a starting point A and and end point B,the function calculates
-    the fastest time and sailing direction it takes for a sailing vessel to
+    """Given a starting point A and an end point B,the function calculates
+    the fastest time and sailing direction it takes for a sailing-vessel to
     reach B from A, under constant wind.
 
     If needed the function will calculate two directions as well as the
@@ -205,12 +205,12 @@ def cruise(
 
         Defaults to `None`
 
-    influence_data: dict, optional
+    influence_data : dict, optional
         Data containing information that might influence the boat speed
-        of the vessel (eg. current, wave height), to be passed to
+        of the vessel (e.g. current, wave height), to be passed to
         the used influence model
 
-        Only used, if `im` is not `None`
+        Will only be used if `im` is not `None`
 
         Defaults to `None`
 
@@ -269,7 +269,7 @@ class WeatherModel:
         Sorted list of time values of the space-time grid
 
     lats : list of length m
-        Sorted list of lattitude values of the space-time grid
+        Sorted list of latitude values of the space-time grid
 
     lons : list of length r
         Sorted list of longitude values of the space-time grid
@@ -299,8 +299,8 @@ class WeatherModel:
 
         Parameters
         ----------
-        point: tuple of length 3
-            Space-time point given as tuple of time, lattitude
+        point : tuple of length 3
+            Space-time point given as tuple of time, latitude
             and longitude
 
         Returns
@@ -368,16 +368,16 @@ def cost_cruise(
 ):
     """Computes the total cost for traveling from a start position to an
     end position. To be precise:
-    Let l be the total distance of the start position and the end position,
-    cost be a density cost function describing the costs generated at each
+    Let 'l' be the total distance of the start position and the end position,
+    'cost' be a density cost function describing the costs generated at each
     point along the way (for example the indicator function for bad
-    weather) and abs_cost be a cost function describing the cost independent
-    from the weather along the way.
-    Note that abs_cost only depends on the exspected travel time and the
-    exspected travel distance.
+    weather) and 'abs_cost' be a cost function describing the cost independent
+    of the weather along the way.
+    Note that 'abs_cost' only depends on the expected travel time and the
+    expected travel distance.
 
     The method first approximates the travelled time (t)
-    as a function dependend on distance travelled (s) by numerically solving
+    as a function dependent on distance travelled (s) by numerically solving
     the initial value problem
 
     t(0) = 0, dt/ds = 1/bsp(s,t).
@@ -386,7 +386,7 @@ def cost_cruise(
 
     int_0^l cost(s, t(s)) ds + abs_cost(t(l), l).
 
-    Note, that the costs in this mathematical description indirectly depend on
+    Note that the costs in this mathematical description indirectly depend on
     weather forecast data, organized by a 'WeatherModel'.
     Distances are computed using the mercator projection
 
@@ -404,13 +404,13 @@ def cost_cruise(
     start_time : datetime.datetime
         The time at which the traveling starts
 
-    wm : WeatherModel
-        The WeatherModel used
+    wm : WeatherModel, optional
+        The weather model used
 
     cost_fun_dens : callable, optional
-        Function giving a cost density for given time as datetime.datetime,
-        lattitude as float, longitude as float and WeatherModel
-        cost_fun_dens(t,lat,long,wm) corresponds to costs(s,t) above
+        Function giving a cost density for given time as `datetime.datetime`,
+        latitude as float, longitude as float and WeatherModel
+        `cost_fun_dens(t,lat,long,wm)` corresponds to `costs(s,t)` above
 
         Defaults to `None`
 
@@ -422,7 +422,7 @@ def cost_cruise(
     integration_method : callable, optional
         Function that takes two (n,) arrays y, x and computes
         an approximative integral from that.
-        Is only used if `cost_fun_dens` is not None
+        Will only be used if `cost_fun_dens` is not `None`
 
         Defaults to `scipy.integrate.trapezoid`
 
@@ -432,8 +432,8 @@ def cost_cruise(
 
         Defaults to `None`
 
-    ivp_kw :
-        Keyword arguments which will be passed to scipy.integrate.solve_ivp
+    ivp_kw : Keyword arguments
+        Keyword arguments which will be passed to `scipy.integrate.solve_ivp`
         in order to solve the initial value problem described above
 
     Returns
@@ -507,7 +507,7 @@ def isochrone(
         The polar diagram of the used vessel
 
     start : 2-tuple of floats
-        The lattitude and longitude of the starting point
+        The latitude and longitude of the starting point
 
     start_time : datetime.datetime
         The time at which the traveling starts
@@ -516,24 +516,26 @@ def isochrone(
         The angle between North and the direction in which we aim to travel.
 
     wm : WeatherModel, optional
-        The weather model used.
+        The weather model used
 
     total_time : float
         The time in hours that the vessel is supposed to travel
-        in the given direction.
+        in the given direction
 
     min_nodes : int, optional
-        The minimum amount of sample points to sample the position space.
-        Defaults to 100.
+        The minimum amount of sample points to sample the position space
+
+        Defaults to 100
 
     im : InfluenceModel, optional
-        The influence model used.
-        Defaults to ??.
+        The influence model used
+
+        Defaults to ??
 
     Returns
     -------
     end : 2-tuple of floats
-        Lattitude and Longitude of the position that is reached when traveling
+        Latitude and longitude of the position that is reached when traveling
         total_time hours in the given direction
 
     s : float
@@ -569,8 +571,8 @@ def isochrone(
         t += der * step_size
         steps += 1
 
-    # we end up with s, t such that t >= total_cost and steps > min_nodes
-    # still need to correct the last step such that t == total_cost
+    # we end up with s, t such that t >= total_time and steps > min_nodes
+    # still need to correct the last step such that t == total_time
 
     s = (total_time + der * s - t) / der
 
@@ -582,7 +584,7 @@ def isochrone(
 
 def _inverse_mercator_proj(pt, lat_mp):
     """
-    Computes point from its mercator projection with reference point lat_mp
+    Computes point from its mercator projection with reference point `lat_mp`
     """
     x, y = pt / 69
     return x + lat_mp, 180 / np.pi * np.arcsin(np.tanh(y))
@@ -590,11 +592,11 @@ def _inverse_mercator_proj(pt, lat_mp):
 
 def _mercator_proj(pt, lat_mp):
     """
-    Computes the mercator projection with reference point lat_mp of a point
+    Computes the mercator projection with reference point `lat_mp` of a point
     """
     lat, long = pt
 
-    # 69 nautical miles between two lattitudes
+    # 69 nautical miles between two latitudes
     return 69 * np.array(
         [(lat - lat_mp), np.arcsinh(np.tan(np.pi * long / 180))]
     )
@@ -629,7 +631,7 @@ def _interpolate_weather_data(data, idxs, point, flags, grid):
         i, j, k = idxs.T
         return data[i, j, k, :]
 
-    # lexicograpic first and last vertex of cube
+    # lexicographic first and last vertex of cube
     start = idxs[0]
     end = idxs[-1]
 
@@ -691,7 +693,7 @@ def _wind_relative_to_north(wdir):
     """
     return wdir
 
-    # gribdata:
+    # grib data:
     # wdir = 180 / np.pi * np.arctan2(vgrd, ugrd) + 180
 
     # twa + bd:
@@ -699,7 +701,7 @@ def _wind_relative_to_north(wdir):
 
 
 def _uvgrid_to_tw(ugrid, vgrid, hdt):
-    """Calculates the true wind speed and wind angle fron given gribdata"""
+    """Calculates the true wind speed and wind angle from given grib data"""
     tws = np.sqrt(ugrid**2 + vgrid**2)
     wa = (180 + 180 / np.pi * np.arctan2(vgrid, ugrid)) % 360
     twa = (hdt - wa) % 360

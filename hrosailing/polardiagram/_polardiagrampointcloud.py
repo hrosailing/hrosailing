@@ -206,7 +206,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         Parameters
         ----------
-        new_pts: array_like of shape (n, 3)
+        new_pts : array_like of shape (n, 3)
             New points to be added to the point cloud given as a sequence
             of points consisting of wind speed, wind angle and boat speed
 
@@ -251,14 +251,14 @@ class PolarDiagramPointcloud(PolarDiagram):
             by the two values of the tuple interpreted as a lower and an upper
             bound. For a singular int/float value `w` the corresponding
             interval will be `(w - range_, w + range_)`
-            - a singlular int/float value `w`. The corresponding interval will
+            - a singular int/float value `w`. The corresponding interval will
             be `(w - range_, w + range_)`
 
             If nothing is passed, it will default to
             `(min(self.wind_speeds), max(self.wind_speeds))`
 
         stepsize : positive int, optional
-            Specfies the amount of slices taken from the given
+            Specifies the amount of slices taken from the given
             interval in `ws`
 
             Will only be used if `ws` is a tuple of length 2
@@ -266,7 +266,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             If nothing is passed it will default to `int(round(ws[1] - ws[0]))`
 
         range_ : positive int or float, optional
-            Used to convert and int or float `w` in `ws` to the interval
+            Used to convert an int or float `w` in `ws` to the interval
             `(w - range_, w + range_)`
 
             Will only be used if `ws` is int or float or
@@ -374,14 +374,14 @@ class PolarDiagramPointcloud(PolarDiagram):
             by the two values of the tuple interpreted as a lower and an upper
             bound. For a singular int/float value `w` the corresponding
             interval will be `(w - range_, w + range_)`
-            - a singlular int/float value `w`. The corresponding interval will
+            - a singular int/float value `w`. The corresponding interval will
             be `(w - range_, w + range_)`
 
             If nothing is passed, it will default to
             `(min(self.wind_speeds), max(self.wind_speeds))`
 
         stepsize : positive int, optional
-            Specfies the amount of slices taken from the given
+            Specifies the amount of slices taken from the given
             interval in `ws`
 
             Will only be used if `ws` is a tuple of length 2
@@ -414,7 +414,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies wether or not a legend will be shown next to the plot
+            Specifies whether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -424,7 +424,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearence of the legend
+            Keyword arguments to change position and appearance of the legend
 
             See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
             for possible keywords and their effects
@@ -432,7 +432,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearences of the plot
+            Keyword arguments to change various appearances of the plot
 
             See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
@@ -485,14 +485,14 @@ class PolarDiagramPointcloud(PolarDiagram):
             by the two values of the tuple interpreted as a lower and an upper
             bound. For a singular int/float value `w` the corresponding
             interval will be `(w - range_, w + range_)`
-            - a singlular int/float value `w`. The corresponding interval will
+            - a singular int/float value `w`. The corresponding interval will
             be `(w - range_, w + range_)`
 
             If nothing is passed, it will default to
             `(min(self.wind_speeds), max(self.wind_speeds))`
 
         stepsize : positive int, optional
-            Specfies the amount of slices taken from the given
+            Specifies the amount of slices taken from the given
             interval in `ws`
 
             Will only be used if `ws` is a tuple of length 2
@@ -525,7 +525,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies wether or not a legend will be shown next to the plot
+            Specifies whether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -535,7 +535,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearence of the legend
+            Keyword arguments to change position and appearance of the legend
 
             See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
             for possible keywords and their effects
@@ -543,7 +543,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Will only be used if show_legend is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearences of the plot
+            Keyword arguments to change various appearances of the plot
 
             See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
@@ -586,7 +586,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to `("green", "red")`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearences of the plot
+            Keyword arguments to change various appearances of the plot
 
             See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
@@ -622,7 +622,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         Parameters
         ----------
         ax : matplotlib.axes.Axes, optional
-            Axes instance where the plot will be created.
+            Axes instance where the plot will be created
 
         colors : tuple of two (2) color_likes, optional
             Color pair determining the color gradient with which the
@@ -641,7 +641,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Marker size in points**2
 
         show_legend : bool, optional
-            Specifies wether or not a legend will be shown next
+            Specifies whether or not a legend will be shown next
             to the plot
 
             Legend will be a `matplotlib.colorbar.Colorbar` instance
@@ -649,14 +649,14 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearence of the colorbar
+            Keyword arguments to change position and appearance of the colorbar
             or legend respectively
 
             - If 2 colors are passed, a colorbar will be created.
             In this case see `matplotlib.colorbar.Colorbar` for possible
             keywords and their effect
             - Otherwise, a legend will be created.
-            In this case see 'matplotlib.legend.Legend' for possible keywords
+            In this case see `matplotlib.legend.Legend` for possible keywords
             and their effect.
 
             Will only be used if `show_legend` is `True`
@@ -689,7 +689,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         legend_kw=None,
         **plot_kw,
     ):
-        """Computes the (seperate) convex hull of one or more
+        """Computes the (separate) convex hull of one or more
         slices of the polar diagram and creates a polar plot of them
 
         Parameters
@@ -706,14 +706,14 @@ class PolarDiagramPointcloud(PolarDiagram):
             by the two values of the tuple interpreted as a lower and an upper
             bound. For a singular int/float value `w` the corresponding
             interval will be `(w - range_, w + range_)`
-            - a singlular int/float value `w`. The corresponding interval will
+            - a singular int/float value `w`. The corresponding interval will
             be `(w - range_, w + range_)`
 
             If nothing is passed, it will default to
             `(min(self.wind_speeds), max(self.wind_speeds))`
 
         stepsize : positive int, optional
-            Specfies the amount of slices taken from the given
+            Specifies the amount of slices taken from the given
             interval in `ws`
 
             Will only be used if `ws` is a tuple of length 2
@@ -728,7 +728,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to `1`
 
         ax : matplotlib.projections.polar.PolarAxes, optional
-            Axes instance where the plot will be create
+            Axes instance where the plot will be created
 
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
@@ -744,7 +744,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies wether or not a legend will be shown next to the plot
+            Specifies whether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -754,20 +754,20 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearence of the colorbar
+            Keyword arguments to change position and appearance of the colorbar
             or legend respectively
 
             - If 2 colors are passed, a colorbar will be created.
             In this case see `matplotlib.colorbar.Colorbar` for possible
             keywords and their effect
             - Otherwise, a legend will be created.
-            In this case see 'matplotlib.legend.Legend' for possible keywords
+            In this case see `matplotlib.legend.Legend` for possible keywords
             and their effect.
 
             Will only be used if `show_legend` is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearences of the plot
+            Keyword arguments to change various appearances of the plot
 
             See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects

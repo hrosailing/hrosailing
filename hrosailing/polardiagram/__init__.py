@@ -49,11 +49,11 @@ def from_csv(csv_path, fmt="hro"):
 
         - `hro` : format created by the to_csv-method of the PolarDiagram class
         - `orc` : format found at [ORC](https://\
-                jieter.github.io/orc-data/site/)
+            jieter.github.io/orc-data/site/)
         - `opencpn` : format created by the [OpenCPN Polar Plugin](https://\
-                opencpn.org/OpenCPN/plugins/polar.html)
-        - `array` : tab-seperated polar diagram in form of a table, also
-        see the example files for a better look at the format
+            opencpn.org/OpenCPN/plugins/polar.html)
+        - `array` : tab-separated polar diagram in form of a table, also
+            see the example files for a better look at the format
 
     Returns
     -------
@@ -69,7 +69,7 @@ def from_csv(csv_path, fmt="hro"):
         PolarDiagram subclass
 
     OSError
-        If file does not exist or no read permision for that file is given.
+        If file does not exist or no read permission for that file is given.
 
     Examples
     --------

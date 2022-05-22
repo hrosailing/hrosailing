@@ -28,7 +28,7 @@ class PolarDiagramTable(PolarDiagram):
         Wind speeds that will correspond to the columns
         of the table
 
-        - If array_like, resolution will be `np.array(ws_resolution)`
+        - If array_like, resolution will be `numpy.array(ws_resolution)`
         - If a scalar `num`, resolution will be `numpy.arange(num, 40, num)`
 
         Defaults to `numpy.arange(2, 42, 2)`
@@ -37,7 +37,7 @@ class PolarDiagramTable(PolarDiagram):
         Wind angles that will correspond to the rows of the table.
         Should be between 0° and 360°
 
-        - If array_like, resolution will be `np.array(wa_resolution)`
+        - If array_like, resolution will be `numpy.array(wa_resolution)`
         - If a scalar `num`, resolution will be `numpy.arange(num, 360, num)`
 
         Defaults to `numpy.arange(0, 360, 5)`
@@ -623,7 +623,10 @@ class PolarDiagramTable(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-            If no slices where specified
+
+            - If at least one element of `ws` is not in `self.wind_speeds`
+            - If the given interval doesn't contain any slices of the
+            polar diagram
         """
         if ws is None:
             ws = self.wind_speeds
@@ -693,20 +696,20 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearence of the colorbar
+            Keyword arguments to change position and appearance of the colorbar
             or legend respectively
 
             - If 2 colors are passed, a colorbar will be created.
             In this case see `matplotlib.colorbar.Colorbar` for possible
             keywords and their effect
             - Otherwise, a legend will be created.
-            In this case see 'matplotlib.legend.Legend' for possible keywords
+            In this case see `matplotlib.legend.Legend` for possible keywords
             and their effect.
 
             Will only be used if `show_legend` is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearences of the plot
+            Keyword arguments to change various appearances of the plot
 
             See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
@@ -799,20 +802,20 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearence of the colorbar
+            Keyword arguments to change position and appearance of the colorbar
             or legend respectively
 
             - If 2 colors are passed, a colorbar will be created.
             In this case see `matplotlib.colorbar.Colorbar` for possible
             keywords and their effect
             - Otherwise, a legend will be created.
-            In this case see 'matplotlib.legend.Legend' for possible keywords
+            In this case see `matplotlib.legend.Legend` for possible keywords
             and their effect.
 
             Will only be used if `show_legend` is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearences of the plot
+            Keyword arguments to change various appearances of the plot
 
             See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
@@ -909,7 +912,7 @@ class PolarDiagramTable(PolarDiagram):
             Marker size in points**2
 
         show_legend : bool, optional
-            Specifies wether or not a legend will be shown next
+            Specifies whether or not a legend will be shown next
             to the plot
 
             Legend will be a `matplotlib.colorbar.Colorbar` instance
@@ -917,14 +920,14 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearence of the colorbar
+            Keyword arguments to change position and appearance of the colorbar
             or legend respectively
 
             - If 2 colors are passed, a colorbar will be created.
             In this case see `matplotlib.colorbar.Colorbar` for possible
             keywords and their effect
             - Otherwise, a legend will be created.
-            In this case see 'matplotlib.legend.Legend' for possible keywords
+            In this case see `matplotlib.legend.Legend` for possible keywords
             and their effect.
 
             Will only be used if `show_legend` is `True`
@@ -946,7 +949,7 @@ class PolarDiagramTable(PolarDiagram):
         legend_kw=None,
         **plot_kw,
     ):
-        """Computes the (seperate) convex hull of one or more
+        """Computes the (separate) convex hull of one or more
         slices of the polar diagram and creates a polar plot of them
 
         Parameters
@@ -965,7 +968,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `self.wind_speeds`
 
         ax : matplotlib.projections.polar.PolarAxes, optional
-            Axes instance where the plot will be create
+            Axes instance where the plot will be created.
 
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
@@ -981,7 +984,7 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `("green", "red")`
 
         show_legend : bool, optional
-            Specifies wether or not a legend will be shown next to the plot
+            Specifies whether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
@@ -991,20 +994,20 @@ class PolarDiagramTable(PolarDiagram):
             Defaults to `False`
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearence of the colorbar
+            Keyword arguments to change position and appearance of the colorbar
             or legend respectively
 
             - If 2 colors are passed, a colorbar will be created.
             In this case see `matplotlib.colorbar.Colorbar` for possible
             keywords and their effect
             - Otherwise, a legend will be created.
-            In this case see 'matplotlib.legend.Legend' for possible keywords
+            In this case see `matplotlib.legend.Legend` for possible keywords
             and their effect.
 
             Will only be used if `show_legend` is `True`
 
         plot_kw : Keyword arguments
-            Keyword arguments to change various appearences of the plot
+            Keyword arguments to change various appearances of the plot
 
             See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
