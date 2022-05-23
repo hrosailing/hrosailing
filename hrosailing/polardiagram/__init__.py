@@ -1,5 +1,5 @@
 """
-PolarDiagram classes to work with and represent polar diagrams in various
+`PolarDiagram` classes to work with and represent polar diagrams in various
 forms.
 """
 
@@ -33,43 +33,43 @@ __all__ = [
 
 
 class FileReadingException(Exception):
-    """Exception raised if non-oserror error occurs,
-    when reading a file
+    """Exception raised if non-OSerror occurs,
+    when reading a file.
     """
 
 
 def from_csv(csv_path, fmt="hro"):
-    """Reads a .csv file and returns the PolarDiagram
-    instance contained in it
+    """Reads a .csv file and returns the `PolarDiagram`
+    instance contained in it.
 
     Parameters
     ----------
     csv_path : path-like
-        Path to a .csv file
+        Path to a .csv file.
 
     fmt : str
         The format of the .csv file.
 
-        - `hro` : format created by the to_csv-method of the PolarDiagram class
+        - `hro` : format created by the `to_csv`-method of the `PolarDiagram` class.
         - `orc` : format found at [ORC](https://\
-            jieter.github.io/orc-data/site/)
+            jieter.github.io/orc-data/site/).
         - `opencpn` : format created by the [OpenCPN Polar Plugin](https://\
-            opencpn.org/OpenCPN/plugins/polar.html)
+            opencpn.org/OpenCPN/plugins/polar.html).
         - `array` : tab-separated polar diagram in form of a table, also
-            see the example files for a better look at the format
+            see the example files for a better look at the format.
 
     Returns
     -------
     out : PolarDiagram
-        PolarDiagram instance contained in the .csv file
+        `PolarDiagram` instance contained in the .csv file.
 
     Raises
     ------
     FileReadingException
 
-        - If an unknown format was specified
+        - If an unknown format was specified.
         - If, in the format `hro`, the first row does not match any
-        PolarDiagram subclass
+        `PolarDiagram` subclass.
 
     OSError
         If file does not exist or no read permission for that file is given.
