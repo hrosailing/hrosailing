@@ -155,7 +155,7 @@ in order to solve the initial value problem described above</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.cruising.cruise"><code class="name flex">
-<span>def <span class="ident">cruise</span></span>(<span>pd, ws, wdir, start, end, im: Optional[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>] = None, influence_data: Optional[dict] = None)</span>
+<span>def <span class="ident">cruise</span></span>(<span>pd, start, end, ws=None, wa=None, wa_north=None, hdt=None, uv_grd=None, im: Optional[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>] = None, influence_data: Optional[dict] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Given a starting point A and an end point B,the function calculates
@@ -163,27 +163,47 @@ the fastest time and sailing direction it takes for a sailing-vessel to
 reach B from A, under constant wind.</p>
 <p>If needed the function will calculate two directions as well as the
 time needed to sail in each direction to get to B.</p>
+<p>Wind has to be given by one of the following combinations of parameters:</p>
+<ul>
+<li><code>ws</code> and <code>wa_north</code></li>
+<li><code>ws</code>, <code>wa</code> and <code>hdt</code></li>
+<li><code>uv_grd</code></li>
+</ul>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>pd</code></strong> :&ensp;<code>PolarDiagram</code></dt>
-<dd>The polar diagram of the vessel</dd>
-<dt><strong><code>ws</code></strong> :&ensp;<code>int</code> or <code>float</code></dt>
-<dd>The current wind speed given in knots</dd>
-<dt><strong><code>wdir</code></strong> :&ensp;<code>float between 0 and 360</code> or <code>tuple</code></dt>
-<dd>
-<p>The direction of the wind given as either</p>
-<ul>
-<li>the wind angle relative to north</li>
-<li>the true wind angle and the boat direction relative to north</li>
-<li>a (ugrd, vgrd) tuple from grib data</li>
-</ul>
-</dd>
+<dd>The polar diagram of the vessel.</dd>
 <dt><strong><code>start</code></strong> :&ensp;<code>tuple</code> of <code>length 2</code></dt>
 <dd>Coordinates of the starting point of the cruising maneuver,
-given in longitude and latitude</dd>
+given in longitude and latitude.</dd>
 <dt><strong><code>end</code></strong> :&ensp;<code>tuple</code> of <code>length 2</code></dt>
 <dd>Coordinates of the end point of the cruising maneuver,
-given in longitude and latitude</dd>
+given in longitude and latitude.</dd>
+<dt><strong><code>ws</code></strong> :&ensp;<code>int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>The current wind speed given in knots.</p>
+<p>Defaults to <code>None</code>.</p>
+</dd>
+<dt><strong><code>wa</code></strong> :&ensp;<code>int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>The true wind angle.</p>
+<p>Defaults to <code>None</code>.</p>
+</dd>
+<dt><strong><code>wa_north</code></strong> :&ensp;<code>int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>The wind angle relative to north.</p>
+<p>Defaults to <code>None</code>.</p>
+</dd>
+<dt><strong><code>hdt</code></strong> :&ensp;<code>int</code> or <code>float</code>, optional</dt>
+<dd>
+<p>The boat direction relative to north</p>
+<p>Defaults to <code>None</code>.</p>
+</dd>
+<dt><strong><code>uv_grd</code></strong> :&ensp;<code>tuple</code> of <code>floats</code> of <code>size 2</code>, optional</dt>
+<dd>
+<p>The u_grd, v_grd representation of the wind from grib data.</p>
+<p>Defaults to <code>None</code>.</p>
+</dd>
 <dt><strong><code>im</code></strong> :&ensp;<code>InfluenceModel</code>, optional</dt>
 <dd>
 <p>The influence model used to consider additional influences
@@ -202,8 +222,13 @@ the used influence model</p>
 <h2 id="returns">Returns</h2>
 <dl>
 <dt><strong><code>directions</code></strong> :&ensp;<code>list</code> of <code>tuples</code></dt>
-<dd>Directions as well as the time needed to sail along those,
+<dd>Directions as well as the time (in hours) needed to sail along those,
 to get from start to end</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>AttributeError</code></dt>
+<dd>If the wind data is not given in any form.</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.cruising.isochrone"><code class="name flex">

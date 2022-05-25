@@ -241,7 +241,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         self._points = np.row_stack((self._points, new_pts))
 
     # TODO Add positivity checks for ws in various cases
-    def get_slices(self, ws, stepsize=None, range_=1):
+    def get_slices(self, ws, n_steps=None, range_=1):
         """For given wind speeds, return the slices of the polar diagram
         corresponding to them
 
@@ -254,7 +254,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Slices of the polar diagram given as either
 
             - a tuple of 2 int/float values, which will be turned into the
-            iterable `numpy.linspace(ws[0], ws[1], stepsize)` of int/float values.
+            iterable `numpy.linspace(ws[0], ws[1], n_steps)` of int/float values.
             The iterable will then be interpreted as below
             - a mixed iterable containing tuples of 2 int/float values or
             singular int/float values which will be interpreted as
@@ -268,7 +268,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             If nothing is passed, it will default to
             `(min(self.wind_speeds), max(self.wind_speeds))`
 
-        stepsize : positive int, optional
+        n_steps : positive int, optional
             Specifies the amount of slices taken from the given
             interval in `ws`
 
@@ -292,7 +292,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-            If `stepsize` is nonpositive
+            If `n_steps` is nonpositive
 
             If `range_` is nonpositive
         """
@@ -306,13 +306,13 @@ class PolarDiagramPointcloud(PolarDiagram):
             and len(ws) == 2
             and all([isinstance(w, (int, float)) for w in ws])
         ):
-            if stepsize is None:
-                stepsize = int(round(ws[1] - ws[0]))
+            if n_steps is None:
+                n_steps = int(round(ws[1] - ws[0]))
 
-            if stepsize <= 0:
-                raise PolarDiagramException("`stepsize` is nonpositive")
+            if n_steps <= 0:
+                raise PolarDiagramException("`n_steps` is nonpositive")
 
-            ws = np.linspace(ws[0], ws[1], stepsize)
+            ws = np.linspace(ws[0], ws[1], n_steps)
 
         if range_ <= 0:
             raise PolarDiagramException("`range_` is nonpositive")
@@ -361,7 +361,7 @@ class PolarDiagramPointcloud(PolarDiagram):
     def plot_polar(
         self,
         ws=None,
-        stepsize=None,
+        n_steps=None,
         range_=1,
         ax=None,
         colors=("green", "red"),
@@ -377,7 +377,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Slices of the polar diagram given as either
 
             - a tuple of 2 int/float values, which will be turned into the
-            iterable `numpy.linspace(ws[0], ws[1], stepsize)` of int/float values.
+            iterable `numpy.linspace(ws[0], ws[1], n_steps)` of int/float values.
             The iterable will then be interpreted as below
             - a mixed iterable containing tuples of 2 int/float values or
             singular int/float values which will be interpreted as
@@ -391,7 +391,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             If nothing is passed, it will default to
             `(min(self.wind_speeds), max(self.wind_speeds))`
 
-        stepsize : positive int, optional
+        n_steps : positive int, optional
             Specifies the amount of slices taken from the given
             interval in `ws`
 
@@ -455,7 +455,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             value `w` in `ws`, such that there are no rows in `self.points`
             whose first entry 'w' is in the interval `(w-range_, w+range).
         """
-        ws, wa, bsp = self.get_slices(ws, stepsize, range_)
+        ws, wa, bsp = self.get_slices(ws, n_steps, range_)
         plot_polar(
             ws,
             wa,
@@ -472,7 +472,7 @@ class PolarDiagramPointcloud(PolarDiagram):
     def plot_flat(
         self,
         ws=None,
-        stepsize=None,
+        n_steps=None,
         range_=1,
         ax=None,
         colors=("green", "red"),
@@ -488,7 +488,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Slices of the polar diagram given as either
 
             - a tuple of 2 int/float values, which will be turned into the
-            iterable `numpy.linspace(ws[0], ws[1], stepsize)` of int/float values.
+            iterable `numpy.linspace(ws[0], ws[1], n_steps)` of int/float values.
             The iterable will then be interpreted as below
             - a mixed iterable containing tuples of 2 int/float values or
             singular int/float values which will be interpreted as
@@ -502,7 +502,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             If nothing is passed, it will default to
             `(min(self.wind_speeds), max(self.wind_speeds))`
 
-        stepsize : positive int, optional
+        n_steps : positive int, optional
             Specifies the amount of slices taken from the given
             interval in `ws`
 
@@ -566,7 +566,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             value `w` in `ws`, such that there are no rows in `self.points`
             whose first entry 'w' is in the interval `(w-range_, w+range).
         """
-        ws, wa, bsp = self.get_slices(ws, stepsize, range_)
+        ws, wa, bsp = self.get_slices(ws, n_steps, range_)
         wa = [np.rad2deg(a) for a in wa]
         plot_flat(
             ws,
@@ -692,7 +692,7 @@ class PolarDiagramPointcloud(PolarDiagram):
     def plot_convex_hull(
         self,
         ws=None,
-        stepsize=None,
+        n_steps=None,
         range_=1,
         ax=None,
         colors=("green", "red"),
@@ -709,7 +709,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Slices of the polar diagram given as either
 
             - a tuple of 2 int/float values, which will be turned into the
-            iterable `numpy.linspace(ws[0], ws[1], stepsize)` of int/float values.
+            iterable `numpy.linspace(ws[0], ws[1], n_steps)` of int/float values.
             The iterable will then be interpreted as below
             - a mixed iterable containing tuples of 2 int/float values or
             singular int/float values which will be interpreted as
@@ -723,7 +723,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             If nothing is passed, it will default to
             `(min(self.wind_speeds), max(self.wind_speeds))`
 
-        stepsize : positive int, optional
+        n_steps : positive int, optional
             Specifies the amount of slices taken from the given
             interval in `ws`
 
@@ -790,7 +790,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             value `w` in `ws`, such that there are no rows in `self.points`
             whose first entry 'w' is in the interval `(w-range_, w+range)`.
         """
-        ws, wa, bsp = self.get_slices(ws, stepsize, range_)
+        ws, wa, bsp = self.get_slices(ws, n_steps, range_)
 
         plot_convex_hull(
             ws,

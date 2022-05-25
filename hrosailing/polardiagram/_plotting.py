@@ -81,7 +81,7 @@ def _more_colors_than_plots(ws, colors):
 
 
 def _no_color_gradient(colors):
-    return len(colors) != 2
+    return len(colors) != 2 or any([len(c) not in [3, 4] for c in colors])
 
 
 def _set_color_cycle(ax, ws, colors):
@@ -158,7 +158,7 @@ def _configure_legend(ax, ws, colors, label, **legend_kw):
 
 
 def _plot_with_color_gradient(ws, colors):
-    return len(ws) > len(colors) == 2
+    return not _no_color_gradient(colors) and len(ws) > len(colors) == 2
 
 
 def _set_colormap(ws, colors, ax, label, **legend_kw):

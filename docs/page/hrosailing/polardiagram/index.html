@@ -524,7 +524,7 @@ where <code>ws</code> and <code>wa</code> should be <code>array_like</code> of s
 <h3>Methods</h3>
 <dl>
 <dt id="hrosailing.polardiagram.PolarDiagramCurve.get_slices"><code class="name flex">
-<span>def <span class="ident">get_slices</span></span>(<span>self, ws=None, stepsize=None)</span>
+<span>def <span class="ident">get_slices</span></span>(<span>self, ws=None, n_steps=None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>For given wind speeds, return the slices of the polar diagram
@@ -540,13 +540,13 @@ number of angles between 0° and 360°</p>
 <ul>
 <li>a tuple of length 2, specifying an interval of considered
 wind speeds. The amount of slices taken from that interval are
-determined by the parameter <code>stepsize</code></li>
+determined by the parameter <code>n_steps</code></li>
 <li>an iterable of specific wind speeds</li>
 <li>a single wind speed</li>
 </ul>
 <p>If nothing is passed, it will default to <code>(0, 20)</code></p>
 </dd>
-<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
+<dt><strong><code>n_steps</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
 <p>Specifies the amount of slices taken from the given
 wind speed interval</p>
@@ -565,11 +565,11 @@ corresponding boat speeds</dd>
 <h2 id="raises">Raises</h2>
 <dl>
 <dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
-<dd>If <code>stepsize</code> is nonpositive</dd>
+<dd>If <code>n_steps</code> is nonpositive</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramCurve.plot_3d"><code class="name flex">
-<span>def <span class="ident">plot_3d</span></span>(<span>self, ws=None, stepsize=None, ax=None, colors=('green', 'red'))</span>
+<span>def <span class="ident">plot_3d</span></span>(<span>self, ws=None, n_steps=None, ax=None, colors=('green', 'red'))</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a 3d plot of a part of the polar diagram</p>
@@ -584,7 +584,7 @@ the given values in <code>ws</code> and <code>wa</code> goes through a fixed
 number of angles between 0° and 360°</p>
 <p>If nothing is passed, it will default to <code>(0, 20)</code></p>
 </dd>
-<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
+<dt><strong><code>n_steps</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
 <p>Specifies the amount of slices taken from the given
 interval in <code>ws</code></p>
@@ -602,7 +602,7 @@ polar diagram will be plotted</p>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramCurve.plot_color_gradient"><code class="name flex">
-<span>def <span class="ident">plot_color_gradient</span></span>(<span>self, ws=None, stepsize=None, ax=None, colors=('green', 'red'), marker=None, ms=None, show_legend=False, **legend_kw)</span>
+<span>def <span class="ident">plot_color_gradient</span></span>(<span>self, ws=None, n_steps=None, ax=None, colors=('green', 'red'), marker=None, ms=None, show_legend=False, **legend_kw)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a 'wind speed vs. wind angle' color gradient plot
@@ -619,7 +619,7 @@ the given values in <code>ws</code> and <code>wa</code> goes through a fixed
 number of angles between 0° and 360°</p>
 <p>If nothing is passed, it will default to <code>(0, 20)</code></p>
 </dd>
-<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
+<dt><strong><code>n_steps</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
 <p>Specifies the amount of slices taken from the given
 interval in <code>ws</code></p>
@@ -665,7 +665,7 @@ and their effect.</li>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramCurve.plot_convex_hull"><code class="name flex">
-<span>def <span class="ident">plot_convex_hull</span></span>(<span>self, ws=None, stepsize=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+<span>def <span class="ident">plot_convex_hull</span></span>(<span>self, ws=None, n_steps=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Computes the (separate) convex hull of one or more
@@ -678,7 +678,7 @@ slices of the polar diagram and creates a polar plot of them</p>
 <ul>
 <li>a tuple of length 2, specifying an interval of considered
 wind speeds. The amount of slices taken from that interval are
-determined by the parameter <code>stepsize</code></li>
+determined by the parameter <code>n_steps</code></li>
 <li>an iterable of specific wind speeds</li>
 <li>a single wind speed</li>
 </ul>
@@ -687,7 +687,7 @@ the given values in <code>ws</code> and <code>wa</code> goes through a fixed
 number of angles between 0° and 360°</p>
 <p>If nothing is passed, it will default to <code>(0, 20)</code></p>
 </dd>
-<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
+<dt><strong><code>n_steps</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
 <p>Specifies the amount of slices taken from the given
 wind speed interval</p>
@@ -741,7 +741,7 @@ effects</p>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramCurve.plot_flat"><code class="name flex">
-<span>def <span class="ident">plot_flat</span></span>(<span>self, ws=None, stepsize=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+<span>def <span class="ident">plot_flat</span></span>(<span>self, ws=None, n_steps=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a cartesian plot of one or more slices of the polar diagram</p>
@@ -753,7 +753,7 @@ effects</p>
 <ul>
 <li>a tuple of length 2, specifying an interval of considered
 wind speeds. The amount of slices taken from that interval are
-determined by the parameter <code>stepsize</code></li>
+determined by the parameter <code>n_steps</code></li>
 <li>an iterable of specific wind speeds</li>
 <li>a single wind speed</li>
 </ul>
@@ -762,7 +762,7 @@ the given values in <code>ws</code> and <code>wa</code> goes through a fixed
 number of angles between 0° and 360°</p>
 <p>If nothing is passed, it will default to (0, 20)</p>
 </dd>
-<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
+<dt><strong><code>n_steps</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
 <p>Specifies the amount of slices taken from the given
 wind speed interval</p>
@@ -816,7 +816,7 @@ effects</p>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramCurve.plot_polar"><code class="name flex">
-<span>def <span class="ident">plot_polar</span></span>(<span>self, ws=None, stepsize=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+<span>def <span class="ident">plot_polar</span></span>(<span>self, ws=None, n_steps=None, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a polar plot of one or more slices of the polar diagram</p>
@@ -828,7 +828,7 @@ effects</p>
 <ul>
 <li>a tuple of length 2, specifying an interval of considered
 wind speeds. The amount of slices taken from that interval are
-determined by the parameter <code>stepsize</code></li>
+determined by the parameter <code>n_steps</code></li>
 <li>an iterable of specific wind speeds</li>
 <li>a single wind speed</li>
 </ul>
@@ -837,7 +837,7 @@ the given values in <code>ws</code> and <code>wa</code> goes through a fixed
 number of angles between 0° and 360°</p>
 <p>If nothing is passed, it will default to <code>(0, 20)</code></p>
 </dd>
-<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
+<dt><strong><code>n_steps</code></strong> :&ensp;<code>positive int</code> or <code>float</code>, optional</dt>
 <dd>
 <p>Specifies the amount of slices taken from the given
 wind speed interval</p>
@@ -1405,7 +1405,7 @@ of points consisting of wind speed, wind angle and boat speed</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.get_slices"><code class="name flex">
-<span>def <span class="ident">get_slices</span></span>(<span>self, ws, stepsize=None, range_=1)</span>
+<span>def <span class="ident">get_slices</span></span>(<span>self, ws, n_steps=None, range_=1)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>For given wind speeds, return the slices of the polar diagram
@@ -1419,7 +1419,7 @@ wind speed lies in certain intervals determined by <code>ws</code> as below</p>
 <p>Slices of the polar diagram given as either</p>
 <ul>
 <li>a tuple of 2 int/float values, which will be turned into the
-iterable <code>numpy.linspace(ws[0], ws[1], stepsize)</code> of int/float values.
+iterable <code>numpy.linspace(ws[0], ws[1], n_steps)</code> of int/float values.
 The iterable will then be interpreted as below</li>
 <li>a mixed iterable containing tuples of 2 int/float values or
 singular int/float values which will be interpreted as
@@ -1433,7 +1433,7 @@ be <code>(w - range_, w + range_)</code></li>
 <p>If nothing is passed, it will default to
 <code>(min(self.wind_speeds), max(self.wind_speeds))</code></p>
 </dd>
-<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
+<dt><strong><code>n_steps</code></strong> :&ensp;<code>positive int</code>, optional</dt>
 <dd>
 <p>Specifies the amount of slices taken from the given
 interval in <code>ws</code></p>
@@ -1458,7 +1458,7 @@ if any <code>w</code> in <code>ws</code> is an int or float</p>
 <dl>
 <dt><code><a title="hrosailing.polardiagram.PolarDiagramException" href="#hrosailing.polardiagram.PolarDiagramException">PolarDiagramException</a></code></dt>
 <dd>
-<p>If <code>stepsize</code> is nonpositive</p>
+<p>If <code>n_steps</code> is nonpositive</p>
 <p>If <code>range_</code> is nonpositive</p>
 </dd>
 </dl></div>
@@ -1545,7 +1545,7 @@ and their effect.</li>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.plot_convex_hull"><code class="name flex">
-<span>def <span class="ident">plot_convex_hull</span></span>(<span>self, ws=None, stepsize=None, range_=1, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+<span>def <span class="ident">plot_convex_hull</span></span>(<span>self, ws=None, n_steps=None, range_=1, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Computes the (separate) convex hull of one or more
@@ -1557,7 +1557,7 @@ slices of the polar diagram and creates a polar plot of them</p>
 <p>Slices of the polar diagram given as either</p>
 <ul>
 <li>a tuple of 2 int/float values, which will be turned into the
-iterable <code>numpy.linspace(ws[0], ws[1], stepsize)</code> of int/float values.
+iterable <code>numpy.linspace(ws[0], ws[1], n_steps)</code> of int/float values.
 The iterable will then be interpreted as below</li>
 <li>a mixed iterable containing tuples of 2 int/float values or
 singular int/float values which will be interpreted as
@@ -1571,7 +1571,7 @@ be <code>(w - range_, w + range_)</code></li>
 <p>If nothing is passed, it will default to
 <code>(min(self.wind_speeds), max(self.wind_speeds))</code></p>
 </dd>
-<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
+<dt><strong><code>n_steps</code></strong> :&ensp;<code>positive int</code>, optional</dt>
 <dd>
 <p>Specifies the amount of slices taken from the given
 interval in <code>ws</code></p>
@@ -1638,7 +1638,7 @@ whose first entry 'w' is in the interval <code>(w-range_, w+range)</code>.</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.plot_flat"><code class="name flex">
-<span>def <span class="ident">plot_flat</span></span>(<span>self, ws=None, stepsize=None, range_=1, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+<span>def <span class="ident">plot_flat</span></span>(<span>self, ws=None, n_steps=None, range_=1, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a cartesian plot of one or more slices of the polar diagram</p>
@@ -1649,7 +1649,7 @@ whose first entry 'w' is in the interval <code>(w-range_, w+range)</code>.</dd>
 <p>Slices of the polar diagram given as either</p>
 <ul>
 <li>a tuple of 2 int/float values, which will be turned into the
-iterable <code>numpy.linspace(ws[0], ws[1], stepsize)</code> of int/float values.
+iterable <code>numpy.linspace(ws[0], ws[1], n_steps)</code> of int/float values.
 The iterable will then be interpreted as below</li>
 <li>a mixed iterable containing tuples of 2 int/float values or
 singular int/float values which will be interpreted as
@@ -1663,7 +1663,7 @@ be <code>(w - range_, w + range_)</code></li>
 <p>If nothing is passed, it will default to
 <code>(min(self.wind_speeds), max(self.wind_speeds))</code></p>
 </dd>
-<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
+<dt><strong><code>n_steps</code></strong> :&ensp;<code>positive int</code>, optional</dt>
 <dd>
 <p>Specifies the amount of slices taken from the given
 interval in <code>ws</code></p>
@@ -1725,7 +1725,7 @@ whose first entry 'w' is in the interval `(w-range_, w+range).</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramPointcloud.plot_polar"><code class="name flex">
-<span>def <span class="ident">plot_polar</span></span>(<span>self, ws=None, stepsize=None, range_=1, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
+<span>def <span class="ident">plot_polar</span></span>(<span>self, ws=None, n_steps=None, range_=1, ax=None, colors=('green', 'red'), show_legend=False, legend_kw=None, **plot_kw)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Creates a polar plot of one or more slices of the polar diagram</p>
@@ -1736,7 +1736,7 @@ whose first entry 'w' is in the interval `(w-range_, w+range).</dd>
 <p>Slices of the polar diagram given as either</p>
 <ul>
 <li>a tuple of 2 int/float values, which will be turned into the
-iterable <code>numpy.linspace(ws[0], ws[1], stepsize)</code> of int/float values.
+iterable <code>numpy.linspace(ws[0], ws[1], n_steps)</code> of int/float values.
 The iterable will then be interpreted as below</li>
 <li>a mixed iterable containing tuples of 2 int/float values or
 singular int/float values which will be interpreted as
@@ -1750,7 +1750,7 @@ be <code>(w - range_, w + range_)</code></li>
 <p>If nothing is passed, it will default to
 <code>(min(self.wind_speeds), max(self.wind_speeds))</code></p>
 </dd>
-<dt><strong><code>stepsize</code></strong> :&ensp;<code>positive int</code>, optional</dt>
+<dt><strong><code>n_steps</code></strong> :&ensp;<code>positive int</code>, optional</dt>
 <dd>
 <p>Specifies the amount of slices taken from the given
 interval in <code>ws</code></p>
