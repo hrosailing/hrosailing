@@ -8,10 +8,18 @@ import numpy as np
 
 import hrosailing.pipelinecomponents.modelfunctions as model
 
-from ._basepolardiagram import (PolarDiagram, PolarDiagramException,
-                                PolarDiagramInitializationException)
-from ._plotting import (plot_color_gradient, plot_convex_hull, plot_flat,
-                        plot_polar, plot_surface)
+from ._basepolardiagram import (
+    PolarDiagram,
+    PolarDiagramException,
+    PolarDiagramInitializationException,
+)
+from ._plotting import (
+    plot_color_gradient,
+    plot_convex_hull,
+    plot_flat,
+    plot_polar,
+    plot_surface,
+)
 
 MODEL_FUNCTIONS = dict(getmembers(model, isfunction))
 
@@ -417,9 +425,7 @@ class PolarDiagramCurve(PolarDiagram):
             **plot_kw,
         )
 
-    def plot_3d(
-        self, ws=None, n_steps=None, ax=None, colors=("green", "red")
-    ):
+    def plot_3d(self, ws=None, n_steps=None, ax=None, colors=("green", "red")):
         """Creates a 3d plot of a part of the polar diagram
 
         Parameters

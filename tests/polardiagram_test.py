@@ -8,7 +8,9 @@ import numpy as np
 
 import hrosailing.polardiagram as pol
 from hrosailing.polardiagram._basepolardiagram import (
-    PolarDiagramException, PolarDiagramInitializationException)
+    PolarDiagramException,
+    PolarDiagramInitializationException,
+)
 
 
 class PolarDiagramTableTest(unittest.TestCase):

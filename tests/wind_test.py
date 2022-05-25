@@ -4,9 +4,11 @@ from unittest import TestCase
 
 import numpy as np
 
-from hrosailing.wind import (WindConversionException,
-                             convert_apparent_wind_to_true,
-                             convert_true_wind_to_apparent)
+from hrosailing.wind import (
+    WindConversionException,
+    convert_apparent_wind_to_true,
+    convert_true_wind_to_apparent,
+)
 
 
 class ConvertWind(TestCase):
