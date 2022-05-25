@@ -747,9 +747,11 @@ def _wind_relative_to_north(ws, wa, wa_north, hdt, uv_grd):
 
     if uv_grd:
         u, v = uv_grd
-        return np.linalg.norm(uv_grd), 180/np.pi*np.arctan2(v, u)
+        return np.linalg.norm(uv_grd), 180 / np.pi * np.arctan2(v, u)
 
-    raise AttributeError("Given wind data is not sufficient to properly describe the wind")
+    raise AttributeError(
+        "Given wind data is not sufficient to properly describe the wind"
+    )
 
     # grib data:
     # wdir = 180 / np.pi * np.arctan2(vgrd, ugrd) + 180
