@@ -262,7 +262,7 @@ wm = cruise.WeatherModel(
     times=[dt.now() + i * timedelta(hours=1) for i in range(n)],
     lats=np.linspace(40, 50, m),
     lons=np.linspace(40, 50, k),
-    attrs=["UGRID", "VGRID"]
+    attrs=["WS", "WA"]
 )
 ```
 
@@ -277,6 +277,7 @@ isocrones = [
             start_time=dt.now(),
             direction=direction,
             wm=wm,
+	    im=im,
             total_time=1 / 3
         )
     for direction in range(0, 360, 5)
