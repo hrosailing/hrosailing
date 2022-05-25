@@ -241,7 +241,7 @@ def cruise(
     Returns
     -------
     directions : list of tuples
-        Directions as well as the time needed to sail along those,
+        Directions as well as the time (in hours) needed to sail along those,
         to get from start to end
 
     Raises
