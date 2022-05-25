@@ -110,7 +110,7 @@ def convex_direction(
         direction. For example, this could be the case, if the polar diagram
         only has data for angles between 0 and 180 degrees.
     """
-    _, wa, bsp, sails = pd.get_slices(ws)
+    _, wa, bsp, *sails = pd.get_slices(ws)
     if im:
         bsp = im.add_influence(pd, influence_data)
     bsp = np.array(bsp).ravel()
@@ -138,8 +138,8 @@ def convex_direction(
         edge = [Direction(wa[i1], 1), Direction(wa[i2], 1)]
 
     if sails:
-        edge[0].sail = sails[i1]
-        edge[1].sail = sails[i2]
+        edge[0].sail = sails[0][i1]
+        edge[1].sail = sails[0][i2]
 
     if edge[0] == direction:
         return [edge[0]]
@@ -162,10 +162,13 @@ def convex_direction(
 
 def cruise(
     pd,
-    ws,
-    wdir,
     start,
     end,
+    ws=None,
+    wa=None,
+    wa_north=None,
+    hdt=None,
+    uv_grd=None,
     im: Optional[InfluenceModel] = None,
     influence_data: Optional[dict] = None,
 ):
@@ -176,28 +179,49 @@ def cruise(
     If needed the function will calculate two directions as well as the
     time needed to sail in each direction to get to B.
 
+    Wind has to be given by one of the following combinations of parameters:
+
+    - `ws` and `wa_north`
+    - `ws`, `wa` and `hdt`
+    - `uv_grd`
+
     Parameters
     ----------
     pd : PolarDiagram
-        The polar diagram of the vessel
-
-    ws : int or float
-        The current wind speed given in knots
-
-    wdir : float between 0 and 360 or tuple
-        The direction of the wind given as either
-
-        - the wind angle relative to north
-        - the true wind angle and the boat direction relative to north
-        - a (ugrd, vgrd) tuple from grib data
+        The polar diagram of the vessel.
 
     start : tuple of length 2
         Coordinates of the starting point of the cruising maneuver,
-        given in longitude and latitude
+        given in longitude and latitude.
 
     end : tuple of length 2
         Coordinates of the end point of the cruising maneuver,
-        given in longitude and latitude
+        given in longitude and latitude.
+
+    ws : int or float, optional
+        The current wind speed given in knots.
+
+        Defaults to `None`.
+
+    wa: int or float, optional
+        The true wind angle.
+
+        Defaults to `None`.
+
+    wa_north: int or float, optional
+        The wind angle relative to north.
+
+        Defaults to `None`.
+
+    hdt: int or float, optional
+        The boat direction relative to north
+
+        Defaults to `None`.
+
+    uv_grd: tuple of floats of size 2, optional
+        The u_grd, v_grd representation of the wind from grib data.
+
+        Defaults to `None`.
 
     im : InfluenceModel, optional
         The influence model used to consider additional influences
@@ -219,7 +243,15 @@ def cruise(
     directions : list of tuples
         Directions as well as the time needed to sail along those,
         to get from start to end
+
+    Raises
+    -------
+    AttributeError
+        If the wind data is not given in any form.
     """
+
+    ws, wdir = _wind_relative_to_north(ws, wa, wa_north, hdt, uv_grd)
+
     _, wa, bsp, *_ = pd.get_slices(ws)
     wa = np.rad2deg(wa)
     if im:
@@ -227,7 +259,6 @@ def cruise(
     bsp = np.array(bsp).ravel()
 
     rhc = _right_handing_course(start, end)
-    wdir = _wind_relative_to_north(wdir)
 
     heading = np.arccos(
         np.cos(rhc) * np.cos(wdir) + np.sin(rhc) * np.sin(wdir)
@@ -675,23 +706,50 @@ def _right_handing_course(a, b):
     return np.arccos(numerator / np.sqrt(1 - denominator**2))
 
 
-def _wind_relative_to_north(wdir):
-    """Calculates the wind direction relative to true north
+def _wind_relative_to_north(ws, wa, wa_north, hdt, uv_grd):
+    """Calculates the wind speed and the wind direction relative to true north
 
     Parameters
     ----------
-    wdir : float between 0 and 360 or tuple
-        The direction of the wind given as either
+    ws : int or float or None
+        The current wind speed given in knots.
 
-        - the wind angle relative to north
-        - the true wind angle and the boat direction relative to north
-        - a (ugrd, vgrd) tuple from grib data
+    wa: int or float or None
+        The true wind angle.
+
+    wa_north: int or float or None
+        The wind angle relative to north.
+
+    hdt: int or float or None
+        The boat direction relative to north
+
+    uv_grd: tuple of floats of size 2 or None
+        The u_grd, v_grd representation of the wind from grib data.
+
     Returns
     -------
+    ws : float,
+        The current wind speed
+
     ndir : float between 0 and 360
         Wind direction relative to true north
+
+    Raises
+    --------
+    AttributeError
+        If the wind data given is not sufficient.
     """
-    return wdir
+    if ws and wa_north:
+        return ws, wa_north
+
+    if ws and wa and hdt:
+        return ws, (hdt - wa) % 360
+
+    if uv_grd:
+        u, v = uv_grd
+        return np.linalg.norm(uv_grd), 180/np.pi*np.arctan2(v, u)
+
+    raise AttributeError("Given wind data is not sufficient to properly describe the wind")
 
     # grib data:
     # wdir = 180 / np.pi * np.arctan2(vgrd, ugrd) + 180
