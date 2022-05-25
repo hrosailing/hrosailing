@@ -154,7 +154,7 @@ class PolarDiagramCurve(PolarDiagram):
         )
 
     # TODO Add positivity checks for ws in various cases
-    def get_slices(self, ws=None, stepsize=None):
+    def get_slices(self, ws=None, n_steps=None):
         """For given wind speeds, return the slices of the polar diagram
         corresponding to them
 
@@ -169,13 +169,13 @@ class PolarDiagramCurve(PolarDiagram):
 
             - a tuple of length 2, specifying an interval of considered
             wind speeds. The amount of slices taken from that interval are
-            determined by the parameter `stepsize`
+            determined by the parameter `n_steps`
             - an iterable of specific wind speeds
             - a single wind speed
 
             If nothing is passed, it will default to `(0, 20)`
 
-        stepsize : positive int or float, optional
+        n_steps : positive int or float, optional
             Specifies the amount of slices taken from the given
             wind speed interval
 
@@ -194,7 +194,7 @@ class PolarDiagramCurve(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-            If `stepsize` is nonpositive
+            If `n_steps` is nonpositive
         """
         if ws is None:
             ws = (0, 20)
@@ -202,13 +202,13 @@ class PolarDiagramCurve(PolarDiagram):
         if isinstance(ws, (int, float)):
             ws = [ws]
         elif isinstance(ws, tuple) and len(ws) == 2:
-            if stepsize is None:
-                stepsize = int(round(ws[1] - ws[0]))
+            if n_steps is None:
+                n_steps = int(round(ws[1] - ws[0]))
 
-            if stepsize <= 0:
-                raise PolarDiagramException("`stepsize` is nonpositive")
+            if n_steps <= 0:
+                raise PolarDiagramException("`n_steps` is nonpositive")
 
-            ws = list(np.linspace(ws[0], ws[1], stepsize))
+            ws = list(np.linspace(ws[0], ws[1], n_steps))
 
         wa = np.linspace(0, 360, 1000)
         if self.radians:
@@ -225,7 +225,7 @@ class PolarDiagramCurve(PolarDiagram):
     def plot_polar(
         self,
         ws=None,
-        stepsize=None,
+        n_steps=None,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -241,7 +241,7 @@ class PolarDiagramCurve(PolarDiagram):
 
             - a tuple of length 2, specifying an interval of considered
             wind speeds. The amount of slices taken from that interval are
-            determined by the parameter `stepsize`
+            determined by the parameter `n_steps`
             - an iterable of specific wind speeds
             - a single wind speed
 
@@ -251,7 +251,7 @@ class PolarDiagramCurve(PolarDiagram):
 
             If nothing is passed, it will default to `(0, 20)`
 
-        stepsize : positive int or float, optional
+        n_steps : positive int or float, optional
             Specifies the amount of slices taken from the given
             wind speed interval
 
@@ -304,7 +304,7 @@ class PolarDiagramCurve(PolarDiagram):
             See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
         """
-        ws, wa, bsp = self.get_slices(ws, stepsize)
+        ws, wa, bsp = self.get_slices(ws, n_steps)
         wa = [wa] * len(ws)
 
         plot_polar(
@@ -323,7 +323,7 @@ class PolarDiagramCurve(PolarDiagram):
     def plot_flat(
         self,
         ws=None,
-        stepsize=None,
+        n_steps=None,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -339,7 +339,7 @@ class PolarDiagramCurve(PolarDiagram):
 
             - a tuple of length 2, specifying an interval of considered
             wind speeds. The amount of slices taken from that interval are
-            determined by the parameter `stepsize`
+            determined by the parameter `n_steps`
             - an iterable of specific wind speeds
             - a single wind speed
 
@@ -349,7 +349,7 @@ class PolarDiagramCurve(PolarDiagram):
 
             If nothing is passed, it will default to (0, 20)
 
-        stepsize : positive int or float, optional
+        n_steps : positive int or float, optional
             Specifies the amount of slices taken from the given
             wind speed interval
 
@@ -402,7 +402,7 @@ class PolarDiagramCurve(PolarDiagram):
             See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
         """
-        ws, wa, bsp = self.get_slices(ws, stepsize)
+        ws, wa, bsp = self.get_slices(ws, n_steps)
         wa = [np.rad2deg(wa)] * len(ws)
 
         plot_flat(
@@ -418,7 +418,7 @@ class PolarDiagramCurve(PolarDiagram):
         )
 
     def plot_3d(
-        self, ws=None, stepsize=None, ax=None, colors=("green", "red")
+        self, ws=None, n_steps=None, ax=None, colors=("green", "red")
     ):
         """Creates a 3d plot of a part of the polar diagram
 
@@ -434,7 +434,7 @@ class PolarDiagramCurve(PolarDiagram):
 
             If nothing is passed, it will default to `(0, 20)`
 
-        stepsize : positive int or float, optional
+        n_steps : positive int or float, optional
             Specifies the amount of slices taken from the given
             interval in `ws`
 
@@ -451,10 +451,10 @@ class PolarDiagramCurve(PolarDiagram):
 
             Defaults to `("green", "red")`
         """
-        if stepsize is None:
-            stepsize = 100
+        if n_steps is None:
+            n_steps = 100
 
-        ws, wa, bsp = self.get_slices(ws, stepsize)
+        ws, wa, bsp = self.get_slices(ws, n_steps)
         bsp = np.array(bsp).T
         ws, wa = np.meshgrid(ws, wa)
         bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
@@ -464,7 +464,7 @@ class PolarDiagramCurve(PolarDiagram):
     def plot_color_gradient(
         self,
         ws=None,
-        stepsize=None,
+        n_steps=None,
         ax=None,
         colors=("green", "red"),
         marker=None,
@@ -488,7 +488,7 @@ class PolarDiagramCurve(PolarDiagram):
 
             If nothing is passed, it will default to `(0, 20)`
 
-        stepsize : positive int or float, optional
+        n_steps : positive int or float, optional
             Specifies the amount of slices taken from the given
             interval in `ws`
 
@@ -534,10 +534,10 @@ class PolarDiagramCurve(PolarDiagram):
 
             Will only be used if `show_legend` is `True`
         """
-        if stepsize is None:
-            stepsize = 100
+        if n_steps is None:
+            n_steps = 100
 
-        ws, wa, bsp = self.get_slices(ws, stepsize)
+        ws, wa, bsp = self.get_slices(ws, n_steps)
         wa = np.rad2deg(wa)
         ws, wa = np.meshgrid(ws, wa)
         bsp = np.array(bsp).T
@@ -558,7 +558,7 @@ class PolarDiagramCurve(PolarDiagram):
     def plot_convex_hull(
         self,
         ws=None,
-        stepsize=None,
+        n_steps=None,
         ax=None,
         colors=("green", "red"),
         show_legend=False,
@@ -575,7 +575,7 @@ class PolarDiagramCurve(PolarDiagram):
 
             - a tuple of length 2, specifying an interval of considered
             wind speeds. The amount of slices taken from that interval are
-            determined by the parameter `stepsize`
+            determined by the parameter `n_steps`
             - an iterable of specific wind speeds
             - a single wind speed
 
@@ -585,7 +585,7 @@ class PolarDiagramCurve(PolarDiagram):
 
             If nothing is passed, it will default to `(0, 20)`
 
-        stepsize : positive int or float, optional
+        n_steps : positive int or float, optional
             Specifies the amount of slices taken from the given
             wind speed interval
 
@@ -638,7 +638,7 @@ class PolarDiagramCurve(PolarDiagram):
             See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
         """
-        ws, wa, bsp = self.get_slices(ws, stepsize)
+        ws, wa, bsp = self.get_slices(ws, n_steps)
         wa = [wa] * len(ws)
 
         plot_convex_hull(

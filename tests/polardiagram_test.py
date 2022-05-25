@@ -476,7 +476,7 @@ class PolarDiagramCurveTest(unittest.TestCase):
             )
 
     def test_get_slices_tuple(self):
-        ws, wa, bsp = self.c.get_slices((10, 15), stepsize=100)
+        ws, wa, bsp = self.c.get_slices((10, 15), n_steps=100)
         self.assertEqual(ws, list(np.linspace(10, 15, 100)))
         np.testing.assert_array_equal(
             wa, np.deg2rad(np.linspace(0, 360, 1000))
