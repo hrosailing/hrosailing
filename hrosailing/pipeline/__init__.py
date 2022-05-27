@@ -33,7 +33,7 @@ class Statistics(NamedTuple):
     quality_assurance: dict
 
 
-_EMPTY_STATISTIC = Statistics({}, {}, {}, {}, {}, {}, {}, {}, {}, {})
+_EMPTY_STATISTIC = Statistics({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {})
 
 
 class PipelineOutput(NamedTuple):
@@ -229,6 +229,7 @@ class PolarPipeline:
             training_data,
             pre_weighing,
             pre_filtering,
+            smoothing,
             post_weighing,
             post_filtering,
             True
