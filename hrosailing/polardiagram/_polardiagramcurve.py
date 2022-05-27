@@ -110,7 +110,7 @@ class PolarDiagramCurve(PolarDiagram):
         """Creates a .csv file with delimiter ':' and the
         following format:
 
-            PolarDiagramCurve
+            `PolarDiagramCurve`
             Function: `self.curve.__name__`
             Radians: `self.radians`
             Parameters: `self.parameters`
@@ -177,8 +177,8 @@ class PolarDiagramCurve(PolarDiagram):
 
             - a tuple of length 2, specifying an interval of considered
             wind speeds. The amount of slices taken from that interval are
-            determined by the parameter `n_steps`.
-            - an iterable of specific wind speeds.
+            determined by the parameter `n_steps`,
+            - an iterable of specific wind speeds,
             - a single wind speed.
             
             If nothing is passed, it will default to `(0, 20)`.
@@ -249,8 +249,8 @@ class PolarDiagramCurve(PolarDiagram):
 
             - a tuple of length 2, specifying an interval of considered
             wind speeds. The amount of slices taken from that interval are
-            determined by the parameter `n_steps`.
-            - an iterable of specific wind speeds.
+            determined by the parameter `n_steps`,
+            - an iterable of specific wind speeds,
             - a single wind speed.
 
             Slices will then equal `self(w, wa)` where `w` goes through
@@ -347,8 +347,8 @@ class PolarDiagramCurve(PolarDiagram):
 
             - a tuple of length 2, specifying an interval of considered
             wind speeds. The amount of slices taken from that interval are
-            determined by the parameter `n_steps`.
-            - an iterable of specific wind speeds.
+            determined by the parameter `n_steps`,
+            - an iterable of specific wind speeds,
             - a single wind speed.
 
             Slices will then equal `self(w, wa)` where `w` goes through
@@ -581,8 +581,8 @@ class PolarDiagramCurve(PolarDiagram):
 
             - a tuple of length 2, specifying an interval of considered
             wind speeds. The amount of slices taken from that interval are
-            determined by the parameter `n_steps`.
-            - an iterable of specific wind speeds.
+            determined by the parameter `n_steps`,
+            - an iterable of specific wind speeds,
             - a single wind speed.
 
             Slices will then equal `self(w, wa)` where `w` goes through

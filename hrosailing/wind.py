@@ -1,4 +1,4 @@
-"""Functions to convert wind from apparent to true and vice versa"""
+"""Functions to convert wind from apparent to true and vice versa."""
 
 
 import enum
@@ -68,13 +68,13 @@ def convert_apparent_wind_to_true(apparent_wind):
     apparent_wind : array_like of shape (n, 3)
         Wind data given as a sequence of points consisting of wind speed,
         wind angle and boat speed, where the wind speed and wind angle are
-        measured as apparent wind
+        measured as apparent wind.
 
     Returns
     -------
     true_wind : numpy.ndarray of shape (n, 3)
         Array containing the same data as `apparent_wind`, but the wind speed
-        and wind angle now measured as true wind
+        and wind angle now measured as true wind.
 
     Raises
     ------
@@ -91,13 +91,13 @@ def convert_true_wind_to_apparent(true_wind):
     true_wind : array_like of shape (n, 3)
         Wind data given as a sequence of points consisting of wind speed,
         wind angle and boat speed, where the wind speed and wind angle are
-        measured as true wind
+        measured as true wind.
 
     Returns
     -------
     apparent_wind : numpy.ndarray of shape (n, 3)
         Array containing the same data as `true_wind`, but the wind speed
-        and wind angle now measured as apparent wind
+        and wind angle now measured as apparent wind.
 
     Raises
     ------
