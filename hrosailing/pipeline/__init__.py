@@ -155,14 +155,14 @@ class PolarPipeline:
             The input should be compatible with the DataHandler instance
             given in initialization of the pipeline instance
 
-        test_data: compatible with 'self.data_handler'
+        test_data: compatible with `self.data_handler`
             Data which is preprocessed and then used to check the quality of
             the resulting polar diagram
 
             The input should be compatible with the DataHandler instance
             given in initialization of the pipeline instance
 
-            Default to 'None'
+            Default to `None`
 
         apparent_wind : bool, optional
             Specifies if wind data is given in apparent wind
@@ -176,7 +176,7 @@ class PolarPipeline:
             influence model.
             Otherwise each point will be assigned the weight 1.
 
-            Defaults to 'True'
+            Defaults to `True`
 
         pre_filtering : bool, optional
             Specifies, if points should be filtered after pre_weighing
@@ -188,7 +188,7 @@ class PolarPipeline:
             influence model.
             Otherwise each point will be assigned the weight 1.
 
-            Defaults to 'True'
+            Defaults to `True`
 
         post_filtering : bool, optional
             Specifies, if points should be filtered after post_weighing
@@ -198,7 +198,7 @@ class PolarPipeline:
         injecting : bool, optional
             Specifies, if artificial points should be added to the data
 
-            Defaults to 'True'
+            Defaults to `True`
 
         testing : bool, optional
             Specifies, if the resulting polar diagram should be tested against

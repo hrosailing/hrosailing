@@ -153,3 +153,5 @@ main.py
 
 # Don't track logging files
 *.log*
+polar_diagram.csv
+testdata.csv
