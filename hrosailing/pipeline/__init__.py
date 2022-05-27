@@ -24,6 +24,7 @@ class Statistics(NamedTuple):
     imputator: dict
     pre_weigher: dict
     pre_filter: dict
+    smoother: dict
     influence_model: dict
     post_weigher: dict
     post_filter: dict
@@ -57,7 +58,13 @@ class PolarPipeline:
         Determines the method which will be used to produce data without
         None entries
 
-        Defaults to 'FillLocalImputator()'
+        Defaults to `FillLocalImputator()`
+
+    smoother: Smoother, optional
+        Determines the method which will be used to smoothen out the rounding
+        following from low measurement precision.
+
+        Defaults to `LazySmoother()`
 
     pre_weigher : Weigher, optional
         Determines the method with which the points will be weight before
@@ -115,6 +122,7 @@ class PolarPipeline:
         imputator=pc.FillLocalImputator(),
         pre_weigher=pc.CylindricMeanWeigher(),
         pre_filter=pc.QuantileFilter(),
+        smoother=pc.LazySmoother(),
         influence_model=pc.IdentityInfluenceModel(),
         post_weigher=pc.CylindricMeanWeigher(),
         post_filter=pc.QuantileFilter(),
@@ -126,6 +134,7 @@ class PolarPipeline:
         self.imputator = imputator
         self.pre_weigher = pre_weigher
         self.pre_filter = pre_filter
+        self.smoother = smoother
         self.influence_model = influence_model
         self.post_weigher = post_weigher
         self.post_filter = post_filter
@@ -140,6 +149,7 @@ class PolarPipeline:
         apparent_wind=False,
         pre_weighing=True,
         pre_filtering=True,
+        smoothing=True,
         post_weighing=True,
         post_filtering=True,
         injecting=True,
@@ -181,6 +191,10 @@ class PolarPipeline:
             Specifies, if points should be filtered after pre_weighing
 
             Defaults to `True`
+
+        smoothing : bool, optional
+            Specifies, if measurement errors of the time series should be
+            smoothened after pre_filtering.
 
         post_weighing : bool, optional
             Specifies, if points should be weighed after application of the
@@ -247,7 +261,6 @@ class PolarPipeline:
                 preproc_test_data.data
             )
         else:
-            preproc_test_data = test_data
             test_statistics = _EMPTY_STATISTIC
             quality_assurance_statistics = {}
 
@@ -256,6 +269,7 @@ class PolarPipeline:
             pp_training_statistics.imputator,
             pp_training_statistics.pre_weigher,
             pp_training_statistics.pre_filter,
+            pp_training_statistics.smoother,
             pp_training_statistics.influence_model,
             pp_training_statistics.post_weigher,
             pp_training_statistics.post_filter,
@@ -275,6 +289,7 @@ class PolarPipeline:
         data,
         pre_weighing,
         pre_filtering,
+        smoothing,
         post_weighing,
         post_filtering,
         influence_fitting
@@ -295,7 +310,15 @@ class PolarPipeline:
                 pre_filtering
             )
 
-        data = pre_filtered_data.data
+        if smoothing:
+            smooth_data, smooth_statistics = self.smoother.smooth(
+                pre_filtered_data.data
+            )
+        else:
+            smooth_data = pre_filtered_data.data
+            smooth_statistics = {}
+
+        data = smooth_data
 
         if influence_fitting:
             influence_fit_statistics = self.influence_model.fit(data)
@@ -321,6 +344,7 @@ class PolarPipeline:
             imputator_statistics,
             pre_weigher_statistics,
             pre_filter_statistics,
+            smooth_statistics,
             influence_statistics,
             post_weigher_statistics,
             post_filter_statistics,
