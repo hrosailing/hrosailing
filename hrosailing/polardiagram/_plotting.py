@@ -81,8 +81,16 @@ def _more_colors_than_plots(ws, colors):
 
 
 def _no_color_gradient(colors):
-    return len(colors) != 2 or any([len(c) not in [3, 4] for c in colors])
+    all_color_format = all([_has_color_format(c) for c in colors])
+    return len(colors) != 2 or not all_color_format
 
+
+def _has_color_format(obj):
+    if isinstance(obj, str):
+        return True
+    if len(obj) in [3, 4]:
+        return True
+    return False
 
 def _set_color_cycle(ax, ws, colors):
     color_cycle = ["blue"] * len(ws)
