@@ -92,6 +92,7 @@ def _has_color_format(obj):
         return True
     return False
 
+
 def _set_color_cycle(ax, ws, colors):
     color_cycle = ["blue"] * len(ws)
     _configure_color_cycle(color_cycle, colors, ws)
