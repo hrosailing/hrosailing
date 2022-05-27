@@ -220,29 +220,36 @@ class PolarPipeline:
             True
         )
 
-        pts_to_inject, injector_statistics \
-            = self.injector.inject(preproc_training_data) if injecting \
-            else (c.WeightedPoints(np.array((0, 3)), np.array(0)), {})
+        if injecting:
+            pts_to_inject, injector_statistics \
+                = self.injector.inject(preproc_training_data)
+        else:
+            pts_to_inject, injector_statistics \
+                = pc.WeightedPoints(np.array((0, 3)), np.array(0)), {}
 
         preproc_training_data.extend(pts_to_inject)
 
-        polar_diagram, extension_statistics \
-            = self.extension.process(preproc_training_data)
+        polar_diagram, extension_statistics = self.extension.process(
+            preproc_training_data
+        )
 
-        preproc_test_data, test_statistics = self._preprocess(
-            test_data,
-            pre_weighing,
-            pre_filtering,
-            post_weighing,
-            post_filtering,
-            False
-        ) if testing else (test_data, _EMPTY_STATISTIC)
-
-        quality_assurance_statistics = \
-            self.quality_assurance.check(
+        if testing:
+            preproc_test_data, test_statistics = self._preprocess(
+                test_data,
+                pre_weighing,
+                pre_filtering,
+                post_weighing,
+                post_filtering,
+                False
+            )
+            quality_assurance_statistics = self.quality_assurance.check(
                 polar_diagram,
                 preproc_test_data.data
-            ) if testing else {}
+            )
+        else:
+            preproc_test_data = test_data
+            test_statistics = _EMPTY_STATISTIC
+            quality_assurance_statistics = {}
 
         training_statistics = Statistics(
             pp_training_statistics.data_handler,
@@ -275,8 +282,9 @@ class PolarPipeline:
 
         handled_data, handler_statistics = self.data_handler.handle(data)
 
-        imputated_data, imputator_statistics = \
-            self.imputator.imputate(handled_data)
+        imputated_data, imputator_statistics = self.imputator.imputate(
+            handled_data
+        )
 
         pre_filtered_data, pre_weigher_statistics, pre_filter_statistics = \
             _weigh_and_filter(
@@ -289,9 +297,10 @@ class PolarPipeline:
 
         data = pre_filtered_data.data
 
-        influence_fit_statistics = \
-            self.influence_model.fit(data) if influence_fitting \
-            else {}
+        if influence_fitting:
+            influence_fit_statistics = self.influence_model.fit(data)
+        else:
+            influence_fit_statistics = {}
 
         influence_free_data, influence_statistics = \
             self.influence_model.remove_influence(data)
