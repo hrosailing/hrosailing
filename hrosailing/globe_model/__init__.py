@@ -85,3 +85,32 @@ class GlobeModel(ABC):
             in the globe model.
         """
         pass
+
+    def shortest_path(self, start, end, res=1000):
+        """
+        Computes points on the shortest path from `start` to `end`, all given
+        in lattitude/longitude coordinates.
+
+        Parameter
+        ---------
+
+        start: sequence of floats of length 2
+            The lattitude/longitude coordinates of the starting position.
+
+        end: sequence of floats of length 2
+            The lattitude/longitude coordinates of the goal position.
+
+        res: int
+            The number of points to be computed
+
+            Defaults to 1000.
+
+        Returns
+        ----------
+
+        path: numpy.ndarray of shape (`res`, 2)
+            The lattitude/longitude coordinates of points along the shortest
+            path from `start` to `end`.
+
+        """
+        pass
