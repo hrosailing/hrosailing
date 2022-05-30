@@ -86,6 +86,7 @@ class GlobeModel(ABC):
         """
         pass
 
+    @abstractmethod
     def shortest_path(self, start, end, res=1000):
         """
         Computes points on the shortest path from `start` to `end`, all given
@@ -113,4 +114,37 @@ class GlobeModel(ABC):
             path from `start` to `end`.
 
         """
+        pass
+
+
+class MercatorProjection(GlobeModel):
+    """
+    Globe model that interprets coordinates via the mercator projection.
+
+    Parameters
+    ---------
+
+    mp: float, int or tuple of length 2
+        One of the following:
+
+        - The lattitude of the midpoint used for the mercator projection.
+        - The midpoint used for the mercator projection.
+    """
+
+    def __init__(self, mp):
+        if isinstance(mp, (int, float)):
+            self._lat_mp = mp
+        if isinstance(mp, tuple) and len(mp) == 2:
+            self._lat_mp = mp[1]
+
+    def project(self, points):
+        pass
+
+    def lat_lon(self, points):
+        pass
+
+    def distance(self, start, end):
+        pass
+
+    def shortest_path(self, start, end, res=1000):
         pass
