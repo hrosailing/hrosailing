@@ -561,7 +561,7 @@ def isochrone(
     im : InfluenceModel, optional
         The influence model used
 
-        Defaults to ??
+        Defaults to None
 
     Returns
     -------
@@ -637,11 +637,9 @@ def _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im):
     """"""
     lat, long = _inverse_mercator_proj(pos, lat_mp)
     time = start_time + timedelta(hours=t)
-    try:
-        data = wm.get_weather((time, lat, long))
-        data["HDT"] = hdt
-    except OutsideGridException:
-        return 0
+
+    data = wm.get_weather((time, lat, long))
+    data["HDT"] = hdt
     if im:
         bsp = im.add_influence(pd, data)
     else:
