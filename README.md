@@ -270,7 +270,7 @@ wm = cruise.WeatherModel(
 ```python
 start = (42.5, 43.5)
 
-isocrones = [
+isochrones = [
     cruise.isochrone(
             pd=pd,
             start=start,
@@ -283,7 +283,7 @@ isocrones = [
     for direction in range(0, 360, 5)
 ]
 
-coordinates, _ = zip(*isocrones)
+coordinates, _ = zip(*isochrones)
 lats, longs = zip(*coordinates)
 
 for lat, long in coordinates:
