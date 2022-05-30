@@ -15,10 +15,30 @@ class GlobeModel(ABC):
     ----------------
     project(points)
 
-    lat_lon(point)
+    lat_lon(points)
 
     distance(start, end)
 
     shortest_path(start, end, res)
     """
-    pass
+
+    @abstractmethod
+    def project(self, points):
+        """
+        Calculates the three dimensional points corresponding to a given
+        of points in lattitude/longitude coordinates.
+
+        Parameter
+        ----------
+
+        points: numpy.ndarray of shape (n, 2) with dtype float
+            The points to project on the globe given in lattitude/longitude
+            coordinates.
+
+        Returns
+        --------
+
+        projection: numpy.ndarray of shape (n,3) with dtype float
+            The points on the globe.
+        """
+        pass
