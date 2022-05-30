@@ -101,7 +101,6 @@ class PolarDiagram(ABC):
         Parameters
         ----------
         ws : int/float
-            int/float
             description of slices of the polar diagram to be plotted.
 
             For a description of what the slice is made of,
