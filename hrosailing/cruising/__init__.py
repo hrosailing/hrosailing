@@ -307,9 +307,21 @@ class WeatherModel:
 
     attrs : list of length s
         List of different (scalar) attributes of weather.
+
+    Raises
+    ---------
+    ValueError :
+        If the shape of `data`, `times`, `lats`, `lons` and `attrs`
+        do not match.
     """
 
     def __init__(self, data, times, lats, lons, attrs):
+        if (len(times), len(lats), len(lons), len(attrs)) != data.shape:
+            raise ValueError(
+                f"Parameter data should have the shape " 
+                f"(len(times), len(lats), len(lons), len(attrs))"
+            )
+
         self._times = times
         self._lats = lats
         self._lons = lons
@@ -556,12 +568,12 @@ def isochrone(
     min_nodes : int, optional
         The minimum amount of sample points to sample the position space.
 
-        Defaults to 100
+        Defaults to 100.
 
     im : InfluenceModel, optional
         The influence model used.
 
-        Defaults to ??.
+        Defaults to `None`.
 
     Returns
     -------
@@ -570,7 +582,7 @@ def isochrone(
         `total_time` hours in the given direction.
 
     s : float
-        The length of the way traveled from start to end.
+        The length of the way traveled from start to end in nautical miles.
     """
     # estimate first sample points as equidistant points
 
@@ -637,11 +649,9 @@ def _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im):
     """"""
     lat, long = _inverse_mercator_proj(pos, lat_mp)
     time = start_time + timedelta(hours=t)
-    try:
-        data = wm.get_weather((time, lat, long))
-        data["HDT"] = hdt
-    except OutsideGridException:
-        return 0
+
+    data = wm.get_weather((time, lat, long))
+    data["HDT"] = hdt
     if im:
         bsp = im.add_influence(pd, data)
     else:

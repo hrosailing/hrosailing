@@ -263,7 +263,7 @@ in the given direction</dd>
 <dt><strong><code>im</code></strong> :&ensp;<code>InfluenceModel</code>, optional</dt>
 <dd>
 <p>The influence model used</p>
-<p>Defaults to ??</p>
+<p>Defaults to None</p>
 </dd>
 </dl>
 <h2 id="returns">Returns</h2>
@@ -272,7 +272,7 @@ in the given direction</dd>
 <dd>Latitude and longitude of the position that is reached when traveling
 total_time hours in the given direction</dd>
 <dt><strong><code>s</code></strong> :&ensp;<code>float</code></dt>
-<dd>The length of the way traveled from start to end</dd>
+<dd>The length of the way traveled from start to end in nautical miles</dd>
 </dl></div>
 </dd>
 </dl>
@@ -351,6 +351,12 @@ of attributes</p>
 <dd>Sorted list of longitude values of the space-time grid</dd>
 <dt><strong><code>attrs</code></strong> :&ensp;<code>list</code> of <code>length s</code></dt>
 <dd>List of different (scalar) attributes of weather</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError :</code></dt>
+<dd>If the shape of <code>data</code>, <code>times</code>, <code>lats</code>, <code>lons</code> and <code>attrs</code>
+do not matchs</dd>
 </dl></div>
 <h3>Methods</h3>
 <dl>
