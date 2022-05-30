@@ -237,6 +237,7 @@ a random weather model.
 ```python
 from datetime import timedelta
 from datetime import datetime as dt
+from hrosailing.cruising import cruise
 
 class MyInfluenceModel(cruise.InfluenceModel):
 
