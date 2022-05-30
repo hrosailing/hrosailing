@@ -38,7 +38,27 @@ class GlobeModel(ABC):
         Returns
         --------
 
-        projection: numpy.ndarray of shape (n,3) with dtype float
-            The points on the globe.
+        projection: numpy.ndarray of shape (n,2) or (n,3) with dtype float
+            The points on the globe. The exact shape depends on the model.
+        """
+        pass
+
+    @abstractmethod
+    def lat_lon(self, points):
+        """
+        Computes the lattitude/longitude representations of given points on the
+        globe.
+
+        Parameter
+        ---------
+
+        points: numpy.ndarray of shape (n,2) or (n,3) with dtype float
+            The points on the globe. The exact shape depends on the model.
+
+        Returns
+        ---------
+
+        lat_lons: numpy.ndarray of shape (n,2) with dtype float
+            The lattitude/longitude coordinates of the given points.
         """
         pass
