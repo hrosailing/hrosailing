@@ -62,3 +62,26 @@ class GlobeModel(ABC):
             The lattitude/longitude coordinates of the given points.
         """
         pass
+
+    @abstractmethod
+    def distance(self, start, end):
+        """
+        Computes the distance from `start` to `end` on the globe.
+
+        Parameter
+        ---------
+
+        start: sequence of floats of length 2
+            The lattitude/longitude coordinates of the starting position.
+
+        end: sequence of floats of length 2
+            The lattitude/longitude coordinates of the goal position.
+
+        Returns
+        -------
+
+        distance: float
+            The distance of the projections of the points `start` and `end`
+            in the globe model.
+        """
+        pass
