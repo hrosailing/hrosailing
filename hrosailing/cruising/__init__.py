@@ -582,7 +582,7 @@ def isochrone(
         total_time hours in the given direction
 
     s : float
-        The length of the way traveled from start to end
+        The length of the way traveled from start to end in nautical miles
     """
     # estimate first sample points as equidistant points
 
