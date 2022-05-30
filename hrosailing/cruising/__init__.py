@@ -307,9 +307,21 @@ class WeatherModel:
 
     attrs : list of length s
         List of different (scalar) attributes of weather
+
+    Raises
+    ---------
+    ValueError :
+        If the shape of `data`, `times`, `lats`, `lons` and `attrs`
+        do not matchs
     """
 
     def __init__(self, data, times, lats, lons, attrs):
+        if (len(times), len(lats), len(lons), len(attrs)) != data.shape:
+            raise ValueError(
+                "Parameter data should have the shape "
+                "(len(times), len(lats), len(lons), len(attrs))"
+            )
+
         self._times = times
         self._lats = lats
         self._lons = lons
