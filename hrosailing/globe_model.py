@@ -8,9 +8,8 @@ from abc import ABC, abstractmethod
 
 
 class GlobeModel(ABC):
-    """
+    """ """
 
-    """
     @abstractmethod
     def distance(self, start, end):
         """
