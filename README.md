@@ -16,22 +16,22 @@ hrosailing
 ---------------------------
 
 The `hrosailing` package provides various tools and interfaces to
-visualize, create and work with Polar (Performance) Diagrams.
+visualize, create and work with polar (performance) diagrams.
 
 The main interface being the `PolarDiagram` interface for 
 the creation of custom polar diagrams, which is compatible with
 the functionalities of this package. `hrosailing` also provides some
 pre-implemented classes inheriting from `PolarDiagram` which can be used as well.
 
-The package contains a data processing framework centered around the
+The package contains a data processing framework, centered around the
 `PolarPipeline` class, to generate polar diagrams from raw data. 
 
 `pipelinecomponents` provides many out of the box parts for
-the aforementioned framework, as well as the possibility to easily
+the aforementioned framework as well as the possibility to easily
 create own ones. 
 
-The package also provides many navigational usages of Polar
-(Performance) Diagrams with `cruising`.
+The package also provides many navigational usages of polar
+(performance) diagrams with `cruising`.
 
 You can find the documentation [here](https://hrosailing.github.io/hrosailing/ "hrosailing").
 See also the examples below for some showcases.
@@ -49,7 +49,7 @@ The recommended way to install `hrosailing` is with
     pip install hrosailing
 
 The `hrosailing` package might also be compatible (in large) with 
-earlier versions of Python, together with some earlier version of some 
+earlier versions of Python, together with some earlier versions of some 
 of the used packages, namely `numpy`, `scipy`, and `matplotlib`.
 
 
@@ -58,7 +58,7 @@ In the following we showcase some of the capabilities of `hrosailing`.
 All definitions of an example code might be used in the succeeding examples.
 
 
-#### Serialization of `PolarDiagram` objects.
+#### Serialization of `PolarDiagram` objects
 For a first example, lets say we obtained some table with polar 
 performance diagram data, like the one available 
 [here](https://www.seapilot.com/wp-content/uploads/2018/05/60ftmono.txt), 
@@ -271,7 +271,7 @@ wm = cruise.WeatherModel(
 ```python
 start = (42.5, 43.5)
 
-isocrones = [
+isochrones = [
     cruise.isochrone(
             pd=pd,
             start=start,
@@ -284,7 +284,7 @@ isocrones = [
     for direction in range(0, 360, 5)
 ]
 
-coordinates, _ = zip(*isocrones)
+coordinates, _ = zip(*isochrones)
 lats, longs = zip(*coordinates)
 
 for lat, long in coordinates:
