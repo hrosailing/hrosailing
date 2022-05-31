@@ -5,6 +5,7 @@ globe using lattitude/longitude coordinates.
 """
 
 from abc import ABC, abstractmethod
+import numpy as np
 
 
 class GlobeModel(ABC):
@@ -129,16 +130,34 @@ class MercatorProjection(GlobeModel):
 
         - The lattitude of the midpoint used for the mercator projection.
         - The midpoint used for the mercator projection.
+
+    dist_lat: float/int
+        The distance of two Lattitudes in nautical miles.
+
+        Defaults to 69.
     """
 
-    def __init__(self, mp):
+    def __init__(self, mp, dist_lat=69):
         if isinstance(mp, (int, float)):
             self._lat_mp = mp
         if isinstance(mp, tuple) and len(mp) == 2:
             self._lat_mp = mp[1]
+        self._dist_lat = dist_lat
 
     def project(self, points):
-        pass
+        """
+        Computes the mercator projection with reference point lat_mp of
+        given points. Projection has size (n, 2).
+
+        See also
+        --------
+        `GlobeModel.project`
+        """
+        lat, long = points[:, 0], points[:, 1]
+
+        return self._dist_lat * np.array(
+            [(lat - self._lat_mp), np.arcsinh(np.tan(np.pi * long / 180))]
+        )
 
     def lat_lon(self, points):
         pass
