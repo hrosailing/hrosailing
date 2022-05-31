@@ -1886,7 +1886,7 @@ Should be between 0° and 360°</p>
 </dd>
 </dl>
 <h2 id="examples">Examples</h2>
-<pre><code>&gt;&gt;&gt; pd = PolarDiagramTable()
+<pre><code class="language-python-repl">&gt;&gt;&gt; pd = PolarDiagramTable()
 &gt;&gt;&gt; pd.wind_speeds
 [ 2  4  6  8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40]
 &gt;&gt;&gt; pd.wind_angles
@@ -1973,7 +1973,7 @@ where new boat speeds will be inserted</p>
 </dd>
 </dl>
 <h2 id="examples">Examples</h2>
-<pre><code>&gt;&gt;&gt; pd = PolarDiagramTable(
+<pre><code class="language-python-repl">&gt;&gt;&gt; pd = PolarDiagramTable(
 ...     ws_resolution=[6, 8, 10, 12, 14],
 ...     wa_resolution=[52, 60, 75, 90, 110, 120, 135]
 ... )
@@ -2278,10 +2278,10 @@ polar diagram</li>
 </dd>
 </dl>
 <h2 id="examples">Examples</h2>
-<pre><code>&gt;&gt;&gt; import matplotlib.pyplot as pyplot
-&gt;&gt;&gt; pd = from_csv("src/polar_diagrams/orc/A-35.csv", fmt="orc")
+<pre><code class="language-python-repl">&gt;&gt;&gt; import matplotlib.pyplot as pyplot
+&gt;&gt;&gt; pd = from_csv(&quot;src/polar_diagrams/orc/A-35.csv&quot;, fmt=&quot;orc&quot;)
 &gt;&gt;&gt; pd.plot_flat(
-...     ws=[6, 8], show_legend=True, ls="-", lw=1.5, marker=""
+...     ws=[6, 8], show_legend=True, ls=&quot;-&quot;, lw=1.5, marker=&quot;&quot;
 ... )
 &gt;&gt;&gt; pyplot.show()
 </code></pre>
@@ -2365,10 +2365,10 @@ polar diagram</li>
 </dd>
 </dl>
 <h2 id="examples">Examples</h2>
-<pre><code>&gt;&gt;&gt; import matplotlib.pyplot as pyplot
-&gt;&gt;&gt; pd = from_csv("src/polar_diagrams/orc/A-35.csv", fmt="orc")
+<pre><code class="language-python-repl">&gt;&gt;&gt; import matplotlib.pyplot as pyplot
+&gt;&gt;&gt; pd = from_csv(&quot;src/polar_diagrams/orc/A-35.csv&quot;, fmt=&quot;orc&quot;)
 &gt;&gt;&gt; pd.plot_polar(
-...     ws=[6, 8], show_legend=True, ls="-", lw=1.5, marker=""
+...     ws=[6, 8], show_legend=True, ls=&quot;-&quot;, lw=1.5, marker=&quot;&quot;
 ... )
 &gt;&gt;&gt; pyplot.show()
 </code></pre>
@@ -2388,7 +2388,7 @@ polar diagram are on one side of the 0° - 180° axis,
 otherwise this can lead to duplicate data, which can
 overwrite or live alongside old data</p>
 <h2 id="examples">Examples</h2>
-<pre><code>&gt;&gt;&gt; pd = PolarDiagramTable(
+<pre><code class="language-python-repl">&gt;&gt;&gt; pd = PolarDiagramTable(
 ...     bsps=[
 ...         [5.33, 6.32, 6.96, 7.24, 7.35],
 ...         [5.64, 6.61, 7.14, 7.42, 7.56],
@@ -2449,7 +2449,7 @@ refer to <code><a title="hrosailing.polardiagram.from_csv" href="#hrosailing.pol
 <dd>If no write permission is granted for file</dd>
 </dl>
 <h2 id="examples">Examples</h2>
-<pre><code>&gt;&gt;&gt; pd = PolarDiagramTable(
+<pre><code class="language-python-repl">&gt;&gt;&gt; pd = PolarDiagramTable(
 ...     bsps=[
 ...         [5.33, 6.32, 6.96, 7.24, 7.35],
 ...         [5.64, 6.61, 7.14, 7.42, 7.56],
@@ -2472,8 +2472,8 @@ refer to <code><a title="hrosailing.polardiagram.from_csv" href="#hrosailing.pol
 110.0         5.98   7.07    7.59    8.02    8.34
 120.0         5.80   6.95    7.51    7.98    8.52
 135.0         5.20   6.41    7.19    7.66    8.14
-&gt;&gt;&gt; pd.to_csv("example.csv")
-&gt;&gt;&gt; pd2 = from_csv("example.csv")
+&gt;&gt;&gt; pd.to_csv(&quot;example.csv&quot;)
+&gt;&gt;&gt; pd2 = from_csv(&quot;example.csv&quot;)
 &gt;&gt;&gt; print(pd2)
   TWA / TWS    6.0    8.0    10.0    12.0    14.0
 -----------  -----  -----  ------  ------  ------

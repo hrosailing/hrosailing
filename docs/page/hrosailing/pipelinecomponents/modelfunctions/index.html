@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
 <title>hrosailing.pipelinecomponents.modelfunctions API documentation</title>
-<meta name="description" content="Model functions that can be used with the Regressor class to
-model certain ship behaviours" />
+<meta name="description" content="Collection of model functions that can be used with the `Regressor` class
+to model various different ship behaviours." />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
 <link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/base16/gruvbox-dark-hard.min.css" crossorigin>
@@ -26,8 +26,8 @@ model certain ship behaviours" />
 <h1 class="title">Module <code>hrosailing.pipelinecomponents.modelfunctions</code></h1>
 </header>
 <section id="section-intro">
-<p>Model functions that can be used with the Regressor class to
-model certain ship behaviours</p>
+<p>Collection of model functions that can be used with the <code>Regressor</code> class
+to model various different ship behaviours.</p>
 </section>
 <section>
 </section>
@@ -40,77 +40,55 @@ model certain ship behaviours</p>
 <span>def <span class="ident">ws_concave_dt_wa</span></span>(<span>ws, wa, *params)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Models the function
-<span><span class="MathJax_Preview">
-a_0 + a_1x - a_2x^2 + a_3y + a_5(y - a_4)^2 + a_6xy
-+ a_7(360 - y) + a_9((360 -y) - a_8)^2 + a_{10}xy
+<div class="desc"><p>A concave function with downturn for wind speed and angle.</p>
+<h2 id="notes">Notes</h2>
+<p>Models the function:</p>
+<p><span><span class="MathJax_Preview">
 </span><script type="math/tex; mode=display">
-a_0 + a_1x - a_2x^2 + a_3y + a_5(y - a_4)^2 + a_6xy
-+ a_7(360 - y) + a_9((360 -y) - a_8)^2 + a_{10}xy
 </script></span></p></div>
 </dd>
 <dt id="hrosailing.pipelinecomponents.modelfunctions.ws_s_dt_wa_gauss"><code class="name flex">
 <span>def <span class="ident">ws_s_dt_wa_gauss</span></span>(<span>ws, wa, *params)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Models the function
-<span><span class="MathJax_Preview">
-\frac{a_2}{1 + e^{a_0 - a_1x}} - a_3x^2 +
-+ a_4\exp\left(\frac{-(y - a_5)^2}{2a_6}\right)
-+ a_7\exp\left(\frac{-((360 - y) - a_8)^2}{2a_9}\right)
+<div class="desc"><p>An s-shaped function with downturn for wind speed and
+a gaussian function for wind angle.</p>
+<h2 id="notes">Notes</h2>
+<p>Models the function:</p>
+<p><span><span class="MathJax_Preview">
 </span><script type="math/tex; mode=display">
-\frac{a_2}{1 + e^{a_0 - a_1x}} - a_3x^2 +
-+ a_4\exp\left(\frac{-(y - a_5)^2}{2a_6}\right)
-+ a_7\exp\left(\frac{-((360 - y) - a_8)^2}{2a_9}\right)
 </script></span></p></div>
 </dd>
 <dt id="hrosailing.pipelinecomponents.modelfunctions.ws_s_s_dt_wa_gauss_comb"><code class="name flex">
 <span>def <span class="ident">ws_s_s_dt_wa_gauss_comb</span></span>(<span>ws, wa, *params)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Models the function
-<span><span class="MathJax_Preview">
-\frac{a_2}{1 + e^{a_0 - a_1x}} - a_3x^2 +
-+ a_4\exp\left(\frac{-(y - a_5)^2}{2a_6}\right) + a_7xy
-+ a_8\exp\left(\frac{-((360 - y) - a_9)^2}{2a_{10}}\right)
-+ a_11x(360 -y)
+<div class="desc"><h2 id="notes">Notes</h2>
+<p>Models the function:</p>
+<p><span><span class="MathJax_Preview">
 </span><script type="math/tex; mode=display">
-\frac{a_2}{1 + e^{a_0 - a_1x}} - a_3x^2 +
-+ a_4\exp\left(\frac{-(y - a_5)^2}{2a_6}\right) + a_7xy
-+ a_8\exp\left(\frac{-((360 - y) - a_9)^2}{2a_{10}}\right)
-+ a_11x(360 -y)
 </script></span></p></div>
 </dd>
 <dt id="hrosailing.pipelinecomponents.modelfunctions.ws_s_wa_gauss"><code class="name flex">
 <span>def <span class="ident">ws_s_wa_gauss</span></span>(<span>ws, wa, *params)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Models the function
-<span><span class="MathJax_Preview">
-\frac{a_2}{1 + e^{a_0 - a_1x}} +
-+ a_3\exp\left(\frac{-(y - a_4)^2}{2a_5}\right)
-+ a_6\exp\left(\frac{-((360 - y) - a_7)^2}{2a_8}\right)
+<div class="desc"><p>An s-shaped function for wind speed and a gaussian function for wind
+angle.</p>
+<h2 id="notes">Notes</h2>
+<p>Models the function:</p>
+<p><span><span class="MathJax_Preview">
 </span><script type="math/tex; mode=display">
-\frac{a_2}{1 + e^{a_0 - a_1x}} +
-+ a_3\exp\left(\frac{-(y - a_4)^2}{2a_5}\right)
-+ a_6\exp\left(\frac{-((360 - y) - a_7)^2}{2a_8}\right)
 </script></span></p></div>
 </dd>
 <dt id="hrosailing.pipelinecomponents.modelfunctions.ws_s_wa_gauss_and_square"><code class="name flex">
 <span>def <span class="ident">ws_s_wa_gauss_and_square</span></span>(<span>ws, wa, *params)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Models the function
-<span><span class="MathJax_Preview">
-\left(\frac{a_2}{1 + e^{a_0 - a_1x}} - a_3x^2 +
-x\left(a_4\exp\left(\frac{-(y - a_5)^2}{2a_6}\right) +
-a_7\exp\left(\frac{-((360 - y) - a_8)}{2a_9}\right)\right)\right)
-y(360 - y)
+<div class="desc"><h2 id="notes">Notes</h2>
+<p>Models the function</p>
+<p><span><span class="MathJax_Preview">
 </span><script type="math/tex; mode=display">
-\left(\frac{a_2}{1 + e^{a_0 - a_1x}} - a_3x^2 +
-x\left(a_4\exp\left(\frac{-(y - a_5)^2}{2a_6}\right) +
-a_7\exp\left(\frac{-((360 - y) - a_8)}{2a_9}\right)\right)\right)
-y(360 - y)
 </script></span></p></div>
 </dd>
 <dt id="hrosailing.pipelinecomponents.modelfunctions.ws_times_wa"><code class="name flex">
@@ -123,17 +101,11 @@ y(360 - y)
 <span>def <span class="ident">ws_wa_s_dt</span></span>(<span>ws, wa, *params)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Models the function
-<span><span class="MathJax_Preview">
-\frac{a_2}{1 + e^{a_0 - a_1x}} - a_3x^2 +
-\frac{a_6}{1 + e^{a_4 - a_5y}} - a_7y^2 + a_8xy +
-\frac{a_{11}}{1 + e^{a_9 - a_{10}(360 - y)}} - a_{12}(360 - y)^2
-+ a_{13}x(360-y)
+<div class="desc"><p>An s-shaped function with downturn for wind speed and angle.</p>
+<h2 id="notes">Notes</h2>
+<p>Models the function:</p>
+<p><span><span class="MathJax_Preview">
 </span><script type="math/tex; mode=display">
-\frac{a_2}{1 + e^{a_0 - a_1x}} - a_3x^2 +
-\frac{a_6}{1 + e^{a_4 - a_5y}} - a_7y^2 + a_8xy +
-\frac{a_{11}}{1 + e^{a_9 - a_{10}(360 - y)}} - a_{12}(360 - y)^2
-+ a_{13}x(360-y)
 </script></span></p></div>
 </dd>
 </dl>
