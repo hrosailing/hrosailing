@@ -35,37 +35,23 @@ class PolarDiagramTable(PolarDiagram):
 
     Parameters
     ----------
-    ws_resolution : array_like of positive scalars or positive scalar, optional
-        Wind speeds that will correspond to the columns
-        of the table
-
+    ws_resolution : array_like, default: `numpy.arange(2, 42, 2)`
+        Wind speeds that will correspond to the columns of the table
         - If array_like, resolution will be `numpy.array(ws_resolution)`
         - If a scalar `num`, resolution will be `numpy.arange(num, 40, num)`
-
-        Defaults to `numpy.arange(2, 42, 2)`
-
-    wa_resolution : array_like of positive scalars or positive scalar, optional
+    wa_resolution : array_like, default: `numpy.arange(0, 360, 5)`
         Wind angles that will correspond to the rows of the table.
-        Should be between 0° and 360°
-
         - If array_like, resolution will be `numpy.array(wa_resolution)`
         - If a scalar `num`, resolution will be `numpy.arange(num, 360, num)`
+    bsps : array_like, default: `numpy.zeros((rdim, cdim))`
+        Boat speeds that will correspond to the entries of the table.
+        Needs to have dimensions matching `ws_resolution` and `wa_resolution`.
 
-        Defaults to `numpy.arange(0, 360, 5)`
-
-    bsps : array_like of shape (rdim, cdim), optional
-        Boat speeds that will correspond to the entries of the table
-
-        Needs to have dimensions matching `ws_resolution` and `wa_resolution`
-
-        Defaults to `numpy.zeros((rdim, cdim))`
-
-    Raises
-    ------
-    PolarDiagramInitializationException
-        If `bsps` is not array_like
-
-        If `bsps` has incorrect shape
+    Attributes
+    ----------
+    wind_speeds
+    wind_angles
+    boat_speeds
 
     Examples
     --------
@@ -140,7 +126,6 @@ class PolarDiagramTable(PolarDiagram):
         ws = self.wind_speeds
         if len(ws) <= 15:
             self._create_short_table(table, ws)
-
         else:
             wind = []
             wind.extend(ws[:5])
@@ -151,40 +136,55 @@ class PolarDiagramTable(PolarDiagram):
 
     def _create_short_table(self, table, wind):
         bsps = self.boat_speeds
+
         table.extend([f"    {float(ws):.1f}" for ws in wind])
         table.append("\n-----------")
+
         for ws in wind:
             le = len(f"{float(ws):.1f}")
             table.append("  ".ljust(le + 4, "-"))
+
         table.append("\n")
+
         for i, wa in enumerate(self.wind_angles):
             table.append(f"{float(wa):.1f}".ljust(11))
+
             for j, ws in enumerate(wind):
                 le = len(f"{float(ws):.1f}")
                 table.append(f"{bsps[i][j]:.2f}".rjust(4 + le))
+
             table.append("\n")
-        return "".join(table)
 
     def _create_long_table(self, table, wind):
         bsps = self.boat_speeds
+
         for i, ws in enumerate(wind):
             if i == 5:
                 table.append("  ...")
+
             table.append(f"    {float(ws):.1f}")
+
         table.append("\n-----------")
+
         for i, ws in enumerate(wind):
             if i == 5:
                 table.append("  ---")
+
             le = len(f"{float(ws):.1f}")
             table.append("  ".ljust(le + 4, "-"))
+
         table.append("\n")
+
         for i, wa in enumerate(self.wind_angles):
             table.append(f"{float(wa):.1f}".rjust(11))
+
             for j, ws in enumerate(wind):
                 if j == 5:
                     table.append("  ...")
+
                 le = len(f"{float(ws):.1f}")
                 table.append(f"{bsps[i][j]:.2f}".rjust(4 + le))
+
             table.append("\n")
 
     def __repr__(self):
@@ -200,35 +200,28 @@ class PolarDiagramTable(PolarDiagram):
         interpolator=ArithmeticMeanInterpolator(50),
         neighbourhood=Ball(radius=1),
     ):
-        """Returns the value of the polar diagram at a given ws-wa point
+        """Calculates the boat speed for given `ws` and `wa`.
 
         If the ws-wa point is in the table, the corresponding entry is
         returned, otherwise the value is interpolated
 
         Parameters
         ----------
-        ws : scalar
-            Wind speed
-
-        wa : scalar
-            Wind angle
-
-        interpolator : Interpolator, optional
+        ws : int or float
+            Wind speed.
+        wa : int or float
+            Wind angle.
+        interpolator : hrosailing.pipelinecomponents.Interpolator, default: `hrosailing.pipelinecomponents.ArithmeticMeanInterpolator(50)`
             Interpolator subclass that determines the interpolation
-            method used to determine the value at the ws-wa point
-
-            Defaults to `ArithmeticMeanInterpolator(50)`
-
-        neighbourhood : Neighbourhood, optional
+            method used to determine the value at the ws-wa point.
+        neighbourhood : hrosailing.pipelinecomponents.Neighbourhood, default: `hrosailing.pipelinecomponents.Ball(1)`
             Neighbourhood subclass used to determine the grid points
-            in the table that will be used in the interpolation
-
-            Defaults to `Ball(radius=1)`
+            in the table that will be used in the interpolation.
 
         Returns
         -------
-        bsp : scalar
-            Boat speed value as determined above
+        bsp : int or float
+            Boat speed value as determined above.
         """
         try:
             return self[ws, wa]
@@ -293,32 +286,26 @@ class PolarDiagramTable(PolarDiagram):
         return self._boat_speeds.copy()
 
     def to_csv(self, csv_path, fmt="hro"):
-        """Creates a .csv file with delimiter ',' and the
-        following format:
+        """Creates a .csv file with delimiter ',' and the following format:
 
             PolarDiagramTable
-            TWS:
-            `self.wind_speeds`
-            TWA:
-            `self.wind_angles`
-            Boat speeds:
-            `self.boat_speeds`
+            TWS
+            self.wind_speeds
+            TWA
+            self.wind_angles
+            BSP
+            self.boat_speeds
 
         Parameters
         ----------
-        csv_path : path-like
-            Path to a .csv file or where a new .csv file will be created
+        csv_path : path_like
+            Path for the .csv file.
+        fmt : {"hro", "orc", "opencpn", "array"}, default: "hro"
+            Format for the .csv file.
 
-        fmt : str
-            Format in which the .csv file should be written,
-            refer to `from_csv` for the possible formats
-
-        Raises
-        ------
-        PolarDiagramException
-            If an unknown format was specified
-        OSError
-            If no write permission is granted for file
+        See Also
+        --------
+        `from_csv`
 
         Examples
         --------
@@ -422,12 +409,13 @@ class PolarDiagramTable(PolarDiagram):
         return PolarDiagramTable(ws_res, wa_res, bsps)
 
     def symmetrize(self):
-        """Constructs a symmetric version of the
-        polar diagram, by mirroring it at the 0° - 180° axis
-        and returning a new instance
+        """Constructs a symmetric version of the polar diagram.
 
-        Warning
-        -------
+        Symmetrizes polar diagram by mirroring it at the 0° - 180° axis
+        and returning a new instance.
+
+        Warnings
+        --------
         Should only be used if all the wind angles of the initial
         polar diagram are on one side of the 0° - 180° axis,
         otherwise this can lead to duplicate data, which can
@@ -465,10 +453,6 @@ class PolarDiagramTable(PolarDiagram):
         300.0         5.64   6.61    7.14    7.42    7.56
         308.0         5.33   6.32    6.96    7.24    7.35
         """
-        below_180 = [wa for wa in self.wind_angles if wa <= 180]
-        above_180 = [wa for wa in self.wind_angles if wa > 180]
-        if below_180 and above_180:
-            _warn_for_duplicate_data()
 
         symmetric_wa_resolution = np.concatenate(
             [self.wind_angles, 360 - np.flip(self.wind_angles)]
@@ -499,32 +483,17 @@ class PolarDiagramTable(PolarDiagram):
         )
 
     def change_entries(self, new_bsps, ws=None, wa=None):
-        """Changes specified entries in the table
+        """Changes specified entries in the table.
 
         Parameters
         ----------
         new_bsps: array_like of matching shape
             Sequence containing the new boat speeds to be inserted
             in the specified entries
-
-        ws: Iterable or int or float, optional
-            Element(s) of `self.wind_speeds`, specifying the columns,
-            where new boat speeds will be inserted
-
-            Defaults to `self.wind_speeds`
-
-        wa: Iterable or int or float, optional
-            Element(s) of `self.wind_angles`, specifiying the rows,
-            where new boat speeds will be inserted
-
-            Defaults to `self.wind_angles`
-
-        Raises
-        ------
-        PolarDiagramException
-            If `new_bsps` is not array_like
-
-            If `new_bsps` has incorrect shape
+        ws: array_like, default: `self.wind_speeds`
+            Columns of table given as elements of `self.wind_speed`
+        wa: array_like, default: `self.wind_angles`
+            Rows of table given as elements of `self.wind_angles`.
 
         Examples
         --------
@@ -575,7 +544,6 @@ class PolarDiagramTable(PolarDiagram):
 
         new_bsps = np.asarray_chkfinite(new_bsps)
 
-        # non-array_like input shouldn't be allowed
         if new_bsps.dtype == object:
             raise PolarDiagramException("`new_bsps` is not array_like")
 
@@ -606,23 +574,19 @@ class PolarDiagramTable(PolarDiagram):
         self._boat_speeds[mask] = new_bsps.flat
 
     def get_slices(self, ws=None):
-        """For given wind speeds, return the slices of the polar diagram
-        corresponding to them
+        """Returns given slice of polar diagram.
 
         The slices are equal to the corresponding columns of the table
-        together with self.wind_angles
+        together with `self.wind_angles`
 
         Parameters
         ----------
-        ws : tuple of length 2, iterable or scalar, optional
+        ws : array_like, default: `self.wind_speeds`
             Slices of the polar diagram table, given as either
-
             - a tuple of length 2 specifying an interval of
                 considered wind speeds
             - an iterable containing only elements of `self.wind_speeds`
             - a single element of `self.wind_speeds`
-
-            Defaults to `self.wind_speeds`
 
         Returns
         -------
@@ -634,7 +598,6 @@ class PolarDiagramTable(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-
             - If at least one element of `ws` is not in `self.wind_speeds`
             - If the given interval doesn't contain any slices of the
             polar diagram
@@ -667,25 +630,18 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        ws : tuple of length 2, iterable, or scalar, optional
+        ws : array_like, default: `self.wind_speeds`
             Slices of the polar diagram table, given as either
-
             - a tuple of length 2 specifying an interval of
                 considered wind speeds
             - an iterable containing only elements of `self.wind_speeds`
             - a single element of `self.wind_speeds`
-
             The slices are then equal to the corresponding
             columns of the table together with `self.wind_angles`
-
-            Defaults to `self.wind_speeds`
-
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
-
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
-
             - If 2 colors are passed, slices will be plotted with a color
             gradient that is determined by the corresponding wind speed
             - Otherwise the slices will be colored in turn with the specified
@@ -694,9 +650,8 @@ class PolarDiagramTable(PolarDiagram):
             - Alternatively one can specify certain slices to be plotted in
             a color out of order by passing a sequence of `(ws, color)` pairs
 
-            Defaults to `("green", "red")`
-
-        show_legend : bool, optional
+            Defaults to `("green", "red")`.
+        show_legend : bool, default: `False`
             Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
@@ -704,31 +659,25 @@ class PolarDiagramTable(PolarDiagram):
             If plotted with a color gradient, a `matplotlib.colorbar.Colorbar`
             will be created, otherwise a `matplotlib.legend.Legend` instance
 
-            Defaults to `False`
-
+        Other Parameters
+        ----------------
         legend_kw : dict, optional
             Keyword arguments to change position and appearance of the colorbar
             or legend respectively
-
             - If 2 colors are passed, a colorbar will be created.
             In this case see `matplotlib.colorbar.Colorbar` for possible
             keywords and their effect
             - Otherwise, a legend will be created.
             In this case see `matplotlib.legend.Legend` for possible keywords
             and their effect.
-
-            Will only be used if `show_legend` is `True`
-
-        plot_kw : Keyword arguments
-            Keyword arguments to change various appearances of the plot
-
+        plot_kw : dict, optional
+            Keyword arguments to change various appearances of the plot.
             See `matplotlib.axes.Axes.plot` for possible keywords and their
             effects
 
         Raises
         ------
         PolarDiagramException
-
             - If at least one element of `ws` is not in `self.wind_speeds`
             - If the given interval doesn't contain any slices of the
             polar diagram
@@ -773,9 +722,8 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        ws : tuple of length 2, iterable, or scalar, optional
+        ws : array_like, default: `self.wind_speeds`
             Slices of the polar diagram table, given as either
-
             - a tuple of length 2 specifying an interval of considered
             wind speeds
             - an iterable containing only elements of `self.wind_speeds`
@@ -783,15 +731,10 @@ class PolarDiagramTable(PolarDiagram):
 
             The slices are then equal to the corresponding
             columns of the table together with `self.wind_angles`
-
-            Defaults to `self.wind_speeds`
-
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
-
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
-
             - If 2 colors are passed, slices will be plotted with a color
             gradient that is determined by the corresponding wind speed
             - Otherwise the slices will be colored in turn with the specified
@@ -801,31 +744,23 @@ class PolarDiagramTable(PolarDiagram):
             a color out of order by passing a sequence of `(ws, color)` pairs
 
             Defaults to `("green", "red")`
-
-        show_legend : bool, optional
+        show_legend : bool, default: `False`
             Specifies wether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
             If plotted with a color gradient, a `matplotlib.colorbar.Colorbar`
             will be created, otherwise a `matplotlib.legend.Legend` instance
-
-            Defaults to `False`
-
         legend_kw : dict, optional
             Keyword arguments to change position and appearance of the colorbar
             or legend respectively
-
             - If 2 colors are passed, a colorbar will be created.
             In this case see `matplotlib.colorbar.Colorbar` for possible
             keywords and their effect
             - Otherwise, a legend will be created.
             In this case see `matplotlib.legend.Legend` for possible keywords
             and their effect.
-
-            Will only be used if `show_legend` is `True`
-
-        plot_kw : Keyword arguments
+        plot_kw : dict, optional
             Keyword arguments to change various appearances of the plot
 
             See `matplotlib.axes.Axes.plot` for possible keywords and their
@@ -834,7 +769,6 @@ class PolarDiagramTable(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-
             - If at least one element of `ws` is not in `self.wind_speeds`
             - If the given interval doesn't contain any slices of the
             polar diagram
@@ -873,14 +807,11 @@ class PolarDiagramTable(PolarDiagram):
         ----------
         ax : mpl_toolkits.mplot3d.axes3d.Axes3D, optional
             Axes instance where the plot will be created
-
-        colors: tuple of two (2) color_likes, optional
+        colors: tuple of two (2) color_likes, default: `("green", "red")`
             Color pair determining the color gradient with which the
             polar diagram will be plotted
 
             Will be determined by the corresponding wind speeds
-
-            Defaults to `("green", "red")`
         """
         wa = np.deg2rad(self.wind_angles)
         ws, wa = np.meshgrid(self.wind_speeds, wa)
@@ -905,43 +836,29 @@ class PolarDiagramTable(PolarDiagram):
         ----------
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
-
-        colors : tuple of two (2) color_likes, optional
+        colors : tuple of two (2) color_likes, default: `("green", "red")`
             Color pair determining the color gradient with which the
             polar diagram will be plotted
 
             Will be determined by the corresponding boat speed
-
-            Defaults to `("green", "red")`
-
-        marker : matplotlib.markers.Markerstyle or equivalent, optional
+        marker : matplotlib.markers.Markerstyle or equivalent, default: `"o"`
             Markerstyle for the created scatter plot
-
-            Defaults to `"o"`
-
-        ms : float or array_like of fitting shape, optional
+        ms : array_like, optional
             Marker size in points**2
-
-        show_legend : bool, optional
+        show_legend : bool, default: `False`
             Specifies whether or not a legend will be shown next
             to the plot
 
             Legend will be a `matplotlib.colorbar.Colorbar` instance
-
-            Defaults to `False`
-
         legend_kw : dict, optional
             Keyword arguments to change position and appearance of the colorbar
             or legend respectively
-
             - If 2 colors are passed, a colorbar will be created.
             In this case see `matplotlib.colorbar.Colorbar` for possible
             keywords and their effect
             - Otherwise, a legend will be created.
             In this case see `matplotlib.legend.Legend` for possible keywords
             and their effect.
-
-            Will only be used if `show_legend` is `True`
         """
         ws, wa = np.meshgrid(self.wind_speeds, self.wind_angles)
         ws = ws.ravel()
@@ -965,9 +882,8 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        ws : tuple of length 2, iterable, scalar, optional
+        ws : array_like, default: `self.wind_speeds`
             Slices of the polar diagram table, given as either
-
             - a tuple of length 2 specifying an interval of considered
             wind speeds
             - an iterable containing only elements of `self.wind_speeds`
@@ -975,12 +891,8 @@ class PolarDiagramTable(PolarDiagram):
 
             The slices are then equal to the corresponding
             columns of the table together with `self.wind_angles`
-
-            Defaults to `self.wind_speeds`
-
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
-
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices
 
@@ -993,17 +905,13 @@ class PolarDiagramTable(PolarDiagram):
             a color out of order by passing a sequence of `(ws, color)` pairs
 
             Defaults to `("green", "red")`
-
-        show_legend : bool, optional
+        show_legend : bool, default: `False`
             Specifies whether or not a legend will be shown next to the plot
 
             The type of legend depends on the color options
 
             If plotted with a color gradient, a `matplotlib.colorbar.Colorbar`
             will be created, otherwise a `matplotlib.legend.Legend`
-
-            Defaults to `False`
-
         legend_kw : dict, optional
             Keyword arguments to change position and appearance of the colorbar
             or legend respectively
@@ -1014,10 +922,7 @@ class PolarDiagramTable(PolarDiagram):
             - Otherwise, a legend will be created.
             In this case see `matplotlib.legend.Legend` for possible keywords
             and their effect.
-
-            Will only be used if `show_legend` is `True`
-
-        plot_kw : Keyword arguments
+        plot_kw : dict, optional
             Keyword arguments to change various appearances of the plot
 
             See `matplotlib.axes.Axes.plot` for possible keywords and their
@@ -1026,7 +931,6 @@ class PolarDiagramTable(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-
             - If at least one element of `ws` is not in `self.wind_speeds`
             - If the given interval doesn't contain any slices of the
             polar diagram
@@ -1127,14 +1031,6 @@ def _sort_table(ws_resolution, wa_resolution, bsps):
         np.array(ws_resolution, float),
         np.array(wa_resolution, float),
         np.array(bsps, float).T,
-    )
-
-
-def _warn_for_duplicate_data():
-    warnings.warn(
-        "There are wind angles on both sides of the 0° - 180° axis. "
-        "This might result in duplicate data, "
-        "which can overwrite or live alongside old data"
     )
 
 
