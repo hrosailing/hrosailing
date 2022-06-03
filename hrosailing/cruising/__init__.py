@@ -200,7 +200,7 @@ def cruise(
         Description of the wind. The exact interpretation depends on
         `wind_fmt`. See the description of `wind_fmt` for details.
 
-    wind_fmt: {"ws_wan", ws_wa_hdt", "uv_grd"}
+    wind_fmt: {"ws_wan", "ws_wa_hdt", "uv_grd"}
         Specification how to interpret the parameter `wind`.
 
         - "ws_wan": `wind` is interpreted as
@@ -718,7 +718,7 @@ def _wind_relative_to_north(wind, wind_fmt):
         Description of the wind. The exact interpretation depends on
         `wind_fmt`. See the description of `wind_fmt` for details.
 
-    wind_fmt: {"ws_wan", ws_wa_hdt", "uv_grd"}
+    wind_fmt: {"ws_wan", "ws_wa_hdt", "uv_grd"}
         Specification how to interpret the parameter `wind`.
 
         - "ws_wan": `wind` is interpreted as
