@@ -165,7 +165,7 @@ def cruise(
     start,
     end,
     wind,
-    wind_fmt='ws_wan',
+    wind_fmt="ws_wan",
     uv_grd=None,
     im: Optional[InfluenceModel] = None,
     influence_data: Optional[dict] = None,
@@ -751,9 +751,7 @@ def _wind_relative_to_north(wind, wind_fmt):
         u, v = wind
         return np.linalg.norm(wind), 180 / np.pi * np.arctan2(v, u)
 
-    raise AttributeError(
-        f"wind_fmt '{wind_fmt}' is not supported"
-    )
+    raise AttributeError(f"wind_fmt '{wind_fmt}' is not supported")
 
     # grib data:
     # wdir = 180 / np.pi * np.arctan2(vgrd, ugrd) + 180
