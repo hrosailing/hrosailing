@@ -245,8 +245,8 @@ def cruise(
     wa = np.rad2deg(wa)
     if im:
         for key, val in influence_data.items():
-            influence_data[key] = [val]*len(wa)
-        influence_data["TWS"] = [ws]*len(wa)
+            influence_data[key] = [val] * len(wa)
+        influence_data["TWS"] = [ws] * len(wa)
         influence_data["TWA"] = wa
         bsp = im.add_influence(pd, influence_data)
     bsp = np.array(bsp).ravel()
