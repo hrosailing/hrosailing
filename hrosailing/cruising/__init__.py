@@ -164,10 +164,8 @@ def cruise(
     pd,
     start,
     end,
-    ws=None,
-    wa=None,
-    wa_north=None,
-    hdt=None,
+    wind,
+    wind_fmt="ws_wan",
     uv_grd=None,
     im: Optional[InfluenceModel] = None,
     influence_data: Optional[dict] = None,
@@ -198,30 +196,22 @@ def cruise(
         Coordinates of the end point of the cruising maneuver,
         given in longitude and latitude.
 
-    ws : int or float, optional
-        The current wind speed given in knots.
+    wind: tuple
+        Description of the wind. The exact interpretation depends on
+        `wind_fmt`. See the description of `wind_fmt` for details.
 
-        Defaults to `None`.
+    wind_fmt: {"ws_wan", ws_wa_hdt", "uv_grd"}
+        Specification how to interpret the parameter `wind`.
 
-    wa: int or float, optional
-        The true wind angle.
+        - "ws_wan": `wind` is interpreted as
+            (true wind speed in knots, wind angle relative to north)
+        - "ws_wa_hdt": `wind` is interpreted as
+            (true wind speed in knots, true wind angle,
+            heading of the boat relative to north)
+        - "uv_grd": `wind` is interpreted as (u_grd, v_grd) as can be read from
+            a GRIB file.
 
-        Defaults to `None`.
-
-    wa_north: int or float, optional
-        The wind angle relative to north.
-
-        Defaults to `None`.
-
-    hdt: int or float, optional
-        The boat direction relative to north.
-
-        Defaults to `None`.
-
-    uv_grd: tuple of floats of size 2, optional
-        The u_grd, v_grd representation of the wind from grib data.
-
-        Defaults to `None`.
+        Defaults to 'ws_wan'.
 
     im : InfluenceModel, optional
         The influence model used to consider additional influences
@@ -230,9 +220,8 @@ def cruise(
         Defaults to `None`.
 
     influence_data : dict, optional
-        Data containing information that might influence the boat speed
-        of the vessel (e.g. current, wave height), to be passed to
-        the used influence model.
+        Further data to be passed to the used influence model.
+        Only use data which does not depend on the wind and the heading.
 
         Will only be used if `im` is not `None`.
 
@@ -247,14 +236,18 @@ def cruise(
     Raises
     -------
     AttributeError
-        If the wind data is not given in any form.
+        If wind_fmt is not a supported string.
     """
 
-    ws, wdir = _wind_relative_to_north(ws, wa, wa_north, hdt, uv_grd)
+    ws, wdir = _wind_relative_to_north(wind, wind_fmt)
 
     _, wa, bsp, *_ = pd.get_slices(ws)
     wa = np.rad2deg(wa)
     if im:
+        for key, val in influence_data.items():
+            influence_data[key] = [val] * len(wa)
+        influence_data["TWS"] = [ws] * len(wa)
+        influence_data["TWA"] = wa
         bsp = im.add_influence(pd, influence_data)
     bsp = np.array(bsp).ravel()
 
@@ -716,25 +709,25 @@ def _right_handing_course(a, b):
     return np.arccos(numerator / np.sqrt(1 - denominator**2))
 
 
-def _wind_relative_to_north(ws, wa, wa_north, hdt, uv_grd):
+def _wind_relative_to_north(wind, wind_fmt):
     """Calculates the wind speed and the wind direction relative to true north.
 
     Parameters
     ----------
-    ws : int or float or None
-        The current wind speed given in knots.
+    wind: tuple
+        Description of the wind. The exact interpretation depends on
+        `wind_fmt`. See the description of `wind_fmt` for details.
 
-    wa: int or float or None
-        The true wind angle.
+    wind_fmt: {"ws_wan", ws_wa_hdt", "uv_grd"}
+        Specification how to interpret the parameter `wind`.
 
-    wa_north: int or float or None
-        The wind angle relative to north.
-
-    hdt: int or float or None
-        The boat direction relative to north.
-
-    uv_grd: tuple of floats of size 2 or None
-        The u_grd, v_grd representation of the wind from grib data.
+        - "ws_wan": `wind` is interpreted as
+            (true wind speed in knots, wind angle relative to north)
+        - "ws_wa_hdt": `wind` is interpreted as
+            (true wind speed in knots, true wind angle,
+            heading of the boat relative to north)
+        - "uv_grd": `wind` is interpreted as (u_grd, v_grd) as can be read from
+            a GRIB file.
 
     Returns
     -------
@@ -747,21 +740,21 @@ def _wind_relative_to_north(ws, wa, wa_north, hdt, uv_grd):
     Raises
     --------
     AttributeError
-        If the wind data given is not sufficient.
+        If `wind_fmt` is not supported.
     """
-    if ws and wa_north:
-        return ws, wa_north
+    if wind_fmt == "ws_wan":
+        return wind
 
-    if ws and wa and hdt:
+    if wind_fmt == "ws_wa_hdt":
+        ws, wa, hdt = wind
         return ws, (hdt - wa) % 360
 
-    if uv_grd:
-        u, v = uv_grd
-        return np.linalg.norm(uv_grd), 180 / np.pi * np.arctan2(v, u)
+    if wind_fmt == "uv_grd":
+        wind = np.array(wind)
+        u, v = wind
+        return np.linalg.norm(wind), 180 / np.pi * np.arctan2(v, u)
 
-    raise AttributeError(
-        "Given wind data is not sufficient to properly describe the wind"
-    )
+    raise AttributeError(f"wind_fmt '{wind_fmt}' is not supported")
 
     # grib data:
     # wdir = 180 / np.pi * np.arctan2(vgrd, ugrd) + 180
