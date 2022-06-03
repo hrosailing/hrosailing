@@ -155,7 +155,7 @@ in order to solve the initial value problem described above</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.cruising.cruise"><code class="name flex">
-<span>def <span class="ident">cruise</span></span>(<span>pd, start, end, ws=None, wa=None, wa_north=None, hdt=None, uv_grd=None, im: Optional[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>] = None, influence_data: Optional[dict] = None)</span>
+<span>def <span class="ident">cruise</span></span>(<span>pd, start, end, wind, wind_fmt='ws_wan', uv_grd=None, im: Optional[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>] = None, influence_data: Optional[dict] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Given a starting point A and an end point B,the function calculates
@@ -179,30 +179,22 @@ given in longitude and latitude.</dd>
 <dt><strong><code>end</code></strong> :&ensp;<code>tuple</code> of <code>length 2</code></dt>
 <dd>Coordinates of the end point of the cruising maneuver,
 given in longitude and latitude.</dd>
-<dt><strong><code>ws</code></strong> :&ensp;<code>int</code> or <code>float</code>, optional</dt>
+<dt><strong><code>wind</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>Description of the wind. The exact interpretation depends on
+<code>wind_fmt</code>. See the description of <code>wind_fmt</code> for details.</dd>
+<dt><strong><code>wind_fmt</code></strong> :&ensp;<code>{"ws_wan", ws_wa_hdt", "uv_grd"}</code></dt>
 <dd>
-<p>The current wind speed given in knots.</p>
-<p>Defaults to <code>None</code>.</p>
-</dd>
-<dt><strong><code>wa</code></strong> :&ensp;<code>int</code> or <code>float</code>, optional</dt>
-<dd>
-<p>The true wind angle.</p>
-<p>Defaults to <code>None</code>.</p>
-</dd>
-<dt><strong><code>wa_north</code></strong> :&ensp;<code>int</code> or <code>float</code>, optional</dt>
-<dd>
-<p>The wind angle relative to north.</p>
-<p>Defaults to <code>None</code>.</p>
-</dd>
-<dt><strong><code>hdt</code></strong> :&ensp;<code>int</code> or <code>float</code>, optional</dt>
-<dd>
-<p>The boat direction relative to north</p>
-<p>Defaults to <code>None</code>.</p>
-</dd>
-<dt><strong><code>uv_grd</code></strong> :&ensp;<code>tuple</code> of <code>floats</code> of <code>size 2</code>, optional</dt>
-<dd>
-<p>The u_grd, v_grd representation of the wind from grib data.</p>
-<p>Defaults to <code>None</code>.</p>
+<p>Specification how to interpret the parameter <code>wind</code>.</p>
+<ul>
+<li>"ws_wan": <code>wind</code> is interpreted as
+(true wind speed in knots, wind angle relative to north)</li>
+<li>"ws_wa_hdt": <code>wind</code> is interpreted as
+(true wind speed in knots, true wind angle,
+heading of the boat relative to north)</li>
+<li>"uv_grd": <code>wind</code> is interpreted as (u_grd, v_grd) as can be read from
+a GRIB file.</li>
+</ul>
+<p>Defaults to 'ws_wan'.</p>
 </dd>
 <dt><strong><code>im</code></strong> :&ensp;<code>InfluenceModel</code>, optional</dt>
 <dd>
@@ -228,7 +220,7 @@ to get from start to end</dd>
 <h2 id="raises">Raises</h2>
 <dl>
 <dt><code>AttributeError</code></dt>
-<dd>If the wind data is not given in any form.</dd>
+<dd>If wind_fmt is not a supported string.</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.cruising.isochrone"><code class="name flex">
