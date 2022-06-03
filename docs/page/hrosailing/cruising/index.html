@@ -204,9 +204,8 @@ on the boat speed</p>
 </dd>
 <dt><strong><code>influence_data</code></strong> :&ensp;<code>dict</code>, optional</dt>
 <dd>
-<p>Data containing information that might influence the boat speed
-of the vessel (e.g. current, wave height), to be passed to
-the used influence model</p>
+<p>Further data to be passed to the used influence model.
+Only use data which does not depend on the wind and the heading.</p>
 <p>Will only be used if <code>im</code> is not <code>None</code></p>
 <p>Defaults to <code>None</code></p>
 </dd>
