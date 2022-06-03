@@ -20,6 +20,7 @@
   - [ ] Change the default handling for WeatherModel in various functions
 - [ ] Complete implementation for helper-functions
   - [ ] wind_direction
+- [ ] Make convex_direction and cruising available for interpolated slices
 
 
 ### pipelinecomponents-Submodule
