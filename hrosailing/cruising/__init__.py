@@ -220,9 +220,8 @@ def cruise(
         Defaults to `None`
 
     influence_data : dict, optional
-        Data containing information that might influence the boat speed
-        of the vessel (e.g. current, wave height), to be passed to
-        the used influence model
+        Further data to be passed to the used influence model.
+        Only use data which does not depend on the wind and the heading.
 
         Will only be used if `im` is not `None`
 
@@ -245,6 +244,10 @@ def cruise(
     _, wa, bsp, *_ = pd.get_slices(ws)
     wa = np.rad2deg(wa)
     if im:
+        for key, val in influence_data.items():
+            influence_data[key] = [val]*len(wa)
+        influence_data["TWS"] = [ws]*len(wa)
+        influence_data["TWA"] = wa
         bsp = im.add_influence(pd, influence_data)
     bsp = np.array(bsp).ravel()
 
