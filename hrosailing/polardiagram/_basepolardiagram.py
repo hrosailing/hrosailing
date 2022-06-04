@@ -313,7 +313,6 @@ class PolarDiagram(ABC):
 
         ms : float or array_like of fitting shape, optional
             Marker size in points**2.
-            test
 
         show_legend : bool, optional
             Specifies whether or not a legend will be shown next
