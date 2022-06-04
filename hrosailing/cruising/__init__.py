@@ -105,7 +105,7 @@ def convex_direction(
 
     Raises
     -------
-    CruisingException:
+    CruisingException
         If the given polar diagram slice can not be evaluated in the given
         direction. For example, this could be the case, if the polar diagram
         only has data for angles between 0 and 180 degrees.
@@ -236,7 +236,7 @@ def cruise(
     Raises
     -------
     AttributeError
-        If wind_fmt is not a supported string.
+        If `wind_fmt` is not a supported string.
     """
 
     ws, wdir = _wind_relative_to_north(wind, wind_fmt)
@@ -303,7 +303,7 @@ class WeatherModel:
 
     Raises
     ---------
-    ValueError :
+    ValueError
         If the shape of `data`, `times`, `lats`, `lons` and `attrs`
         do not match.
     """
@@ -740,7 +740,7 @@ def _wind_relative_to_north(wind, wind_fmt):
     Raises
     --------
     AttributeError
-        If `wind_fmt` is not supported.
+        If `wind_fmt` is not a supported string.
     """
     if wind_fmt == "ws_wan":
         return wind
