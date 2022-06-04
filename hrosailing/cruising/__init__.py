@@ -416,11 +416,13 @@ def cost_cruise(
     as a function dependent on distance travelled (s) by numerically solving
     the initial value problem
 
-    t(0) = 0, dt/ds = 1/bsp(s,t).
+    ..math::
+        t(0) = 0, \frac{dt}{ds} = \frac{1}{bsp(s,t)}.
 
     Using this, it then uses numeric integration to predict the total costs as
 
-    int_0^l cost(s, t(s)) ds + abs_cost(t(l), l).
+    ..math::
+        \int_{0}^{l} cost(s, t(s)) \,ds + abs\_cost(t(l), l).
 
     Note that the costs in this mathematical description indirectly depend on
     weather forecast data, organized by a 'WeatherModel'.
