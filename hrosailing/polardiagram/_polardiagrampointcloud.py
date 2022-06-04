@@ -453,7 +453,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         PolarDiagramException
             If `ws` is given as a single value or a list and there is a
             value `w` in `ws`, such that there are no rows in `self.points`
-            whose first entry `w` is in the interval `(w-range_, w+range).
+            whose first entry `w` is in the interval `(w-range_, w+range)`.
         """
         ws, wa, bsp = self.get_slices(ws, n_steps, range_)
         plot_polar(
@@ -564,7 +564,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         PolarDiagramException
             If `ws` is given as a single value or a list and there is a
             value `w` in `ws`, such that there are no rows in `self.points`
-            whose first entry `w` is in the interval `(w-range_, w+range).
+            whose first entry `w` is in the interval `(w-range_, w+range)`.
         """
         ws, wa, bsp = self.get_slices(ws, n_steps, range_)
         wa = [np.rad2deg(a) for a in wa]
