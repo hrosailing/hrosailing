@@ -417,12 +417,12 @@ def cost_cruise(
     the initial value problem
 
     ..math::
-        t(0) = 0, \frac{dt}{ds} = \frac{1}{bsp(s,t)}.
+        t(0) = 0, \\frac{dt}{ds} = \\frac{1}{bsp(s,t)}.
 
     Using this, it then uses numeric integration to predict the total costs as
 
     ..math::
-        \int_{0}^{l} cost(s, t(s)) \,ds + abs\_cost(t(l), l).
+        \\int_{0}^{l} cost(s, t(s)) \\,ds + abs\\_cost(t(l), l).
 
     Note that the costs in this mathematical description indirectly depend on
     weather forecast data, organized by a 'WeatherModel'.
