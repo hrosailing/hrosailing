@@ -35,7 +35,8 @@ class PolarDiagramPointcloud(PolarDiagram):
     ----------
     points : array_like of shape (n, 3)
         Initial points of the point cloud, given as a sequence of
-        points consisting of wind speed, wind angle and boat speed
+        points consisting of wind speed, wind angle and boat speed.
+        Points with negative wind speeds will be ignored.
 
     apparent_wind : bool, optional
         Specifies if wind data is given in apparent wind
@@ -50,10 +51,11 @@ class PolarDiagramPointcloud(PolarDiagram):
             points = convert_apparent_wind_to_true(points)
         else:
             points = np.asarray_chkfinite(points)
-            if np.any((points[:, 0] <= 0)):
-                raise PolarDiagramInitializationException(
-                    "`points` has nonpositive wind speeds"
-                )
+            points = points[np.where(points[:, 0] >= 0)]
+            #if np.any((points[:, 0] <= 0)):
+            #    raise PolarDiagramInitializationException(
+            #        "`points` has nonpositive wind speeds"
+            #    )
             points[:, 1] %= 360
 
         self._points = points
