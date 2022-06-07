@@ -254,22 +254,22 @@ class MyInfluenceModel(cruise.InfluenceModel):
             [data["TWS"], data["TWA"], data["WVHGT"]]
         )
         twa = (wa + 5)%360
-        tws = ws - ws/wave_height
+        tws = ws + ws/wave_height
         return [pd(ws, wa) for ws, wa in zip(tws, twa)]
 
 
 im = MyInfluenceModel()
 
-n, m, k, l = 500, 50, 40, 1
+n, m, k, l = 500, 50, 40, 3
 
-data = 20 * (np.random.random((n, m, k, l)) - 0.5)
+data = 20 * (np.random.random((n, m, k, l)))
 
 wm = cruise.WeatherModel(
     data=data,
     times=[dt.now() + i * timedelta(hours=1) for i in range(n)],
     lats=np.linspace(40, 50, m),
     lons=np.linspace(40, 50, k),
-    attrs=["WVHGT"]
+    attrs=["TWS", "TWA", "WVHGT"]
 )
 ```
 
