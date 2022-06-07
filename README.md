@@ -241,22 +241,26 @@ a random weather model.
 from datetime import timedelta
 from datetime import datetime as dt
 
+import hrosailing.cruising as cruise
+
+
 class MyInfluenceModel(cruise.InfluenceModel):
 
     def remove_influence(self, data):
         pass
 
     def add_influence(self, pd, data, **kwargs):
-        ws, wa, hdt = data["WS"], data["WA"], data["HDT"]
-        twa_spec = (wa - hdt) % 360
-        twa = (180 - twa_spec) % 360
-        tws = ws
-        return pd(tws, twa)
+        ws, wa, wave_height = np.array(
+            [data["TWS"], data["TWA"], data["WVHGT"]]
+        )
+        twa = (wa + 5)%360
+        tws = ws - ws/wave_height
+        return [pd(ws, wa) for ws, wa in zip(tws, twa)]
 
 
 im = MyInfluenceModel()
 
-n, m, k, l = 500, 50, 40, 2
+n, m, k, l = 500, 50, 40, 1
 
 data = 20 * (np.random.random((n, m, k, l)) - 0.5)
 
@@ -265,7 +269,7 @@ wm = cruise.WeatherModel(
     times=[dt.now() + i * timedelta(hours=1) for i in range(n)],
     lats=np.linspace(40, 50, m),
     lons=np.linspace(40, 50, k),
-    attrs=["WS", "WA"]
+    attrs=["WVHGT"]
 )
 ```
 
