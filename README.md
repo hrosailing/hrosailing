@@ -66,14 +66,17 @@ and call the file testdata.csv.
 
 ```python
 import hrosailing.polardiagram as pol
-# the format of `testdata.csv` is a tab separated one 
+# the format of `testdata.csv` is a tab separated one
 # supported by the keyword `array`
 pd = pol.from_csv("testdata.csv", fmt="array")
 
-# serialized the polar diagram to a .csv file 
+# for symmetric results
+pd = pd.symmetrize()
+
+# serialized the polar diagram to a .csv file
 # in the style of an intern format
 pd.to_csv("polar_diagram.csv")
-# the default format is the intern format `hro` 
+# the default format is the intern format `hro`
 pd2 = pol.from_csv("polar_diagram.csv")
 ```
 
