@@ -70,16 +70,16 @@ import hrosailing.polardiagram as pol
 # supported by the keyword `array`
 pd = pol.from_csv("testdata.csv", fmt="array")
 
-# serialized the polar diagram to a .csv file 
+# serializes the polar diagram to a .csv file 
 # in the style of an intern format
 pd.to_csv("polar_diagram.csv")
 # the default format is the intern format `hro` 
 pd2 = pol.from_csv("polar_diagram.csv")
 ```
 
-Currently serialization is only supported for some csv-format, see also
+Currently serialization is only supported for some csv-formats, see also
 [csv-format-examples](https://github.com/hrosailing/hrosailing/tree/main/examples/csv-format-examples)
-for example files for the currently supported format. See also 
+for example files for the currently supported formats. See also 
 [Issue #1](https://github.com/hrosailing/hrosailing/issues/1) for a plan
 to add more serialization options.
 
