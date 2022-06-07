@@ -166,7 +166,6 @@ def cruise(
     end,
     wind,
     wind_fmt="ws_wan",
-    uv_grd=None,
     im: Optional[InfluenceModel] = None,
     influence_data: Optional[dict] = None,
 ):
