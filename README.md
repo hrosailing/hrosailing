@@ -215,7 +215,7 @@ def my_norm(pt):
 
 my_pol_pip = pipe.PolarPipeline(
     handler=pcomp.ArrayHandler(),
-    im=MyInfluenceModel(),
+    influence_model=MyInfluenceModel(),
     weigher=pcomp.CylindricMeanWeigher(radius=2, norm=my_norm),
     extension=my_extension,
     filter_=MyFilter()
