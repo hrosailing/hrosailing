@@ -10,7 +10,9 @@ import numpy as np
 
 import hrosailing.pipelinecomponents as pc
 import hrosailing.polardiagram as pol
-from hrosailing.pipelinecomponents.modelfunctions import ws_s_wa_gauss_and_square
+from hrosailing.pipelinecomponents.modelfunctions import (
+    ws_s_wa_gauss_and_square,
+)
 
 
 class PolarPipeline:
@@ -239,6 +241,7 @@ class TableExtension(PipelineExtension):
 
     def _determine_table_size(self, points):
         from hrosailing.polardiagram._polardiagramtable import _Resolution
+
         if self.wind_resolution == "auto":
             return _automatically_determined_resolution(points)
 
@@ -248,7 +251,7 @@ class TableExtension(PipelineExtension):
         ws_resolution, wa_resolution = self.wind_resolution
         return (
             _Resolution.WIND_SPEED.set_resolution(ws_resolution),
-            _Resolution.WIND_ANGLE.set_resolution(wa_resolution)
+            _Resolution.WIND_ANGLE.set_resolution(wa_resolution),
         )
 
 
