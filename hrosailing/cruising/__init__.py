@@ -645,7 +645,8 @@ def _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im):
     data = wm.get_weather((time, lat, long))
     data["HDT"] = hdt
     if im:
-        bsp = im.add_influence(pd, data)
+        data = {key: [val] for key, val in data.items()}
+        bsp = im.add_influence(pd, data)[0]
     else:
         ugrid, vgrid = data["UGRID"], data["VGRID"]
         tws, twa = _uvgrid_to_tw(ugrid, vgrid, hdt)
