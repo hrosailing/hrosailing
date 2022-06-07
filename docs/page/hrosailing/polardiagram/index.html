@@ -1367,7 +1367,8 @@ given by a point cloud</p>
 <dl>
 <dt><strong><code>points</code></strong> :&ensp;<code>array_like</code> of <code>shape (n, 3)</code></dt>
 <dd>Initial points of the point cloud, given as a sequence of
-points consisting of wind speed, wind angle and boat speed</dd>
+points consisting of wind speed, wind angle and boat speed.
+Points with negative wind speeds will be ignored.</dd>
 <dt><strong><code>apparent_wind</code></strong> :&ensp;<code>bool</code>, optional</dt>
 <dd>
 <p>Specifies if wind data is given in apparent wind</p>
