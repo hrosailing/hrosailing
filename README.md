@@ -156,15 +156,15 @@ pol_pips = [
     )
 ]
 
-# here `data` is treated as some obtained measurements given as 
+# here `data` is treated as some obtained measurements given as
 # a numpy.ndarray
 pds = [
-	pol_pip((data, ["Wind angle", "Wind speed", "Boat speed"])) 
+	pol_pip((data, ["Wind speed", "Wind angle", "Boat speed"]))
 	for pol_pip in pol_pips
 ]
-
+#
 for i, pd in enumerate(pds):
-    pd.plot_polar(ws=ws, ax=plt.subplot(1, 3, i+1, projection="polar"))
+   pd.plot_polar(ws=ws, ax=plt.subplot(1, 3, i+1, projection="polar"))
 
 plt.tight_layout()
 plt.show()
