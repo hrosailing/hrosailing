@@ -52,7 +52,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         else:
             points = np.asarray_chkfinite(points)
             points = points[np.where(points[:, 0] >= 0)]
-            #if np.any((points[:, 0] <= 0)):
+            # if np.any((points[:, 0] <= 0)):
             #    raise PolarDiagramInitializationException(
             #        "`points` has nonpositive wind speeds"
             #    )
