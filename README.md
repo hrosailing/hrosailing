@@ -221,7 +221,7 @@ my_pol_pip = pipe.PolarPipeline(
     filter_=MyFilter()
 )
 
-my_pd = my_pol_pip((data, ["Wind angle", "Wind speed", "Boat speed"]))
+my_pd = my_pol_pip((data, ["Wind speed", "Wind angle", "Boat speed"]))
 ```
 
 The customizations above are arbitrary and lead to comparably bad results:
