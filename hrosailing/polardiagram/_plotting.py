@@ -8,7 +8,12 @@ import itertools
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.cm import ScalarMappable
-from matplotlib.colors import LinearSegmentedColormap, Normalize, is_color_like, to_rgb
+from matplotlib.colors import (
+    LinearSegmentedColormap,
+    Normalize,
+    is_color_like,
+    to_rgb,
+)
 from matplotlib.lines import Line2D
 from scipy.spatial import ConvexHull
 
@@ -49,7 +54,7 @@ def _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
     _configure_colors(ax, ws, colors)
 
     if _only_one_color(colors):
-        colors = [colors]*len(ws)
+        colors = [colors] * len(ws)
 
     if show_legend:
         _show_legend(ax, ws, colors, "True Wind Speed", legend_kw)
