@@ -126,9 +126,9 @@ def random_shifted_pt(pt, mul):
 
 
 data = np.array([
-    random_shifted_pt([ws, wa, pd[i, j]], [10, 5, 2])
-    for i, ws in enumerate(pd.wind_angles)
-    for j, wa in enumerate(pd.wind_speeds)
+    random_shifted_pt([ws, wa, pd(ws, wa)[0]], [10, 5, 2])
+    for wa in pd.wind_angles
+    for ws in pd.wind_speeds
     for _ in range(6)
 ])
 data = data[np.random.choice(len(data), size=500)]
