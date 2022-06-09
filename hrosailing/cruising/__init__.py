@@ -133,7 +133,7 @@ def convex_direction(
         i1, i2 = vert[0], vert[-1]
         if abs(wa[i1] - wa[i2]) < 180:
             raise CruisingException(
-                "The given direction is not supported by the given polar_diagram"
+                "the given direction is not supported by the given polar_diagram"
             )
         edge = [Direction(wa[i1], 1), Direction(wa[i2], 1)]
 
@@ -310,7 +310,7 @@ class WeatherModel:
     def __init__(self, data, times, lats, lons, attrs):
         if (len(times), len(lats), len(lons), len(attrs)) != data.shape:
             raise ValueError(
-                f"Parameter data should have the shape "
+                f"parameter data should have the shape "
                 f"(len(times), len(lats), len(lons), len(attrs))"
             )
 
@@ -441,7 +441,7 @@ def cost_cruise(
     start_time : datetime.datetime
         The time at which the traveling starts.
 
-    wm : WeatherModel, optional
+    wm : WeatherModel
         The weather model used.
 
     cost_fun_dens : callable, optional
@@ -555,12 +555,14 @@ def isochrone(
     direction : float
         The angle between North and the direction in which we aim to travel.
 
-    wm : WeatherModel, optional
+    wm : WeatherModel
         The weather model used.
 
-    total_time : float
+    total_time : float, optional
         The time in hours that the vessel is supposed to travel
         in the given direction.
+
+        Defaults to 1.
 
     min_nodes : int, optional
         The minimum amount of sample points to sample the position space.

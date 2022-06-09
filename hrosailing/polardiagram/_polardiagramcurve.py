@@ -141,7 +141,7 @@ class PolarDiagramCurve(PolarDiagram):
 
         if function not in MODEL_FUNCTIONS:
             raise PolarDiagramInitializationException(
-                f"No valid function, named {function}"
+                f"no valid function, named {function}"
             )
 
         function = MODEL_FUNCTIONS[function]
@@ -176,10 +176,10 @@ class PolarDiagramCurve(PolarDiagram):
             Slices of the polar diagram given as either
 
             - a tuple of length 2, specifying an interval of considered
-            wind speeds. The amount of slices taken from that interval are
-            determined by the parameter `n_steps`,
-            - an iterable of specific wind speeds,
-            - a single wind speed.
+            wind speeds (in knots). The amount of slices taken from that interval
+            are determined by the parameter `n_steps`,
+            - an iterable of specific wind speeds (in knots),
+            - a single wind speed (in knots).
             
             If nothing is passed, it will default to `(0, 20)`.
 
@@ -197,7 +197,7 @@ class PolarDiagramCurve(PolarDiagram):
             Slices of the polar diagram, given as a tuple of length 3,
             consisting of the given wind speeds `ws`, `self.wind_angles`
             (in rad) and a list of arrays containing the
-            corresponding boat speeds.
+            corresponding boat speeds (in knots).
 
         Raises
         ------
@@ -248,10 +248,10 @@ class PolarDiagramCurve(PolarDiagram):
             Slices of the polar diagram given as either
 
             - a tuple of length 2, specifying an interval of considered
-            wind speeds. The amount of slices taken from that interval are
-            determined by the parameter `n_steps`,
-            - an iterable of specific wind speeds,
-            - a single wind speed.
+            wind speeds (in knots). The amount of slices taken from that interval
+            are determined by the parameter `n_steps`,
+            - an iterable of specific wind speeds (in knots),
+            - a single wind speed (in knots).
 
             Slices will then equal `self(w, wa)` where `w` goes through
             the given values in `ws` and `wa` goes through a fixed
@@ -275,7 +275,7 @@ class PolarDiagramCurve(PolarDiagram):
             Specifies the colors to be used for the different slices.
 
             - If a color_like is passed, all slices will be plotted in the
-            respective color
+            respective color.
             - If 2 colors are passed, slices will be plotted with a color
             gradient that is determined by the corresponding wind speed.
             - Otherwise the slices will be colored in turn with the specified
@@ -349,10 +349,10 @@ class PolarDiagramCurve(PolarDiagram):
             Slices of the polar diagram given as either
 
             - a tuple of length 2, specifying an interval of considered
-            wind speeds. The amount of slices taken from that interval are
-            determined by the parameter `n_steps`,
-            - an iterable of specific wind speeds,
-            - a single wind speed.
+            wind speeds (in knots). The amount of slices taken from that interval
+            are determined by the parameter `n_steps`,
+            - an iterable of specific wind speeds (in knots),
+            - a single wind speed (in knots).
 
             Slices will then equal `self(w, wa)` where `w` goes through
             the given values in `ws` and `wa` goes through a fixed
@@ -376,7 +376,7 @@ class PolarDiagramCurve(PolarDiagram):
             Specifies the colors to be used for the different slices.
 
             - If a color_like is passed, all slices will be plotted in the
-            respective color
+            respective color.
             - If 2 colors are passed, slices will be plotted with a color
             gradient that is determined by the corresponding wind speed.
             - Otherwise the slices will be colored in turn with the specified
@@ -438,7 +438,7 @@ class PolarDiagramCurve(PolarDiagram):
         ----------
         ws : tuple of length 2, optional
             A region of the polar diagram given as an interval of
-            wind speeds.
+            wind speeds (in knots).
 
             Slices will then equal `self(w, wa)` where `w` goes through
             the given values in `ws` and `wa` goes through a fixed
@@ -492,7 +492,7 @@ class PolarDiagramCurve(PolarDiagram):
         ----------
         ws :  tuple of length 3, optional
             A region of the polar diagram given as an interval of
-            wind speeds.
+            wind speeds (in knots).
 
             Slices will then equal `self(w, wa)` where `w` goes through
             the given values in `ws` and `wa` goes through a fixed
@@ -586,10 +586,10 @@ class PolarDiagramCurve(PolarDiagram):
             Slices of the polar diagram given as either
 
             - a tuple of length 2, specifying an interval of considered
-            wind speeds. The amount of slices taken from that interval are
-            determined by the parameter `n_steps`,
-            - an iterable of specific wind speeds,
-            - a single wind speed.
+            wind speeds (in knots). The amount of slices taken from that interval
+            are determined by the parameter `n_steps`,
+            - an iterable of specific wind speeds (in knots),
+            - a single wind speed (in knots).
 
             Slices will then equal `self(w, wa)` where `w` goes through
             the given values in `ws` and `wa` goes through a fixed

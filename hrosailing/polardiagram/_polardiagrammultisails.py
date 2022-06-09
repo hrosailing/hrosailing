@@ -54,7 +54,7 @@ class PolarDiagramMultiSails(PolarDiagram):
 
     def __init__(self, pds, sails=None):
         warnings.warn(
-            "Class features aren't all fully developed yet and/or might "
+            "class features aren't all fully developed yet and/or might "
             "change behaviour heavily in the future. "
             "Take care when using this class",
             category=NotYetImplementedWarning,
@@ -63,7 +63,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         for pd in pds:
             if not np.array_equal(ws, pd.wind_speeds):
                 raise PolarDiagramInitializationException(
-                    "Wind speed resolution of `pds` does not coincide"
+                    "wind speed resolution of `pds` does not coincide"
                 )
 
         if sails is None:
@@ -183,7 +183,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             Slices of the polar diagram table, given as either
 
             - a tuple of length 2 specifying an interval of considered
-            wind speeds,
+            wind speeds (in knots),
             - an iterable containing only elements of `self.wind_speeds`,
             - a single element of `self.wind_speeds`.
 
@@ -230,7 +230,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             Slices of the polar diagram table, given as either
 
             - a tuple of length 2 specifying an interval of considered
-            wind speeds,
+            wind speeds (in knots),
             - an iterable containing only elements of `self.wind_speeds`,
             - a single element of `self.wind_speeds`.
 
@@ -324,7 +324,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             Slices of the polar diagram table, given as either
 
             - a tuple of length 2 specifying an interval of considered
-            wind speeds,
+            wind speeds (in knots),
             - an iterable containing only elements of `self.wind_speeds`,
             - a single element of `self.wind_speeds`.
 
@@ -476,7 +476,7 @@ class PolarDiagramMultiSails(PolarDiagram):
 
         """
         warnings.warn(
-            "Feature isn't implemented yet", category=NotYetImplementedWarning
+            "feature isn't implemented yet", category=NotYetImplementedWarning
         )
 
     def plot_convex_hull(
@@ -497,7 +497,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             Slices of the polar diagram table, given as either
 
             - a tuple of length 2 specifying an interval of considered
-            wind speeds,
+            wind speeds (in knots),
             - an iterable containing only elements of `self.wind_speeds`,
             - a single element of `self.wind_speeds`.
 

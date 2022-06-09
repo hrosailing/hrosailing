@@ -35,7 +35,8 @@ class PolarDiagramPointcloud(PolarDiagram):
     ----------
     points : array_like of shape (n, 3)
         Initial points of the point cloud, given as a sequence of
-        points consisting of wind speed, wind angle and boat speed.
+        points consisting of wind speed (in knots), wind angle and
+        boat speed (in knots).
         Points with negative wind speeds will be ignored.
 
     apparent_wind : bool, optional
@@ -93,7 +94,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         Parameters
         ----------
         ws : scalar
-            Wind speed.
+            Wind speed given in knots.
 
         wa : scalar
             Wind angle.
@@ -113,7 +114,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         Returns
         -------
         bsp : scalar
-            Boat speed value as determined above.
+            Boat speed value (in knots) as determined above.
         """
         if np.any((ws <= 0)):
             raise PolarDiagramException("`ws` is nonpositive")
@@ -136,7 +137,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     @property
     def wind_speeds(self):
-        """Returns all unique wind speeds in the point cloud."""
+        """Returns all unique wind speeds (in knots) in the point cloud."""
         return np.array(sorted(list(set(self.points[:, 0]))))
 
     @property
@@ -146,7 +147,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     @property
     def boat_speeds(self):
-        """Returns all occurring boat speeds in the point cloud
+        """Returns all occurring boat speeds (in knots) in the point cloud
         (including duplicates).
         """
         return self.points[:, 2]
@@ -203,7 +204,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         above_180 = [wa for wa in self.wind_angles if wa > 180]
         if below_180 and above_180:
             warnings.warn(
-                "There are wind angles on both sides of the 0° - 180° axis. "
+                "there are wind angles on both sides of the 0° - 180° axis. "
                 "This might result in duplicate data, "
                 "which can overwrite or live alongside old data"
             )
@@ -221,7 +222,8 @@ class PolarDiagramPointcloud(PolarDiagram):
         ----------
         new_pts : array_like of shape (n, 3)
             New points to be added to the point cloud given as a sequence
-            of points consisting of wind speed, wind angle and boat speed.
+            of points consisting of wind speed (in knots), wind angle and
+            boat speed (in knots).
 
         apparent_wind : bool, optional
             Specifies if wind data is given in apparent wind.
@@ -244,7 +246,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     # TODO Add positivity checks for ws in various cases
     def get_slices(self, ws, n_steps=None, range_=1):
-        """For given wind speeds, return the slices of the polar diagram
+        """For given wind speeds (in knots), return the slices of the polar diagram
         corresponding to them.
 
         The slices then consist of all points in the point cloud where the
@@ -324,7 +326,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         ws = [(w[0] + w[1]) / 2 if isinstance(w, tuple) else w for w in ws]
         if len(ws) != len(set(ws)):
             warnings.warn(
-                "There are duplicate slices. This might cause "
+                "there are duplicate slices. This might cause "
                 "unwanted behaviour"
             )
 
@@ -343,7 +345,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             ][:, 1:]
             if not pts.size:
                 raise PolarDiagramException(
-                    f"No points with wind speed in range {w} found"
+                    f"no points with wind speed in range {w} found"
                 )
 
             # sort for wind angles (needed for plotting methods)
@@ -354,7 +356,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
         if not wa:
             raise PolarDiagramException(
-                "There are no slices in the given range `ws`"
+                "there are no slices in the given range `ws`"
             )
 
         return wa, bsp
@@ -617,7 +619,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         """
         if not self.points.size:
             raise PolarDiagramException(
-                "Can't create 3d plot of empty point cloud"
+                "can't create 3d plot of empty point cloud"
             )
 
         ws, wa, bsp = (self.points[:, 0], self.points[:, 1], self.points[:, 2])
@@ -647,7 +649,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Color pair determining the color gradient with which the
             polar diagram will be plotted.
 
-            Will be determined by the corresponding boat speed.
+            Will be determined by the corresponding boat speed (in knots).
 
             Defaults to `("green", "red")`.
 
@@ -687,7 +689,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         """
         if not self.points.size:
             raise PolarDiagramException(
-                "Can't create color gradient plot of empty point cloud"
+                "can't create color gradient plot of empty point cloud"
             )
 
         ws, wa, bsp = (self.points[:, 0], self.points[:, 1], self.points[:, 2])

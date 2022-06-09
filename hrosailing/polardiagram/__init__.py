@@ -109,7 +109,7 @@ def _read_intern_format(file):
     first_row = file.readline().rstrip()
     if first_row not in subclasses:
         raise FileReadingException(
-            f"No polar diagram format with the name {first_row} exists"
+            f"no polar diagram format with the name {first_row} exists"
         )
 
     pd = subclasses[first_row]
