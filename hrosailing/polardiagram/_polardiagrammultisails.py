@@ -242,9 +242,12 @@ class PolarDiagramMultiSails(PolarDiagram):
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
 
-        colors : sequence of color_likes or (ws, color_like) pairs, optional
+        colors : color_like or
+        sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices.
 
+            - If a color_like is passed, all slices will be plotted in the
+            respective color.
             - If 2 colors are passed, slices will be plotted with a color
             gradient that is determined by the corresponding wind speed.
             - Otherwise the slices will be colored in turn with the specified
@@ -333,9 +336,12 @@ class PolarDiagramMultiSails(PolarDiagram):
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
 
-        colors : sequence of color_likes or (ws, color_like) pairs, optional
+        colors : color_like or
+        sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices.
 
+            - If a color_like is passed, all slices will be plotted in the
+            respective color.
             - If 2 colors are passed, slices will be plotted with a color
             gradient that is determined by the corresponding wind speed.
             - Otherwise the slices will be colored in turn with the specified

@@ -80,10 +80,12 @@ is the optimal way, or two <code><a title="hrosailing.cruising.Direction" href="
 to <code>direction</code></dd>
 </dl>
 <h2 id="raises">Raises</h2>
-<h2 id="cruisingexception">Cruisingexception</h2>
-<p>If the given polar diagram slice can not be evaluated in the given
+<dl>
+<dt><code>CruisingException :</code></dt>
+<dd>If the given polar diagram slice can not be evaluated in the given
 direction. For example, this could be the case, if the polar diagram
-only has data for angles between 0 and 180 degrees.</p></div>
+only has data for angles between 0 and 180 degrees.</dd>
+</dl></div>
 </dd>
 <dt id="hrosailing.cruising.cost_cruise"><code class="name flex">
 <span>def <span class="ident">cost_cruise</span></span>(<span>pd, start, end, start_time: datetime.datetime, wm: <a title="hrosailing.cruising.WeatherModel" href="#hrosailing.cruising.WeatherModel">WeatherModel</a>, cost_fun_dens=None, cost_fun_abs=&lt;function &lt;lambda&gt;&gt;, integration_method=&lt;function trapz&gt;, im: Optional[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>] = None, **ivp_kw)</span>
@@ -155,7 +157,7 @@ in order to solve the initial value problem described above</dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.cruising.cruise"><code class="name flex">
-<span>def <span class="ident">cruise</span></span>(<span>pd, start, end, wind, wind_fmt='ws_wan', uv_grd=None, im: Optional[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>] = None, influence_data: Optional[dict] = None)</span>
+<span>def <span class="ident">cruise</span></span>(<span>pd, start, end, wind, wind_fmt='ws_wan', im: Optional[<a title="hrosailing.pipelinecomponents.influencemodel.InfluenceModel" href="../pipelinecomponents/influencemodel.html#hrosailing.pipelinecomponents.influencemodel.InfluenceModel">InfluenceModel</a>] = None, influence_data: Optional[dict] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Given a starting point A and an end point B,the function calculates
@@ -218,7 +220,7 @@ to get from start to end</dd>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code>AttributeError</code></dt>
+<dt><code>AttributeError :</code></dt>
 <dd>If wind_fmt is not a supported string.</dd>
 </dl></div>
 </dd>
@@ -378,7 +380,7 @@ from the model, else it is interpolated as described above</p>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
-<dt><code><a title="hrosailing.cruising.OutsideGridException" href="#hrosailing.cruising.OutsideGridException">OutsideGridException</a></code></dt>
+<dt><code>OutsideGridException :</code></dt>
 <dd>When <code>point</code> is not contained in any cell of the grid.</dd>
 </dl></div>
 </dd>

@@ -166,7 +166,6 @@ def cruise(
     end,
     wind,
     wind_fmt="ws_wan",
-    uv_grd=None,
     im: Optional[InfluenceModel] = None,
     influence_data: Optional[dict] = None,
 ):
@@ -349,7 +348,7 @@ class WeatherModel:
 
         Raises
         ---------------
-        OutsideGridException
+        OutsideGridException :
             When `point` is not contained in any cell of the grid.
         """
         # check if given point lies in the grid
@@ -491,7 +490,10 @@ def cost_cruise(
     # define derivative of t by s
     def dt_ds(s, t):
         pos = proj_start + s / total_s * (proj_end - proj_start)
-        return _get_inverse_bsp(pd, pos, hdt, t[0], lat_mp, start_time, wm, im)
+        inv_bsp = _get_inverse_bsp(
+            pd, pos, hdt, t[0], lat_mp, start_time, wm, im
+        )
+        return inv_bsp
 
     t_s = solve_ivp(
         fun=dt_ds,
@@ -644,11 +646,16 @@ def _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im):
     """"""
     lat, long = _inverse_mercator_proj(pos, lat_mp)
     time = start_time + timedelta(hours=t)
-
-    data = wm.get_weather((time, lat, long))
+    try:
+        data = wm.get_weather((time, lat, long))
+    except OutsideGridException as e:
+        if t < 0:
+            return 0
+        raise e
     data["HDT"] = hdt
     if im:
-        bsp = im.add_influence(pd, data)
+        data = {key: [val] for key, val in data.items()}
+        bsp = im.add_influence(pd, data)[0]
     else:
         ugrid, vgrid = data["UGRID"], data["VGRID"]
         tws, twa = _uvgrid_to_tw(ugrid, vgrid, hdt)

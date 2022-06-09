@@ -66,14 +66,17 @@ and call the file testdata.csv.
 
 ```python
 import hrosailing.polardiagram as pol
-# the format of `testdata.csv` is a tab separated one 
+# the format of `testdata.csv` is a tab separated one
 # supported by the keyword `array`
 pd = pol.from_csv("testdata.csv", fmt="array")
 
-# serializes the polar diagram to a .csv file 
+# for symmetric results
+pd = pd.symmetrize()
+
+# serializes the polar diagram to a .csv file
 # in the style of an intern format
 pd.to_csv("polar_diagram.csv")
-# the default format is the intern format `hro` 
+# the default format is the intern format `hro`
 pd2 = pol.from_csv("polar_diagram.csv")
 ```
 
@@ -123,9 +126,9 @@ def random_shifted_pt(pt, mul):
 
 
 data = np.array([
-    random_shifted_pt([ws, wa, pd[i, j]], [10, 5, 2])
-    for i, ws in enumerate(pd.wind_angles)
-    for j, wa in enumerate(pd.wind_speeds)
+    random_shifted_pt([ws, wa, pd(ws, wa)[0]], [10, 5, 2])
+    for wa in pd.wind_angles
+    for ws in pd.wind_speeds
     for _ in range(6)
 ])
 data = data[np.random.choice(len(data), size=500)]
@@ -153,15 +156,15 @@ pol_pips = [
     )
 ]
 
-# here `data` is treated as some obtained measurements given as 
+# here `data` is treated as some obtained measurements given as
 # a numpy.ndarray
 pds = [
-	pol_pip((data, ["Wind angle", "Wind speed", "Boat speed"])) 
+	pol_pip((data, ["Wind speed", "Wind angle", "Boat speed"]))
 	for pol_pip in pol_pips
 ]
-
+#
 for i, pd in enumerate(pds):
-    pd.plot_polar(ws=ws, ax=plt.subplot(1, 3, i+1, projection="polar"))
+   pd.plot_polar(ws=ws, ax=plt.subplot(1, 3, i+1, projection="polar"))
 
 plt.tight_layout()
 plt.show()
@@ -212,13 +215,13 @@ def my_norm(pt):
 
 my_pol_pip = pipe.PolarPipeline(
     handler=pcomp.ArrayHandler(),
-    im=MyInfluenceModel(),
+    influence_model=MyInfluenceModel(),
     weigher=pcomp.CylindricMeanWeigher(radius=2, norm=my_norm),
     extension=my_extension,
     filter_=MyFilter()
 )
 
-my_pd = my_pol_pip((data, ["Wind angle", "Wind speed", "Boat speed"]))
+my_pd = my_pol_pip((data, ["Wind speed", "Wind angle", "Boat speed"]))
 ```
 
 The customizations above are arbitrary and lead to comparably bad results:
@@ -239,31 +242,35 @@ from datetime import timedelta
 from datetime import datetime as dt
 from hrosailing.cruising import cruise
 
+import hrosailing.cruising as cruise
+
+
 class MyInfluenceModel(cruise.InfluenceModel):
 
     def remove_influence(self, data):
         pass
 
     def add_influence(self, pd, data, **kwargs):
-        ws, wa, hdt = data["WS"], data["WA"], data["HDT"]
-        twa_spec = (wa - hdt) % 360
-        twa = (180 - twa_spec) % 360
-        tws = ws
-        return pd(tws, twa)
+        ws, wa, wave_height = np.array(
+            [data["TWS"], data["TWA"], data["WVHGT"]]
+        )
+        twa = (wa + 5)%360
+        tws = ws + ws/wave_height
+        return [pd(ws, wa) for ws, wa in zip(tws, twa)]
 
 
 im = MyInfluenceModel()
 
-n, m, k, l = 500, 50, 40, 2
+n, m, k, l = 500, 50, 40, 3
 
-data = 20 * (np.random.random((n, m, k, l)) - 0.5)
+data = 20 * (np.random.random((n, m, k, l)))
 
 wm = cruise.WeatherModel(
     data=data,
     times=[dt.now() + i * timedelta(hours=1) for i in range(n)],
     lats=np.linspace(40, 50, m),
     lons=np.linspace(40, 50, k),
-    attrs=["WS", "WA"]
+    attrs=["TWS", "TWA", "WVHGT"]
 )
 ```
 

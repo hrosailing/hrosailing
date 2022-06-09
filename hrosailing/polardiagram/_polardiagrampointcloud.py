@@ -36,6 +36,7 @@ class PolarDiagramPointcloud(PolarDiagram):
     points : array_like of shape (n, 3)
         Initial points of the point cloud, given as a sequence of
         points consisting of wind speed, wind angle and boat speed.
+        Points with negative wind speeds will be ignored.
 
     apparent_wind : bool, optional
         Specifies if wind data is given in apparent wind.
@@ -50,10 +51,11 @@ class PolarDiagramPointcloud(PolarDiagram):
             points = convert_apparent_wind_to_true(points)
         else:
             points = np.asarray_chkfinite(points)
-            if np.any((points[:, 0] <= 0)):
-                raise PolarDiagramInitializationException(
-                    "`points` has nonpositive wind speeds"
-                )
+            points = points[np.where(points[:, 0] >= 0)]
+            # if np.any((points[:, 0] <= 0)):
+            #    raise PolarDiagramInitializationException(
+            #        "`points` has nonpositive wind speeds"
+            #    )
             points[:, 1] %= 360
 
         self._points = points
@@ -411,9 +413,12 @@ class PolarDiagramPointcloud(PolarDiagram):
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
 
-        colors : sequence of color_likes or (ws, color_like) pairs, optional
+        colors : color_like or
+        sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices.
 
+            - If a color_like is passed, all slices will be plotted in the
+            respective color.
             - If 2 colors are passed, slices will be plotted with a color
             gradient that is determined by the corresponding wind speed.
             - Otherwise the slices will be colored in turn with the specified
@@ -522,9 +527,12 @@ class PolarDiagramPointcloud(PolarDiagram):
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
 
-        colors : sequence of color_likes or (ws, color_like) pairs, optional
+        colors : color_like or
+        sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices.
 
+            - If a color_like is passed, all slices will be plotted in the
+            respective color.
             - If 2 colors are passed, slices will be plotted with a color
             gradient that is determined by the corresponding wind speed.
             - Otherwise the slices will be colored in turn with the specified
