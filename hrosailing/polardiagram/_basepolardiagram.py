@@ -104,7 +104,8 @@ class PolarDiagram(ABC):
             Description of slices of the polar diagram to be plotted.
 
             For a description of what the slice is made of,
-            see the respective `PolarDiagram` subclass.
+            see the `get_slices()`-method of the respective
+            `PolarDiagram` subclass.
         """
 
     def plot_polar_slice(self, ws, ax=None, **plot_kw):
@@ -117,7 +118,8 @@ class PolarDiagram(ABC):
             Description of slices of the polar diagram to be plotted.
 
             For a description of what the slice is made of,
-            see the respective `PolarDiagram` subclass.
+            see the `plot_polar()`-method of the respective
+            `PolarDiagram` subclass.
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
@@ -181,7 +183,8 @@ class PolarDiagram(ABC):
         ws : int/float
             Description of slices of the polar diagram to be plotted.
 
-            For details refer to the respective `PolarDiagram` subclass.
+            For details refer to the `plot_polar()`-method of the respective
+            `PolarDiagram` subclass.
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
@@ -189,14 +192,16 @@ class PolarDiagram(ABC):
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices.
 
-            For details refer to the respective `PolarDiagram` subclass.
+            For details refer to the `plot_polar()`-method of the respective
+            `PolarDiagram` subclass.
 
             Defaults to `("green", "red")`.
 
         show_legend : bool, optional
             Specifies whether or not a legend will be shown next to the plot.
 
-            For details refer to the respective `PolarDiagram` subclass.
+            For details refer to the `plot_polar()`-method of the respective
+            `PolarDiagram` subclass.
 
             Defaults to `False`.
 
@@ -207,7 +212,8 @@ class PolarDiagram(ABC):
             when a colorbar is created and `matplotlib.legend.Legend` for
             possible keywords in cases where a Legend is created.
 
-            For details refer to the respective `PolarDiagram` subclass.
+            For details refer to the `plot_polar()`-method of the respective
+            `PolarDiagram` subclass.
 
             Will only be used if show_legend is `True`.
 
@@ -237,7 +243,8 @@ class PolarDiagram(ABC):
         ws : tuple of length 2, iterable, int or float, optional
             Slices of the polar diagram.
 
-            For details refer to the respective `PolarDiagram` subclass.
+            For details refer to the `plot_flat()`-method of the respective
+            `PolarDiagram` subclass.
 
             If nothing is passed, it will default to `(0, 20)`.
 
@@ -247,14 +254,16 @@ class PolarDiagram(ABC):
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices.
 
-            For details refer to the respective `PolarDiagram` subclass.
+            For details refer to the `plot_flat()`-method of the respective
+            `PolarDiagram` subclass.
 
             Defaults to `("green", "red")`.
 
         show_legend : bool, optional
             Specifies whether or not a legend will be shown next to the plot.
 
-            For details refer to the respective `PolarDiagram` subclass.
+            For details refer to the `plot_flat()`-method of the respective
+            `PolarDiagram` subclass.
 
             Defaults to `False`.
 
@@ -301,7 +310,8 @@ class PolarDiagram(ABC):
             Color pair determining the color gradient with which the
             polar diagram will be plotted.
 
-            For details refer to the respective `PolarDiagram` subclass.
+            For details refer to the `plot_color_gradient()`-method of
+            the respective `PolarDiagram` subclass.
 
             Defaults to `("green", "red")`.
 
@@ -377,7 +387,8 @@ class PolarDiagram(ABC):
         ws : tuple of length 2, iterable, int or float, optional
             Slices of the polar diagram.
 
-            For details refer to the respective `PolarDiagram` subclass.
+            For details refer to the `plot_convex_hull()`-method of
+            the respective `PolarDiagram` subclass.
 
             If nothing is passed, it will default to `(0, 20)`.
 
@@ -387,7 +398,8 @@ class PolarDiagram(ABC):
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices.
 
-            For details refer to the respective `PolarDiagram` subclass.
+            For details refer to the `plot_convex_hull()`-method of
+            the respective `PolarDiagram` subclass.
 
             Defaults to `("green", "red")`.
 
@@ -396,7 +408,8 @@ class PolarDiagram(ABC):
 
             The type of legend depends on the color options.
 
-            For details refer to the respective `PolarDiagram` subclass.
+            For details refer to the `plot_convex_hull()`-method of
+            the respective `PolarDiagram` subclass.
 
             Defaults to `False`.
 
