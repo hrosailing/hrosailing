@@ -230,7 +230,7 @@ The customizations above are arbitrary and lead to comparably bad results:
 my_pd.plot_polar(ws=ws)
 plt.show()
 ```
-![custom_plot](https://user-images.githubusercontent.com/70914876/146348767-f1af3957-8e62-42fa-9f1e-36e872f598c2.png)
+![custom_plot](https://raw.githubusercontent.com/Loitador41/test_repository/main/.github/images/Figure_Customizing_Pipeline.png)
 
 
 #### Including Influences and Weather models
