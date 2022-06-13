@@ -36,7 +36,7 @@ class PolarDiagramTable(PolarDiagram):
     Parameters
     ----------
     ws_resolution : array_like of positive scalars or positive scalar, optional
-        Wind speeds (in knots) that will correspond to the columns
+        Wind speeds that will correspond to the columns
         of the table.
 
         - If array_like, resolution will be `numpy.array(ws_resolution)`.
@@ -54,7 +54,7 @@ class PolarDiagramTable(PolarDiagram):
         Defaults to `numpy.arange(0, 360, 5)`.
 
     bsps : array_like of shape (rdim, cdim), optional
-        Boat speeds (in knots) that will correspond to the entries of the table.
+        Boat speeds that will correspond to the entries of the table.
 
         Needs to have dimensions matching `ws_resolution` and `wa_resolution`.
 
@@ -208,7 +208,7 @@ class PolarDiagramTable(PolarDiagram):
         Parameters
         ----------
         ws : scalar
-            Wind speed given in knots.
+            Wind speed.
 
         wa : scalar
             Wind angle.
@@ -228,7 +228,7 @@ class PolarDiagramTable(PolarDiagram):
         Returns
         -------
         bsp : scalar
-            Boat speed value (in knots) as determined above.
+            Boat speed value as determined above.
         """
         try:
             return self[ws, wa]
@@ -504,7 +504,7 @@ class PolarDiagramTable(PolarDiagram):
         Parameters
         ----------
         new_bsps: array_like of matching shape
-            Sequence containing the new boat speeds (in knots) to be inserted
+            Sequence containing the new boat speeds to be inserted
             in the specified entries.
 
         ws: Iterable or int or float, optional
@@ -618,7 +618,7 @@ class PolarDiagramTable(PolarDiagram):
             Slices of the polar diagram table, given as either
 
             - a tuple of length 2 specifying an interval of considered
-            wind speeds (in knots),
+            wind speeds,
             - an iterable containing only elements of `self.wind_speeds`,
             - a single element of `self.wind_speeds`.
 
@@ -671,7 +671,7 @@ class PolarDiagramTable(PolarDiagram):
             Slices of the polar diagram table, given as either
 
             - a tuple of length 2 specifying an interval of considered
-            wind speeds (in knots),
+            wind speeds,
             - an iterable containing only elements of `self.wind_speeds`,
             - a single element of `self.wind_speeds`.
 
@@ -780,7 +780,7 @@ class PolarDiagramTable(PolarDiagram):
             Slices of the polar diagram table, given as either
 
             - a tuple of length 2 specifying an interval of considered
-            wind speeds (in knots),
+            wind speeds,
             - an iterable containing only elements of `self.wind_speeds`,
             - a single element of `self.wind_speeds`.
 
@@ -975,7 +975,7 @@ class PolarDiagramTable(PolarDiagram):
             Slices of the polar diagram table, given as either
 
             - a tuple of length 2 specifying an interval of considered
-            wind speeds (in knots),
+            wind speeds,
             - an iterable containing only elements of `self.wind_speeds`,
             - a single element of `self.wind_speeds`.
 

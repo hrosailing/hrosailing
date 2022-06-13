@@ -73,7 +73,7 @@ def convex_direction(
         The polar diagram of the vessel.
 
     ws : int / float
-        The current wind speed given in knots.
+        The current wind speed.
 
     direction : int / float
         Right handed angle between the heading of the boat and
@@ -203,9 +203,9 @@ def cruise(
         Specification how to interpret the parameter `wind`.
 
         - "ws_wan": `wind` is interpreted as
-            (true wind speed in knots, wind angle relative to north)
+            (true wind speed, wind angle relative to north)
         - "ws_wa_hdt": `wind` is interpreted as
-            (true wind speed in knots, true wind angle,
+            (true wind speed, true wind angle,
             heading of the boat relative to north)
         - "uv_grd": `wind` is interpreted as (u_grd, v_grd) as can be read from
             a GRIB file.
@@ -538,8 +538,8 @@ def isochrone(
     Estimates the maximum distance that can be reached from a given start
     point in a given amount of time without tacks and jibes.
     This is done by sampling the position space and using mercator projection.
-    A weather forecast, organized by a `WeatherModel` and an `InfluenceModel`
-    are included in the computation.
+    Weather forecast data, organized by a `WeatherModel` and an `InfluenceModel`,
+    is included in the computation.
 
     Parameters
     ----------
@@ -581,7 +581,7 @@ def isochrone(
         `total_time` hours in the given direction.
 
     s : float
-        The length of the way traveled from start to end in nautical miles.
+        The length of the way traveled from start to end.
     """
     # estimate first sample points as equidistant points
 
@@ -733,9 +733,9 @@ def _wind_relative_to_north(wind, wind_fmt):
         Specification how to interpret the parameter `wind`.
 
         - "ws_wan": `wind` is interpreted as
-            (true wind speed in knots, wind angle relative to north)
+            (true wind speed, wind angle relative to north)
         - "ws_wa_hdt": `wind` is interpreted as
-            (true wind speed in knots, true wind angle,
+            (true wind speed, true wind angle,
             heading of the boat relative to north)
         - "uv_grd": `wind` is interpreted as (u_grd, v_grd) as can be read from
             a GRIB file.

@@ -176,10 +176,10 @@ class PolarDiagramCurve(PolarDiagram):
             Slices of the polar diagram given as either
 
             - a tuple of length 2, specifying an interval of considered
-            wind speeds (in knots). The amount of slices taken from that interval
+            wind speeds. The amount of slices taken from that interval
             are determined by the parameter `n_steps`,
-            - an iterable of specific wind speeds (in knots),
-            - a single wind speed (in knots).
+            - an iterable of specific wind speeds,
+            - a single wind speed.
             
             If nothing is passed, it will default to `(0, 20)`.
 
@@ -197,7 +197,7 @@ class PolarDiagramCurve(PolarDiagram):
             Slices of the polar diagram, given as a tuple of length 3,
             consisting of the given wind speeds `ws`, `self.wind_angles`
             (in rad) and a list of arrays containing the
-            corresponding boat speeds (in knots).
+            corresponding boat speeds.
 
         Raises
         ------
@@ -248,10 +248,10 @@ class PolarDiagramCurve(PolarDiagram):
             Slices of the polar diagram given as either
 
             - a tuple of length 2, specifying an interval of considered
-            wind speeds (in knots). The amount of slices taken from that interval
+            wind speeds. The amount of slices taken from that interval
             are determined by the parameter `n_steps`,
-            - an iterable of specific wind speeds (in knots),
-            - a single wind speed (in knots).
+            - an iterable of specific wind speeds,
+            - a single wind speed.
 
             Slices will then equal `self(w, wa)` where `w` goes through
             the given values in `ws` and `wa` goes through a fixed
@@ -349,10 +349,10 @@ class PolarDiagramCurve(PolarDiagram):
             Slices of the polar diagram given as either
 
             - a tuple of length 2, specifying an interval of considered
-            wind speeds (in knots). The amount of slices taken from that interval
+            wind speeds. The amount of slices taken from that interval
             are determined by the parameter `n_steps`,
-            - an iterable of specific wind speeds (in knots),
-            - a single wind speed (in knots).
+            - an iterable of specific wind speeds,
+            - a single wind speed.
 
             Slices will then equal `self(w, wa)` where `w` goes through
             the given values in `ws` and `wa` goes through a fixed
@@ -438,7 +438,7 @@ class PolarDiagramCurve(PolarDiagram):
         ----------
         ws : tuple of length 2, optional
             A region of the polar diagram given as an interval of
-            wind speeds (in knots).
+            wind speeds.
 
             Slices will then equal `self(w, wa)` where `w` goes through
             the given values in `ws` and `wa` goes through a fixed
@@ -492,7 +492,7 @@ class PolarDiagramCurve(PolarDiagram):
         ----------
         ws :  tuple of length 3, optional
             A region of the polar diagram given as an interval of
-            wind speeds (in knots).
+            wind speeds.
 
             Slices will then equal `self(w, wa)` where `w` goes through
             the given values in `ws` and `wa` goes through a fixed
@@ -586,10 +586,10 @@ class PolarDiagramCurve(PolarDiagram):
             Slices of the polar diagram given as either
 
             - a tuple of length 2, specifying an interval of considered
-            wind speeds (in knots). The amount of slices taken from that interval
+            wind speeds. The amount of slices taken from that interval
             are determined by the parameter `n_steps`,
-            - an iterable of specific wind speeds (in knots),
-            - a single wind speed (in knots).
+            - an iterable of specific wind speeds,
+            - a single wind speed.
 
             Slices will then equal `self(w, wa)` where `w` goes through
             the given values in `ws` and `wa` goes through a fixed

@@ -183,7 +183,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             Slices of the polar diagram table, given as either
 
             - a tuple of length 2 specifying an interval of considered
-            wind speeds (in knots),
+            wind speeds,
             - an iterable containing only elements of `self.wind_speeds`,
             - a single element of `self.wind_speeds`.
 
@@ -230,7 +230,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             Slices of the polar diagram table, given as either
 
             - a tuple of length 2 specifying an interval of considered
-            wind speeds (in knots),
+            wind speeds,
             - an iterable containing only elements of `self.wind_speeds`,
             - a single element of `self.wind_speeds`.
 
@@ -324,7 +324,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             Slices of the polar diagram table, given as either
 
             - a tuple of length 2 specifying an interval of considered
-            wind speeds (in knots),
+            wind speeds,
             - an iterable containing only elements of `self.wind_speeds`,
             - a single element of `self.wind_speeds`.
 
@@ -497,7 +497,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             Slices of the polar diagram table, given as either
 
             - a tuple of length 2 specifying an interval of considered
-            wind speeds (in knots),
+            wind speeds,
             - an iterable containing only elements of `self.wind_speeds`,
             - a single element of `self.wind_speeds`.
 
