@@ -192,7 +192,19 @@ class PolarDiagramMultiSails(PolarDiagram):
 
         Returns
         -------
-        slices : tuple
+        ws : list
+            The wind speeds corresponding to the slices
+
+        wa : list of numpy.ndarray
+            A list of the corresponding wind angles for each slice
+
+        bsp : list of numpy.ndarray
+            `bsp[i][j]` contains the resulting boat speed for wind speed
+            `ws[i]` and wind angle `wa[i][j]`
+
+        members : list of str
+            `members[j]` contains the name of the sail corresponding to the
+            wind `ws[i]` and `wa[i][j]` for any value of `i`
         """
         wa = []
         temp = []
