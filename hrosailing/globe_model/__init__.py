@@ -170,8 +170,11 @@ class FlatMercatorProjection(GlobeModel):
         ----------
         `GlobeModel.lat_lon`
         """
-        x, y = points / self._dist_lat
-        return x + self._lat_mp, 180 / np.pi * np.arcsin(np.tanh(y))
+        points = np.array(points)/self._earth_radius
+        x, y = points[:, 0], points[:, 1]
+        lat = np.rad2deg(np.arcsin(np.tanh(y)))
+        long = np.rad2deg(x) + self._lon_mp
+        return np.column_stack([lat, long])
 
     def distance(self, start, end):
         pass
