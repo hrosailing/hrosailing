@@ -33,7 +33,13 @@ class PolarDiagramCurve(PolarDiagram):
     f : function
         Curve/surface that describes the polar diagram, given as
         a function, with the signature `f(ws, wa, *params) -> bsp`,
-        where `ws` and `wa` should be `array_like` of shape `(n,)`
+        where
+
+        - `ws` and `wa` should be `array_like` of shape `(n,)`
+        and refer to wind speeds and wind angles
+        - `params` is a list of additional parameters
+        - `bsp` is `array_like` of shape `(n,)` and contains the resulting
+        boat speeds
 
     params : Sequence
         Optimal parameters for `f`
