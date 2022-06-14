@@ -647,7 +647,7 @@ def _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im):
     try:
         data = wm.get_weather((time, lat, long))
     except OutsideGridException as e:
-        return 1000 #maybe a better default?
+        return 1000  # maybe a better default?
     data["HDT"] = hdt
     if im:
         data = {key: [val] for key, val in data.items()}
