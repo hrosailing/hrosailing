@@ -177,7 +177,14 @@ class FlatMercatorProjection(GlobeModel):
         return np.column_stack([lat, long])
 
     def distance(self, start, end):
-        pass
+        """
+        See also
+        ---------
+        `GlobeModel.distance`
+        """
+        start = np.atleast_2d(start)
+        end = np.atleast_2d(end)
+        return np.linalg.norm(self.project(start) - self.project(end))
 
     def shortest_path(self, start, end, res=1000):
         pass
