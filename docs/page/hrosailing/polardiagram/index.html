@@ -1031,8 +1031,16 @@ wind speeds</li>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><strong><code>slices</code></strong> :&ensp;<code>tuple</code></dt>
-<dd>&nbsp;</dd>
+<dt><strong><code>ws</code></strong> :&ensp;<code>list</code></dt>
+<dd>The wind speeds corresponding to the slices</dd>
+<dt><strong><code>wa</code></strong> :&ensp;<code>list</code> of <code>numpy.ndarray</code></dt>
+<dd>A list of the corresponding wind angles for each slice</dd>
+<dt><strong><code>bsp</code></strong> :&ensp;<code>list</code> of <code>numpy.ndarray</code></dt>
+<dd><code>bsp[i][j]</code> contains the resulting boat speed for wind speed
+<code>ws[i]</code> and wind angle <code>wa[i][j]</code></dd>
+<dt><strong><code>members</code></strong> :&ensp;<code>list</code> of <code>str</code></dt>
+<dd><code>members[j]</code> contains the name of the sail corresponding to the
+wind <code>ws[i]</code> and <code>wa[i][j]</code> for any value of <code>i</code></dd>
 </dl></div>
 </dd>
 <dt id="hrosailing.polardiagram.PolarDiagramMultiSails.plot_3d"><code class="name flex">
@@ -1468,8 +1476,13 @@ if any <code>w</code> in <code>ws</code> is an int or float</p>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><strong><code>slices</code></strong> :&ensp;<code>tuple</code></dt>
-<dd>&nbsp;</dd>
+<dt><strong><code>ws</code></strong> :&ensp;<code>list</code></dt>
+<dd>The wind speeds corresponding to the slices</dd>
+<dt><strong><code>wa</code></strong> :&ensp;<code>numpy.ndarray</code></dt>
+<dd>The wind angles at which the curve has been evaluated</dd>
+<dt><strong><code>bsp</code></strong> :&ensp;<code>list</code> of <code>numpy.ndarray</code></dt>
+<dd><code>bsp[i][j]</code> contains the resulting boat speed for wind speed
+<code>ws[i]</code> and wind angle <code>wa[j]</code></dd>
 </dl>
 <h2 id="raises">Raises</h2>
 <dl>
