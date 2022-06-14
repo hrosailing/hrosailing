@@ -482,9 +482,18 @@ given by a fitted curve/surface.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
 <dt><strong><code>f</code></strong> :&ensp;<code>function</code></dt>
-<dd>Curve/surface that describes the polar diagram, given as
+<dd>
+<p>Curve/surface that describes the polar diagram, given as
 a function, with the signature <code>f(ws, wa, *params) -&gt; bsp</code>,
-where <code>ws</code> and <code>wa</code> should be <code>array_like</code> of shape <code>(n,)</code></dd>
+where</p>
+<ul>
+<li><code>ws</code> and <code>wa</code> should be <code>array_like</code> of shape <code>(n,)</code>
+and refer to wind speeds and wind angles</li>
+<li><code>params</code> is a list of additional parameters</li>
+<li><code>bsp</code> is <code>array_like</code> of shape <code>(n,)</code> and contains the resulting
+boat speeds</li>
+</ul>
+</dd>
 <dt><strong><code>params</code></strong> :&ensp;<code>Sequence</code></dt>
 <dd>Optimal parameters for <code>f</code></dd>
 <dt><strong><code>radians</code></strong> :&ensp;<code>bool</code>, optional</dt>
