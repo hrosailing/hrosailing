@@ -118,7 +118,7 @@ class GlobeModel(ABC):
         pass
 
 
-class MercatorProjection(GlobeModel):
+class FlatMercatorProjection(GlobeModel):
     """
     Globe model that interprets coordinates via the mercator projection.
 
@@ -128,21 +128,21 @@ class MercatorProjection(GlobeModel):
     mp: float, int or tuple of length 2
         One of the following:
 
-        - The lattitude of the midpoint used for the mercator projection.
+        - The longitude of the midpoint used for the mercator projection.
         - The midpoint used for the mercator projection.
 
-    dist_lat: float/int
-        The distance of two Lattitudes in nautical miles.
+    earth_radius: float/int
+        The assumed radius of the (spherical) earth in nautical miles.
 
-        Defaults to 69.
+        Defaults to 3440.
     """
 
-    def __init__(self, mp, dist_lat=69):
+    def __init__(self, mp, earth_radius=3440):
         if isinstance(mp, (int, float)):
-            self._lat_mp = mp
+            self._lon_mp = mp
         if isinstance(mp, tuple) and len(mp) == 2:
-            self._lat_mp = mp[1]
-        self._dist_lat = dist_lat
+            self._lon_mp = mp[1]
+        self._earth_radius = earth_radius
 
     def project(self, points):
         """
@@ -153,14 +153,25 @@ class MercatorProjection(GlobeModel):
         --------
         `GlobeModel.project`
         """
-        lat, long = points[:, 0], points[:, 1]
+        points = np.array(points)
+        lat, lon = points[:, 0], points[:, 1]
 
-        return self._dist_lat * np.array(
-            [(lat - self._lat_mp), np.arcsinh(np.tan(np.pi * long / 180))]
+        return self._earth_radius*np.column_stack(
+            [
+                np.deg2rad(lon - self._lon_mp),
+                np.arcsinh(np.tan(np.deg2rad(lat)))
+                #np.log(np.tan(np.pi/4 + np.deg2rad(lat)/2))
+            ]
         )
 
     def lat_lon(self, points):
-        pass
+        """
+        See also
+        ----------
+        `GlobeModel.lat_lon`
+        """
+        x, y = points / self._dist_lat
+        return x + self._lat_mp, 180 / np.pi * np.arcsin(np.tanh(y))
 
     def distance(self, start, end):
         pass
