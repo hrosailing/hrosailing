@@ -16,6 +16,11 @@ a modular pipeline model and suitable data science methods,
 weather on the way,
 - calculating isochrone points with respect to the weather along the way.
 
+Note that all methods and classes of this package
+expect all distances in nautical miles, all speed
+values in knots (nautical miles per hour) and all time values in hours
+(unless stated otherwise in the respective documentation).
+
 Installation
 ------------
 The recommended way to install `hrosailing` is with
