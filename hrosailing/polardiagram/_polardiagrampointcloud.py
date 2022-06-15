@@ -61,7 +61,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         self._points = points
 
     def __str__(self):
-        table = ["   TWS      TWA     BSP\n", "------  -------  ------\n"]
+        table = ["   TWS      TWA     BSP\n", "++++++  +++++++  ++++++\n"]
         for point in self.points:
             for i in range(3):
                 entry = f"{float(point[i]):.2f}"
