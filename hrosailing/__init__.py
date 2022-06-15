@@ -41,10 +41,7 @@ The `hrosailing` package is published under the [Apache 2.0 License](https://\
 # pylint: disable=wrong-import-position
 # pylint: disable=unused-import
 
-from ._pdoc import pdoc
 from ._version import __version__ as version
-
-__pdoc__ = pdoc
 
 # Tell users if and which hard dependencies are missing
 hard_dependencies = ("numpy", "matplotlib", "scipy")
