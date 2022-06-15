@@ -36,7 +36,7 @@ class PolarDiagramTable(PolarDiagram):
     Parameters
     ----------
     ws_resolution : array_like, default: `numpy.arange(2, 42, 2)`
-        Wind speeds that will correspond to the columns of the table
+        Wind speeds that will correspond to the columns of the table.
         - If array_like, resolution will be `numpy.array(ws_resolution)`
         - If a scalar `num`, resolution will be `numpy.arange(num, 40, num)`
     wa_resolution : array_like, default: `numpy.arange(0, 360, 5)`
@@ -79,7 +79,7 @@ class PolarDiagramTable(PolarDiagram):
     ... )
     >>> print(pd)
       TWA / TWS    6.0    8.0    10.0    12.0    14.0
-    -----------  -----  -----  ------  ------  ------
+    +++++++++++  +++++  +++++  ++++++  ++++++  ++++++
     52.0          5.33   6.32    6.96    7.24    7.35
     60.0          5.64   6.61    7.14    7.42    7.56
     75.0          5.89   6.82    7.28    7.59    7.84
@@ -87,6 +87,15 @@ class PolarDiagramTable(PolarDiagram):
     110.0         5.98   7.07    7.59    8.02    8.34
     120.0         5.80   6.95    7.51    7.98    8.52
     135.0         5.20   6.41    7.19    7.66    8.14
+
+    Single entries can be extracted like so
+    >>> pd[10, 90]
+    7.42
+
+    or if a wind speed (resp. wind angle) isn't in the table
+    a value can be interpolated
+    >>> pd(11, 90)
+    7.50924383603392
     """
 
     def __init__(self, ws_resolution=None, wa_resolution=None, bsps=None):
@@ -138,11 +147,11 @@ class PolarDiagramTable(PolarDiagram):
         bsps = self.boat_speeds
 
         table.extend([f"    {float(ws):.1f}" for ws in wind])
-        table.append("\n-----------")
+        table.append("\n+++++++++++")
 
         for ws in wind:
             le = len(f"{float(ws):.1f}")
-            table.append("  ".ljust(le + 4, "-"))
+            table.append("  ".ljust(le + 4, "+"))
 
         table.append("\n")
 
@@ -164,14 +173,14 @@ class PolarDiagramTable(PolarDiagram):
 
             table.append(f"    {float(ws):.1f}")
 
-        table.append("\n-----------")
+        table.append("\n+++++++++++")
 
         for i, ws in enumerate(wind):
             if i == 5:
-                table.append("  ---")
+                table.append("  +++")
 
             le = len(f"{float(ws):.1f}")
-            table.append("  ".ljust(le + 4, "-"))
+            table.append("  ".ljust(le + 4, "+"))
 
         table.append("\n")
 
@@ -324,7 +333,7 @@ class PolarDiagramTable(PolarDiagram):
         ... )
         >>> print(pd)
           TWA / TWS    6.0    8.0    10.0    12.0    14.0
-        -----------  -----  -----  ------  ------  ------
+        +++++++++++  +++++  +++++  ++++++  ++++++  ++++++
         52.0          5.33   6.32    6.96    7.24    7.35
         60.0          5.64   6.61    7.14    7.42    7.56
         75.0          5.89   6.82    7.28    7.59    7.84
@@ -336,7 +345,7 @@ class PolarDiagramTable(PolarDiagram):
         >>> pd2 = from_csv("example.csv")
         >>> print(pd2)
           TWA / TWS    6.0    8.0    10.0    12.0    14.0
-        -----------  -----  -----  ------  ------  ------
+        +++++++++++  +++++  +++++  ++++++  ++++++  ++++++
         52.0          5.33   6.32    6.96    7.24    7.35
         60.0          5.64   6.61    7.14    7.42    7.56
         75.0          5.89   6.82    7.28    7.59    7.84
@@ -435,7 +444,7 @@ class PolarDiagramTable(PolarDiagram):
         ... )
         >>> print(pd)
           TWA / TWS    6.0    8.0    10.0    12.0    14.0
-        -----------  -----  -----  ------  ------  ------
+        +++++++++++  +++++  +++++  ++++++  ++++++  ++++++
         52.0          5.33   6.32    6.96    7.24    7.35
         60.0          5.64   6.61    7.14    7.42    7.56
         75.0          5.89   6.82    7.28    7.59    7.84
@@ -443,7 +452,7 @@ class PolarDiagramTable(PolarDiagram):
         >>> sym_pd = pd.symmetrize()
         >>> print(sym_pd)
           TWA / TWS    6.0    8.0    10.0    12.0    14.0
-        -----------  -----  -----  ------  ------  ------
+        +++++++++++  +++++  +++++  ++++++  ++++++  ++++++
         52.0          5.33   6.32    6.96    7.24    7.35
         60.0          5.64   6.61    7.14    7.42    7.56
         75.0          5.89   6.82    7.28    7.59    7.84
@@ -503,7 +512,7 @@ class PolarDiagramTable(PolarDiagram):
         ... )
         >>> print(pd)
           TWA / TWS    6.0    8.0    10.0    12.0    14.0
-        -----------  -----  -----  ------  ------  ------
+        +++++++++++  +++++  +++++  ++++++  ++++++  ++++++
         52.0          0.00   0.00    0.00    0.00    0.00
         60.0          0.00   0.00    0.00    0.00    0.00
         75.0          0.00   0.00    0.00    0.00    0.00
@@ -517,7 +526,7 @@ class PolarDiagramTable(PolarDiagram):
         ... )
         >>> print(pd)
           TWA / TWS    6.0    8.0    10.0    12.0    14.0
-        -----------  -----  -----  ------  ------  ------
+        +++++++++++  +++++  +++++  ++++++  ++++++  ++++++
         52.0          5.33   0.00    0.00    0.00    0.00
         60.0          5.64   0.00    0.00    0.00    0.00
         75.0          5.89   0.00    0.00    0.00    0.00
@@ -531,7 +540,7 @@ class PolarDiagramTable(PolarDiagram):
         ... )
         >>> print(pd)
           TWA / TWS    6.0    8.0    10.0    12.0    14.0
-        -----------  -----  -----  ------  ------  ------
+        +++++++++++  +++++  +++++  ++++++  ++++++  ++++++
         52.0          5.70   6.32    6.96    7.24    7.35
         60.0          5.64   0.00    0.00    0.00    0.00
         75.0          5.89   0.00    0.00    0.00    0.00
