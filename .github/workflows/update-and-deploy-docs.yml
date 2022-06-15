@@ -18,7 +18,7 @@ jobs:
       - run: |
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install pdoc
-      - run: pdoc -o docs/ -d numpy --search --math --no-show-source --logo "https://rawgithubusercontent.com/hrosailing/hrosailing/main/logo.png" hrosailing
+      - run: pdoc -o docs/ -d numpy --search --math --no-show-source --logo "https://raw.githubusercontent.com/hrosailing/hrosailing/main/logo.png" hrosailing
       
       - run: tar --directory docs/ -hcf artifact.tar .
       - uses: actions/upload-artifact@v3
