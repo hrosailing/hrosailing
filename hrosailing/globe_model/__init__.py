@@ -11,6 +11,8 @@ import numpy as np
 class GlobeModel(ABC):
     """
     Abstract base class of globe models.
+    Contains methods to translate between points given in latitude and
+    longitude coordinates and points on a map or a three dimensional globe.
 
     Abstract Methods
     ----------------
@@ -20,7 +22,7 @@ class GlobeModel(ABC):
 
     distance(start, end)
 
-    shortest_path(start, end, res)
+    shortest_projected_path(start, end, res)
     """
 
     @abstractmethod
@@ -88,21 +90,41 @@ class GlobeModel(ABC):
         pass
 
     @abstractmethod
+    def shortest_projected_path(self, start, end, res=1000):
+        """
+        Computes the shortest path in the projected globe model.
+        This is used in order to find the shortest path on the lattitude-
+        longitude plane.
+
+        start : np.ndarray of shape (2,n) or (3,n)
+            The coordinates of the starting point on the globe
+
+        end : np.ndarray of shape (2,n) or (3,n)
+            The coordinates of the destination point on the globe
+
+        res : int
+            The number of points to be computed
+
+            Defaults to 1000.
+        """
+        pass
+
     def shortest_path(self, start, end, res=1000):
         """
-        Computes points on the shortest path from `start` to `end`, all given
+        Uses the `shortest_projected_path` method to compute points on the
+        shortest path from `start` to `end`, all given
         in lattitude/longitude coordinates.
 
         Parameter
         ---------
 
-        start: sequence of floats of length 2
+        start : sequence of floats of length 2
             The lattitude/longitude coordinates of the starting position.
 
-        end: sequence of floats of length 2
+        end : sequence of floats of length 2
             The lattitude/longitude coordinates of the goal position.
 
-        res: int
+        res : int
             The number of points to be computed
 
             Defaults to 1000.
@@ -115,7 +137,11 @@ class GlobeModel(ABC):
             path from `start` to `end`.
 
         """
-        pass
+        start, end = _ensure_2d(start, end)
+        start, end = self.project(np.row_stack([start, end]))
+        path = self.shortest_projected_path(start, end, res)
+        return self.lat_lon(path)
+
 
 
 class FlatMercatorProjection(GlobeModel):
@@ -182,9 +208,12 @@ class FlatMercatorProjection(GlobeModel):
         ---------
         `GlobeModel.distance`
         """
-        start = np.atleast_2d(start)
-        end = np.atleast_2d(end)
+        start, end = _ensure_2d(start, end)
         return np.linalg.norm(self.project(start) - self.project(end))
 
-    def shortest_path(self, start, end, res=1000):
-        pass
+    def shortest_projected_path(self, start, end, res=1000):
+        return np.linspace(start, end, res)
+
+
+def _ensure_2d(*args):
+    return (np.atleast_2d(pt) for pt in args)
