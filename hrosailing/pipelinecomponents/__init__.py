@@ -3,7 +3,12 @@ Components for the PolarPipeline and PipelineExtension
 classes among other things
 """
 
-from .datahandler import ArrayHandler, CsvFileHandler, DataHandler, NMEAFileHandler
+from .datahandler import (
+    ArrayHandler,
+    CsvFileHandler,
+    DataHandler,
+    NMEAFileHandler,
+)
 from .filter import BoundFilter, Filter, QuantileFilter
 from .influencemodel import InfluenceModel
 from .interpolator import (
@@ -12,9 +17,21 @@ from .interpolator import (
     ImprovedIDWInterpolator,
     Interpolator,
 )
-from .neighbourhood import Ball, Cuboid, Ellipsoid, Neighbourhood, Polytope, ScalingBall
+from .neighbourhood import (
+    Ball,
+    Cuboid,
+    Ellipsoid,
+    Neighbourhood,
+    Polytope,
+    ScalingBall,
+)
 from .regressor import LeastSquareRegressor, ODRegressor, Regressor
-from .sampler import ArchimedianSampler, FibonacciSampler, Sampler, UniformRandomSampler
+from .sampler import (
+    ArchimedianSampler,
+    FibonacciSampler,
+    Sampler,
+    UniformRandomSampler,
+)
 from .weigher import (
     CylindricMeanWeigher,
     CylindricMemberWeigher,

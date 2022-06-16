@@ -125,7 +125,8 @@ def convex_direction(
         i1, i2 = vert[0], vert[-1]
         if abs(wa[i1] - wa[i2]) < 180:
             raise CruisingException(
-                "The given direction is not supported by the given polar_diagram."
+                "The given direction is not supported by the given"
+                " polar_diagram."
             )
         edge = [Direction(wa[i1], 1), Direction(wa[i2], 1)]
 
