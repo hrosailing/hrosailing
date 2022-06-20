@@ -261,7 +261,7 @@ class PolarDiagramTable(PolarDiagram):
     def _get_indices(self, wind, soa):
         res = (
             self.wind_speeds
-            if soa == _Resolution.WIND_SPEED
+            if soa.name == _Resolution.WIND_SPEED.name
             else self.wind_angles
         )
 
@@ -995,11 +995,11 @@ class _Resolution(enum.Enum):
                 "This may lead to unwanted behaviour"
             )
 
-        if self == _Resolution.WIND_SPEED:
+        if self.name == _Resolution.WIND_SPEED.name:
             if np.any((res <= 0)):
                 raise ValueError("`res` contains nonpositive entries")
 
-        if self == _Resolution.WIND_ANGLE:
+        if self.name == _Resolution.WIND_ANGLE.name:
             res %= 360
 
         return res
@@ -1013,11 +1013,11 @@ class _Resolution(enum.Enum):
     def normalize_wind(self, wind):
         wind = np.atleast_1d(wind)  # allow scalar inputs
 
-        if self == _Resolution.WIND_SPEED:
+        if self.name == _Resolution.WIND_SPEED.name:
             if np.any((wind <= 0)):
                 raise ValueError("`wind` is nonpositive")
 
-        if self == _Resolution.WIND_ANGLE:
+        if self.name == _Resolution.WIND_ANGLE.name:
             wind %= 360
 
         return set(wind)
