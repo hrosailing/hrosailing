@@ -6,6 +6,7 @@
 - [ ] Make descriptions of parameters and functionalities more verbose
 - [ ] Add 'Getting started' section to first site of documentation
 - [ ] Add Contributing.md
+- [ ] Fix style problems due to conversion from pdoc3 to pdoc
 
 ### Tests
 - [ ] Testsuite for cruising-Submodule
