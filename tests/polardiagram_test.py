@@ -241,6 +241,12 @@ class PolarDiagramTableTest(unittest.TestCase):
         np.testing.assert_array_equal(wa, np.deg2rad(self.pd.wind_angles))
         np.testing.assert_array_equal(bsp.ravel(), self.pd.boat_speeds[:, 0])
 
+    def test_get_multiple_slices_interval(self):
+        ws, wa, bsp = self.pd.get_slices((2, 6))
+        self.assertEqual(ws, [2, 4, 6])
+        np.testing.assert_array_equal(wa, np.deg2rad(self.pd.wind_angles))
+        np.testing.assert_array_equal(bsp, self.pd.boat_speeds[:, :3])
+
     def test_get_multiple_slices_list(self):
         ws, wa, bsp = self.pd.get_slices([2, 4, 8])
         self.assertEqual(ws, [2, 4, 8])
@@ -491,8 +497,8 @@ class PolarDiagramCurveTest(unittest.TestCase):
 
 class PolarDiagramMultiSailsTest(unittest.TestCase):
     def setUp(self):
-        self.wind_speeds = [42, 44, 46]
-        self.wind_angles = [21, 42, 84]
+        self.wind_speeds = np.array([42, 44, 46])
+        self.wind_angles = np.array([21, 42, 84])
         self.boat_speeds1 = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
         self.boat_speeds2 = [[10, 11, 12], [13, 14, 15], [16, 17, 18]]
         self.tbl_1 = pol.PolarDiagramTable(self.wind_speeds, self.wind_angles, self.boat_speeds1)
@@ -568,19 +574,76 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 np.testing.assert_array_equal(table.boat_speeds, sym_boat_speeds(i))
 
     def test_get_one_slice(self):
-        pass
+        ws, wa, bsp, members = self.mts.get_slices(42)
+        wind_angles = np.concatenate(((np.deg2rad(self.tbl_1.wind_angles)),
+                                                         (np.deg2rad(self.tbl_2.wind_angles))))
+        self.assertEqual(ws, [42])
+        np.testing.assert_array_equal(np.asarray(wa).flat, wind_angles)
+        np.testing.assert_array_equal(np.asarray(bsp).flat, [1, 4, 7, 10, 13, 16])
+        np.testing.assert_array_equal(members, 3*['Sail 0'] + 3*['Sail 1'])
+
 
     def test_get_multiple_slices_interval(self):
-        pass
+        ws, wa, bsp, members = self.mts.get_slices((42, 46))
+        wind_angles = np.concatenate(((np.deg2rad(self.tbl_1.wind_angles)),
+                                                         (np.deg2rad(self.tbl_2.wind_angles))))
+        corr_wind_angles = np.concatenate((wind_angles, wind_angles, wind_angles))
+        self.assertEqual(ws, [42, 44, 46])
+        np.testing.assert_array_equal(np.asarray(wa).flat, corr_wind_angles)
+        np.testing.assert_array_equal(bsp,
+                                      [[1, 4, 7, 10, 13, 16],
+                                       [2, 5, 8, 11, 14, 17],
+                                       [3, 6, 9, 12, 15, 18]])
+        np.testing.assert_array_equal(members, 3 * ['Sail 0'] + 3 * ['Sail 1'])
 
     def test_get_multiple_slices_tuple(self):
-        pass
+        ws, wa, bsp, members = self.mts.get_slices((42, 44, 46))
+        wind_angles = np.concatenate(((np.deg2rad(self.tbl_1.wind_angles)),
+                                      (np.deg2rad(self.tbl_2.wind_angles))))
+        corr_wind_angles = np.concatenate((wind_angles, wind_angles, wind_angles))
+        self.assertEqual(ws, [42, 44, 46])
+        np.testing.assert_array_equal(np.asarray(wa).flat, corr_wind_angles)
+        np.testing.assert_array_equal(bsp,
+                                      [[1, 4, 7, 10, 13, 16],
+                                       [2, 5, 8, 11, 14, 17],
+                                       [3, 6, 9, 12, 15, 18]])
+        np.testing.assert_array_equal(members, 3 * ['Sail 0'] + 3 * ['Sail 1'])
 
     def test_get_multiple_slices_list(self):
-        pass
+        ws, wa, bsp, members = self.mts.get_slices([42, 44, 46])
+        wind_angles = np.concatenate(((np.deg2rad(self.tbl_1.wind_angles)),
+                                      (np.deg2rad(self.tbl_2.wind_angles))))
+        corr_wind_angles = np.concatenate((wind_angles, wind_angles, wind_angles))
+        self.assertEqual(ws, [42, 44, 46])
+        np.testing.assert_array_equal(np.asarray(wa).flat, corr_wind_angles)
+        np.testing.assert_array_equal(bsp,
+                                      [[1, 4, 7, 10, 13, 16],
+                                       [2, 5, 8, 11, 14, 17],
+                                       [3, 6, 9, 12, 15, 18]])
+        np.testing.assert_array_equal(members, 3 * ['Sail 0'] + 3 * ['Sail 1'])
 
     def test_get_multiple_slices_set(self):
-        pass
+        ws, wa, bsp, members = self.mts.get_slices({42, 44, 46})
+        wind_angles = np.concatenate(((np.deg2rad(self.tbl_1.wind_angles)),
+                                      (np.deg2rad(self.tbl_2.wind_angles))))
+        corr_wind_angles = np.concatenate((wind_angles, wind_angles, wind_angles))
+        self.assertEqual(ws, [42, 44, 46])
+        np.testing.assert_array_equal(np.asarray(wa).flat, corr_wind_angles)
+        np.testing.assert_array_equal(bsp,
+                                      [[1, 4, 7, 10, 13, 16],
+                                       [2, 5, 8, 11, 14, 17],
+                                       [3, 6, 9, 12, 15, 18]])
+        np.testing.assert_array_equal(members, 3 * ['Sail 0'] + 3 * ['Sail 1'])
 
     def test_get_all_slices(self):
-        pass
+        ws, wa, bsp, members = self.mts.get_slices(None)
+        wind_angles = np.concatenate(((np.deg2rad(self.tbl_1.wind_angles)),
+                                      (np.deg2rad(self.tbl_2.wind_angles))))
+        corr_wind_angles = np.concatenate((wind_angles, wind_angles, wind_angles))
+        self.assertEqual(ws, [42, 44, 46])
+        np.testing.assert_array_equal(np.asarray(wa).flat, corr_wind_angles)
+        np.testing.assert_array_equal(bsp,
+                                      [[1, 4, 7, 10, 13, 16],
+                                       [2, 5, 8, 11, 14, 17],
+                                       [3, 6, 9, 12, 15, 18]])
+        np.testing.assert_array_equal(members, 3 * ['Sail 0'] + 3 * ['Sail 1'])
