@@ -143,7 +143,6 @@ class GlobeModel(ABC):
         return self.lat_lon(path)
 
 
-
 class FlatMercatorProjection(GlobeModel):
     """
     Globe model that interprets coordinates via the mercator projection.
@@ -151,24 +150,29 @@ class FlatMercatorProjection(GlobeModel):
     Parameters
     ---------
 
-    mp: float, int or tuple of length 2
-        One of the following:
-
-        - The longitude of the midpoint used for the mercator projection.
-        - The midpoint used for the mercator projection.
-
     earth_radius: float/int
         The assumed radius of the (spherical) earth in nautical miles.
 
         Defaults to 3440.
     """
 
-    def __init__(self, mp, earth_radius=3440):
-        if isinstance(mp, (int, float)):
-            self._lon_mp = mp
-        if isinstance(mp, tuple) and len(mp) == 2:
-            self._lon_mp = mp[1]
+    def __init__(
+            self, virt_northpole=(90, 0), virt_zero=(0, 0),
+            earth_radius=3440
+    ):
+        pole = _on_ball(np.array(virt_northpole))
+        zero = _on_ball(np.array(virt_zero))
+        east = np.cross(pole, zero)
+        self._transform_mat = np.row_stack([zero, east, pole]).transpose()
+
         self._earth_radius = earth_radius
+
+    def _transform_coordinates(self, pts):
+        pts = _on_ball(pts)
+        pts = pts.reshape((len(pts), 3, 1))
+        pts = self._transform_mat@pts
+        pts = pts.reshape(len(pts), 3)
+        return _on_lat_lon(pts)
 
     def project(self, points):
         """
@@ -217,3 +221,22 @@ class FlatMercatorProjection(GlobeModel):
 
 def _ensure_2d(*args):
     return (np.atleast_2d(pt) for pt in args)
+
+
+def _on_ball(pts):
+    pts = np.atleast_2d(np.deg2rad(pts))
+    lat, lon = pts[:, 0], pts[:, 1]
+    return np.column_stack([
+        np.cos(lat)*np.cos(lon),
+        np.cos(lat)*np.sin(lon),
+        np.sin(lat)
+    ])
+
+
+def _on_lat_lon(pts):
+    x, y, z = pts.transpose()
+    latlon = np.column_stack([
+        np.arcsin(z),
+        np.arctan2(y, x)
+    ])
+    return np.rad2deg(latlon)
