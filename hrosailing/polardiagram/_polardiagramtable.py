@@ -1014,8 +1014,8 @@ class _Resolution(enum.Enum):
         wind = np.atleast_1d(wind)  # allow scalar inputs
 
         if self.name == _Resolution.WIND_SPEED.name:
-            if np.any((wind <= 0)):
-                raise ValueError("`wind` is nonpositive")
+            if np.any((wind < 0)):
+                raise ValueError("`wind` is negative")
 
         if self.name == _Resolution.WIND_ANGLE.name:
             wind %= 360
