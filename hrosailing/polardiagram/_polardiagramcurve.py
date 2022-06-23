@@ -85,7 +85,10 @@ class PolarDiagramCurve(PolarDiagram):
         )
 
     def __call__(self, ws, wa):
-        wa = wa.copy()
+        # do not change the input wa
+        if isinstance(wa, np.ndarray):
+            wa = wa.copy()
+
         if np.any((ws < 0)):
             raise PolarDiagramException("`ws` is negative")
 
@@ -160,9 +163,9 @@ class PolarDiagramCurve(PolarDiagram):
         """
 
         def sym_func(ws, wa, *params):
-            return 0.5 * (
-                self._f(ws, wa, *params) + self._f(ws, 360 - wa, *params)
-            )
+            y = self._f(ws, wa, *params)
+            y_symm = self._f(ws, (360 - wa) % 360, *params)
+            return 0.5 * (y + y_symm)
 
         return PolarDiagramCurve(
             sym_func, *self.parameters, radians=self.radians

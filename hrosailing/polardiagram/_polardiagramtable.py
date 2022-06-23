@@ -996,8 +996,8 @@ class _Resolution(enum.Enum):
             )
 
         if self.name == _Resolution.WIND_SPEED.name:
-            if np.any((res <= 0)):
-                raise ValueError("`res` contains nonpositive entries")
+            if np.any((res < 0)):
+                raise ValueError("`res` contains negative entries")
 
         if self.name == _Resolution.WIND_ANGLE.name:
             res %= 360

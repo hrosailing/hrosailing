@@ -15,18 +15,18 @@ class FileReadingTest(unittest.TestCase):
 
     def test_from_csv_read_correct_existent_file(self):
         files = [
-            ("tests/testfiles/pd-hro.csv", "hro"),
-            ("tests/testfiles/pc-hro.csv", "hro"),
-            ("tests/testfiles/pd-orc.csv", "orc"),
-            ("tests/testfiles/pd-opencpn.csv", "opencpn"),
-            ("tests/testfiles/pd-array.csv", "array"),
+            ("testfiles/pd-hro.csv", "hro"),
+            ("testfiles/pc-hro.csv", "hro"),
+            ("testfiles/pd-orc.csv", "orc"),
+            ("testfiles/pd-opencpn.csv", "opencpn"),
+            ("testfiles/pd-array.csv", "array"),
         ]
         for i, (file, fmt) in enumerate(files):
             with self.subTest(i=i):
                 pol.from_csv(file, fmt=fmt)
 
     def test_from_csv_format_hro_works_correctly(self):
-        files = ["tests/testfiles/pd-hro.csv", "tests/testfiles/pc-hro.csv"]
+        files = ["testfiles/pd-hro.csv", "testfiles/pc-hro.csv"]
         for i, file in enumerate(files):
             with self.subTest(i=i):
                 pd = pol.from_csv(file)
@@ -42,7 +42,7 @@ class FileReadingTest(unittest.TestCase):
 
     @staticmethod
     def test_from_csv_format_orc_works_correctly():
-        pd = pol.from_csv("tests/testfiles/pd-orc.csv", fmt="orc")
+        pd = pol.from_csv("testfiles/pd-orc.csv", fmt="orc")
         np.testing.assert_array_equal(
             pd.wind_speeds, np.array([6, 8, 10, 12, 14, 16, 20])
         )
@@ -67,14 +67,14 @@ class FileReadingTest(unittest.TestCase):
 
     @staticmethod
     def test_from_csv_format_opencpn_works_correctly():
-        pd = pol.from_csv("tests/testfiles/pd-opencpn.csv", fmt="opencpn")
+        pd = pol.from_csv("testfiles/pd-opencpn.csv", fmt="opencpn")
         np.testing.assert_array_equal(pd.wind_speeds, np.arange(2, 42, 2))
         np.testing.assert_array_equal(pd.wind_angles, np.arange(5, 185, 5))
         np.testing.assert_array_equal(pd.boat_speeds, np.zeros((36, 20)))
 
     @staticmethod
     def test_from_csv_format_array_works_correctly():
-        pd = pol.from_csv("tests/testfiles/pd-array.csv", fmt="array")
+        pd = pol.from_csv("testfiles/pd-array.csv", fmt="array")
         np.testing.assert_array_equal(
             pd.wind_speeds, np.array([0, 4, 6, 8, 10, 12, 14, 16, 20, 25, 30])
         )
