@@ -85,6 +85,7 @@ class PolarDiagramCurve(PolarDiagram):
         )
 
     def __call__(self, ws, wa):
+        wa = wa.copy()
         if np.any((ws < 0)):
             raise PolarDiagramException("`ws` is negative")
 
