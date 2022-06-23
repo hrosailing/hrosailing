@@ -184,11 +184,12 @@ class FlatMercatorProjection(GlobeModel):
         `GlobeModel.project`
         """
         points = np.array(points)
+        points = self._transform_coordinates(points)
         lat, lon = points[:, 0], points[:, 1]
 
         return self._earth_radius*np.column_stack(
             [
-                np.deg2rad(lon - self._lon_mp),
+                np.deg2rad(lon),
                 np.arcsinh(np.tan(np.deg2rad(lat)))
                 #np.log(np.tan(np.pi/4 + np.deg2rad(lat)/2))
             ]
