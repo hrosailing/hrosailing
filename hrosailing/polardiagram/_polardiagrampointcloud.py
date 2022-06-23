@@ -293,11 +293,11 @@ class PolarDiagramPointcloud(PolarDiagram):
             The wind speeds corresponding to the slices
 
         wa : numpy.ndarray
-            The wind angles at which the curve has been evaluated
+            `wa[i]` contains the respective wind angles for wind speed `ws[i]`
 
         bsp : list of numpy.ndarray
             `bsp[i][j]` contains the resulting boat speed for wind speed
-            `ws[i]` and wind angle `wa[j]`
+            `ws[i]` and wind angle `wa[i][j]`
 
 
         Raises
