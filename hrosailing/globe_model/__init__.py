@@ -164,13 +164,14 @@ class FlatMercatorProjection(GlobeModel):
         zero = _on_ball(np.array(virt_zero))
         east = np.cross(pole, zero)
         self._transform_mat = np.row_stack([zero, east, pole]).transpose()
+        self._inverse_transform_mat = np.linalg.inv(self._transform_mat)
 
         self._earth_radius = earth_radius
 
-    def _transform_coordinates(self, pts):
+    def _transform_coordinates(self, pts, matrix):
         pts = _on_ball(pts)
         pts = pts.reshape((len(pts), 3, 1))
-        pts = self._transform_mat@pts
+        pts = matrix@pts
         pts = pts.reshape(len(pts), 3)
         return _on_lat_lon(pts)
 
@@ -184,7 +185,7 @@ class FlatMercatorProjection(GlobeModel):
         `GlobeModel.project`
         """
         points = np.array(points)
-        points = self._transform_coordinates(points)
+        points = self._transform_coordinates(points, self._transform_mat)
         lat, lon = points[:, 0], points[:, 1]
 
         return self._earth_radius*np.column_stack(
@@ -204,8 +205,9 @@ class FlatMercatorProjection(GlobeModel):
         points = np.array(points)/self._earth_radius
         x, y = points[:, 0], points[:, 1]
         lat = np.rad2deg(np.arcsin(np.tanh(y)))
-        long = np.rad2deg(x) + self._lon_mp
-        return np.column_stack([lat, long])
+        long = np.rad2deg(x)
+        latlon = np.column_stack([lat, long])
+        return self._transform_coordinates(latlon, self._inverse_transform_mat)
 
     def distance(self, start, end):
         """
@@ -296,6 +298,7 @@ def _ensure_2d(*args):
 
 
 def _on_ball(pts):
+    print(pts)
     pts = np.atleast_2d(np.deg2rad(pts))
     lat, lon = pts[:, 0], pts[:, 1]
     return np.column_stack([
