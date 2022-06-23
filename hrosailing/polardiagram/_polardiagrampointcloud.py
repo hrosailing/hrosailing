@@ -16,7 +16,6 @@ from hrosailing.wind import convert_apparent_wind_to_true
 from ._basepolardiagram import (
     PolarDiagram,
     PolarDiagramException,
-    PolarDiagramInitializationException,
 )
 from ._plotting import (
     plot3d,
@@ -256,7 +255,8 @@ class PolarDiagramPointcloud(PolarDiagram):
             Slices of the polar diagram given as either
 
             - a tuple of 2 int/float values, which will be turned into the
-            iterable `numpy.linspace(ws[0], ws[1], n_steps)` of int/float values.
+            iterable `numpy.linspace(ws[0], ws[1], n_steps)` of int/float
+            values.
             The iterable will then be interpreted as below
             - a mixed iterable containing tuples of 2 int/float values or
             singular int/float values which will be interpreted as
@@ -315,7 +315,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         elif (
             isinstance(ws, tuple)
             and len(ws) == 2
-            and all([isinstance(w, (int, float)) for w in ws])
+            and all(isinstance(w, (int, float)) for w in ws)
         ):
             if n_steps is None:
                 n_steps = int(round(ws[1] - ws[0]))
@@ -388,7 +388,8 @@ class PolarDiagramPointcloud(PolarDiagram):
             Slices of the polar diagram given as either
 
             - a tuple of 2 int/float values, which will be turned into the
-            iterable `numpy.linspace(ws[0], ws[1], n_steps)` of int/float values.
+            iterable `numpy.linspace(ws[0], ws[1], n_steps)` of int/float
+            values.
             The iterable will then be interpreted as below
             - a mixed iterable containing tuples of 2 int/float values or
             singular int/float values which will be interpreted as
@@ -502,7 +503,8 @@ class PolarDiagramPointcloud(PolarDiagram):
             Slices of the polar diagram given as either
 
             - a tuple of 2 int/float values, which will be turned into the
-            iterable `numpy.linspace(ws[0], ws[1], n_steps)` of int/float values.
+            iterable `numpy.linspace(ws[0], ws[1], n_steps)` of int/float
+            values.
             The iterable will then be interpreted as below
             - a mixed iterable containing tuples of 2 int/float values or
             singular int/float values which will be interpreted as
@@ -726,7 +728,8 @@ class PolarDiagramPointcloud(PolarDiagram):
             Slices of the polar diagram given as either
 
             - a tuple of 2 int/float values, which will be turned into the
-            iterable `numpy.linspace(ws[0], ws[1], n_steps)` of int/float values.
+            iterable `numpy.linspace(ws[0], ws[1], n_steps)` of int/float
+            values.
             The iterable will then be interpreted as below
             - a mixed iterable containing tuples of 2 int/float values or
             singular int/float values which will be interpreted as
