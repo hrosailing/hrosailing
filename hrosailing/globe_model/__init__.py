@@ -219,7 +219,78 @@ class FlatMercatorProjection(GlobeModel):
         return np.linspace(start, end, res)
 
 
+class SphericalGlobe(GlobeModel):
+    """
+    Globe model that interprets latitude-longitude coordinates on a spherical
+    globe.
+
+    Parameters
+    -----------
+    earth_radius: int/float, optional
+        The radius of the assumed globe
+    """
+
+    def __init__(self, earth_radius=21600/2/np.pi):
+        self._earth_radius = earth_radius
+
+    def project(self, points):
+        """
+        See also
+        ---------
+        `GlobeModel.project`
+        """
+        return self._earth_radius*_on_ball(points)
+
+    def lat_lon(self, points):
+        """
+        See also
+        ---------
+        `GlobeModel.lat_lon`
+        """
+        points = _ensure_2d(points)
+        points = points/self._earth_radius
+        return _on_lat_lon(points)
+
+    def distance(self, start, end):
+        """
+        See also
+        ---------
+        `GlobeModel.distance`
+        """
+
+        start, end = _on_ball([start, end])
+        angle = _angle(start, end)
+        return self._earth_radius*angle
+
+    def shortest_projected_path(self, start, end, res=1000):
+        """
+        See also
+        ---------
+        `GlobeModel.shortest_projected_path`
+        """
+        start, end = _ensure_2d(start, end)
+        angle = _angle(start, end)
+
+        angles = np.linspace(0, angle, res)
+
+        # (1,0) -> (1, 0) -> (1,0,0) -> start, (cos(angle), sin(angle)) -> (0,1) -> (0,1,0) -> end
+        proj1 = np.linalg.inv(np.array([[1, np.cos(angle)], [0, np.sin(angle)]]))
+        proj2 = np.transpose(np.array([[1, 0, 0], [0, 1, 0]]))
+        proj3 = np.transpose(np.row_stack([start, end, np.array([0, 0, 1])]))
+        proj = proj3@proj2@proj1
+
+        # # start -> (1,0,0) -> (1, 0) -> (1, 0), end -> (0,1,0) -> (0,1) -> (cos(angle), sin(angle))
+        # inv_proj1 = np.linalg.inv(np.transpose(np.row_stack([start, end, np.array([0, 0, 1])])))
+        # inv_proj2 = np.transpose(np.array([[1, 0], [0, 1], [0, 0]]))
+        # inv_proj = np.linalg.inv(proj2)@inv_proj2@inv_proj1
+
+        flat_pts = np.array([[[np.cos(ang)], [np.sin(ang)]] for ang in angles])
+        return (proj@flat_pts).reshape((len(flat_pts), 3))
+
+
 def _ensure_2d(*args):
+    if len(args) == 1:
+        return np.atleast_2d(args[0])
     return (np.atleast_2d(pt) for pt in args)
 
 
@@ -240,3 +311,10 @@ def _on_lat_lon(pts):
         np.arctan2(y, x)
     ])
     return np.rad2deg(latlon)
+
+
+def _angle(pt1, pt2):
+    """Computes angles in radians between points"""
+    pt1 = pt1.ravel()
+    pt2 = pt2.ravel()
+    return np.arccos(np.dot(pt1, pt2)/np.linalg.norm(pt1)/np.linalg.norm(pt2))
