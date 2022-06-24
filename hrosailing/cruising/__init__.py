@@ -290,7 +290,7 @@ class WeatherModel:
         if (len(times), len(lats), len(lons), len(attrs)) != data.shape:
             raise ValueError(
                 f"Parameter data should have the shape "
-                f"(len(times), len(lats), len(lons), len(attrs))"
+                f"({len(times)}, {len(lats)}, {len(lons)}, {len(attrs)})"
             )
 
         self._times = times

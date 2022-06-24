@@ -263,8 +263,8 @@ class PolarDiagram(ABC):
         legend_kw : dict, optional
             Keyword arguments to change position and appearance of the legend
 
-            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend` for
-            possible keywords and their effects
+            See `matplotlib.colorbar.Colorbar` and `matplotlib.legend.Legend`
+            for possible keywords and their effects
 
             Will only be used if `show_legend` is `True`
 

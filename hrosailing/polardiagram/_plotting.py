@@ -8,12 +8,7 @@ import itertools
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.cm import ScalarMappable
-from matplotlib.colors import (
-    LinearSegmentedColormap,
-    Normalize,
-    is_color_like,
-    to_rgb,
-)
+from matplotlib.colors import LinearSegmentedColormap, Normalize, is_color_like, to_rgb
 from matplotlib.lines import Line2D
 from scipy.spatial import ConvexHull
 
@@ -84,7 +79,7 @@ def _more_colors_than_plots(ws, colors):
 
 
 def _no_color_gradient(colors):
-    all_color_format = all([_has_color_format(c) for c in colors])
+    all_color_format = all(_has_color_format(c) for c in colors)
     return len(colors) != 2 or not all_color_format
 
 
