@@ -4,6 +4,8 @@ import unittest
 
 import numpy as np
 
+from os.path import exists
+
 import hrosailing.polardiagram as pol
 from hrosailing.polardiagram import FileReadingException
 
@@ -125,11 +127,57 @@ def reading_suite():
 
 
 class FileWritingTest(unittest.TestCase):
-    pass
+    def test_to_csv_pd_curve(self):
+        pd_curve = pol.from_csv("../examples/csv-format-examples/curve_hro_format_example.csv")
+        pd_curve.to_csv("../tests/testfiles/to_csv_pd_curve.csv")
+        self.assertEqual(True, exists("../tests/testfiles/to_csv_pd_curve.csv"))
+        pd_curve_2 = pol.from_csv("../tests/testfiles/to_csv_pd_curve.csv")
+        self.assertEqual(pd_curve.__dict__, pd_curve_2.__dict__)
+
+
+    def test_to_csv_pd_multisails(self):
+        pd_ms = pol.from_csv("../examples/csv-format-examples/multisails_hro_format_example.csv")
+        pd_ms.to_csv("../tests/testfiles/to_csv_pd_multisails.csv")
+        self.assertEqual(True, exists("../tests/testfiles/to_csv_pd_multisails.csv"))
+        pd_ms_2 = pol.from_csv("../tests/testfiles/to_csv_pd_multisails.csv")
+        np.testing.assert_array_equal(pd_ms.sails, pd_ms_2.sails)
+        np.testing.assert_array_equal(pd_ms.wind_speeds, pd_ms_2.wind_speeds)
+        tables_1 = pd_ms.tables
+        tables_2 = pd_ms_2.tables
+        for i, table_list in enumerate([tables_1, tables_2]):
+            with self.subTest(i=i):
+                np.testing.assert_array_equal(table_list[0].wind_speeds, table_list[1].wind_speeds)
+                np.testing.assert_array_equal(table_list[0].wind_angles, table_list[1].wind_angles)
+                np.testing.assert_array_equal(table_list[0].boat_speeds, table_list[1].boat_speeds)
+
+    def test_to_csv_pd_pointcloud(self):
+        pd_cloud = pol.from_csv("../examples/csv-format-examples/cloud_hro_format_example.csv")
+        pd_cloud.to_csv("../tests/testfiles/to_csv_pd_cloud.csv")
+        self.assertEqual(True, exists("../tests/testfiles/to_csv_pd_cloud.csv"))
+        pd_cloud_2 = pol.from_csv("../tests/testfiles/to_csv_pd_cloud.csv")
+        self.assertEqual(pd_cloud.__dict__.keys(), pd_cloud_2.__dict__.keys())
+        for i, key in enumerate(pd_cloud.__dict__.keys()):
+            with self.subTest(i=i):
+                np.testing.assert_array_equal(pd_cloud.__dict__[key], pd_cloud_2.__dict__[key])
+
+    def test_to_csv_pd_table(self):
+        pd_table = pol.from_csv("../examples/csv-format-examples/table_hro_format_example.csv")
+        pd_table.to_csv("../tests/testfiles/to_csv_pd_table.csv")
+        self.assertEqual(True, exists("../tests/testfiles/to_csv_pd_table.csv"))
+        pd_table_2 = pol.from_csv("../tests/testfiles/to_csv_pd_table.csv")
+        self.assertEqual(pd_table.__dict__.keys(), pd_table_2.__dict__.keys())
+        for i, key in enumerate(pd_table.__dict__.keys()):
+            with self.subTest(i=i):
+                np.testing.assert_array_equal(pd_table.__dict__[key], pd_table_2.__dict__[key])
 
 
 def writing_suite():
     suite = unittest.TestSuite()
-    suite.addTests([])
+    suite.addTests([
+        FileWritingTest("test_to_csv_pd_curve"),
+        FileWritingTest("test_to_csv_pd_multisails"),
+        FileWritingTest("test_to_csv_pd_pointcloud"),
+        FileWritingTest("test_to_csv_pd_table")
+    ])
 
     return suite
