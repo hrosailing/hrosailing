@@ -6,6 +6,8 @@ import unittest
 
 import numpy as np
 
+import matplotlib.pyplot as plt
+
 import hrosailing.polardiagram as pol
 from hrosailing.polardiagram._basepolardiagram import (
     PolarDiagramException,
@@ -278,6 +280,163 @@ class PolarDiagramTableTest(unittest.TestCase):
                 with self.assertRaises(PolarDiagramException):
                     self.pd.get_slices(slice_)
 
+    def test_plot_polar(self):
+        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+        self.pd.plot_polar(ax=ax)
+        for i in range(len(self.ws_resolution)):
+            with self.subTest(i=i):
+                x_plot = ax.lines[i].get_xdata()
+                y_plot = ax.lines[i].get_ydata()
+                np.testing.assert_array_equal(x_plot, np.deg2rad(self.wa_resolution))
+                np.testing.assert_array_equal(y_plot, self.bsp[:, i])
+
+    def test_plot_polar_single_element_ws(self):
+        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+        self.pd.plot_polar(ws=2, ax=ax)
+        x_plot = ax.lines[0].get_xdata()
+        y_plot = ax.lines[0].get_ydata()
+        np.testing.assert_array_equal(x_plot, np.deg2rad(self.wa_resolution))
+        np.testing.assert_array_equal(y_plot, self.bsp[:, 0])
+
+    def test_plot_polar_interval_ws(self):
+        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+        self.pd.plot_polar(ws=(4, 8), ax=ax)
+        for i in range(0, 3):
+            with self.subTest(i=i):
+                x_plot = ax.lines[i].get_xdata()
+                y_plot = ax.lines[i].get_ydata()
+                np.testing.assert_array_equal(x_plot, np.deg2rad(self.wa_resolution))
+                print(y_plot)
+                print(self.bsp[:, i+1])
+                np.testing.assert_array_equal(y_plot, self.bsp[:, i+1])
+
+    def test_plot_polar_iterable_list_ws(self):
+        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+        self.pd.plot_polar(ws=[2, 4, 6], ax=ax)
+        for i in range(0, 3):
+            with self.subTest(i=i):
+                x_plot = ax.lines[i].get_xdata()
+                y_plot = ax.lines[i].get_ydata()
+                np.testing.assert_array_equal(x_plot, np.deg2rad(self.wa_resolution))
+                np.testing.assert_array_equal(y_plot, self.bsp[:, i])
+
+    def test_plot_polar_iterable_tuple_ws(self):
+        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+        self.pd.plot_polar(ws=(2, 4, 6), ax=ax)
+        for i in range(0, 3):
+            with self.subTest(i=i):
+                x_plot = ax.lines[i].get_xdata()
+                y_plot = ax.lines[i].get_ydata()
+                np.testing.assert_array_equal(x_plot, np.deg2rad(self.wa_resolution))
+                np.testing.assert_array_equal(y_plot, self.bsp[:, i])
+
+    def test_plot_polar_iterable_set_ws(self):
+        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+        self.pd.plot_polar(ws={2, 4, 6}, ax=ax)
+        for i in range(0, 3):
+            with self.subTest(i=i):
+                x_plot = ax.lines[i].get_xdata()
+                y_plot = ax.lines[i].get_ydata()
+                np.testing.assert_array_equal(x_plot, np.deg2rad(self.wa_resolution))
+                np.testing.assert_array_equal(y_plot, self.bsp[:, i])
+
+    def test_plot_polar_exception_ws_not_in_self_wind_speeds(self):
+        with self.subTest(i=0):
+            with self.assertRaises(PolarDiagramException):
+                self.pd.plot_polar(ws=3)
+        with self.subTest(i=1):
+            with self.assertRaises(PolarDiagramException):
+                self.pd.plot_polar(ws=[2, 4, 5])
+
+    def test_plot_polar_exception_no_slice_in_interval(self):
+        with self.subTest(i=0):
+            with self.assertRaises(PolarDiagramException):
+                self.pd.plot_polar(ws=(9, 10))
+        with self.subTest(i=1):
+            with self.assertRaises(PolarDiagramException):
+                self.pd.plot_polar(ws=(2, 0))
+
+    def test_plot_flat(self):
+        f, ax = plt.subplots()
+        self.pd.plot_flat(ax=ax)
+        for i in range(len(self.ws_resolution)):
+            with self.subTest(i=i):
+                x_plot = ax.lines[i].get_xdata()
+                y_plot = ax.lines[i].get_ydata()
+                np.testing.assert_array_equal(np.deg2rad(x_plot), np.deg2rad(self.wa_resolution))
+                np.testing.assert_array_equal(y_plot, self.bsp[:, i])
+
+    def test_plot_flat_single_element_ws(self):
+        f, ax = plt.subplots()
+        self.pd.plot_flat(ws=2, ax=ax)
+        x_plot = ax.lines[0].get_xdata()
+        y_plot = ax.lines[0].get_ydata()
+        np.testing.assert_array_equal(np.deg2rad(x_plot), np.deg2rad(self.wa_resolution))
+        np.testing.assert_array_equal(y_plot, self.bsp[:, 0])
+
+    def test_plot_flat_interval_ws(self):
+        f, ax = plt.subplots()
+        self.pd.plot_flat(ws=(4, 8), ax=ax)
+        for i in range(0, 3):
+            with self.subTest(i=i):
+                x_plot = ax.lines[i].get_xdata()
+                y_plot = ax.lines[i].get_ydata()
+                np.testing.assert_array_equal(np.deg2rad(x_plot), np.deg2rad(self.wa_resolution))
+                np.testing.assert_array_equal(y_plot, self.bsp[:, i+1])
+
+    def test_plot_flat_iterable_list_ws(self):
+        f, ax = plt.subplots()
+        self.pd.plot_flat(ws=[2, 4, 6], ax=ax)
+        for i in range(0, 3):
+            with self.subTest(i=i):
+                x_plot = ax.lines[i].get_xdata()
+                y_plot = ax.lines[i].get_ydata()
+                np.testing.assert_array_equal(np.deg2rad(x_plot), np.deg2rad(self.wa_resolution))
+                np.testing.assert_array_equal(y_plot, self.bsp[:, i])
+
+    def test_plot_flat_iterable_tuple_ws(self):
+        f, ax = plt.subplots()
+        self.pd.plot_flat(ws=(2, 4, 6), ax=ax)
+        for i in range(0, 3):
+            with self.subTest(i=i):
+                x_plot = ax.lines[i].get_xdata()
+                y_plot = ax.lines[i].get_ydata()
+                np.testing.assert_array_equal(np.deg2rad(x_plot), np.deg2rad(self.wa_resolution))
+                np.testing.assert_array_equal(y_plot, self.bsp[:, i])
+
+    def test_plot_flat_iterable_set_ws(self):
+        f, ax = plt.subplots()
+        self.pd.plot_flat(ws={2, 4, 6}, ax=ax)
+        for i in range(0, 3):
+            with self.subTest(i=i):
+                x_plot = ax.lines[i].get_xdata()
+                y_plot = ax.lines[i].get_ydata()
+                np.testing.assert_array_equal(np.deg2rad(x_plot), np.deg2rad(self.wa_resolution))
+                np.testing.assert_array_equal(y_plot, self.bsp[:, i])
+
+    def test_plot_flat_exception_ws_not_in_self_wind_speeds(self):
+        with self.subTest(i=0):
+            with self.assertRaises(PolarDiagramException):
+                self.pd.plot_flat(ws=3)
+        with self.subTest(i=1):
+            with self.assertRaises(PolarDiagramException):
+                self.pd.plot_flat(ws=[2, 4, 5])
+
+    def test_plot_flat_exception_no_slice_in_interval(self):
+        with self.subTest(i=0):
+            with self.assertRaises(PolarDiagramException):
+                self.pd.plot_flat(ws=(9, 10))
+        with self.subTest(i=1):
+            with self.assertRaises(PolarDiagramException):
+                self.pd.plot_flat(ws=(2, 0))
+
+    def test_plot_3d(self):
+        f, ax = plt.subplots(subplot_kw={'projection': '3d'})
+        self.pd.plot_3d(ax=ax)
+
+    def test_plot_3d_colors(self):
+        f, ax = plt.subplots(subplot_kw={'projection': '3d'})
+        self.pd.plot_3d(ax=ax, colors=('blue', 'red'))
 
 class PolarDiagramPointCloudTest(unittest.TestCase):
     def setUp(self):
