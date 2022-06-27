@@ -7,6 +7,7 @@ import numpy as np
 import itertools
 from bisect import bisect_left
 from abc import ABC, abstractmethod
+from datetime import timedelta
 
 from hrosailing.globe_model import SphericalGlobe
 
@@ -148,13 +149,17 @@ class GriddedWeatherModel(WeatherModel):
             the indices of the reference points
 
         point: sequence of length 3,
-            contains latitude, longitude and time coordinates of the observed
-            point
+            contains time, latitude and longitude of the observed point
 
         flags: sequence of bools of length 3,
             Boolean values containing the information weather the lattitude
             of the observed point is supported by the grid, the longitude is
             supported by the grid and if the time is supported by the grid
+
+        Returns
+        -------
+        val: np.ndarray
+            The interpolated weather data
         """
 
 
@@ -212,7 +217,7 @@ class FlatWeatherModel(GriddedWeatherModel):
         return interim[0]
 
 
-class GlobeWeatherModel(WeatherModel):
+class GlobeWeatherModel(GriddedWeatherModel):
     """Models a weather model as a 3-dimensional space-time grid
     where each space-time point has certain values of a given list
     of attributes.
@@ -240,7 +245,7 @@ class GlobeWeatherModel(WeatherModel):
 
     See also
     --------
-    GriddedWeatherModel
+    `GriddedWeatherModel`
     """
 
     def __init__(
@@ -260,4 +265,42 @@ class GlobeWeatherModel(WeatherModel):
         ---------
         `GriddedWeatherModel.interpolate_weather_data`
         """
-        return 0
+        ref_pts = np.row_stack([
+            [
+                self._times[idx[0]],
+                self._lats[idx[1]],
+                self._lons[idx[2]]
+            ]
+            for idx in idxs
+        ])
+        weather = np.row_stack([
+            self._data[tuple(idx)]
+            for idx in idxs
+        ])
+        if len(weather) == 1:
+            return weather[0]
+
+        place_distances = np.array([
+            self._globe_model.distance(
+                np.array(point[1:], dtype=float),
+                np.array(ref_pt[1:], dtype=float)
+            )
+            for ref_pt in ref_pts
+        ])
+
+        time_distances = [
+            abs(ref_pt[0] - point[0])
+            for ref_pt in ref_pts
+        ]
+
+        #If datetime has been used, transform to float value of hours
+        time_distances = np.array([
+            t.total_seconds()/3600
+            if isinstance(t, timedelta) else time_distances
+            for t in time_distances
+        ])
+
+        distances = np.sqrt(place_distances**2 + time_distances**2)
+
+        #The distances should not be zero
+        return np.average(weather, axis=0, weights=1/distances)
