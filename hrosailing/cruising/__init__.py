@@ -15,6 +15,8 @@ from scipy.spatial import ConvexHull
 
 from hrosailing.pipelinecomponents import InfluenceModel
 
+from hrosailing.cruising.weather_model import WeatherModel
+
 
 class CruisingException(Exception):
     """Exception which will be raised if a non-Standard error in a cruising
@@ -256,6 +258,7 @@ def cruise(
     return [(d1.angle, float(t1)), (d2.angle, float(t2))]
 
 
+<<<<<<< HEAD
 class OutsideGridException(Exception):
     """Exception raised if point accessed in weather model lies
     outside the available grid."""
@@ -366,6 +369,8 @@ class WeatherModel:
         return dict(zip(self._attrs, val))
 
 
+=======
+>>>>>>> 6f3a3e3 (Refactored WeatherModel)
 def cost_cruise(
     pd,
     start,
@@ -620,44 +625,6 @@ def _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im):
         return 1 / bsp
 
     return 0
-
-
-def _interpolate_weather_data(data, idxs, point, flags, grid):
-    """"""
-    # point is a grid point
-    if len(idxs) == 1:
-        i, j, k = idxs.T
-        return data[i, j, k, :]
-
-    # lexicographic first and last vertex of cube
-    start = idxs[0]
-    end = idxs[-1]
-
-    # interpolate along time edges first
-    if flags[0] and flags[1] and not flags[2]:
-        idxs[[1, 2]] = idxs[[2, 1]]
-
-    face = [i for i, flag in enumerate(flags) if not flag]
-
-    if len(face) == 1:
-        edges = [idxs[0], idxs[1]]
-    else:
-        edges = [0, 1] if len(face) == 2 else [0, 1, 4, 5]
-        edges = [(idxs[i], idxs[i + 2]) for i in edges]
-        flatten = itertools.chain.from_iterable
-        edges = list(flatten(edges))
-
-    interim = [data[i, j, k, :] for i, j, k in edges]
-
-    for i in face:
-        mu = (point[i] - grid[i][end[i]]) / (
-            grid[i][start[i]] - grid[i][end[i]]
-        )
-        it = iter(interim)
-        interim = [mu * left + (1 - mu) * right for left, right in zip(it, it)]
-
-    return interim[0]
-
 
 def _right_handing_course(a, b):
     """Calculates course between two points on the surface of the earth
