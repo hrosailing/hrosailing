@@ -7,6 +7,7 @@
 - [ ] Add 'Getting started' section to first site of documentation
 - [ ] Add Contributing.md
 - [ ] Add links to referenced submodules, classes, exceptions and methods
+- [ ] Fix style problems due to conversion from pdoc3 to pdoc
 
 ### Tests
 - [ ] Testsuite for cruising-Submodule

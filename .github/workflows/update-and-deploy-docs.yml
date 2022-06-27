@@ -1,51 +1,42 @@
-name: update-and-deploy
+name: build-documentation
+
 on:
   push:
     branches:
-      - main  
+      - main
+      
+permissions:
+  contents: read
+  
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: set up python
-        uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      
+      - run: |
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install pdoc
+      - run: pdoc -o docs/ -d numpy --search --math --no-show-source --logo "https://raw.githubusercontent.com/hrosailing/hrosailing/main/logo.png" hrosailing
+      
+      - run: tar --directory docs/ -hcf artifact.tar .
+      - uses: actions/upload-artifact@v3
         with:
-          python-version: 3.8
-      - name: install dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          pip3 install pdoc3
-          if [ -f requirements.txt ]; then pip3 install -r requirements.txt; fi
-      - name: create temporary remote
-        run: | 
-          git config --global user.name ${GITHUB_ACTOR}
-          git config --global user.email ${GITHUB_ACTOR}@users.noreply.github.com
-          git remote add documentation "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
-          git pull documentation ${GITHUB_REF} --ff-only
-      - name: run pdoc3
-        continue-on-error: true
-        run: |
-          pdoc3 --html --output-dir docs/page --template-dir templates --force hrosailing
-      - name: push updated docs
-        continue-on-error: true
-        run: |
-          git add ${GITHUB_WORKSPACE}/docs/page
-          git commit -m "updated docs"
-          git push documentation HEAD:${GITHUB_REF}
-      - name: check if documentation was changed
-        uses: dorny/paths-filter@v2
-        id: changes
-        with:
-          filters: |
-            src:
-              - 'docs/**'  
-      - name: deploy to gh-pages
-        if: steps.changes.outputs.src
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
-    
-    
-    
+          name: github-pages
+          path: ./artifact.tar
+        
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v1
+          

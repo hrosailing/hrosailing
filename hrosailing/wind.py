@@ -23,8 +23,8 @@ class _Wind(enum.Enum):
             raise WindConversionException("`wind` has incorrect shape")
 
         ws, wa, bsp = np.hsplit(wind, 3)
-        if np.any((ws <= 0)):
-            raise WindConversionException("`wind` has nonpositive wind speeds")
+        if np.any((ws < 0)):
+            raise WindConversionException("`wind` has negative wind speeds")
 
         wa %= 360  # normalize wind angles
         wa_above_180 = wa > 180

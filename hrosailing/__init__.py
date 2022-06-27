@@ -16,6 +16,11 @@ a modular pipeline model and suitable data science methods,
 weather on the way,
 - calculating isochrone points with respect to the weather along the way.
 
+Note that all methods and classes of this package
+expect all distances in nautical miles, all speed
+values in knots (nautical miles per hour) and all time values in hours
+(unless stated otherwise in the respective documentation).
+
 Installation
 ------------
 The recommended way to install `hrosailing` is with
@@ -36,10 +41,7 @@ The `hrosailing` package is published under the [Apache 2.0 License](https://\
 # pylint: disable=wrong-import-position
 # pylint: disable=unused-import
 
-from ._pdoc import pdoc
 from ._version import __version__ as version
-
-__pdoc__ = pdoc
 
 # Tell users if and which hard dependencies are missing
 hard_dependencies = ("numpy", "matplotlib", "scipy")

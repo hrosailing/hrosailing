@@ -33,7 +33,13 @@ class PolarDiagramCurve(PolarDiagram):
     f : function
         Curve/surface that describes the polar diagram, given as
         a function, with the signature `f(ws, wa, *params) -> bsp`,
-        where `ws` and `wa` should be `array_like` of shape `(n,)`.
+        where
+
+        - `ws` and `wa` should be `array_like` of shape `(n,)`
+        and refer to wind speeds and wind angles,
+        - `params` is a list of additional parameters,
+        - `bsp` is `array_like` of shape `(n,)` and contains the resulting
+        boat speeds.
 
     params : Sequence
         Optimal parameters for `f`.
@@ -79,6 +85,10 @@ class PolarDiagramCurve(PolarDiagram):
         )
 
     def __call__(self, ws, wa):
+        # do not change the input wa
+        if isinstance(wa, np.ndarray):
+            wa = wa.copy()
+
         if np.any((ws < 0)):
             raise PolarDiagramException("`ws` is negative")
 
@@ -153,9 +163,9 @@ class PolarDiagramCurve(PolarDiagram):
         """
 
         def sym_func(ws, wa, *params):
-            return 0.5 * (
-                self._f(ws, wa, *params) + self._f(ws, 360 - wa, *params)
-            )
+            y = self._f(ws, wa, *params)
+            y_symm = self._f(ws, (360 - wa) % 360, *params)
+            return 0.5 * (y + y_symm)
 
         return PolarDiagramCurve(
             sym_func, *self.parameters, radians=self.radians

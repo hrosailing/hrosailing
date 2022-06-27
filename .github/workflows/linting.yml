@@ -25,10 +25,10 @@ jobs:
           pip install bandit
       - name: analyse code with pylint
         run: |
-          pylint --rcfile=.pylintrc --fail-under=9.90 `find -regextype egrep -regex '(.*.py)$'`
+          pylint --rcfile=.pylintrc --fail-under=9.90 hrosailing
       - name: analyse code with flake8
         if: always()
-        run: flake8 --config=.flake8 .
+        run: flake8 --config=.flake8 hrosailing
       - name: analyse code with bandit
         if: always()
         run: bandit -r hrosailing
