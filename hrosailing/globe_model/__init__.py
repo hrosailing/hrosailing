@@ -261,7 +261,7 @@ class SphericalGlobe(GlobeModel):
         `GlobeModel.distance`
         """
 
-        start, end = _on_ball([start, end])
+        start, end = _on_ball(np.row_stack([start, end]))
         angle = _angle(start, end)
         return self._earth_radius*angle
 
@@ -298,7 +298,6 @@ def _ensure_2d(*args):
 
 
 def _on_ball(pts):
-    print(pts)
     pts = np.atleast_2d(np.deg2rad(pts))
     lat, lon = pts[:, 0], pts[:, 1]
     return np.column_stack([
