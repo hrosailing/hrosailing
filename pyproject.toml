@@ -14,4 +14,4 @@ experimental_string_processing = true
 
 [tool.isort]
 profile = "black"
-multi_line_output = 3
+line_length = 79
