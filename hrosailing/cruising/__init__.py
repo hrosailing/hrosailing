@@ -289,7 +289,7 @@ class WeatherModel:
     def __init__(self, data, times, lats, lons, attrs):
         if (len(times), len(lats), len(lons), len(attrs)) != data.shape:
             raise ValueError(
-                f"Parameter data should have the shape "
+                "Parameter data should have the shape "
                 f"({len(times)}, {len(lats)}, {len(lons)}, {len(attrs)})"
             )
 
