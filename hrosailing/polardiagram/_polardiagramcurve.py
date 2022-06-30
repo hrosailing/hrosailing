@@ -190,7 +190,7 @@ class PolarDiagramCurve(PolarDiagram):
             are determined by the parameter `n_steps`,
             - an iterable of specific wind speeds,
             - a single wind speed.
-            
+
             If nothing is passed, it will default to `(0, 20)`.
 
         n_steps : positive int or float, optional
