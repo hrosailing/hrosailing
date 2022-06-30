@@ -1,4 +1,4 @@
-"""Contains various helper functions for the plot_*-methods()."""
+"""Contains various helper functions for the `plot_*`-methods()."""
 
 # pylint: disable=missing-function-docstring
 

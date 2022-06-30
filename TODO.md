@@ -6,6 +6,7 @@
 - [ ] Make descriptions of parameters and functionalities more verbose
 - [ ] Add 'Getting started' section to first site of documentation
 - [ ] Add Contributing.md
+- [ ] Add links to referenced submodules, classes, exceptions and methods
 - [ ] Fix style problems due to conversion from pdoc3 to pdoc
 
 ### Tests
@@ -28,6 +29,10 @@
 ### pipelinecomponents-Submodule
 - [ ] Implement default InfluenceModel-Subclasses
   - [ ] Change the default handling for InfluenceModel in various functions
+
+
+### polardiagram-Submodule
+- [ ] fix plot_convex_hull() for incomplete polar diagrams
 
 
 ### plotting
