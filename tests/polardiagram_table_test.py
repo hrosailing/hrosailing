@@ -306,8 +306,6 @@ class PolarDiagramTableTest(unittest.TestCase):
                 x_plot = ax.lines[i].get_xdata()
                 y_plot = ax.lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, np.deg2rad(self.wa_resolution))
-                print(y_plot)
-                print(self.bsp[:, i+1])
                 np.testing.assert_array_equal(y_plot, self.bsp[:, i+1])
 
     def test_plot_polar_iterable_list_ws(self):
@@ -363,7 +361,7 @@ class PolarDiagramTableTest(unittest.TestCase):
             with self.subTest(i=i):
                 x_plot = ax.lines[i].get_xdata()
                 y_plot = ax.lines[i].get_ydata()
-                np.testing.assert_array_equal(np.deg2rad(x_plot), np.deg2rad(self.wa_resolution))
+                np.testing.assert_array_equal(np.round(x_plot, 10), self.wa_resolution)
                 np.testing.assert_array_equal(y_plot, self.bsp[:, i])
 
     def test_plot_flat_single_element_ws(self):
@@ -371,7 +369,7 @@ class PolarDiagramTableTest(unittest.TestCase):
         self.pd.plot_flat(ws=2, ax=ax)
         x_plot = ax.lines[0].get_xdata()
         y_plot = ax.lines[0].get_ydata()
-        np.testing.assert_array_equal(np.deg2rad(x_plot), np.deg2rad(self.wa_resolution))
+        np.testing.assert_array_equal(np.round(x_plot, 10), self.wa_resolution)
         np.testing.assert_array_equal(y_plot, self.bsp[:, 0])
 
     def test_plot_flat_interval_ws(self):
@@ -381,7 +379,7 @@ class PolarDiagramTableTest(unittest.TestCase):
             with self.subTest(i=i):
                 x_plot = ax.lines[i].get_xdata()
                 y_plot = ax.lines[i].get_ydata()
-                np.testing.assert_array_equal(np.deg2rad(x_plot), np.deg2rad(self.wa_resolution))
+                np.testing.assert_array_equal(np.round(x_plot, 10), self.wa_resolution)
                 np.testing.assert_array_equal(y_plot, self.bsp[:, i+1])
 
     def test_plot_flat_iterable_list_ws(self):
@@ -391,7 +389,7 @@ class PolarDiagramTableTest(unittest.TestCase):
             with self.subTest(i=i):
                 x_plot = ax.lines[i].get_xdata()
                 y_plot = ax.lines[i].get_ydata()
-                np.testing.assert_array_equal(np.deg2rad(x_plot), np.deg2rad(self.wa_resolution))
+                np.testing.assert_array_equal(np.round(x_plot, 10), self.wa_resolution)
                 np.testing.assert_array_equal(y_plot, self.bsp[:, i])
 
     def test_plot_flat_iterable_tuple_ws(self):
@@ -401,7 +399,7 @@ class PolarDiagramTableTest(unittest.TestCase):
             with self.subTest(i=i):
                 x_plot = ax.lines[i].get_xdata()
                 y_plot = ax.lines[i].get_ydata()
-                np.testing.assert_array_equal(np.deg2rad(x_plot), np.deg2rad(self.wa_resolution))
+                np.testing.assert_array_equal(np.round(x_plot, 10), self.wa_resolution)
                 np.testing.assert_array_equal(y_plot, self.bsp[:, i])
 
     def test_plot_flat_iterable_set_ws(self):
@@ -411,7 +409,7 @@ class PolarDiagramTableTest(unittest.TestCase):
             with self.subTest(i=i):
                 x_plot = ax.lines[i].get_xdata()
                 y_plot = ax.lines[i].get_ydata()
-                np.testing.assert_array_equal(np.deg2rad(x_plot), np.deg2rad(self.wa_resolution))
+                np.testing.assert_array_equal(np.round(x_plot, 10), self.wa_resolution)
                 np.testing.assert_array_equal(y_plot, self.bsp[:, i])
 
     def test_plot_flat_exception_ws_not_in_self_wind_speeds(self):
