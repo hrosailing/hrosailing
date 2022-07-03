@@ -17,18 +17,18 @@ class FileReadingTest(unittest.TestCase):
 
     def test_from_csv_read_correct_existent_file(self):
         files = [
-            ("tests/testfiles/pd-hro.csv", "hro"),
-            ("tests/testfiles/pc-hro.csv", "hro"),
-            ("tests/testfiles/pd-orc.csv", "orc"),
-            ("tests/testfiles/pd-opencpn.csv", "opencpn"),
-            ("tests/testfiles/pd-array.csv", "array"),
+            ("../tests/testfiles/pd-hro.csv", "hro"),
+            ("../tests/testfiles/pc-hro.csv", "hro"),
+            ("../tests/testfiles/pd-orc.csv", "orc"),
+            ("../tests/testfiles/pd-opencpn.csv", "opencpn"),
+            ("../tests/testfiles/pd-array.csv", "array"),
         ]
         for i, (file, fmt) in enumerate(files):
             with self.subTest(i=i):
                 pol.from_csv(file, fmt=fmt)
 
     def test_from_csv_format_hro_works_correctly(self):
-        files = ["tests/testfiles/pd-hro.csv", "tests/testfiles/pc-hro.csv"]
+        files = ["../tests/testfiles/pd-hro.csv", "../tests/testfiles/pc-hro.csv"]
         for i, file in enumerate(files):
             with self.subTest(i=i):
                 pd = pol.from_csv(file)
@@ -44,7 +44,7 @@ class FileReadingTest(unittest.TestCase):
 
     @staticmethod
     def test_from_csv_format_orc_works_correctly():
-        pd = pol.from_csv("tests/testfiles/pd-orc.csv", fmt="orc")
+        pd = pol.from_csv("../tests/testfiles/pd-orc.csv", fmt="orc")
         np.testing.assert_array_equal(
             pd.wind_speeds, np.array([6, 8, 10, 12, 14, 16, 20])
         )
@@ -69,14 +69,14 @@ class FileReadingTest(unittest.TestCase):
 
     @staticmethod
     def test_from_csv_format_opencpn_works_correctly():
-        pd = pol.from_csv("tests/testfiles/pd-opencpn.csv", fmt="opencpn")
+        pd = pol.from_csv("../tests/testfiles/pd-opencpn.csv", fmt="opencpn")
         np.testing.assert_array_equal(pd.wind_speeds, np.arange(2, 42, 2))
         np.testing.assert_array_equal(pd.wind_angles, np.arange(5, 185, 5))
         np.testing.assert_array_equal(pd.boat_speeds, np.zeros((36, 20)))
 
     @staticmethod
     def test_from_csv_format_array_works_correctly():
-        pd = pol.from_csv("tests/testfiles/pd-array.csv", fmt="array")
+        pd = pol.from_csv("../tests/testfiles/pd-array.csv", fmt="array")
         np.testing.assert_array_equal(
             pd.wind_speeds, np.array([0, 4, 6, 8, 10, 12, 14, 16, 20, 25, 30])
         )
@@ -109,6 +109,14 @@ class FileReadingTest(unittest.TestCase):
             ),
         )
 
+    def test_from_csv_exception_unknown_format(self):
+        with self.assertRaises(FileReadingException):
+            pol.from_csv("unknown_format_example.csv", fmt="unknown")
+
+    def test_from_csv_exception_unknown_hro_subclass(self):
+        with self.assertRaises(FileReadingException):
+            pol.from_csv("../tests/testfiles/unknown_subclass_hro_format_example.csv")
+
 
 def reading_suite():
     suite = unittest.TestSuite()
@@ -120,6 +128,8 @@ def reading_suite():
             FileReadingTest("test_from_csv_format_orc_works_correctly"),
             FileReadingTest("test_from_csv_format_opencpn_works_correctly"),
             FileReadingTest("test_from_csv_format_array_works_correctly"),
+            FileReadingTest("test_from_csv_exception_unknown_format"),
+            FileReadingTest("test_from_csv_exception_unknown_hro_subclass"),
         ]
     )
 
@@ -170,6 +180,36 @@ class FileWritingTest(unittest.TestCase):
             with self.subTest(i=i):
                 np.testing.assert_array_equal(pd_table.__dict__[key], pd_table_2.__dict__[key])
 
+    def test_to_csv_array(self):
+        pd_1 = pol.from_csv("../examples/csv-format-examples/array_format_example.csv", fmt="array")
+        pd_1.to_csv("../tests/testfiles/to_csv_array.csv", fmt="array")
+        self.assertEqual(True, exists("../tests/testfiles/to_csv_array.csv"))
+        pd_2 = pol.from_csv("../tests/testfiles/to_csv_array.csv", fmt="array")
+        self.assertEqual(pd_1.__dict__.keys(), pd_2.__dict__.keys())
+        for i, key in enumerate(pd_1.__dict__.keys()):
+            with self.subTest(i=i):
+                np.testing.assert_array_equal(pd_1.__dict__[key], pd_2.__dict__[key])
+
+    def test_to_csv_opencpn(self):
+        pd_1 = pol.from_csv("../examples/csv-format-examples/opencpn_format_example.csv", fmt="opencpn")
+        pd_1.to_csv("../tests/testfiles/to_csv_opencpn.csv", fmt="opencpn")
+        self.assertEqual(True, exists("../tests/testfiles/to_csv_opencpn.csv"))
+        pd_2 = pol.from_csv("../tests/testfiles/to_csv_opencpn.csv", fmt="opencpn")
+        self.assertEqual(pd_1.__dict__.keys(), pd_2.__dict__.keys())
+        for i, key in enumerate(pd_1.__dict__.keys()):
+            with self.subTest(i=i):
+                np.testing.assert_array_equal(pd_1.__dict__[key], pd_2.__dict__[key])
+
+    def test_to_csv_orc(self):
+        pd_1 = pol.from_csv("../examples/csv-format-examples/orc_format_example.csv", fmt="orc")
+        pd_1.to_csv("../tests/testfiles/to_csv_orc.csv", fmt="orc")
+        self.assertEqual(True, exists("../tests/testfiles/to_csv_orc.csv"))
+        pd_2 = pol.from_csv("../tests/testfiles/to_csv_orc.csv", fmt="orc")
+        self.assertEqual(pd_1.__dict__.keys(), pd_2.__dict__.keys())
+        for i, key in enumerate(pd_1.__dict__.keys()):
+            with self.subTest(i=i):
+                np.testing.assert_array_equal(pd_1.__dict__[key], pd_2.__dict__[key])
+
 
 def writing_suite():
     suite = unittest.TestSuite()
@@ -177,7 +217,10 @@ def writing_suite():
         FileWritingTest("test_to_csv_pd_curve"),
         FileWritingTest("test_to_csv_pd_multisails"),
         FileWritingTest("test_to_csv_pd_pointcloud"),
-        FileWritingTest("test_to_csv_pd_table")
+        FileWritingTest("test_to_csv_pd_table"),
+        FileWritingTest("test_to_csv_array"),
+        FileWritingTest("test_to_csv_opencpn"),
+        FileWritingTest("test_to_csv_orc")
     ])
 
     return suite
