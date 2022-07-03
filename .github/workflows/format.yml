@@ -1,0 +1,35 @@
+name: Format
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - run: pip install black isort
+      - name: check for fixups
+        run: |
+          black --check .
+          isort --check .
+      - name: amend fixups, if needed
+        if: failure()
+        run: |
+          git config --global user.name 'format'
+          git config --global user.email 'format@users.noreply.github.com'
+          black .
+          isort .
+          git add -A
+          git commit -am "fixup: Formatted code"
+          git push

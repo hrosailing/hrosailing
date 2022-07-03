@@ -57,7 +57,7 @@ def convex_direction(
     influence_data: Optional[dict] = None,
 ) -> List[Direction]:
     """Given a direction, computes the "fastest" way to sail in
-    that direction, assuming constant wind speed `ws`
+    that direction, assuming constant wind speed `ws`.
 
     If sailing straight into direction is the fastest way, function
     returns that direction. Otherwise, function returns two directions
@@ -71,7 +71,7 @@ def convex_direction(
     pd : PolarDiagram
         The polar diagram of the vessel.
     ws : int or float
-        The current wind speed given in knots.
+        The current wind speed.
     direction : int or float
         Right handed angle between the heading of the boat and
         the negative of the wind direction.
@@ -97,7 +97,7 @@ def convex_direction(
 
     Raises
     -------
-    CruisingException :
+    CruisingException
         If the given polar diagram slice can not be evaluated in the given
         direction. For example, this could be the case, if the polar diagram
         only has data for angles between 0 and 180 degrees.
@@ -191,9 +191,9 @@ def cruise(
         Specification how to interpret the parameter `wind`.
 
         - "ws_wan": `wind` is interpreted as
-            (true wind speed in knots, wind angle relative to north)
+            (true wind speed, wind angle relative to north)
         - "ws_wa_hdt": `wind` is interpreted as
-            (true wind speed in knots, true wind angle,
+            (true wind speed, true wind angle,
             heading of the boat relative to north)
         - "uv_grd": `wind` is interpreted as (u_grd, v_grd) as can be read from
             a GRIB file.
@@ -205,20 +205,20 @@ def cruise(
         Further data to be passed to the used influence model.
         Only use data which does not depend on the wind and the heading.
 
-        Will only be used if `im` is not `None`
+        Will only be used if `im` is not `None`.
 
-        Defaults to `None`
+        Defaults to `None`.
 
     Returns
     -------
     directions : list of tuples
         Directions as well as the time (in hours) needed to sail along those,
-        to get from start to end
+        to get from start to end.
 
     Raises
     -------
-    AttributeError :
-        If wind_fmt is not a supported string.
+    AttributeError
+        If `wind_fmt` is not a supported string.
     """
 
     ws, wdir = _wind_relative_to_north(wind, wind_fmt)
@@ -258,13 +258,13 @@ def cruise(
 
 class OutsideGridException(Exception):
     """Exception raised if point accessed in weather model lies
-    outside the available grid"""
+    outside the available grid."""
 
 
 class WeatherModel:
     """Models a weather model as a 3-dimensional space-time grid
     where each space-time point has certain values of a given list
-    of attributes
+    of attributes.
 
     Parameters
     ----------
@@ -277,13 +277,13 @@ class WeatherModel:
     lons : list of length r
         Sorted list of longitude values of the space-time grid.
     attrs : list of length s
-        List of different (scalar) attributes of weather
+        List of different (scalar) attributes of weather.
 
     Raises
     ---------
-    ValueError :
+    ValueError
         If the shape of `data`, `times`, `lats`, `lons` and `attrs`
-        do not matchs
+        do not match.
     """
 
     def __init__(self, data, times, lats, lons, attrs):
@@ -308,7 +308,7 @@ class WeatherModel:
         If the point is not a grid point, the weather data will be
         affinely interpolated, starting with the time-component, using
         the (at most) 8 grid points that span the vertices of a cube, which
-        contains the given point
+        contains the given point.
 
         Parameters
         ----------
@@ -321,7 +321,7 @@ class WeatherModel:
         weather : dict
             The weather data at the given point.
             If it is a grid point, the weather data is taken straight
-            from the model, else it is interpolated as described above
+            from the model, else it is interpolated as described above.
 
         Raises
         ------
@@ -337,7 +337,7 @@ class WeatherModel:
 
         if any(outside_left) or any(outside_right):
             raise OutsideGridException(
-                "`point` is outside the grid. Weather data not available."
+                "`point` is outside the grid. Weather data not available"
             )
 
         grid = self._grid()
@@ -392,15 +392,17 @@ def cost_cruise(
     as a function dependent on distance travelled (s) by numerically solving
     the initial value problem
 
-    t(0) = 0, dt/ds = 1/bsp(s,t).
+    ..math::
+        t(0) = 0, \\frac{dt}{ds} = \\frac{1}{bsp(s,t)}.
 
     Using this, it then uses numeric integration to predict the total costs as
 
-    int_0^l cost(s, t(s)) ds + abs_cost(t(l), l).
+    ..math::
+        \\int_{0}^{l} cost(s, t(s)) \\,ds + abs\\_cost(t(l), l).
 
     Note that the costs in this mathematical description indirectly depend on
     weather forecast data, organized by a 'WeatherModel'.
-    Distances are computed using the mercator projection
+    Distances are computed using the mercator projection.
 
     Parameters
     ----------
@@ -412,7 +414,7 @@ def cost_cruise(
         Coordinates of the end point.
     start_time : datetime.datetime
         The time at which the traveling starts.
-    wm : WeatherModel, optional
+    wm : WeatherModel
         The weather model used.
     cost_fun_dens : callable, optional
         Function giving a cost density for given time as `datetime.datetime`,
@@ -438,7 +440,7 @@ def cost_cruise(
     Returns
     -------
     cost : float
-        The total cost calculated as described above
+        The total cost calculated as described above.
     """
     # pylint: disable=too-many-locals
 
@@ -500,8 +502,8 @@ def isochrone(
     Estimates the maximum distance that can be reached from a given start
     point in a given amount of time without tacks and jibes.
     This is done by sampling the position space and using mercator projection.
-    A weather forecast, organized by a WeatherModel and an InfluenceModel
-    are included in the computation.
+    Weather forecast data, organized by a `WeatherModel` and an `InfluenceModel`,
+    is included in the computation.
 
     Parameters
     ----------
@@ -513,27 +515,28 @@ def isochrone(
         The time at which the traveling starts.
     direction : float
         The angle between North and the direction in which we aim to travel.
-    wm : WeatherModel, optional
+    wm : WeatherModel
         The weather model used.
-    total_time : float
+    total_time : float, optional
         The time in hours that the vessel is supposed to travel
         in the given direction.
+        Defaults to 1.
     min_nodes : int, optional
         The minimum amount of sample points to sample the position space.
-        Defaults to `100`.
+        Defaults to 100.
     im : InfluenceModel, optional
-        The influence model used
+        The influence model used.
 
-        Defaults to None
+        Defaults to `None`.
 
     Returns
     -------
     end : 2-tuple of floats
         Latitude and longitude of the position that is reached when traveling
-        total_time hours in the given direction.
+        `total_time` hours in the given direction.
 
     s : float
-        The length of the way traveled from start to end in nautical miles
+        The length of the way traveled from start to end.
     """
     # estimate first sample points as equidistant points
 
@@ -578,7 +581,7 @@ def isochrone(
 
 def _inverse_mercator_proj(pt, lat_mp):
     """
-    Computes point from its mercator projection with reference point `lat_mp`
+    Computes point from its mercator projection with reference point `lat_mp`.
     """
     x, y = pt / 69
     return x + lat_mp, 180 / np.pi * np.arcsin(np.tanh(y))
@@ -586,7 +589,7 @@ def _inverse_mercator_proj(pt, lat_mp):
 
 def _mercator_proj(pt, lat_mp):
     """
-    Computes the mercator projection with reference point `lat_mp` of a point
+    Computes the mercator projection with reference point `lat_mp` of a point.
     """
     lat, long = pt
 
@@ -658,7 +661,7 @@ def _interpolate_weather_data(data, idxs, point, flags, grid):
 
 def _right_handing_course(a, b):
     """Calculates course between two points on the surface of the earth
-    relative to true north
+    relative to true north.
     """
     numerator = np.cos(a[1]) * np.sin(b[1]) - np.cos(a[0] - b[0]) * np.cos(
         b[1]
@@ -671,7 +674,7 @@ def _right_handing_course(a, b):
 
 
 def _wind_relative_to_north(wind, wind_fmt):
-    """Calculates the wind speed and the wind direction relative to true north
+    """Calculates the wind speed and the wind direction relative to true north.
 
     Parameters
     ----------
@@ -679,13 +682,13 @@ def _wind_relative_to_north(wind, wind_fmt):
         Description of the wind. The exact interpretation depends on
         `wind_fmt`. See the description of `wind_fmt` for details.
 
-    wind_fmt: {"ws_wan", ws_wa_hdt", "uv_grd"}
+    wind_fmt: {"ws_wan", "ws_wa_hdt", "uv_grd"}
         Specification how to interpret the parameter `wind`.
 
         - "ws_wan": `wind` is interpreted as
-            (true wind speed in knots, wind angle relative to north)
+            (true wind speed, wind angle relative to north)
         - "ws_wa_hdt": `wind` is interpreted as
-            (true wind speed in knots, true wind angle,
+            (true wind speed, true wind angle,
             heading of the boat relative to north)
         - "uv_grd": `wind` is interpreted as (u_grd, v_grd) as can be read from
             a GRIB file.
@@ -693,14 +696,14 @@ def _wind_relative_to_north(wind, wind_fmt):
     Returns
     -------
     ws : float,
-        The current wind speed
+        The current wind speed.
 
     ndir : float between 0 and 360
 
     Raises
     --------
-    AttributeError :
-        If `wind_fmt` is not supported.
+    AttributeError
+        If `wind_fmt` is not a supported string.
     """
     if wind_fmt == "ws_wan":
         return wind
@@ -724,7 +727,7 @@ def _wind_relative_to_north(wind, wind_fmt):
 
 
 def _uvgrid_to_tw(ugrid, vgrid, hdt):
-    """Calculates the true wind speed and wind angle from given grib data"""
+    """Calculates the true wind speed and wind angle from given grib data."""
     tws = np.sqrt(ugrid**2 + vgrid**2)
     wa = (180 + 180 / np.pi * np.arctan2(vgrid, ugrid)) % 360
     twa = (hdt - wa) % 360
@@ -737,7 +740,7 @@ EQUATOR_CIRCUMFERENCE = 40075.017
 
 def _great_earth_ellipsoid_distance(a, b):
     """Calculates the distance on the surface for two points on the
-    earth surface
+    earth surface.
     """
     f = (a[1] + b[1]) / 2
     g = (a[1] - b[1]) / 2
