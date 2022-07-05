@@ -387,7 +387,7 @@ class PolarDiagramTable(PolarDiagram):
 
     def _write_array_format(self, file):
         csv_writer = csv.writer(file, delimiter="\t")
-        csv_writer.writerow([r"TWA \ TWS"] + list(self.wind_speeds))
+        csv_writer.writerow([r"TWA\TWS"] + list(self.wind_speeds))
 
         self._write_rows(csv_writer)
 
