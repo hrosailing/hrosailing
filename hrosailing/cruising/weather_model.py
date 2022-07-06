@@ -8,6 +8,14 @@ import itertools
 from bisect import bisect_left
 from abc import ABC, abstractmethod
 from datetime import timedelta
+#from math import prod
+
+
+def prod(list_):
+    res = 1
+    for l in list_:
+        res *= l
+    return res
 
 from hrosailing.globe_model import SphericalGlobe
 
@@ -72,9 +80,6 @@ class GriddedWeatherModel(WeatherModel):
     attrs : list of length s
         List of different (scalar) attributes of weather
 
-    Abstract Methods
-    ----------------
-    interpolate_weather_data
     """
 
     def __init__(self, data, times, lats, lons, attrs):
@@ -131,90 +136,44 @@ class GriddedWeatherModel(WeatherModel):
             for idx, flag in zip(idxs, flags)
         ]
 
-        cuboid = np.meshgrid(*cuboid)
-        idxs = np.vstack(tuple(map(np.ravel, cuboid))).T
+        cuboid_vals = [
+            [self[dim, idx] for idx in c]
+            for dim, c in enumerate(cuboid)
+        ]
 
-        val = self.interpolate_weather_data(idxs, point, flags)
+        def recursive_affine_interpolation(data, completed=[]):
+            # get first entry which has not been computed yet
+
+            dim = len(completed)
+
+            if dim==len(data): # terminate
+                return self._data[tuple(completed)]
+
+            comp = data[dim]
+
+            if comp in cuboid_vals[dim]:
+                j = cuboid_vals[dim].index(data[dim])
+                return recursive_affine_interpolation(data, completed + [j])
+
+            idx0 = cuboid[dim][0]
+            idx1 = cuboid[dim][1]
+
+            val1 = grid[dim][idx1]
+            val0 = grid[dim][idx0]
+
+            lamb = (comp - val1)/(val0-val1)
+
+            data0 = data[:dim] + [val0] + data[dim+1:]
+            data1 = data[:dim] + [val1] + data[dim+1:]
+
+            term0 = recursive_affine_interpolation(data0, completed + [idx0])
+            term1 = recursive_affine_interpolation(data1, completed + [idx1])
+
+            return lamb*term0 + (1-lamb)*term1
+
+        val = recursive_affine_interpolation(list(point))
+
         return dict(zip(self._attrs, val))
-
-    @abstractmethod
-    def interpolate_weather_data(self, idxs, point, flags):
-        """
-        Method to interpolate the weather data of the model for a point not
-        represented on the grid from reference points.
-
-        Parameter:
-        ---------
-        idxs: sequence of ints,
-            the indices of the reference points
-
-        point: sequence of length 3,
-            contains time, latitude and longitude of the observed point
-
-        flags: sequence of bools of length 3,
-            Boolean values containing the information weather the lattitude
-            of the observed point is supported by the grid, the longitude is
-            supported by the grid and if the time is supported by the grid
-
-        Returns
-        -------
-        val: np.ndarray
-            The interpolated weather data
-        """
-
-
-class FlatWeatherModel(GriddedWeatherModel):
-    """
-    A weather model which organizes weather data in gridded form and
-    approximates the weather by using affine interpolations.
-
-    See also
-    ---------
-    `GriddedWeatherModel`
-    """
-
-    def interpolate_weather_data(self, idxs, point, flags):
-        """
-        Method to interpolate the weather data of the model for a point not
-        represented on the grid from reference points.
-
-        See also
-        --------
-        `GriddedWeatherModel.interpolate_weather_data`
-        """
-        # point is a grid point
-        if len(idxs) == 1:
-            i, j, k = idxs.T
-            return self.data[i, j, k, :]
-
-        # lexicograpic first and last vertex of cube
-        start = idxs[0]
-        end = idxs[-1]
-
-        # interpolate along time edges first
-        if flags[0] and flags[1] and not flags[2]:
-            idxs[[1, 2]] = idxs[[2, 1]]
-
-        face = [i for i, flag in enumerate(flags) if not flag]
-
-        if len(face) == 1:
-            edges = [idxs[0], idxs[1]]
-        else:
-            edges = [0, 1] if len(face) == 2 else [0, 1, 4, 5]
-            edges = [(idxs[i], idxs[i + 2]) for i in edges]
-            flatten = itertools.chain.from_iterable
-            edges = list(flatten(edges))
-
-        interim = [self.data[i, j, k, :] for i, j, k in edges]
-
-        for i in face:
-            mu = (point[i] - self.grid[i][end[i]]) / (
-                self.grid[i][start[i]] - self.grid[i][end[i]]
-            )
-            it = iter(interim)
-            interim = [mu * left + (1 - mu) * right for left, right in zip(it, it)]
-
-        return interim[0]
 
 
 class GlobeWeatherModel(GriddedWeatherModel):
@@ -265,6 +224,7 @@ class GlobeWeatherModel(GriddedWeatherModel):
         ---------
         `GriddedWeatherModel.interpolate_weather_data`
         """
+        #idxs = [[i, j, k] for i in range(len(self._times)) for j in range(len(self._lats)) for k in range(len(self._lons))]
         ref_pts = np.row_stack([
             [
                 self._times[idx[0]],
@@ -288,15 +248,15 @@ class GlobeWeatherModel(GriddedWeatherModel):
             for ref_pt in ref_pts
         ])
 
-        time_distances = [
+        time_distances = np.array([
             abs(ref_pt[0] - point[0])
             for ref_pt in ref_pts
-        ]
+        ])
 
         #If datetime has been used, transform to float value of hours
         time_distances = np.array([
             t.total_seconds()/3600
-            if isinstance(t, timedelta) else time_distances
+            if isinstance(t, timedelta) else t
             for t in time_distances
         ])
 
