@@ -10,6 +10,8 @@ from abc import ABC, abstractmethod
 from datetime import timedelta, datetime
 #from math import prod
 
+import json
+
 
 def prod(list_):
     res = 1
@@ -56,6 +58,7 @@ class WeatherModel(ABC):
             from the model, else it is interpolated as described above
         """
         pass
+
 
 class GriddedWeatherModel(WeatherModel):
     """Models a weather model as a 3-dimensional space-time grid
@@ -206,3 +209,22 @@ class GriddedWeatherModel(WeatherModel):
         data = np.stack(lat_datas, axis=0)
 
         return cls(data, lats, lons, times, keys)
+
+    def to_file(self, path):
+        with open(path, "w") as file:
+            file.write(json.dumps(self, cls=_GriddedWeatherModelEncoder))
+
+    @classmethod
+    def from_file(cls, path):
+        with open(path, "r") as file:
+            cls(*json.loads(file.read()))
+        #return cls(*json.loads(path))
+
+
+class _GriddedWeatherModelEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, GriddedWeatherModel):
+            return [obj._data, obj._times, obj._lats, obj._lons, obj._attrs]
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return super().default(obj)
