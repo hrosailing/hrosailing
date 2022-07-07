@@ -7,7 +7,7 @@ import numpy as np
 import itertools
 from bisect import bisect_left
 from abc import ABC, abstractmethod
-from datetime import timedelta
+from datetime import timedelta, datetime
 #from math import prod
 
 
@@ -56,7 +56,6 @@ class WeatherModel(ABC):
             from the model, else it is interpolated as described above
         """
         pass
-
 
 class GriddedWeatherModel(WeatherModel):
     """Models a weather model as a 3-dimensional space-time grid
@@ -174,3 +173,36 @@ class GriddedWeatherModel(WeatherModel):
         val = recursive_affine_interpolation(list(point))
 
         return dict(zip(self._attrs, val))
+
+    @classmethod
+    def from_meteostat(cls, lats, lons, start_time, end_time, keys):
+        try:
+            import meteostat
+        except ImportError:
+            raise ImportError(
+                f"`meteostat` module needed in order "
+                f"to use `from_meteostat`"
+            )
+
+        # fetch data
+        lat_datas = []
+        for lat in lats:
+            lon_data = []
+            for lon in lons:
+                loc = meteostat.Point(lat, lon, 0)
+                data = meteostat.Hourly(loc, start_time, end_time).fetch()
+                times = data.index.values
+                np_data = data[keys].to_numpy()
+                if np_data.shape[0] == 0:
+                    np_data = []
+                lon_data.append(np_data)
+            max_len = max(len(d) for d in lon_data)
+            lon_data = [
+                np.zeros((max_len, len(keys))) if d == [] else d
+                for d in lon_data
+            ]
+            lat_datas.append(np.stack(lon_data, axis=0))
+
+        data = np.stack(lat_datas, axis=0)
+
+        return cls(data, lats, lons, times, keys)
