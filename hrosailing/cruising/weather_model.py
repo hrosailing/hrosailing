@@ -10,6 +10,8 @@ from abc import ABC, abstractmethod
 from datetime import timedelta, datetime
 #from math import prod
 
+import pandas as pd
+
 import json
 
 
@@ -86,10 +88,10 @@ class GriddedWeatherModel(WeatherModel):
 
     def __init__(self, data, times, lats, lons, attrs):
         self._times = times
-        self._lats = lats
-        self._lons = lons
+        self._lats = np.array(lats)
+        self._lons = np.array(lons)
         self._attrs = attrs
-        self._data = data
+        self._data = np.array(data)
 
     @property
     def grid(self):
@@ -139,7 +141,7 @@ class GriddedWeatherModel(WeatherModel):
         ]
 
         cuboid_vals = [
-            [self[dim, idx] for idx in c]
+            [grid[dim][idx] for idx in c]
             for dim, c in enumerate(cuboid)
         ]
 
@@ -206,9 +208,10 @@ class GriddedWeatherModel(WeatherModel):
             ]
             lat_datas.append(np.stack(lon_data, axis=0))
 
+        times = [pd.to_datetime(t) for t in times]
         data = np.stack(lat_datas, axis=0)
 
-        return cls(data, lats, lons, times, keys)
+        return cls(data, times, lats, lons, keys)
 
     def to_file(self, path):
         with open(path, "w") as file:
@@ -217,7 +220,9 @@ class GriddedWeatherModel(WeatherModel):
     @classmethod
     def from_file(cls, path):
         with open(path, "r") as file:
-            cls(*json.loads(file.read()))
+            data, times, *rest = json.loads(file.read())
+            times = [datetime.strptime(t, "%d.%m.%Y:%X") for t in times]
+            return cls(data, times, *rest)
         #return cls(*json.loads(path))
 
 
@@ -227,4 +232,8 @@ class _GriddedWeatherModelEncoder(json.JSONEncoder):
             return [obj._data, obj._times, obj._lats, obj._lons, obj._attrs]
         if isinstance(obj, np.ndarray):
             return obj.tolist()
-        return super().default(obj)
+        if isinstance(obj, pd.Timestamp):
+            return obj.strftime("%d.%m.%Y:%X")
+        raise TypeError(
+            f"Object of type {type(obj)} is not JSON serializable :("
+        )
