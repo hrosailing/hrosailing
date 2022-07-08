@@ -181,6 +181,36 @@ class GriddedWeatherModel(WeatherModel):
 
     @classmethod
     def from_meteostat(cls, lats, lons, start_time, end_time, keys):
+        """
+        Uses the `meteostat` module to fetch gridded weather data from the web.
+        To use this method, you need to have the module `meteostat` installed
+        and a connection to the internet.
+        The time component of the resulting gridded data will have an hourly
+        resolution.
+
+        Parameter
+        -----------
+
+        lats : list of floats
+            Sorted list of lattitude values of the space-time grid
+
+        lons : list floats
+            Sorted list of longitude values of the space-time grid
+
+        start_time : datetime.datetime
+            Smallest time component of the grid
+
+        end_time : datetime.datetime
+            (Approximately) the biggest time component of the grid
+
+        keys : list of str,
+            meteostat keys to be included in the weather model
+
+        Returns
+        -------
+        wm: `GriddedWeatherModel` as described above
+
+        """
         try:
             import meteostat
         except ImportError:
@@ -214,16 +244,33 @@ class GriddedWeatherModel(WeatherModel):
         return cls(data, times, lats, lons, keys)
 
     def to_file(self, path):
+        """
+        Writes the data of the weather model to a `json` file such that it can
+        be read via `from_file` method.
+
+        Parameter
+        ---------
+        path : path like
+            the path of the written file
+        """
         with open(path, "w") as file:
             file.write(json.dumps(self, cls=_GriddedWeatherModelEncoder))
 
     @classmethod
     def from_file(cls, path):
+        """
+        Reads a gridded weather model from a compatible `json` file
+        (for example those created via the `to_file` method)
+
+        Parameter
+        ---------
+        path : path like
+            The path of the file to be read
+        """
         with open(path, "r") as file:
             data, times, *rest = json.loads(file.read())
             times = [datetime.strptime(t, "%d.%m.%Y:%X") for t in times]
             return cls(data, times, *rest)
-        #return cls(*json.loads(path))
 
 
 class _GriddedWeatherModelEncoder(json.JSONEncoder):
