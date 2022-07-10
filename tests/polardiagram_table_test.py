@@ -431,7 +431,33 @@ class PolarDiagramTableTest(unittest.TestCase):
     def test_plot_3d(self):
         f, ax = plt.subplots(subplot_kw={'projection': '3d'})
         self.pd.plot_3d(ax=ax)
+        # not finished yet
 
     def test_plot_3d_colors(self):
         f, ax = plt.subplots(subplot_kw={'projection': '3d'})
         self.pd.plot_3d(ax=ax, colors=('blue', 'red'))
+        # not finished yet
+
+    def test_plot_color_gradient(self):
+        # not implemented yet
+        pass
+
+    def test_plot_convex_hull(self):
+        # not implemented yet
+        pass
+
+    def test_plot_convex_hull_exception_ws_not_in_self_wind_speeds(self):
+        with self.subTest(i=0):
+            with self.assertRaises(PolarDiagramException):
+                self.pd.plot_convex_hull(ws=3)
+        with self.subTest(i=1):
+            with self.assertRaises(PolarDiagramException):
+                self.pd.plot_convex_hull(ws=[2, 4, 5])
+
+    def test_plot_convex_hull_exception_no_slice_in_interval(self):
+        with self.subTest(i=0):
+            with self.assertRaises(PolarDiagramException):
+                self.pd.plot_convex_hull(ws=(9, 10))
+        with self.subTest(i=1):
+            with self.assertRaises(PolarDiagramException):
+                self.pd.plot_convex_hull(ws=(2, 0))
