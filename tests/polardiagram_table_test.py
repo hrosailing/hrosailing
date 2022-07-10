@@ -439,11 +439,11 @@ class PolarDiagramTableTest(unittest.TestCase):
         # not finished yet
 
     def test_plot_color_gradient(self):
-        # not implemented yet
+        # test not implemented yet
         pass
 
     def test_plot_convex_hull(self):
-        # not implemented yet
+        # test not implemented yet
         pass
 
     def test_plot_convex_hull_exception_ws_not_in_self_wind_speeds(self):
