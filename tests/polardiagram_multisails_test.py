@@ -381,14 +381,14 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 self.mts.plot_flat(ws=(50, 0))
 
     def test_plot_3d(self):
-        # not implemented yet
+        # test not implemented yet
         pass
 
     def test_plot_color_gradient(self):
         pass
 
     def test_plot_convex_hull(self):
-        # not implemented yet
+        # test not implemented yet
         pass
 
     def test_plot_convex_hull_exception_ws_not_in_self_wind_speeds(self):

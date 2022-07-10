@@ -534,7 +534,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
             pd_empty.plot_3d()
 
     def test_plot_color_gradient(self):
-        # not implemented yet
+        # test not implemented yet
         pass
 
     def test_plot_color_gradient_exception_empty_cloud(self):
@@ -543,7 +543,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
             pd_empty.plot_color_gradient()
 
     def test_plot_convex_hull(self):
-        # not implemented yet
+        # test not implemented yet
         pass
 
     def test_plot_convex_hull_exception_single_element_ws(self):
