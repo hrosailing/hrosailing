@@ -169,8 +169,7 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
         np.testing.assert_array_equal(members, 3 * ['Sail 0'] + 3 * ['Sail 1'])
 
     def test_plot_polar(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.mts.plot_polar(ax=ax)
+        self.mts.plot_polar()
         bsps = [[1, 4, 7],
                 [2, 5, 8],
                 [3, 6, 9],
@@ -179,40 +178,37 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 [12, 15, 18]]
         for i in range(5):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, np.deg2rad(self.wind_angles))
                 np.testing.assert_array_equal(y_plot, bsps[i])
 
     def test_plot_polar_single_element_ws(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.mts.plot_polar(ws=42, ax=ax)
+        self.mts.plot_polar(ws=42)
         bsps = [[1, 4, 7],
                 [10, 13, 16]]
         for i in range(2):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, np.deg2rad(self.wind_angles))
                 np.testing.assert_array_equal(y_plot, bsps[i])
 
     def test_plot_polar_interval_ws(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.mts.plot_polar(ws=(40, 45), ax=ax)
+        self.mts.plot_polar(ws=(40, 45))
         bsps = [[1, 4, 7],
                 [2, 5, 8],
                 [10, 13, 16],
                 [11, 14, 17]]
         for i in range(0, 3):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, np.deg2rad(self.wind_angles))
                 np.testing.assert_array_equal(y_plot, bsps[i])
 
     def test_plot_polar_iterable_list_ws(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.mts.plot_polar(ws=[42, 44, 46], ax=ax)
+        self.mts.plot_polar(ws=[42, 44, 46])
         bsps = [[1, 4, 7],
                 [2, 5, 8],
                 [3, 6, 9],
@@ -221,14 +217,13 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 [12, 15, 18]]
         for i in range(5):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, np.deg2rad(self.wind_angles))
                 np.testing.assert_array_equal(y_plot, bsps[i])
 
     def test_plot_polar_iterable_tuple_ws(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.mts.plot_polar(ws=(42, 44, 46), ax=ax)
+        self.mts.plot_polar(ws=(42, 44, 46))
         bsps = [[1, 4, 7],
                 [2, 5, 8],
                 [3, 6, 9],
@@ -237,14 +232,13 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 [12, 15, 18]]
         for i in range(5):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, np.deg2rad(self.wind_angles))
                 np.testing.assert_array_equal(y_plot, bsps[i])
 
     def test_plot_polar_iterable_set_ws(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.mts.plot_polar(ws={42, 44, 46}, ax=ax)
+        self.mts.plot_polar(ws={42, 44, 46})
         bsps = [[1, 4, 7],
                 [2, 5, 8],
                 [3, 6, 9],
@@ -253,8 +247,8 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 [12, 15, 18]]
         for i in range(5):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, np.deg2rad(self.wind_angles))
                 np.testing.assert_array_equal(y_plot, bsps[i])
 
@@ -275,8 +269,7 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 self.mts.plot_polar(ws=(50, 0))
 
     def test_plot_flat(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.mts.plot_flat(ax=ax)
+        self.mts.plot_flat()
         bsps = [[1, 4, 7],
                 [2, 5, 8],
                 [3, 6, 9],
@@ -285,40 +278,37 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 [12, 15, 18]]
         for i in range(5):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, self.wind_angles)
                 np.testing.assert_array_equal(y_plot, bsps[i])
 
     def test_plot_flat_single_element_ws(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.mts.plot_flat(ws=42, ax=ax)
+        self.mts.plot_flat(ws=42)
         bsps = [[1, 4, 7],
                 [10, 13, 16]]
         for i in range(2):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, self.wind_angles)
                 np.testing.assert_array_equal(y_plot, bsps[i])
 
     def test_plot_flat_interval_ws(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.mts.plot_flat(ws=(40, 45), ax=ax)
+        self.mts.plot_flat(ws=(40, 45))
         bsps = [[1, 4, 7],
                 [2, 5, 8],
                 [10, 13, 16],
                 [11, 14, 17]]
         for i in range(0, 3):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, self.wind_angles)
                 np.testing.assert_array_equal(y_plot, bsps[i])
 
     def test_plot_flat_iterable_list_ws(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.mts.plot_flat(ws=[42, 44, 46], ax=ax)
+        self.mts.plot_flat(ws=[42, 44, 46])
         bsps = [[1, 4, 7],
                 [2, 5, 8],
                 [3, 6, 9],
@@ -327,14 +317,13 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 [12, 15, 18]]
         for i in range(5):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, self.wind_angles)
                 np.testing.assert_array_equal(y_plot, bsps[i])
 
     def test_plot_flat_iterable_tuple_ws(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.mts.plot_flat(ws=(42, 44, 46), ax=ax)
+        self.mts.plot_flat(ws=(42, 44, 46))
         bsps = [[1, 4, 7],
                 [2, 5, 8],
                 [3, 6, 9],
@@ -343,14 +332,13 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 [12, 15, 18]]
         for i in range(5):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, self.wind_angles)
                 np.testing.assert_array_equal(y_plot, bsps[i])
 
     def test_plot_flat_iterable_set_ws(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.mts.plot_flat(ws={42, 44, 46}, ax=ax)
+        self.mts.plot_flat(ws={42, 44, 46})
         bsps = [[1, 4, 7],
                 [2, 5, 8],
                 [3, 6, 9],
@@ -359,8 +347,8 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 [12, 15, 18]]
         for i in range(5):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, self.wind_angles)
                 np.testing.assert_array_equal(y_plot, bsps[i])
 
@@ -389,12 +377,11 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
 
     def test_plot_convex_hull(self):
         # not finished yet: wa and bsp not tested
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.mts.plot_convex_hull(ax=ax)
+        self.mts.plot_convex_hull()
         for i in range(5):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
 
     def test_plot_convex_hull_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):
