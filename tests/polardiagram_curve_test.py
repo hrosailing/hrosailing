@@ -162,7 +162,7 @@ class PolarDiagramCurveTest(unittest.TestCase):
                 np.testing.assert_array_equal(x_plot, wa)
                 np.testing.assert_array_equal(y_plot, bsp[i])
 
-    '''def test_plot_polar_iterable_set_ws(self):
+    def test_plot_polar_iterable_set_ws(self):
         self.c.plot_polar(ws={5, 10, 15, 20})
         ws, wa, bsp = self.c.get_slices({5, 10, 15, 20})
         for i in range(4):
@@ -170,7 +170,7 @@ class PolarDiagramCurveTest(unittest.TestCase):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, wa)
-                np.testing.assert_array_equal(y_plot, bsp[i])'''
+                np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_polar_n_steps(self):
         self.c.plot_polar(ws=(10, 20), n_steps=3)
@@ -223,6 +223,16 @@ class PolarDiagramCurveTest(unittest.TestCase):
     def test_plot_flat_iterable_tuple_ws(self):
         self.c.plot_flat(ws=(5, 10, 15, 20))
         ws, wa, bsp = self.c.get_slices((5, 10, 15, 20))
+        for i in range(4):
+            with self.subTest(i=i):
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
+                np.testing.assert_array_equal(x_plot, np.rad2deg(wa))
+                np.testing.assert_array_equal(y_plot, bsp[i])
+
+    def test_plot_flat_iterable_set_ws(self):
+        self.c.plot_flat(ws={5, 10, 15, 20})
+        ws, wa, bsp = self.c.get_slices({5, 10, 15, 20})
         for i in range(4):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
