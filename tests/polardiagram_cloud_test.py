@@ -203,11 +203,11 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         sorted_wind_angles = sorted(np.deg2rad(np.concatenate((self.pc.wind_angles,
                                                                self.pc.wind_angles,
                                                                self.pc.wind_angles))))
-        for i in range(0, 2):
+        for i, elem in enumerate({(4, 8), 2}):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
-                if i == 1:
+                if elem == 2:
                     np.testing.assert_array_equal(x_plot, np.deg2rad(self.pc.wind_angles))
                     np.testing.assert_array_equal(y_plot, self.pc.boat_speeds[0:4])
                 else:
@@ -282,12 +282,12 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         sorted_wind_angles = sorted(np.deg2rad(np.concatenate((pd.wind_angles,
                                                                pd.wind_angles,
                                                                pd.wind_angles))))
-        for i in range(0, 2):
+        for i, elem in enumerate({(14, 20), 8}):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, sorted_wind_angles)
-                if i == 0:
+                if elem == (14, 20):
                     np.testing.assert_array_equal(y_plot, [5.47, 5.81, 5.66, 5.67, 6.17, 5.94, 5.95, 6.86, 6.27, 7.35,
                                                            6.7, 6.49, 7.48, 6.79, 8.76, 7.32, 6.62, 9.74, 8.34, 6.77,
                                                            6.22, 6.22, 5.78, 7.32])
@@ -384,11 +384,11 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         sorted_wind_angles = sorted(np.concatenate((self.pc.wind_angles,
                                                     self.pc.wind_angles,
                                                     self.pc.wind_angles)))
-        for i in range(0, 2):
+        for i, elem in enumerate({(4, 8), 2}):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
-                if i == 1:
+                if elem == 2:
                     np.testing.assert_array_almost_equal(x_plot, self.pc.wind_angles, 10)
                     np.testing.assert_array_equal(y_plot, self.pc.boat_speeds[0:4])
                 else:
@@ -463,12 +463,12 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         sorted_wind_angles = sorted(np.concatenate((pd.wind_angles,
                                                     pd.wind_angles,
                                                     pd.wind_angles)))
-        for i in range(0, 2):
+        for i, elem in enumerate({(14, 20), 8}):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_almost_equal(x_plot, sorted_wind_angles, 10)
-                if i == 0:
+                if elem == (14, 20):
                     np.testing.assert_array_equal(y_plot, [5.47, 5.81, 5.66, 5.67, 6.17, 5.94, 5.95, 6.86, 6.27, 7.35,
                                                            6.7, 6.49, 7.48, 6.79, 8.76, 7.32, 6.62, 9.74, 8.34, 6.77,
                                                            6.22, 6.22, 5.78, 7.32])
