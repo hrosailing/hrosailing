@@ -262,5 +262,11 @@ class PolarDiagramCurveTest(unittest.TestCase):
         pass
 
     def test_plot_convex_hull(self):
-        # test not implemented yet
-        pass
+        # not finished yet: wa and bsp not tested
+        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+        self.c.plot_convex_hull(ax=ax)
+        ws, wa, bsp = self.c.get_slices(None)
+        for i in range(20):
+            with self.subTest(i=i):
+                x_plot = ax.lines[i].get_xdata()
+                y_plot = ax.lines[i].get_ydata()
