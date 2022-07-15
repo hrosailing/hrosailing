@@ -156,3 +156,4 @@ main.py
 *.log*
 polar_diagram.csv
 testdata.csv
+*.json
