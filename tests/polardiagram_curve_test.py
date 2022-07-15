@@ -115,141 +115,128 @@ class PolarDiagramCurveTest(unittest.TestCase):
             )
 
     def test_plot_polar(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.c.plot_polar(ax=ax)
+        self.c.plot_polar()
         ws, wa, bsp = self.c.get_slices(None)
         for i in range(20):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, wa)
                 np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_polar_single_ws(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.c.plot_polar(ws=13, ax=ax)
+        self.c.plot_polar(ws=13)
         ws, wa, bsp = self.c.get_slices(ws=13)
-        x_plot = ax.lines[0].get_xdata()
-        y_plot = ax.lines[0].get_ydata()
+        x_plot = plt.gca().lines[0].get_xdata()
+        y_plot = plt.gca().lines[0].get_ydata()
         np.testing.assert_array_equal(x_plot, wa)
         np.testing.assert_array_equal(y_plot, bsp[0])
 
     def test_plot_polar_interval_ws(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.c.plot_polar(ws=(10, 20), ax=ax)
+        self.c.plot_polar(ws=(10, 20))
         ws, wa, bsp = self.c.get_slices(ws=(10, 20))
         for i in range(10):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, wa)
                 np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_polar_iterable_list_ws(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.c.plot_polar(ws=[5, 10, 15, 20], ax=ax)
+        self.c.plot_polar(ws=[5, 10, 15, 20])
         ws, wa, bsp = self.c.get_slices([5, 10, 15, 20])
         for i in range(4):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, wa)
                 np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_polar_iterable_tuple_ws(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.c.plot_polar(ws=(5, 10, 15, 20), ax=ax)
+        self.c.plot_polar(ws=(5, 10, 15, 20))
         ws, wa, bsp = self.c.get_slices((5, 10, 15, 20))
         for i in range(4):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, wa)
                 np.testing.assert_array_equal(y_plot, bsp[i])
 
     '''def test_plot_polar_iterable_set_ws(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.c.plot_polar(ws={5, 10, 15, 20}, ax=ax)
+        self.c.plot_polar(ws={5, 10, 15, 20})
         ws, wa, bsp = self.c.get_slices({5, 10, 15, 20})
         for i in range(4):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, wa)
                 np.testing.assert_array_equal(y_plot, bsp[i])'''
 
     def test_plot_polar_n_steps(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.c.plot_polar(ws=(10, 20), ax=ax, n_steps=3)
+        self.c.plot_polar(ws=(10, 20), n_steps=3)
         ws, wa, bsp = self.c.get_slices(ws=(10, 20), n_steps=3)
         for i in range(3):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, wa)
                 np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_flat(self):
-        f, ax = plt.subplots()
-        self.c.plot_flat(ax=ax)
+        self.c.plot_flat()
         ws, wa, bsp = self.c.get_slices(None)
         for i in range(20):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, np.rad2deg(wa))
                 np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_flat_single_ws(self):
-        f, ax = plt.subplots()
-        self.c.plot_flat(ws=13, ax=ax)
+        self.c.plot_flat(ws=13)
         ws, wa, bsp = self.c.get_slices(ws=13)
-        x_plot = ax.lines[0].get_xdata()
-        y_plot = ax.lines[0].get_ydata()
+        x_plot = plt.gca().lines[0].get_xdata()
+        y_plot = plt.gca().lines[0].get_ydata()
         np.testing.assert_array_equal(x_plot, np.rad2deg(wa))
         np.testing.assert_array_equal(y_plot, bsp[0])
 
     def test_plot_flat_interval_ws(self):
-        f, ax = plt.subplots()
-        self.c.plot_flat(ws=(10, 20), ax=ax)
+        self.c.plot_flat(ws=(10, 20))
         ws, wa, bsp = self.c.get_slices(ws=(10, 20))
         for i in range(10):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, np.rad2deg(wa))
                 np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_flat_iterable_list_ws(self):
-        f, ax = plt.subplots()
-        self.c.plot_flat(ws=[5, 10, 15, 20], ax=ax)
+        self.c.plot_flat(ws=[5, 10, 15, 20])
         ws, wa, bsp = self.c.get_slices([5, 10, 15, 20])
         for i in range(4):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, np.rad2deg(wa))
                 np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_flat_iterable_tuple_ws(self):
-        f, ax = plt.subplots()
-        self.c.plot_flat(ws=(5, 10, 15, 20), ax=ax)
+        self.c.plot_flat(ws=(5, 10, 15, 20))
         ws, wa, bsp = self.c.get_slices((5, 10, 15, 20))
         for i in range(4):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, np.rad2deg(wa))
                 np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_flat_n_steps(self):
-        f, ax = plt.subplots()
-        self.c.plot_flat(ws=(10, 20), ax=ax, n_steps=3)
+        self.c.plot_flat(ws=(10, 20), n_steps=3)
         ws, wa, bsp = self.c.get_slices(ws=(10, 20), n_steps=3)
         for i in range(3):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, np.rad2deg(wa))
                 np.testing.assert_array_equal(y_plot, bsp[i])
 
@@ -263,10 +250,9 @@ class PolarDiagramCurveTest(unittest.TestCase):
 
     def test_plot_convex_hull(self):
         # not finished yet: wa and bsp not tested
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.c.plot_convex_hull(ax=ax)
+        self.c.plot_convex_hull()
         ws, wa, bsp = self.c.get_slices(None)
         for i in range(20):
             with self.subTest(i=i):
-                x_plot = ax.lines[i].get_xdata()
-                y_plot = ax.lines[i].get_ydata()
+                x_plot = plt.gca().lines[i].get_xdata()
+                y_plot = plt.gca().lines[i].get_ydata()
