@@ -131,8 +131,8 @@ def _determine_color_gradient(colors, gradient):
 
 
 def _get_gradient_coefficients(gradient):
-    min_gradient = np.min(gradient)
-    max_gradient = np.max(gradient)
+    min_gradient = min(gradient)
+    max_gradient = max(gradient)
 
     return [
         (grad - min_gradient) / (max_gradient - min_gradient)
