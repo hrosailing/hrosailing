@@ -388,8 +388,13 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
         pass
 
     def test_plot_convex_hull(self):
-        # test not implemented yet
-        pass
+        # not finished yet: wa and bsp not tested
+        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+        self.mts.plot_convex_hull(ax=ax)
+        for i in range(5):
+            with self.subTest(i=i):
+                x_plot = ax.lines[i].get_xdata()
+                y_plot = ax.lines[i].get_ydata()
 
     def test_plot_convex_hull_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):
