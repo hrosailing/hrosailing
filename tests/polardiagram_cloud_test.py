@@ -200,105 +200,80 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
 
     def test_plot_polar(self):
         self.pc.plot_polar()
-        k = 0
-        for i in range(0, 4):
+        ws, wa, bsp = self.pc.get_slices(None)
+        for i in range(4):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, np.deg2rad(self.pc.wind_angles))
-                np.testing.assert_array_equal(y_plot, self.pc.boat_speeds[k:k+4])
-                k = k+4
+                np.testing.assert_array_equal(x_plot, wa[i])
+                np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_polar_single_element_ws(self):
         self.pc.plot_polar(ws=4)
+        ws, wa, bsp = self.pc.get_slices(ws=4)
         x_plot = plt.gca().lines[0].get_xdata()
         y_plot = plt.gca().lines[0].get_ydata()
-        np.testing.assert_array_equal(x_plot, np.deg2rad(self.pc.wind_angles))
-        np.testing.assert_array_equal(y_plot, self.pc.boat_speeds[4:8])
+        np.testing.assert_array_equal(x_plot, np.asarray(wa).flat)
+        np.testing.assert_array_equal(y_plot, np.asarray(bsp).flat)
 
     def test_plot_polar_interval_ws(self):
         self.pc.plot_polar(ws=(4, 8))
-        k = 4
-        for i in range(0, 4):
+        ws, wa, bsp = self.pc.get_slices(ws=(4, 8))
+        for i in range(4):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, np.deg2rad(self.pc.wind_angles))
-                np.testing.assert_array_equal(y_plot, self.pc.boat_speeds[k:k + 4])
-                if i == 1:
-                    k = 8
-                else:
-                    k = k + 4
+                np.testing.assert_array_equal(x_plot, wa[i])
+                np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_polar_mixed_list_ws(self):
         self.pc.plot_polar(ws=[(4, 8), 2])
-        sorted_wind_angles = sorted(np.deg2rad(np.concatenate((self.pc.wind_angles,
-                                                               self.pc.wind_angles,
-                                                               self.pc.wind_angles))))
-        for i in range(0, 2):
+        ws, wa, bsp = self.pc.get_slices(ws=[(4, 8), 2])
+        for i in range(2):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
-                if i == 1:
-                    np.testing.assert_array_equal(x_plot, np.deg2rad(self.pc.wind_angles))
-                    np.testing.assert_array_equal(y_plot, self.pc.boat_speeds[0:4])
-                else:
-                    np.testing.assert_array_equal(x_plot, sorted_wind_angles)
-                    np.testing.assert_array_equal(y_plot, [2, 3, 4, 2.4, 3.1, 4.1, 2.6, 3.5, 4.4, 3, 3.8, 4.6])
+                np.testing.assert_array_equal(x_plot, wa[i])
+                np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_polar_mixed_tuple_ws(self):
         self.pc.plot_polar(ws=((4, 8), 2))
-        sorted_wind_angles = sorted(np.deg2rad(np.concatenate((self.pc.wind_angles,
-                                                               self.pc.wind_angles,
-                                                               self.pc.wind_angles))))
-        for i in range(0, 2):
+        ws, wa, bsp = self.pc.get_slices(ws=((4, 8), 2))
+        for i in range(2):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
-                if i == 1:
-                    np.testing.assert_array_equal(x_plot, np.deg2rad(self.pc.wind_angles))
-                    np.testing.assert_array_equal(y_plot, self.pc.boat_speeds[0:4])
-                else:
-                    np.testing.assert_array_equal(x_plot, sorted_wind_angles)
-                    np.testing.assert_array_equal(y_plot, [2, 3, 4, 2.4, 3.1, 4.1, 2.6, 3.5, 4.4, 3, 3.8, 4.6])
+                np.testing.assert_array_equal(x_plot, wa[i])
+                np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_polar_mixed_set_ws(self):
         self.pc.plot_polar(ws={(4, 8), 2})
-        sorted_wind_angles = sorted(np.deg2rad(np.concatenate((self.pc.wind_angles,
-                                                               self.pc.wind_angles,
-                                                               self.pc.wind_angles))))
-        for i, elem in enumerate({(4, 8), 2}):
+        ws, wa, bsp = self.pc.get_slices(ws={(4, 8), 2})
+        for i in range(2):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
-                if elem == 2:
-                    np.testing.assert_array_equal(x_plot, np.deg2rad(self.pc.wind_angles))
-                    np.testing.assert_array_equal(y_plot, self.pc.boat_speeds[0:4])
-                else:
-                    np.testing.assert_array_equal(x_plot, sorted_wind_angles)
-                    np.testing.assert_array_equal(y_plot, [2, 3, 4, 2.4, 3.1, 4.1, 2.6, 3.5, 4.4, 3, 3.8, 4.6])
+                np.testing.assert_array_equal(x_plot, wa[i])
+                np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_polar_n_steps(self):
         self.pc.plot_polar(ws=(4, 8), n_steps=3)
         # test for ws still missing
-        k = 4
-        for i in range(0, 3):
+        ws, wa, bsp = self.pc.get_slices(ws=(4, 8), n_steps=3)
+        for i in range(3):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, np.deg2rad(self.pc.wind_angles))
-                np.testing.assert_array_equal(y_plot, self.pc.boat_speeds[k:k+4])
-                k = k+4
+                np.testing.assert_array_equal(x_plot, wa[i])
+                np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_polar_range_single_ws(self):
         self.pc.plot_polar(ws=4, range_=2)
-        sorted_wind_angles = sorted(np.deg2rad(np.concatenate((self.pc.wind_angles,
-                                                               self.pc.wind_angles,
-                                                               self.pc.wind_angles))))
+        ws, wa, bsp = self.pc.get_slices(ws=4, range_=2)
         x_plot = plt.gca().lines[0].get_xdata()
         y_plot = plt.gca().lines[0].get_ydata()
-        np.testing.assert_array_equal(x_plot, sorted_wind_angles)
-        np.testing.assert_array_equal(y_plot, [1.1, 2, 3, 1.5, 2.4, 3.1, 1.7, 2.6, 3.5, 2.1, 3, 3.8])
+        np.testing.assert_array_equal(x_plot, np.asarray(wa).flat)
+        np.testing.assert_array_equal(y_plot, np.asarray(bsp).flat)
 
     def test_plot_polar_big_range_(self):
         self.pc.plot_polar(ws=4, range_=100)
@@ -314,62 +289,35 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
     def test_plot_polar_range_mixed_list(self):
         pd = self.big_pc
         pd.plot_polar(ws=[(14, 20), 8], range_=2)
-        sorted_wind_angles = sorted(np.deg2rad(np.concatenate((pd.wind_angles,
-                                                               pd.wind_angles,
-                                                               pd.wind_angles))))
-        for i in range(0, 2):
+        ws, wa, bsp = pd.get_slices(ws=[(14, 20), 8], range_=2)
+        for i in range(2):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, sorted_wind_angles)
-                if i == 0:
-                    np.testing.assert_array_equal(y_plot, [5.47, 5.81, 5.66, 5.67, 6.17, 5.94, 5.95, 6.86, 6.27, 7.35,
-                                                           6.7, 6.49, 7.48, 6.79, 8.76, 7.32, 6.62, 9.74, 8.34, 6.77,
-                                                           6.22, 6.22, 5.78, 7.32])
-                else:
-                    np.testing.assert_array_equal(y_plot, [3.74, 4.96, 4.48, 3.98, 5.18, 4.73, 4.16, 5.35, 4.93, 5.64,
-                                                           5.19, 4.35, 5.22, 4.39, 5.68, 5.11, 4.23, 5.58, 5.33, 4.64,
-                                                           3.72, 4.1, 3.21, 4.87])
+                np.testing.assert_array_equal(x_plot, wa[i])
+                np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_polar_range_mixed_tuple(self):
         pd = self.big_pc
         pd.plot_polar(ws=((14, 20), 8), range_=2)
-        sorted_wind_angles = sorted(np.deg2rad(np.concatenate((pd.wind_angles,
-                                                               pd.wind_angles,
-                                                               pd.wind_angles))))
-        for i in range(0, 2):
+        ws, wa, bsp = pd.get_slices(ws=((14, 20), 8), range_=2)
+        for i in range(2):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, sorted_wind_angles)
-                if i == 0:
-                    np.testing.assert_array_equal(y_plot, [5.47, 5.81, 5.66, 5.67, 6.17, 5.94, 5.95, 6.86, 6.27, 7.35,
-                                                           6.7, 6.49, 7.48, 6.79, 8.76, 7.32, 6.62, 9.74, 8.34, 6.77,
-                                                           6.22, 6.22, 5.78, 7.32])
-                else:
-                    np.testing.assert_array_equal(y_plot, [3.74, 4.96, 4.48, 3.98, 5.18, 4.73, 4.16, 5.35, 4.93, 5.64,
-                                                           5.19, 4.35, 5.22, 4.39, 5.68, 5.11, 4.23, 5.58, 5.33, 4.64,
-                                                           3.72, 4.1, 3.21, 4.87])
+                np.testing.assert_array_equal(x_plot, wa[i])
+                np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_polar_range_mixed_set(self):
         pd = self.big_pc
         pd.plot_polar(ws={(14, 20), 8}, range_=2)
-        sorted_wind_angles = sorted(np.deg2rad(np.concatenate((pd.wind_angles,
-                                                               pd.wind_angles,
-                                                               pd.wind_angles))))
-        for i, elem in enumerate({(14, 20), 8}):
+        ws, wa, bsp = pd.get_slices(ws={(14, 20), 8}, range_=2)
+        for i in range(2):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, sorted_wind_angles)
-                if elem == (14, 20):
-                    np.testing.assert_array_equal(y_plot, [5.47, 5.81, 5.66, 5.67, 6.17, 5.94, 5.95, 6.86, 6.27, 7.35,
-                                                           6.7, 6.49, 7.48, 6.79, 8.76, 7.32, 6.62, 9.74, 8.34, 6.77,
-                                                           6.22, 6.22, 5.78, 7.32])
-                else:
-                    np.testing.assert_array_equal(y_plot, [3.74, 4.96, 4.48, 3.98, 5.18, 4.73, 4.16, 5.35, 4.93, 5.64,
-                                                           5.19, 4.35, 5.22, 4.39, 5.68, 5.11, 4.23, 5.58, 5.33, 4.64,
-                                                           3.72, 4.1, 3.21, 4.87])
+                np.testing.assert_array_equal(x_plot, wa[i])
+                np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_polar_exception_single_element_ws(self):
         with self.assertRaises(PolarDiagramException):
@@ -392,176 +340,121 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
 
     def test_plot_flat(self):
         self.pc.plot_flat()
-        k = 0
-        for i in range(0, len(self.pc.wind_speeds)):
+        ws, wa, bsp = self.pc.get_slices(None)
+        for i in range(len(self.pc.wind_speeds)):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_almost_equal(x_plot, self.pc.wind_angles, 10)
-                np.testing.assert_array_equal(y_plot, self.pc.boat_speeds[k:k + 4])
-                k = k + 4
+                np.testing.assert_array_equal(x_plot, np.rad2deg(wa[i]))
+                np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_flat_single_element_ws(self):
         self.pc.plot_flat(ws=4)
+        ws, wa, bsp = self.pc.get_slices(ws=4)
         x_plot = plt.gca().lines[0].get_xdata()
         y_plot = plt.gca().lines[0].get_ydata()
-        np.testing.assert_array_almost_equal(x_plot, self.pc.wind_angles, 10)
-        np.testing.assert_array_equal(y_plot, self.pc.boat_speeds[4:8])
+        np.testing.assert_array_equal(x_plot, np.rad2deg(np.asarray(wa).flat))
+        np.testing.assert_array_equal(y_plot, np.asarray(bsp).flat)
 
     def test_plot_flat_interval_ws(self):
         self.pc.plot_flat(ws=(4, 8))
-        k = 4
-        for i in range(0, 4):
+        ws, wa, bsp = self.pc.get_slices(ws=(4, 8))
+        for i in range(4):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_almost_equal(x_plot, self.pc.wind_angles, 10)
-                np.testing.assert_array_equal(y_plot, self.pc.boat_speeds[k:k + 4])
-                if i == 1:
-                    k = 8
-                else:
-                    k = k + 4
+                np.testing.assert_array_equal(x_plot, np.rad2deg(wa[i]))
+                np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_flat_mixed_list_ws(self):
         self.pc.plot_flat(ws=[(4, 8), 2])
-        sorted_wind_angles = sorted(np.concatenate((self.pc.wind_angles,
-                                                    self.pc.wind_angles,
-                                                    self.pc.wind_angles)))
-        for i in range(0, 2):
+        ws, wa, bsp = self.pc.get_slices(ws=[(4, 8), 2])
+        for i in range(2):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
-                if i == 1:
-                    np.testing.assert_array_almost_equal(x_plot, self.pc.wind_angles, 10)
-                    np.testing.assert_array_equal(y_plot, self.pc.boat_speeds[0:4])
-                else:
-                    np.testing.assert_array_almost_equal(x_plot, sorted_wind_angles, 10)
-                    np.testing.assert_array_equal(y_plot, [2, 3, 4, 2.4, 3.1, 4.1, 2.6, 3.5, 4.4, 3, 3.8, 4.6])
+                np.testing.assert_array_equal(x_plot, np.rad2deg(wa[i]))
+                np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_flat_mixed_tuple_ws(self):
         self.pc.plot_flat(ws=((4, 8), 2))
-        sorted_wind_angles = sorted(np.concatenate((self.pc.wind_angles,
-                                                    self.pc.wind_angles,
-                                                    self.pc.wind_angles)))
-        for i in range(0, 2):
+        ws, wa, bsp = self.pc.get_slices(ws=((4, 8), 2))
+        for i in range(2):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
-                if i == 1:
-                    np.testing.assert_array_almost_equal(x_plot, self.pc.wind_angles, 10)
-                    np.testing.assert_array_equal(y_plot, self.pc.boat_speeds[0:4])
-                else:
-                    np.testing.assert_array_almost_equal(x_plot, sorted_wind_angles, 10)
-                    np.testing.assert_array_equal(y_plot, [2, 3, 4, 2.4, 3.1, 4.1, 2.6, 3.5, 4.4, 3, 3.8, 4.6])
+                np.testing.assert_array_equal(x_plot, np.rad2deg(wa[i]))
+                np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_flat_mixed_set_ws(self):
         self.pc.plot_flat(ws={(4, 8), 2})
-        sorted_wind_angles = sorted(np.concatenate((self.pc.wind_angles,
-                                                    self.pc.wind_angles,
-                                                    self.pc.wind_angles)))
-        for i, elem in enumerate({(4, 8), 2}):
+        ws, wa, bsp = self.pc.get_slices(ws={(4, 8), 2})
+        for i in range(2):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
-                if elem == 2:
-                    np.testing.assert_array_almost_equal(x_plot, self.pc.wind_angles, 10)
-                    np.testing.assert_array_equal(y_plot, self.pc.boat_speeds[0:4])
-                else:
-                    np.testing.assert_array_almost_equal(x_plot, sorted_wind_angles, 10)
-                    np.testing.assert_array_equal(y_plot, [2, 3, 4, 2.4, 3.1, 4.1, 2.6, 3.5, 4.4, 3, 3.8, 4.6])
+                np.testing.assert_array_equal(x_plot, np.rad2deg(wa[i]))
+                np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_flat_n_steps(self):
         self.pc.plot_flat(ws=(4, 8), n_steps=3)
         # test for ws still missing
-        k = 4
-        for i in range(0, 3):
+        ws, wa, bsp = self.pc.get_slices(ws=(4, 8), n_steps=3)
+        for i in range(3):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_almost_equal(x_plot, self.pc.wind_angles, 10)
-                np.testing.assert_array_equal(y_plot, self.pc.boat_speeds[k:k+4])
-                k = k+4
+                np.testing.assert_array_equal(x_plot, np.rad2deg(wa[i]))
+                np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_flat_range_single_ws(self):
         self.pc.plot_flat(ws=4, range_=2)
-        sorted_wind_angles = sorted(np.concatenate((self.pc.wind_angles,
-                                                    self.pc.wind_angles,
-                                                    self.pc.wind_angles)))
+        ws, wa, bsp = self.pc.get_slices(ws=4, range_=2)
         x_plot = plt.gca().lines[0].get_xdata()
         y_plot = plt.gca().lines[0].get_ydata()
-        np.testing.assert_array_almost_equal(x_plot, sorted_wind_angles, 10)
-        np.testing.assert_array_equal(y_plot, [1.1, 2, 3, 1.5, 2.4, 3.1, 1.7, 2.6, 3.5, 2.1, 3, 3.8])
+        np.testing.assert_array_equal(x_plot, np.rad2deg(np.asarray(wa).flat))
+        np.testing.assert_array_equal(y_plot, np.asarray(bsp).flat)
 
     def test_plot_flat_big_range_(self):
-        self.pc.plot_polar(ws=4, range_=100)
-        sorted_wind_angles = sorted(np.deg2rad(np.concatenate((self.pc.wind_angles,
-                                                               self.pc.wind_angles,
-                                                               self.pc.wind_angles,
-                                                               self.pc.wind_angles))))
+        self.pc.plot_flat(ws=4, range_=100)
+        ws, wa, bsp = self.pc.get_slices(ws=4, range_=100)
         x_plot = plt.gca().lines[0].get_xdata()
         y_plot = plt.gca().lines[0].get_ydata()
-        np.testing.assert_array_equal(x_plot, sorted_wind_angles)
-        np.testing.assert_array_equal(y_plot, [1.1, 2, 3, 4, 1.5, 2.4, 3.1, 4.1, 1.7, 2.6, 3.5, 4.4, 2.1, 3, 3.8, 4.6])
+        np.testing.assert_array_equal(x_plot, np.rad2deg(np.asarray(wa).flat))
+        np.testing.assert_array_equal(y_plot, np.asarray(bsp).flat)
 
     def test_plot_flat_range_mixed_list(self):
         pd = self.big_pc
         pd.plot_flat(ws=[(14, 20), 8], range_=2)
-        sorted_wind_angles = sorted(np.concatenate((pd.wind_angles,
-                                                    pd.wind_angles,
-                                                    pd.wind_angles)))
-        for i in range(0, 2):
+        ws, wa, bsp = pd.get_slices(ws=[(14, 20), 8], range_=2)
+        for i in range(2):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_almost_equal(x_plot, sorted_wind_angles, 10)
-                if i == 0:
-                    np.testing.assert_array_equal(y_plot, [5.47, 5.81, 5.66, 5.67, 6.17, 5.94, 5.95, 6.86, 6.27, 7.35,
-                                                           6.7, 6.49, 7.48, 6.79, 8.76, 7.32, 6.62, 9.74, 8.34, 6.77,
-                                                           6.22, 6.22, 5.78, 7.32])
-                else:
-                    np.testing.assert_array_equal(y_plot, [3.74, 4.96, 4.48, 3.98, 5.18, 4.73, 4.16, 5.35, 4.93, 5.64,
-                                                           5.19, 4.35, 5.22, 4.39, 5.68, 5.11, 4.23, 5.58, 5.33, 4.64,
-                                                           3.72, 4.1, 3.21, 4.87])
+                np.testing.assert_array_equal(x_plot, np.rad2deg(wa[i]))
+                np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_flat_range_mixed_tuple(self):
         pd = self.big_pc
         pd.plot_flat(ws=((14, 20), 8), range_=2)
-        sorted_wind_angles = sorted(np.concatenate((pd.wind_angles,
-                                                    pd.wind_angles,
-                                                    pd.wind_angles)))
-        for i in range(0, 2):
+        ws, wa, bsp = pd.get_slices(ws=((14, 20), 8), range_=2)
+        for i in range(2):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_almost_equal(x_plot, sorted_wind_angles, 10)
-                if i == 0:
-                    np.testing.assert_array_equal(y_plot, [5.47, 5.81, 5.66, 5.67, 6.17, 5.94, 5.95, 6.86, 6.27, 7.35,
-                                                           6.7, 6.49, 7.48, 6.79, 8.76, 7.32, 6.62, 9.74, 8.34, 6.77,
-                                                           6.22, 6.22, 5.78, 7.32])
-                else:
-                    np.testing.assert_array_equal(y_plot, [3.74, 4.96, 4.48, 3.98, 5.18, 4.73, 4.16, 5.35, 4.93, 5.64,
-                                                           5.19, 4.35, 5.22, 4.39, 5.68, 5.11, 4.23, 5.58, 5.33, 4.64,
-                                                           3.72, 4.1, 3.21, 4.87])
+                np.testing.assert_array_equal(x_plot, np.rad2deg(wa[i]))
+                np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_flat_range_mixed_set(self):
         pd = self.big_pc
         pd.plot_flat(ws={(14, 20), 8}, range_=2)
-        sorted_wind_angles = sorted(np.concatenate((pd.wind_angles,
-                                                    pd.wind_angles,
-                                                    pd.wind_angles)))
-        for i, elem in enumerate({(14, 20), 8}):
+        ws, wa, bsp = pd.get_slices(ws={(14, 20), 8}, range_=2)
+        for i in range(2):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_almost_equal(x_plot, sorted_wind_angles, 10)
-                if elem == (14, 20):
-                    np.testing.assert_array_equal(y_plot, [5.47, 5.81, 5.66, 5.67, 6.17, 5.94, 5.95, 6.86, 6.27, 7.35,
-                                                           6.7, 6.49, 7.48, 6.79, 8.76, 7.32, 6.62, 9.74, 8.34, 6.77,
-                                                           6.22, 6.22, 5.78, 7.32])
-                else:
-                    np.testing.assert_array_equal(y_plot, [3.74, 4.96, 4.48, 3.98, 5.18, 4.73, 4.16, 5.35, 4.93, 5.64,
-                                                           5.19, 4.35, 5.22, 4.39, 5.68, 5.11, 4.23, 5.58, 5.33, 4.64,
-                                                           3.72, 4.1, 3.21, 4.87])
+                np.testing.assert_array_equal(x_plot, np.rad2deg(wa[i]))
+                np.testing.assert_array_equal(y_plot, bsp[i])
 
     def test_plot_flat_exception_single_element_ws(self):
         with self.assertRaises(PolarDiagramException):
@@ -607,7 +500,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
     def test_plot_convex_hull(self):
         # not finished yet: wa and bsp not tested
         self.pc.plot_convex_hull()
-        for i in range(0, 4):
+        for i in range(4):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
