@@ -39,6 +39,70 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         )
         self.pc = pol.PolarDiagramPointcloud(self.points)
 
+        #example for a bigger pointcloud:
+        self.points_big_pc = np.array(
+            [
+                [6,52,3.74],
+                [6,60,3.98],
+                [6,75,4.16],
+                [6,90,4.35],
+                [6,110,4.39],
+                [6,120,4.23],
+                [6,135,3.72],
+                [6,150,3.21],
+                [8,52,4.48],
+                [8,60,4.73],
+                [8,75,4.93],
+                [8,90,5.19],
+                [8,110,5.22],
+                [8,120,5.11],
+                [8,135,4.64],
+                [8,150,4.1],
+                [10,52,4.96],
+                [10,60,5.18],
+                [10,75,5.35],
+                [10,90,5.64],
+                [10,110,5.68],
+                [10,120,5.58],
+                [10,135,5.33],
+                [10,150,4.87],
+                [12,52,5.27],
+                [12,60,5.44],
+                [12,75,5.66],
+                [12,90,6.09],
+                [12,110,6.19],
+                [12,120,6.06],
+                [12,135,5.74],
+                [12,150,5.4],
+                [14,52,5.47],
+                [14,60,5.67],
+                [14,75,5.95],
+                [14,90,6.49],
+                [14,110,6.79],
+                [14,120,6.62],
+                [14,135,6.22],
+                [14,150,5.78],
+                [16,52,5.66],
+                [16,60,5.94],
+                [16,75,6.27],
+                [16,90,6.7],
+                [16,110,7.48],
+                [16,120,7.32],
+                [16,135,6.77],
+                [16,150,6.22],
+                [20,52,5.81],
+                [20,60,6.17],
+                [20,75,6.86],
+                [20,90,7.35],
+                [20,110,8.76],
+                [20,120,9.74],
+                [20,135,8.34],
+                [20,150,7.32]
+            ]
+        )
+
+        self.big_pc = pol.PolarDiagramPointcloud(self.points_big_pc)
+
     def test_init(self):
         np.testing.assert_array_equal(self.pc.points, self.points)
 
@@ -237,7 +301,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         np.testing.assert_array_equal(y_plot, [1.1, 2, 3, 1.5, 2.4, 3.1, 1.7, 2.6, 3.5, 2.1, 3, 3.8])
 
     def test_plot_polar_range_mixed_list(self):
-        pd = pol.from_csv("../examples/csv-format-examples/cloud_hro_format_example.csv")
+        pd = self.big_pc
         pd.plot_polar(ws=[(14, 20), 8], range_=2)
         sorted_wind_angles = sorted(np.deg2rad(np.concatenate((pd.wind_angles,
                                                                pd.wind_angles,
@@ -257,7 +321,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
                                                            3.72, 4.1, 3.21, 4.87])
 
     def test_plot_polar_range_mixed_tuple(self):
-        pd = pol.from_csv("../examples/csv-format-examples/cloud_hro_format_example.csv")
+        pd = self.big_pc
         pd.plot_polar(ws=((14, 20), 8), range_=2)
         sorted_wind_angles = sorted(np.deg2rad(np.concatenate((pd.wind_angles,
                                                                pd.wind_angles,
@@ -277,7 +341,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
                                                            3.72, 4.1, 3.21, 4.87])
 
     def test_plot_polar_range_mixed_set(self):
-        pd = pol.from_csv("../examples/csv-format-examples/cloud_hro_format_example.csv")
+        pd = self.big_pc
         pd.plot_polar(ws={(14, 20), 8}, range_=2)
         sorted_wind_angles = sorted(np.deg2rad(np.concatenate((pd.wind_angles,
                                                                pd.wind_angles,
@@ -418,7 +482,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         np.testing.assert_array_equal(y_plot, [1.1, 2, 3, 1.5, 2.4, 3.1, 1.7, 2.6, 3.5, 2.1, 3, 3.8])
 
     def test_plot_flat_range_mixed_list(self):
-        pd = pol.from_csv("../examples/csv-format-examples/cloud_hro_format_example.csv")
+        pd = self.big_pc
         pd.plot_flat(ws=[(14, 20), 8], range_=2)
         sorted_wind_angles = sorted(np.concatenate((pd.wind_angles,
                                                     pd.wind_angles,
@@ -438,7 +502,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
                                                            3.72, 4.1, 3.21, 4.87])
 
     def test_plot_flat_range_mixed_tuple(self):
-        pd = pol.from_csv("../examples/csv-format-examples/cloud_hro_format_example.csv")
+        pd = self.big_pc
         pd.plot_flat(ws=((14, 20), 8), range_=2)
         sorted_wind_angles = sorted(np.concatenate((pd.wind_angles,
                                                     pd.wind_angles,
@@ -458,7 +522,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
                                                            3.72, 4.1, 3.21, 4.87])
 
     def test_plot_flat_range_mixed_set(self):
-        pd = pol.from_csv("../examples/csv-format-examples/cloud_hro_format_example.csv")
+        pd = self.big_pc
         pd.plot_flat(ws={(14, 20), 8}, range_=2)
         sorted_wind_angles = sorted(np.concatenate((pd.wind_angles,
                                                     pd.wind_angles,
