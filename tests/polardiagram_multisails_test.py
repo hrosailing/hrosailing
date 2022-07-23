@@ -176,7 +176,7 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 [10, 13, 16],
                 [11, 14, 17],
                 [12, 15, 18]]
-        for i in range(5):
+        for i in range(6):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
@@ -200,7 +200,7 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 [2, 5, 8],
                 [10, 13, 16],
                 [11, 14, 17]]
-        for i in range(0, 3):
+        for i in range(4):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
@@ -215,7 +215,7 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 [10, 13, 16],
                 [11, 14, 17],
                 [12, 15, 18]]
-        for i in range(5):
+        for i in range(6):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
@@ -230,7 +230,7 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 [10, 13, 16],
                 [11, 14, 17],
                 [12, 15, 18]]
-        for i in range(5):
+        for i in range(6):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
@@ -245,7 +245,7 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 [10, 13, 16],
                 [11, 14, 17],
                 [12, 15, 18]]
-        for i in range(5):
+        for i in range(6):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
@@ -276,7 +276,7 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 [10, 13, 16],
                 [11, 14, 17],
                 [12, 15, 18]]
-        for i in range(5):
+        for i in range(6):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
@@ -300,7 +300,7 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 [2, 5, 8],
                 [10, 13, 16],
                 [11, 14, 17]]
-        for i in range(0, 3):
+        for i in range(4):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
@@ -315,7 +315,7 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 [10, 13, 16],
                 [11, 14, 17],
                 [12, 15, 18]]
-        for i in range(5):
+        for i in range(6):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
@@ -330,7 +330,7 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 [10, 13, 16],
                 [11, 14, 17],
                 [12, 15, 18]]
-        for i in range(5):
+        for i in range(6):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
@@ -345,7 +345,7 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 [10, 13, 16],
                 [11, 14, 17],
                 [12, 15, 18]]
-        for i in range(5):
+        for i in range(6):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
@@ -378,7 +378,7 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
     def test_plot_convex_hull(self):
         # not finished yet: wa and bsp not tested
         self.mts.plot_convex_hull()
-        for i in range(5):
+        for i in range(6):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
