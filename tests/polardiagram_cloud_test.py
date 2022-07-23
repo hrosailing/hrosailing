@@ -492,6 +492,17 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         np.testing.assert_array_almost_equal(x_plot, sorted_wind_angles, 10)
         np.testing.assert_array_equal(y_plot, [1.1, 2, 3, 1.5, 2.4, 3.1, 1.7, 2.6, 3.5, 2.1, 3, 3.8])
 
+    def test_plot_flat_big_range_(self):
+        self.pc.plot_polar(ws=4, range_=100)
+        sorted_wind_angles = sorted(np.deg2rad(np.concatenate((self.pc.wind_angles,
+                                                               self.pc.wind_angles,
+                                                               self.pc.wind_angles,
+                                                               self.pc.wind_angles))))
+        x_plot = plt.gca().lines[0].get_xdata()
+        y_plot = plt.gca().lines[0].get_ydata()
+        np.testing.assert_array_equal(x_plot, sorted_wind_angles)
+        np.testing.assert_array_equal(y_plot, [1.1, 2, 3, 4, 1.5, 2.4, 3.1, 4.1, 1.7, 2.6, 3.5, 4.4, 2.1, 3, 3.8, 4.6])
+
     def test_plot_flat_range_mixed_list(self):
         pd = self.big_pc
         pd.plot_flat(ws=[(14, 20), 8], range_=2)
