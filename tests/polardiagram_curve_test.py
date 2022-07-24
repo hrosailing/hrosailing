@@ -182,6 +182,14 @@ class PolarDiagramCurveTest(unittest.TestCase):
                 np.testing.assert_array_equal(x_plot, wa)
                 np.testing.assert_array_equal(y_plot, bsp[i])
 
+    def test_plot_polar_axes_instance(self):
+        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+        self.c.plot_polar(ax=ax)
+        assert isinstance(ax, object)
+        gca = plt.gca()
+        assert isinstance(gca, object)
+        np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
+
     def test_plot_flat(self):
         self.c.plot_flat()
         ws, wa, bsp = self.c.get_slices(None)
@@ -249,6 +257,14 @@ class PolarDiagramCurveTest(unittest.TestCase):
                 y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, np.rad2deg(wa))
                 np.testing.assert_array_equal(y_plot, bsp[i])
+
+    def test_plot_flat_axes_instances(self):
+        f, ax = plt.subplots()
+        self.c.plot_flat(ax=ax)
+        assert isinstance(ax, object)
+        gca = plt.gca()
+        assert isinstance(gca, object)
+        np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
 
     def test_plot_3d(self):
         # test not implemented yet

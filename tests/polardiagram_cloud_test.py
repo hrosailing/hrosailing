@@ -505,6 +505,14 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
                 np.testing.assert_array_equal(x_plot, wa[i])
                 np.testing.assert_array_equal(y_plot, bsp[i])
 
+    def test_plot_polar_axes_instance(self):
+        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+        self.pc.plot_polar(ax=ax)
+        assert isinstance(ax, object)
+        gca = plt.gca()
+        assert isinstance(gca, object)
+        np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
+
     def test_plot_polar_exception_single_element_ws(self):
         with self.assertRaises(PolarDiagramException):
             self.pc.plot_polar(ws=10)
@@ -641,6 +649,14 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
                 y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, np.rad2deg(wa[i]))
                 np.testing.assert_array_equal(y_plot, bsp[i])
+
+    def test_plot_flat_axes_instances(self):
+        f, ax = plt.subplots()
+        self.pc.plot_flat(ax=ax)
+        assert isinstance(ax, object)
+        gca = plt.gca()
+        assert isinstance(gca, object)
+        np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
 
     def test_plot_flat_exception_single_element_ws(self):
         with self.assertRaises(PolarDiagramException):

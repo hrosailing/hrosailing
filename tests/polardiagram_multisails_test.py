@@ -252,6 +252,14 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 np.testing.assert_array_equal(x_plot, np.deg2rad(self.wind_angles))
                 np.testing.assert_array_equal(y_plot, bsps[i])
 
+    def test_plot_polar_axes_instance(self):
+        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+        self.mts.plot_polar(ax=ax)
+        assert isinstance(ax, object)
+        gca = plt.gca()
+        assert isinstance(gca, object)
+        np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
+
     def test_plot_polar_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):
             with self.assertRaises(PolarDiagramException):
@@ -351,6 +359,14 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
                 y_plot = plt.gca().lines[i].get_ydata()
                 np.testing.assert_array_equal(x_plot, self.wind_angles)
                 np.testing.assert_array_equal(y_plot, bsps[i])
+
+    def test_plot_flat_axes_instances(self):
+        f, ax = plt.subplots()
+        self.mts.plot_flat(ax=ax)
+        assert isinstance(ax, object)
+        gca = plt.gca()
+        assert isinstance(gca, object)
+        np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
 
     def test_plot_flat_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):
