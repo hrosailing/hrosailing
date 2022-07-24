@@ -190,6 +190,37 @@ class PolarDiagramCurveTest(unittest.TestCase):
         assert isinstance(gca, object)
         np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
 
+    def test_plot_polar_single_color(self):
+        self.c.plot_polar(colors="purple")
+        for i in range(20):
+            with self.subTest(i=i):
+                self.assertEqual(plt.gca().lines[i].get_color(), "purple")
+
+    def test_plot_polar_two_colors_passed(self):
+        self.c.plot_polar(ws=[10, 15, 20], colors=["red", "blue"])
+        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), [1, 0, 0])
+        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), [0.5, 0, 0.5])
+        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), [0, 0, 1])
+
+    def test_plot_polar_more_than_two_colors_passed(self):
+        self.c.plot_polar(ws=[5, 10, 15, 20], colors=["red", "yellow", "orange"])
+        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "red")
+        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "yellow")
+        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "orange")
+        np.testing.assert_array_equal(plt.gca().lines[3].get_color(), "blue")
+
+    def test_plot_polar_ws_color_pairs_passed(self):
+        self.c.plot_polar(ws=[5, 10, 15], colors=((5, "purple"), (10, "blue"), (15, "red")))
+        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
+        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
+        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+
+    def test_plot_polar_ws_color_pairs_unsorted_passed(self):
+        self.c.plot_polar(ws=[5, 10, 15], colors=((5, "purple"), (15, "red"), (10, "blue")))
+        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
+        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
+        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+
     def test_plot_flat(self):
         self.c.plot_flat()
         ws, wa, bsp = self.c.get_slices(None)
@@ -265,6 +296,37 @@ class PolarDiagramCurveTest(unittest.TestCase):
         gca = plt.gca()
         assert isinstance(gca, object)
         np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
+
+    def test_plot_flat_single_color(self):
+        self.c.plot_flat(colors="purple")
+        for i in range(20):
+            with self.subTest(i=i):
+                self.assertEqual(plt.gca().lines[i].get_color(), "purple")
+
+    def test_plot_flat_two_colors_passed(self):
+        self.c.plot_flat(ws=[10, 15, 20], colors=["red", "blue"])
+        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), [1, 0, 0])
+        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), [0.5, 0, 0.5])
+        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), [0, 0, 1])
+
+    def test_plot_flat_more_than_two_colors_passed(self):
+        self.c.plot_flat(ws=[5, 10, 15, 20], colors=["red", "yellow", "orange"])
+        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "red")
+        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "yellow")
+        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "orange")
+        np.testing.assert_array_equal(plt.gca().lines[3].get_color(), "blue")
+
+    def test_plot_flat_ws_color_pairs_passed(self):
+        self.c.plot_flat(ws=[5, 10, 15], colors=((5, "purple"), (10, "blue"), (15, "red")))
+        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
+        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
+        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+
+    def test_plot_flat_ws_color_pairs_unsorted_passed(self):
+        self.c.plot_flat(ws=[5, 10, 15], colors=((5, "purple"), (15, "red"), (10, "blue")))
+        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
+        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
+        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
 
     def test_plot_3d(self):
         # test not implemented yet

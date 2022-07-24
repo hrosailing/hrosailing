@@ -349,6 +349,37 @@ class PolarDiagramTableTest(unittest.TestCase):
         assert isinstance(gca, object)
         np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
 
+    def test_plot_polar_single_color(self):
+        self.pd.plot_polar(colors="purple")
+        for i in range(4):
+            with self.subTest(i=i):
+                self.assertEqual(plt.gca().lines[i].get_color(), "purple")
+
+    def test_plot_polar_two_colors_passed(self):
+        self.pd.plot_polar(ws=[4, 6, 8], colors=["red", "blue"])
+        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), [1, 0, 0])
+        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), [0.5, 0, 0.5])
+        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), [0, 0, 1])
+
+    def test_plot_polar_more_than_two_colors_passed(self):
+        self.pd.plot_polar(ws=[2, 4, 6, 8], colors=["red", "yellow", "orange"])
+        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "red")
+        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "yellow")
+        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "orange")
+        np.testing.assert_array_equal(plt.gca().lines[3].get_color(), "blue")
+
+    def test_plot_polar_ws_color_pairs_passed(self):
+        self.pd.plot_polar(ws=[4, 6, 8], colors=((4, "purple"), (6, "blue"), (8, "red")))
+        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
+        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
+        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+
+    def test_plot_polar_ws_color_pairs_unsorted_passed(self):
+        self.pd.plot_polar(ws=[4, 6, 8], colors=((4, "purple"), (8, "red"), (6, "blue")))
+        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
+        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
+        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+
     def test_plot_polar_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):
             with self.assertRaises(PolarDiagramException):
@@ -435,6 +466,37 @@ class PolarDiagramTableTest(unittest.TestCase):
         gca = plt.gca()
         assert isinstance(gca, object)
         np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
+
+    def test_plot_flat_single_color(self):
+        self.pd.plot_flat(colors="purple")
+        for i in range(4):
+            with self.subTest(i=i):
+                self.assertEqual(plt.gca().lines[i].get_color(), "purple")
+
+    def test_plot_flat_two_colors_passed(self):
+        self.pd.plot_flat(ws=[4, 6, 8], colors=["red", "blue"])
+        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), [1, 0, 0])
+        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), [0.5, 0, 0.5])
+        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), [0, 0, 1])
+
+    def test_plot_flat_more_than_two_colors_passed(self):
+        self.pd.plot_flat(ws=[2, 4, 6, 8], colors=["red", "yellow", "orange"])
+        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "red")
+        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "yellow")
+        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "orange")
+        np.testing.assert_array_equal(plt.gca().lines[3].get_color(), "blue")
+
+    def test_plot_flat_ws_color_pairs_passed(self):
+        self.pd.plot_flat(ws=[4, 6, 8], colors=((4, "purple"), (6, "blue"), (8, "red")))
+        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
+        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
+        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+
+    def test_plot_flat_ws_color_pairs_unsorted_passed(self):
+        self.pd.plot_flat(ws=[4, 6, 8], colors=((4, "purple"), (8, "red"), (6, "blue")))
+        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
+        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
+        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
 
     def test_plot_flat_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):
