@@ -331,6 +331,16 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
         np.testing.assert_array_equal(plt.gca().lines[4].get_color(), "blue")
         np.testing.assert_array_equal(plt.gca().lines[5].get_color(), "red")
 
+    def test_plot_polar_show_legend(self):
+        self.mts.plot_polar(colors=["red", "purple", "blue"], show_legend=True)
+        self.assertNotEqual(None, plt.gca().get_legend())
+        legend = plt.gca().get_legend()
+        assert(legend, object)
+        texts = legend.__dict__["texts"]
+        texts = str(texts)
+        self.assertEqual(texts, "[Text(0, 0, 'TWS 42.0'), Text(0, 0, 'TWS 44.0'), Text(0, 0, 'TWS 46.0')]")
+        # not finished: colors in legend not tested yet
+
     def test_plot_polar_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):
             with self.assertRaises(PolarDiagramException):
@@ -482,6 +492,16 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
         np.testing.assert_array_equal(plt.gca().lines[3].get_color(), "purple")
         np.testing.assert_array_equal(plt.gca().lines[4].get_color(), "blue")
         np.testing.assert_array_equal(plt.gca().lines[5].get_color(), "red")
+
+    def test_plot_flat_show_legend(self):
+        self.mts.plot_flat(colors=["red", "purple", "blue"], show_legend=True)
+        self.assertNotEqual(None, plt.gca().get_legend())
+        legend = plt.gca().get_legend()
+        assert(legend, object)
+        texts = legend.__dict__["texts"]
+        texts = str(texts)
+        self.assertEqual(texts, "[Text(0, 0, 'TWS 42.0'), Text(0, 0, 'TWS 44.0'), Text(0, 0, 'TWS 46.0')]")
+        # not finished: colors in legend not tested yet
 
     def test_plot_flat_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):
