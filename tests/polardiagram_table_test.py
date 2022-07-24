@@ -380,6 +380,16 @@ class PolarDiagramTableTest(unittest.TestCase):
         np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
         np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
 
+    def test_plot_polar_show_legend(self):
+        self.pd.plot_polar(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
+        self.assertNotEqual(None, plt.gca().get_legend())
+        legend = plt.gca().get_legend()
+        assert(legend, object)
+        texts = legend.__dict__["texts"]
+        texts = str(texts)
+        self.assertEqual(texts, "[Text(0, 0, 'TWS 2'), Text(0, 0, 'TWS 4'), Text(0, 0, 'TWS 6')]")
+        # not finished: colors in legend not tested yet
+
     def test_plot_polar_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):
             with self.assertRaises(PolarDiagramException):
@@ -497,6 +507,16 @@ class PolarDiagramTableTest(unittest.TestCase):
         np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
         np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
         np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+
+    def test_plot_flat_show_legend(self):
+        self.pd.plot_flat(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
+        self.assertNotEqual(None, plt.gca().get_legend())
+        legend = plt.gca().get_legend()
+        assert(legend, object)
+        texts = legend.__dict__["texts"]
+        texts = str(texts)
+        self.assertEqual(texts, "[Text(0, 0, 'TWS 2'), Text(0, 0, 'TWS 4'), Text(0, 0, 'TWS 6')]")
+        # not finished: colors in legend not tested yet
 
     def test_plot_flat_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):

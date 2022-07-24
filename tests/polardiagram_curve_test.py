@@ -221,6 +221,16 @@ class PolarDiagramCurveTest(unittest.TestCase):
         np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
         np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
 
+    def test_plot_polar_show_legend(self):
+        self.c.plot_polar(ws=[5, 10, 15], colors=["red", "purple", "blue"], show_legend=True)
+        self.assertNotEqual(None, plt.gca().get_legend())
+        legend = plt.gca().get_legend()
+        assert(legend, object)
+        texts = legend.__dict__["texts"]
+        texts = str(texts)
+        self.assertEqual(texts, "[Text(0, 0, 'TWS 5'), Text(0, 0, 'TWS 10'), Text(0, 0, 'TWS 15')]")
+        # not finished: colors in legend not tested yet
+
     def test_plot_flat(self):
         self.c.plot_flat()
         ws, wa, bsp = self.c.get_slices(None)
@@ -327,6 +337,16 @@ class PolarDiagramCurveTest(unittest.TestCase):
         np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
         np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
         np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+
+    def test_plot_flat_show_legend(self):
+        self.c.plot_flat(ws=[5, 10, 15], colors=["red", "purple", "blue"], show_legend=True)
+        self.assertNotEqual(None, plt.gca().get_legend())
+        legend = plt.gca().get_legend()
+        assert(legend, object)
+        texts = legend.__dict__["texts"]
+        texts = str(texts)
+        self.assertEqual(texts, "[Text(0, 0, 'TWS 5'), Text(0, 0, 'TWS 10'), Text(0, 0, 'TWS 15')]")
+        # not finished: colors in legend not tested yet
 
     def test_plot_3d(self):
         # test not implemented yet
