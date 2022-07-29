@@ -548,11 +548,19 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         self.pc.plot_polar(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
         self.assertNotEqual(None, plt.gca().get_legend())
         legend = plt.gca().get_legend()
-        assert(legend, object)
         texts = legend.__dict__["texts"]
         texts = str(texts)
         self.assertEqual(texts, "[Text(0, 0, 'TWS 2'), Text(0, 0, 'TWS 4'), Text(0, 0, 'TWS 6')]")
         # not finished: colors in legend not tested yet
+
+    def test_plot_polar_plot_kw(self):
+        self.pc.plot_polar(ls=":", lw=1.5, marker="o")
+        for i in range(4):
+            with self.subTest(i=i):
+                line = plt.gca().lines[i]
+                self.assertEqual(line.get_linestyle(), ':')
+                self.assertEqual(line.get_linewidth(), 1.5)
+                self.assertEqual(line.get_marker(), 'o')
 
     def test_plot_polar_exception_single_element_ws(self):
         with self.assertRaises(PolarDiagramException):
@@ -734,11 +742,19 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         self.pc.plot_flat(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
         self.assertNotEqual(None, plt.gca().get_legend())
         legend = plt.gca().get_legend()
-        assert(legend, object)
         texts = legend.__dict__["texts"]
         texts = str(texts)
         self.assertEqual(texts, "[Text(0, 0, 'TWS 2'), Text(0, 0, 'TWS 4'), Text(0, 0, 'TWS 6')]")
         # not finished: colors in legend not tested yet
+
+    def test_plot_flat_plot_kw(self):
+        self.pc.plot_flat(ls=":", lw=1.5, marker="o")
+        for i in range(4):
+            with self.subTest(i=i):
+                line = plt.gca().lines[i]
+                self.assertEqual(line.get_linestyle(), ':')
+                self.assertEqual(line.get_linewidth(), 1.5)
+                self.assertEqual(line.get_marker(), 'o')
 
     def test_plot_flat_exception_single_element_ws(self):
         with self.assertRaises(PolarDiagramException):

@@ -335,11 +335,19 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
         self.mts.plot_polar(colors=["red", "purple", "blue"], show_legend=True)
         self.assertNotEqual(None, plt.gca().get_legend())
         legend = plt.gca().get_legend()
-        assert(legend, object)
         texts = legend.__dict__["texts"]
         texts = str(texts)
         self.assertEqual(texts, "[Text(0, 0, 'TWS 42.0'), Text(0, 0, 'TWS 44.0'), Text(0, 0, 'TWS 46.0')]")
         # not finished: colors in legend not tested yet
+
+    def test_plot_polar_plot_kw(self):
+        self.mts.plot_polar(ls=":", lw=1.5, marker="o")
+        for i in range(6):
+            with self.subTest(i=i):
+                line = plt.gca().lines[i]
+                self.assertEqual(line.get_linestyle(), ':')
+                self.assertEqual(line.get_linewidth(), 1.5)
+                self.assertEqual(line.get_marker(), 'o')
 
     def test_plot_polar_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):
@@ -497,11 +505,19 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
         self.mts.plot_flat(colors=["red", "purple", "blue"], show_legend=True)
         self.assertNotEqual(None, plt.gca().get_legend())
         legend = plt.gca().get_legend()
-        assert(legend, object)
         texts = legend.__dict__["texts"]
         texts = str(texts)
         self.assertEqual(texts, "[Text(0, 0, 'TWS 42.0'), Text(0, 0, 'TWS 44.0'), Text(0, 0, 'TWS 46.0')]")
         # not finished: colors in legend not tested yet
+
+    def test_plot_flat_plot_kw(self):
+        self.mts.plot_flat(ls=":", lw=1.5, marker="o")
+        for i in range(6):
+            with self.subTest(i=i):
+                line = plt.gca().lines[i]
+                self.assertEqual(line.get_linestyle(), ':')
+                self.assertEqual(line.get_linewidth(), 1.5)
+                self.assertEqual(line.get_marker(), 'o')
 
     def test_plot_flat_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):
