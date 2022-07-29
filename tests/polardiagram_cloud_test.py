@@ -508,9 +508,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
     def test_plot_polar_axes_instance(self):
         f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
         self.pc.plot_polar(ax=ax)
-        assert isinstance(ax, object)
         gca = plt.gca()
-        assert isinstance(gca, object)
         np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
 
     def test_plot_polar_single_color(self):
@@ -702,9 +700,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
     def test_plot_flat_axes_instances(self):
         f, ax = plt.subplots()
         self.pc.plot_flat(ax=ax)
-        assert isinstance(ax, object)
         gca = plt.gca()
-        assert isinstance(gca, object)
         np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
 
     def test_plot_flat_single_color(self):
@@ -804,6 +800,61 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
             with self.subTest(i=i):
                 x_plot = plt.gca().lines[i].get_xdata()
                 y_plot = plt.gca().lines[i].get_ydata()
+
+    def test_plot_convex_hull_axes_instance(self):
+        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
+        self.pc.plot_convex_hull(ax=ax)
+        gca = plt.gca()
+        np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
+
+    def test_plot_convex_hull_single_color(self):
+        self.pc.plot_convex_hull(colors="purple")
+        for i in range(4):
+            with self.subTest(i=i):
+                self.assertEqual(plt.gca().lines[i].get_color(), "purple")
+
+    def test_plot_convex_hull_two_colors_passed(self):
+        self.pc.plot_convex_hull(ws=[4, 6, 8], colors=["red", "blue"])
+        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), [1, 0, 0])
+        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), [0.5, 0, 0.5])
+        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), [0, 0, 1])
+
+    def test_plot_convex_hull_more_than_two_colors_passed(self):
+        self.pc.plot_convex_hull(ws=[2, 4, 6, 8], colors=["red", "yellow", "orange"])
+        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "red")
+        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "yellow")
+        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "orange")
+        np.testing.assert_array_equal(plt.gca().lines[3].get_color(), "blue")
+
+    def test_plot_convex_hull_ws_color_pairs_passed(self):
+        self.pc.plot_convex_hull(ws=[4, 6, 8], colors=((4, "purple"), (6, "blue"), (8, "red")))
+        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
+        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
+        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+
+    def test_plot_convex_hull_ws_color_pairs_unsorted_passed(self):
+        self.pc.plot_convex_hull(ws=[4, 6, 8], colors=((4, "purple"), (8, "red"), (6, "blue")))
+        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
+        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
+        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+
+    def test_plot_convex_hull_show_legend(self):
+        self.pc.plot_convex_hull(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
+        self.assertNotEqual(None, plt.gca().get_legend())
+        legend = plt.gca().get_legend()
+        texts = legend.__dict__["texts"]
+        texts = str(texts)
+        self.assertEqual(texts, "[Text(0, 0, 'TWS 2'), Text(0, 0, 'TWS 4'), Text(0, 0, 'TWS 6')]")
+        # not finished: colors in legend not tested yet
+
+    def test_plot_convex_hull_plot_kw(self):
+        self.pc.plot_convex_hull(ls=":", lw=1.5, marker="o")
+        for i in range(4):
+            with self.subTest(i=i):
+                line = plt.gca().lines[i]
+                self.assertEqual(line.get_linestyle(), ':')
+                self.assertEqual(line.get_linewidth(), 1.5)
+                self.assertEqual(line.get_marker(), 'o')
 
     def test_plot_convex_hull_exception_single_element_ws(self):
         with self.assertRaises(PolarDiagramException):
