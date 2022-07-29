@@ -382,10 +382,13 @@ class PolarDiagramTableTest(unittest.TestCase):
         self.pd.plot_polar(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
         self.assertNotEqual(None, plt.gca().get_legend())
         legend = plt.gca().get_legend()
-        texts = legend.__dict__["texts"]
-        texts = str(texts)
-        self.assertEqual(texts, "[Text(0, 0, 'TWS 2'), Text(0, 0, 'TWS 4'), Text(0, 0, 'TWS 6')]")
-        # not finished: colors in legend not tested yet
+        handles = legend.__dict__["legendHandles"]
+        self.assertEqual(handles[0].get_label(), 'TWS 2')
+        self.assertEqual(handles[0].get_color(), 'red')
+        self.assertEqual(handles[1].get_label(), 'TWS 4')
+        self.assertEqual(handles[1].get_color(), 'purple')
+        self.assertEqual(handles[2].get_label(), 'TWS 6')
+        self.assertEqual(handles[2].get_color(), 'blue')
 
     def test_plot_polar_plot_kw(self):
         self.pd.plot_polar(ls=":", lw=1.5, marker="o")
@@ -516,10 +519,13 @@ class PolarDiagramTableTest(unittest.TestCase):
         self.pd.plot_flat(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
         self.assertNotEqual(None, plt.gca().get_legend())
         legend = plt.gca().get_legend()
-        texts = legend.__dict__["texts"]
-        texts = str(texts)
-        self.assertEqual(texts, "[Text(0, 0, 'TWS 2'), Text(0, 0, 'TWS 4'), Text(0, 0, 'TWS 6')]")
-        # not finished: colors in legend not tested yet
+        handles = legend.__dict__["legendHandles"]
+        self.assertEqual(handles[0].get_label(), 'TWS 2')
+        self.assertEqual(handles[0].get_color(), 'red')
+        self.assertEqual(handles[1].get_label(), 'TWS 4')
+        self.assertEqual(handles[1].get_color(), 'purple')
+        self.assertEqual(handles[2].get_label(), 'TWS 6')
+        self.assertEqual(handles[2].get_color(), 'blue')
 
     def test_plot_flat_plot_kw(self):
         self.pd.plot_flat(ls=":", lw=1.5, marker="o")
@@ -607,10 +613,13 @@ class PolarDiagramTableTest(unittest.TestCase):
         self.pd.plot_convex_hull(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
         self.assertNotEqual(None, plt.gca().get_legend())
         legend = plt.gca().get_legend()
-        texts = legend.__dict__["texts"]
-        texts = str(texts)
-        self.assertEqual(texts, "[Text(0, 0, 'TWS 2'), Text(0, 0, 'TWS 4'), Text(0, 0, 'TWS 6')]")
-        # not finished: colors in legend not tested yet
+        handles = legend.__dict__["legendHandles"]
+        self.assertEqual(handles[0].get_label(), 'TWS 2')
+        self.assertEqual(handles[0].get_color(), 'red')
+        self.assertEqual(handles[1].get_label(), 'TWS 4')
+        self.assertEqual(handles[1].get_color(), 'purple')
+        self.assertEqual(handles[2].get_label(), 'TWS 6')
+        self.assertEqual(handles[2].get_color(), 'blue')
 
     def test_plot_convex_hull_plot_kw(self):
         self.pd.plot_convex_hull(ls=":", lw=1.5, marker="o")
