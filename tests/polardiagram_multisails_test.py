@@ -292,24 +292,13 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
 
     def test_plot_polar_show_legend(self):
         self.mts.plot_polar(colors=["red", "purple", "blue"], show_legend=True)
-        self.assertNotEqual(None, plt.gca().get_legend())
-        legend = plt.gca().get_legend()
-        handles = legend.__dict__["legendHandles"]
-        self.assertEqual(handles[0].get_label(), 'TWS 42.0')
-        self.assertEqual(handles[0].get_color(), 'red')
-        self.assertEqual(handles[1].get_label(), 'TWS 44.0')
-        self.assertEqual(handles[1].get_color(), 'purple')
-        self.assertEqual(handles[2].get_label(), 'TWS 46.0')
-        self.assertEqual(handles[2].get_color(), 'blue')
+        functions.Testfunctions.test_multisails_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_polar_plot_kw(self):
         self.mts.plot_polar(ls=":", lw=1.5, marker="o")
         for i in range(6):
             with self.subTest(i=i):
-                line = plt.gca().lines[i]
-                self.assertEqual(line.get_linestyle(), ':')
-                self.assertEqual(line.get_linewidth(), 1.5)
-                self.assertEqual(line.get_marker(), 'o')
+                functions.Testfunctions.test_comparing_plot_kw(self, i)
 
     def test_plot_polar_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):
@@ -423,24 +412,13 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
 
     def test_plot_flat_show_legend(self):
         self.mts.plot_flat(colors=["red", "purple", "blue"], show_legend=True)
-        self.assertNotEqual(None, plt.gca().get_legend())
-        legend = plt.gca().get_legend()
-        handles = legend.__dict__["legendHandles"]
-        self.assertEqual(handles[0].get_label(), 'TWS 42.0')
-        self.assertEqual(handles[0].get_color(), 'red')
-        self.assertEqual(handles[1].get_label(), 'TWS 44.0')
-        self.assertEqual(handles[1].get_color(), 'purple')
-        self.assertEqual(handles[2].get_label(), 'TWS 46.0')
-        self.assertEqual(handles[2].get_color(), 'blue')
+        functions.Testfunctions.test_multisails_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_flat_plot_kw(self):
         self.mts.plot_flat(ls=":", lw=1.5, marker="o")
         for i in range(6):
             with self.subTest(i=i):
-                line = plt.gca().lines[i]
-                self.assertEqual(line.get_linestyle(), ':')
-                self.assertEqual(line.get_linewidth(), 1.5)
-                self.assertEqual(line.get_marker(), 'o')
+                functions.Testfunctions.test_comparing_plot_kw(self, i)
 
     def test_plot_flat_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):
@@ -503,24 +481,13 @@ class PolarDiagramMultiSailsTest(unittest.TestCase):
 
     def test_plot_convex_hull_show_legend(self):
         self.mts.plot_convex_hull(colors=["red", "purple", "blue"], show_legend=True)
-        self.assertNotEqual(None, plt.gca().get_legend())
-        legend = plt.gca().get_legend()
-        handles = legend.__dict__["legendHandles"]
-        self.assertEqual(handles[0].get_label(), 'TWS 42.0')
-        self.assertEqual(handles[0].get_color(), 'red')
-        self.assertEqual(handles[1].get_label(), 'TWS 44.0')
-        self.assertEqual(handles[1].get_color(), 'purple')
-        self.assertEqual(handles[2].get_label(), 'TWS 46.0')
-        self.assertEqual(handles[2].get_color(), 'blue')
+        functions.Testfunctions.test_multisails_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_convex_hull_plot_kw(self):
         self.mts.plot_convex_hull(ls=":", lw=1.5, marker="o")
         for i in range(6):
             with self.subTest(i=i):
-                line = plt.gca().lines[i]
-                self.assertEqual(line.get_linestyle(), ':')
-                self.assertEqual(line.get_linewidth(), 1.5)
-                self.assertEqual(line.get_marker(), 'o')
+                functions.Testfunctions.test_comparing_plot_kw(self, i)
 
     def test_plot_convex_hull_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):

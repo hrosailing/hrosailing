@@ -13,6 +13,7 @@ from hrosailing.polardiagram._basepolardiagram import (
     PolarDiagramException,
     PolarDiagramInitializationException,
 )
+import _test_plot_functions as functions
 
 
 class PolarDiagramTableTest(unittest.TestCase):
@@ -282,12 +283,11 @@ class PolarDiagramTableTest(unittest.TestCase):
 
     def test_plot_polar(self):
         self.pd.plot_polar()
+        wa = np.deg2rad(self.wa_resolution)
+        bsp = self.bsp.T
         for i in range(len(self.ws_resolution)):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, np.deg2rad(self.wa_resolution))
-                np.testing.assert_array_equal(y_plot, self.bsp[:, i])
+                functions.curve_table_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_single_element_ws(self):
         self.pd.plot_polar(ws=2)
@@ -303,10 +303,7 @@ class PolarDiagramTableTest(unittest.TestCase):
         bsp = bsp.T
         for i in range(3):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, wa)
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.curve_table_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_iterable_list_ws(self):
         self.pd.plot_polar(ws=[2, 4, 6])
@@ -314,10 +311,7 @@ class PolarDiagramTableTest(unittest.TestCase):
         bsp = bsp.T
         for i in range(3):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, wa)
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.curve_table_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_iterable_tuple_ws(self):
         self.pd.plot_polar(ws=(2, 4, 6))
@@ -325,10 +319,7 @@ class PolarDiagramTableTest(unittest.TestCase):
         bsp = bsp.T
         for i in range(3):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, wa)
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.curve_table_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_iterable_set_ws(self):
         self.pd.plot_polar(ws={2, 4, 6})
@@ -336,10 +327,7 @@ class PolarDiagramTableTest(unittest.TestCase):
         bsp = bsp.T
         for i in range(3):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, wa)
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.curve_table_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_axes_instance(self):
         f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
@@ -355,49 +343,29 @@ class PolarDiagramTableTest(unittest.TestCase):
 
     def test_plot_polar_two_colors_passed(self):
         self.pd.plot_polar(ws=[4, 6, 8], colors=["red", "blue"])
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), [1, 0, 0])
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), [0.5, 0, 0.5])
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), [0, 0, 1])
+        functions.comparing_colors_two_colors_passed()
 
     def test_plot_polar_more_than_two_colors_passed(self):
         self.pd.plot_polar(ws=[2, 4, 6, 8], colors=["red", "yellow", "orange"])
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "red")
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "yellow")
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "orange")
-        np.testing.assert_array_equal(plt.gca().lines[3].get_color(), "blue")
+        functions.comparing_colors_more_than_two_colors_passed()
 
     def test_plot_polar_ws_color_pairs_passed(self):
         self.pd.plot_polar(ws=[4, 6, 8], colors=((4, "purple"), (6, "blue"), (8, "red")))
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+        functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_polar_ws_color_pairs_unsorted_passed(self):
         self.pd.plot_polar(ws=[4, 6, 8], colors=((4, "purple"), (8, "red"), (6, "blue")))
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+        functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_polar_show_legend(self):
         self.pd.plot_polar(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
-        self.assertNotEqual(None, plt.gca().get_legend())
-        legend = plt.gca().get_legend()
-        handles = legend.__dict__["legendHandles"]
-        self.assertEqual(handles[0].get_label(), 'TWS 2')
-        self.assertEqual(handles[0].get_color(), 'red')
-        self.assertEqual(handles[1].get_label(), 'TWS 4')
-        self.assertEqual(handles[1].get_color(), 'purple')
-        self.assertEqual(handles[2].get_label(), 'TWS 6')
-        self.assertEqual(handles[2].get_color(), 'blue')
+        functions.Testfunctions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_polar_plot_kw(self):
         self.pd.plot_polar(ls=":", lw=1.5, marker="o")
         for i in range(4):
             with self.subTest(i=i):
-                line = plt.gca().lines[i]
-                self.assertEqual(line.get_linestyle(), ':')
-                self.assertEqual(line.get_linewidth(), 1.5)
-                self.assertEqual(line.get_marker(), 'o')
+                functions.Testfunctions.test_comparing_plot_kw(self, i)
 
     def test_plot_polar_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):
@@ -421,10 +389,7 @@ class PolarDiagramTableTest(unittest.TestCase):
         bsp = bsp.T
         for i in range(len(self.ws_resolution)):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, np.rad2deg(wa))
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.curve_table_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_single_element_ws(self):
         self.pd.plot_flat(ws=2)
@@ -440,10 +405,7 @@ class PolarDiagramTableTest(unittest.TestCase):
         bsp = bsp.T
         for i in range(3):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, np.rad2deg(wa))
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.curve_table_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_iterable_list_ws(self):
         self.pd.plot_flat(ws=[2, 4, 6])
@@ -451,10 +413,7 @@ class PolarDiagramTableTest(unittest.TestCase):
         bsp = bsp.T
         for i in range(3):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, np.rad2deg(wa))
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.curve_table_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_iterable_tuple_ws(self):
         self.pd.plot_flat(ws=(2, 4, 6))
@@ -462,10 +421,7 @@ class PolarDiagramTableTest(unittest.TestCase):
         bsp = bsp.T
         for i in range(3):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, np.rad2deg(wa))
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.curve_table_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_iterable_set_ws(self):
         self.pd.plot_flat(ws={2, 4, 6})
@@ -473,10 +429,7 @@ class PolarDiagramTableTest(unittest.TestCase):
         bsp = bsp.T
         for i in range(3):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, np.rad2deg(wa))
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.curve_table_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_axes_instances(self):
         f, ax = plt.subplots()
@@ -492,49 +445,29 @@ class PolarDiagramTableTest(unittest.TestCase):
 
     def test_plot_flat_two_colors_passed(self):
         self.pd.plot_flat(ws=[4, 6, 8], colors=["red", "blue"])
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), [1, 0, 0])
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), [0.5, 0, 0.5])
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), [0, 0, 1])
+        functions.comparing_colors_two_colors_passed()
 
     def test_plot_flat_more_than_two_colors_passed(self):
         self.pd.plot_flat(ws=[2, 4, 6, 8], colors=["red", "yellow", "orange"])
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "red")
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "yellow")
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "orange")
-        np.testing.assert_array_equal(plt.gca().lines[3].get_color(), "blue")
+        functions.comparing_colors_more_than_two_colors_passed()
 
     def test_plot_flat_ws_color_pairs_passed(self):
         self.pd.plot_flat(ws=[4, 6, 8], colors=((4, "purple"), (6, "blue"), (8, "red")))
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+        functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_flat_ws_color_pairs_unsorted_passed(self):
         self.pd.plot_flat(ws=[4, 6, 8], colors=((4, "purple"), (8, "red"), (6, "blue")))
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+        functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_flat_show_legend(self):
         self.pd.plot_flat(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
-        self.assertNotEqual(None, plt.gca().get_legend())
-        legend = plt.gca().get_legend()
-        handles = legend.__dict__["legendHandles"]
-        self.assertEqual(handles[0].get_label(), 'TWS 2')
-        self.assertEqual(handles[0].get_color(), 'red')
-        self.assertEqual(handles[1].get_label(), 'TWS 4')
-        self.assertEqual(handles[1].get_color(), 'purple')
-        self.assertEqual(handles[2].get_label(), 'TWS 6')
-        self.assertEqual(handles[2].get_color(), 'blue')
+        functions.Testfunctions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_flat_plot_kw(self):
         self.pd.plot_flat(ls=":", lw=1.5, marker="o")
         for i in range(4):
             with self.subTest(i=i):
-                line = plt.gca().lines[i]
-                self.assertEqual(line.get_linestyle(), ':')
-                self.assertEqual(line.get_linewidth(), 1.5)
-                self.assertEqual(line.get_marker(), 'o')
+                functions.Testfunctions.test_comparing_plot_kw(self, i)
 
     def test_plot_flat_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):
@@ -586,49 +519,29 @@ class PolarDiagramTableTest(unittest.TestCase):
 
     def test_plot_convex_hull_two_colors_passed(self):
         self.pd.plot_convex_hull(ws=[4, 6, 8], colors=["red", "blue"])
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), [1, 0, 0])
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), [0.5, 0, 0.5])
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), [0, 0, 1])
+        functions.comparing_colors_two_colors_passed()
 
     def test_plot_convex_hull_more_than_two_colors_passed(self):
         self.pd.plot_convex_hull(ws=[2, 4, 6, 8], colors=["red", "yellow", "orange"])
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "red")
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "yellow")
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "orange")
-        np.testing.assert_array_equal(plt.gca().lines[3].get_color(), "blue")
+        functions.comparing_colors_more_than_two_colors_passed()
 
     def test_plot_convex_hull_ws_color_pairs_passed(self):
         self.pd.plot_convex_hull(ws=[4, 6, 8], colors=((4, "purple"), (6, "blue"), (8, "red")))
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+        functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_convex_hull_ws_color_pairs_unsorted_passed(self):
         self.pd.plot_convex_hull(ws=[4, 6, 8], colors=((4, "purple"), (8, "red"), (6, "blue")))
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+        functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_convex_hull_show_legend(self):
         self.pd.plot_convex_hull(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
-        self.assertNotEqual(None, plt.gca().get_legend())
-        legend = plt.gca().get_legend()
-        handles = legend.__dict__["legendHandles"]
-        self.assertEqual(handles[0].get_label(), 'TWS 2')
-        self.assertEqual(handles[0].get_color(), 'red')
-        self.assertEqual(handles[1].get_label(), 'TWS 4')
-        self.assertEqual(handles[1].get_color(), 'purple')
-        self.assertEqual(handles[2].get_label(), 'TWS 6')
-        self.assertEqual(handles[2].get_color(), 'blue')
+        functions.Testfunctions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_convex_hull_plot_kw(self):
         self.pd.plot_convex_hull(ls=":", lw=1.5, marker="o")
         for i in range(4):
             with self.subTest(i=i):
-                line = plt.gca().lines[i]
-                self.assertEqual(line.get_linestyle(), ':')
-                self.assertEqual(line.get_linewidth(), 1.5)
-                self.assertEqual(line.get_marker(), 'o')
+                functions.Testfunctions.test_comparing_plot_kw(self, i)
 
     def test_plot_convex_hull_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):
