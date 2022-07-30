@@ -13,6 +13,7 @@ from hrosailing.polardiagram._basepolardiagram import (
     PolarDiagramException,
     PolarDiagramInitializationException,
 )
+import _test_plot_functions as functions
 
 
 class PolarDiagramPointCloudTest(unittest.TestCase):
@@ -392,58 +393,40 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         ws, wa, bsp = self.pc.get_slices(None)
         for i in range(4):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, wa[i])
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.cloud_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_single_element_ws(self):
         self.pc.plot_polar(ws=4)
         ws, wa, bsp = self.pc.get_slices(ws=4)
-        x_plot = plt.gca().lines[0].get_xdata()
-        y_plot = plt.gca().lines[0].get_ydata()
-        np.testing.assert_array_equal(x_plot, np.asarray(wa).flat)
-        np.testing.assert_array_equal(y_plot, np.asarray(bsp).flat)
+        functions.cloud_plot_polar_comparing_x_plot_wa_y_plot_bsp_single_ws(wa, bsp)
 
     def test_plot_polar_interval_ws(self):
         self.pc.plot_polar(ws=(4, 8))
         ws, wa, bsp = self.pc.get_slices(ws=(4, 8))
         for i in range(4):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, wa[i])
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.cloud_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_mixed_list_ws(self):
         self.pc.plot_polar(ws=[(4, 8), 2])
         ws, wa, bsp = self.pc.get_slices(ws=[(4, 8), 2])
         for i in range(2):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, wa[i])
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.cloud_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_mixed_tuple_ws(self):
         self.pc.plot_polar(ws=((4, 8), 2))
         ws, wa, bsp = self.pc.get_slices(ws=((4, 8), 2))
         for i in range(2):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, wa[i])
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.cloud_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_mixed_set_ws(self):
         self.pc.plot_polar(ws={(4, 8), 2})
         ws, wa, bsp = self.pc.get_slices(ws={(4, 8), 2})
         for i in range(2):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, wa[i])
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.cloud_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_n_steps(self):
         self.pc.plot_polar(ws=(4, 8), n_steps=3)
@@ -451,26 +434,17 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         ws, wa, bsp = self.pc.get_slices(ws=(4, 8), n_steps=3)
         for i in range(3):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, wa[i])
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.cloud_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_range_single_ws(self):
         self.pc.plot_polar(ws=4, range_=2)
         ws, wa, bsp = self.pc.get_slices(ws=4, range_=2)
-        x_plot = plt.gca().lines[0].get_xdata()
-        y_plot = plt.gca().lines[0].get_ydata()
-        np.testing.assert_array_equal(x_plot, np.asarray(wa).flat)
-        np.testing.assert_array_equal(y_plot, np.asarray(bsp).flat)
+        functions.cloud_plot_polar_comparing_x_plot_wa_y_plot_bsp_single_ws(wa, bsp)
 
     def test_plot_polar_big_range_(self):
         self.pc.plot_polar(ws=4, range_=100)
         ws, wa, bsp = self.pc.get_slices(ws=4, range_=100)
-        x_plot = plt.gca().lines[0].get_xdata()
-        y_plot = plt.gca().lines[0].get_ydata()
-        np.testing.assert_array_equal(x_plot, np.asarray(wa).flat)
-        np.testing.assert_array_equal(y_plot, np.asarray(bsp).flat)
+        functions.cloud_plot_polar_comparing_x_plot_wa_y_plot_bsp_single_ws(wa, bsp)
 
     def test_plot_polar_range_mixed_list(self):
         pd = self.big_pc
@@ -478,10 +452,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         ws, wa, bsp = pd.get_slices(ws=[(14, 20), 8], range_=2)
         for i in range(2):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, wa[i])
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.cloud_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_range_mixed_tuple(self):
         pd = self.big_pc
@@ -489,10 +460,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         ws, wa, bsp = pd.get_slices(ws=((14, 20), 8), range_=2)
         for i in range(2):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, wa[i])
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.cloud_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_range_mixed_set(self):
         pd = self.big_pc
@@ -500,10 +468,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         ws, wa, bsp = pd.get_slices(ws={(14, 20), 8}, range_=2)
         for i in range(2):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, wa[i])
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.cloud_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_axes_instance(self):
         f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
@@ -519,49 +484,29 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
 
     def test_plot_polar_two_colors_passed(self):
         self.pc.plot_polar(ws=[4, 6, 8], colors=["red", "blue"])
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), [1, 0, 0])
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), [0.5, 0, 0.5])
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), [0, 0, 1])
+        functions.comparing_colors_two_colors_passed()
 
     def test_plot_polar_more_than_two_colors_passed(self):
         self.pc.plot_polar(ws=[2, 4, 6, 8], colors=["red", "yellow", "orange"])
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "red")
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "yellow")
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "orange")
-        np.testing.assert_array_equal(plt.gca().lines[3].get_color(), "blue")
+        functions.comparing_colors_more_than_two_colors_passed()
 
     def test_plot_polar_ws_color_pairs_passed(self):
         self.pc.plot_polar(ws=[4, 6, 8], colors=((4, "purple"), (6, "blue"), (8, "red")))
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+        functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_polar_ws_color_pairs_unsorted_passed(self):
         self.pc.plot_polar(ws=[4, 6, 8], colors=((4, "purple"), (8, "red"), (6, "blue")))
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+        functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_polar_show_legend(self):
         self.pc.plot_polar(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
-        self.assertNotEqual(None, plt.gca().get_legend())
-        legend = plt.gca().get_legend()
-        handles = legend.__dict__["legendHandles"]
-        self.assertEqual(handles[0].get_label(), 'TWS 2')
-        self.assertEqual(handles[0].get_color(), 'red')
-        self.assertEqual(handles[1].get_label(), 'TWS 4')
-        self.assertEqual(handles[1].get_color(), 'purple')
-        self.assertEqual(handles[2].get_label(), 'TWS 6')
-        self.assertEqual(handles[2].get_color(), 'blue')
+        functions.Testfunctions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_polar_plot_kw(self):
         self.pc.plot_polar(ls=":", lw=1.5, marker="o")
         for i in range(4):
             with self.subTest(i=i):
-                line = plt.gca().lines[i]
-                self.assertEqual(line.get_linestyle(), ':')
-                self.assertEqual(line.get_linewidth(), 1.5)
-                self.assertEqual(line.get_marker(), 'o')
+                functions.Testfunctions.test_comparing_plot_kw(self, i)
 
     def test_plot_polar_exception_single_element_ws(self):
         with self.assertRaises(PolarDiagramException):
@@ -587,58 +532,40 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         ws, wa, bsp = self.pc.get_slices(None)
         for i in range(len(self.pc.wind_speeds)):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, np.rad2deg(wa[i]))
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.cloud_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_single_element_ws(self):
         self.pc.plot_flat(ws=4)
         ws, wa, bsp = self.pc.get_slices(ws=4)
-        x_plot = plt.gca().lines[0].get_xdata()
-        y_plot = plt.gca().lines[0].get_ydata()
-        np.testing.assert_array_equal(x_plot, np.rad2deg(np.asarray(wa).flat))
-        np.testing.assert_array_equal(y_plot, np.asarray(bsp).flat)
+        functions.cloud_plot_flat_comparing_x_plot_wa_y_plot_bsp_single_ws(wa, bsp)
 
     def test_plot_flat_interval_ws(self):
         self.pc.plot_flat(ws=(4, 8))
         ws, wa, bsp = self.pc.get_slices(ws=(4, 8))
         for i in range(4):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, np.rad2deg(wa[i]))
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.cloud_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_mixed_list_ws(self):
         self.pc.plot_flat(ws=[(4, 8), 2])
         ws, wa, bsp = self.pc.get_slices(ws=[(4, 8), 2])
         for i in range(2):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, np.rad2deg(wa[i]))
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.cloud_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_mixed_tuple_ws(self):
         self.pc.plot_flat(ws=((4, 8), 2))
         ws, wa, bsp = self.pc.get_slices(ws=((4, 8), 2))
         for i in range(2):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, np.rad2deg(wa[i]))
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.cloud_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_mixed_set_ws(self):
         self.pc.plot_flat(ws={(4, 8), 2})
         ws, wa, bsp = self.pc.get_slices(ws={(4, 8), 2})
         for i in range(2):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, np.rad2deg(wa[i]))
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.cloud_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_n_steps(self):
         self.pc.plot_flat(ws=(4, 8), n_steps=3)
@@ -646,26 +573,17 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         ws, wa, bsp = self.pc.get_slices(ws=(4, 8), n_steps=3)
         for i in range(3):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, np.rad2deg(wa[i]))
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.cloud_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_range_single_ws(self):
         self.pc.plot_flat(ws=4, range_=2)
         ws, wa, bsp = self.pc.get_slices(ws=4, range_=2)
-        x_plot = plt.gca().lines[0].get_xdata()
-        y_plot = plt.gca().lines[0].get_ydata()
-        np.testing.assert_array_equal(x_plot, np.rad2deg(np.asarray(wa).flat))
-        np.testing.assert_array_equal(y_plot, np.asarray(bsp).flat)
+        functions.cloud_plot_flat_comparing_x_plot_wa_y_plot_bsp_single_ws(wa, bsp)
 
     def test_plot_flat_big_range_(self):
         self.pc.plot_flat(ws=4, range_=100)
         ws, wa, bsp = self.pc.get_slices(ws=4, range_=100)
-        x_plot = plt.gca().lines[0].get_xdata()
-        y_plot = plt.gca().lines[0].get_ydata()
-        np.testing.assert_array_equal(x_plot, np.rad2deg(np.asarray(wa).flat))
-        np.testing.assert_array_equal(y_plot, np.asarray(bsp).flat)
+        functions.cloud_plot_flat_comparing_x_plot_wa_y_plot_bsp_single_ws(wa, bsp)
 
     def test_plot_flat_range_mixed_list(self):
         pd = self.big_pc
@@ -673,10 +591,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         ws, wa, bsp = pd.get_slices(ws=[(14, 20), 8], range_=2)
         for i in range(2):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, np.rad2deg(wa[i]))
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.cloud_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_range_mixed_tuple(self):
         pd = self.big_pc
@@ -684,10 +599,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         ws, wa, bsp = pd.get_slices(ws=((14, 20), 8), range_=2)
         for i in range(2):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, np.rad2deg(wa[i]))
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.cloud_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_range_mixed_set(self):
         pd = self.big_pc
@@ -695,10 +607,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         ws, wa, bsp = pd.get_slices(ws={(14, 20), 8}, range_=2)
         for i in range(2):
             with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
-                np.testing.assert_array_equal(x_plot, np.rad2deg(wa[i]))
-                np.testing.assert_array_equal(y_plot, bsp[i])
+                functions.cloud_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_axes_instances(self):
         f, ax = plt.subplots()
@@ -714,49 +623,29 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
 
     def test_plot_flat_two_colors_passed(self):
         self.pc.plot_flat(ws=[4, 6, 8], colors=["red", "blue"])
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), [1, 0, 0])
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), [0.5, 0, 0.5])
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), [0, 0, 1])
+        functions.comparing_colors_two_colors_passed()
 
     def test_plot_flat_more_than_two_colors_passed(self):
         self.pc.plot_flat(ws=[2, 4, 6, 8], colors=["red", "yellow", "orange"])
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "red")
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "yellow")
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "orange")
-        np.testing.assert_array_equal(plt.gca().lines[3].get_color(), "blue")
+        functions.comparing_colors_more_than_two_colors_passed()
 
     def test_plot_flat_ws_color_pairs_passed(self):
         self.pc.plot_flat(ws=[4, 6, 8], colors=((4, "purple"), (6, "blue"), (8, "red")))
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+        functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_flat_ws_color_pairs_unsorted_passed(self):
         self.pc.plot_flat(ws=[4, 6, 8], colors=((4, "purple"), (8, "red"), (6, "blue")))
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+        functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_flat_show_legend(self):
         self.pc.plot_flat(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
-        self.assertNotEqual(None, plt.gca().get_legend())
-        legend = plt.gca().get_legend()
-        handles = legend.__dict__["legendHandles"]
-        self.assertEqual(handles[0].get_label(), 'TWS 2')
-        self.assertEqual(handles[0].get_color(), 'red')
-        self.assertEqual(handles[1].get_label(), 'TWS 4')
-        self.assertEqual(handles[1].get_color(), 'purple')
-        self.assertEqual(handles[2].get_label(), 'TWS 6')
-        self.assertEqual(handles[2].get_color(), 'blue')
+        functions.Testfunctions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_flat_plot_kw(self):
         self.pc.plot_flat(ls=":", lw=1.5, marker="o")
         for i in range(4):
             with self.subTest(i=i):
-                line = plt.gca().lines[i]
-                self.assertEqual(line.get_linestyle(), ':')
-                self.assertEqual(line.get_linewidth(), 1.5)
-                self.assertEqual(line.get_marker(), 'o')
+                functions.Testfunctions.test_comparing_plot_kw(self, i)
 
     def test_plot_flat_exception_single_element_ws(self):
         with self.assertRaises(PolarDiagramException):
@@ -821,49 +710,29 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
 
     def test_plot_convex_hull_two_colors_passed(self):
         self.pc.plot_convex_hull(ws=[4, 6, 8], colors=["red", "blue"])
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), [1, 0, 0])
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), [0.5, 0, 0.5])
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), [0, 0, 1])
+        functions.comparing_colors_two_colors_passed()
 
     def test_plot_convex_hull_more_than_two_colors_passed(self):
         self.pc.plot_convex_hull(ws=[2, 4, 6, 8], colors=["red", "yellow", "orange"])
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "red")
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "yellow")
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "orange")
-        np.testing.assert_array_equal(plt.gca().lines[3].get_color(), "blue")
+        functions.comparing_colors_more_than_two_colors_passed()
 
     def test_plot_convex_hull_ws_color_pairs_passed(self):
         self.pc.plot_convex_hull(ws=[4, 6, 8], colors=((4, "purple"), (6, "blue"), (8, "red")))
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+        functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_convex_hull_ws_color_pairs_unsorted_passed(self):
         self.pc.plot_convex_hull(ws=[4, 6, 8], colors=((4, "purple"), (8, "red"), (6, "blue")))
-        np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
-        np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
-        np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
+        functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_convex_hull_show_legend(self):
         self.pc.plot_convex_hull(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
-        self.assertNotEqual(None, plt.gca().get_legend())
-        legend = plt.gca().get_legend()
-        handles = legend.__dict__["legendHandles"]
-        self.assertEqual(handles[0].get_label(), 'TWS 2')
-        self.assertEqual(handles[0].get_color(), 'red')
-        self.assertEqual(handles[1].get_label(), 'TWS 4')
-        self.assertEqual(handles[1].get_color(), 'purple')
-        self.assertEqual(handles[2].get_label(), 'TWS 6')
-        self.assertEqual(handles[2].get_color(), 'blue')
+        functions.Testfunctions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_convex_hull_plot_kw(self):
         self.pc.plot_convex_hull(ls=":", lw=1.5, marker="o")
         for i in range(4):
             with self.subTest(i=i):
-                line = plt.gca().lines[i]
-                self.assertEqual(line.get_linestyle(), ':')
-                self.assertEqual(line.get_linewidth(), 1.5)
-                self.assertEqual(line.get_marker(), 'o')
+                functions.Testfunctions.test_comparing_plot_kw(self, i)
 
     def test_plot_convex_hull_exception_single_element_ws(self):
         with self.assertRaises(PolarDiagramException):
