@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import unittest
 
 
-# functions for more than two PolarDiagram Subclass:
+# functions for more than two PolarDiagram Subclasses:
 def comparing_colors_two_colors_passed():
     np.testing.assert_array_equal(plt.gca().lines[0].get_color(), [1, 0, 0])
     np.testing.assert_array_equal(plt.gca().lines[1].get_color(), [0.5, 0, 0.5])
