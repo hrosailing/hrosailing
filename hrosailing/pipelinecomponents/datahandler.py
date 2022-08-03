@@ -192,7 +192,7 @@ class MultiDataHandler(DataHandler):
         for dh, data_entry in zip(self._handlers, data):
             data_dict, statistics = dh.handle(data_entry)
             self._update(comp_dict, data_dict)
-            comp_statistics.extend(statistics)
+            comp_statistics.append(statistics)
 
         try:
             coords = zip(
