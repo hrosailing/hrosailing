@@ -4,7 +4,7 @@ classes among other things.
 """
 
 from .datahandler import (ArrayHandler, CsvFileHandler, DataHandler,
-                          NMEAFileHandler)
+                          NMEAFileHandler, MultiDataHandler)
 from .filter import BoundFilter, Filter, QuantileFilter
 from .smoother import Smoother, LazySmoother
 from .influencemodel import InfluenceModel, IdentityInfluenceModel
