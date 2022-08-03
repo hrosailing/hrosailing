@@ -22,6 +22,7 @@ from decimal import Decimal
 import numpy as np
 
 from hrosailing.pipelinecomponents.constants import KEYSYNONYMS
+from hrosailing.cruising.weather_model import OutsideGridException
 
 
 class HandlerInitializationException(Exception):
@@ -171,6 +172,69 @@ class CsvFileHandler(DataHandler):
 
         statistics = get_datahandler_statistics(data_dict)
         return data_dict, statistics
+
+
+class MultiDataHandler(DataHandler):
+    """A data handler that uses multiple data handlers and weather models
+    in conjunction
+
+    Parameters
+    -----------
+    ?????
+    """
+    def __init__(self, handlers, weather_models):
+        self._handlers = handlers
+        self._weather_models = weather_models
+
+    def handle(self, data) -> (dict, dict):
+        comp_dict = {}
+        comp_statistics = []
+        for dh, data_entry in zip(self._handlers, data):
+            data_dict, statistics = dh.handle(data_entry)
+            self._update(comp_dict, data_dict)
+            comp_statistics.extend(statistics)
+
+        try:
+            coords = zip(
+                comp_dict["lat"],
+                comp_dict["lon"],
+                comp_dict["datetime"]
+            )
+        except KeyError:
+            statistics = {
+                "data_handler_statistics": comp_statistics,
+
+            }
+            return comp_dict, statistics
+
+        weather_dict = {}
+
+        for lat, lon, time in coords:
+            for wm in self._weather_models:
+                try:
+                    weather = wm.get_weather(lat, lon, time)
+                    weather = {key: [value] for key, value in weather.items()}
+                    self._update(weather_dict, weather)
+                    break
+                except OutsideGridException:
+                    continue
+            self._add_col(weather_dict)
+
+        comp_dict.update(weather_dict)
+
+    @staticmethod
+    def _update(dict_, data):
+        max_len = max([len(value) for _, value in data.items()])
+        for key, value in data.items():
+            if key not in dict_:
+                dict_[key] = []
+            dict_[key].extend([None]*(max_len - len(dict_[key])))
+            dict_[key].extend(value)
+
+    @staticmethod
+    def _add_col(dict_):
+        for key in dict_.keys():
+            dict_[key].append([None])
 
 
 class NMEAFileHandler(DataHandler):
