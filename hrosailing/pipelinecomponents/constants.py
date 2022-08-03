@@ -60,9 +60,9 @@ KEYSYNONYMS = {
     "date time": "datetime",
 
     "lat": "lat",
-    "lattitude": "lat",
+    "latitude": "lat",
     "lats": "lat",
-    "lattitudes": "lat",
+    "latitudes": "lat",
 
     "lon": "lon",
     "long": "lon",
