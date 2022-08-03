@@ -203,7 +203,8 @@ class MultiDataHandler(DataHandler):
         except KeyError:
             statistics = {
                 "data_handler_statistics": comp_statistics,
-
+                "weather_model_statistics":
+                    "coordinates not given in 'lat', 'lon', 'datetime'"
             }
             return comp_dict, statistics
 
@@ -221,6 +222,13 @@ class MultiDataHandler(DataHandler):
             self._add_col(weather_dict)
 
         comp_dict.update(weather_dict)
+
+        statistics = {
+            "data_handler_statistics": comp_statistics,
+            "weather_model_statistics": {}
+        }
+
+        return comp_dict, statistics
 
     @staticmethod
     def _update(dict_, data):
