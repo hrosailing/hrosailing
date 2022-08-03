@@ -58,4 +58,16 @@ KEYSYNONYMS = {
     
     "datetime": "datetime",
     "date time": "datetime",
+
+    "lat": "lat",
+    "lattitude": "lat",
+    "lats": "lat",
+    "lattitudes": "lat",
+
+    "lon": "lon",
+    "long": "lon",
+    "longitude": "lon",
+    "lons": "lon",
+    "longs": "lon",
+    "longitudes": "lon",
 }
