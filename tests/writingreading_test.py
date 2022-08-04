@@ -165,6 +165,14 @@ class FileReadingTest(unittest.TestCase):
         with open(self.unknown_subclass_hro_path, "w", encoding="utf-8") as file:
             file.writelines(l_unknown_subclass_hro)
 
+    def tearDown(self):
+        os.remove(self.pd_hro_path)
+        os.remove(self.pc_hro_path)
+        os.remove(self.array_path)
+        os.remove(self.opencpn_path)
+        os.remove(self.orc_path)
+        os.remove(self.unknown_subclass_hro_path)
+
     def test_read_nonexistent_file(self):
         with self.assertRaises(OSError):
             pol.from_csv("nonexistent.csv")
@@ -463,6 +471,23 @@ class FileWritingTest(unittest.TestCase):
         ]
         with open(self.orc_path, "w", encoding="utf-8") as file:
             file.writelines(l_orc)
+
+    @classmethod
+    def tearDownClass(cls):
+        os.remove('curve_hro_format_example.csv')
+        os.remove('multisails_hro_format_example.csv')
+        os.remove('cloud_hro_format_example.csv')
+        os.remove('table_hro_format_example.csv')
+        os.remove('array_format_example.csv')
+        os.remove('opencpn_format_example.csv')
+        os.remove('orc_format_example.csv')
+        os.remove('to_csv_pd_curve.csv')
+        os.remove('to_csv_pd_multisails.csv')
+        os.remove('to_csv_pd_cloud.csv')
+        os.remove('to_csv_pd_table.csv')
+        os.remove('to_csv_array.csv')
+        os.remove('to_csv_opencpn.csv')
+        os.remove('to_csv_orc.csv')
 
     def test_to_csv_pd_curve(self):
         pd_curve = pol.from_csv(self.curve_path)
