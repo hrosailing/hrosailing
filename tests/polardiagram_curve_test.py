@@ -162,11 +162,9 @@ class PolarDiagramCurveTest(unittest.TestCase):
             with self.subTest(i=i):
                 functions.curve_table_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
-    def test_plot_polar_axes_instance(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.c.plot_polar(ax=ax)
-        gca = plt.gca()
-        np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
+    def test_plot_polar_axes_keywords(self):
+        # test not implemented yet
+        pass
 
     def test_plot_polar_single_color(self):
         self.c.plot_polar(colors="purple")
@@ -192,13 +190,13 @@ class PolarDiagramCurveTest(unittest.TestCase):
 
     def test_plot_polar_show_legend(self):
         self.c.plot_polar(ws=[5, 10, 15], colors=["red", "purple", "blue"], show_legend=True)
-        functions.Testfunctions.test_curve_comparing_show_legend(self, plt.gca().get_legend())
+        functions.test_curve_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_polar_plot_kw(self):
         self.c.plot_polar(ls=":", lw=1.5, marker="o")
         for i in range(20):
             with self.subTest(i=i):
-                functions.Testfunctions.test_comparing_plot_kw(self, i)
+                functions.test_comparing_plot_kw(self, i)
 
     def test_plot_flat(self):
         self.c.plot_flat()
@@ -247,11 +245,9 @@ class PolarDiagramCurveTest(unittest.TestCase):
             with self.subTest(i=i):
                 functions.curve_table_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
-    def test_plot_flat_axes_instances(self):
-        f, ax = plt.subplots()
-        self.c.plot_flat(ax=ax)
-        gca = plt.gca()
-        np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
+    def test_plot_flat_axes_keywords(self):
+        # test not implemented yet
+        pass
 
     def test_plot_flat_single_color(self):
         self.c.plot_flat(colors="purple")
@@ -277,13 +273,13 @@ class PolarDiagramCurveTest(unittest.TestCase):
 
     def test_plot_flat_show_legend(self):
         self.c.plot_flat(ws=[5, 10, 15], colors=["red", "purple", "blue"], show_legend=True)
-        functions.Testfunctions.test_curve_comparing_show_legend(self, plt.gca().get_legend())
+        functions.test_curve_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_flat_plot_kw(self):
         self.c.plot_flat(ls=":", lw=1.5, marker="o")
         for i in range(20):
             with self.subTest(i=i):
-                functions.Testfunctions.test_comparing_plot_kw(self, i)
+                functions.test_comparing_plot_kw(self, i)
 
     def test_plot_3d(self):
         # test not implemented yet
@@ -294,19 +290,32 @@ class PolarDiagramCurveTest(unittest.TestCase):
         pass
 
     def test_plot_convex_hull(self):
-        # not finished yet: wa and bsp not tested
+        # test not finished yet
         self.c.plot_convex_hull()
-        ws, wa, bsp = self.c.get_slices(None)
-        for i in range(20):
-            with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
 
-    def test_plot_convex_hull_axes_instance(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.c.plot_convex_hull(ax=ax)
-        gca = plt.gca()
-        np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
+    def test_plot_convex_hull_single_element_ws(self):
+        # test not finished yet
+        self.c.plot_convex_hull(ws=10)
+
+    def test_plot_convex_hull_interval_ws(self):
+        # test not finished yet
+        self.c.plot_convex_hull(ws=(5, 15))
+
+    def test_plot_convex_hull_iterable_list_ws(self):
+        # test not finished yet
+        self.c.plot_convex_hull(ws=[5, 10, 15])
+
+    def test_plot_convex_hull_iterable_tuple_ws(self):
+        # test not finished yet
+        self.c.plot_convex_hull(ws=(5, 10, 15))
+
+    def test_plot_convex_hull_iterable_set_ws(self):
+        # test not finished yet
+        self.c.plot_convex_hull(ws={5, 10, 15})
+
+    def test_plot_convex_hull_axes_keywords(self):
+        # test not implemented yet
+        pass
 
     def test_plot_convex_hull_single_color(self):
         self.c.plot_convex_hull(colors="purple")
@@ -332,10 +341,10 @@ class PolarDiagramCurveTest(unittest.TestCase):
 
     def test_plot_convex_hull_show_legend(self):
         self.c.plot_convex_hull(ws=[5, 10, 15], colors=["red", "purple", "blue"], show_legend=True)
-        functions.Testfunctions.test_curve_comparing_show_legend(self, plt.gca().get_legend())
+        functions.test_curve_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_convex_hull_plot_kw(self):
         self.c.plot_convex_hull(ls=":", lw=1.5, marker="o")
         for i in range(20):
             with self.subTest(i=i):
-                functions.Testfunctions.test_comparing_plot_kw(self, i)
+                functions.test_comparing_plot_kw(self, i)
