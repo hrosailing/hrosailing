@@ -329,11 +329,9 @@ class PolarDiagramTableTest(unittest.TestCase):
             with self.subTest(i=i):
                 functions.curve_table_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
-    def test_plot_polar_axes_instance(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.pd.plot_polar(ax=ax)
-        gca = plt.gca()
-        np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
+    def test_plot_polar_axes_keywords(self):
+        # test not implemented yet
+        pass
 
     def test_plot_polar_single_color(self):
         self.pd.plot_polar(colors="purple")
@@ -359,13 +357,13 @@ class PolarDiagramTableTest(unittest.TestCase):
 
     def test_plot_polar_show_legend(self):
         self.pd.plot_polar(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
-        functions.Testfunctions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
+        functions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_polar_plot_kw(self):
         self.pd.plot_polar(ls=":", lw=1.5, marker="o")
         for i in range(4):
             with self.subTest(i=i):
-                functions.Testfunctions.test_comparing_plot_kw(self, i)
+                functions.test_comparing_plot_kw(self, i)
 
     def test_plot_polar_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):
@@ -402,6 +400,7 @@ class PolarDiagramTableTest(unittest.TestCase):
     def test_plot_flat_interval_ws(self):
         self.pd.plot_flat(ws=(4, 8))
         ws, wa, bsp = self.pd.get_slices(ws=(4, 8))
+        print(wa)
         bsp = bsp.T
         for i in range(3):
             with self.subTest(i=i):
@@ -431,11 +430,9 @@ class PolarDiagramTableTest(unittest.TestCase):
             with self.subTest(i=i):
                 functions.curve_table_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
-    def test_plot_flat_axes_instances(self):
-        f, ax = plt.subplots()
-        self.pd.plot_flat(ax=ax)
-        gca = plt.gca()
-        np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
+    def test_plot_flat_axes_keywords(self):
+        # test not implemented yet
+        pass
 
     def test_plot_flat_single_color(self):
         self.pd.plot_flat(colors="purple")
@@ -461,13 +458,13 @@ class PolarDiagramTableTest(unittest.TestCase):
 
     def test_plot_flat_show_legend(self):
         self.pd.plot_flat(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
-        functions.Testfunctions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
+        functions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_flat_plot_kw(self):
         self.pd.plot_flat(ls=":", lw=1.5, marker="o")
         for i in range(4):
             with self.subTest(i=i):
-                functions.Testfunctions.test_comparing_plot_kw(self, i)
+                functions.test_comparing_plot_kw(self, i)
 
     def test_plot_flat_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):
@@ -498,18 +495,36 @@ class PolarDiagramTableTest(unittest.TestCase):
         pass
 
     def test_plot_convex_hull(self):
-        # not finished yet: wa and bsp not tested
+        # test not finished yet
         self.pd.plot_convex_hull()
-        for i in range(len(self.ws_resolution)):
-            with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
 
-    def test_plot_convex_hull_axes_instance(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.pd.plot_convex_hull(ax=ax)
-        gca = plt.gca()
-        np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
+    def test_plot_convex_hull_single_element_ws(self):
+        # test not finished yet
+        self.pd.plot_convex_hull(ws=2)
+        x_data = plt.gca().lines[0].get_xdata()
+        y_data = plt.gca().lines[0].get_ydata()
+        np.testing.assert_array_equal(x_data, np.deg2rad([10, 15, 25, 10]))
+        np.testing.assert_array_equal(y_data, [1, 1.5, 2, 1])
+
+    def test_plot_convex_hull_interval_ws(self):
+        # test not finished yet
+        self.pd.plot_convex_hull(ws=(2, 6))
+
+    def test_plot_convex_hull_iterable_list_ws(self):
+        # test not finished yet
+        self.pd.plot_convex_hull(ws=[2, 4, 6])
+
+    def test_plot_convex_hull_iterable_tuple_ws(self):
+        # test not finished yet
+        self.pd.plot_convex_hull(ws=(2, 4, 6))
+
+    def test_plot_convex_hull_iterable_set_ws(self):
+        # test not finished yet
+        self.pd.plot_convex_hull(ws={2, 4, 6})
+
+    def test_plot_convex_hull_axes_keywords(self):
+        # test not implemented yet
+        pass
 
     def test_plot_convex_hull_single_color(self):
         self.pd.plot_convex_hull(colors="purple")
@@ -535,13 +550,13 @@ class PolarDiagramTableTest(unittest.TestCase):
 
     def test_plot_convex_hull_show_legend(self):
         self.pd.plot_convex_hull(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
-        functions.Testfunctions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
+        functions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_convex_hull_plot_kw(self):
         self.pd.plot_convex_hull(ls=":", lw=1.5, marker="o")
         for i in range(4):
             with self.subTest(i=i):
-                functions.Testfunctions.test_comparing_plot_kw(self, i)
+                functions.test_comparing_plot_kw(self, i)
 
     def test_plot_convex_hull_exception_ws_not_in_self_wind_speeds(self):
         with self.subTest(i=0):

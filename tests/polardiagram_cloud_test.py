@@ -310,17 +310,6 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         np.testing.assert_array_equal(np.asarray(wa).flat, sorted_wind_angles)
         np.testing.assert_array_equal(np.asarray(bsp).flat, boat_speeds)
 
-    def test_get_slices_big_range_(self):
-        ws, wa, bsp = self.pc.get_slices(ws=4, range_=100)
-        self.assertEqual(ws, [4])
-        sorted_wind_angles = sorted(np.deg2rad(np.concatenate((self.pc.wind_angles,
-                                                               self.pc.wind_angles,
-                                                               self.pc.wind_angles,
-                                                               self.pc.wind_angles))))
-        boat_speeds = [1.1, 2, 3, 4, 1.5, 2.4, 3.1, 4.1, 1.7, 2.6, 3.5, 4.4, 2.1, 3, 3.8, 4.6]
-        np.testing.assert_array_equal(np.asarray(wa).flat, sorted_wind_angles)
-        np.testing.assert_array_equal(np.asarray(bsp).flat, boat_speeds)
-
     def test_get_slices_range_mixed_list(self):
         pd = self.big_pc
         ws, wa, bsp = pd.get_slices(ws=[(14, 20), 8], range_=2)
@@ -470,11 +459,9 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
             with self.subTest(i=i):
                 functions.cloud_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
-    def test_plot_polar_axes_instance(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.pc.plot_polar(ax=ax)
-        gca = plt.gca()
-        np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
+    def test_plot_polar_axes_keywords(self):
+        # test not implemented yet
+        pass
 
     def test_plot_polar_single_color(self):
         self.pc.plot_polar(colors="purple")
@@ -500,13 +487,13 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
 
     def test_plot_polar_show_legend(self):
         self.pc.plot_polar(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
-        functions.Testfunctions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
+        functions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_polar_plot_kw(self):
         self.pc.plot_polar(ls=":", lw=1.5, marker="o")
         for i in range(4):
             with self.subTest(i=i):
-                functions.Testfunctions.test_comparing_plot_kw(self, i)
+                functions.test_comparing_plot_kw(self, i)
 
     def test_plot_polar_exception_single_element_ws(self):
         with self.assertRaises(PolarDiagramException):
@@ -542,6 +529,8 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
     def test_plot_flat_interval_ws(self):
         self.pc.plot_flat(ws=(4, 8))
         ws, wa, bsp = self.pc.get_slices(ws=(4, 8))
+        print(wa)
+        print(bsp)
         for i in range(4):
             with self.subTest(i=i):
                 functions.cloud_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
@@ -609,11 +598,9 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
             with self.subTest(i=i):
                 functions.cloud_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
-    def test_plot_flat_axes_instances(self):
-        f, ax = plt.subplots()
-        self.pc.plot_flat(ax=ax)
-        gca = plt.gca()
-        np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
+    def test_plot_flat_axes_keywords(self):
+        # test not implemented yet
+        pass
 
     def test_plot_flat_single_color(self):
         self.pc.plot_flat(colors="purple")
@@ -639,13 +626,13 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
 
     def test_plot_flat_show_legend(self):
         self.pc.plot_flat(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
-        functions.Testfunctions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
+        functions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_flat_plot_kw(self):
         self.pc.plot_flat(ls=":", lw=1.5, marker="o")
         for i in range(4):
             with self.subTest(i=i):
-                functions.Testfunctions.test_comparing_plot_kw(self, i)
+                functions.test_comparing_plot_kw(self, i)
 
     def test_plot_flat_exception_single_element_ws(self):
         with self.assertRaises(PolarDiagramException):
@@ -689,18 +676,35 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
             pd_empty.plot_color_gradient()
 
     def test_plot_convex_hull(self):
-        # not finished yet: wa and bsp not tested
+        # test not finished yet
         self.pc.plot_convex_hull()
-        for i in range(4):
-            with self.subTest(i=i):
-                x_plot = plt.gca().lines[i].get_xdata()
-                y_plot = plt.gca().lines[i].get_ydata()
 
-    def test_plot_convex_hull_axes_instance(self):
-        f, ax = plt.subplots(subplot_kw={'projection': 'polar'})
-        self.pc.plot_convex_hull(ax=ax)
-        gca = plt.gca()
-        np.testing.assert_array_equal(ax.__dict__, gca.__dict__)
+    def test_plot_convex_hull_single_element_ws(self):
+        self.pc.plot_convex_hull(ws=2)
+        x_data = plt.gca().lines[0].get_xdata()
+        y_data = plt.gca().lines[0].get_ydata()
+        np.testing.assert_array_equal(x_data, np.deg2rad([10, 15, 25, 10]))
+        np.testing.assert_array_equal(y_data, [1.1, 1.5, 2.1, 1.1])
+
+    def test_plot_convex_hull_interval_ws(self):
+        # test not finished yet
+        self.pc.plot_convex_hull(ws=(2, 6))
+
+    def test_plot_convex_hull_iterable_list_ws(self):
+        # test not finished yet
+        self.pc.plot_convex_hull(ws=[2, 4, 6])
+
+    def test_plot_convex_hull_iterable_tuple_ws(self):
+        # test not finished yet
+        self.pc.plot_convex_hull(ws=(2, 4, 6))
+
+    def test_plot_convex_hull_iterable_set_ws(self):
+        # test not finished yet
+        self.pc.plot_convex_hull(ws={2, 4, 6})
+
+    def test_plot_convex_hull_axes_keywords(self):
+        # test not implemented yet
+        pass
 
     def test_plot_convex_hull_single_color(self):
         self.pc.plot_convex_hull(colors="purple")
@@ -726,13 +730,13 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
 
     def test_plot_convex_hull_show_legend(self):
         self.pc.plot_convex_hull(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
-        functions.Testfunctions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
+        functions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_convex_hull_plot_kw(self):
         self.pc.plot_convex_hull(ls=":", lw=1.5, marker="o")
         for i in range(4):
             with self.subTest(i=i):
-                functions.Testfunctions.test_comparing_plot_kw(self, i)
+                functions.test_comparing_plot_kw(self, i)
 
     def test_plot_convex_hull_exception_single_element_ws(self):
         with self.assertRaises(PolarDiagramException):
