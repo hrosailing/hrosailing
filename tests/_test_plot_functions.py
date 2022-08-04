@@ -112,40 +112,38 @@ def cloud_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp):
     np.testing.assert_array_equal(x_plot, np.rad2deg(wa[i]))
     np.testing.assert_array_equal(y_plot, bsp[i])
 
+def test_comparing_plot_kw(self, i):
+    line = plt.gca().lines[i]
+    self.assertEqual(line.get_linestyle(), ':')
+    self.assertEqual(line.get_linewidth(), 1.5)
+    self.assertEqual(line.get_marker(), 'o')
 
-class Testfunctions(unittest.TestCase):
-    def test_comparing_plot_kw(self, i):
-        line = plt.gca().lines[i]
-        self.assertEqual(line.get_linestyle(), ':')
-        self.assertEqual(line.get_linewidth(), 1.5)
-        self.assertEqual(line.get_marker(), 'o')
+def test_curve_comparing_show_legend(self, legend):
+    self.assertNotEqual(None, legend)
+    handles = legend.__dict__["legendHandles"]
+    self.assertEqual(handles[0].get_label(), 'TWS 5')
+    self.assertEqual(handles[0].get_color(), 'red')
+    self.assertEqual(handles[1].get_label(), 'TWS 10')
+    self.assertEqual(handles[1].get_color(), 'purple')
+    self.assertEqual(handles[2].get_label(), 'TWS 15')
+    self.assertEqual(handles[2].get_color(), 'blue')
 
-    def test_curve_comparing_show_legend(self, legend):
-        self.assertNotEqual(None, legend)
-        handles = legend.__dict__["legendHandles"]
-        self.assertEqual(handles[0].get_label(), 'TWS 5')
-        self.assertEqual(handles[0].get_color(), 'red')
-        self.assertEqual(handles[1].get_label(), 'TWS 10')
-        self.assertEqual(handles[1].get_color(), 'purple')
-        self.assertEqual(handles[2].get_label(), 'TWS 15')
-        self.assertEqual(handles[2].get_color(), 'blue')
+def test_multisails_comparing_show_legend(self, legend):
+    self.assertNotEqual(None, legend)
+    handles = legend.__dict__["legendHandles"]
+    self.assertEqual(handles[0].get_label(), 'TWS 42.0')
+    self.assertEqual(handles[0].get_color(), 'red')
+    self.assertEqual(handles[1].get_label(), 'TWS 44.0')
+    self.assertEqual(handles[1].get_color(), 'purple')
+    self.assertEqual(handles[2].get_label(), 'TWS 46.0')
+    self.assertEqual(handles[2].get_color(), 'blue')
 
-    def test_multisails_comparing_show_legend(self, legend):
-        self.assertNotEqual(None, legend)
-        handles = legend.__dict__["legendHandles"]
-        self.assertEqual(handles[0].get_label(), 'TWS 42.0')
-        self.assertEqual(handles[0].get_color(), 'red')
-        self.assertEqual(handles[1].get_label(), 'TWS 44.0')
-        self.assertEqual(handles[1].get_color(), 'purple')
-        self.assertEqual(handles[2].get_label(), 'TWS 46.0')
-        self.assertEqual(handles[2].get_color(), 'blue')
-
-    def test_cloud_table_comparing_show_legend(self, legend):
-        self.assertNotEqual(None, legend)
-        handles = legend.__dict__["legendHandles"]
-        self.assertEqual(handles[0].get_label(), 'TWS 2')
-        self.assertEqual(handles[0].get_color(), 'red')
-        self.assertEqual(handles[1].get_label(), 'TWS 4')
-        self.assertEqual(handles[1].get_color(), 'purple')
-        self.assertEqual(handles[2].get_label(), 'TWS 6')
-        self.assertEqual(handles[2].get_color(), 'blue')
+def test_cloud_table_comparing_show_legend(self, legend):
+    self.assertNotEqual(None, legend)
+    handles = legend.__dict__["legendHandles"]
+    self.assertEqual(handles[0].get_label(), 'TWS 2')
+    self.assertEqual(handles[0].get_color(), 'red')
+    self.assertEqual(handles[1].get_label(), 'TWS 4')
+    self.assertEqual(handles[1].get_color(), 'purple')
+    self.assertEqual(handles[2].get_label(), 'TWS 6')
+    self.assertEqual(handles[2].get_color(), 'blue')
