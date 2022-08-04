@@ -296,16 +296,16 @@ def reading_suite():
 
 
 class FileWritingTest(unittest.TestCase):
+    curve_path = "curve_hro_format_example.csv"
+    multisails_path = "multisails_hro_format_example.csv"
+    cloud_path = "cloud_hro_format_example.csv"
+    table_path = "table_hro_format_example.csv"
+    array_path = "array_format_example.csv"
+    opencpn_path = "opencpn_format_example.csv"
+    orc_path = "orc_format_example.csv"
+
     def setUp(self):
         # create needed files
-        self.curve_path = "curve_hro_format_example.csv"
-        self.multisails_path = "multisails_hro_format_example.csv"
-        self.cloud_path = "cloud_hro_format_example.csv"
-        self.table_path = "table_hro_format_example.csv"
-        self.array_path = "array_format_example.csv"
-        self.opencpn_path = "opencpn_format_example.csv"
-        self.orc_path = "orc_format_example.csv"
-
         l_curve = [
             "PolarDiagramCurve\n",
             "Function:ws_s_wa_gauss_and_square\n",
@@ -474,13 +474,13 @@ class FileWritingTest(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        os.remove('curve_hro_format_example.csv')
-        os.remove('multisails_hro_format_example.csv')
-        os.remove('cloud_hro_format_example.csv')
-        os.remove('table_hro_format_example.csv')
-        os.remove('array_format_example.csv')
-        os.remove('opencpn_format_example.csv')
-        os.remove('orc_format_example.csv')
+        os.remove(cls.curve_path)
+        os.remove(cls.multisails_path)
+        os.remove(cls.cloud_path)
+        os.remove(cls.table_path)
+        os.remove(cls.array_path)
+        os.remove(cls.opencpn_path)
+        os.remove(cls.orc_path)
         os.remove('to_csv_pd_curve.csv')
         os.remove('to_csv_pd_multisails.csv')
         os.remove('to_csv_pd_cloud.csv')
