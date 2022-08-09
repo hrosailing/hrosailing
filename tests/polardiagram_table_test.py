@@ -359,6 +359,11 @@ class PolarDiagramTableTest(unittest.TestCase):
         self.pd.plot_polar(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
         functions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
 
+    def test_plot_polar_legend_kw(self):
+        self.pd.plot_polar(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True,
+                           legend_kw={'labels': ["ws 2", "ws 4", "ws 6"], 'loc': 'upper left'})
+        functions.test_cloud_table_comparing_legend_keywords(self, plt.gca().get_legend())
+
     def test_plot_polar_plot_kw(self):
         self.pd.plot_polar(ls=":", lw=1.5, marker="o")
         for i in range(4):
@@ -460,6 +465,11 @@ class PolarDiagramTableTest(unittest.TestCase):
         self.pd.plot_flat(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
         functions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
 
+    def test_plot_flat_legend_kw(self):
+        self.pd.plot_flat(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True,
+                          legend_kw={'labels': ["ws 2", "ws 4", "ws 6"], 'loc': 'upper left'})
+        functions.test_cloud_table_comparing_legend_keywords(self, plt.gca().get_legend())
+
     def test_plot_flat_plot_kw(self):
         self.pd.plot_flat(ls=":", lw=1.5, marker="o")
         for i in range(4):
@@ -551,6 +561,11 @@ class PolarDiagramTableTest(unittest.TestCase):
     def test_plot_convex_hull_show_legend(self):
         self.pd.plot_convex_hull(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
         functions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
+
+    def test_plot_convex_hull_legend_kw(self):
+        self.pd.plot_convex_hull(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True,
+                                 legend_kw={'labels': ["ws 2", "ws 4", "ws 6"], 'loc': 'upper left'})
+        functions.test_cloud_table_comparing_legend_keywords(self, plt.gca().get_legend())
 
     def test_plot_convex_hull_plot_kw(self):
         self.pd.plot_convex_hull(ls=":", lw=1.5, marker="o")

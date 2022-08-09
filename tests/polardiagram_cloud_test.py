@@ -430,11 +430,6 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         ws, wa, bsp = self.pc.get_slices(ws=4, range_=2)
         functions.cloud_plot_polar_comparing_x_plot_wa_y_plot_bsp_single_ws(wa, bsp)
 
-    def test_plot_polar_big_range_(self):
-        self.pc.plot_polar(ws=4, range_=100)
-        ws, wa, bsp = self.pc.get_slices(ws=4, range_=100)
-        functions.cloud_plot_polar_comparing_x_plot_wa_y_plot_bsp_single_ws(wa, bsp)
-
     def test_plot_polar_range_mixed_list(self):
         pd = self.big_pc
         pd.plot_polar(ws=[(14, 20), 8], range_=2)
@@ -489,6 +484,11 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         self.pc.plot_polar(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
         functions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
 
+    def test_plot_polar_legend_kw(self):
+        self.pc.plot_polar(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True,
+                           legend_kw={'labels': ["ws 2", "ws 4", "ws 6"], 'loc': 'upper left'})
+        functions.test_cloud_table_comparing_legend_keywords(self, plt.gca().get_legend())
+
     def test_plot_polar_plot_kw(self):
         self.pc.plot_polar(ls=":", lw=1.5, marker="o")
         for i in range(4):
@@ -529,8 +529,6 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
     def test_plot_flat_interval_ws(self):
         self.pc.plot_flat(ws=(4, 8))
         ws, wa, bsp = self.pc.get_slices(ws=(4, 8))
-        print(wa)
-        print(bsp)
         for i in range(4):
             with self.subTest(i=i):
                 functions.cloud_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
@@ -567,11 +565,6 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
     def test_plot_flat_range_single_ws(self):
         self.pc.plot_flat(ws=4, range_=2)
         ws, wa, bsp = self.pc.get_slices(ws=4, range_=2)
-        functions.cloud_plot_flat_comparing_x_plot_wa_y_plot_bsp_single_ws(wa, bsp)
-
-    def test_plot_flat_big_range_(self):
-        self.pc.plot_flat(ws=4, range_=100)
-        ws, wa, bsp = self.pc.get_slices(ws=4, range_=100)
         functions.cloud_plot_flat_comparing_x_plot_wa_y_plot_bsp_single_ws(wa, bsp)
 
     def test_plot_flat_range_mixed_list(self):
@@ -627,6 +620,11 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
     def test_plot_flat_show_legend(self):
         self.pc.plot_flat(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
         functions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
+
+    def test_plot_flat_legend_kw(self):
+        self.pc.plot_flat(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True,
+                          legend_kw={'labels': ["ws 2", "ws 4", "ws 6"], 'loc': 'upper left'})
+        functions.test_cloud_table_comparing_legend_keywords(self, plt.gca().get_legend())
 
     def test_plot_flat_plot_kw(self):
         self.pc.plot_flat(ls=":", lw=1.5, marker="o")
@@ -731,6 +729,11 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
     def test_plot_convex_hull_show_legend(self):
         self.pc.plot_convex_hull(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
         functions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
+
+    def test_plot_convex_hull_legend_kw(self):
+        self.pc.plot_convex_hull(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True,
+                                 legend_kw={'labels': ["ws 2", "ws 4", "ws 6"], 'loc': 'upper left'})
+        functions.test_cloud_table_comparing_legend_keywords(self, plt.gca().get_legend())
 
     def test_plot_convex_hull_plot_kw(self):
         self.pc.plot_convex_hull(ls=":", lw=1.5, marker="o")
