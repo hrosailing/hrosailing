@@ -405,7 +405,6 @@ class PolarDiagramTableTest(unittest.TestCase):
     def test_plot_flat_interval_ws(self):
         self.pd.plot_flat(ws=(4, 8))
         ws, wa, bsp = self.pd.get_slices(ws=(4, 8))
-        print(wa)
         bsp = bsp.T
         for i in range(3):
             with self.subTest(i=i):
@@ -493,16 +492,27 @@ class PolarDiagramTableTest(unittest.TestCase):
                 self.pd.plot_flat(ws=(2, 0))
 
     def test_plot_3d(self):
-        self.pd.plot_3d()
-        # not finished yet
+        # test not finished yet
+        ax = plt.axes(projection="3d")
+        self.pd.plot_3d(ax=ax)
+        print(ax.collections[0]._vec)
 
     def test_plot_3d_colors(self):
-        self.pd.plot_3d(colors=('blue', 'red'))
-        # not finished yet
+        # test not finished yet
+        ax = plt.axes(projection="3d")
+        self.pd.plot_3d(ax=ax, colors=('blue', 'red'))
+        print(ax.collections[0]._vec)
 
     def test_plot_color_gradient(self):
-        # test not implemented yet
-        pass
+        # test not finished yet
+        ax = plt.axes()
+        self.pd.plot_color_gradient(ax=ax, show_legend=True)
+        ws_wa_list = ax.collections[0]._offsets
+        multiple_ws = np.concatenate((self.ws_resolution, self.ws_resolution, self.ws_resolution, self.ws_resolution))
+        multiple_wa = np.concatenate((self.wa_resolution, self.wa_resolution, self.wa_resolution, self.wa_resolution))
+        zipped_ws_wa = [list(item) for item in zip(multiple_ws, multiple_wa)]
+        self.assertEqual(len(ws_wa_list), len(zipped_ws_wa))
+
 
     def test_plot_convex_hull(self):
         # test not finished yet
