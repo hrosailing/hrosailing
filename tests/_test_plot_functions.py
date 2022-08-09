@@ -58,6 +58,15 @@ def test_cloud_table_comparing_show_legend(self, legend):
             self.assertEqual(handles[i].get_color(), colors[i])
 
 
+def test_cloud_table_comparing_legend_keywords(self, legend):
+    texts = legend.__dict__["texts"]
+    labels = ['ws 2', 'ws 4', 'ws 6']
+    self.assertEqual(legend.__dict__["_loc_real"], 2)
+    for i in range(3):
+        with self.subTest(i=i):
+            self.assertEqual(str(texts[i]), "Text(0, 0, '" + labels[i] + "')")
+
+
 # functions for Curve:
 def test_curve_comparing_show_legend(self, legend):
     self.assertNotEqual(None, legend)
@@ -69,6 +78,15 @@ def test_curve_comparing_show_legend(self, legend):
         with self.subTest(i=i):
             self.assertIn(handles[i].get_label(), [labels1[i], labels2[i]])
             self.assertEqual(handles[i].get_color(), colors[i])
+
+def test_curve_comparing_legend_keywords(self, legend):
+    texts = legend.__dict__["texts"]
+    labels = ['ws 5', 'ws 10', 'ws 15']
+    self.assertEqual(legend.__dict__["_loc_real"], 2)
+    for i in range(3):
+        with self.subTest(i=i):
+            self.assertEqual(str(texts[i]), "Text(0, 0, '" + labels[i] + "')")
+
 
 
 # functions for MultiSails:

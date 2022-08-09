@@ -192,6 +192,12 @@ class PolarDiagramCurveTest(unittest.TestCase):
         self.c.plot_polar(ws=[5, 10, 15], colors=["red", "purple", "blue"], show_legend=True)
         functions.test_curve_comparing_show_legend(self, plt.gca().get_legend())
 
+    def test_plot_polar_legend_kw(self):
+        self.c.plot_polar(ws=[5, 10, 15], colors=["red", "purple", "blue"], show_legend=True,
+                          legend_kw={'labels': ["ws 5", "ws 10", "ws 15"], 'loc': 'upper left'})
+        functions.test_curve_comparing_legend_keywords(self, plt.gca().get_legend())
+
+
     def test_plot_polar_plot_kw(self):
         self.c.plot_polar(ls=":", lw=1.5, marker="o")
         for i in range(20):
@@ -275,6 +281,11 @@ class PolarDiagramCurveTest(unittest.TestCase):
         self.c.plot_flat(ws=[5, 10, 15], colors=["red", "purple", "blue"], show_legend=True)
         functions.test_curve_comparing_show_legend(self, plt.gca().get_legend())
 
+    def test_plot_flat_legend_kw(self):
+        self.c.plot_flat(ws=[5, 10, 15], colors=["red", "purple", "blue"], show_legend=True,
+                         legend_kw={'labels': ["ws 5", "ws 10", "ws 15"], 'loc': 'upper left'})
+        functions.test_curve_comparing_legend_keywords(self, plt.gca().get_legend())
+
     def test_plot_flat_plot_kw(self):
         self.c.plot_flat(ls=":", lw=1.5, marker="o")
         for i in range(20):
@@ -342,6 +353,11 @@ class PolarDiagramCurveTest(unittest.TestCase):
     def test_plot_convex_hull_show_legend(self):
         self.c.plot_convex_hull(ws=[5, 10, 15], colors=["red", "purple", "blue"], show_legend=True)
         functions.test_curve_comparing_show_legend(self, plt.gca().get_legend())
+
+    def test_plot_convex_hull_legend_kw(self):
+        self.c.plot_convex_hull(ws=[5, 10, 15], colors=["red", "purple", "blue"], show_legend=True,
+                                legend_kw={'labels': ["ws 5", "ws 10", "ws 15"], 'loc': 'upper left'})
+        functions.test_curve_comparing_legend_keywords(self, plt.gca().get_legend())
 
     def test_plot_convex_hull_plot_kw(self):
         self.c.plot_convex_hull(ls=":", lw=1.5, marker="o")
