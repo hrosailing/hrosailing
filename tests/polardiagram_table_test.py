@@ -507,16 +507,12 @@ class PolarDiagramTableTest(unittest.TestCase):
         # test not finished yet
         ax = plt.axes()
         self.pd.plot_color_gradient(ax=ax, show_legend=True)
-        ws_wa_list = list(list(item) for item in np.array(ax.collections[0]._offsets))
+        ws_wa_list = [list(item) for item in np.array(ax.collections[0]._offsets)]
         print(ws_wa_list)
-        multiple_ws = np.concatenate((self.ws_resolution, self.ws_resolution, self.ws_resolution, self.ws_resolution))
-        multiple_wa = np.concatenate((self.wa_resolution, self.wa_resolution, self.wa_resolution, self.wa_resolution))
-        all_combinations_ws_wa = [list(zip(each_permutation, multiple_wa))
-                                  for each_permutation in itertools.permutations(multiple_ws, 2)]
+        all_combinations_ws_wa = [list(item) for item in itertools.product(self.ws_resolution, self.wa_resolution)]
         print(all_combinations_ws_wa)
         self.assertEqual(len(ws_wa_list), len(all_combinations_ws_wa))
         self.assertCountEqual(ws_wa_list, all_combinations_ws_wa)
-
 
     def test_plot_convex_hull(self):
         # test not finished yet
