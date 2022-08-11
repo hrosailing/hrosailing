@@ -159,3 +159,4 @@ testdata.csv
 *.json
 *.vdr
 test.py
+vela_test/
