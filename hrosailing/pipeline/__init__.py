@@ -281,6 +281,7 @@ class PolarPipeline:
             pp_training_statistics.pre_weigher,
             pp_training_statistics.pre_filter,
             pp_training_statistics.smoother,
+            pp_training_statistics.expander,
             pp_training_statistics.influence_model,
             pp_training_statistics.post_weigher,
             pp_training_statistics.post_filter,
@@ -329,15 +330,15 @@ class PolarPipeline:
             smooth_data = pre_filtered_data.data
             smooth_statistics = {}
 
-        data = smooth_data
+        expanded_data, expanded_statistics = self.expander.expand(smooth_data)
 
         if influence_fitting:
-            influence_fit_statistics = self.influence_model.fit(data)
+            influence_fit_statistics = self.influence_model.fit(expanded_data)
         else:
             influence_fit_statistics = {}
 
         influence_free_data, influence_statistics = \
-            self.influence_model.remove_influence(data)
+            self.influence_model.remove_influence(expanded_data)
 
         influence_statistics.update(influence_fit_statistics)
 
@@ -356,6 +357,7 @@ class PolarPipeline:
             pre_weigher_statistics,
             pre_filter_statistics,
             smooth_statistics,
+            expanded_statistics,
             influence_statistics,
             post_weigher_statistics,
             post_filter_statistics,
