@@ -50,8 +50,10 @@ class PolarPipeline:
     Parameters
     ----------
 
-    data_handler : DataHandler
-        Handler that is responsible to extract actual data from the input
+    data_handler : DataHandler or list of DataHandler
+        Handlers that are responsible to extract actual data from the input.
+        If only one handler is given, this handler will be used for all given inputs,
+        otherwise the handlers will be used one after another for each data input including the training data.
 
         Determines the type and format of input the pipeline should accept
 
@@ -165,18 +167,19 @@ class PolarPipeline:
         """
         Parameters
         ----------
-        training_data : compatible with `self.data_handler`
+        training_data : list of data compatible with `self.data_handler`
             Data from which to create the polar diagram
 
-            The input should be compatible with the DataHandler instance
+            The input should be compatible with the DataHandler instances
             given in initialization of the pipeline instance
 
-        test_data: compatible with `self.data_handler`
+        test_data: list of data compatible with `self.data_handler` or `None`
             Data which is preprocessed and then used to check the quality of
             the resulting polar diagram
 
-            The input should be compatible with the DataHandler instance
-            given in initialization of the pipeline instance
+            The input should be compatible with the DataHandler instances
+            given in initialization of the pipeline instance.
+            If `None` no quality check is performed.
 
             Default to `None`
 
@@ -303,9 +306,9 @@ class PolarPipeline:
         influence_fitting
     ):
 
-        handled_data, handler_statistics = self.data_handler.handle(data)
+        handled_data, handler_statistics = self._handle_data(data)
 
-        imputated_data, imputator_statistics = self.imputator.imputate(
+        imputated_data, imputator_statistics = self._imputate_data(
             handled_data
         )
 
@@ -362,6 +365,30 @@ class PolarPipeline:
         )
 
         return post_filtered_data, statistics
+
+    def _handle_data(self, data):
+        if isinstance(self.data_handler, pc.DataHandler):
+            handler_output = [self.data_handler.handle(field) for field in data]
+        else:
+            handler_output = []
+            for field in data:
+                handler = next(self.data_handler)
+                handler_output.append(handler.handle(field))
+
+        return self._list_statistics(handler_output)
+
+    def _imputate_data(self, data):
+        imputator_output = [self.imputator.imputate(field) for field in data]
+        return self._list_statistics(imputator_output)
+
+    @staticmethod
+    def _list_statistics(pipe_output):
+        data, statistics = zip(*pipe_output)
+        statistics = {
+            i: stat[i] for i, stat in enumerate(statistics)
+        }
+        return list(data), statistics
+
 
 
 def _weigh_and_filter(
