@@ -25,6 +25,7 @@ class Statistics(NamedTuple):
     pre_weigher: dict
     pre_filter: dict
     smoother: dict
+    expander: dict
     influence_model: dict
     post_weigher: dict
     post_filter: dict
@@ -65,6 +66,10 @@ class PolarPipeline:
         following from low measurement precision.
 
         Defaults to `LazySmoother()`
+
+    expander: Expander, optional
+        Determines the method which will be used to expand the data by several more data fields.
+        For example weather data from a weather model.
 
     pre_weigher : Weigher, optional
         Determines the method with which the points will be weight before
@@ -120,6 +125,7 @@ class PolarPipeline:
         self,
         data_handler=pc.NMEAFileHandler(),
         imputator=pc.FillLocalImputator(),
+        expander=pc.IdentityExpander(),
         pre_weigher=pc.CylindricMeanWeigher(),
         pre_filter=pc.QuantileFilter(),
         smoother=pc.LazySmoother(),
@@ -135,6 +141,7 @@ class PolarPipeline:
         self.pre_weigher = pre_weigher
         self.pre_filter = pre_filter
         self.smoother = smoother
+        self.expander = expander
         self.influence_model = influence_model
         self.post_weigher = post_weigher
         self.post_filter = post_filter
