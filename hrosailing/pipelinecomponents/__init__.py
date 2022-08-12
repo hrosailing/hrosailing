@@ -7,6 +7,7 @@ from .datahandler import (ArrayHandler, CsvFileHandler, DataHandler,
                           NMEAFileHandler, MultiDataHandler)
 from .filter import BoundFilter, Filter, QuantileFilter
 from .smoother import Smoother, LazySmoother
+from .expander import Expander, LazyExpander
 from .influencemodel import InfluenceModel, IdentityInfluenceModel
 from .interpolator import (ArithmeticMeanInterpolator, IDWInterpolator,
                            ImprovedIDWInterpolator, Interpolator)

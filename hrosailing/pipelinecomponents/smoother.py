@@ -27,7 +27,7 @@ class Smoother(ABC):
         statistics: dict,
             Dictionary containing relevant statistics
         """
-        return data
+        return data, {}
 
 
 class LazySmoother(Smoother):

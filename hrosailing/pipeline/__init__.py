@@ -125,7 +125,7 @@ class PolarPipeline:
         self,
         data_handler=pc.NMEAFileHandler(),
         imputator=pc.FillLocalImputator(),
-        expander=pc.IdentityExpander(),
+        expander=pc.LazyExpander(),
         pre_weigher=pc.CylindricMeanWeigher(),
         pre_filter=pc.QuantileFilter(),
         smoother=pc.LazySmoother(),
