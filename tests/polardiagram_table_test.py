@@ -8,6 +8,8 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
+import math
+
 import hrosailing.polardiagram as pol
 from hrosailing.polardiagram._basepolardiagram import (
     PolarDiagramException,
@@ -364,6 +366,11 @@ class PolarDiagramTableTest(unittest.TestCase):
                            legend_kw={'labels': ["ws 2", "ws 4", "ws 6"], 'loc': 'upper left'})
         helper_functions.test_cloud_table_comparing_legend_keywords(self, plt.gca().get_legend())
 
+    def test_plot_polar_show_colorbar(self):
+        self.pd.plot_polar(ws=[2, 4, 6], colors=("red", "blue"), show_legend=True)
+        colorbar_axes = plt.gcf().axes[-1]
+        helper_functions.test_comparing_show_colorbar(self, colorbar_axes)
+
     def test_plot_polar_plot_kw(self):
         self.pd.plot_polar(ls=":", lw=1.5, marker="o")
         for i in range(4):
@@ -469,6 +476,11 @@ class PolarDiagramTableTest(unittest.TestCase):
                           legend_kw={'labels': ["ws 2", "ws 4", "ws 6"], 'loc': 'upper left'})
         helper_functions.test_cloud_table_comparing_legend_keywords(self, plt.gca().get_legend())
 
+    def test_plot_flat_show_colorbar(self):
+        self.pd.plot_flat(ws=[2, 4, 6], colors=("red", "blue"), show_legend=True)
+        colorbar_axes = plt.gcf().axes[-1]
+        helper_functions.test_comparing_show_colorbar(self, colorbar_axes)
+
     def test_plot_flat_plot_kw(self):
         self.pd.plot_flat(ls=":", lw=1.5, marker="o")
         for i in range(4):
@@ -496,21 +508,22 @@ class PolarDiagramTableTest(unittest.TestCase):
         ax = plt.axes(projection="3d")
         self.pd.plot_3d(ax=ax)
         print(ax.collections[0]._vec)
+        # rad(10) = 0.1745
+        # rad(15) = 0.2618
+        # rad(20) = 0.3491
+        # rad(25) = 0.4363
 
     def test_plot_3d_colors(self):
         # test not finished yet
         ax = plt.axes(projection="3d")
         self.pd.plot_3d(ax=ax, colors=('blue', 'red'))
-        print(ax.collections[0]._vec)
 
     def test_plot_color_gradient(self):
         # test not finished yet
         ax = plt.axes()
         self.pd.plot_color_gradient(ax=ax, show_legend=True)
         ws_wa_list = [list(item) for item in np.array(ax.collections[0]._offsets)]
-        print(ws_wa_list)
         all_combinations_ws_wa = [list(item) for item in itertools.product(self.ws_resolution, self.wa_resolution)]
-        print(all_combinations_ws_wa)
         self.assertEqual(len(ws_wa_list), len(all_combinations_ws_wa))
         self.assertCountEqual(ws_wa_list, all_combinations_ws_wa)
 
@@ -576,6 +589,11 @@ class PolarDiagramTableTest(unittest.TestCase):
         self.pd.plot_convex_hull(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True,
                                  legend_kw={'labels': ["ws 2", "ws 4", "ws 6"], 'loc': 'upper left'})
         helper_functions.test_cloud_table_comparing_legend_keywords(self, plt.gca().get_legend())
+
+    def test_plot_convex_hull_show_colorbar(self):
+        self.pd.plot_convex_hull(ws=[2, 4, 6], colors=("red", "blue"), show_legend=True)
+        colorbar_axes = plt.gcf().axes[-1]
+        helper_functions.test_comparing_show_colorbar(self, colorbar_axes)
 
     def test_plot_convex_hull_plot_kw(self):
         self.pd.plot_convex_hull(ls=":", lw=1.5, marker="o")

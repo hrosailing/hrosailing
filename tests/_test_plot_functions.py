@@ -25,6 +25,11 @@ def comparing_colors_ws_color_pairs_passed():
     np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
 
 
+def test_comparing_show_colorbar(self, colorbar_axes):
+    self.assertNotEqual(None, colorbar_axes)
+    self.assertEqual(colorbar_axes.get_ylabel(), "True Wind Speed")
+
+
 def test_comparing_plot_kw(self, i):
     line = plt.gca().lines[i]
     self.assertEqual(line.get_linestyle(), ':')
@@ -78,6 +83,7 @@ def test_curve_comparing_show_legend(self, legend):
         with self.subTest(i=i):
             self.assertIn(handles[i].get_label(), [labels1[i], labels2[i]])
             self.assertEqual(handles[i].get_color(), colors[i])
+
 
 def test_curve_comparing_legend_keywords(self, legend):
     texts = legend.__dict__["texts"]
