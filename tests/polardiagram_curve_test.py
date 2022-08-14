@@ -1,7 +1,7 @@
 # pylint: disable=missing-docstring
 # pylint: disable=too-many-public-methods
 # pylint: disable=import-outside-toplevel
-
+import itertools
 import unittest
 
 import numpy as np
@@ -197,6 +197,10 @@ class PolarDiagramCurveTest(unittest.TestCase):
                           legend_kw={'labels': ["ws 5", "ws 10", "ws 15"], 'loc': 'upper left'})
         helper_functions.test_curve_comparing_legend_keywords(self, plt.gca().get_legend())
 
+    def test_plot_polar_show_colorbar(self):
+        self.c.plot_polar(ws=[2, 4, 6], colors=("red", "blue"), show_legend=True)
+        colorbar_axes = plt.gcf().axes[-1]
+        helper_functions.test_comparing_show_colorbar(self, colorbar_axes)
 
     def test_plot_polar_plot_kw(self):
         self.c.plot_polar(ls=":", lw=1.5, marker="o")
@@ -297,8 +301,13 @@ class PolarDiagramCurveTest(unittest.TestCase):
         pass
 
     def test_plot_color_gradient(self):
-        # test not implemented yet
-        pass
+        # test not finished yet
+        ax = plt.axes()
+        self.c.plot_color_gradient(ax=ax, show_legend=True)
+        ws_wa_list = [list(item) for item in np.array(ax.collections[0]._offsets)]
+        all_combinations_ws_wa = [list(item) for item in itertools.product(np.arange(0, 20), np.linspace(0, 360, 1000))]
+        self.assertEqual(len(ws_wa_list), len(all_combinations_ws_wa))
+        self.assertCountEqual(ws_wa_list, all_combinations_ws_wa)
 
     def test_plot_convex_hull(self):
         # test not finished yet
