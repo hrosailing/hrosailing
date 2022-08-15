@@ -157,3 +157,15 @@ class Data:
     def __iter__(self):
         for i in range(self._max_len):
             yield self[i]
+
+    def __str__(self):
+        str_ = ""
+        for key in self.keys:
+            str_ += f"Data field '{key}' of type {self._types[key]}:\n\t"
+            if len(self._data[key]) < 10:
+                str_ += str(self._data[key])
+            else:
+                str_ += f"[{','.join([str(item) for item in self._data[key][:5]])}, ... ,{','.join([str(item) for item in self._data[key][-5:]])}]"
+            str_ += "\n"
+
+        return str_
