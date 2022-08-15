@@ -380,9 +380,9 @@ class NMEAFileHandler(DataHandler):
                     for name, attribute in wanted_fields
                 })
 
-        comp_data.filter_types(self._post_filter_types)
-
         comp_data.hrosailing_standard_format()
+
+        comp_data.filter_types(self._post_filter_types)
 
         statistics = get_datahandler_statistics(comp_data)
 

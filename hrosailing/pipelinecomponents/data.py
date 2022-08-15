@@ -247,6 +247,14 @@ class Data:
             self.delete("date")
             self.delete("time")
 
+        #ensure floats
+        for key in self.keys:
+            if self._types[key] in (int, str):
+                succes, self._data[key] = _try_call_to_float(self._data[key])
+                if succes:
+                    self._types[key] = float
+
+
     @staticmethod
     def _get_type(data):
         curr_type = None
@@ -287,3 +295,16 @@ class Data:
             str_ += "\n"
 
         return str_
+
+
+def _try_call_to_float(list_):
+    new_list = []
+    for i, value in enumerate(list_):
+        if value is None:
+            new_list.append(value)
+            continue
+        try:
+            new_list.append(float(value))
+        except (TypeError, ValueError):
+            return False, list_
+    return True, new_list
