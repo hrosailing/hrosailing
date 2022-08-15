@@ -33,14 +33,15 @@ class Data:
             if data_type != self._types[key]:
                 raise ValueError(
                     f"data should be of type {self._types[key]}"
-                    f"but has type {data_type}"
+                    f" but has type {data_type}"
                 )
             self._data[key].extend(data)
             self._max_len = max(self._max_len, len(self._data[key]))
         else:
-            self.fill(self._max_len - len(data), key)
+            self.fill(self._max_len - len(data), [key])
             self._data[key].extend(data)
             self._types[key] = data_type
+            self._max_len = max(self._max_len, len(self._data[key]))
 
     def update(self, data_dict):
         for key, val in data_dict.items():
@@ -48,18 +49,18 @@ class Data:
         self.fill()
 
     def append(self, key, data):
-        self.extend(self, key, [data])
+        self.extend(key, [data])
 
-    def fill(self, len=None, keys=None):
+    def fill(self, len_=None, keys=None):
         if keys is None:
             keys = self.keys
-        if len is None:
-            len = self._max_len
+        if len_ is None:
+            len_ = self._max_len
         for key in keys:
             if key not in self._data:
                 self._data[key] = []
             curr_len = len(self._data[key])
-            fill_len = max(0, (len - curr_len))
+            fill_len = max(0, (len_ - curr_len))
             self._data[key].extend([None]*fill_len)
 
     @staticmethod
@@ -76,4 +77,5 @@ class Data:
                     f"Data has no consistent type."
                     f"Found {type(field)} and {curr_type}"
                 )
+        return curr_type
 
