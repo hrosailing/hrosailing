@@ -270,8 +270,9 @@ class NMEAFileHandler(DataHandler):
         Default to 'None'
 
 
-    wanted_sentences : Iterable of str, optional
-        NMEA attributes that will be added to the output dictionary
+    wanted_attributes : Iterable of str, optional
+        NMEA attributes that will be added to the output dictionary.
+        If set to "numerical" all fields with float values will be read.
 
         Default to 'None'
 
@@ -299,7 +300,8 @@ class NMEAFileHandler(DataHandler):
             wanted_sentences=None,
             wanted_attributes=None,
             unwanted_sentences=None,
-            unwanted_attributes=None
+            unwanted_attributes=None,
+            filter_numerical_attributes=False
     ):
         if wanted_sentences is not None:
             self._sentence_filter = lambda line: any(
@@ -324,6 +326,14 @@ class NMEAFileHandler(DataHandler):
                 )
         else:
             self._attribute_filter = lambda field: True
+
+        if filter_numerical_attributes:
+            self._attribute_post_filter = \
+                lambda field: all(
+                    [val is None or isinstance(val, float) for val in field]
+                )
+        else:
+            self._attribute_post_filter = lambda field: True
 
     def handle(self, data) -> (dict, dict):
         """Reads a text file containing nmea-sentences and extracts
@@ -385,8 +395,10 @@ class NMEAFileHandler(DataHandler):
                     data_dict[name].extend([None] * (ndata - length -1))
 
                     value = getattr(parsed_sentence, attribute)
-                    if isinstance(value, Decimal):
+                    try:
                         value = float(value)
+                    except (TypeError, ValueError):
+                        pass
 
                     data_dict[name].append(value)
 
@@ -397,8 +409,14 @@ class NMEAFileHandler(DataHandler):
 
         data_dict = hrosailing_standard_format(data_dict)
 
+        data_dict = {
+            key: value for key, value in data_dict.items()
+            if self._attribute_post_filter(value)
+        }
+
         statistics = get_datahandler_statistics(data_dict)
         return data_dict, statistics
+
 
 def get_datahandler_statistics(data_dict):
     return {
@@ -431,16 +449,8 @@ def hrosailing_standard_format(data_dict):
         lkey = lkey.strip()
         return KEYSYNONYMS[lkey] if lkey in KEYSYNONYMS else key
 
-    def ensure_float(list_):
-        for i, value in enumerate(list_):
-            try:
-                list_[i] = float(value)
-            except (TypeError, ValueError):
-                pass
-        return list_
-
     standard_dict = {
-        standard_key(key): ensure_float(value)
+        standard_key(key): value
         for key, value in data_dict.items()
     }
 
