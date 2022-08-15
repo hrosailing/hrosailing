@@ -284,6 +284,7 @@ class PolarDiagramTableTest(unittest.TestCase):
                     self.pd.get_slices(slice_)
 
     def test_plot_polar(self):
+        plt.close()
         self.pd.plot_polar()
         wa = np.deg2rad(self.wa_resolution)
         bsp = self.bsp.T
@@ -292,6 +293,7 @@ class PolarDiagramTableTest(unittest.TestCase):
                 helper_functions.curve_table_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_single_element_ws(self):
+        plt.close()
         self.pd.plot_polar(ws=2)
         ws, wa, bsp = self.pd.get_slices(ws=2)
         x_plot = plt.gca().lines[0].get_xdata()
@@ -300,6 +302,7 @@ class PolarDiagramTableTest(unittest.TestCase):
         np.testing.assert_array_equal(y_plot, np.asarray(bsp).flat)
 
     def test_plot_polar_interval_ws(self):
+        plt.close()
         self.pd.plot_polar(ws=(4, 8))
         ws, wa, bsp = self.pd.get_slices(ws=(4, 8))
         bsp = bsp.T
@@ -308,6 +311,7 @@ class PolarDiagramTableTest(unittest.TestCase):
                 helper_functions.curve_table_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_iterable_list_ws(self):
+        plt.close()
         self.pd.plot_polar(ws=[2, 4, 6])
         ws, wa, bsp = self.pd.get_slices(ws=[2, 4, 6])
         bsp = bsp.T
@@ -316,6 +320,7 @@ class PolarDiagramTableTest(unittest.TestCase):
                 helper_functions.curve_table_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_iterable_tuple_ws(self):
+        plt.close()
         self.pd.plot_polar(ws=(2, 4, 6))
         ws, wa, bsp = self.pd.get_slices(ws=(2, 4, 6))
         bsp = bsp.T
@@ -324,6 +329,7 @@ class PolarDiagramTableTest(unittest.TestCase):
                 helper_functions.curve_table_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_iterable_set_ws(self):
+        plt.close()
         self.pd.plot_polar(ws={2, 4, 6})
         ws, wa, bsp = self.pd.get_slices(ws={2, 4, 6})
         bsp = bsp.T
@@ -336,42 +342,51 @@ class PolarDiagramTableTest(unittest.TestCase):
         pass
 
     def test_plot_polar_single_color(self):
+        plt.close()
         self.pd.plot_polar(colors="purple")
         for i in range(4):
             with self.subTest(i=i):
                 self.assertEqual(plt.gca().lines[i].get_color(), "purple")
 
     def test_plot_polar_two_colors_passed(self):
+        plt.close()
         self.pd.plot_polar(ws=[4, 6, 8], colors=["red", "blue"])
         helper_functions.comparing_colors_two_colors_passed()
 
     def test_plot_polar_more_than_two_colors_passed(self):
+        plt.close()
         self.pd.plot_polar(ws=[2, 4, 6, 8], colors=["red", "yellow", "orange"])
         helper_functions.comparing_colors_more_than_two_colors_passed()
 
     def test_plot_polar_ws_color_pairs_passed(self):
+        plt.close()
         self.pd.plot_polar(ws=[4, 6, 8], colors=((4, "purple"), (6, "blue"), (8, "red")))
         helper_functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_polar_ws_color_pairs_unsorted_passed(self):
+        plt.close()
         self.pd.plot_polar(ws=[4, 6, 8], colors=((4, "purple"), (8, "red"), (6, "blue")))
         helper_functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_polar_show_legend(self):
+        plt.close()
         self.pd.plot_polar(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
         helper_functions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_polar_legend_kw(self):
+        plt.close()
         self.pd.plot_polar(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True,
                            legend_kw={'labels': ["ws 2", "ws 4", "ws 6"], 'loc': 'upper left'})
         helper_functions.test_cloud_table_comparing_legend_keywords(self, plt.gca().get_legend())
 
     def test_plot_polar_show_colorbar(self):
+        plt.close()
         self.pd.plot_polar(ws=[2, 4, 6], colors=("red", "blue"), show_legend=True)
         colorbar_axes = plt.gcf().axes[-1]
         helper_functions.test_comparing_show_colorbar(self, colorbar_axes)
 
     def test_plot_polar_plot_kw(self):
+        plt.close()
         self.pd.plot_polar(ls=":", lw=1.5, marker="o")
         for i in range(4):
             with self.subTest(i=i):
@@ -394,6 +409,7 @@ class PolarDiagramTableTest(unittest.TestCase):
                 self.pd.plot_polar(ws=(2, 0))
 
     def test_plot_flat(self):
+        plt.close()
         self.pd.plot_flat()
         ws, wa, bsp = self.pd.get_slices(None)
         bsp = bsp.T
@@ -402,6 +418,7 @@ class PolarDiagramTableTest(unittest.TestCase):
                 helper_functions.curve_table_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_single_element_ws(self):
+        plt.close()
         self.pd.plot_flat(ws=2)
         ws, wa, bsp = self.pd.get_slices(ws=2)
         x_plot = plt.gca().lines[0].get_xdata()
@@ -410,6 +427,7 @@ class PolarDiagramTableTest(unittest.TestCase):
         np.testing.assert_array_equal(y_plot, np.asarray(bsp).flat)
 
     def test_plot_flat_interval_ws(self):
+        plt.close()
         self.pd.plot_flat(ws=(4, 8))
         ws, wa, bsp = self.pd.get_slices(ws=(4, 8))
         bsp = bsp.T
@@ -418,6 +436,7 @@ class PolarDiagramTableTest(unittest.TestCase):
                 helper_functions.curve_table_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_iterable_list_ws(self):
+        plt.close()
         self.pd.plot_flat(ws=[2, 4, 6])
         ws, wa, bsp = self.pd.get_slices(ws=[2, 4, 6])
         bsp = bsp.T
@@ -426,6 +445,7 @@ class PolarDiagramTableTest(unittest.TestCase):
                 helper_functions.curve_table_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_iterable_tuple_ws(self):
+        plt.close()
         self.pd.plot_flat(ws=(2, 4, 6))
         ws, wa, bsp = self.pd.get_slices(ws=(2, 4, 6))
         bsp = bsp.T
@@ -434,6 +454,7 @@ class PolarDiagramTableTest(unittest.TestCase):
                 helper_functions.curve_table_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_iterable_set_ws(self):
+        plt.close()
         self.pd.plot_flat(ws={2, 4, 6})
         ws, wa, bsp = self.pd.get_slices(ws={2, 4, 6})
         bsp = bsp.T
@@ -446,42 +467,51 @@ class PolarDiagramTableTest(unittest.TestCase):
         pass
 
     def test_plot_flat_single_color(self):
+        plt.close()
         self.pd.plot_flat(colors="purple")
         for i in range(4):
             with self.subTest(i=i):
                 self.assertEqual(plt.gca().lines[i].get_color(), "purple")
 
     def test_plot_flat_two_colors_passed(self):
+        plt.close()
         self.pd.plot_flat(ws=[4, 6, 8], colors=["red", "blue"])
         helper_functions.comparing_colors_two_colors_passed()
 
     def test_plot_flat_more_than_two_colors_passed(self):
+        plt.close()
         self.pd.plot_flat(ws=[2, 4, 6, 8], colors=["red", "yellow", "orange"])
         helper_functions.comparing_colors_more_than_two_colors_passed()
 
     def test_plot_flat_ws_color_pairs_passed(self):
+        plt.close()
         self.pd.plot_flat(ws=[4, 6, 8], colors=((4, "purple"), (6, "blue"), (8, "red")))
         helper_functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_flat_ws_color_pairs_unsorted_passed(self):
+        plt.close()
         self.pd.plot_flat(ws=[4, 6, 8], colors=((4, "purple"), (8, "red"), (6, "blue")))
         helper_functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_flat_show_legend(self):
+        plt.close()
         self.pd.plot_flat(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
         helper_functions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_flat_legend_kw(self):
+        plt.close()
         self.pd.plot_flat(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True,
                           legend_kw={'labels': ["ws 2", "ws 4", "ws 6"], 'loc': 'upper left'})
         helper_functions.test_cloud_table_comparing_legend_keywords(self, plt.gca().get_legend())
 
     def test_plot_flat_show_colorbar(self):
+        plt.close()
         self.pd.plot_flat(ws=[2, 4, 6], colors=("red", "blue"), show_legend=True)
         colorbar_axes = plt.gcf().axes[-1]
         helper_functions.test_comparing_show_colorbar(self, colorbar_axes)
 
     def test_plot_flat_plot_kw(self):
+        plt.close()
         self.pd.plot_flat(ls=":", lw=1.5, marker="o")
         for i in range(4):
             with self.subTest(i=i):
@@ -505,6 +535,7 @@ class PolarDiagramTableTest(unittest.TestCase):
 
     def test_plot_3d(self):
         # test not finished yet
+        plt.close()
         ax = plt.axes(projection="3d")
         self.pd.plot_3d(ax=ax)
         print(ax.collections[0]._vec)
@@ -515,11 +546,13 @@ class PolarDiagramTableTest(unittest.TestCase):
 
     def test_plot_3d_colors(self):
         # test not finished yet
+        plt.close()
         ax = plt.axes(projection="3d")
         self.pd.plot_3d(ax=ax, colors=('blue', 'red'))
 
     def test_plot_color_gradient(self):
         # test not finished yet
+        plt.close()
         ax = plt.axes()
         self.pd.plot_color_gradient(ax=ax, show_legend=True)
         ws_wa_list = [list(item) for item in np.array(ax.collections[0]._offsets)]
@@ -529,10 +562,12 @@ class PolarDiagramTableTest(unittest.TestCase):
 
     def test_plot_convex_hull(self):
         # test not finished yet
+        plt.close()
         self.pd.plot_convex_hull()
 
     def test_plot_convex_hull_single_element_ws(self):
         # test not finished yet
+        plt.close()
         self.pd.plot_convex_hull(ws=2)
         x_data = plt.gca().lines[0].get_xdata()
         y_data = plt.gca().lines[0].get_ydata()
@@ -541,18 +576,22 @@ class PolarDiagramTableTest(unittest.TestCase):
 
     def test_plot_convex_hull_interval_ws(self):
         # test not finished yet
+        plt.close()
         self.pd.plot_convex_hull(ws=(2, 6))
 
     def test_plot_convex_hull_iterable_list_ws(self):
         # test not finished yet
+        plt.close()
         self.pd.plot_convex_hull(ws=[2, 4, 6])
 
     def test_plot_convex_hull_iterable_tuple_ws(self):
         # test not finished yet
+        plt.close()
         self.pd.plot_convex_hull(ws=(2, 4, 6))
 
     def test_plot_convex_hull_iterable_set_ws(self):
         # test not finished yet
+        plt.close()
         self.pd.plot_convex_hull(ws={2, 4, 6})
 
     def test_plot_convex_hull_axes_keywords(self):
@@ -560,42 +599,51 @@ class PolarDiagramTableTest(unittest.TestCase):
         pass
 
     def test_plot_convex_hull_single_color(self):
+        plt.close()
         self.pd.plot_convex_hull(colors="purple")
         for i in range(4):
             with self.subTest(i=i):
                 self.assertEqual(plt.gca().lines[i].get_color(), "purple")
 
     def test_plot_convex_hull_two_colors_passed(self):
+        plt.close()
         self.pd.plot_convex_hull(ws=[4, 6, 8], colors=["red", "blue"])
         helper_functions.comparing_colors_two_colors_passed()
 
     def test_plot_convex_hull_more_than_two_colors_passed(self):
+        plt.close()
         self.pd.plot_convex_hull(ws=[2, 4, 6, 8], colors=["red", "yellow", "orange"])
         helper_functions.comparing_colors_more_than_two_colors_passed()
 
     def test_plot_convex_hull_ws_color_pairs_passed(self):
+        plt.close()
         self.pd.plot_convex_hull(ws=[4, 6, 8], colors=((4, "purple"), (6, "blue"), (8, "red")))
         helper_functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_convex_hull_ws_color_pairs_unsorted_passed(self):
+        plt.close()
         self.pd.plot_convex_hull(ws=[4, 6, 8], colors=((4, "purple"), (8, "red"), (6, "blue")))
         helper_functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_convex_hull_show_legend(self):
+        plt.close()
         self.pd.plot_convex_hull(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True)
         helper_functions.test_cloud_table_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_convex_hull_legend_kw(self):
+        plt.close()
         self.pd.plot_convex_hull(ws=[2, 4, 6], colors=["red", "purple", "blue"], show_legend=True,
                                  legend_kw={'labels': ["ws 2", "ws 4", "ws 6"], 'loc': 'upper left'})
         helper_functions.test_cloud_table_comparing_legend_keywords(self, plt.gca().get_legend())
 
     def test_plot_convex_hull_show_colorbar(self):
+        plt.close()
         self.pd.plot_convex_hull(ws=[2, 4, 6], colors=("red", "blue"), show_legend=True)
         colorbar_axes = plt.gcf().axes[-1]
         helper_functions.test_comparing_show_colorbar(self, colorbar_axes)
 
     def test_plot_convex_hull_plot_kw(self):
+        plt.close()
         self.pd.plot_convex_hull(ls=":", lw=1.5, marker="o")
         for i in range(4):
             with self.subTest(i=i):
