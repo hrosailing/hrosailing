@@ -1,11 +1,13 @@
 import numpy as np
 
 class Data:
-    def __init__(self):
+    def __init__(self, data):
         self._data = {}
         self._types = {}
         self._weights = []
         self._max_len = 0
+
+        self.update(data)
 
     @property
     def keys(self):
@@ -15,7 +17,7 @@ class Data:
     def numerical(self):
         float_keys, float_vals = self.get_by_type(float)
         array = np.column_stack(float_vals)
-        return float_keys, float_vals
+        return float_keys, array
 
     def get_by_type(self, type_):
         filtered_keys = [
@@ -59,4 +61,19 @@ class Data:
             curr_len = len(self._data[key])
             fill_len = max(0, (len - curr_len))
             self._data[key].extend([None]*fill_len)
+
+    @staticmethod
+    def _get_type(data):
+        curr_type = None
+        for field in data:
+            if field is None:
+                continue
+            if curr_type is None:
+                curr_type = type(field)
+                continue
+            if type(field) != curr_type:
+                raise ValueError(
+                    f"Data has no consistent type."
+                    f"Found {type(field)} and {curr_type}"
+                )
 
