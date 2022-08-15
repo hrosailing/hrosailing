@@ -190,13 +190,6 @@ class CylindricMeanWeigher(Weigher):
 
         If nothing is passed, it will default to ||.||_2
 
-    dimensions : [str], optional
-        If the data is given as dict, 'dimensions' contains the keys
-        which should be used in conjunction in order to create the
-        data space
-
-        Defaults to ["TWA", "TWS", "BSP"]
-
     Raises
     ------
     WeigherInitializationException
@@ -207,7 +200,7 @@ class CylindricMeanWeigher(Weigher):
         self,
         radius=0.05,
         norm: Callable = scaled_euclidean_norm,
-        dimensions=["TWA", "TWS", "BSP"]
+        dimensions=None
     ):
         if radius <= 0:
             raise WeigherInitializationException("`radius` is not positive")
@@ -235,8 +228,7 @@ class CylindricMeanWeigher(Weigher):
         WeightedPoints : numpy.ndarray of shape (n,)
             Normalized weights of the input points
         """
-        if isinstance(points, dict):
-            points = data_dict_to_numpy(points, self._dimensions)
+        points = _set_points_from_dict(points, self._dimensions)
         weights = [self._calculate_weight(point, points) for point in points]
         weights = np.array(weights)
         weights = 1 - _normalize(weights, np.max)
@@ -299,12 +291,12 @@ class CylindricMemberWeigher(Weigher):
 
         If nothing is passed, it will default to ||.||_2
 
-    dimensions : [str], optional
+    dimensions : [str] or None, optional
         If the data is given as dict, 'dimensions' contains the keys
         which should be used in conjunction in order to create the
-        data space
+        data space. If `None` all keys of the given `dict` are used.
 
-        Defaults to ["TWA", "TWS", "BSP"]
+        Defaults to None
 
     Raises
     ------
@@ -319,7 +311,7 @@ class CylindricMemberWeigher(Weigher):
         radius=0.05,
         length=0.05,
         norm: Callable = scaled_euclidean_norm,
-        dimensions=["TWA", "TWS", "BSP"]
+        dimensions=None
     ):
         if radius <= 0:
             raise WeigherInitializationException("`radius´ is not positive")
@@ -352,8 +344,7 @@ class CylindricMemberWeigher(Weigher):
             Normalized weights of the input points
         """
 
-        if isinstance(points, dict):
-            points = data_dict_to_numpy(points, self._dimensions)
+        points = _set_points_from_dict(points, self._dimensions)
 
         weights = [self._calculate_weight(point, points) for point in points]
         weights = np.array(weights)
@@ -378,15 +369,14 @@ class CylindricMemberWeigher(Weigher):
 class PastFluctuationWeigher(Weigher):
     """STILL A WIP"""
 
-    def __init__(self, timespan=13, dimensions=["TWA", "TWS", "BSP"]):
+    def __init__(self, timespan=13, dimensions=None):
         self.timespan = timespan
         self._dimensions = dimensions
 
     def weigh(self, points):
         """WIP"""
         recording_times = np.array(points["datetime"])
-        if isinstance(points, dict):
-            points = data_dict_to_numpy(points, self._dimensions)
+        points = _set_points_from_dict(points, self._dimensions)
         weights = [
             self._calculate_weight(i, points, recording_times)
             for i in range(len(points))
@@ -422,7 +412,7 @@ class PastFluctuationWeigher(Weigher):
 class PastFutureFluctuationWeigher(Weigher):
     """STILL A WIP"""
 
-    def __init__(self, timespan=6, dimensions=["TWA", "TWS", "BSP"]):
+    def __init__(self, timespan=6, dimensions=None):
         self.timespan = timespan
         self._dimensions = dimensions
 
@@ -433,7 +423,7 @@ class PastFutureFluctuationWeigher(Weigher):
                 "PastFluctuationWeigher can only be used as a Pre Weigher"
             )
         recording_times = np.array(points["datetime"])
-        points = data_dict_to_numpy(points, self._dimensions)
+        points = _set_points_from_dict(points, self._dimensions)
         weights = [
             self._calculate_weight(time, points, recording_times)
             for time in recording_times
@@ -466,3 +456,13 @@ class PastFutureFluctuationWeigher(Weigher):
             else time - reference_time
         )
         return time_difference.total_seconds() <= self.timespan
+
+
+def _set_points_from_dict(points, dimensions):
+    if isinstance(points, dict):
+        if dimensions is None:
+            dimensions = list(points.keys())
+        else:
+            dimensions = dimensions
+        points = data_dict_to_numpy(points, dimensions)
+    return points
