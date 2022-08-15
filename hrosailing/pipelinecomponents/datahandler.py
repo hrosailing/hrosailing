@@ -284,6 +284,13 @@ class NMEAFileHandler(DataHandler):
 
         Defaults to 'None'
 
+    post_filter_types: tuple of types, optional
+        The resulting dictionary only contains data which is `None` or of a
+        type given in `post_filter_types`.
+        If set to `False` all attributes are taken into account
+
+        Defaults to `(float, datetime.date, datetime.time, datetime.datetime)`
+
     Returns
     -------
     data_dict, statistics : dict, dict
@@ -301,7 +308,7 @@ class NMEAFileHandler(DataHandler):
             wanted_attributes=None,
             unwanted_sentences=None,
             unwanted_attributes=None,
-            filter_numerical_attributes=False
+            post_filter_types=(float, date, time, datetime)
     ):
         if wanted_sentences is not None:
             self._sentence_filter = lambda line: any(
@@ -327,11 +334,12 @@ class NMEAFileHandler(DataHandler):
         else:
             self._attribute_filter = lambda field: True
 
-        if filter_numerical_attributes:
+        if post_filter_types:
             self._attribute_post_filter = \
-                lambda field: all(
-                    [val is None or isinstance(val, float) for val in field]
-                )
+                lambda field: all([
+                    val is None or isinstance(val, post_filter_types)
+                    for val in field
+                ])
         else:
             self._attribute_post_filter = lambda field: True
 
