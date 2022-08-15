@@ -1,13 +1,15 @@
 import numpy as np
+from datetime import datetime
+
+from hrosailing.pipelinecomponents.constants import KEYSYNONYMS, SEPERATORS
+
 
 class Data:
-    def __init__(self, data):
+    def __init__(self):
         self._data = {}
         self._types = {}
         self._weights = []
         self._max_len = 0
-
-        self.update(data)
 
     @property
     def keys(self):
@@ -63,6 +65,62 @@ class Data:
             fill_len = max(0, (len_ - curr_len))
             self._data[key].extend([None]*fill_len)
 
+    def filter_types(self, type_list):
+        for key in self._data.keys():
+            if self._types[key] not in type_list:
+                del self._data[key]
+                del self._types[key]
+
+    def rename(self, old_key, new_key):
+        if old_key == new_key:
+            return
+        self._data[new_key] = self._data[old_key]
+        self._types[new_key] = self._types[old_key]
+
+        self.delete(old_key)
+
+    def delete(self, key):
+        del self._data[key]
+        del self._types[key]
+
+    def hrosailing_standard_format(self):
+        """
+            Reformats data in the hrosailing standard format.
+
+            This means:
+                - the dictionary has hrosailing standard keys whenever possible
+                - date and time fields will be aggregated to datetime
+                - tries to cast entries to `float` whenever possible
+        """
+        def standard_key(key):
+            lkey = key.lower()
+            for sep in SEPERATORS:
+                lkey = lkey.replace(sep, " ")
+            lkey = lkey.strip()
+            return KEYSYNONYMS[lkey] if lkey in KEYSYNONYMS else key
+
+        for key, value in self._data.items():
+            self.rename(key, standard_key(key))
+
+        if "time" in self and "date" in self:
+
+            def combine(date, time):
+                if date is None or time is None:
+                    return None
+                else:
+                    return datetime.combine(date, time)
+
+            self.extend(
+                "datetime",
+                [
+                combine(date, time)
+                for date, time in
+                zip(self["date"], self["time"])
+                ]
+            )
+            self.delete("date")
+            self.delete("time")
+
     @staticmethod
     def _get_type(data):
         curr_type = None
@@ -79,3 +137,15 @@ class Data:
                 )
         return curr_type
 
+    def __getitem__(self, item):
+        if isinstance(item, str):
+            return self._data[item]
+        if isinstance(item, int):
+            return {key: val[item] for key, val in self._data.items()}
+
+    def __contains__(self, item):
+        return item in self._data
+
+    def __iter__(self):
+        for i in range(self._max_len):
+            yield self[i]

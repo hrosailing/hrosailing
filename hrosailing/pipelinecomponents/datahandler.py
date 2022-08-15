@@ -23,6 +23,7 @@ import numpy as np
 
 from hrosailing.pipelinecomponents.constants import KEYSYNONYMS
 from hrosailing.cruising.weather_model import OutsideGridException
+from hrosailing.pipelinecomponents.data import Data
 
 
 class HandlerInitializationException(Exception):
@@ -334,14 +335,7 @@ class NMEAFileHandler(DataHandler):
         else:
             self._attribute_filter = lambda field: True
 
-        if post_filter_types:
-            self._attribute_post_filter = \
-                lambda field: all([
-                    val is None or isinstance(val, post_filter_types)
-                    for val in field
-                ])
-        else:
-            self._attribute_post_filter = lambda field: True
+        self._post_filter_types = post_filter_types
 
     def handle(self, data) -> (dict, dict):
         """Reads a text file containing nmea-sentences and extracts
@@ -369,7 +363,7 @@ class NMEAFileHandler(DataHandler):
         """
         from pynmea2 import parse
 
-        data_dict = {}
+        comp_data = Data()
         ndata = 0
 
         with open(data, "r", encoding="utf-8") as file:
@@ -387,43 +381,18 @@ class NMEAFileHandler(DataHandler):
 
                 wanted_fields = [x[:2] for x in wanted_fields]
 
-                max_len = max([
-                    len(data_dict[name]) if name in data_dict else 0
-                    for name, _ in wanted_fields
-                ])
+                comp_data.update({
+                    name: getattr(parsed_sentence, attribute)
+                    for name, attribute in wanted_fields
+                })
 
-                if max_len == ndata:
-                    ndata += 1
+        comp_data.filter_types(self._post_filter_types)
 
-                for name, attribute in wanted_fields:
-                    if name not in data_dict:
-                        data_dict[name] = []
+        comp_data.hrosailing_standard_format()
 
-                    length = len(data_dict[name])
-                    data_dict[name].extend([None] * (ndata - length -1))
+        statistics = get_datahandler_statistics(comp_data)
 
-                    value = getattr(parsed_sentence, attribute)
-                    try:
-                        value = float(value)
-                    except (TypeError, ValueError):
-                        pass
-
-                    data_dict[name].append(value)
-
-            # fill last entries
-            for attribute in data_dict:
-                length = len(data_dict[attribute])
-                data_dict[attribute].extend([None] * (ndata - length))
-
-        data_dict = hrosailing_standard_format(data_dict)
-
-        data_dict = {
-            key: value for key, value in data_dict.items()
-            if self._attribute_post_filter(value)
-        }
-
-        statistics = get_datahandler_statistics(data_dict)
-        return data_dict, statistics
+        return comp_data, statistics
 
 
 def get_datahandler_statistics(data_dict):
@@ -431,51 +400,3 @@ def get_datahandler_statistics(data_dict):
         "n_rows": len(list(data_dict.values())[0]),
         "n_cols": len(data_dict)
     }
-
-
-def hrosailing_standard_format(data_dict):
-    """
-    Parameters
-    ----------
-
-    data_dict: dict,
-        dictionary, keys possibly not in hrosailing standard
-
-    Returns
-    ----------
-
-    standard_dict: dict,
-        dictionary with hrosailing standard keys where possible and the
-        same values as data_dict, date and time fields will be aggregated
-        to datetime
-    """
-    def standard_key(key):
-        seperators = ["_", "-", "+", "&", "\n", "\t"]
-        lkey = key.lower()
-        for sep in seperators:
-            lkey = lkey.replace(sep, " ")
-        lkey = lkey.strip()
-        return KEYSYNONYMS[lkey] if lkey in KEYSYNONYMS else key
-
-    standard_dict = {
-        standard_key(key): value
-        for key, value in data_dict.items()
-    }
-
-    if "time" in standard_dict and "date" in standard_dict:
-
-        def combine(date, time):
-            if date is None or time is None:
-                return None
-            else:
-                return datetime.combine(date, time)
-
-        standard_dict["datetime"] = [
-           combine(date, time)
-           for date, time in zip(standard_dict["date"], standard_dict["time"])
-        ]
-        del standard_dict["date"]
-        del standard_dict["time"]
-
-    return standard_dict
-

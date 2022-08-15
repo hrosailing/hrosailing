@@ -71,3 +71,5 @@ KEYSYNONYMS = {
     "longs": "lon",
     "longitudes": "lon",
 }
+
+SEPERATORS = ["_", "-", "+", "&", "\n", "\t"]
