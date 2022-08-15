@@ -1,3 +1,7 @@
+"""
+Contains the class Data which is an output of several pipeline components.
+"""
+
 import numpy as np
 from datetime import datetime
 
@@ -5,6 +9,31 @@ from hrosailing.pipelinecomponents.constants import KEYSYNONYMS, SEPERATORS
 
 
 class Data:
+    """
+    Organizes measurement data. Data is interpreted as a table with columns
+    identified by keywords and rows corresponding to a certain measurement
+    point. Also saves and checks the data types of the corresponding columns.
+    Weights might be added to the corresponding rows.
+
+    If `data` is of type `Data`, `data[key]` yields the corresponding column if
+    key is a string and the corresponding column if key is an integer.
+    `key in data` checks if there is a column with key `key`.
+    Iteration is performed over the rows.
+
+    Properties
+    ---------
+    keys: list of str,
+        the keys correpponding to the columns
+
+    numerical: numpy.ndarray,
+        an array containing all data of type 'float'
+
+    n_rows: int,
+        the number of rows
+
+    n_cols: int,
+        the number of columns
+    """
     def __init__(self):
         self._data = {}
         self._types = {}
@@ -30,6 +59,21 @@ class Data:
         return len(self._data)
 
     def get_by_type(self, type_):
+        """
+        Paramenter
+        ----------
+
+        type_: type
+
+        Returns
+        ---------
+        filtered_keys: list of str,
+            a list of all keys with columns of type `type_`
+
+        filtered_data: list of lists,
+            a list of all data corresponding to the columns with keys
+            `filtered_keys`
+        """
         filtered_keys = [
             key for key in self.keys if self._types[key] == type_
         ]
@@ -38,6 +82,16 @@ class Data:
         ]
 
     def extend(self, key, data):
+        """
+        Extends the data by given other data.
+
+        Parameter
+        ---------
+        key: str,
+            The key of the column in which the data should be copied
+        data: list,
+            data that should be copied in the given data
+        """
         data_type = self._get_type(data)
         if key in self._data:
             if data_type is not None and data_type != self._types[key]:
@@ -54,14 +108,50 @@ class Data:
             self._max_len = max(self._max_len, len(self._data[key]))
 
     def update(self, data_dict):
+        """
+        Extends the data according to a given dictionary and fills missing
+        entries in each column with `None`.
+
+        Parameter
+        --------
+        data_dict: dict,
+            the dictionary containing the data to be updated
+        """
         for key, val in data_dict.items():
             self.extend(key, val)
         self.fill()
 
     def append(self, key, data):
+        """
+        Extends the data by a single Element.
+
+        Parameter
+        --------
+        data: object,
+            single data object to be appended
+
+        See also
+        --------
+        `Data.extend`
+        """
         self.extend(key, [data])
 
     def fill(self, len_=None, keys=None):
+        """
+        Fills all rows smaller than a specific length with `None` values.
+
+        Parameter
+        --------
+        len_: int, optional
+            The required length
+
+            Defaults to `self.n_rows`
+
+        keys: list of str, optional
+            The keys of the columns which should be filled.
+
+            Defaults to `self.keys`
+        """
         if keys is None:
             keys = self.keys
         if len_ is None:
@@ -74,12 +164,31 @@ class Data:
             self._data[key].extend([None]*fill_len)
 
     def filter_types(self, type_list):
+        """
+        Deletes all data which is not in a list of required types.
+
+        Parameter
+        ---------
+        type_list: list of types
+            list of required types
+        """
         for key in list(self._data.keys()):
             if self._types[key] not in type_list:
                 del self._data[key]
                 del self._types[key]
 
     def rename(self, old_key, new_key):
+        """
+        Renames a column
+
+        Parameter
+        ----------
+        old_key: str
+            Old name of column
+
+        new_key: str
+            New name of column
+        """
         if old_key == new_key:
             return
         self._data[new_key] = self._data[old_key]
@@ -88,6 +197,15 @@ class Data:
         self.delete(old_key)
 
     def delete(self, key):
+        """
+        Delets a column.
+
+        Parameter
+        --------
+
+        key: str
+            name of column to be deleted
+        """
         del self._data[key]
         del self._types[key]
 
