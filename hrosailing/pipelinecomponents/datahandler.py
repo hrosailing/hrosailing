@@ -291,16 +291,6 @@ class NMEAFileHandler(DataHandler):
         If set to `False` all attributes are taken into account
 
         Defaults to `(float, datetime.date, datetime.time, datetime.datetime)`
-
-    Returns
-    -------
-    data_dict, statistics : dict, dict
-        data_dict is a dictionary having the hrosailing standard version of the
-        first row entries as keys and
-        as values the corresponding columns given as lists
-
-        statistics contains the number of created rows and colums
-        as 'n_rows' and 'n_cols' respectively
     """
 
     def __init__(
@@ -346,15 +336,19 @@ class NMEAFileHandler(DataHandler):
         data : path-like
             Path to a text file, containing nmea-0183 sentences
 
+
         Returns
         -------
-        data_dict, statistics : dict, dict
-            data_dict is a dictionary where the keys are the
-            hrosailing standard version of the
-            (possibly filtered) attributes of the NMEA file
+        comp_data: Data
+            The data read from the file where the columns are the filtered
+            attributes
 
-            statistics contains the number of created rows and colums
+        statistics : dict
+            Contains the number of created rows and colums
             as 'n_rows' and 'n_cols' respectively
+            data_dict is a dictionary having the hrosailing standard version of the
+            first row entries as keys and
+            as values the corresponding columns given as lists
 
         Raises
         ------
@@ -396,6 +390,9 @@ class NMEAFileHandler(DataHandler):
 
 
 def get_datahandler_statistics(data):
+    """
+    Computes standard statistics for the output of a data handler.
+    """
     return {
         "n_rows": data.n_rows,
         "n_cols": data.n_cols
