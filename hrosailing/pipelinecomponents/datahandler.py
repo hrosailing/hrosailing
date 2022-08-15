@@ -382,7 +382,7 @@ class NMEAFileHandler(DataHandler):
                 wanted_fields = [x[:2] for x in wanted_fields]
 
                 comp_data.update({
-                    name: getattr(parsed_sentence, attribute)
+                    name: [getattr(parsed_sentence, attribute)]
                     for name, attribute in wanted_fields
                 })
 
@@ -395,8 +395,8 @@ class NMEAFileHandler(DataHandler):
         return comp_data, statistics
 
 
-def get_datahandler_statistics(data_dict):
+def get_datahandler_statistics(data):
     return {
-        "n_rows": len(list(data_dict.values())[0]),
-        "n_cols": len(data_dict)
+        "n_rows": data.n_rows,
+        "n_cols": data.n_cols
     }

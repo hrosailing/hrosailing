@@ -21,6 +21,14 @@ class Data:
         array = np.column_stack(float_vals)
         return float_keys, array
 
+    @property
+    def n_rows(self):
+        return self._max_len
+    
+    @property
+    def n_cols(self):
+        return len(self._data)
+
     def get_by_type(self, type_):
         filtered_keys = [
             key for key in self.keys if self._types[key] == type_
@@ -32,7 +40,7 @@ class Data:
     def extend(self, key, data):
         data_type = self._get_type(data)
         if key in self._data:
-            if data_type != self._types[key]:
+            if data_type is not None and data_type != self._types[key]:
                 raise ValueError(
                     f"data should be of type {self._types[key]}"
                     f" but has type {data_type}"
@@ -66,7 +74,7 @@ class Data:
             self._data[key].extend([None]*fill_len)
 
     def filter_types(self, type_list):
-        for key in self._data.keys():
+        for key in list(self._data.keys()):
             if self._types[key] not in type_list:
                 del self._data[key]
                 del self._types[key]
