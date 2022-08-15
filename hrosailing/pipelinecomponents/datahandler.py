@@ -431,8 +431,18 @@ def hrosailing_standard_format(data_dict):
         lkey = lkey.strip()
         return KEYSYNONYMS[lkey] if lkey in KEYSYNONYMS else key
 
-    standard_dict = \
-        {standard_key(key): value for key, value in data_dict.items()}
+    def ensure_float(list_):
+        for i, value in enumerate(list_):
+            try:
+                list_[i] = float(value)
+            except (TypeError, ValueError):
+                pass
+        return list_
+
+    standard_dict = {
+        standard_key(key): ensure_float(value)
+        for key, value in data_dict.items()
+    }
 
     if "time" in standard_dict and "date" in standard_dict:
 
