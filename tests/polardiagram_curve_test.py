@@ -116,6 +116,7 @@ class PolarDiagramCurveTest(unittest.TestCase):
             )
 
     def test_plot_polar(self):
+        plt.close()
         self.c.plot_polar()
         ws, wa, bsp = self.c.get_slices(None)
         for i in range(20):
@@ -123,11 +124,13 @@ class PolarDiagramCurveTest(unittest.TestCase):
                 helper_functions.curve_table_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_single_ws(self):
+        plt.close()
         self.c.plot_polar(ws=13)
         ws, wa, bsp = self.c.get_slices(ws=13)
         helper_functions.curve_table_plot_polar_comparing_x_plot_wa_y_plot_bsp(0, wa, bsp)
 
     def test_plot_polar_interval_ws(self):
+        plt.close()
         self.c.plot_polar(ws=(10, 20))
         ws, wa, bsp = self.c.get_slices(ws=(10, 20))
         for i in range(10):
@@ -135,6 +138,7 @@ class PolarDiagramCurveTest(unittest.TestCase):
                 helper_functions.curve_table_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_iterable_list_ws(self):
+        plt.close()
         self.c.plot_polar(ws=[5, 10, 15, 20])
         ws, wa, bsp = self.c.get_slices([5, 10, 15, 20])
         for i in range(4):
@@ -142,6 +146,7 @@ class PolarDiagramCurveTest(unittest.TestCase):
                 helper_functions.curve_table_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_iterable_tuple_ws(self):
+        plt.close()
         self.c.plot_polar(ws=(5, 10, 15, 20))
         ws, wa, bsp = self.c.get_slices((5, 10, 15, 20))
         for i in range(4):
@@ -149,6 +154,7 @@ class PolarDiagramCurveTest(unittest.TestCase):
                 helper_functions.curve_table_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_iterable_set_ws(self):
+        plt.close()
         self.c.plot_polar(ws={5, 10, 15, 20})
         ws, wa, bsp = self.c.get_slices({5, 10, 15, 20})
         for i in range(4):
@@ -156,6 +162,7 @@ class PolarDiagramCurveTest(unittest.TestCase):
                 helper_functions.curve_table_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_polar_n_steps(self):
+        plt.close()
         self.c.plot_polar(ws=(10, 20), n_steps=3)
         ws, wa, bsp = self.c.get_slices(ws=(10, 20), n_steps=3)
         for i in range(3):
@@ -167,48 +174,58 @@ class PolarDiagramCurveTest(unittest.TestCase):
         pass
 
     def test_plot_polar_single_color(self):
+        plt.close()
         self.c.plot_polar(colors="purple")
         for i in range(20):
             with self.subTest(i=i):
                 self.assertEqual(plt.gca().lines[i].get_color(), "purple")
 
     def test_plot_polar_two_colors_passed(self):
+        plt.close()
         self.c.plot_polar(ws=[10, 15, 20], colors=["red", "blue"])
         helper_functions.comparing_colors_two_colors_passed()
 
     def test_plot_polar_more_than_two_colors_passed(self):
+        plt.close()
         self.c.plot_polar(ws=[5, 10, 15, 20], colors=["red", "yellow", "orange"])
         helper_functions.comparing_colors_more_than_two_colors_passed()
 
     def test_plot_polar_ws_color_pairs_passed(self):
+        plt.close()
         self.c.plot_polar(ws=[5, 10, 15], colors=((5, "purple"), (10, "blue"), (15, "red")))
         helper_functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_polar_ws_color_pairs_unsorted_passed(self):
+        plt.close()
         self.c.plot_polar(ws=[5, 10, 15], colors=((5, "purple"), (15, "red"), (10, "blue")))
         helper_functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_polar_show_legend(self):
+        plt.close()
         self.c.plot_polar(ws=[5, 10, 15], colors=["red", "purple", "blue"], show_legend=True)
         helper_functions.test_curve_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_polar_legend_kw(self):
+        plt.close()
         self.c.plot_polar(ws=[5, 10, 15], colors=["red", "purple", "blue"], show_legend=True,
                           legend_kw={'labels': ["ws 5", "ws 10", "ws 15"], 'loc': 'upper left'})
         helper_functions.test_curve_comparing_legend_keywords(self, plt.gca().get_legend())
 
     def test_plot_polar_show_colorbar(self):
+        plt.close()
         self.c.plot_polar(ws=[2, 4, 6], colors=("red", "blue"), show_legend=True)
         colorbar_axes = plt.gcf().axes[-1]
         helper_functions.test_comparing_show_colorbar(self, colorbar_axes)
 
     def test_plot_polar_plot_kw(self):
+        plt.close()
         self.c.plot_polar(ls=":", lw=1.5, marker="o")
         for i in range(20):
             with self.subTest(i=i):
                 helper_functions.test_comparing_plot_kw(self, i)
 
     def test_plot_flat(self):
+        plt.close()
         self.c.plot_flat()
         ws, wa, bsp = self.c.get_slices(None)
         for i in range(20):
@@ -216,11 +233,13 @@ class PolarDiagramCurveTest(unittest.TestCase):
                 helper_functions.curve_table_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_single_ws(self):
+        plt.close()
         self.c.plot_flat(ws=13)
         ws, wa, bsp = self.c.get_slices(ws=13)
         helper_functions.curve_table_plot_flat_comparing_x_plot_wa_y_plot_bsp(0, wa, bsp)
 
     def test_plot_flat_interval_ws(self):
+        plt.close()
         self.c.plot_flat(ws=(10, 20))
         ws, wa, bsp = self.c.get_slices(ws=(10, 20))
         for i in range(10):
@@ -228,6 +247,7 @@ class PolarDiagramCurveTest(unittest.TestCase):
                 helper_functions.curve_table_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_iterable_list_ws(self):
+        plt.close()
         self.c.plot_flat(ws=[5, 10, 15, 20])
         ws, wa, bsp = self.c.get_slices([5, 10, 15, 20])
         for i in range(4):
@@ -235,6 +255,7 @@ class PolarDiagramCurveTest(unittest.TestCase):
                 helper_functions.curve_table_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_iterable_tuple_ws(self):
+        plt.close()
         self.c.plot_flat(ws=(5, 10, 15, 20))
         ws, wa, bsp = self.c.get_slices((5, 10, 15, 20))
         for i in range(4):
@@ -242,6 +263,7 @@ class PolarDiagramCurveTest(unittest.TestCase):
                 helper_functions.curve_table_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_iterable_set_ws(self):
+        plt.close()
         self.c.plot_flat(ws={5, 10, 15, 20})
         ws, wa, bsp = self.c.get_slices({5, 10, 15, 20})
         for i in range(4):
@@ -249,6 +271,7 @@ class PolarDiagramCurveTest(unittest.TestCase):
                 helper_functions.curve_table_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
     def test_plot_flat_n_steps(self):
+        plt.close()
         self.c.plot_flat(ws=(10, 20), n_steps=3)
         ws, wa, bsp = self.c.get_slices(ws=(10, 20), n_steps=3)
         for i in range(3):
@@ -260,37 +283,45 @@ class PolarDiagramCurveTest(unittest.TestCase):
         pass
 
     def test_plot_flat_single_color(self):
+        plt.close()
         self.c.plot_flat(colors="purple")
         for i in range(20):
             with self.subTest(i=i):
                 self.assertEqual(plt.gca().lines[i].get_color(), "purple")
 
     def test_plot_flat_two_colors_passed(self):
+        plt.close()
         self.c.plot_flat(ws=[10, 15, 20], colors=["red", "blue"])
         helper_functions.comparing_colors_two_colors_passed()
 
     def test_plot_flat_more_than_two_colors_passed(self):
+        plt.close()
         self.c.plot_flat(ws=[5, 10, 15, 20], colors=["red", "yellow", "orange"])
         helper_functions.comparing_colors_more_than_two_colors_passed()
 
     def test_plot_flat_ws_color_pairs_passed(self):
+        plt.close()
         self.c.plot_flat(ws=[5, 10, 15], colors=((5, "purple"), (10, "blue"), (15, "red")))
         helper_functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_flat_ws_color_pairs_unsorted_passed(self):
+        plt.close()
         self.c.plot_flat(ws=[5, 10, 15], colors=((5, "purple"), (15, "red"), (10, "blue")))
         helper_functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_flat_show_legend(self):
+        plt.close()
         self.c.plot_flat(ws=[5, 10, 15], colors=["red", "purple", "blue"], show_legend=True)
         helper_functions.test_curve_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_flat_legend_kw(self):
+        plt.close()
         self.c.plot_flat(ws=[5, 10, 15], colors=["red", "purple", "blue"], show_legend=True,
                          legend_kw={'labels': ["ws 5", "ws 10", "ws 15"], 'loc': 'upper left'})
         helper_functions.test_curve_comparing_legend_keywords(self, plt.gca().get_legend())
 
     def test_plot_flat_plot_kw(self):
+        plt.close()
         self.c.plot_flat(ls=":", lw=1.5, marker="o")
         for i in range(20):
             with self.subTest(i=i):
@@ -301,36 +332,37 @@ class PolarDiagramCurveTest(unittest.TestCase):
         pass
 
     def test_plot_color_gradient(self):
-        # test not finished yet
-        ax = plt.axes()
-        self.c.plot_color_gradient(ax=ax, show_legend=True)
-        ws_wa_list = [list(item) for item in np.array(ax.collections[0]._offsets)]
-        all_combinations_ws_wa = [list(item) for item in itertools.product(np.arange(0, 20), np.linspace(0, 360, 1000))]
-        self.assertEqual(len(ws_wa_list), len(all_combinations_ws_wa))
-        self.assertCountEqual(ws_wa_list, all_combinations_ws_wa)
+        # test not implemented yet
+        pass
 
     def test_plot_convex_hull(self):
         # test not finished yet
+        plt.close()
         self.c.plot_convex_hull()
 
     def test_plot_convex_hull_single_element_ws(self):
         # test not finished yet
+        plt.close()
         self.c.plot_convex_hull(ws=10)
 
     def test_plot_convex_hull_interval_ws(self):
         # test not finished yet
+        plt.close()
         self.c.plot_convex_hull(ws=(5, 15))
 
     def test_plot_convex_hull_iterable_list_ws(self):
         # test not finished yet
+        plt.close()
         self.c.plot_convex_hull(ws=[5, 10, 15])
 
     def test_plot_convex_hull_iterable_tuple_ws(self):
         # test not finished yet
+        plt.close()
         self.c.plot_convex_hull(ws=(5, 10, 15))
 
     def test_plot_convex_hull_iterable_set_ws(self):
         # test not finished yet
+        plt.close()
         self.c.plot_convex_hull(ws={5, 10, 15})
 
     def test_plot_convex_hull_axes_keywords(self):
@@ -338,37 +370,45 @@ class PolarDiagramCurveTest(unittest.TestCase):
         pass
 
     def test_plot_convex_hull_single_color(self):
+        plt.close()
         self.c.plot_convex_hull(colors="purple")
         for i in range(20):
             with self.subTest(i=i):
                 self.assertEqual(plt.gca().lines[i].get_color(), "purple")
 
     def test_plot_convex_hull_two_colors_passed(self):
+        plt.close()
         self.c.plot_convex_hull(ws=[10, 15, 20], colors=["red", "blue"])
         helper_functions.comparing_colors_two_colors_passed()
 
     def test_plot_convex_hull_more_than_two_colors_passed(self):
+        plt.close()
         self.c.plot_convex_hull(ws=[5, 10, 15, 20], colors=["red", "yellow", "orange"])
         helper_functions.comparing_colors_more_than_two_colors_passed()
 
     def test_plot_convex_hull_ws_color_pairs_passed(self):
+        plt.close()
         self.c.plot_convex_hull(ws=[5, 10, 15], colors=((5, "purple"), (10, "blue"), (15, "red")))
         helper_functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_convex_hull_ws_color_pairs_unsorted_passed(self):
+        plt.close()
         self.c.plot_convex_hull(ws=[5, 10, 15], colors=((5, "purple"), (15, "red"), (10, "blue")))
         helper_functions.comparing_colors_ws_color_pairs_passed()
 
     def test_plot_convex_hull_show_legend(self):
+        plt.close()
         self.c.plot_convex_hull(ws=[5, 10, 15], colors=["red", "purple", "blue"], show_legend=True)
         helper_functions.test_curve_comparing_show_legend(self, plt.gca().get_legend())
 
     def test_plot_convex_hull_legend_kw(self):
+        plt.close()
         self.c.plot_convex_hull(ws=[5, 10, 15], colors=["red", "purple", "blue"], show_legend=True,
                                 legend_kw={'labels': ["ws 5", "ws 10", "ws 15"], 'loc': 'upper left'})
         helper_functions.test_curve_comparing_legend_keywords(self, plt.gca().get_legend())
 
     def test_plot_convex_hull_plot_kw(self):
+        plt.close()
         self.c.plot_convex_hull(ls=":", lw=1.5, marker="o")
         for i in range(20):
             with self.subTest(i=i):
