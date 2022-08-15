@@ -400,11 +400,11 @@ class PolarPipeline:
         for data in list_of_data:
             for key, val in data.items():
                 if key in concat:
-                    concat[key].append(val)
+                    concat[key].extend(val)
                     max_len = max(len(concat[key]), max_len)
                 else:
                     concat[key] = [None]*max_len
-                    concat[key].append(val)
+                    concat[key].extend(val)
         return concat
 
 
