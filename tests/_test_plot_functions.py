@@ -25,7 +25,11 @@ def comparing_colors_ws_color_pairs_passed():
     np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
 
 
-def test_comparing_show_colorbar(self, colorbar_axes):
+def test_comparing_show_colorbar(self):
+    colorbar_axes = None
+    for axes in plt.gcf().axes:
+        if axes.get_label() == "<colorbar>":
+            colorbar_axes = axes
     self.assertNotEqual(None, colorbar_axes)
     self.assertEqual(colorbar_axes.get_ylabel(), "True Wind Speed")
 
@@ -137,18 +141,18 @@ def test_curve_comparing_legend_keywords(self, legend):
 #     np.testing.assert_array_equal(plt.gca().lines[0].get_color(), "purple")
 #     np.testing.assert_array_equal(plt.gca().lines[1].get_color(), "blue")
 #     np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
-
-
-def test_multisails_comparing_show_legend(self, legend):
-    self.assertNotEqual(None, legend)
-    labels1 = ['TWS 42', 'TWS 44', 'TWS 46']
-    labels2 = ['TWS 42.0', 'TWS 44.0', 'TWS 46.0']
-    colors = ['red', 'purple', 'blue']
-    handles = legend.__dict__["legendHandles"]
-    for i in range(3):
-        with self.subTest(i=i):
-            self.assertIn(handles[i].get_label(), [labels1[i], labels2[i]])
-            self.assertEqual(handles[i].get_color(), colors[i])
+#
+#
+# def test_multisails_comparing_show_legend(self, legend):
+#     self.assertNotEqual(None, legend)
+#     labels1 = ['TWS 42', 'TWS 44', 'TWS 46']
+#     labels2 = ['TWS 42.0', 'TWS 44.0', 'TWS 46.0']
+#     colors = ['red', 'purple', 'blue']
+#     handles = legend.__dict__["legendHandles"]
+#     for i in range(3):
+#         with self.subTest(i=i):
+#             self.assertIn(handles[i].get_label(), [labels1[i], labels2[i]])
+#             self.assertEqual(handles[i].get_color(), colors[i])
 
 
 # helper_functions for Pointcloud:

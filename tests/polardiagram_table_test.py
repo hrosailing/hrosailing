@@ -382,8 +382,7 @@ class PolarDiagramTableTest(unittest.TestCase):
     def test_plot_polar_show_colorbar(self):
         plt.close()
         self.pd.plot_polar(ws=[2, 4, 6], colors=("red", "blue"), show_legend=True)
-        colorbar_axes = plt.gcf().axes[-1]
-        helper_functions.test_comparing_show_colorbar(self, colorbar_axes)
+        helper_functions.test_comparing_show_colorbar(self)
 
     def test_plot_polar_plot_kw(self):
         plt.close()
@@ -507,8 +506,7 @@ class PolarDiagramTableTest(unittest.TestCase):
     def test_plot_flat_show_colorbar(self):
         plt.close()
         self.pd.plot_flat(ws=[2, 4, 6], colors=("red", "blue"), show_legend=True)
-        colorbar_axes = plt.gcf().axes[-1]
-        helper_functions.test_comparing_show_colorbar(self, colorbar_axes)
+        helper_functions.test_comparing_show_colorbar(self)
 
     def test_plot_flat_plot_kw(self):
         plt.close()
@@ -639,8 +637,7 @@ class PolarDiagramTableTest(unittest.TestCase):
     def test_plot_convex_hull_show_colorbar(self):
         plt.close()
         self.pd.plot_convex_hull(ws=[2, 4, 6], colors=("red", "blue"), show_legend=True)
-        colorbar_axes = plt.gcf().axes[-1]
-        helper_functions.test_comparing_show_colorbar(self, colorbar_axes)
+        helper_functions.test_comparing_show_colorbar(self)
 
     def test_plot_convex_hull_plot_kw(self):
         plt.close()
