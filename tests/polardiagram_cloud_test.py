@@ -2,6 +2,7 @@
 # pylint: disable=too-many-public-methods
 # pylint: disable=import-outside-toplevel
 import itertools
+import math
 import unittest
 
 import numpy as np
@@ -820,10 +821,27 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
                 self.pc.plot_flat(ws={(10, 20), 4})
 
     def test_plot_3d(self):
-        # not finished yet
         plt.close()
-        self.pc.plot_3d()
-        print(plt.gca().collections[0]._offsets3d)
+        ax = plt.axes(projection="3d")
+        self.pc.plot_3d(ax=ax)
+        wind_speeds = ax.collections[0]._offsets3d[0]
+        bsp_sinus_wa = ax.collections[0]._offsets3d[1]
+        bsp_cosinus_wa = ax.collections[0]._offsets3d[2]
+        triples = [list(item) for item in zip(wind_speeds, bsp_sinus_wa, bsp_cosinus_wa)]
+        wss, was, bsps = self.pc.get_slices(None)
+        bsp_sin_wa_results = []
+        bsp_cos_wa_results = []
+        for i in range(4):
+            for bsp, wa in zip(bsps[i], was[i]):
+                bsp_sin_wa_results.append(bsp * math.sin(wa))
+                bsp_cos_wa_results.append(bsp * math.cos(wa))
+        ws = list(np.asarray([4 * [2], 4 * [4], 4 * [6], 4 * [8]]).flat)
+        triples_result = [list(item) for item in zip(ws, bsp_sin_wa_results, bsp_cos_wa_results)]
+
+        for i in range(len(triples)):
+            self.assertIn(triples[i], triples_result)
+        for i in range(len(triples_result)):
+            self.assertIn(triples_result[i], triples)
 
     def test_plot_3d_colors(self):
         # not finished yet
