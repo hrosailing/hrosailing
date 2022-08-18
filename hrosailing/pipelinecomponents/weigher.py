@@ -13,10 +13,10 @@ from typing import Callable
 
 import numpy as np
 
-from ._utils import scaled_euclidean_norm, data_dict_to_numpy
+from ._utils import euclidean_norm, scaled_norm, data_dict_to_numpy, scaled_euclidean_norm
 
 from hrosailing.pipelinecomponents.data import Data
-
+from hrosailing.pipelinecomponents.constants import NORM_SCALES
 
 class WeightedPointsInitializationException(Exception):
     """Exception raised if an error occurs during
@@ -190,7 +190,7 @@ class CylindricMeanWeigher(Weigher):
     norm : function or callable, optional
         Norm with which to evaluate the distances, ie ||.||
 
-        If nothing is passed, it will default to ||.||_2
+        If nothing is passed, it will automatically detect a scaled euclidean norm with respect to the used dimensions
 
     Raises
     ------
@@ -201,7 +201,7 @@ class CylindricMeanWeigher(Weigher):
     def __init__(
         self,
         radius=0.05,
-        norm: Callable = scaled_euclidean_norm,
+        norm=None,
         dimensions=None
     ):
         if radius <= 0:
@@ -230,7 +230,7 @@ class CylindricMeanWeigher(Weigher):
         WeightedPoints : numpy.ndarray of shape (n,)
             Normalized weights of the input points
         """
-        points = _set_points_from_data(points, self._dimensions)
+        self._dimensions, points = _set_points_from_data(points, self._dimensions)
         weights = [self._calculate_weight(point, points) for point in points]
         weights = np.array(weights)
         weights = 1 - _normalize(weights, np.max)
@@ -248,6 +248,8 @@ class CylindricMeanWeigher(Weigher):
         return np.abs(mean - point[-1]) / std
 
     def _determine_points_in_cylinder(self, point, points):
+        if self._norm is None:
+            self._norm = hrosailing_standard_scaled_euclidean_norm(self._dimensions)
         in_cylinder = self._norm(points[:, :-1] - point[:-1]) <= self._radius
         return points[in_cylinder][:, -1]
 
@@ -467,7 +469,12 @@ def _set_points_from_data(data, dimensions):
         dimensions = dimensions
 
     if isinstance(data, dict):
-        return data_dict_to_numpy(data, dimensions)
+        return dimensions, data_dict_to_numpy(data, dimensions)
 
     if isinstance(data, Data):
         return data[dimensions].numerical
+
+
+def hrosailing_standard_scaled_euclidean_norm(dimensions):
+    scales = [NORM_SCALES[key] if key in NORM_SCALES else 1 for key in dimensions]
+    return scaled_norm(euclidean_norm, scales)

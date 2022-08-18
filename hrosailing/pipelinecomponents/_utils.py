@@ -3,7 +3,7 @@
 import numpy as np
 
 
-def _scaled_norm(norm, scal_factors):
+def scaled_norm(norm, scal_factors):
     scaled = np.asarray(scal_factors)
 
     def s_norm(vec):
@@ -12,11 +12,11 @@ def _scaled_norm(norm, scal_factors):
     return s_norm
 
 
-def _euclidean_norm(vec):
+def euclidean_norm(vec):
     return np.linalg.norm(vec, axis=1)
 
 
-scaled_euclidean_norm = _scaled_norm(_euclidean_norm, [1 / 40, 1 / 360])
+scaled_euclidean_norm = scaled_norm(euclidean_norm, [1 / 40, 1 / 360])
 
 
 def data_dict_to_numpy(data_dict, keys):

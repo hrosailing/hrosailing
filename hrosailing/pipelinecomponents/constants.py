@@ -73,3 +73,14 @@ KEYSYNONYMS = {
 }
 
 SEPERATORS = ["_", "-", "+", "&", "\n", "\t"]
+
+NORM_SCALES = {
+    "TWS": 1/20,
+    "AWS": 1/20,
+    "TWA": 1/360,
+    "AWA": 1/360,
+    "BSP": 1/40,
+    "SOG": 1/40,
+    "lat": 1/360,
+    "lon": 1/360
+}
