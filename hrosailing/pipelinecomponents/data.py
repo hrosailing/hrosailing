@@ -212,6 +212,8 @@ class Data:
         if isinstance(key, int):
             self.delete([key])
         if isinstance(key, list):
+            if len(key) == 0:
+                return
             if isinstance(key[0], str):
                 for k in key:
                     self.delete(k)

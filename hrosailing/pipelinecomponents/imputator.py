@@ -156,7 +156,7 @@ class FillLocalImputator(Imputator):
         idx_dict = {
             key: [i for i, data in enumerate(data_dict[key]) if
                   data is not None]
-            for key in data_dict
+            for key in data_dict.keys
         }
 
         datetime = data_dict["datetime"]
@@ -240,20 +240,17 @@ class FillLocalImputator(Imputator):
         #remove rows which still have None values
         remove_rows = [i for i, _ in enumerate(data_dict["datetime"])
                        if any([data_dict[key][i] is None
-                               for key in data_dict.keys()])]
+                               for key in data_dict.keys])]
 
-        data_dict = \
-            {key: [v for i, v in enumerate(value)
-                   if i not in remove_rows]
-             for key, value in data_dict.items()}
+        data_dict.delete(remove_rows)
         n_removed_rows += len(remove_rows)
 
         statistics = {
             "n_removed_cols": n_removed_cols,
             "n_removed_rows": n_removed_rows,
             "n_filled_fields": self._n_filled,
-            "n_rows": len(list(data_dict.values())[0]),
-            "n_cols": len(data_dict)
+            "n_rows": data_dict.n_rows,
+            "n_cols": data_dict.n_cols
         }
 
         return data_dict, statistics
