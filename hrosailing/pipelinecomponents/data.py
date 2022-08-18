@@ -198,16 +198,28 @@ class Data:
 
     def delete(self, key):
         """
-        Delets a column.
+        Delets a column or a row.
 
         Parameter
         --------
 
-        key: str
-            name of column to be deleted
+        key: int, str, list of str or list of int
+            name or names of column(s) to be deleted or index(es) of row(s) to be deleted.
         """
-        del self._data[key]
-        del self._types[key]
+        if isinstance(key, str):
+            del self._data[key]
+            del self._types[key]
+        if isinstance(key, int):
+            self.delete([key])
+        if isinstance(key, list):
+            if isinstance(key[0], str):
+                for k in key:
+                    self.delete(k)
+            if isinstance(key[0], int):
+                self._data = {k: [v for i, v in enumerate(value)
+                                  if i not in key]
+                              for k, value in self._data.items()}
+                self._max_len -= 1
 
     def strip(self, mode):
         if mode == "cols":

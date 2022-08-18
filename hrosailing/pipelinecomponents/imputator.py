@@ -148,10 +148,8 @@ class FillLocalImputator(Imputator):
             i for i, dt in enumerate(data_dict["datetime"])
             if dt is None
         ]
-        data_dict = \
-            {key: [v for i, v in enumerate(value)
-                   if i not in remove_rows]
-             for key, value in data_dict.items()}
+        data_dict.delete(remove_rows)
+
         n_removed_rows = len(remove_rows)
 
         # indices of not None values
