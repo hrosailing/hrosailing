@@ -15,6 +15,8 @@ import numpy as np
 
 from ._utils import scaled_euclidean_norm, data_dict_to_numpy
 
+from hrosailing.pipelinecomponents.data import Data
+
 
 class WeightedPointsInitializationException(Exception):
     """Exception raised if an error occurs during
@@ -228,7 +230,7 @@ class CylindricMeanWeigher(Weigher):
         WeightedPoints : numpy.ndarray of shape (n,)
             Normalized weights of the input points
         """
-        points = _set_points_from_dict(points, self._dimensions)
+        points = _set_points_from_data(points, self._dimensions)
         weights = [self._calculate_weight(point, points) for point in points]
         weights = np.array(weights)
         weights = 1 - _normalize(weights, np.max)
@@ -458,11 +460,14 @@ class PastFutureFluctuationWeigher(Weigher):
         return time_difference.total_seconds() <= self.timespan
 
 
-def _set_points_from_dict(points, dimensions):
-    if isinstance(points, dict):
-        if dimensions is None:
-            dimensions = list(points.keys())
-        else:
-            dimensions = dimensions
-        points = data_dict_to_numpy(points, dimensions)
-    return points
+def _set_points_from_data(data, dimensions):
+    if dimensions is None:
+        dimensions = list(data.keys()) or list(data.keys)
+    else:
+        dimensions = dimensions
+
+    if isinstance(data, dict):
+        return data_dict_to_numpy(data, dimensions)
+
+    if isinstance(data, Data):
+        return data[dimensions].numerical

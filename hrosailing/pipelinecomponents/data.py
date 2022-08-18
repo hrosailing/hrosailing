@@ -40,7 +40,6 @@ class Data:
         self._weights = []
         self._max_len = 0
 
-    @property
     def keys(self):
         return list(self._data.keys())
 
@@ -75,7 +74,7 @@ class Data:
             `filtered_keys`
         """
         filtered_keys = [
-            key for key in self.keys if self._types[key] == type_
+            key for key in self.keys() if self._types[key] == type_
         ]
         return filtered_keys, [
             self._data[key] for key in filtered_keys
@@ -156,7 +155,7 @@ class Data:
             Defaults to `self.keys`
         """
         if keys is None:
-            keys = self.keys
+            keys = self.keys()
         if len_ is None:
             len_ = self._max_len
         for key in keys:
@@ -278,7 +277,7 @@ class Data:
             self.delete("time")
 
         #ensure floats
-        for key in self.keys:
+        for key in self.keys():
             if self._types[key] in (int, str):
                 succes, self._data[key] = _try_call_to_float(self._data[key])
                 if succes:
@@ -318,11 +317,44 @@ class Data:
             data.update(other_data)
         return data
 
+    @classmethod
+    def _force_set(cls, data, types, weights, max_len):
+        new_obj = cls()
+        new_obj._data = data
+        new_obj._types = types
+        new_obj._weights = weights
+        new_obj._max_len = max_len
+        return new_obj
+
+    def get_slice(self, slice):
+        """
+        Returns new `Data` object containing only keys in `slice`
+
+        Parameter
+        ---------
+        slice: object with method `__contains__`
+
+        Returns
+        --------
+        data: Data
+        """
+
+        data = {
+            key: value for key, value in self._data.items() if key in slice
+        }
+        types = {
+            key: value for key, value in self._types.items() if key in slice
+        }
+        weights = self._weights.copy()
+        max_len = max(len(field) for field in data.values())
+        return Data._force_set(data, types, weights, max_len)
+
     def __getitem__(self, item):
         if isinstance(item, str):
             return self._data[item]
         if isinstance(item, int):
             return {key: val[item] for key, val in self._data.items()}
+        return self.get_slice(item)
 
     def __contains__(self, item):
         return item in self._data
