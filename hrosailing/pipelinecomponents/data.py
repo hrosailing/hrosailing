@@ -109,17 +109,20 @@ class Data:
 
     def update(self, data_dict):
         """
-        Extends the data according to a given dictionary and fills missing
+        Extends the data according to given data and fills missing
         entries in each column with `None`.
 
         Parameter
         --------
-        data_dict: dict,
-            the dictionary containing the data to be updated
+        data_dict: dict or Data,
+            the dictionary or `Data` object containing the data to be used for the update
         """
-        for key, val in data_dict.items():
-            self.extend(key, val)
-        self.fill()
+        if isinstance(data_dict, Data):
+            self.update(data_dict._data)
+        if isinstance(data_dict, dict):
+            for key, val in data_dict.items():
+                self.extend(key, val)
+            self.fill()
 
     def append(self, key, data):
         """
@@ -297,6 +300,23 @@ class Data:
                     f"Found {type(field)} and {curr_type}"
                 )
         return curr_type
+
+    @classmethod
+    def concatenate(cls, list_):
+        """
+        Returns concatenated data, given a list of `Data` classes.
+
+        Parameter:
+            list_: list of Data
+
+        Returns:
+            data: Data
+                The concatenated Data
+        """
+        data = cls()
+        for other_data in list_:
+            data.update(other_data)
+        return data
 
     def __getitem__(self, item):
         if isinstance(item, str):

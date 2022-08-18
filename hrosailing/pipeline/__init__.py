@@ -313,7 +313,7 @@ class PolarPipeline:
             handled_data
         )
 
-        imputated_data = self._concatenate_data(imputated_data)
+        imputated_data = pc.data.Data.concatenate(imputated_data)
 
         pre_filtered_data, pre_weigher_statistics, pre_filter_statistics = \
             _weigh_and_filter(
@@ -392,20 +392,6 @@ class PolarPipeline:
             i: stat for i, stat in enumerate(statistics)
         }
         return list(data), statistics
-
-    @staticmethod
-    def _concatenate_data(list_of_data):
-        concat = {}
-        max_len = 0
-        for data in list_of_data:
-            for key, val in data.items():
-                if key in concat:
-                    concat[key].extend(val)
-                    max_len = max(len(concat[key]), max_len)
-                else:
-                    concat[key] = [None]*max_len
-                    concat[key].extend(val)
-        return concat
 
 
 
