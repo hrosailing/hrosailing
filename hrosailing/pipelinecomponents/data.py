@@ -209,6 +209,19 @@ class Data:
         del self._data[key]
         del self._types[key]
 
+    def strip(self, mode):
+        if mode == "cols":
+            self._data = {key: value for key, value in self._data.items()
+                         if not all([v is None for v in value])}
+        elif mode == "rows":
+            n_leading_none = min(
+                [i for i in range(self._max_len) if all([self[key][i] is None for key in self.keys])]
+            )
+            n_ending_none = max(
+                [i for i in range(self._max_len) if all([self[key][i] is not None for key in self.keys])]
+            )
+            self._data = {key: value[n_leading_none:n_ending_none+1] for key, value in self._data.items()}
+
     def hrosailing_standard_format(self):
         """
             Reformats data in the hrosailing standard format.
@@ -225,7 +238,7 @@ class Data:
             lkey = lkey.strip()
             return KEYSYNONYMS[lkey] if lkey in KEYSYNONYMS else key
 
-        for key, value in self._data.items():
+        for key, value in list(self._data.items()):
             self.rename(key, standard_key(key))
 
         if "time" in self and "date" in self:
@@ -295,6 +308,7 @@ class Data:
             str_ += "\n"
 
         return str_
+
 
 
 def _try_call_to_float(list_):

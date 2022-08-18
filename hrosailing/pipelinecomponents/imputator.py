@@ -21,6 +21,11 @@ class Imputator(ABC):
         """
         This method should be used, given data that possibly contains None
         values to create data without any None values
+
+        Parameter
+        --------
+        data: Data,
+            data to be imputated
         """
 
 class FillLocalImputator(Imputator):
@@ -121,11 +126,9 @@ class FillLocalImputator(Imputator):
             "n_rows" and "n_cols" respectively
         """
         self._n_filled = 0
-        n_removed_cols = len(data_dict)
-        # remove all None fields
-        data_dict = {key: value for key, value in data_dict.items()
-                     if not all([v is None for v in value])}
-        n_removed_cols -= len(data_dict)
+        n_removed_cols = data_dict.n_cols
+        data_dict.strip("cols")
+        n_removed_cols -= data_dict.n_cols
 
         last_dt, last_i = None, None
         for i, dt in enumerate(data_dict["datetime"]):
