@@ -334,7 +334,7 @@ class CylindricMemberWeigher(Weigher):
             f"length={self._length}, norm={self._norm.__name__})"
         )
 
-    def weigh(self, points, extra_data, _enable_logging):
+    def weigh(self, points):
         """Weigh given points according to the method described above
 
         Parameters
@@ -348,7 +348,7 @@ class CylindricMemberWeigher(Weigher):
             Normalized weights of the input points
         """
 
-        points = _set_points_from_dict(points, self._dimensions)
+        self._dimensions, points = _set_points_from_data(points, self._dimensions)
 
         weights = [self._calculate_weight(point, points) for point in points]
         weights = np.array(weights)
@@ -380,7 +380,7 @@ class PastFluctuationWeigher(Weigher):
     def weigh(self, points):
         """WIP"""
         recording_times = np.array(points["datetime"])
-        points = _set_points_from_dict(points, self._dimensions)
+        self._dimensions, points = _set_points_from_data(points, self._dimensions)
         weights = [
             self._calculate_weight(i, points, recording_times)
             for i in range(len(points))
@@ -427,7 +427,7 @@ class PastFutureFluctuationWeigher(Weigher):
                 "PastFluctuationWeigher can only be used as a Pre Weigher"
             )
         recording_times = np.array(points["datetime"])
-        points = _set_points_from_dict(points, self._dimensions)
+        self._dimensions, points = _set_points_from_data(points, self._dimensions)
         weights = [
             self._calculate_weight(time, points, recording_times)
             for time in recording_times
