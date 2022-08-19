@@ -100,6 +100,7 @@ class ArrayHandler(DataHandler):
         """
         if self.pand and isinstance(data, self.pd.DataFrame):
             data_dict = data.to_dict()
+            data_dict = Data().update(data_dict)
         else:
             arr, keys = data
             arr = np.asarray(arr)
@@ -108,8 +109,9 @@ class ArrayHandler(DataHandler):
                 raise HandleException("Too few keys for data")
 
             data_dict = {key: arr[:, i] for i, key in enumerate(keys)}
+            data_dict = Data().update(data_dict)
 
-        data_dict = hrosailing_standard_format(data_dict)
+        data_dict.hrosailing_standard_format()
 
         statistics = get_datahandler_statistics(data_dict)
         return data_dict, statistics
@@ -159,17 +161,18 @@ class CsvFileHandler(DataHandler):
         """
         if self.pand:
             df = self.pd.read_csv(data)
-            return df.to_dict()
+            data_dict = Data().update(df.to_dict())
+        else:
+            with open(data, "r", encoding="utf-8") as file:
+                csv_reader = csv.reader(file)
+                keys = next(csv_reader)
+                data_dict = {key: [] for key in keys}
+                for row in csv_reader:
+                    for i, entry in enumerate(row):
+                        data_dict[keys[i]].append(literal_eval(entry))
+                data_dict = Data().update()
 
-        with open(data, "r", encoding="utf-8") as file:
-            csv_reader = csv.reader(file)
-            keys = next(csv_reader)
-            data_dict = {key: [] for key in keys}
-            for row in csv_reader:
-                for i, entry in enumerate(row):
-                    data_dict[keys[i]].append(literal_eval(entry))
-
-        data_dict = hrosailing_standard_format(data_dict)
+        data_dict.hrosailing_standard_format()
 
         statistics = get_datahandler_statistics(data_dict)
         return data_dict, statistics
