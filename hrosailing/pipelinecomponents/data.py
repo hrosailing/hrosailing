@@ -5,6 +5,8 @@ Contains the class Data which is an output of several pipeline components.
 import numpy as np
 from datetime import datetime
 
+from decimal import Decimal
+
 from hrosailing.pipelinecomponents.constants import KEYSYNONYMS, SEPERATORS
 
 
@@ -37,7 +39,6 @@ class Data:
     def __init__(self):
         self._data = {}
         self._types = {}
-        self._weights = []
         self._max_len = 0
 
     def keys(self):
@@ -278,7 +279,7 @@ class Data:
 
         #ensure floats
         for key in self.keys():
-            if self._types[key] in (int, str):
+            if self._types[key] in (int, str, Decimal):
                 succes, self._data[key] = _try_call_to_float(self._data[key])
                 if succes:
                     self._types[key] = float
@@ -318,11 +319,10 @@ class Data:
         return data
 
     @classmethod
-    def _force_set(cls, data, types, weights, max_len):
+    def _force_set(cls, data, types, max_len):
         new_obj = cls()
         new_obj._data = data
         new_obj._types = types
-        new_obj._weights = weights
         new_obj._max_len = max_len
         return new_obj
 
@@ -345,19 +345,45 @@ class Data:
         types = {
             key: value for key, value in self._types.items() if key in slice
         }
-        weights = self._weights.copy()
         try:
             max_len = max([len(field) for field in data.values()])
         except ValueError:
             max_len = 0
-        return Data._force_set(data, types, weights, max_len)
+        return Data._force_set(data, types, max_len)
+
+    def mask_rows(self, mask):
+        """
+        Keeps only a subset of the rows indicated by `mask`
+
+        Parameter:
+        ---------
+        mask: iterable of boolean
+        """
+
+        data = {
+            key : list(np.array(value)[mask]) for key, value in self._data.items()
+        }
+        try:
+            max_len = max([len(field) for field in self._data.values()])
+        except ValueError:
+            max_len = 0
+
+        return Data._force_set(data, self._types.copy(), max_len)
+
 
     def __getitem__(self, item):
+        print(item)
         if isinstance(item, str):
             return self._data[item]
         if isinstance(item, int):
             return {key: val[item] for key, val in self._data.items()}
-        return self.get_slice(item)
+        for key in item:
+            type_ = type(key)
+            break
+        if type_ in (bool, np.bool_):
+            return self.mask_rows(item)
+        if type_ is str:
+            return self.get_slice(item)
 
     def __contains__(self, item):
         return item in self._data

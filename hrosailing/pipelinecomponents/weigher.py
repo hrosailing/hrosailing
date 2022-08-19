@@ -463,10 +463,18 @@ class PastFutureFluctuationWeigher(Weigher):
 
 
 def _set_points_from_data(data, dimensions):
+    if isinstance(data, np.ndarray):
+        return dimensions, data[:, :-1]
+
     if dimensions is None:
         dimensions = list(data.keys()) or list(data.keys)
     else:
         dimensions = dimensions
+
+    if "BSP" in dimensions:
+        dimensions.remove("BSP")
+    if "SOG" in dimensions:
+        dimensions.remove("SOG")
 
     if isinstance(data, dict):
         return dimensions, data_dict_to_numpy(data, dimensions)
@@ -476,5 +484,7 @@ def _set_points_from_data(data, dimensions):
 
 
 def hrosailing_standard_scaled_euclidean_norm(dimensions):
+    if dimensions is None:
+        return scaled_euclidean_norm
     scales = [NORM_SCALES[key] if key in NORM_SCALES else 1 for key in dimensions]
     return scaled_norm(euclidean_norm, scales)
