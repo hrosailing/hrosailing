@@ -263,6 +263,7 @@ class PolarPipeline:
                 test_data,
                 pre_weighing,
                 pre_filtering,
+                smoothing,
                 post_weighing,
                 post_filtering,
                 False
