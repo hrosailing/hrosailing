@@ -372,7 +372,6 @@ class Data:
 
 
     def __getitem__(self, item):
-        print(item)
         if isinstance(item, str):
             return self._data[item]
         if isinstance(item, int):
