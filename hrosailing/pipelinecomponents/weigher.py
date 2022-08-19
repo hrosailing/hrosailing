@@ -250,7 +250,7 @@ class CylindricMeanWeigher(Weigher):
     def _determine_points_in_cylinder(self, point, points):
         if self._norm is None:
             self._norm = hrosailing_standard_scaled_euclidean_norm(self._dimensions)
-        in_cylinder = self._norm(points[:, :-1] - point[:-1]) <= self._radius
+        in_cylinder = self._norm(points - point) <= self._radius
         return points[in_cylinder][:, -1]
 
 
