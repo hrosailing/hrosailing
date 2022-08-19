@@ -109,12 +109,13 @@ class ArrayHandler(DataHandler):
                 raise HandleException("Too few keys for data")
 
             data_dict = {key: arr[:, i] for i, key in enumerate(keys)}
-            data_dict = Data().update(data_dict)
+            data = Data()
+            data.update(data_dict)
 
-        data_dict.hrosailing_standard_format()
+        data.hrosailing_standard_format()
 
-        statistics = get_datahandler_statistics(data_dict)
-        return data_dict, statistics
+        statistics = get_datahandler_statistics(data)
+        return data, statistics
 
 
 class CsvFileHandler(DataHandler):
@@ -170,9 +171,10 @@ class CsvFileHandler(DataHandler):
                 for row in csv_reader:
                     for i, entry in enumerate(row):
                         data_dict[keys[i]].append(literal_eval(entry))
-                data_dict = Data().update()
+                data = Data()
+                data.update(data_dict)
 
-        data_dict.hrosailing_standard_format()
+        data.hrosailing_standard_format()
 
         statistics = get_datahandler_statistics(data_dict)
         return data_dict, statistics
