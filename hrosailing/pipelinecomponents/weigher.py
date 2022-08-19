@@ -166,7 +166,7 @@ class AllOneWeigher(Weigher):
     of the pipeline are set to False. Weighs everything as 1"""
 
     def weigh(self, points) -> (np.ndarray, dict):
-        return np.ones(len(points)), {}
+        return np.ones(points.n_rows), {}
 
 
 class CylindricMeanWeigher(Weigher):
@@ -314,7 +314,7 @@ class CylindricMemberWeigher(Weigher):
         self,
         radius=0.05,
         length=0.05,
-        norm: Callable = scaled_euclidean_norm,
+        norm =None,
         dimensions=None
     ):
         if radius <= 0:
@@ -362,8 +362,11 @@ class CylindricMemberWeigher(Weigher):
         return len(points_in_cylinder) - 1
 
     def _count_points_in_cylinder(self, point, points):
+        if self._norm is None:
+            self._norm = hrosailing_standard_scaled_euclidean_norm(self._dimensions)
+
         height = np.abs(points[:, 0] - point[0]) <= self._length
-        radius = self._norm(points[:, 1:] - point[1:]) <= self._radius
+        radius = self._norm(points - point) <= self._radius
 
         cylinder = height & radius
         points_in_cylinder = cylinder[cylinder]
@@ -422,7 +425,7 @@ class PastFutureFluctuationWeigher(Weigher):
 
     def weigh(self, points):
         """WIP"""
-        if not isinstance(points, dict):
+        if not isinstance(points, Data):
             raise WeighingException(
                 "PastFluctuationWeigher can only be used as a Pre Weigher"
             )
