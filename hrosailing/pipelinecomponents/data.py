@@ -121,7 +121,10 @@ class Data:
             self.update(data_dict._data)
         if isinstance(data_dict, dict):
             for key, val in data_dict.items():
-                self.extend(key, val)
+                if isinstance(val, list):
+                    self.extend(key, val)
+                else:
+                    self.append(key, val)
             self.fill()
 
     def append(self, key, data):
@@ -393,7 +396,7 @@ class Data:
 
     def __str__(self):
         str_ = ""
-        for key in self.keys:
+        for key in self.keys():
             str_ += f"Data field '{key}' of type {self._types[key]}:\n\t"
             if len(self._data[key]) < 10:
                 str_ += str(self._data[key])

@@ -380,10 +380,14 @@ class NMEAFileHandler(DataHandler):
 
                 wanted_fields = [x[:2] for x in wanted_fields]
 
-                comp_data.update({
-                    name: [getattr(parsed_sentence, attribute)]
+                parsed_dict = {
+                    name: getattr(parsed_sentence, attribute)
                     for name, attribute in wanted_fields
-                })
+                }
+
+                processed_dict = self.postprocess(parsed_dict)
+
+                comp_data.update(processed_dict)
 
         comp_data.hrosailing_standard_format()
 
@@ -392,6 +396,23 @@ class NMEAFileHandler(DataHandler):
         statistics = get_datahandler_statistics(comp_data)
 
         return comp_data, statistics
+
+    @staticmethod
+    def postprocess(parsed_sentence):
+        if "Wind angle" in parsed_sentence and "Reference" in parsed_sentence and "Wind speed" in parsed_sentence:
+            wind_angle = parsed_sentence["Wind angle"]
+            wind_speed = parsed_sentence["Wind speed"]
+            reference = parsed_sentence["Reference"]
+            if reference == "R":
+                parsed_sentence["AWA"] = wind_angle
+                parsed_sentence["AWS"] = wind_speed
+            elif reference == "T":
+                parsed_sentence["TWA"] = wind_angle
+                parsed_sentence["TWS"] = wind_speed
+            del parsed_sentence["Reference"]
+            del parsed_sentence["Wind angle"]
+            del parsed_sentence["Wind speed"]
+        return parsed_sentence
 
 
 def get_datahandler_statistics(data):
