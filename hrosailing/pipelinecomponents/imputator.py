@@ -269,7 +269,7 @@ class FillLocalImputator(Imputator):
         for i in range(start_idx + 1, end_idx):
             duration = (datetime[end_idx] - datetime[start_idx])
             try:
-                mu = (datetime[i] - datetime[end_idx])/duration
+                mu = (datetime[i] - datetime[start_idx])/duration
             except ZeroDivisionError:
                 mu = 0
             data_dict[key][i] = fill_fun(key, left, right, mu)
