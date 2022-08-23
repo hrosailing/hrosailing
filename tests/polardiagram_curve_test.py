@@ -332,8 +332,11 @@ class PolarDiagramCurveTest(unittest.TestCase):
                 helper_functions.test_comparing_plot_kw(self, i)
 
     def test_plot_3d(self):
-        # test not implemented yet
-        pass
+        # test not finished yet
+        plt.close()
+        ax = plt.axes(projection="3d")
+        self.c.plot_3d(ax=ax)
+        print(ax.collections[0]._vec)
 
     def test_plot_color_gradient(self):
         # test not implemented yet
