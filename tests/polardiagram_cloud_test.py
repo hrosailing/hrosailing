@@ -841,7 +841,8 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         plt.close()
         ax = plt.axes(projection="3d", label="axes label")
         self.pc.plot_3d(ax=ax)
-        self.assertEqual(plt.gca().get_label(), "axes label")
+        print(plt.gcf().axes)
+        self.assertEqual(plt.gcf().axes[0].get_label(), "axes label")
 
     def test_plot_3d_color_pair(self):
         # not finished yet
