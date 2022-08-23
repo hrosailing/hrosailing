@@ -191,8 +191,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
     def test_get_slices_mixed_iterable_list_slices_in_table(self):
         ws, wa, bsp = self.pc.get_slices(ws=[(4, 8), 2])
         self.assertEqual(ws, [6, 2])
-        zipped_tuples = [[list(item) for item in zip(wa[0], bsp[0])],
-                         [list(item) for item in zip(wa[1], bsp[1])]]
+        zipped_tuples = [zip(wa[0], bsp[0]), zip(wa[1], bsp[1])]
         wind_speeds = [[4, 6, 8], [2]]
         for i in range(2):
             for wa_bsp_tuple in zipped_tuples[i]:
@@ -223,8 +222,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
     def test_get_slices_mixed_iterable_tuple_slices_in_table(self):
         ws, wa, bsp = self.pc.get_slices(ws=((4, 8), 2))
         self.assertEqual(ws, [6, 2])
-        zipped_tuples = [[list(item) for item in zip(wa[0], bsp[0])],
-                         [list(item) for item in zip(wa[1], bsp[1])]]
+        zipped_tuples = [zip(wa[0], bsp[0]), zip(wa[1], bsp[1])]
         wind_speeds = [[4, 6, 8], [2]]
         for i in range(2):
             for wa_bsp_tuple in zipped_tuples[i]:
@@ -255,8 +253,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
     def test_get_slices_mixed_iterable_set_slices_in_table(self):
         ws, wa, bsp = self.pc.get_slices(ws={(4, 8), 2})
         self.assertIn(ws, [[6, 2], [2, 6]])
-        zipped_tuples = [[list(item) for item in zip(wa[0], bsp[0])],
-                         [list(item) for item in zip(wa[1], bsp[1])]]
+        zipped_tuples = [zip(wa[0], bsp[0]), zip(wa[1], bsp[1])]
         wind_speeds = [[4, 6, 8], [2]]
         for i in range(2):
             for wa_bsp_tuple in zipped_tuples[i]:
@@ -353,7 +350,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
     def test_get_slices_range_single_ws_slice_in_table(self):
         ws, wa, bsp = self.pc.get_slices(ws=4, range_=2)
         self.assertEqual(ws, [4])
-        zipped_tuples = [list(item) for item in zip(wa[0], bsp[0])]
+        zipped_tuples = zip(wa[0], bsp[0])
         wind_speeds = [2, 4, 6]
         for wa_bsp_tuple in zipped_tuples:
             boolean = False
@@ -383,8 +380,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         pd = self.big_pc
         ws, wa, bsp = pd.get_slices(ws=[(14, 20), 8], range_=2)
         np.testing.assert_array_equal(ws, [17, 8])
-        zipped_tuples = [[list(item) for item in zip(wa[0], bsp[0])],
-                         [list(item) for item in zip(wa[1], bsp[1])]]
+        zipped_tuples = [zip(wa[0], bsp[0]), zip(wa[1], bsp[1])]
         wind_speeds = [[14, 16, 20], [6, 8, 10]]
         for i in range(2):
             for wa_bsp_tuple in zipped_tuples[i]:
@@ -417,8 +413,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         pd = self.big_pc
         ws, wa, bsp = pd.get_slices(ws=((14, 20), 8), range_=2)
         np.testing.assert_array_equal(ws, [17, 8])
-        zipped_tuples = [[list(item) for item in zip(wa[0], bsp[0])],
-                         [list(item) for item in zip(wa[1], bsp[1])]]
+        zipped_tuples = [zip(wa[0], bsp[0]), zip(wa[1], bsp[1])]
         wind_speeds = [[14, 16, 20], [6, 8, 10]]
         for i in range(2):
             for wa_bsp_tuple in zipped_tuples[i]:
@@ -451,8 +446,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         pd = self.big_pc
         ws, wa, bsp = pd.get_slices(ws={(14, 20), 8}, range_=2)
         self.assertIn(ws, [[17, 8], [8, 17]])
-        zipped_tuples = [[list(item) for item in zip(wa[0], bsp[0])],
-                         [list(item) for item in zip(wa[1], bsp[1])]]
+        zipped_tuples = [zip(wa[0], bsp[0]), zip(wa[1], bsp[1])]
         wind_speeds = [[14, 16, 20], [6, 8, 10]]
         for i in range(2):
             for wa_bsp_tuple in zipped_tuples[i]:
@@ -822,11 +816,10 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
 
     def test_plot_3d(self):
         plt.close()
-        ax = plt.axes(projection="3d")
-        self.pc.plot_3d(ax=ax)
-        wind_speeds = ax.collections[0]._offsets3d[0]
-        bsp_sinus_wa = ax.collections[0]._offsets3d[1]
-        bsp_cosinus_wa = ax.collections[0]._offsets3d[2]
+        self.pc.plot_3d()
+        wind_speeds = plt.gca().collections[0]._offsets3d[0]
+        bsp_sinus_wa = plt.gca().collections[0]._offsets3d[1]
+        bsp_cosinus_wa = plt.gca().collections[0]._offsets3d[2]
         triples = [list(item) for item in zip(wind_speeds, bsp_sinus_wa, bsp_cosinus_wa)]
         wss, was, bsps = self.pc.get_slices(None)
         bsp_sin_wa_results = []
@@ -838,15 +831,29 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         ws = list(np.asarray([4 * [2], 4 * [4], 4 * [6], 4 * [8]]).flat)
         triples_result = [list(item) for item in zip(ws, bsp_sin_wa_results, bsp_cos_wa_results)]
 
-        for i in range(len(triples)):
-            self.assertIn(triples[i], triples_result)
-        for i in range(len(triples_result)):
-            self.assertIn(triples_result[i], triples)
+        for triple in triples:
+            self.assertIn(triple, triples_result)
+        for result in triples_result:
+            self.assertIn(result, triples)
 
-    def test_plot_3d_colors(self):
+    def test_plot_3d_axes_instance(self):
+        # test not finished yet
+        plt.close()
+        ax = plt.axes(projection="3d", label="axes label")
+        self.pc.plot_3d(ax=ax)
+        self.assertEqual(plt.gca().get_label(), "axes label")
+
+    def test_plot_3d_color_pair(self):
         # not finished yet
         plt.close()
         self.pc.plot_3d(colors=('blue', 'red'))
+
+    def test_plot_3d_plot_kw(self):
+        # not finished yet
+        plt.close()
+        self.pc.plot_3d(marker='v', visible=False)
+        self.assertEqual(plt.gca().collections[0].__dict__['_visible'], False)
+        print(plt.gca().collections[0].__dict__)
 
     def test_plot_3d_exception_empty_cloud(self):
         pd_empty = pol.PolarDiagramPointcloud(np.empty((0, 3)))
@@ -854,14 +861,30 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
             pd_empty.plot_3d()
 
     def test_plot_color_gradient(self):
-        # test not finished yet
         plt.close()
-        ax = plt.axes()
-        self.pc.plot_color_gradient(ax=ax, show_legend=True)
-        ws_wa_list = [list(item) for item in np.array(ax.collections[0]._offsets)]
+        self.pc.plot_color_gradient(show_legend=True)
+        ws_wa_list = [list(item) for item in np.array(plt.gca().collections[0]._offsets)]
         all_combinations_ws_wa = [list(item) for item in itertools.product(self.pc.wind_speeds, self.pc.wind_angles)]
         self.assertEqual(len(ws_wa_list), len(all_combinations_ws_wa))
         self.assertCountEqual(ws_wa_list, all_combinations_ws_wa)
+        colors = [list(item[:-1]) for item in plt.gca().collections[0]._facecolors]
+        bsp_colors = []
+        for i in range(len(self.pc.boat_speeds)):
+            bsp_colors.append([self.pc.boat_speeds[i]] + colors[i])
+        diff_points = []
+        for i in range(1, len(bsp_colors)):
+            tmp_elem = []
+            for j in range(len(bsp_colors[0])):
+                tmp_elem.append(bsp_colors[i][j] - bsp_colors[0][j])
+            diff_points.append(tmp_elem)
+        for i in range(1, len(diff_points)):
+            x = diff_points[i][0] / diff_points[0][0]
+            for j in range(1, len(diff_points[0])):
+                with self.subTest(i=i):
+                    if diff_points[i][j] == 0 and diff_points[0][j] == 0:
+                        continue
+                    y = diff_points[i][j] / diff_points[0][j]
+                    self.assertAlmostEqual(x, y)
 
     def test_plot_color_gradient_exception_empty_cloud(self):
         pd_empty = pol.PolarDiagramPointcloud(np.empty((0, 3)))

@@ -533,11 +533,10 @@ class PolarDiagramTableTest(unittest.TestCase):
 
     def test_plot_3d(self):
         plt.close()
-        ax = plt.axes(projection="3d")
-        self.pd.plot_3d(ax=ax)
-        wind_speeds = ax.collections[0]._vec[0]
-        bsp_sinus_wa = ax.collections[0]._vec[1]
-        bsp_cosinus_wa = ax.collections[0]._vec[2]
+        self.pd.plot_3d()
+        wind_speeds = plt.gca().collections[0]._vec[0]
+        bsp_sinus_wa = plt.gca().collections[0]._vec[1]
+        bsp_cosinus_wa = plt.gca().collections[0]._vec[2]
         triples = [list(item) for item in zip(wind_speeds, bsp_sinus_wa, bsp_cosinus_wa)]
         wss, was, bsps = self.pd.get_slices()
         bsp_sin_wa_results = []
@@ -549,26 +548,51 @@ class PolarDiagramTableTest(unittest.TestCase):
         ws = list(np.asarray([4 * [2], 4 * [4], 4 * [6], 4 * [8]]).flat)
         triples_result = [list(item) for item in zip(ws, bsp_sin_wa_results, bsp_cos_wa_results)]
 
-        for i in range(len(triples)):
-            self.assertIn(triples[i], triples_result)
-        for i in range(len(triples_result)):
-            self.assertIn(triples_result[i], triples)
+        for triple in triples:
+            self.assertIn(triple, triples_result)
+        for result in triples_result:
+            self.assertIn(result, triples)
 
-    def test_plot_3d_colors(self):
+    def test_plot_3d_ax_instance(self):
+        # test not finished yet
+        plt.close()
+        ax = plt.axes(projection='3d', label='axes label')
+        self.pd.plot_3d(ax=ax)
+        self.assertEqual(plt.gca().get_label(), 'axes label')
+
+    def test_plot_3d_color_pair(self):
         # test not finished yet
         plt.close()
         ax = plt.axes(projection="3d")
         self.pd.plot_3d(ax=ax, colors=('blue', 'red'))
+        #print(plt.gca().collections[0].__dict__)
 
     def test_plot_color_gradient(self):
-        # test not finished yet
         plt.close()
-        ax = plt.axes()
-        self.pd.plot_color_gradient(ax=ax, show_legend=True)
-        ws_wa_list = [list(item) for item in np.array(ax.collections[0]._offsets)]
+        self.pd.plot_color_gradient(show_legend=True)
+        ws_wa_list = [list(item) for item in np.array(plt.gca().collections[0]._offsets)]
         all_combinations_ws_wa = [list(item) for item in itertools.product(self.ws_resolution, self.wa_resolution)]
         self.assertEqual(len(ws_wa_list), len(all_combinations_ws_wa))
         self.assertCountEqual(ws_wa_list, all_combinations_ws_wa)
+        colors = [list(item[:-1]) for item in plt.gca().collections[0]._facecolors]
+        flat_bsp = self.bsp.flat
+        bsp_colors = []
+        for i in range(len(flat_bsp)):
+            bsp_colors.append([flat_bsp[i]] + colors[i])
+        diff_points = []
+        for i in range(1, len(bsp_colors)):
+            tmp_elem = []
+            for j in range(len(bsp_colors[0])):
+                tmp_elem.append(bsp_colors[i][j] - bsp_colors[0][j])
+            diff_points.append(tmp_elem)
+        for i in range(1, len(diff_points)):
+            x = diff_points[i][0] / diff_points[0][0]
+            for j in range(1, len(diff_points[0])):
+                with self.subTest(i=i):
+                    if diff_points[i][j] == 0 and diff_points[0][j] == 0:
+                        continue
+                    y = diff_points[i][j] / diff_points[0][j]
+                    self.assertAlmostEqual(x, y)
 
     def test_plot_convex_hull(self):
         # test not finished yet
