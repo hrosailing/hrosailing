@@ -132,8 +132,6 @@ class Data:
         data_dict: dict or Data,
             the dictionary or `Data` object containing the data to be used for the update
         """
-        if isinstance(data_dict, Data):
-            self.update(data_dict._data)
         if isinstance(data_dict, dict):
             for key, val in data_dict.items():
                 if isinstance(val, list):
@@ -141,6 +139,9 @@ class Data:
                 else:
                     self.append(key, val)
             self.fill()
+        #if isinstance(data_dict, Data): this does not work for some reason
+        else:
+            self.update(data_dict._data)
 
     def append(self, key, data):
         """
@@ -242,7 +243,7 @@ class Data:
                 self._data = {k: [v for i, v in enumerate(value)
                                   if i not in key]
                               for k, value in self._data.items()}
-                self._max_len -= 1
+                self._max_len -= len(key)
 
     def strip(self, mode):
         if mode == "cols":

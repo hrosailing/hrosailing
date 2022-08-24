@@ -48,7 +48,7 @@ class WeatherModel(ABC):
         Parameters
         ----------
         point: tuple of length 3
-            Space-time point given as tuple of time, lattitude
+            Space-time point given as tuple of time, latitude
             and longitude
 
         Returns
@@ -239,7 +239,8 @@ class GriddedWeatherModel(WeatherModel):
             lat_datas.append(np.stack(lon_data, axis=0))
 
         times = [pd.to_datetime(t) for t in times]
-        data = np.stack(lat_datas, axis=0)
+        data=np.stack(lat_datas, axis=0)
+        data = np.transpose(np.stack(lat_datas, axis=0), axes=(2, 0, 1, 3))
 
         return cls(data, times, lats, lons, keys)
 

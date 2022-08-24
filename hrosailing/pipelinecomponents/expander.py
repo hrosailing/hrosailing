@@ -9,6 +9,8 @@ from abc import ABC, abstractmethod
 
 import pipelinecomponents as pc
 
+from pipelinecomponents.data import Data
+
 
 class Expander(ABC):
     """Base class for all expander classes"""
@@ -53,7 +55,7 @@ class WeatherExpander(Expander):
             self._weather_model.get_weather([datetime, lat, lon])
             for datetime, lat, lon in data.rows(["datetime", "lat", "lon"])
         ]
-        weather_data = pc.data.Data.concatenate(weather_data)
+        weather_data = Data.concatenate(weather_data)
         data.update(weather_data)
         return data, {}
 

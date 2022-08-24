@@ -160,3 +160,4 @@ testdata.csv
 *.vdr
 test.py
 vela_test/
+fetch_weather.py
