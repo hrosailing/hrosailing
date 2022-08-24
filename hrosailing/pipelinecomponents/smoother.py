@@ -69,15 +69,12 @@ class AffineSmoother(Smoother):
 
                 # affine approximation of sample points
                 for j, x in enumerate(xs[i_start: i + 1]):
-                    print(f"x = {x}, mid_pt = {mid_pt}")
                     if x <= mid_pt:
                         lamb = (x - x_lb) / (mid_pt - x_lb)
                         data[key][i_start + j] = lamb * y + (1 - lamb) * y_lb
-                        # out["SOG"][i_start] = 0
                     else:
                         lamb = (x - mid_pt) / (x_ub - mid_pt)
                         data[key][i_start + j] = lamb * y_ub + (1 - lamb) * y
-                        # out["SOG"][i_start + j] = 5
                 i_start = i + 1
                 x_lb = x_ub
                 y_lb = y_ub
