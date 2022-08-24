@@ -118,7 +118,7 @@ class GriddedWeatherModel(WeatherModel):
 
         if any(outside_left) or any(outside_right):
             raise OutsideGridException(
-                "`point` is outside the grid. Weather data not available."
+                f"{point} is outside the grid. Weather data not available."
             )
 
         grid = self.grid

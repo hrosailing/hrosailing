@@ -58,6 +58,10 @@ class Data:
     def n_cols(self):
         return len(self._data)
 
+    def rows(self, keys):
+        for i in range(self._max_len):
+            yield (self._data[key][i] for key in keys)
+
     def get_by_type(self, type_):
         """
         Paramenter
@@ -383,7 +387,6 @@ class Data:
             max_len = 0
 
         return Data._force_set(data, self._types.copy(), max_len)
-
 
     def __getitem__(self, item):
         if isinstance(item, str):

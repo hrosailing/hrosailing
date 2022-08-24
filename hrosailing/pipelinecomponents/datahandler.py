@@ -397,8 +397,7 @@ class NMEAFileHandler(DataHandler):
 
         return comp_data, statistics
 
-    @staticmethod
-    def postprocess(parsed_sentence):
+    def postprocess(self, parsed_sentence):
         if "Wind angle" in parsed_sentence and "Reference" in parsed_sentence and "Wind speed" in parsed_sentence:
             wind_angle = parsed_sentence["Wind angle"]
             wind_speed = parsed_sentence["Wind speed"]
@@ -412,7 +411,23 @@ class NMEAFileHandler(DataHandler):
             del parsed_sentence["Reference"]
             del parsed_sentence["Wind angle"]
             del parsed_sentence["Wind speed"]
+        if "Latitude" in parsed_sentence:
+            parsed_sentence["lat"] = self._from_nmea_format(
+                parsed_sentence["Latitude"]
+            )
+            del parsed_sentence["Latitude"]
+        if "Longitude" in parsed_sentence:
+            parsed_sentence["lon"] = self._from_nmea_format(
+                parsed_sentence["Longitude"]
+            )
+            del parsed_sentence["Longitude"]
         return parsed_sentence
+
+    def _from_nmea_format(self, value):
+        value = float(value)
+        degrees = int(value/100)
+        minutes = value - 100*degrees
+        return degrees + minutes/60
 
 
 def get_datahandler_statistics(data):
