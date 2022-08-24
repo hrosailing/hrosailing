@@ -22,10 +22,10 @@ class Statistics(NamedTuple):
     """"""
     data_handler: dict
     imputator: dict
-    pre_weigher: dict
-    pre_filter: dict
     smoother: dict
     expander: dict
+    pre_weigher: dict
+    pre_filter: dict
     influence_model: dict
     post_weigher: dict
     post_filter: dict
@@ -279,10 +279,10 @@ class PolarPipeline:
         training_statistics = Statistics(
             pp_training_statistics.data_handler,
             pp_training_statistics.imputator,
-            pp_training_statistics.pre_weigher,
-            pp_training_statistics.pre_filter,
             pp_training_statistics.smoother,
             pp_training_statistics.expander,
+            pp_training_statistics.pre_weigher,
+            pp_training_statistics.pre_filter,
             pp_training_statistics.influence_model,
             pp_training_statistics.post_weigher,
             pp_training_statistics.post_filter,
@@ -310,33 +310,35 @@ class PolarPipeline:
 
         handled_data, handler_statistics = self._handle_data(data)
 
-        imputated_data, imputator_statistics = self._imputate_data(
-            handled_data
+        imputated_data, imputator_statistics = self._map(
+            self.imputator.imputate, handled_data
         )
 
-        imputated_data = pc.data.Data.concatenate(imputated_data)
+        if smoothing:
+            smooth_data, smooth_statistics = self._map(
+                self.smoother.smooth, imputated_data
+            )
+        else:
+            smooth_data = imputated_data
+            smooth_statistics = {}
+
+        smooth_data = pc.data.Data.concatenate(smooth_data)
+
+        expanded_data, expanded_statistics = self.expander.expand(smooth_data)
 
         pre_filtered_data, pre_weigher_statistics, pre_filter_statistics = \
             _weigh_and_filter(
-                imputated_data,
+                expanded_data,
                 self.pre_weigher,
                 self.pre_filter,
                 pre_weighing,
                 pre_filtering
             )
 
-        if smoothing:
-            smooth_data, smooth_statistics = self.smoother.smooth(
-                pre_filtered_data.data
-            )
-        else:
-            smooth_data = pre_filtered_data.data
-            smooth_statistics = {}
-
-        expanded_data, expanded_statistics = self.expander.expand(smooth_data)
-
         if influence_fitting:
-            influence_fit_statistics = self.influence_model.fit(expanded_data)
+            influence_fit_statistics = self.influence_model.fit(
+                pre_filtered_data
+            )
         else:
             influence_fit_statistics = {}
 
@@ -357,10 +359,10 @@ class PolarPipeline:
         statistics = Statistics(
             handler_statistics,
             imputator_statistics,
-            pre_weigher_statistics,
-            pre_filter_statistics,
             smooth_statistics,
             expanded_statistics,
+            pre_weigher_statistics,
+            pre_filter_statistics,
             influence_statistics,
             post_weigher_statistics,
             post_filter_statistics,
@@ -382,9 +384,9 @@ class PolarPipeline:
 
         return self._list_statistics(handler_output)
 
-    def _imputate_data(self, data):
-        imputator_output = [self.imputator.imputate(field) for field in data]
-        return self._list_statistics(imputator_output)
+    def _map(self, method, data):
+        output = [method(field) for field in data]
+        return self._list_statistics(output)
 
     @staticmethod
     def _list_statistics(pipe_output):
