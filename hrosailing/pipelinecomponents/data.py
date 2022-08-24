@@ -81,6 +81,17 @@ class Data:
             self._data[key] for key in filtered_keys
         ]
 
+    def type(self, key):
+        """
+        Returns the assosiated type corresponding to the `key` column.
+
+        Parameter
+        ---------
+
+        key: str
+        """
+        return self._types[key]
+
     def extend(self, key, data):
         """
         Extends the data by given other data.
