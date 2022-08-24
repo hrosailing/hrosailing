@@ -537,21 +537,19 @@ class PolarDiagramTableTest(unittest.TestCase):
         wind_speeds = plt.gca().collections[0]._vec[0]
         bsp_sinus_wa = plt.gca().collections[0]._vec[1]
         bsp_cosinus_wa = plt.gca().collections[0]._vec[2]
-        triples = [list(item) for item in zip(wind_speeds, bsp_sinus_wa, bsp_cosinus_wa)]
         wss, was, bsps = self.pd.get_slices()
+        ws_results = list(np.asarray([4 * [2], 4 * [4], 4 * [6], 4 * [8]]).flat)
         bsp_sin_wa_results = []
         bsp_cos_wa_results = []
         for i in range(4):
             for bsp, wa in zip(bsps.T[i], was):
                 bsp_sin_wa_results.append(bsp * math.sin(wa))
                 bsp_cos_wa_results.append(bsp * math.cos(wa))
-        ws = list(np.asarray([4 * [2], 4 * [4], 4 * [6], 4 * [8]]).flat)
-        triples_result = [list(item) for item in zip(ws, bsp_sin_wa_results, bsp_cos_wa_results)]
 
-        for triple in triples:
-            self.assertIn(triple, triples_result)
-        for result in triples_result:
-            self.assertIn(result, triples)
+        for triple in zip(wind_speeds, bsp_sinus_wa, bsp_cosinus_wa):
+            self.assertIn(triple, zip(ws_results, bsp_sin_wa_results, bsp_cos_wa_results))
+        for result in zip(ws_results, bsp_sin_wa_results, bsp_cos_wa_results):
+            self.assertIn(result, zip(wind_speeds, bsp_sinus_wa, bsp_cosinus_wa))
 
     def test_plot_3d_ax_instance(self):
         # test not finished yet
@@ -570,11 +568,11 @@ class PolarDiagramTableTest(unittest.TestCase):
     def test_plot_color_gradient(self):
         plt.close()
         self.pd.plot_color_gradient(show_legend=True)
-        ws_wa_list = [list(item) for item in np.array(plt.gca().collections[0]._offsets)]
+        ws_wa_list = [list(item) for item in plt.gca().collections[0]._offsets]
         all_combinations_ws_wa = [list(item) for item in itertools.product(self.ws_resolution, self.wa_resolution)]
         self.assertEqual(len(ws_wa_list), len(all_combinations_ws_wa))
         self.assertCountEqual(ws_wa_list, all_combinations_ws_wa)
-        colors = [list(item[:-1]) for item in plt.gca().collections[0]._facecolors]
+        colors = [item[:-1] for item in plt.gca().collections[0]._facecolors]
         flat_bsp = self.bsp.flat
         bsp_colors = []
         for i in range(len(flat_bsp)):

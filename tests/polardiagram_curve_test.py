@@ -339,8 +339,38 @@ class PolarDiagramCurveTest(unittest.TestCase):
         print(ax.collections[0]._vec)
 
     def test_plot_color_gradient(self):
-        # test not implemented yet
-        pass
+        # test not finished yet
+        plt.close()
+        self.c.plot_color_gradient(show_legend=True)
+        ws, wa, bsp = self.c.get_slices()
+        flat_bsp = list(np.asarray(bsp).flat)
+        colors = [item[:-1] for item in plt.gca().collections[0]._facecolors]
+        bsp_colors = []
+        for i in range(len(flat_bsp)):
+            bsp_colors.append([flat_bsp[i]] + colors[i])
+        bsp_colors_sample = []
+        random_indices = helper_functions.generate_random_list_of_indizes()
+        for i in random_indices:
+            bsp_colors_sample.append(bsp_colors[i])
+        diff_points = []
+        for i in range(1, len(bsp_colors_sample)):
+            tmp_elem = []
+            for j in range(len(bsp_colors_sample[0])):
+                tmp_elem.append(bsp_colors_sample[i][j] - bsp_colors_sample[0][j])
+            diff_points.append(tmp_elem)
+        for i in range(1, len(bsp_colors_sample)):
+            tmp_elem = []
+            for j in range(len(bsp_colors_sample[0])):
+                tmp_elem.append(bsp_colors_sample[i][j] - bsp_colors_sample[0][j])
+            diff_points.append(tmp_elem)
+        for i in range(1, len(diff_points)):
+            x = diff_points[i][0] / diff_points[0][0]
+            for j in range(1, len(diff_points[0])):
+                with self.subTest(i=i):
+                    if diff_points[i][j] == 0 and diff_points[0][j] == 0:
+                        continue
+                    y = diff_points[i][j] / diff_points[0][j]
+                    self.assertAlmostEqual(x, y, 3)
 
     def test_plot_convex_hull(self):
         # test not finished yet

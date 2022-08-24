@@ -1,8 +1,8 @@
+import random
+
 import numpy as np
 
 import matplotlib.pyplot as plt
-
-import unittest
 
 
 # helper_functions for more than one PolarDiagram Subclass:
@@ -96,6 +96,10 @@ def test_curve_comparing_legend_keywords(self, legend):
     for i in range(3):
         with self.subTest(i=i):
             self.assertEqual(str(texts[i]), "Text(0, 0, '" + labels[i] + "')")
+
+
+def generate_random_list_of_indizes():
+    return random.sample(range(0, 19998), 15)
 
 
 '''helper_functions for multisails temporarily not available'''
