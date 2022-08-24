@@ -206,13 +206,12 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
     def test_get_slices_mixed_iterable_list_table_values_in_slices(self):
         ws, wa, bsp = self.pc.get_slices(ws=[(4, 8), 2])
         self.assertEqual(ws, [6, 2])
-        zipped_tuples = [[list(item) for item in zip(wa[0], bsp[0])],
-                         [list(item) for item in zip(wa[1], bsp[1])]]
         wind_speeds = [[4, 6, 8], [2]]
         for i in range(2):
             for point in self.pc.points:
                 boolean = False
                 if point[0] in wind_speeds[i]:
+                    zipped_tuples = [zip(wa[0], bsp[0]), zip(wa[1], bsp[1])]
                     for wa_bsp_tuple in zipped_tuples[i]:
                         if np.deg2rad(point[1]) == wa_bsp_tuple[0] and point[2] == wa_bsp_tuple[1]:
                             boolean = True
@@ -237,13 +236,12 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
     def test_get_slices_mixed_iterable_tuple_table_values_in_slices(self):
         ws, wa, bsp = self.pc.get_slices(ws=((4, 8), 2))
         self.assertEqual(ws, [6, 2])
-        zipped_tuples = [[list(item) for item in zip(wa[0], bsp[0])],
-                         [list(item) for item in zip(wa[1], bsp[1])]]
         wind_speeds = [[4, 6, 8], [2]]
         for i in range(2):
             for point in self.pc.points:
                 boolean = False
                 if point[0] in wind_speeds[i]:
+                    zipped_tuples = [zip(wa[0], bsp[0]), zip(wa[1], bsp[1])]
                     for wa_bsp_tuple in zipped_tuples[i]:
                         if np.deg2rad(point[1]) == wa_bsp_tuple[0] and point[2] == wa_bsp_tuple[1]:
                             boolean = True
@@ -273,21 +271,18 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
     def test_get_slices_mixed_iterable_set_table_values_in_slices(self):
         ws, wa, bsp = self.pc.get_slices(ws={(4, 8), 2})
         self.assertIn(ws, [[6, 2], [2, 6]])
-        zipped_tuples = [[list(item) for item in zip(wa[0], bsp[0])],
-                         [list(item) for item in zip(wa[1], bsp[1])]]
         wind_speeds = [[4, 6, 8], [2]]
         for i in range(2):
             for point in self.pc.points:
                 boolean = False
                 if point[0] in wind_speeds[i]:
                     if ws[0] == 6:
-                        for wa_bsp_tuple in zipped_tuples[i]:
-                            if np.deg2rad(point[1]) == wa_bsp_tuple[0] and point[2] == wa_bsp_tuple[1]:
-                                boolean = True
+                        zipped_tuples = [zip(wa[0], bsp[0]), zip(wa[1], bsp[1])]
                     else:
-                        for wa_bsp_tuple in zipped_tuples[i-1]:
-                            if np.deg2rad(point[1]) == wa_bsp_tuple[0] and point[2] == wa_bsp_tuple[1]:
-                                boolean = True
+                        zipped_tuples = [zip(wa[1], bsp[1]), zip(wa[0], bsp[0])]
+                    for wa_bsp_tuple in zipped_tuples[i]:
+                        if np.deg2rad(point[1]) == wa_bsp_tuple[0] and point[2] == wa_bsp_tuple[1]:
+                            boolean = True
                     if not boolean:
                         self.fail()
 
@@ -364,12 +359,12 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
     def test_get_slices_range_single_ws_table_values_in_slice(self):
         ws, wa, bsp = self.pc.get_slices(ws=4, range_=2)
         self.assertEqual(ws, [4])
-        zipped_tuples = [list(item) for item in zip(wa[0], bsp[0])]
         wind_speeds = [2, 4, 6]
         for i in range(2):
             for point in self.pc.points:
                 boolean = False
                 if point[0] in wind_speeds:
+                    zipped_tuples = zip(wa[0], bsp[0])
                     for wa_bsp_tuple in zipped_tuples:
                         if np.deg2rad(point[1]) == wa_bsp_tuple[0] and point[2] == wa_bsp_tuple[1]:
                             boolean = True
@@ -396,13 +391,12 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         pd = self.big_pc
         ws, wa, bsp = pd.get_slices(ws=[(14, 20), 8], range_=2)
         np.testing.assert_array_equal(ws, [17, 8])
-        zipped_tuples = [[list(item) for item in zip(wa[0], bsp[0])],
-                         [list(item) for item in zip(wa[1], bsp[1])]]
         wind_speeds = [[14, 16, 20], [6, 8, 10]]
         for i in range(2):
             for point in pd.points:
                 boolean = False
                 if point[0] in wind_speeds[i]:
+                    zipped_tuples = [zip(wa[0], bsp[0]), zip(wa[1], bsp[1])]
                     for wa_bsp_tuple in zipped_tuples[i]:
                         if np.deg2rad(point[1]) == wa_bsp_tuple[0] and point[2] == wa_bsp_tuple[1]:
                             boolean = True
@@ -429,13 +423,12 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         pd = self.big_pc
         ws, wa, bsp = pd.get_slices(ws=((14, 20), 8), range_=2)
         np.testing.assert_array_equal(ws, [17, 8])
-        zipped_tuples = [[list(item) for item in zip(wa[0], bsp[0])],
-                         [list(item) for item in zip(wa[1], bsp[1])]]
         wind_speeds = [[14, 16, 20], [6, 8, 10]]
         for i in range(2):
             for point in pd.points:
                 boolean = False
                 if point[0] in wind_speeds[i]:
+                    zipped_tuples = [zip(wa[0], bsp[0]), zip(wa[1], bsp[1])]
                     for wa_bsp_tuple in zipped_tuples[i]:
                         if np.deg2rad(point[1]) == wa_bsp_tuple[0] and point[2] == wa_bsp_tuple[1]:
                             boolean = True
@@ -467,21 +460,18 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         pd = self.big_pc
         ws, wa, bsp = pd.get_slices(ws={(14, 20), 8}, range_=2)
         self.assertIn(ws, [[17, 8], [8, 17]])
-        zipped_tuples = [[list(item) for item in zip(wa[0], bsp[0])],
-                         [list(item) for item in zip(wa[1], bsp[1])]]
         wind_speeds = [[14, 16, 20], [6, 8, 10]]
         for i in range(2):
             for point in pd.points:
                 boolean = False
                 if point[0] in wind_speeds[i]:
                     if ws[0] == 17:
-                        for wa_bsp_tuple in zipped_tuples[i]:
-                            if np.deg2rad(point[1]) == wa_bsp_tuple[0] and point[2] == wa_bsp_tuple[1]:
-                                boolean = True
+                        zipped_tuples = [zip(wa[0], bsp[0]), zip(wa[1], bsp[1])]
                     else:
-                        for wa_bsp_tuple in zipped_tuples[i-1]:
-                            if np.deg2rad(point[1]) == wa_bsp_tuple[0] and point[2] == wa_bsp_tuple[1]:
-                                boolean = True
+                        zipped_tuples = [zip(wa[1], bsp[1]), zip(wa[0], bsp[0])]
+                    for wa_bsp_tuple in zipped_tuples[i]:
+                        if np.deg2rad(point[1]) == wa_bsp_tuple[0] and point[2] == wa_bsp_tuple[1]:
+                            boolean = True
                     if not boolean:
                         self.fail()
 
@@ -820,28 +810,26 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         wind_speeds = plt.gca().collections[0]._offsets3d[0]
         bsp_sinus_wa = plt.gca().collections[0]._offsets3d[1]
         bsp_cosinus_wa = plt.gca().collections[0]._offsets3d[2]
-        triples = [list(item) for item in zip(wind_speeds, bsp_sinus_wa, bsp_cosinus_wa)]
         wss, was, bsps = self.pc.get_slices(None)
+        ws_results = list(np.asarray([4 * [2], 4 * [4], 4 * [6], 4 * [8]]).flat)
         bsp_sin_wa_results = []
         bsp_cos_wa_results = []
         for i in range(4):
             for bsp, wa in zip(bsps[i], was[i]):
                 bsp_sin_wa_results.append(bsp * math.sin(wa))
                 bsp_cos_wa_results.append(bsp * math.cos(wa))
-        ws = list(np.asarray([4 * [2], 4 * [4], 4 * [6], 4 * [8]]).flat)
-        triples_result = [list(item) for item in zip(ws, bsp_sin_wa_results, bsp_cos_wa_results)]
 
-        for triple in triples:
-            self.assertIn(triple, triples_result)
-        for result in triples_result:
-            self.assertIn(result, triples)
+        for triple in zip(wind_speeds, bsp_sinus_wa, bsp_cosinus_wa):
+            self.assertIn(triple, zip(ws_results, bsp_sin_wa_results, bsp_cos_wa_results))
+        for result in zip(ws_results, bsp_sin_wa_results, bsp_cos_wa_results):
+            self.assertIn(result, zip(wind_speeds, bsp_sinus_wa, bsp_cosinus_wa))
 
     def test_plot_3d_axes_instance(self):
         # test not finished yet
         plt.close()
         ax = plt.axes(projection="3d", label="axes label")
         self.pc.plot_3d(ax=ax)
-        print(plt.gcf().axes)
+        ax.set_xlabel("ws")
         self.assertEqual(plt.gcf().axes[0].get_label(), "axes label")
 
     def test_plot_3d_color_pair(self):
@@ -854,7 +842,7 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         plt.close()
         self.pc.plot_3d(marker='v', visible=False)
         self.assertEqual(plt.gca().collections[0].__dict__['_visible'], False)
-        print(plt.gca().collections[0].__dict__)
+        #print(plt.gca().collections[0].__dict__)
 
     def test_plot_3d_exception_empty_cloud(self):
         pd_empty = pol.PolarDiagramPointcloud(np.empty((0, 3)))
@@ -864,11 +852,11 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
     def test_plot_color_gradient(self):
         plt.close()
         self.pc.plot_color_gradient(show_legend=True)
-        ws_wa_list = [list(item) for item in np.array(plt.gca().collections[0]._offsets)]
+        ws_wa_list = [list(item) for item in plt.gca().collections[0]._offsets]
         all_combinations_ws_wa = [list(item) for item in itertools.product(self.pc.wind_speeds, self.pc.wind_angles)]
         self.assertEqual(len(ws_wa_list), len(all_combinations_ws_wa))
         self.assertCountEqual(ws_wa_list, all_combinations_ws_wa)
-        colors = [list(item[:-1]) for item in plt.gca().collections[0]._facecolors]
+        colors = [item[:-1] for item in plt.gca().collections[0]._facecolors]
         bsp_colors = []
         for i in range(len(self.pc.boat_speeds)):
             bsp_colors.append([self.pc.boat_speeds[i]] + colors[i])
