@@ -283,7 +283,14 @@ class Data:
             for sep in SEPERATORS:
                 lkey = lkey.replace(sep, " ")
             lkey = lkey.strip()
-            return KEYSYNONYMS[lkey] if lkey in KEYSYNONYMS else key
+            # remove plural
+            stripped_lkey = lkey if lkey[-1] != "s" else lkey[:-1]
+            if lkey in KEYSYNONYMS:
+                return KEYSYNONYMS[lkey]
+            elif stripped_lkey in KEYSYNONYMS:
+                return KEYSYNONYMS[stripped_lkey]
+            else:
+                return key
 
         for key, value in list(self._data.items()):
             self.rename(key, standard_key(key))

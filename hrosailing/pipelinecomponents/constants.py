@@ -61,15 +61,40 @@ KEYSYNONYMS = {
 
     "lat": "lat",
     "latitude": "lat",
-    "lats": "lat",
-    "latitudes": "lat",
 
     "lon": "lon",
     "long": "lon",
     "longitude": "lon",
-    "lons": "lon",
-    "longs": "lon",
-    "longitudes": "lon",
+
+    "temp": "temp",
+    "temperature": "temp",
+
+    "dewpoint": "dewpoint",
+    "dewpt": "dewpoint",
+    "dwpt": "dewpoint",
+    "dwpoint": "dewpoint",
+    
+    "rel humidity": "humidity",
+    "relative humidity": "humidity",
+    "rel hum": "humidity",
+    "relative hum": "humidity",
+    "rhum": "humidity",
+    "relhum": "humidity",
+    "hum": "humidity",
+    "humidity": "humidity",
+
+    "wd": "WD",
+    "wdir": "WD",
+    "winddir": "WD",
+
+    "ws": "WS",
+    "wspd": "WS",
+
+    "wpgt": "gust",
+
+    "pres": "air pressure",
+
+    "tsun": "total sunshine"
 }
 
 SEPERATORS = ["_", "-", "+", "&", "\n", "\t"]
