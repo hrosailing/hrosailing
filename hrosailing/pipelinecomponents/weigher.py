@@ -153,7 +153,7 @@ class Weigher(ABC):
     """
 
     @abstractmethod
-    def weigh(self, points) -> (WeightedPoints, dict):
+    def weigh(self, points) -> (np.ndarray, dict):
         """This method should be used, to determine a weight for each point
         where the points might be given as data_dicts or as np.arrays
         and return the result as WeightedPoints as well as a dictionary

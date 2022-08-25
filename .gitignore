@@ -161,3 +161,4 @@ testdata.csv
 test.py
 vela_test/
 fetch_weather.py
+test_fuzzy_bool.py
