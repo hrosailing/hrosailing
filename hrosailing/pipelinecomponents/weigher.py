@@ -651,7 +651,7 @@ class FuzzyVariable:
     --------
     `FuzzyBool`
     """
-    def __init__(self, key=None, sharpness=10):
+    def __init__(self, sharpness=10, key=None):
         self.key = key
         self._sharpness = sharpness
         self._next_sharpness = sharpness
