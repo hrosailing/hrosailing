@@ -70,10 +70,16 @@ class AffineSmoother(Smoother):
                 # affine approximation of sample points
                 for j, x in enumerate(xs[i_start: i + 1]):
                     if x <= mid_pt:
-                        lamb = (x - x_lb) / (mid_pt - x_lb)
+                        try:
+                            lamb = (x - x_lb) / (mid_pt - x_lb)
+                        except ZeroDivisionError:
+                            lamb = 0
                         data[key][i_start + j] = lamb * y + (1 - lamb) * y_lb
                     else:
-                        lamb = (x - mid_pt) / (x_ub - mid_pt)
+                        try:
+                            lamb = (x - mid_pt) / (x_ub - mid_pt)
+                        except ZeroDivisionError:
+                            lamb = 0
                         data[key][i_start + j] = lamb * y_ub + (1 - lamb) * y
                 i_start = i + 1
                 x_lb = x_ub
