@@ -58,9 +58,20 @@ class Data:
     def n_cols(self):
         return len(self._data)
 
-    def rows(self, keys):
+    def rows(self, keys=None, return_type=dict):
+        if keys is None:
+            keys = self.keys()
         for i in range(self._max_len):
-            yield (self._data[key][i] for key in keys)
+            if return_type is dict:
+                yield {key: self._data[key][i] for key in keys}
+            elif return_type is tuple:
+                yield tuple([self._data[key][i] for key in keys])
+            elif return_type is list:
+                yield [self._data[key][i] for key in keys]
+            else:
+                raise ValueError(
+                    f"Return type of {return_type} is not supported"
+                )
 
     def get_by_type(self, type_):
         """
@@ -298,7 +309,7 @@ class Data:
 
         #ensure floats
         for key in self.keys():
-            if self._types[key] in (int, str, Decimal):
+            if self._types[key] in (int, str, Decimal, np.float_):
                 succes, self._data[key] = _try_call_to_float(self._data[key])
                 if succes:
                     self._types[key] = float

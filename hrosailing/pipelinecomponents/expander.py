@@ -53,10 +53,13 @@ class WeatherExpander(Expander):
     def expand(self, data):
         weather_data = [
             self._weather_model.get_weather([datetime, lat, lon])
-            for datetime, lat, lon in data.rows(["datetime", "lat", "lon"])
+            for datetime, lat, lon in data.rows(
+                ["datetime", "lat", "lon"], return_type=tuple
+            )
         ]
         weather_data = Data.concatenate(weather_data)
         data.update(weather_data)
+        data.hrosailing_standard_format()
         return data, {}
 
 
