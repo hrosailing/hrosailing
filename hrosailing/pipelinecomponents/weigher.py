@@ -486,6 +486,241 @@ def _set_points_from_data(data, dimensions):
         return data[dimensions].numerical
 
 
+class FuzzyBool:
+    """
+    Class representing a fuzzy truth statement, i.e. a function with values
+    between 0 and 1 (truth function).
+    The easiest way to initialize these is by using the operators of the
+    `FuzzyVariables` class, but it can also be initialized with a custom truth
+    function.
+
+    Parameter
+    --------
+
+    eval_fun: callable
+        The truth function used. Truth values between 0 and 1 are recommended.
+
+    See also
+    --------
+
+    For recommendations how to use a `FuzzyBool` see also `FuzzyVariable`
+    """
+    def __init__(self, eval_fun):
+        self._fun = eval_fun
+
+    def __call__(self, x):
+        return self._fun(x)
+
+    def __and__(self, other):
+        return FuzzyBool.fuzzy_and(self, other)
+
+    def __or__(self, other):
+        return FuzzyBool.fuzzy_or(self, other)
+
+    def __invert__(self):
+        return FuzzyBool.fuzzy_not(self)
+
+    def __getitem__(self, item):
+        def eval_fun(x):
+            return self._fun(x[item])
+        return FuzzyBool(eval_fun)
+
+    @classmethod
+    def fuzzy_and(cls, one, other):
+        """
+        Parameter
+        --------
+        one: FuzzyBool
+
+        other: FuzzyBool
+
+        Returns
+        -------
+        one_and_other: FuzzyBool
+            represention of the fuzzy 'and' operation of `one` and `other`
+            realized via taking the minimum.
+        """
+        def eval_fun(x):
+            concat = np.row_stack([one(x), other(x)])
+            return np.min(concat, axis=0)
+        return cls(eval_fun)
+
+    @classmethod
+    def fuzzy_or(cls, one, other):
+        """
+        Parameter
+        --------
+        one: FuzzyBool
+
+        other: FuzzyBool
+
+        Returns
+        -------
+        one_or_other: FuzzyBool
+            represention of the fuzzy 'or' operation of `one` and `other`
+            realized via taking the maximum.
+        """
+        def eval_fun(x):
+            concat = np.row_stack([one(x), other(x)])
+            return np.max(concat, axis=0)
+        return cls(eval_fun)
+
+    @classmethod
+    def fuzzy_not(cls, one):
+        """
+        Parameter
+        --------
+        one: FuzzyBool
+
+        Returns
+        -------
+        not_one: FuzzyBool
+            represention of the fuzzy 'not' operation of `one`
+            realized via taking the difference to 1.
+        """
+        return cls(lambda x: 1 - one(x))
+
+    @classmethod
+    def sigmoid(cls, center, sharpness, sigma):
+        """
+        Classical activation function.
+
+        Parameter
+        --------
+        center: int or float
+
+        sharpness: int or float
+            controls the slope of the sigmoid function
+            (higher sharpness yields higher slope)
+
+        sigma: {1, -1}
+            The direction of the sigmoid function, -1 yields the classical
+            sigmoid, 1 yields the inverted sigmoid.
+
+        Returns
+        -------
+        sigmoid: FuzzyBool
+            a `FuzzyBool` object with truth function
+            `x` -> 1/(1+e^{`sigma`*`sharpness`*(`x` - `center`)})
+        """
+        def eval_fun(x):
+            return 1/(1+np.exp(sigma*sharpness*(x - center)))
+        return cls(eval_fun)
+
+
+class FuzzyVariable:
+    """
+    Referes to Variables in the fuzzy logic.
+    It's main purpose is to easily create `FuzzyBool` instances.
+
+    For example, the following notations work for a `FuzzyVariable` x, `int` or `float`
+    Variables `a`, 'b', `s` and `key` such that x.__getitem__(key) works:
+
+        - x < a, x <= a, x > a, x >= a, x == a
+            refers to the respective truth function
+            (using sigmoid activation function)
+        - x(s) <= a, ... (same as above, but with sharpness `s` used)
+        - x[key] <= a, ... (same as above, but the truth function will be
+            applied after getting the item referenced by `key`
+        - x[key](s) <= a (the both notations above combined)
+        - (x < a) & (x > b) (and concatenation)
+        - (x < a) | (x > b) (or concatenation)
+        - ~(x < a) (not operation)
+
+    Parameter
+    ---------
+
+    key: None or str
+        If `key` is not `None`, all generated `FuzzyBool` instances apply the
+         truth function to `x`[`key`] instead of `x`.
+
+        Defaults to `None`
+
+    sharpness: int
+        Defines the default sharpness of all generated `FuzzyBool` instances.
+        This sharpness will be used if no other sharpness is given via the
+        `__call__` method.
+
+    Properties
+    ---------
+
+    sharpness: int
+        the next sharpness that will be used
+
+    See also
+    --------
+    `FuzzyBool`
+    """
+    def __init__(self, key=None, sharpness=10):
+        self.key = key
+        self._sharpness = sharpness
+        self._next_sharpness = sharpness
+
+    @property
+    def sharpness(self):
+        next_sharpness = self._next_sharpness
+        self._next_sharpness = self._sharpness
+        return next_sharpness
+
+    def _truth(self, other, sigma):
+        sigmoid = FuzzyBool.sigmoid(float(other), self.sharpness, sigma)
+        if self.key is None:
+            return sigmoid
+        else:
+            return sigmoid[self.key]
+
+    def __gt__(self, other):
+        return self._truth(other, -1)
+
+    def __lt__(self, other):
+        return self._truth(other, 1)
+
+    def __ge__(self, other):
+        return other > self
+
+    def __le__(self, other):
+        return other < self
+
+    def __eq__(self, other):
+        return FuzzyBool.fuzzy_and(self < other, self > other)
+
+    def __getitem__(self, item):
+        return FuzzyVariable(key=item, sharpness=self.sharpness)
+
+    def __call__(self, sharpness):
+        self._next_sharpness = sharpness
+        return self
+
+
+class FuzzyWeigher(Weigher):
+    """
+    Weigher that uses the truth function of a `FuzzyBool` object to create the
+    weights.
+
+    Parameter
+    ---------
+    fuzzy: FuzzyBool
+        the object wrapped around the truth function
+
+    See also
+    ---------
+    `FuzzyBool`, `FuzzyVariable`
+    """
+    def __init__(self, fuzzy):
+        self.fuzzy = fuzzy
+
+    def weigh(self, points):
+        """
+        See also
+        --------
+        `Weigher.weigh`
+        """
+        return [
+            self.fuzzy(point)
+            for point in points.rows()
+        ], {}
+
+
 def hrosailing_standard_scaled_euclidean_norm(dimensions):
     if dimensions is None:
         return scaled_euclidean_norm
