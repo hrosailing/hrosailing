@@ -285,7 +285,7 @@ class PointcloudExtension(PipelineExtension):
             'statistics' is {}
         """
         extension_stats = {}
-        sample_points = self.sampler.sample(weighted_points.points)
+        sample_points = self.sampler.sample(weighted_points.data)
         interpolated_points = _interpolate_points(
             sample_points,
             weighted_points,

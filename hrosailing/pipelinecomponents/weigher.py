@@ -13,7 +13,9 @@ from typing import Callable
 
 import numpy as np
 
-from ._utils import euclidean_norm, scaled_norm, data_dict_to_numpy, scaled_euclidean_norm
+from ._utils import (
+    euclidean_norm, scaled_norm, data_dict_to_numpy, scaled_euclidean_norm
+)
 
 from hrosailing.pipelinecomponents.data import Data
 from hrosailing.pipelinecomponents.constants import NORM_SCALES
@@ -110,7 +112,7 @@ class WeightedPoints:
                 if key in other.data
             }
         else:
-            self.data = np.concatenate([self.data, other.data])
+            self.data = np.row_stack([self.data, other.data])
 
         self.weights = np.concatenate([self.weights, other.weights])
 
@@ -166,7 +168,11 @@ class AllOneWeigher(Weigher):
     of the pipeline are set to False. Weighs everything as 1"""
 
     def weigh(self, points) -> (np.ndarray, dict):
-        return np.ones(points.n_rows), {}
+        if isinstance(points, np.ndarray):
+            size = len(points)
+        else:
+            size = points.n_rows
+        return np.ones(size), {}
 
 
 class CylindricMeanWeigher(Weigher):

@@ -250,7 +250,7 @@ class PolarPipeline:
                 = self.injector.inject(preproc_training_data)
         else:
             pts_to_inject, injector_statistics \
-                = pc.WeightedPoints(np.array((0, 3)), np.array(0)), {}
+                = pc.WeightedPoints(np.empty((0, 3)), np.empty(0)), {}
 
         preproc_training_data.extend(pts_to_inject)
 
