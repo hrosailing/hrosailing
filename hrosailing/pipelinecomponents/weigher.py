@@ -715,10 +715,10 @@ class FuzzyWeigher(Weigher):
         --------
         `Weigher.weigh`
         """
-        return [
+        return np.array([
             self.fuzzy(point)
             for point in points.rows()
-        ], {}
+        ]), {}
 
 
 def hrosailing_standard_scaled_euclidean_norm(dimensions):
