@@ -25,13 +25,13 @@ def comparing_colors_ws_color_pairs_passed():
     np.testing.assert_array_equal(plt.gca().lines[2].get_color(), "red")
 
 
-def test_comparing_show_colorbar(self):
+def test_comparing_show_colorbar(self, label):
     colorbar_axes = None
     for axes in plt.gcf().axes:
         if axes.get_label() == "<colorbar>":
             colorbar_axes = axes
     self.assertNotEqual(None, colorbar_axes)
-    self.assertEqual(colorbar_axes.get_ylabel(), "True Wind Speed")
+    self.assertEqual(colorbar_axes.get_ylabel(), label)
 
 
 def test_comparing_plot_kw(self, i):
@@ -76,6 +76,28 @@ def test_cloud_table_comparing_legend_keywords(self, legend):
             self.assertEqual(str(texts[i]), "Text(0, 0, '" + labels[i] + "')")
 
 
+def cloud_table_plot_color_gradient_calculations(self, ws_wa_list, all_combinations_ws_wa, bsp, colors):
+    self.assertEqual(len(ws_wa_list), len(all_combinations_ws_wa))
+    self.assertCountEqual(ws_wa_list, all_combinations_ws_wa)
+    bsp_colors = []
+    for i in range(len(bsp)):
+        bsp_colors.append(bsp[i] + colors[i])
+    diff_points = []
+    for i in range(1, len(bsp_colors)):
+        tmp_elem = []
+        for j in range(len(bsp_colors[0])):
+            tmp_elem.append(bsp_colors[i][j] - bsp_colors[0][j])
+        diff_points.append(tmp_elem)
+    for i in range(1, len(diff_points)):
+        x = diff_points[i][0] / diff_points[0][0]
+        for j in range(1, len(diff_points[0])):
+            with self.subTest(i=i):
+                if diff_points[i][j] == 0 and diff_points[0][j] == 0:
+                    continue
+                y = diff_points[i][j] / diff_points[0][j]
+                self.assertAlmostEqual(x, y)
+
+
 # helper_functions for Curve:
 def test_curve_comparing_show_legend(self, legend):
     self.assertNotEqual(None, legend)
@@ -98,8 +120,38 @@ def test_curve_comparing_legend_keywords(self, legend):
             self.assertEqual(str(texts[i]), "Text(0, 0, '" + labels[i] + "')")
 
 
-def generate_random_list_of_indizes():
-    return random.sample(range(0, 19998), 15)
+def curve_plot_color_gradient_calculations(self, bsp, colors):
+    flat_bsp = list(np.asarray(bsp).flat)
+    bsp_colors = []
+    for i in range(len(flat_bsp)):
+        bsp_colors.append([flat_bsp[i]] + colors[i])
+    bsp_colors_sample = []
+    random_indices = generate_random_list_of_indices(0, len(bsp_colors), 15)
+    for i in random_indices:
+        bsp_colors_sample.append(bsp_colors[i])
+    diff_points = []
+    for i in range(1, len(bsp_colors_sample)):
+        tmp_elem = []
+        for j in range(len(bsp_colors_sample[0])):
+            tmp_elem.append(bsp_colors_sample[i][j] - bsp_colors_sample[0][j])
+        diff_points.append(tmp_elem)
+    for i in range(1, len(bsp_colors_sample)):
+        tmp_elem = []
+        for j in range(len(bsp_colors_sample[0])):
+            tmp_elem.append(bsp_colors_sample[i][j] - bsp_colors_sample[0][j])
+        diff_points.append(tmp_elem)
+    for i in range(1, len(diff_points)):
+        x = diff_points[i][0] / diff_points[0][0]
+        for j in range(1, len(diff_points[0])):
+            with self.subTest(i=i):
+                if diff_points[i][j] == 0 and diff_points[0][j] == 0:
+                    continue
+                y = diff_points[i][j] / diff_points[0][j]
+                self.assertAlmostEqual(x, y, 2)
+
+
+def generate_random_list_of_indices(min, max, noOfIndices):
+    return random.sample(range(min, max), noOfIndices)
 
 
 '''helper_functions for multisails temporarily not available'''
