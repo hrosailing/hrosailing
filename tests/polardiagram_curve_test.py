@@ -2,6 +2,7 @@
 # pylint: disable=too-many-public-methods
 # pylint: disable=import-outside-toplevel
 import itertools
+import math
 import unittest
 
 import numpy as np
@@ -169,9 +170,9 @@ class PolarDiagramCurveTest(unittest.TestCase):
             with self.subTest(i=i):
                 helper_functions.curve_table_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
-    def test_plot_polar_axes_keywords(self):
-        # test not implemented yet
-        pass
+    # test for plot_polar with given axes:
+    # is the axes that is saved at plt.gcf().axes the same that was given?
+    # def test_plot_polar_axes_instance(self):
 
     def test_plot_polar_single_color(self):
         plt.close()
@@ -180,9 +181,14 @@ class PolarDiagramCurveTest(unittest.TestCase):
             with self.subTest(i=i):
                 self.assertEqual(plt.gca().lines[i].get_color(), "purple")
 
-    def test_plot_polar_two_colors_passed(self):
+    def test_plot_polar_two_colors_passed_as_list(self):
         plt.close()
-        self.c.plot_polar(ws=[10, 15, 20], colors=["red", "blue"])
+        self.c.plot_polar(ws=[10, 15, 20], colors=["red", "blue"], show_legend=True)
+        helper_functions.comparing_colors_two_colors_passed()
+
+    def test_plot_polar_two_colors_passed_as_tuple(self):
+        plt.close()
+        self.c.plot_polar(ws=[10, 15, 20], colors=("red", "blue"), show_legend=True)
         helper_functions.comparing_colors_two_colors_passed()
 
     def test_plot_polar_more_than_two_colors_passed(self):
@@ -215,6 +221,9 @@ class PolarDiagramCurveTest(unittest.TestCase):
         plt.close()
         self.c.plot_polar(ws=[2, 4, 6], colors=("red", "blue"), show_legend=True)
         helper_functions.test_comparing_show_colorbar(self, "True Wind Speed")
+
+    # test for plot_polar with given legend keywords for colorbars
+    # def test_plot_polar_colorbar_kw(self):
 
     def test_plot_polar_plot_kw(self):
         plt.close()
@@ -277,9 +286,9 @@ class PolarDiagramCurveTest(unittest.TestCase):
             with self.subTest(i=i):
                 helper_functions.curve_table_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
-    def test_plot_flat_axes_keywords(self):
-        # test not implemented yet
-        pass
+    # test for plot_flat with given axes:
+    # is the axes that is saved at plt.gcf().axes the same that was given?
+    # def test_plot_flat_axes_instance(self):
 
     def test_plot_flat_single_color(self):
         plt.close()
@@ -288,9 +297,14 @@ class PolarDiagramCurveTest(unittest.TestCase):
             with self.subTest(i=i):
                 self.assertEqual(plt.gca().lines[i].get_color(), "purple")
 
-    def test_plot_flat_two_colors_passed(self):
+    def test_plot_flat_two_colors_passed_as_list(self):
         plt.close()
         self.c.plot_flat(ws=[10, 15, 20], colors=["red", "blue"])
+        helper_functions.comparing_colors_two_colors_passed()
+
+    def test_plot_flat_two_colors_passed_as_tuple(self):
+        plt.close()
+        self.c.plot_flat(ws=[10, 15, 20], colors=("red", "blue"))
         helper_functions.comparing_colors_two_colors_passed()
 
     def test_plot_flat_more_than_two_colors_passed(self):
@@ -324,6 +338,9 @@ class PolarDiagramCurveTest(unittest.TestCase):
         self.c.plot_flat(ws=[2, 4, 6], colors=("red", "blue"), show_legend=True)
         helper_functions.test_comparing_show_colorbar(self, "True Wind Speed")
 
+    # test for plot_flat with given legend keywords for colorbars
+    # def test_plot_flat_colorbar_kw(self):
+
     def test_plot_flat_plot_kw(self):
         plt.close()
         self.c.plot_flat(ls=":", lw=1.5, marker="o")
@@ -334,9 +351,36 @@ class PolarDiagramCurveTest(unittest.TestCase):
     def test_plot_3d(self):
         # test not finished yet
         plt.close()
-        ax = plt.axes(projection="3d")
+        self.c.plot_3d()
+        wind_speeds = plt.gca().collections[0]._vec[0]
+        bsp_sinus_wa = plt.gca().collections[0]._vec[1]
+        bsp_cosinus_wa = plt.gca().collections[0]._vec[2]
+        print(wind_speeds)
+        print(bsp_sinus_wa)
+        print(bsp_cosinus_wa)
+        wss, was, bsps = self.c.get_slices()
+        bsp_sin_wa_results = []
+        bsp_cos_wa_results = []
+        print(len(wind_speeds))
+        for i in range(len(wss)):
+            for bsp, wa in zip(bsps[i], was):
+                bsp_sin_wa_results.append(bsp * math.sin(wa))
+                bsp_cos_wa_results.append(bsp * math.cos(wa))
+
+        for triple in zip(bsp_sinus_wa, bsp_cosinus_wa):
+            self.assertIn(triple, [tuple(item) for item in zip(bsp_sin_wa_results, bsp_cos_wa_results)])
+        for result in zip(bsp_sin_wa_results, bsp_cos_wa_results):
+            self.assertIn(result, [tuple(item) for item in zip(bsp_sinus_wa, bsp_cosinus_wa)])
+
+    def test_plot_3d_axes_instance(self):
+        plt.close()
+        ax = plt.axes(projection="3d", label="axes label")
         self.c.plot_3d(ax=ax)
-        print(ax.collections[0]._vec)
+        ax.set_xlabel("ws")
+        axes = plt.gcf().axes[0]
+        self.assertEqual(axes.get_label(), "axes label")
+        self.assertEqual(axes.get_xlabel(), "ws")
+        self.assertEqual(axes.get_ylabel(), "Polar plane: TWA / BSP ")
 
     def test_plot_color_gradient(self):
         plt.close()
@@ -358,6 +402,35 @@ class PolarDiagramCurveTest(unittest.TestCase):
         _, _, bsp = self.c.get_slices(ws=(5, 10), n_steps=10)
         colors = [item[:-1] for item in plt.gca().collections[0]._facecolors]
         helper_functions.curve_plot_color_gradient_calculations(self, bsp, colors)
+
+    # test for plot_color_gradient with given axes:
+    # is the axes that is saved at plt.gcf().axes the same that was given?
+    # def test_plot_color_gradient_axes_instance(self):
+
+    def test_plot_color_gradient_color_pair(self):
+        plt.close()
+        self.c.plot_color_gradient(colors=("red", "blue"))
+        _, _, bsp = self.c.get_slices()
+        colors = [item[:-1] for item in plt.gca().collections[0]._facecolors]
+        helper_functions.curve_plot_color_gradient_calculations(self, bsp, colors)
+
+    # test for plot_color_gradient when the marker and the marker size are given
+    # def test_plot_color_gradient_marker_ms(self):
+
+    def test_plot_color_gradient_show_colorbar(self):
+        plt.close()
+        self.c.plot_color_gradient(show_legend=True)
+        helper_functions.test_comparing_show_colorbar(self, "Boat Speed")
+
+    def test_plot_color_gradient_colorbar_kw(self):
+        # test not finished yet
+        plt.close()
+        self.c.plot_color_gradient(show_legend=True, orientation="horizontal", ticklocation="top")
+        colorbar_axes = None
+        for axes in plt.gcf().axes:
+            if axes.get_label() == "<colorbar>":
+                colorbar_axes = axes
+        print(colorbar_axes.__dict__)
 
     def test_plot_convex_hull(self):
         # test not finished yet
@@ -389,9 +462,12 @@ class PolarDiagramCurveTest(unittest.TestCase):
         plt.close()
         self.c.plot_convex_hull(ws={5, 10, 15})
 
-    def test_plot_convex_hull_axes_keywords(self):
-        # test not implemented yet
-        pass
+    # test for plot_convex_hull with given parameter `n_steps`
+    # def test_plot_convex_hull_n_steps(self):
+
+    # test for plot_convex_hull with given axes:
+    # is the axes that is saved at plt.gcf().axes the same that was given?
+    # def test_plot_convex_hull_axes_instance(self):
 
     def test_plot_convex_hull_single_color(self):
         plt.close()
@@ -400,9 +476,14 @@ class PolarDiagramCurveTest(unittest.TestCase):
             with self.subTest(i=i):
                 self.assertEqual(plt.gca().lines[i].get_color(), "purple")
 
-    def test_plot_convex_hull_two_colors_passed(self):
+    def test_plot_convex_hull_two_colors_passed_as_list(self):
         plt.close()
         self.c.plot_convex_hull(ws=[10, 15, 20], colors=["red", "blue"])
+        helper_functions.comparing_colors_two_colors_passed()
+
+    def test_plot_convex_hull_two_colors_passed_as_tuple(self):
+        plt.close()
+        self.c.plot_convex_hull(ws=[10, 15, 20], colors=("red", "blue"))
         helper_functions.comparing_colors_two_colors_passed()
 
     def test_plot_convex_hull_more_than_two_colors_passed(self):
@@ -435,6 +516,9 @@ class PolarDiagramCurveTest(unittest.TestCase):
         plt.close()
         self.c.plot_convex_hull(ws=[2, 4, 6], colors=("red", "blue"), show_legend=True)
         helper_functions.test_comparing_show_colorbar(self, "True Wind Speed")
+
+    # test for plot_convex_hull with given legend keywords for colorbars
+    # def test_plot_convex_hull_colorbar_kw(self):
 
     def test_plot_convex_hull_plot_kw(self):
         plt.close()
