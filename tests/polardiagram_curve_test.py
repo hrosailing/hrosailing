@@ -355,20 +355,16 @@ class PolarDiagramCurveTest(unittest.TestCase):
         wind_speeds = plt.gca().collections[0]._vec[0]
         bsp_sinus_wa = plt.gca().collections[0]._vec[1]
         bsp_cosinus_wa = plt.gca().collections[0]._vec[2]
-        print(wind_speeds)
-        print(bsp_sinus_wa)
-        print(bsp_cosinus_wa)
         wss, was, bsps = self.c.get_slices()
         bsp_sin_wa_results = []
         bsp_cos_wa_results = []
-        print(len(wind_speeds))
         for i in range(len(wss)):
             for bsp, wa in zip(bsps[i], was):
                 bsp_sin_wa_results.append(bsp * math.sin(wa))
                 bsp_cos_wa_results.append(bsp * math.cos(wa))
 
-        for tuple in zip(bsp_sinus_wa, bsp_cosinus_wa):
-            self.assertIn(tuple, [tuple(item) for item in zip(bsp_sin_wa_results, bsp_cos_wa_results)])
+        for pair in zip(bsp_sinus_wa, bsp_cosinus_wa):
+            self.assertIn(pair, [tuple(item) for item in zip(bsp_sin_wa_results, bsp_cos_wa_results)])
         for result in zip(bsp_sin_wa_results, bsp_cos_wa_results):
             self.assertIn(result, [tuple(item) for item in zip(bsp_sinus_wa, bsp_cosinus_wa)])
 
