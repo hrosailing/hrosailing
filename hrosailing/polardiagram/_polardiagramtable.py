@@ -847,29 +847,32 @@ class PolarDiagramTable(PolarDiagram):
         ----------
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
+
         colors : tuple of two (2) color_likes, default: `("green", "red")`
             Color pair determining the color gradient with which the
             polar diagram will be plotted.
 
             Will be determined by the corresponding boat speed.
+
         marker : matplotlib.markers.Markerstyle or equivalent, default: `"o"`
             Markerstyle for the created scatter plot.
+
         ms : array_like, optional
             Marker size in points**2.
+
         show_legend : bool, default: `False`
             Specifies whether or not a legend will be shown next
             to the plot.
 
             Legend will be a `matplotlib.colorbar.Colorbar` instance.
+
         legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the colorbar
-            or legend respectively.
-            - If 2 colors are passed, a colorbar will be created.
-            In this case see `matplotlib.colorbar.Colorbar` for possible
-            keywords and their effect.
-            - Otherwise, a legend will be created.
-            In this case see `matplotlib.legend.Legend` for possible keywords
-            and their effect.
+            legend_kw : dict, optional
+            Keyword arguments to change position and appearance of the colorbar.
+
+            See `matplotlib.colorbar.Colorbar` for possible keywords and their effect.
+
+            Will only be used if `show_legend` is `True`.
         """
         ws, wa = np.meshgrid(self.wind_speeds, self.wind_angles)
         ws = ws.ravel()

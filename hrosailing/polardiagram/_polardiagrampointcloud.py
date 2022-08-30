@@ -678,15 +678,9 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to `False`.
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the colorbar
-            or legend respectively.
+            Keyword arguments to change position and appearance of the colorbar.
 
-            - If 2 colors are passed, a colorbar will be created.
-            In this case see `matplotlib.colorbar.Colorbar` for possible
-            keywords and their effect.
-            - Otherwise, a legend will be created.
-            In this case see `matplotlib.legend.Legend` for possible keywords
-            and their effect.
+            See `matplotlib.colorbar.Colorbar` for possible keywords and their effect.
 
             Will only be used if `show_legend` is `True`.
 

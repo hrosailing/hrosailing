@@ -500,13 +500,14 @@ class PolarDiagramCurve(PolarDiagram):
 
         Parameters
         ----------
-        ws :  tuple of length 3, optional
-            A region of the polar diagram given as an interval of
-            wind speeds.
+        ws : tuple of length 2, iterable, int or float, optional
+            Slices of the polar diagram given as either
 
-            Slices will then equal `self(w, wa)` where `w` goes through
-            the given values in `ws` and `wa` goes through a fixed
-            number of angles between 0° and 360°.
+            - a tuple of length 2, specifying an interval of considered
+            wind speeds. The amount of slices taken from that interval
+            are determined by the parameter `n_steps`,
+            - an iterable of specific wind speeds,
+            - a single wind speed.
 
             If nothing is passed, it will default to `(0, 20)`.
 
@@ -544,15 +545,9 @@ class PolarDiagramCurve(PolarDiagram):
             Defaults to `False`.
 
         legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the colorbar
-            or legend respectively.
+            Keyword arguments to change position and appearance of the colorbar.
 
-            - If 2 colors are passed, a colorbar will be created.
-            In this case see `matplotlib.colorbar.Colorbar` for possible
-            keywords and their effect.
-            - Otherwise, a legend will be created.
-            In this case see `matplotlib.legend.Legend` for possible keywords
-            and their effect.
+            See `matplotlib.colorbar.Colorbar` for possible keywords and their effect.
 
             Will only be used if `show_legend` is `True`.
         """
