@@ -367,8 +367,8 @@ class PolarDiagramCurveTest(unittest.TestCase):
                 bsp_sin_wa_results.append(bsp * math.sin(wa))
                 bsp_cos_wa_results.append(bsp * math.cos(wa))
 
-        for triple in zip(bsp_sinus_wa, bsp_cosinus_wa):
-            self.assertIn(triple, [tuple(item) for item in zip(bsp_sin_wa_results, bsp_cos_wa_results)])
+        for tuple in zip(bsp_sinus_wa, bsp_cosinus_wa):
+            self.assertIn(tuple, [tuple(item) for item in zip(bsp_sin_wa_results, bsp_cos_wa_results)])
         for result in zip(bsp_sin_wa_results, bsp_cos_wa_results):
             self.assertIn(result, [tuple(item) for item in zip(bsp_sinus_wa, bsp_cosinus_wa)])
 
