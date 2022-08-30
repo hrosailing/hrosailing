@@ -385,10 +385,41 @@ class PolarDiagramCurveTest(unittest.TestCase):
         colors = [item[:-1] for item in plt.gca().collections[0]._facecolors]
         helper_functions.curve_plot_color_gradient_calculations(self, bsp, colors)
 
-    def test_plot_color_gradient_ws(self):
+    def test_plot_color_gradient_single_ws(self):
+        plt.close()
+        self.c.plot_color_gradient(ws=5)
+        _, _, bsp = self.c.get_slices(ws=5)
+        colors = [item[:-1] for item in plt.gca().collections[0]._facecolors]
+        helper_functions.curve_plot_color_gradient_calculations(self, bsp, colors)
+
+    def test_plot_color_gradient_interval_ws(self):
         plt.close()
         self.c.plot_color_gradient(ws=(5, 10))
         _, _, bsp = self.c.get_slices(ws=(5, 10))
+        colors = [item[:-1] for item in plt.gca().collections[0]._facecolors]
+        helper_functions.curve_plot_color_gradient_calculations(self, bsp, colors)
+
+    def test_plot_color_gradient_iterable_list_ws(self):
+        plt.close()
+        self.c.plot_color_gradient(ws=[5, 10, 15])
+        _, _, bsp = self.c.get_slices(ws=[5, 10, 15])
+        colors = [item[:-1] for item in plt.gca().collections[0]._facecolors]
+        helper_functions.curve_plot_color_gradient_calculations(self, bsp, colors)
+
+    def test_plot_color_gradient_iterable_tuple_ws(self):
+        plt.close()
+        self.c.plot_color_gradient(ws=(5, 10, 15))
+        _, _, bsp = self.c.get_slices(ws=(5, 10, 15))
+        colors = [item[:-1] for item in plt.gca().collections[0]._facecolors]
+        helper_functions.curve_plot_color_gradient_calculations(self, bsp, colors)
+
+    # test for plot_color_gradient with with `ws` given as a set:
+    # similar to test_plot_color_gradient_iterable_list_ws and
+    # test_plot_color_gradient_iterable_tuple_ws
+    def test_plot_color_gradient_iterable_set_ws(self):
+        plt.close()
+        self.c.plot_color_gradient(ws={5, 10, 15})
+        _, _, bsp = self.c.get_slices(ws={5, 10, 15})
         colors = [item[:-1] for item in plt.gca().collections[0]._facecolors]
         helper_functions.curve_plot_color_gradient_calculations(self, bsp, colors)
 
