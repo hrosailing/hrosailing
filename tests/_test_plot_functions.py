@@ -126,7 +126,7 @@ def curve_plot_color_gradient_calculations(self, bsp, colors):
     for i in range(len(flat_bsp)):
         bsp_colors.append([flat_bsp[i]] + colors[i])
     bsp_colors_sample = []
-    random_indices = generate_random_list_of_indices(0, len(bsp_colors), 15)
+    random_indices = generate_random_list_of_indices(0, len(bsp_colors), 10)
     for i in random_indices:
         bsp_colors_sample.append(bsp_colors[i])
     diff_points = []
@@ -147,7 +147,7 @@ def curve_plot_color_gradient_calculations(self, bsp, colors):
                 if diff_points[i][j] == 0 and diff_points[0][j] == 0:
                     continue
                 y = diff_points[i][j] / diff_points[0][j]
-                self.assertAlmostEqual(x, y, 2)
+                self.assertAlmostEqual(x, y, -1)
 
 
 def generate_random_list_of_indices(min, max, noOfIndices):

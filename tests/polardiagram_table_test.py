@@ -337,9 +337,9 @@ class PolarDiagramTableTest(unittest.TestCase):
             with self.subTest(i=i):
                 helper_functions.curve_table_plot_polar_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
-    def test_plot_polar_axes_keywords(self):
-        # test not implemented yet
-        pass
+    # test for plot_polar with given axes:
+    # check if the axes that is saved at plt.gcf().axes is the same that was given
+    # def test_plot_polar_axes_keywords(self):
 
     def test_plot_polar_single_color(self):
         plt.close()
@@ -348,9 +348,14 @@ class PolarDiagramTableTest(unittest.TestCase):
             with self.subTest(i=i):
                 self.assertEqual(plt.gca().lines[i].get_color(), "purple")
 
-    def test_plot_polar_two_colors_passed(self):
+    def test_plot_polar_two_colors_passed_as_list(self):
         plt.close()
         self.pd.plot_polar(ws=[4, 6, 8], colors=["red", "blue"])
+        helper_functions.comparing_colors_two_colors_passed()
+
+    def test_plot_polar_two_colors_passed_as_tuple(self):
+        plt.close()
+        self.pd.plot_polar(ws=[4, 6, 8], colors=("red", "blue"))
         helper_functions.comparing_colors_two_colors_passed()
 
     def test_plot_polar_more_than_two_colors_passed(self):
@@ -383,6 +388,10 @@ class PolarDiagramTableTest(unittest.TestCase):
         plt.close()
         self.pd.plot_polar(ws=[2, 4, 6], colors=("red", "blue"), show_legend=True)
         helper_functions.test_comparing_show_colorbar(self, "True Wind Speed")
+
+    # test for plot_polar with some given legend keywords for colorbars:
+    # check if all keywords are applied correctly
+    # def test_plot_polar_colorbar_kw(self):
 
     def test_plot_polar_plot_kw(self):
         plt.close()
@@ -461,9 +470,9 @@ class PolarDiagramTableTest(unittest.TestCase):
             with self.subTest(i=i):
                 helper_functions.curve_table_plot_flat_comparing_x_plot_wa_y_plot_bsp(i, wa, bsp)
 
-    def test_plot_flat_axes_keywords(self):
-        # test not implemented yet
-        pass
+    # test for plot_flat with given axes:
+    # check if the axes that is saved at plt.gcf().axes is the same that was given
+    # def test_plot_flat_axes_instance(self):
 
     def test_plot_flat_single_color(self):
         plt.close()
@@ -472,9 +481,14 @@ class PolarDiagramTableTest(unittest.TestCase):
             with self.subTest(i=i):
                 self.assertEqual(plt.gca().lines[i].get_color(), "purple")
 
-    def test_plot_flat_two_colors_passed(self):
+    def test_plot_flat_two_colors_passed_as_list(self):
         plt.close()
         self.pd.plot_flat(ws=[4, 6, 8], colors=["red", "blue"])
+        helper_functions.comparing_colors_two_colors_passed()
+
+    def test_plot_flat_two_colors_passed_as_tuple(self):
+        plt.close()
+        self.pd.plot_flat(ws=[4, 6, 8], colors=("red", "blue"))
         helper_functions.comparing_colors_two_colors_passed()
 
     def test_plot_flat_more_than_two_colors_passed(self):
@@ -507,6 +521,10 @@ class PolarDiagramTableTest(unittest.TestCase):
         plt.close()
         self.pd.plot_flat(ws=[2, 4, 6], colors=("red", "blue"), show_legend=True)
         helper_functions.test_comparing_show_colorbar(self, "True Wind Speed")
+
+    # test for plot_flat with some given legend keywords for colorbars:
+    # check if all keywords are applied correctly
+    # def test_plot_flat_colorbar_kw(self):
 
     def test_plot_flat_plot_kw(self):
         plt.close()
@@ -551,18 +569,13 @@ class PolarDiagramTableTest(unittest.TestCase):
         for result in zip(ws_results, bsp_sin_wa_results, bsp_cos_wa_results):
             self.assertIn(result, zip(wind_speeds, bsp_sinus_wa, bsp_cosinus_wa))
 
-    def test_plot_3d_ax_instance(self):
-        # test not finished yet
-        plt.close()
-        ax = plt.axes(projection='3d', label='axes label')
-        self.pd.plot_3d(ax=ax)
-        self.assertEqual(plt.gca().get_label(), 'axes label')
+    # test for plot_3d with given axes:
+    # check if the axes that is saved at plt.gcf().axes is the same that was given
+    # def test_plot_3d_axes_instance(self):
 
-    def test_plot_3d_color_pair(self):
-        # test not finished yet
-        plt.close()
-        self.pd.plot_3d(colors=('blue', 'red'))
-        #print(plt.gca().collections[0].__dict__)
+    # test for plot_3d with the colors given as a color pair:
+    # check if the given color pair is used for the color gradient of the plotted surface
+    # def test_plot_3d_color_pair(self):
 
     def test_plot_color_gradient(self):
         plt.close()
@@ -578,10 +591,29 @@ class PolarDiagramTableTest(unittest.TestCase):
                                                                       flat_bsp,
                                                                       colors)
 
-    # test for plot_color_gradient when the colors are given as a color pair
-    # def test_plot_color_gradient_color_pair(self):
+    # test for plot_color_gradient with given axes:
+    # check if the axes that is saved at plt.gcf().axes is the same that was given
+    # def test_plot_color_gradient_axes_instance(self):
 
-    # test for plot_color_gradient when the marker and the marker size are given
+    # test for plot_color_gradient with the colors given as a color pair
+    def test_plot_color_gradient_color_pair(self):
+        # test not finished yet:
+        # already checked: the color gradient in itself is plotted correctly
+        # not checked yet: the given colors where used for the color gradient
+        plt.close()
+        self.pd.plot_color_gradient(colors=("red", "blue"))
+        ws_wa_list = [list(item) for item in plt.gca().collections[0]._offsets]
+        all_combinations_ws_wa = [list(item) for item in itertools.product(self.ws_resolution, self.wa_resolution)]
+        _, _, bsp = self.pd.get_slices(None)
+        colors = [item[:-1] for item in plt.gca().collections[0]._facecolors]
+        flat_bsp = self.bsp.flat
+        helper_functions.cloud_table_plot_color_gradient_calculations(self, ws_wa_list,
+                                                                      all_combinations_ws_wa,
+                                                                      flat_bsp,
+                                                                      colors)
+
+    # test for plot_color_gradient with the marker and the marker size given:
+    # check if the marker and marker size are plotted as given
     # def test_plot_color_gradient_marker_ms(self):
 
     def test_plot_color_gradient_show_colorbar(self):
@@ -589,54 +621,40 @@ class PolarDiagramTableTest(unittest.TestCase):
         self.pd.plot_color_gradient(show_legend=True)
         helper_functions.test_comparing_show_colorbar(self, "Boat Speed")
 
-    def test_plot_color_gradient_legend_kw(self):
-        # test not finished yet
-        plt.close()
-        self.pd.plot_color_gradient(show_legend=True, orientation="horizontal", ticklocation="top")
-        colorbar_axes = None
-        for axes in plt.gcf().axes:
-            if axes.get_label() == "<colorbar>":
-                colorbar_axes = axes
-        print(colorbar_axes.__dict__)
-        # plt.show()
+    # test for plot_color_gradient with some given legend keywords for colorbars:
+    # check if all keywords are applied correctly
+    # def test_plot_color_gradient_colorbar_kw(self):
 
-    def test_plot_convex_hull(self):
-        # test not finished yet
-        plt.close()
-        self.pd.plot_convex_hull()
+    # test for plot_convex_hull without any parameters given:
+    # check the following three hypotheses
+    # 1: Are the vertices of the generated polygon all points of the polar diagram?
+    # 2: Do all points of the polar diagram lie within the generated polygon?
+    # 3: Is the generated polygon convex?
+    # def test_plot_convex_hull(self):
 
-    def test_plot_convex_hull_single_element_ws(self):
-        # test not finished yet
-        plt.close()
-        self.pd.plot_convex_hull(ws=2)
-        x_data = plt.gca().lines[0].get_xdata()
-        y_data = plt.gca().lines[0].get_ydata()
-        np.testing.assert_array_equal(x_data, np.deg2rad([10, 15, 25, 10]))
-        np.testing.assert_array_equal(y_data, [1, 1.5, 2, 1])
+    # test for plot_convex_hull with `ws` given as a singular value:
+    # check if the above defined hypotheses are true for given `ws`
+    # def test_plot_convex_hull_single_element_ws(self):
 
-    def test_plot_convex_hull_interval_ws(self):
-        # test not finished yet
-        plt.close()
-        self.pd.plot_convex_hull(ws=(2, 6))
+    # test for plot_convex_hull with `ws` given as an interval:
+    # check if the above defined hypotheses are true for given `ws`
+    # def test_plot_convex_hull_interval_ws(self):
 
-    def test_plot_convex_hull_iterable_list_ws(self):
-        # test not finished yet
-        plt.close()
-        self.pd.plot_convex_hull(ws=[2, 4, 6])
+    # test for plot_convex_hull with `ws` given as a list:
+    # check if the above defined hypotheses are true for given `ws`
+    # def test_plot_convex_hull_iterable_list_ws(self):
 
-    def test_plot_convex_hull_iterable_tuple_ws(self):
-        # test not finished yet
-        plt.close()
-        self.pd.plot_convex_hull(ws=(2, 4, 6))
+    # test for plot_convex_hull with `ws` given as a tuple with more than 2 elements:
+    # check if the above defined hypotheses are true for given `ws`
+    # def test_plot_convex_hull_iterable_tuple_ws(self):
 
-    def test_plot_convex_hull_iterable_set_ws(self):
-        # test not finished yet
-        plt.close()
-        self.pd.plot_convex_hull(ws={2, 4, 6})
+    # test for plot_convex_hull with `ws` given as a set:
+    # check if the above defined hypotheses are true for given `ws`
+    # def test_plot_convex_hull_iterable_set_ws(self):
 
-    def test_plot_convex_hull_axes_keywords(self):
-        # test not implemented yet
-        pass
+    # test for plot_convex_hull with given axes:
+    # check if the axes that is saved at plt.gcf().axes is the same that was given
+    # def test_plot_convex_hull_axes_instance(self):
 
     def test_plot_convex_hull_single_color(self):
         plt.close()
@@ -645,9 +663,14 @@ class PolarDiagramTableTest(unittest.TestCase):
             with self.subTest(i=i):
                 self.assertEqual(plt.gca().lines[i].get_color(), "purple")
 
-    def test_plot_convex_hull_two_colors_passed(self):
+    def test_plot_convex_hull_two_colors_passed_as_list(self):
         plt.close()
         self.pd.plot_convex_hull(ws=[4, 6, 8], colors=["red", "blue"])
+        helper_functions.comparing_colors_two_colors_passed()
+
+    def test_plot_convex_hull_two_colors_passed_as_tuple(self):
+        plt.close()
+        self.pd.plot_convex_hull(ws=[4, 6, 8], colors=("red", "blue"))
         helper_functions.comparing_colors_two_colors_passed()
 
     def test_plot_convex_hull_more_than_two_colors_passed(self):
@@ -680,6 +703,10 @@ class PolarDiagramTableTest(unittest.TestCase):
         plt.close()
         self.pd.plot_convex_hull(ws=[2, 4, 6], colors=("red", "blue"), show_legend=True)
         helper_functions.test_comparing_show_colorbar(self, "True Wind Speed")
+
+    # test for plot_convex_hull with some given legend keywords for colorbars:
+    # check if all keywords are applied correctly
+    # def test_plot_convex_hull_colorbar_kw(self):
 
     def test_plot_convex_hull_plot_kw(self):
         plt.close()
