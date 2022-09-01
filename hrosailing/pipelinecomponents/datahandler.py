@@ -5,7 +5,7 @@ Defines the DataHandler Abstract Base Class that can be used to
 create custom
 
 Subclasses of DataHandler can be used with the PolarPipeline class
-in the hrosailing.pipeline module
+in the `hrosailing.pipeline` module.
 """
 
 
@@ -55,14 +55,14 @@ class DataHandler(ABC):
         a dictionary with str keys and list values containing the read data,
         the second should be a dictionary of relevant statistics.
 
-        We recommend using 'hrosailing_standard_format' at the end of your
+        We recommend using `hrosailing_standard_format` at the end of your
         custom handler.
         """
 
 
 class ArrayHandler(DataHandler):
     """A data handler to convert data given as an array-type
-    to a dictionary
+    to a dictionary.
     """
 
     # ArrayHandler usable even if pandas is not installed.
@@ -76,23 +76,23 @@ class ArrayHandler(DataHandler):
         import pandas as pd
 
     def handle(self, data) -> dict:
-        """Extracts data from array-types of data
+        """Extracts data from array-types of data.
 
         Parameters
         ----------
-        data: pandas.DataFrame or tuple of array_like and ordered iterable
+        data : pandas.DataFrame or tuple of array_like and ordered iterable
             Data contained in a pandas.DataFrame or in an array_like.
 
         Returns
         -------
-        data_dict, statistics: (dict, dict)
-            If data is a pandas.DataFrame, data_dict is the output
-            of the DataFrame.to_dict()-method, otherwise the keys of
+        data_dict, statistics : (dict, dict)
+            If `data` is a `pandas.DataFrame`, `data_dict` is the output
+            of the `DataFrame.to_dict()`-method, otherwise the keys of
             the dict will be the entries of the ordered iterable with the
-            value being the corresponding column of the array_like
+            value being the corresponding column of the array_like.
 
-            statistics contains the number of created rows and colums
-            as 'n_rows' and 'n_cols' respectively
+            `statistics` contains the number of created rows and columns
+            as 'n_rows' and 'n_cols' respectively.
 
         Raises
         ------
@@ -120,10 +120,10 @@ class ArrayHandler(DataHandler):
 
 class CsvFileHandler(DataHandler):
     """A data handler to extract data from a .csv file and convert it
-    to a dictionary
+    to a dictionary.
 
     .csv file should be ordered in a column-wise fashion, with the
-    first row, describing what each column represents
+    first row describing what each column represents.
     """
 
     # Check if pandas is available to use from_csv()-method
@@ -138,27 +138,27 @@ class CsvFileHandler(DataHandler):
 
     def handle(self, data) -> (dict, dict):
         """Reads a .csv file and extracts the contained data points
-        The delimiter used in the .csv file
+        The delimiter used in the .csv file.
 
         Parameters
         ----------
         data : path_like
-            Path to a .csv file
+            Path to a .csv file.
 
         Returns
         -------
         data_dict, statistics : dict, dict
-            data_dict is a dictionary having the hrosailing standard version of
+            data_dict is a dictionary having the `hrosailing` standard version of
             the first row entries as keys and
-            as values the corresponding columns given as lists
+            as values the corresponding columns given as lists.
 
-            statistics contains the number of created rows and colums
-            as 'n_rows' and 'n_cols' respectively
+            `statistics` contains the number of created rows and columns
+            as 'n_rows' and 'n_cols' respectively.
 
         Raises
         ------
         OSError
-            If no read permission is given for file
+            If no read permission is given for file.
         """
         if self.pand:
             df = self.pd.read_csv(data)
@@ -182,7 +182,7 @@ class CsvFileHandler(DataHandler):
 
 class MultiDataHandler(DataHandler):
     """A data handler that uses multiple data handlers and weather models
-    in conjunction
+    in conjunction.
 
     Parameters
     -----------
@@ -253,49 +253,48 @@ class MultiDataHandler(DataHandler):
 
 class NMEAFileHandler(DataHandler):
     """A data handler to extract data from a text file containing
-    certain nmea sentences and convert it to a dictionary
+    certain NMEA sentences and convert it to a dictionary.
 
     Parameters
     ---------
-    wanted_sentences : Iterable of str, optional
-        NMEA sentences that will be read
+    wanted_sentences : iterable of str, optional
+        NMEA sentences that will be read.
 
-        Default to 'None'
+        Defaults to `None`.
 
-    unwanted_sentences : Iterable of str, optional
+    unwanted_sentences : iterable of str, optional
         NMEA sentences that will be ignored.
-        If 'wanted_sentences' is set this keyword is ignored
-        If both 'wanted_sentences' and 'unwanted_sentences' are None,
-        all NMEA sentences will be read
+        If `wanted_sentences` is set this keyword is ignored.
+        If both `wanted_sentences` and `unwanted_sentences` are `None`,
+        all NMEA sentences will be read.
 
-        Defaults to 'None'
+        Defaults to `None`.
 
-        wanted_sentences : Iterable of str,
-        NMEA sentences that will be read
+    wanted_sentences : iterable of str
+        NMEA sentences that will be read.
 
-        Default to 'None'
+        Defaults to `None`.
 
-
-    wanted_attributes : Iterable of str, optional
+    wanted_attributes : iterable of str, optional
         NMEA attributes that will be added to the output dictionary.
         If set to "numerical" all fields with float values will be read.
 
-        Default to 'None'
+        Defaults to `None`.
 
-    unwanted_attributes : Iterable of str, optional
-        NMEA attributes that will be ignored
-        If 'wanted_attributes' is set this option is ignored
-        If both 'wanted_sentences' and 'unwanted_sentences' are None,
-        all NMEA sentences will be read
+    unwanted_attributes : iterable of str, optional
+        NMEA attributes that will be ignored.
+        If `wanted_attributes` is set this option is ignored
+        If both `wanted_sentences` and `unwanted_sentences` are `None`,
+        all NMEA sentences will be read.
 
-        Defaults to 'None'
+        Defaults to `None`.
 
-    post_filter_types: tuple of types, optional
+    post_filter_types : tuple of types, optional
         The resulting dictionary only contains data which is `None` or of a
         type given in `post_filter_types`.
-        If set to `False` all attributes are taken into account
+        If set to `False` all attributes are taken into account.
 
-        Defaults to `(float, datetime.date, datetime.time, datetime.datetime)`
+        Defaults to `(float, datetime.date, datetime.time, datetime.datetime)`.
     """
 
     def __init__(
@@ -333,32 +332,32 @@ class NMEAFileHandler(DataHandler):
         self._post_filter_types = post_filter_types
 
     def handle(self, data) -> (dict, dict):
-        """Reads a text file containing nmea-sentences and extracts
-        data points
+        """Reads a text file containing NMEA-sentences and extracts
+        data points.
 
         Parameters
         ----------
         data : path-like
-            Path to a text file, containing nmea-0183 sentences
+            Path to a text file, containing NMEA 0183 sentences.
 
 
         Returns
         -------
-        comp_data: Data
+        comp_data : Data
             The data read from the file where the columns are the filtered
-            attributes
+            attributes.
 
         statistics : dict
-            Contains the number of created rows and colums
-            as 'n_rows' and 'n_cols' respectively
-            data_dict is a dictionary having the hrosailing standard version of the
+            Contains the number of created rows and columns
+            as `n_rows` and `n_cols` respectively.
+            data_dict is a dictionary having the `hrosailing` standard version of the
             first row entries as keys and
-            as values the corresponding columns given as lists
+            as values the corresponding columns given as lists.
 
         Raises
         ------
         OSError
-            If no read permission is given for file
+            If no read permission is given for file.
         """
         from pynmea2 import parse
 

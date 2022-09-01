@@ -1,11 +1,11 @@
 """
-Classes used for modular modeling of different sampling methods
+Classes used for modular modeling of different sampling methods.
 
-Defines the Sampler Abstract Base Class that can be used to create
-custom sampling methods
+Defines the `Sampler` abstract base class that can be used to create
+custom sampling methods.
 
-Subclasses of Sampler can be used with the PointcloudExtension class
-in the hrosailing.pipeline module
+Subclasses of `Sampler` can be used with the `PointcloudExtension` class
+in the `hrosailing.pipeline` module.
 """
 
 
@@ -17,12 +17,12 @@ from scipy.spatial import ConvexHull
 
 class SamplerInitializationException(Exception):
     """Exception raised if an error occurs during
-    initialization of a Sampler
+    initialization of a Sampler.
     """
 
 
 class Sampler(ABC):
-    """Base class for all sampler classes
+    """Base class for all sampler classes.
 
 
     Abstract Methods
@@ -33,24 +33,24 @@ class Sampler(ABC):
     @abstractmethod
     def sample(self, pts):
         """This method should be used, given certain points, to determine a
-        constant number of sample points that lie in the convex hull of pts
-        and are more or less representative of the trend of the given points
+        constant number of sample points that lie in the convex hull of `pts`
+        and are more or less representative of the trend of the given points.
         """
 
 
 class UniformRandomSampler(Sampler):
     """A sampler that produces a number of uniformly distributed samples,
-    which all lie in the convex hull of certain given points
+    which all lie in the convex hull of certain given points.
 
     Parameters
     ----------
     n_samples : positive int
-        Amount of samples that will be produced by the sampler
+        Amount of samples that will be produced by the sampler.
 
     Raises
     ------
     SamplerInitializationException
-        If n_samples is nonpositive
+        If `n_samples` is nonpositive.
     """
 
     def __init__(self, n_samples):
@@ -60,17 +60,17 @@ class UniformRandomSampler(Sampler):
         self._n_samples = n_samples
 
     def sample(self, pts):
-        """Produces samples according to the above described procedure
+        """Produces samples according to the above described procedure.
 
         Parameters
         ----------
         pts : array_like of shape (n, 2)
-            Points in whose convex hull the produced samples will lie
+            Points in whose convex hull the produced samples will lie.
 
         Returns
         -------
         samples : numpy.ndarray of shape (n_samples, 2)
-            samples produced by the above described method
+            Samples produced by the above described method.
         """
         rng = np.random.default_rng()
         proj_pts = pts[:, :2]
@@ -106,17 +106,17 @@ class FibonacciSampler(Sampler):
     of given data points.
 
     Inspired by Álvaro Gonzzález - "Measurement of areas on a sphere using
-    Fibonacci and latitude–longitude lattices"
+    Fibonacci and latitude–longitude lattices".
 
     Parameters
     ----------
     n_samples : positive int
-        Amount of samples that will be produced by the sampler
+        Amount of samples that will be produced by the sampler.
 
     Raises
     ------
     SamplerInitializationException
-        If n_samples is nonpositive
+        If `n_samples` is nonpositive.
     """
 
     def __init__(self, n_samples):
@@ -126,17 +126,17 @@ class FibonacciSampler(Sampler):
         self._n_samples = n_samples
 
     def sample(self, pts):
-        """Produces samples according to the above described procedure
+        """Produces samples according to the above described procedure.
 
         Parameters
         ----------
         pts : array_like of shape (n, 2)
-            Points in whose convex hull the produced samples will lie
+            Points in whose convex hull the produced samples will lie.
 
         Returns
         -------
         samples : numpy.ndarray of shape (n_samples, 2)
-            samples produced by the above described method
+            Samples produced by the above described method.
         """
         # calculate smallest circle containing pts
         midpoint, r = _make_circle(pts)
@@ -173,17 +173,17 @@ class ArchimedianSampler(Sampler):
     of given data points.
 
     Inspired by
-    https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2007GC001581
+    https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2007GC001581.
 
     Parameters
     ----------
     n_samples : positive int
-        Amount of samples that will be produced by the sampler
+        Amount of samples that will be produced by the sampler.
 
     Raises
     ------
     SamplerInitializationException
-        If n_samples is nonpositive
+        If `n_samples` is nonpositive.
     """
 
     def __init__(self, n_samples):
@@ -193,17 +193,17 @@ class ArchimedianSampler(Sampler):
         self._n_samples = n_samples
 
     def sample(self, pts):
-        """Produces samples according to the above described procedure
+        """Produces samples according to the above described procedure.
 
         Parameters
         ----------
         pts : array_like of shape (n, 2)
-            Points in whose convex hull the produced samples will lie
+            Points in whose convex hull the produced samples will lie.
 
         Returns
         -------
         samples : numpy.ndarray of shape (n_samples, 2)
-            samples produced by the above described method
+            Samples produced by the above described method.
         """
 
         # calculate enclosing circle

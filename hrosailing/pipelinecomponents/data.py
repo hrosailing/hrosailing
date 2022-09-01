@@ -1,5 +1,5 @@
 """
-Contains the class Data which is an output of several pipeline components.
+Contains the class `Data` which is an output of several pipeline components.
 """
 
 import numpy as np
@@ -268,10 +268,10 @@ class Data:
 
     def hrosailing_standard_format(self):
         """
-            Reformats data in the hrosailing standard format.
+            Reformats data in the `hrosailing` standard format.
 
             This means:
-                - the dictionary has hrosailing standard keys whenever possible,
+                - the dictionary has `hrosailing` standard keys whenever possible,
                 - date and time fields will be aggregated to datetime,
                 - tries to cast entries to `float` whenever possible.
         """
