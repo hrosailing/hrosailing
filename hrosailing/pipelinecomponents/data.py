@@ -30,11 +30,11 @@ class Data:
     numerical : numpy.ndarray
         An array containing all data of type 'float'.
 
-    n_rows : int,
-        the number of rows
+    n_rows : int
+        The number of rows.
 
-    n_cols : int,
-        the number of columns
+    n_cols : int
+        The number of columns.
     """
     def __init__(self):
         self._data = {}
@@ -75,19 +75,18 @@ class Data:
 
     def get_by_type(self, type_):
         """
-        Paramenter
+        Parameters
         ----------
-
-        type_: type
+        type_ : type
 
         Returns
-        ---------
-        filtered_keys: list of str,
-            a list of all keys with columns of type `type_`
+        -------
+        filtered_keys : list of str
+            A list of all keys with columns of type `type_`.
 
-        filtered_data: list of lists,
-            a list of all data corresponding to the columns with keys
-            `filtered_keys`
+        filtered_data : list of lists
+            A list of all data corresponding to the columns with keys
+            `filtered_keys`.
         """
         filtered_keys = [
             key for key in self.keys() if self._types[key] == type_
@@ -98,12 +97,11 @@ class Data:
 
     def type(self, key):
         """
-        Returns the assosiated type corresponding to the `key` column.
+        Returns the associated type corresponding to the `key` column.
 
-        Parameter
-        ---------
-
-        key: str
+        Parameters
+        ----------
+        key : str
         """
         return self._types[key]
 
@@ -111,12 +109,12 @@ class Data:
         """
         Extends the data by given other data.
 
-        Parameter
-        ---------
-        key: str,
-            The key of the column in which the data should be copied
-        data: list,
-            data that should be copied in the given data
+        Parameters
+        ----------
+        key : str
+            The key of the column in which the data should be copied.
+        data : list
+            Data that should be copied in the given data.
         """
         data_type = self._get_type(data)
         if key in self._data:
@@ -138,10 +136,10 @@ class Data:
         Extends the data according to given data and fills missing
         entries in each column with `None`.
 
-        Parameter
-        --------
-        data_dict: dict or Data,
-            the dictionary or `Data` object containing the data to be used for the update
+        Parameters
+        ----------
+        data_dict : dict or Data
+            The dictionary or `Data` object containing the data to be used for the update.
         """
         if isinstance(data_dict, dict):
             for key, val in data_dict.items():
@@ -158,10 +156,10 @@ class Data:
         """
         Extends the data by a single Element.
 
-        Parameter
-        --------
-        data: object,
-            single data object to be appended
+        Parameters
+        ----------
+        data : object
+            Single data object to be appended.
 
         See also
         --------
@@ -173,17 +171,17 @@ class Data:
         """
         Fills all rows smaller than a specific length with `None` values.
 
-        Parameter
-        --------
-        len_: int, optional
-            The required length
+        Parameters
+        ----------
+        len_ : int, optional
+            The required length.
 
-            Defaults to `self.n_rows`
+            Defaults to `self.n_rows`.
 
-        keys: list of str, optional
+        keys : list of str, optional
             The keys of the columns which should be filled.
 
-            Defaults to `self.keys`
+            Defaults to `self.keys`.
         """
         if keys is None:
             keys = self.keys()
@@ -200,10 +198,10 @@ class Data:
         """
         Deletes all data which is not in a list of required types.
 
-        Parameter
-        ---------
-        type_list: list of types
-            list of required types
+        Parameters
+        ----------
+        type_list : list of types
+            List of required types.
         """
         for key in list(self._data.keys()):
             if self._types[key] not in type_list:
@@ -212,15 +210,15 @@ class Data:
 
     def rename(self, old_key, new_key):
         """
-        Renames a column
+        Renames a column.
 
-        Parameter
+        Parameters
         ----------
-        old_key: str
-            Old name of column
+        old_key : str
+            Old name of column.
 
-        new_key: str
-            New name of column
+        new_key : str
+            New name of column.
         """
         if old_key == new_key:
             return
@@ -231,13 +229,12 @@ class Data:
 
     def delete(self, key):
         """
-        Delets a column or a row.
+        Deletes a column or a row.
 
-        Parameter
-        --------
-
-        key: int, str, list of str or list of int
-            name or names of column(s) to be deleted or index(es) of row(s) to be deleted.
+        Parameters
+        ----------
+        key : int, str, list of str or list of int
+            Name or names of column(s) to be deleted or index(es) of row(s) to be deleted.
         """
         if isinstance(key, str):
             del self._data[key]
@@ -274,9 +271,9 @@ class Data:
             Reformats data in the hrosailing standard format.
 
             This means:
-                - the dictionary has hrosailing standard keys whenever possible
-                - date and time fields will be aggregated to datetime
-                - tries to cast entries to `float` whenever possible
+                - the dictionary has hrosailing standard keys whenever possible,
+                - date and time fields will be aggregated to datetime,
+                - tries to cast entries to `float` whenever possible.
         """
         def standard_key(key):
             lkey = key.lower()
@@ -343,12 +340,14 @@ class Data:
         """
         Returns concatenated data, given a list of `Data` classes.
 
-        Parameter:
-            list_: list of Data
+        Parameters
+        ----------
+            list_ : list of Data
 
-        Returns:
-            data: Data
-                The concatenated Data
+        Returns
+        -------
+            data : Data
+                The concatenated Data.
         """
         data = cls()
         for other_data in list_:
@@ -365,14 +364,14 @@ class Data:
 
     def get_slice(self, slice):
         """
-        Returns new `Data` object containing only keys in `slice`
+        Returns new `Data` object containing only keys in `slice`.
 
-        Parameter
-        ---------
+        Parameters
+        ----------
         slice: object with method `__contains__`
 
         Returns
-        --------
+        -------
         data: Data
         """
 
@@ -390,11 +389,11 @@ class Data:
 
     def mask_rows(self, mask):
         """
-        Keeps only a subset of the rows indicated by `mask`
+        Keeps only a subset of the rows indicated by `mask`.
 
-        Parameter:
-        ---------
-        mask: iterable of boolean
+        Parameters
+        ----------
+        mask: iterable of booleans
         """
 
         data = {
