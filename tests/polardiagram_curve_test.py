@@ -350,25 +350,29 @@ class PolarDiagramCurveTest(unittest.TestCase):
             with self.subTest(i=i):
                 helper_functions.test_comparing_plot_kw(self, i)
 
-    def test_plot_3d(self):
-        # test not finished yet
-        plt.close()
-        self.c.plot_3d()
-        wind_speeds = plt.gca().collections[0]._vec[0]
-        bsp_sinus_wa = plt.gca().collections[0]._vec[1]
-        bsp_cosinus_wa = plt.gca().collections[0]._vec[2]
-        wss, was, bsps = self.c.get_slices()
-        bsp_sin_wa_results = []
-        bsp_cos_wa_results = []
-        for i in range(len(wss)):
-            for bsp, wa in zip(bsps[i], was):
-                bsp_sin_wa_results.append(bsp * math.sin(wa))
-                bsp_cos_wa_results.append(bsp * math.cos(wa))
-
-        for pair in zip(bsp_sinus_wa, bsp_cosinus_wa):
-            self.assertIn(pair, [tuple(item) for item in zip(bsp_sin_wa_results, bsp_cos_wa_results)])
-        for result in zip(bsp_sin_wa_results, bsp_cos_wa_results):
-            self.assertIn(result, [tuple(item) for item in zip(bsp_sinus_wa, bsp_cosinus_wa)])
+    # test not finished:
+    # check if the points that result from plt.gca().collections[0]._vec[0],
+    # plt.gca().collections[0]._vec[1] and plt.gca().collections[0]._vec[2] correspond to
+    # the points out of the wind speeds of the polar diagram, bsp * math.sin(wa) and
+    # bsp * math.cos(wa)
+    # not working yet because get_slices and plot_3d have a differing grain size
+    # def test_plot_3d(self):
+        # plt.close()
+        # self.c.plot_3d()
+        # wind_speeds = plt.gca().collections[0]._vec[0]
+        # bsp_sinus_wa = plt.gca().collections[0]._vec[1]
+        # bsp_cosinus_wa = plt.gca().collections[0]._vec[2]
+        # wss, was, bsps = self.c.get_slices()
+        # bsp_sin_wa_results = []
+        # bsp_cos_wa_results = []
+        # for i in range(len(wss)):
+        #     for bsp, wa in zip(bsps[i], was):
+        #         bsp_sin_wa_results.append(bsp * math.sin(wa))
+        #         bsp_cos_wa_results.append(bsp * math.cos(wa))
+        # for triple in zip(wind_speeds, bsp_sinus_wa, bsp_cosinus_wa):
+        #     self.assertIn(triple, [tuple(item) for item in zip(wss, bsp_sin_wa_results, bsp_cos_wa_results)])
+        # for result in zip(wss, bsp_sin_wa_results, bsp_cos_wa_results):
+        #     self.assertIn(result, [tuple(item) for item in zip(wind_speeds, bsp_sinus_wa, bsp_cosinus_wa)])
 
     # test for plot_3d with given axes:
     # check if the axes that is saved at plt.gcf().axes is the same that was given
