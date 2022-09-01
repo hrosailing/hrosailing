@@ -1,7 +1,7 @@
 """
 Contains constants used in the pipeline.
 KEYSYNONYMS is a dictionary mapping commonly used sailing terms
-(in lower case and the words are " " seperated)
+(in lower case and the words are " " separated)
 to the hrosailing standard term.
 """
 
