@@ -23,17 +23,17 @@ class Data:
     Iteration is performed over the rows.
 
     Properties
-    ---------
-    keys: list of str,
-        the keys correpponding to the columns
+    ----------
+    keys : list of str
+        The keys corresponding to the columns.
 
-    numerical: numpy.ndarray,
-        an array containing all data of type 'float'
+    numerical : numpy.ndarray
+        An array containing all data of type 'float'.
 
-    n_rows: int,
+    n_rows : int,
         the number of rows
 
-    n_cols: int,
+    n_cols : int,
         the number of columns
     """
     def __init__(self):
