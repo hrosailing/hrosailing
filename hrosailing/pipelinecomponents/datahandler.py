@@ -1,7 +1,7 @@
 """
 Classes used to
 
-Defines the DataHandler Abstract Base Class that can be used to
+Defines the DataHandler abstract base class that can be used to
 create custom
 
 Subclasses of DataHandler can be used with the PolarPipeline class
@@ -28,18 +28,18 @@ from hrosailing.pipelinecomponents.data import Data
 
 class HandlerInitializationException(Exception):
     """Exception raised if an error occurs during
-    initialization of a DataHandler
+    initialization of a `DataHandler`.
     """
 
 
 class HandleException(Exception):
     """Exception raised if an error occurs during
-    calling of the .handle() method
+    calling of the `.handle()`-method.
     """
 
 
 class DataHandler(ABC):
-    """Base class for all datahandler classes
+    """Base class for all datahandler classes.
 
 
     Abstract Methods
@@ -81,7 +81,7 @@ class ArrayHandler(DataHandler):
         Parameters
         ----------
         data : pandas.DataFrame or tuple of array_like and ordered iterable
-            Data contained in a pandas.DataFrame or in an array_like.
+            Data contained in a `pandas.DataFrame` or in an array_like.
 
         Returns
         -------
@@ -92,7 +92,7 @@ class ArrayHandler(DataHandler):
             value being the corresponding column of the array_like.
 
             `statistics` contains the number of created rows and columns
-            as 'n_rows' and 'n_cols' respectively.
+            as `n_rows` and `n_cols` respectively.
 
         Raises
         ------
@@ -148,12 +148,12 @@ class CsvFileHandler(DataHandler):
         Returns
         -------
         data_dict, statistics : dict, dict
-            data_dict is a dictionary having the `hrosailing` standard version of
+            `data_dict` is a dictionary having the `hrosailing` standard version of
             the first row entries as keys and
             as values the corresponding columns given as lists.
 
             `statistics` contains the number of created rows and columns
-            as 'n_rows' and 'n_cols' respectively.
+            as `n_rows` and `n_cols` respectively.
 
         Raises
         ------
@@ -264,7 +264,7 @@ class NMEAFileHandler(DataHandler):
 
     unwanted_sentences : iterable of str, optional
         NMEA sentences that will be ignored.
-        If `wanted_sentences` is set this keyword is ignored.
+        If `wanted_sentences` is set, this keyword is ignored.
         If both `wanted_sentences` and `unwanted_sentences` are `None`,
         all NMEA sentences will be read.
 
@@ -277,13 +277,13 @@ class NMEAFileHandler(DataHandler):
 
     wanted_attributes : iterable of str, optional
         NMEA attributes that will be added to the output dictionary.
-        If set to "numerical" all fields with float values will be read.
+        If set to "numerical", all fields with float values will be read.
 
         Defaults to `None`.
 
     unwanted_attributes : iterable of str, optional
         NMEA attributes that will be ignored.
-        If `wanted_attributes` is set this option is ignored
+        If `wanted_attributes` is set, this option is ignored.
         If both `wanted_sentences` and `unwanted_sentences` are `None`,
         all NMEA sentences will be read.
 
@@ -350,7 +350,7 @@ class NMEAFileHandler(DataHandler):
         statistics : dict
             Contains the number of created rows and columns
             as `n_rows` and `n_cols` respectively.
-            data_dict is a dictionary having the `hrosailing` standard version of the
+            `data_dict` is a dictionary having the `hrosailing` standard version of the
             first row entries as keys and
             as values the corresponding columns given as lists.
 

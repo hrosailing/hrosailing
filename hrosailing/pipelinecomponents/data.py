@@ -28,7 +28,7 @@ class Data:
         The keys corresponding to the columns.
 
     numerical : numpy.ndarray
-        An array containing all data of type 'float'.
+        An array containing all data of type `float`.
 
     n_rows : int
         The number of rows.
@@ -154,7 +154,7 @@ class Data:
 
     def append(self, key, data):
         """
-        Extends the data by a single Element.
+        Extends the data by a single element.
 
         Parameters
         ----------
