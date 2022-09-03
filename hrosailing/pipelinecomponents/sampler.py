@@ -55,7 +55,7 @@ class UniformRandomSampler(Sampler):
 
     def __init__(self, n_samples):
         if n_samples <= 0:
-            raise SamplerInitializationException("`n_samples` is not positive")
+            raise SamplerInitializationException("`n_samples` is nonpositive")
 
         self._n_samples = n_samples
 
@@ -121,7 +121,7 @@ class FibonacciSampler(Sampler):
 
     def __init__(self, n_samples):
         if n_samples <= 0:
-            raise SamplerInitializationException("`n_samples` is not positive")
+            raise SamplerInitializationException("`n_samples` is nonpositive")
 
         self._n_samples = n_samples
 
@@ -188,7 +188,7 @@ class ArchimedianSampler(Sampler):
 
     def __init__(self, n_samples):
         if n_samples <= 0:
-            raise SamplerInitializationException("`n_samples` is not positive")
+            raise SamplerInitializationException("`n_samples` is nonpositive")
 
         self._n_samples = n_samples
 
