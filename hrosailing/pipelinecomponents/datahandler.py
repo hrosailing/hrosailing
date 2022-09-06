@@ -254,7 +254,6 @@ class NMEAFileHandler(DataHandler):
         from pynmea2 import parse
 
         comp_data = Data()
-        ndata = 0
 
         with open(data, "r", encoding="utf-8") as file:
             nmea_sentences = filter(
@@ -276,7 +275,7 @@ class NMEAFileHandler(DataHandler):
                     for name, attribute in wanted_fields
                 }
 
-                processed_dict = self.postprocess(parsed_dict)
+                processed_dict = self._postprocess(parsed_dict)
 
                 comp_data.update(processed_dict)
 
@@ -289,7 +288,7 @@ class NMEAFileHandler(DataHandler):
 
         return comp_data, statistics
 
-    def postprocess(self, parsed_sentence):
+    def _postprocess(self, parsed_sentence):
         if "Wind angle" in parsed_sentence and "Reference" in parsed_sentence and "Wind speed" in parsed_sentence:
             wind_angle = parsed_sentence["Wind angle"]
             wind_speed = parsed_sentence["Wind speed"]
