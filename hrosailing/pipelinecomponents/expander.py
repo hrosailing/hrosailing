@@ -7,9 +7,9 @@ Also contains predefined and usaable smoothers:
 
 from abc import ABC, abstractmethod
 
-import pipelinecomponents as pc
+import hrosailing.pipelinecomponents as pc
 
-from pipelinecomponents.data import Data
+from hrosailing.pipelinecomponents.data import Data
 
 
 class Expander(ABC):
