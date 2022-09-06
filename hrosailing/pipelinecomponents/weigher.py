@@ -384,7 +384,28 @@ class CylindricMemberWeigher(Weigher):
 
 class FluctuationWeigher(Weigher):
     """
-    A weigher that benefits data with (locally) small slopes.
+    A weigher that benefits data with (locally) small fluctuation.
+    For each data point, the weigher considers the standard variation of the data restricted to an interval
+    before and after the datestamp of the considered point.
+    Given an upper bound on the standard variation the weight is computed by a ReLu function mirrored and stretched such
+    that a standard variation of 0 gets the weight 1 and if the standard variation exceeds the upper bound, the weight
+    is set to 0.
+    If more than one numerical attribute is used, the weights described above will be computed for each such attribute
+    and then multiplied.
+
+    Parameter
+    ----------
+    dimensions: list of str
+        The names of the numeric attributes to be considered
+    timespan: timedelta or tuple of two timedelta
+
+        - If it is a single value, the weigher will consider the corresponding duration before the examined
+        data point
+        - If it is a tuple, the weigher will consider points in the interval
+        (`time` - `timespan[0]`, `time` + `timespan[1]`) where `time` is the timestamp of the currently examined data
+        point
+    upper_bounds: list of int or float
+        The upper bounds on the standard deviation for each considered attribute
     """
     def __init__(
         self,
@@ -402,6 +423,13 @@ class FluctuationWeigher(Weigher):
         self._upper_bounds = np.array(upper_bounds)
 
     def weigh(self, points):
+        """
+        Weighs points by the method described above.
+
+        See also
+        ----------
+        `Weigher.weigh`
+        """
         times = points["datetime"]
         self._dimensions, points = _set_points_from_data(points, self._dimensions, False)
 
