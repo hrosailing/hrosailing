@@ -33,8 +33,12 @@ class Sampler(ABC):
     @abstractmethod
     def sample(self, pts):
         """This method should be used, given certain points, to determine a
-        constant number of sample points that lie in the convex hull of `pts`
-        and are more or less representative of the trend of the given points.
+        constant number of sample points that are more or less representative of the trend of the given points.
+
+        Parameter
+        ----------
+        pts : np.ndarray
+            the given data points in a row wise fashion
         """
 
 
