@@ -435,7 +435,6 @@ class Data:
         return str_
 
 
-
 def _try_call_to_float(list_):
     new_list = []
     for i, value in enumerate(list_):

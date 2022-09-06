@@ -2,7 +2,7 @@
 Contains the baseclass for Expanders used in the `PolarPipeline` class,
 that can also be used to create custom Expanders.
 
-Also contains predefined and useable smoothers:
+Also contains predefined and usaable smoothers:
 """
 
 from abc import ABC, abstractmethod
@@ -13,7 +13,7 @@ from pipelinecomponents.data import Data
 
 
 class Expander(ABC):
-    """Base class for all expander classes"""
+    """Base class for all expander classes."""
 
     @abstractmethod
     def expand(self, data):
@@ -22,29 +22,30 @@ class Expander(ABC):
 
         Parameters
         ----------
-        data: dict
-            The data that should be expanded
+        data : dict
+            The data that should be expanded.
 
         Returns
-        -----------
-        data: dict,
-            The processed data
-        statistics: dict,
-            Dictionary containing relevant statistics"""
+        -------
+        data : dict
+            The processed data.
+        statistics : dict
+            Dictionary containing relevant statistics."""
         return data, {}
 
 
 class LazyExpander(Expander):
     """
-    Expander that doesn't do anything
+    Expander that doesn't do anything.
     """
     def expand(self, data):
         return data, {}
 
+
 class WeatherExpander(Expander):
     """
     Expander that uses a weather model to add weather data to given data
-    if the fields `datetime`, `lat` and `lon` are defined
+    if the fields `datetime`, `lat` and `lon` are defined.
     """
 
     def __init__(self, weather_model):

@@ -1,10 +1,10 @@
 """
-Components for the PolarPipeline and PipelineExtension
-classes among other things
+Components for the `PolarPipeline` and `PipelineExtension`
+classes among other things.
 """
 
 from .datahandler import (ArrayHandler, CsvFileHandler, DataHandler,
-                          NMEAFileHandler, MultiDataHandler)
+                          NMEAFileHandler)
 from .filter import BoundFilter, Filter, QuantileFilter
 from .smoother import Smoother, LazySmoother, AffineSmoother
 from .expander import Expander, LazyExpander, WeatherExpander
