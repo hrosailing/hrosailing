@@ -20,7 +20,7 @@ from ._utils import (
 from hrosailing.pipelinecomponents.data import Data
 from hrosailing.pipelinecomponents.constants import NORM_SCALES
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class WeightedPointsInitializationException(Exception):
@@ -392,9 +392,9 @@ class FluctuationWeigher(Weigher):
         timespan,
         upper_bounds
     ):
-        if isinstance(timespan, (int, float, datetime)):
+        if isinstance(timespan, timedelta):
             self._timespan_before = timespan
-            self._timespan_after = 0
+            self._timespan_after = timedelta(seconds=0)
         else:
             self._timespan_before = timespan[0]
             self._timespan_after = timespan[1]
@@ -414,8 +414,8 @@ class FluctuationWeigher(Weigher):
             end_idx = start_idx
             while end_idx + 1 < len(times) and times[end_idx+1] - dt < self._timespan_after:
                 end_idx += 1
-            for key, ub in zip(points.keys(), self._upper_bounds):
-                curr_pts = points[key][start_idx:end_idx+1]
+            for col, ub in enumerate(self._upper_bounds):
+                curr_pts = points[start_idx:end_idx+1, col]
                 std = np.std(curr_pts)
                 if std > ub:
                     weights[curr_idx] = 0

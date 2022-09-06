@@ -19,7 +19,7 @@ from .sampler import (ArchimedianSampler, FibonacciSampler, Sampler,
                       UniformRandomSampler)
 from .weigher import (CylindricMeanWeigher, CylindricMemberWeigher, Weigher,
                       WeightedPoints, AllOneWeigher,
-                      PastFutureFluctuationWeigher, PastFluctuationWeigher,
+                      FluctuationWeigher,
                       FuzzyWeigher, FuzzyVariable)
 from .imputator import FillLocalImputator
 from .injector import ZeroInjector
