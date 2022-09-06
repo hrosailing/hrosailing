@@ -1,7 +1,7 @@
 """
 Classes used to
 
-Defines the DataHandler abstract base class that can be used to
+Defines the `DataHandler` abstract base class that can be used to
 create custom
 
 Subclasses of DataHandler can be used with the PolarPipeline class
@@ -39,7 +39,7 @@ class HandleException(Exception):
 
 
 class DataHandler(ABC):
-    """Base class for all datahandler classes.
+    """Base class for all data handler classes.
 
 
     Abstract Methods
@@ -81,7 +81,7 @@ class ArrayHandler(DataHandler):
         Parameters
         ----------
         data : pandas.DataFrame or tuple of array_like and ordered iterable
-            Data contained in a `pandas.DataFrame` or in an array_like.
+            Data contained in a `pandas.DataFrame` or in an `array_like`.
 
         Returns
         -------
@@ -89,7 +89,7 @@ class ArrayHandler(DataHandler):
             If `data` is a `pandas.DataFrame`, `data_dict` is the output
             of the `DataFrame.to_dict()`-method, otherwise the keys of
             the dict will be the entries of the ordered iterable with the
-            value being the corresponding column of the array_like.
+            value being the corresponding column of the `array_like`.
 
             `statistics` contains the number of created rows and columns
             as `n_rows` and `n_cols` respectively.
@@ -106,7 +106,7 @@ class ArrayHandler(DataHandler):
             arr = np.asarray(arr)
 
             if len(keys) != arr.shape[1]:
-                raise HandleException("Too few keys for data")
+                raise HandleException("Number of keys does not match data")
 
             data_dict = {key: arr[:, i] for i, key in enumerate(keys)}
             data = Data()
@@ -178,77 +178,6 @@ class CsvFileHandler(DataHandler):
 
         statistics = get_datahandler_statistics(data_dict)
         return data_dict, statistics
-
-
-class MultiDataHandler(DataHandler):
-    """A data handler that uses multiple data handlers and weather models
-    in conjunction.
-
-    Parameters
-    -----------
-    ?????
-    """
-    def __init__(self, handlers, weather_models):
-        self._handlers = handlers
-        self._weather_models = weather_models
-
-    def handle(self, data) -> (dict, dict):
-        comp_dict = {}
-        comp_statistics = []
-        for dh, data_entry in zip(self._handlers, data):
-            data_dict, statistics = dh.handle(data_entry)
-            self._update(comp_dict, data_dict)
-            comp_statistics.append(statistics)
-
-        try:
-            coords = zip(
-                comp_dict["lat"],
-                comp_dict["lon"],
-                comp_dict["datetime"]
-            )
-        except KeyError:
-            statistics = {
-                "data_handler_statistics": comp_statistics,
-                "weather_model_statistics":
-                    "coordinates not given in 'lat', 'lon', 'datetime'"
-            }
-            return comp_dict, statistics
-
-        weather_dict = {}
-
-        for lat, lon, time in coords:
-            for wm in self._weather_models:
-                try:
-                    weather = wm.get_weather(lat, lon, time)
-                    weather = {key: [value] for key, value in weather.items()}
-                    self._update(weather_dict, weather)
-                    break
-                except OutsideGridException:
-                    continue
-            self._add_col(weather_dict)
-
-        comp_dict.update(weather_dict)
-
-        statistics = {
-            "data_handler_statistics": comp_statistics,
-            "weather_model_statistics": {}
-        }
-
-        return comp_dict, statistics
-
-    @staticmethod
-    def _update(dict_, data):
-        max_len = max([len(value) for _, value in data.items()])
-        for key, value in data.items():
-            if key not in dict_:
-                dict_[key] = []
-            dict_[key].extend([None]*(max_len - len(dict_[key])))
-            dict_[key].extend(value)
-
-    @staticmethod
-    def _add_col(dict_):
-        for key in dict_.keys():
-            dict_[key].append([None])
 
 
 class NMEAFileHandler(DataHandler):

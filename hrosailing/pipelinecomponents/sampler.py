@@ -17,7 +17,7 @@ from scipy.spatial import ConvexHull
 
 class SamplerInitializationException(Exception):
     """Exception raised if an error occurs during
-    initialization of a Sampler.
+    initialization of a `Sampler` object.
     """
 
 
@@ -70,7 +70,7 @@ class UniformRandomSampler(Sampler):
         Returns
         -------
         samples : numpy.ndarray of shape (n_samples, 2)
-            Samples produced by the above described method.
+            Samples produced by the above described procedure.
         """
         rng = np.random.default_rng()
         proj_pts = pts[:, :2]
@@ -136,7 +136,7 @@ class FibonacciSampler(Sampler):
         Returns
         -------
         samples : numpy.ndarray of shape (n_samples, 2)
-            Samples produced by the above described method.
+            Samples produced by the above described procedure.
         """
         # calculate smallest circle containing pts
         midpoint, r = _make_circle(pts)
@@ -203,7 +203,7 @@ class ArchimedianSampler(Sampler):
         Returns
         -------
         samples : numpy.ndarray of shape (n_samples, 2)
-            Samples produced by the above described method.
+            Samples produced by the above described procedure.
         """
 
         # calculate enclosing circle

@@ -18,15 +18,12 @@ class Data:
     Weights might be added to the corresponding rows.
 
     If `data` is of type `Data`, `data[key]` yields the corresponding column if
-    key is a string and the corresponding column if key is an integer.
+    key is a string and the corresponding row if key is an integer.
     `key in data` checks if there is a column with key `key`.
     Iteration is performed over the rows.
 
     Properties
     ----------
-    keys : list of str
-        The keys corresponding to the columns.
-
     numerical : numpy.ndarray
         An array containing all data of type `float`.
 
@@ -112,9 +109,9 @@ class Data:
         Parameters
         ----------
         key : str
-            The key of the column in which the data should be copied.
+            The key of the column in which the data should be copied (that should be extended by the given data).
         data : list
-            Data that should be copied in the given data.
+            Data that should be appended to the given column.
         """
         data_type = self._get_type(data)
         if key in self._data:
@@ -169,7 +166,7 @@ class Data:
 
     def fill(self, len_=None, keys=None):
         """
-        Fills all rows smaller than a specific length with `None` values.
+        Fills all columns smaller than a specific length with `None` values.
 
         Parameters
         ----------
@@ -201,7 +198,6 @@ class Data:
         Parameters
         ----------
         type_list : list of types
-            List of required types.
         """
         for key in list(self._data.keys()):
             if self._types[key] not in type_list:
@@ -268,7 +264,7 @@ class Data:
 
     def hrosailing_standard_format(self):
         """
-            Reformats data in the `hrosailing` standard format.
+            Reformats data into the `hrosailing` standard format.
 
             This means:
                 - the dictionary has `hrosailing` standard keys whenever possible,
@@ -331,7 +327,7 @@ class Data:
             if type(field) != curr_type:
                 raise ValueError(
                     f"Data has no consistent type."
-                    f"Found {type(field)} and {curr_type}"
+                    f"Found the types {type(field)} and {curr_type}"
                 )
         return curr_type
 
@@ -400,7 +396,7 @@ class Data:
             key : list(np.array(value)[mask]) for key, value in self._data.items()
         }
         try:
-            max_len = max([len(field) for field in self._data.values()])
+            max_len = max([len(field) for field in data.values()])
         except ValueError:
             max_len = 0
 
