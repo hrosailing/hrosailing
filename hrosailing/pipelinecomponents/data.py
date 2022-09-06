@@ -39,6 +39,12 @@ class Data:
         self._max_len = 0
 
     def keys(self):
+        """
+        Returns
+        --------
+        keys: list of str
+            list of all column names
+        """
         return list(self._data.keys())
 
     @property
@@ -56,6 +62,23 @@ class Data:
         return len(self._data)
 
     def rows(self, keys=None, return_type=dict):
+        """
+        Iterates over the rows.
+
+        Parameter
+        ----------
+
+        keys: iterable over str, optional
+            The columns from which the iterator yields. Other columns will be ignored.
+
+            Defaults to `self.keys()`
+
+        return_type: (dict, tuple, list)
+            Defines the type of the yielded data. If types `tuple` or `list` are used, the entries are in the exact same
+            order as in `keys`
+
+            Defaults to `dict`
+        """
         if keys is None:
             keys = self.keys()
         for i in range(self._max_len):
@@ -155,6 +178,8 @@ class Data:
 
         Parameters
         ----------
+        key: str
+            The key of the column to which the given data should be appended.
         data : object
             Single data object to be appended.
 
@@ -250,6 +275,15 @@ class Data:
                 self._max_len -= len(key)
 
     def strip(self, mode):
+        """
+        Removes either columns that only consists of `None` values or leading and tailing rows consisting only of `None`
+        values
+
+        Parameter
+        ----------
+        mode: ("cols", "rows")
+            Specifies wether columns or rows should be removed.
+        """
         if mode == "cols":
             self._data = {key: value for key, value in self._data.items()
                          if not all([v is None for v in value])}
