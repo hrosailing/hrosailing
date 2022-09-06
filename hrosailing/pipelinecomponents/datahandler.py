@@ -324,6 +324,10 @@ class NMEAFileHandler(DataHandler):
 def get_datahandler_statistics(data):
     """
     Computes standard statistics for the output of a data handler.
+
+    Parameter
+    --------
+    data: Data
     """
     return {
         "n_rows": data.n_rows,
