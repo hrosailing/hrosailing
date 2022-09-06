@@ -20,6 +20,9 @@ from ._utils import (
 from hrosailing.pipelinecomponents.data import Data
 from hrosailing.pipelinecomponents.constants import NORM_SCALES
 
+from datetime import datetime
+
+
 class WeightedPointsInitializationException(Exception):
     """Exception raised if an error occurs during
     initialization of WeightedPoints
@@ -379,111 +382,161 @@ class CylindricMemberWeigher(Weigher):
         return points_in_cylinder
 
 
-class PastFluctuationWeigher(Weigher):
-    """STILL A WIP"""
-
-    def __init__(self, timespan=13, dimensions=None):
-        self.timespan = timespan
+class FluctuationWeigher(Weigher):
+    """
+    A weigher that benefits data with (locally) small slopes.
+    """
+    def __init__(
+        self,
+        dimensions,
+        timespan,
+        upper_bounds
+    ):
+        if isinstance(timespan, (int, float, datetime)):
+            self._timespan_before = timespan
+            self._timespan_after = 0
+        else:
+            self._timespan_before = timespan[0]
+            self._timespan_after = timespan[1]
         self._dimensions = dimensions
+        self._upper_bounds = np.array(upper_bounds)
 
     def weigh(self, points):
-        """WIP"""
-        recording_times = np.array(points["datetime"])
-        self._dimensions, points = _set_points_from_data(points, self._dimensions)
-        weights = [
-            self._calculate_weight(i, points, recording_times)
-            for i in range(len(points))
-        ]
-        weights = np.array(weights)
-        weights = len(weights) * _normalize(
-            weights, np.sum
-        )
-        statistics = get_weight_statistics(weights)
-        return weights, statistics
+        times = points["datetime"]
+        self._dimensions, points = _set_points_from_data(points, self._dimensions, False)
 
-    def _calculate_weight(self, index, points, recording_times):
-        in_time_interval = self._get_points_in_time_interval(
-            index, recording_times
-        )
-        s2 = np.std(points[in_time_interval]) ** 2
-        return 1/s2 if s2>0 else 0
+        weights = [1]*len(points)
+        start_idx = 0
 
-    def _get_points_in_time_interval(self, index, recording_times):
-        reference_time = recording_times[index]
-        times_up_to_reference_time = recording_times[:index]
-        return [
-            i
-            for i, time in enumerate(times_up_to_reference_time)
-            if self._in_time_interval(time, reference_time)
-        ]
-
-    def _in_time_interval(self, time, reference_time):
-        time_difference = reference_time - time
-        return time_difference.total_seconds() <= self.timespan
-
-
-class PastFutureFluctuationWeigher(Weigher):
-    """STILL A WIP"""
-
-    def __init__(self, timespan=6, dimensions=None):
-        self.timespan = timespan
-        self._dimensions = dimensions
-
-    def weigh(self, points):
-        """WIP"""
-        if not isinstance(points, Data):
-            raise WeighingException(
-                "PastFluctuationWeigher can only be used as a Pre Weigher"
-            )
-        recording_times = np.array(points["datetime"])
-        self._dimensions, points = _set_points_from_data(points, self._dimensions)
-        weights = [
-            self._calculate_weight(time, points, recording_times)
-            for time in recording_times
-        ]
-        weights = np.array(weights)
-        weights = len(weights) * _normalize(
-            weights, np.sum
-        )
+        for curr_idx, (dt, pt) in enumerate(zip(times, points)):
+            while dt - times[start_idx] > self._timespan_before:
+                start_idx += 1
+            end_idx = start_idx
+            while end_idx + 1 < len(times) and times[end_idx+1] - dt < self._timespan_after:
+                end_idx += 1
+            for key, ub in zip(points.keys(), self._upper_bounds):
+                curr_pts = points[key][start_idx:end_idx+1]
+                std = np.std(curr_pts)
+                if std > ub:
+                    weights[curr_idx] = 0
+                else:
+                    weights[curr_idx] *= (ub - std)/ub
 
         statistics = get_weight_statistics(weights)
+
         return weights, statistics
 
-    def _calculate_weight(self, reference_time, points, recording_times):
-        in_time_interval = self._get_points_in_time_interval(
-            reference_time, recording_times
-        )
-        return 1 / np.std(points[in_time_interval]) ** 2
-
-    def _get_points_in_time_interval(self, reference_time, recording_times):
-        return [
-            i
-            for i, time in enumerate(recording_times)
-            if self._in_time_interval(time, reference_time)
-        ]
-
-    def _in_time_interval(self, time, reference_time):
-        time_difference = (
-            reference_time - time
-            if time <= reference_time
-            else time - reference_time
-        )
-        return time_difference.total_seconds() <= self.timespan
 
 
-def _set_points_from_data(data, dimensions):
+
+# class PastFluctuationWeigher(Weigher):
+#     """STILL A WIP"""
+#
+#     def __init__(self, timespan=13, dimensions=None):
+#         self.timespan = timespan
+#         self._dimensions = dimensions
+#
+#     def weigh(self, points):
+#         """WIP"""
+#         recording_times = np.array(points["datetime"])
+#         self._dimensions, points = _set_points_from_data(points, self._dimensions)
+#         weights = [
+#             self._calculate_weight(i, points, recording_times)
+#             for i in range(len(points))
+#         ]
+#         weights = np.array(weights)
+#         weights = len(weights) * _normalize(
+#             weights, np.sum
+#         )
+#         statistics = get_weight_statistics(weights)
+#         return weights, statistics
+#
+#     def _calculate_weight(self, index, points, recording_times):
+#         in_time_interval = self._get_points_in_time_interval(
+#             index, recording_times
+#         )
+#         s2 = np.std(points[in_time_interval]) ** 2
+#         return 1/s2 if s2>0 else 0
+#
+#     def _get_points_in_time_interval(self, index, recording_times):
+#         reference_time = recording_times[index]
+#         times_up_to_reference_time = recording_times[:index]
+#         return [
+#             i
+#             for i, time in enumerate(times_up_to_reference_time)
+#             if self._in_time_interval(time, reference_time)
+#         ]
+#
+#     def _in_time_interval(self, time, reference_time):
+#         time_difference = reference_time - time
+#         return time_difference.total_seconds() <= self.timespan
+#
+#
+# class PastFutureFluctuationWeigher(Weigher):
+#     """STILL A WIP"""
+#
+#     def __init__(self, timespan=6, dimensions=None):
+#         self.timespan = timespan
+#         self._dimensions = dimensions
+#
+#     def weigh(self, points):
+#         """WIP"""
+#         if not isinstance(points, Data):
+#             raise WeighingException(
+#                 "PastFluctuationWeigher can only be used as a Pre Weigher"
+#             )
+#         recording_times = np.array(points["datetime"])
+#         self._dimensions, points = _set_points_from_data(points, self._dimensions)
+#         weights = [
+#             self._calculate_weight(time, points, recording_times)
+#             for time in recording_times
+#         ]
+#         weights = np.array(weights)
+#         weights = len(weights) * _normalize(
+#             weights, np.sum
+#         )
+#
+#         statistics = get_weight_statistics(weights)
+#         return weights, statistics
+#
+#     def _calculate_weight(self, reference_time, points, recording_times):
+#         in_time_interval = self._get_points_in_time_interval(
+#             reference_time, recording_times
+#         )
+#         return 1 / np.std(points[in_time_interval]) ** 2
+#
+#     def _get_points_in_time_interval(self, reference_time, recording_times):
+#         return [
+#             i
+#             for i, time in enumerate(recording_times)
+#             if self._in_time_interval(time, reference_time)
+#         ]
+#
+#     def _in_time_interval(self, time, reference_time):
+#         time_difference = (
+#             reference_time - time
+#             if time <= reference_time
+#             else time - reference_time
+#         )
+#         return time_difference.total_seconds() <= self.timespan
+
+
+def _set_points_from_data(data, dimensions, reduce=True):
     if isinstance(data, np.ndarray):
-        return dimensions, data[:, :-1]
+        if reduce:
+            return dimensions, data[:, :-1]
+        return dimensions, data
 
     if dimensions is None:
         dimensions = list(data.keys()) or list(data.keys)
     else:
         dimensions = dimensions
 
-    if "BSP" in dimensions:
-        dimensions.remove("BSP")
-    if "SOG" in dimensions:
-        dimensions.remove("SOG")
+    if reduce:
+        if "BSP" in dimensions:
+            dimensions.remove("BSP")
+        if "SOG" in dimensions:
+            dimensions.remove("SOG")
 
     if isinstance(data, dict):
         return dimensions, data_dict_to_numpy(data, dimensions)
