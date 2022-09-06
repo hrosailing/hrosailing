@@ -4,7 +4,7 @@ Classes used to
 Defines the `DataHandler` abstract base class that can be used to
 create custom
 
-Subclasses of DataHandler can be used with the PolarPipeline class
+Subclasses of `DataHandler` can be used with the `PolarPipeline` class
 in the `hrosailing.pipeline` module.
 """
 

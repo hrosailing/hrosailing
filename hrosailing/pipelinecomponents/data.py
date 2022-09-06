@@ -109,7 +109,7 @@ class Data:
         Parameters
         ----------
         key : str
-            The key of the column in which the data should be copied (that should be extended by the given data).
+            The key of the column that should be extended by the given data.
         data : list
             Data that should be appended to the given column.
         """
