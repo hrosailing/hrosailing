@@ -351,11 +351,9 @@ class PolarDiagramCurveTest(unittest.TestCase):
                 helper_functions.test_comparing_plot_kw(self, i)
 
     # test not finished:
-    # check if the points that result from plt.gca().collections[0]._vec[0],
-    # plt.gca().collections[0]._vec[1] and plt.gca().collections[0]._vec[2] correspond to
-    # the points out of the wind speeds of the polar diagram, bsp * math.sin(wa) and
-    # bsp * math.cos(wa)
-    # not working yet because get_slices and plot_3d have a differing grain size
+    # check if the data of the matplotlib axes corresponds to a 3-dimensional polar plot of the
+    # polar diagram self.c
+    # not working yet because get_slices and plot_3d probably have differing return values
     # def test_plot_3d(self):
         # plt.close()
         # self.c.plot_3d()
