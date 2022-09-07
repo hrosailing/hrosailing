@@ -9,38 +9,38 @@ class Injector(ABC):
     @abstractmethod
     def inject(self, weighted_points):
         """Method that should produce artificial weighted data points
-        supposed to be appended to the original data"""
+        supposed to be appended to the original data."""
 
 
 class ZeroInjector(Injector):
     """
-    Injector which adds a fixed number points with 0 boat speed
+    Injector which adds a fixed number of points with 0 boat speed.
 
-    Parameter
-    --------
-    n_zeros: int,
-        number of artificial points to be added at 0 degree and at 360 degree
-        respectively
+    Parameters
+    ----------
+    n_zeros : int
+        Number of artificial points to be added at 0 degree and at 360 degree
+        respectively.
     """
 
     def __init__(self, n_zeros):
         self.n_zeros = n_zeros
 
     def inject(self, weighted_points):
-        """Adds 'n_zeros' points equally distributed in the TWS dimension with
+        """Adds `n_zeros` points equally distributed in the `TWS` dimension with
         boat speed 0 and wind angle 0 and 360 respectively.
 
 
-        Parameter
-        --------
-        weighted_points: WeightedPoints,
-            the original preprocessed points
+        Parameters
+        ----------
+        weighted_points : WeightedPoints
+            The original preprocessed points.
 
         Returns
         -------
-        app_points, statistics: WeightedPoints, dict
-            points to append to the original points
-            'statistics' is empty
+        app_points, statistics : WeightedPoints, dict
+            Points to append to the original points.
+            `statistics` is empty.
 
         """
 

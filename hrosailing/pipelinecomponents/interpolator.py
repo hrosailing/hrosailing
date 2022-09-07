@@ -1,15 +1,15 @@
 """
-Classes used for modular modeling of different interpolation methods
+Classes used for modular modeling of different interpolation methods.
 
-Defines the Interpolator Abstract Base Class that can be used to
-create custom interpolation methods
+Defines the `Interpolator` abstract base class that can be used to
+create custom interpolation methods.
 
-Subclasses of Interpolator can be used with
+Subclasses of `Interpolator` can be used with
 
-- the TableExtension and PointcloudExtension class in the
-hrosailing.pipeline module
-- the __call__ method of the PolarDiagramTable and PolarDiagramPointcloud
-class in the hrosailing.polardiagram module
+- the `TableExtension` and `PointcloudExtension` classes in the
+`hrosailing.pipeline` module,
+- the `__call__`-method of the `PolarDiagramTable` and `PolarDiagramPointcloud`
+classes in the `hrosailing.polardiagram` module.
 """
 
 
@@ -24,31 +24,31 @@ from .neighbourhood import Neighbourhood
 
 class InterpolatorInitializationException(Exception):
     """Exception raised if an error occurs during
-    initialization of an Interpolator
+    initialization of an `Interpolator`.
     """
 
 
 class Interpolator(ABC):
-    """Base class for all Interpolator classes
+    """Base class for all `Interpolator` classes.
 
 
     Abstract Methods
     ----------------
-    interpolate(self, w_pts)
+    interpolate(self, w_pts, grid_pt)
     """
 
     @abstractmethod
     def interpolate(self, w_pts, grid_pt):
-        """This method should be used, given a point grid_pt and an
-        instances of WeightedPoints, to determine the z-value at grid_pt,
-        based on the z-values of the points in the WeightedPoints instance
+        """This method should be used, given a point `grid_pt` and an
+        instances of `WeightedPoints`, to determine the z-value at `grid_pt`,
+        based on the z-values of the points in the `WeightedPoints` instance.
         """
 
 
 class IDWInterpolator(Interpolator):
     """Basic inverse distance interpolator, based on the work
     of Shepard, "A two-dimensional interpolation function
-    for irregulary-spaced data"
+    for irregularly-spaced data"
 
     For a given point grid_pt, that is to be interpolated, we
     calculate the distances d_pt = ||grid-pt - pt[:2]|| for all considered
@@ -61,7 +61,7 @@ class IDWInterpolator(Interpolator):
     Parameters
     ----------
     p : nonnegative int, optional
-        Defaults to 2
+        Defaults to `2`
 
     norm : function or callable, optional
         Norm with which to calculate the distances, ie ||.||
@@ -221,7 +221,7 @@ class ArithmeticMeanInterpolator(Interpolator):
 class ImprovedIDWInterpolator(Interpolator):
     """An improved inverse distance interpolator, based
     on the work of Shepard, "A two-dimensional interpolation
-    function for irregulary-spaced data"
+    function for irregularly-spaced data"
 
     Instead of setting the weights as the normal inverse distance
     to some power, we set the weights in the following way:

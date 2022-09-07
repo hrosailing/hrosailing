@@ -1,12 +1,12 @@
 """
 Classes used for modular modeling of different filtering methods based
-on weights
+on weights.
 
-Defines the Filter Abstract Base Class that can be used to create
-custom filtering methods
+Defines the `Filter` abstract base class that can be used to create
+custom filtering methods.
 
-Subclasses of Filter can be used with the PolarPipeline class
-in the hrosailing.pipeline module
+Subclasses of `Filter` can be used with the `PolarPipeline` class
+in the `hrosailing.pipeline` module.
 """
 
 
@@ -26,12 +26,12 @@ def get_filter_statistics(filtered_points):
 
 class FilterInitializationException(Exception):
     """Exception raised if an error occurs during
-    initialization of a Filter
+    initialization of a `Filter`.
     """
 
 
 class Filter(ABC):
-    """Base class for all filter classes
+    """Base class for all filter classes.
 
 
     Abstract Methods
@@ -43,26 +43,26 @@ class Filter(ABC):
     def filter(self, wts):
         """This method should be used, given an array of weights,
         to filter out points based on their weights, and produce a
-        boolean array of the same size as wts and a dictionary containing
-        statistics
+        boolean array of the same size as `wts` and a dictionary containing
+        statistics.
         """
 
 
 class QuantileFilter(Filter):
-    """A filter that filteres all points based on if their
-    resp. weight lies above a certain quantile
+    """A filter that filters all points based on if their
+    resp. weight lies above a certain quantile.
 
     Parameters
     ----------
-    percent: int or float, optional
-        The quantile to be calculated
+    percent : int or float, optional
+        The quantile to be calculated.
 
-        Defaults to `25`
+        Defaults to `25`.
 
     Raises
     ------
     FilterInitializationException
-        If percent is not in the interval [0, 100]
+        If percent is not in the interval [0, 100].
     """
 
     def __init__(self, percent=50):
@@ -78,19 +78,19 @@ class QuantileFilter(Filter):
 
     def filter(self, wts):
         """Filters a set of points given by their resp. weights
-        according to the above described method
+        according to the above described method.
 
         Parameters
         ----------
         wts : numpy.ndarray of shape (n,)
             Weights of the points that are to be filtered, given
-            as a sequence of scalars
+            as a sequence of scalars.
 
         Returns
         -------
         filtered_points : numpy.ndarray of shape (n,)
             Boolean array describing which points are filtered
-            depending on their resp. weight
+            depending on their resp. weight.
         """
         filtered_points = self._calculate_quantile(wts)
 
@@ -104,24 +104,24 @@ class QuantileFilter(Filter):
 
 class BoundFilter(Filter):
     """A filter that filters all points based on if their
-    weight is outside an interval given by a lower and upper bound
+    weight is outside an interval given by a lower and an upper bound.
 
     Parameters
     ----------
     upper_bound : int or float, optional
-        The upper bound for the filter
+        The upper bound for the filter.
 
-        Defaults to `1`
+        Defaults to `1`.
 
     lower_bound : int or float, optional
-        The lower bound for the filter
+        The lower bound for the filter.
 
-        Defaults to `0.5`
+        Defaults to `0.5`.
 
     Raises
     ------
     FilterInitializationException
-        If lower_bound is greater than upper_bound
+        If `lower_bound` is greater than `upper_bound`.
     """
 
     def __init__(self, upper_bound=1, lower_bound=0.5):
@@ -138,19 +138,19 @@ class BoundFilter(Filter):
 
     def filter(self, wts):
         """Filters a set of points given by their resp. weights
-        according to the above described method
+        according to the above described method.
 
         Parameters
         ----------
         wts : numpy.ndarray of shape (n,)
             Weights of the points that are to be filtered, given
-            as a sequence of scalars
+            as a sequence of scalars.
 
         Returns
         -------
         filtered_points : numpy.ndarray of shape (n,)
-            Boolean array describing with points are filtered
-            depending on their resp. weight
+            Boolean array describing which points are filtered
+            depending on their resp. weight.
         """
         filtered_points = self._determine_points_within_bound(wts)
 

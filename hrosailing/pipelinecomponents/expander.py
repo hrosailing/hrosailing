@@ -39,7 +39,7 @@ class LazyExpander(Expander):
     def expand(self, data):
         """
         See also
-        ----------
+        --------
         `Expander.expand`
         """
         return data, {}
@@ -50,11 +50,10 @@ class WeatherExpander(Expander):
     Expander that uses a weather model to add weather data to given data
     if the fields `datetime`, `lat` and `lon` are defined.
 
-    Parameter
-    --------
-
-    weather_model: WeatherModel
-        A suitable weather model (yielding weather information for the required times, lattitudes and longitudes)
+    Parameters
+    ----------
+    weather_model : WeatherModel
+        A suitable weather model (yielding weather information for the required times, latitudes and longitudes).
     """
 
     def __init__(self, weather_model):
@@ -62,10 +61,10 @@ class WeatherExpander(Expander):
 
     def expand(self, data):
         """
-        Expands given data by the method described above
+        Expands given data by the method described above.
         
         See also
-        -------
+        --------
         `Expander.expand`
         """
         weather_data = [
