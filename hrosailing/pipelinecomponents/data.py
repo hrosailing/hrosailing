@@ -7,7 +7,7 @@ from datetime import datetime
 
 from decimal import Decimal
 
-from hrosailing.pipelinecomponents.constants import KEYSYNONYMS, SEPERATORS
+from hrosailing.pipelinecomponents.constants import KEYSYNONYMS, SEPARATORS
 
 
 class Data:
@@ -307,7 +307,7 @@ class Data:
         """
         def standard_key(key):
             lkey = key.lower()
-            for sep in SEPERATORS:
+            for sep in SEPARATORS:
                 lkey = lkey.replace(sep, " ")
             lkey = lkey.strip()
             # remove plural

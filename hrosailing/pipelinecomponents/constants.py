@@ -1,8 +1,13 @@
 """
 Contains constants used in the pipeline.
-KEYSYNONYMS is a dictionary mapping commonly used sailing terms
+
+- KEYSYNONYMS is a dictionary mapping commonly used sailing terms
 (in lower case and the words are " " separated)
 to the `hrosailing` standard term.
+- SEPARATORS is a list containing characters that will be interpreted as separators between words when applying hrosailing
+standard format
+- NORM_SCALES is a dictionary containing suggested scale factors for various hrosailing standard keywords. These scales
+are intended to be used to scale components before applying a norm
 """
 
 KEYSYNONYMS = {
@@ -97,7 +102,7 @@ KEYSYNONYMS = {
     "tsun": "total sunshine"
 }
 
-SEPERATORS = ["_", "-", "+", "&", "\n", "\t"]
+SEPARATORS = ["_", "-", "+", "&", "\n", "\t"]
 
 NORM_SCALES = {
     "TWS": 1/20,
