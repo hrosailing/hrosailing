@@ -2,7 +2,7 @@
 Contains the baseclass for Expanders used in the `PolarPipeline` class,
 that can also be used to create custom Expanders.
 
-Also contains predefined and usaable smoothers:
+Also contains predefined and usable smoothers:
 """
 
 from abc import ABC, abstractmethod

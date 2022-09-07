@@ -38,7 +38,7 @@ class Sampler(ABC):
         Parameter
         ----------
         pts : np.ndarray
-            the given data points in a row wise fashion
+            The given data points in a row-wise fashion.
         """
 
 

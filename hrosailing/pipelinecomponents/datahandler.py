@@ -50,21 +50,21 @@ class DataHandler(ABC):
         """This method should be used to interpret given data in a format
         that is dependent on the handler.
 
-        We recommend using the `hrosailing.pipelinecomponents.data.Data.hrosailing_standard_format` method
+        We recommend using the `hrosailing.pipelinecomponents.data.Data.hrosailing_standard_format`-method
         at the end of your custom handler for compatibility with other built in components.
 
         Parameters
         ----------
         data :
-            Data in a format compatible to the inheriting handler
+            Data in a format compatible to the inheriting handler.
 
         Returns
         -------
         data : Data
-            The interpreted data in hrosailing format
+            The interpreted data in hrosailing format.
 
         statistics : dict
-            relevant statistics. If not stated otherwise contains the number of created rows and columns
+            Relevant statistics. If not stated otherwise contains the number of created rows and columns
             as `n_rows` and `n_cols` respectively.
         """
 
@@ -89,17 +89,17 @@ class ArrayHandler(DataHandler):
         Parameters
         ----------
         data : pandas.DataFrame or tuple of array_like and ordered iterable
-            If given as a tuple, the array_like should contain the values organized in such a way, that the columns
+            If given as a tuple, the `array_like` should contain the values organized in such a way, that the columns
             correspond to different attributes and the rows to different data points.
             In this case, the ordered iterable should contain the names of the attributes corresponding to the columns.
 
         Raises
         ------
         HandleException
-            if the given array_like has a different number of columns as attributes are given
+            If the given `array_like` has a different number of columns as attributes are given.
 
         See also
-        ---------
+        --------
         `Datahandler.handle`
         """
         if self.pand and isinstance(data, self.pd.DataFrame):
@@ -125,7 +125,7 @@ class ArrayHandler(DataHandler):
 class CsvFileHandler(DataHandler):
     """A data handler to extract data from a .csv file.
 
-    .csv file should be ordered in a column-wise fashion, with the
+    The .csv file should be ordered in a column-wise fashion, with the
     first row describing the attributes corresponding to each column.
     """
 
@@ -171,7 +171,7 @@ class NMEAFileHandler(DataHandler):
     certain NMEA sentences and convert it to a dictionary.
 
     Parameters
-    ---------
+    ----------
     wanted_sentences : iterable of str, optional
         NMEA sentences that will be read.
 
@@ -239,16 +239,16 @@ class NMEAFileHandler(DataHandler):
         self._post_filter_types = post_filter_types
 
     def handle(self, data) -> (dict, dict):
-        """Reads a text file containing NMEA-sentences and extracts
+        """Reads a text file containing NMEA sentences and extracts
         data points.
 
         Parameters
         ----------
         data : path-like
-            Path to a text file, containing NMEA 0183 sentences.
+            Path to a text file that contains NMEA 0183 sentences.
 
         See also
-        ---------
+        --------
         `DataHandler.handle`
         """
         from pynmea2 import parse
@@ -325,8 +325,8 @@ def get_datahandler_statistics(data):
     """
     Computes standard statistics for the output of a data handler.
 
-    Parameter
-    --------
+    Parameters
+    ----------
     data: Data
     """
     return {

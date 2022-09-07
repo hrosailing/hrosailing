@@ -41,9 +41,9 @@ class Data:
     def keys(self):
         """
         Returns
-        --------
-        keys: list of str
-            list of all column names
+        -------
+        keys : list of str
+            List of all column names.
         """
         return list(self._data.keys())
 
@@ -65,19 +65,18 @@ class Data:
         """
         Iterates over the rows.
 
-        Parameter
+        Parameters
         ----------
-
-        keys: iterable over str, optional
+        keys : iterable over str, optional
             The columns from which the iterator yields. Other columns will be ignored.
 
-            Defaults to `self.keys()`
+            Defaults to `self.keys()`.
 
-        return_type: (dict, tuple, list)
+        return_type : dict, tuple or list
             Defines the type of the yielded data. If types `tuple` or `list` are used, the entries are in the exact same
-            order as in `keys`
+            order as in `keys`.
 
-            Defaults to `dict`
+            Defaults to `dict`.
         """
         if keys is None:
             keys = self.keys()
@@ -178,7 +177,7 @@ class Data:
 
         Parameters
         ----------
-        key: str
+        key : str
             The key of the column to which the given data should be appended.
         data : object
             Single data object to be appended.
@@ -276,13 +275,13 @@ class Data:
 
     def strip(self, mode):
         """
-        Removes either columns that only consists of `None` values or leading and tailing rows consisting only of `None`
-        values
+        Removes either columns that only consist of `None` values or leading and tailing rows consisting only of `None`
+        values.
 
-        Parameter
+        Parameters
         ----------
-        mode: ("cols", "rows")
-            Specifies wether columns or rows should be removed.
+        mode : {"cols", "rows"}
+            Specifies whether columns or rows should be removed.
         """
         if mode == "cols":
             self._data = {key: value for key, value in self._data.items()
@@ -398,7 +397,7 @@ class Data:
 
         Parameters
         ----------
-        slice: object with method `__contains__`
+        slice : object with method `__contains__`
 
         Returns
         -------
@@ -423,7 +422,7 @@ class Data:
 
         Parameters
         ----------
-        mask: iterable of booleans
+        mask : iterable of booleans
         """
 
         data = {
@@ -448,7 +447,7 @@ class Data:
             return self.mask_rows(item)
         if type_ is str:
             return self.get_slice(item)
-        raise TypeError(f"Only types int, str and iterables over bool, np.bool_ or str are supported")
+        raise TypeError(f"Only types `int`, `str` and iterables over `bool`, `np.bool_` or `str` are supported")
 
     def __contains__(self, item):
         return item in self._data
