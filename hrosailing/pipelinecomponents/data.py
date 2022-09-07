@@ -288,13 +288,13 @@ class Data:
             self._data = {key: value for key, value in self._data.items()
                          if not all([v is None for v in value])}
         elif mode == "rows":
-            n_leading_none = min(
-                [i for i in range(self._max_len) if all([self[key][i] is None for key in self.keys])]
-            )
-            n_ending_none = max(
-                [i for i in range(self._max_len) if all([self[key][i] is not None for key in self.keys])]
-            )
-            self._data = {key: value[n_leading_none:n_ending_none+1] for key, value in self._data.items()}
+            end_leading_nones = 0 # first index AFTER leading None rows
+            start_tailing_nones = self._max_len -1 # first index BEFORE tailing None rows
+            while all([self[key][end_leading_nones] is None for key in self.keys()]):
+                end_leading_nones += 1
+            while all([self[key][start_tailing_nones] is None for key in self.keys()]):
+                start_tailing_nones -= 1
+            self._data = {key: value[end_leading_nones:start_tailing_nones+1] for key, value in self._data.items()}
 
     def hrosailing_standard_format(self):
         """

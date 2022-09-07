@@ -46,7 +46,7 @@ class DataHandler(ABC):
     """
 
     @abstractmethod
-    def handle(self, data) -> (hrosailing.pipelinecomponents.data.Data, dict):
+    def handle(self, data):
         """This method should be used to interpret given data in a format
         that is dependent on the handler.
 
