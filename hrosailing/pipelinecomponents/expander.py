@@ -7,8 +7,6 @@ Also contains predefined and usaable smoothers:
 
 from abc import ABC, abstractmethod
 
-import hrosailing.pipelinecomponents as pc
-
 from hrosailing.pipelinecomponents.data import Data
 
 
@@ -39,6 +37,11 @@ class LazyExpander(Expander):
     Expander that doesn't do anything.
     """
     def expand(self, data):
+        """
+        See also
+        ----------
+        `Expander.expand`
+        """
         return data, {}
 
 
@@ -46,12 +49,25 @@ class WeatherExpander(Expander):
     """
     Expander that uses a weather model to add weather data to given data
     if the fields `datetime`, `lat` and `lon` are defined.
+
+    Parameter
+    --------
+
+    weather_model: WeatherModel
+        A suitable weather model (yielding weather information for the required times, lattitudes and longitudes)
     """
 
     def __init__(self, weather_model):
         self._weather_model = weather_model
 
     def expand(self, data):
+        """
+        Expands given data by the method described above
+        
+        See also
+        -------
+        `Expander.expand`
+        """
         weather_data = [
             self._weather_model.get_weather([datetime, lat, lon])
             for datetime, lat, lon in data.rows(
