@@ -48,20 +48,20 @@ class Interpolator(ABC):
 class IDWInterpolator(Interpolator):
     """Basic inverse distance interpolator, based on the work
     of Shepard, "A two-dimensional interpolation function
-    for irregularly-spaced data"
+    for irregularly-spaced data".
 
     For a given point grid_pt, that is to be interpolated, we
     calculate the distances d_pt = ||grid-pt - pt[:2]|| for all considered
     measured points. Then we set the weights of a point pt to be
-    w_pt = 1 / d_pt^p, for some nonnegative integer p
+    w_pt = 1 / d_pt^p, for some nonnegative integer p.
 
     The interpolated value on grid_pt then equals (Σ w_pt pt[2]) / Σ w_pt
-    or if grid_pt is already a measured point pt*, it will equal pt*[2]
+    or if grid_pt is already a measured point pt*, it will equal pt*[2].
 
     Parameters
     ----------
     p : nonnegative int, optional
-        Defaults to `2`
+        Defaults to `2`.
 
     norm : function or callable, optional
         Norm with which to calculate the distances, ie ||.||
@@ -72,7 +72,7 @@ class IDWInterpolator(Interpolator):
     Raises
     ------
     InterpolatorInitializationException
-        If p is negative
+        If `p` is negative.
     """
 
     def __init__(self, p=2, norm: Callable = scaled_euclidean_norm):
@@ -87,20 +87,20 @@ class IDWInterpolator(Interpolator):
 
     def interpolate(self, w_pts, grid_pt):
         """Interpolates a given grid_pt according to the
-        above described method
+        above described method.
 
         Parameters
         ----------
         w_pts : WeightedPoints
-            Considered measured points
+            Considered measured points.
 
         grid_pt : numpy.ndarray of shape (2,)
-            Point that is to be interpolated
+            Point that is to be interpolated.
 
         Returns
         -------
         out : int / float
-            Interpolated value at grid_pt
+            Interpolated value at grid_pt.
         """
         pts = w_pts.points
         wts = self._norm(pts[:, :2] - grid_pt)
@@ -121,28 +121,28 @@ def _gauss_potential(distances, weights, *params):
 
 class ArithmeticMeanInterpolator(Interpolator):
     """An Interpolator that gets the interpolated value according
-    to the following procedure
+    to the following procedure.
 
     First the distance of the independent variables of all considered
     points and of the to interpolate point is calculated, ie
     || p[:2] - grid_pt ||
     Then using a distribution, new weights are calculated based on
     the old weights, the previously calculated distances and other
-    parameters depending on the distribution
+    parameters depending on the distribution.
 
     The value of the dependent variable of the interpolated point then equals
     s * (Σ w_p * p) / Σ w_p
-    where s is an additional scaling factor
+    where s is an additional scaling factor.
 
-    In fact it is a more general approach to the inverse distance
-    interpolator
+    In fact, it is a more general approach to the inverse distance
+    interpolator.
 
     Parameters
     ----------
     s : positive int or float, optional
-        Scaling factor for the arithmetic mean,
+        Scaling factor for the arithmetic mean.
 
-        Defaults to 1
+        Defaults to `1`.
 
     norm : function or callable, optional
         Norm with which to calculate the distances, ie ||.||
@@ -154,19 +154,19 @@ class ArithmeticMeanInterpolator(Interpolator):
         Function with which to calculate the updated weights.
 
         Should have the signature
-        f(distances, old_weights, *parameters) -> new_weights
+        f(distances, old_weights, *parameters) -> new_weights.
 
         If nothing is passed, it will default to gauss_potential, which
         calculated weights based on the formula
-        β * exp(-α * old_weights * distances)
+        β * exp(-α * old_weights * distances).
 
-    params:
-        Parameters to be passed to distribution
+    params :
+        Parameters to be passed to `distribution`.
 
     Raises
     ------
     InterpolatorInitializationException
-        If s is nonpositive
+        If `s` is nonpositive.
     """
 
     def __init__(
@@ -177,7 +177,7 @@ class ArithmeticMeanInterpolator(Interpolator):
         distribution: Callable = _gauss_potential,
     ):
         if s <= 0:
-            raise InterpolatorInitializationException("`s` is not positive")
+            raise InterpolatorInitializationException("`s` is nonpositive")
 
         self._s = s
         self._norm = norm
@@ -191,21 +191,21 @@ class ArithmeticMeanInterpolator(Interpolator):
         )
 
     def interpolate(self, w_pts, grid_pt):
-        """Interpolates a given grid_pt according to the
-        above described method
+        """Interpolates a given `grid_pt` according to the
+        above described method.
 
         Parameters
         ----------
         w_pts : WeightedPoints
-            Considered measured points
+            Considered measured points.
 
         grid_pt : numpy.ndarray of shape (2,)
-            Point that is to be interpolated
+            Point that is to be interpolated.
 
         Returns
         -------
         out : int / float
-            Interpolated value at grid_pt
+            Interpolated value at `grid_pt`.
         """
         pts = w_pts.data
         dist = self._norm(pts[:, :2] - grid_pt)
@@ -221,7 +221,7 @@ class ArithmeticMeanInterpolator(Interpolator):
 class ImprovedIDWInterpolator(Interpolator):
     """An improved inverse distance interpolator, based
     on the work of Shepard, "A two-dimensional interpolation
-    function for irregularly-spaced data"
+    function for irregularly-spaced data".
 
     Instead of setting the weights as the normal inverse distance
     to some power, we set the weights in the following way:
@@ -230,10 +230,10 @@ class ImprovedIDWInterpolator(Interpolator):
     point grid_pt which is to be interpolated.
     For all considered measured points let d_pt be the same as
     in IDWInterpolator. If d_pt <= r/3 we set w_pt = 1 / d_pt.
-    Otherwise we set w_pt = 27 / (4 * r) * (d_pt / r - 1)^2
+    Otherwise, we set w_pt = 27 / (4 * r) * (d_pt / r - 1)^2.
 
-    The resulting value on grid_pt will then be calculated the same
-    way as in IDWInterpolator
+    The resulting value on `grid_pt` will then be calculated the same
+    way as in `IDWInterpolator`.
 
     Parameters
     ----------
@@ -248,21 +248,21 @@ class ImprovedIDWInterpolator(Interpolator):
         self._norm = norm
 
     def interpolate(self, w_pts, grid_pt):
-        """Interpolates a given grid_pt according to the
-        above described method
+        """Interpolates a given `grid_pt` according to the
+        above described method.
 
         Parameters
         ----------
         w_pts : WeightedPoints
-            Considered measured points
+            Considered measured points.
 
         grid_pt : numpy.ndarray of shape (2,)
-            Point that is to be interpolated
+            Point that is to be interpolated.
 
         Returns
         -------
         out : int / float
-            Interpolated value at grid_pt
+            Interpolated value at `grid_pt`.
         """
         pts = w_pts.points
         dist = self._norm(pts[:, :2] - grid_pt)
@@ -281,18 +281,18 @@ class ImprovedIDWInterpolator(Interpolator):
 class ShepardInterpolator(Interpolator):
     """A full featured inverse distance interpolator, based
     on the work of Shepard, "A two-dimensional interpolation
-    function for irregulary-spaced data"
+    function for irregularly-spaced data".
 
 
     Parameters
     ----------
-    tol : positive float , optional
+    tol : positive float, optional
 
-        Defautls to numpy.finfo(float).eps
+        Defaults to `numpy.finfo(float).eps`.
 
-    slope: positive float, optional
+    slope : positive float, optional
 
-        Defaults to 0.1
+        Defaults to `0.1`.
 
     norm : function or callable, optional
         Norm with which to calculate the distances, ie ||.||
@@ -305,8 +305,8 @@ class ShepardInterpolator(Interpolator):
     ------
     InterpolatorInitializationException
 
-        - If tol is nonpositive
-        - If slope is nonpositive
+        - If `tol` is nonpositive,
+        - If `slope` is nonpositive.
 
     """
 
@@ -318,10 +318,10 @@ class ShepardInterpolator(Interpolator):
         norm: Callable = scaled_euclidean_norm,
     ):
         if tol <= 0:
-            raise InterpolatorInitializationException("`tol` is not positive")
+            raise InterpolatorInitializationException("`tol` is nonpositive")
         if slope <= 0:
             raise InterpolatorInitializationException(
-                "`slope` is not positive"
+                "`slope` is nonpositive"
             )
 
         self._norm = norm
@@ -336,21 +336,21 @@ class ShepardInterpolator(Interpolator):
         )
 
     def interpolate(self, w_pts, grid_pt):
-        """Interpolates a given grid_pt according to the
-        above described method
+        """Interpolates a given `grid_pt` according to the
+        above described method.
 
         Parameters
         ----------
         w_pts : WeightedPoints
-            Considered measured points
+            Considered measured points.
 
         grid_pt : numpy.ndarray of shape (2,)
-            Point that is to be interpolated
+            Point that is to be interpolated.
 
         Returns
         -------
         out : int / float
-            Interpolated value at grid_pt
+            Interpolated value at `grid_pt`.
         """
         pts = w_pts.points
         dist = self._norm(pts[:, :2] - grid_pt)
