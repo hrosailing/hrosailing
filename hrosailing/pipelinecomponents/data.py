@@ -448,6 +448,7 @@ class Data:
             return self.mask_rows(item)
         if type_ is str:
             return self.get_slice(item)
+        raise TypeError(f"Only types int, str and iterables over bool, np.bool_ or str are supported")
 
     def __contains__(self, item):
         return item in self._data
