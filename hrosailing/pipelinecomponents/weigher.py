@@ -1,10 +1,10 @@
 """
-Contains the baseclass for Weighers used in the PolarPipeline class,
+Contains the baseclass for Weighers used in the `PolarPipeline` class
 that can also be used to create custom Weighers.
 
-Also contains two predefined and useable weighers, the CylindricMeanWeigher
-and the CylindricMemberWeigher, aswell as the WeightedPoints class, used to
-represent data points together with their respective weights
+Also contains two predefined and usable weighers, the `CylindricMeanWeigher`
+and the `CylindricMemberWeigher`, as well as the `WeightedPoints` class, used to
+represent data points together with their respective weights.
 """
 
 
@@ -25,40 +25,40 @@ from datetime import datetime, timedelta
 
 class WeightedPointsInitializationException(Exception):
     """Exception raised if an error occurs during
-    initialization of WeightedPoints
+    initialization of `WeightedPoints`.
     """
 
 
 class WeigherInitializationException(Exception):
     """Exception raised if an error occurs during
-    initialization of a Weigher
+    initialization of a `Weigher`.
     """
 
 
 class WeighingException(Exception):
     """Exception raised if an error occurs during the calling
-    of the .weigh() method"""
+    of the `.weigh()`-method."""
 
 
 class WeightedPoints:
     """A class to weigh data points and represent them together
-    with their respective weights
+    with their respective weights.
 
     Parameters
     ----------
     data : dict or numpy.ndarray
-        Points that will be weight or paired with given weights
+        Points that will be weight or paired with given weights.
 
     weights : scalar or array_like of shape (n,), optional
         If the weights of the points are known beforehand,
         they can be given as an argument. If weights are
         passed, they will be assigned to the points
-        and no further weighing will take place
+        and no further weighing will take place.
 
         If a scalar is passed, the points will all be assigned
-        the same weight
+        the same weight.
 
-        Defaults to `None`
+        Defaults to `None`.
 
     Raises
     ------
@@ -102,10 +102,10 @@ class WeightedPoints:
         will be extended.
         Keys that are not present in both dictionaries are discarded.
 
-        Parameter
+        Parameters
         ----------
-        other: WeightedPoints
-            points to be appended
+        other : WeightedPoints
+            Points to be appended.
         """
 
         if isinstance(self.data, dict):
@@ -122,12 +122,12 @@ class WeightedPoints:
 
 def get_weight_statistics(weights):
     """
-    produces hrosailing standard statistics for weighers, namely the average,
-    minimal and maximal weight as well as a list of percentages how many
+    Produces hrosailing standard statistics for weighers, namely the average,
+    minimal and maximal weight as well as a list of percentages of how many
     weights are contained in each 10th of the span between the minimal and
     maximal weight.
-    The respective keys are 'average_weight', 'min_weight', 'max_weight' and
-    'quantiles'.
+    The respective keys are `average_weight`, `min_weight`, `max_weight` and
+    `quantiles`.
     """
     minw = np.min(weights)
     span = np.max(weights) - minw
@@ -149,7 +149,7 @@ def get_weight_statistics(weights):
 
 
 class Weigher(ABC):
-    """Base class for all weigher classes
+    """Base class for all weigher classes.
 
 
     Abstract Methods
@@ -159,16 +159,16 @@ class Weigher(ABC):
 
     @abstractmethod
     def weigh(self, points) -> (np.ndarray, dict):
-        """This method should be used, to determine a weight for each point
-        where the points might be given as data_dicts or as np.arrays
-        and return the result as WeightedPoints as well as a dictionary
-        with statistics
+        """This method should be used to determine a weight for each point
+        where the points might be given as `data_dicts` or as `np.arrays`
+        and return the result as `WeightedPoints` as well as a dictionary
+        with statistics.
         """
 
 
 class AllOneWeigher(Weigher):
     """A weigher that functions mainly as a stand in if the weighing options
-    of the pipeline are set to False. Weighs everything as 1"""
+    of the pipeline are set to `False`. Weighs everything as `1`."""
 
     def weigh(self, points) -> (np.ndarray, dict):
         if isinstance(points, np.ndarray):
@@ -182,29 +182,29 @@ class CylindricMeanWeigher(Weigher):
     """A weigher that weighs given points according to the
     following procedure:
 
-    For a given point p and points pts we look at all the points
-    pt in pts such that ||pt[:d-1] - p[:d-1]|| <= r
+    For a given point `p` and points `pts` we look at all the points
+    `pt` in `pts` such that ||pt[:d-1] - p[:d-1]|| <= r.
 
-    Then we take the mean m_p and standard deviation std_p
+    Then we take the mean `m_p` and standard deviation `std_p`
     of the dth component of all those points and set
-    w_p = | m_p - p[d-1] | / std_p
+    w_p = | m_p - p[d-1] | / std_p.
 
     Parameters
     ----------
     radius : positive int or float, optional
-        The radius of the considered cylinder, with infinite height, ie r
+        The radius of the considered cylinder, with infinite height, i.e. `r`.
 
-        Defaults to `0.05`
+        Defaults to `0.05`.
 
     norm : function or callable, optional
-        Norm with which to evaluate the distances, ie ||.||
+        Norm with which to evaluate the distances, i.e. ||.||.
 
-        If nothing is passed, it will automatically detect a scaled euclidean norm with respect to the used dimensions
+        If nothing is passed, it will automatically detect a scaled euclidean norm with respect to the used dimensions.
 
     Raises
     ------
     WeigherInitializationException
-        If radius is nonpositive
+        If radius is nonpositive.
     """
 
     def __init__(
@@ -214,7 +214,7 @@ class CylindricMeanWeigher(Weigher):
         dimensions=None
     ):
         if radius <= 0:
-            raise WeigherInitializationException("`radius` is not positive")
+            raise WeigherInitializationException("`radius` is nonpositive")
 
         self._radius = radius
         self._norm = norm
@@ -227,17 +227,17 @@ class CylindricMeanWeigher(Weigher):
         )
 
     def weigh(self, points):
-        """Weigh given points according to the method described above
+        """Weighs given points according to the method described above.
 
         Parameters
         ----------
         points : numpy.ndarray of shape (n, d) with d>=3 or dict
-            Points to be weight
+            Points to be weighed.
 
         Returns
         -------
         WeightedPoints : numpy.ndarray of shape (n,)
-            Normalized weights of the input points
+            Normalized weights of the input points.
         """
         self._dimensions, points = _set_points_from_data(points, self._dimensions)
         weights = [self._calculate_weight(point, points) for point in points]
@@ -279,44 +279,43 @@ class CylindricMemberWeigher(Weigher):
     """A weigher that weighs given points according to the
     following procedure:
 
-    For a given point p and points pts
-    we look at all the points pt in pts such that
-    |pt[0] - p[0]| <= h and ||pt[1:] - p[1:]|| <= r
+    For a given point `p` and points `pts`
+    we look at all the points `pt` in `pts` such that
+    |pt[0] - p[0]| <= h and ||pt[1:] - p[1:]|| <= r.
 
-    Call the set of all such points P, then w_p = #P - 1
+    Call the set of all such points `P`, then w_p = #P - 1.
 
     Parameters
     ----------
     radius : positive int or float, optional
-        The radius of the considered cylinder, ie r
+        The radius of the considered cylinder, i.e. `r`.
 
         Defaults to `0.05`
 
     length : nonnegative int of float, optional
-        The height of the considered cylinder, ie h
+        The height of the considered cylinder, i.e. `h`.
 
-        If length is 0, the cylinder is a d-1 dimensional ball
+        If length is 0, the cylinder is a d-1 dimensional ball.
 
-        Defaults to `0.05`
+        Defaults to `0.05`.
 
     norm : function or callable, optional
-        Norm with which to evaluate the distances, ie ||.||
+        Norm with which to evaluate the distances, i.e. ||.||.
 
-        If nothing is passed, it will default to ||.||_2
+        If nothing is passed, it will default to ||.||_2.
 
     dimensions : [str] or None, optional
-        If the data is given as dict, 'dimensions' contains the keys
+        If the data is given as `dict`, `dimensions` contains the keys
         which should be used in conjunction in order to create the
-        data space. If `None` all keys of the given `dict` are used.
+        data space. If `None`, all keys of the given `dict` are used.
 
-        Defaults to None
+        Defaults to `None`.
 
     Raises
     ------
     WeigherInitializationException
-
-        - If radius is nonpositive
-        - If length is negative
+        - If radius is nonpositive.
+        - If length is negative.
     """
 
     def __init__(
@@ -327,7 +326,7 @@ class CylindricMemberWeigher(Weigher):
         dimensions=None
     ):
         if radius <= 0:
-            raise WeigherInitializationException("`radius´ is not positive")
+            raise WeigherInitializationException("`radius` is nonpositive")
 
         if length < 0:
             raise WeigherInitializationException("`length` is not nonnegative")
@@ -344,17 +343,17 @@ class CylindricMemberWeigher(Weigher):
         )
 
     def weigh(self, points):
-        """Weigh given points according to the method described above
+        """Weighs given points according to the method described above.
 
         Parameters
         ----------
         points : numpy.ndarray of shape (n, d) or dict
-            Points to be weight
+            Points to be weighed.
 
         Returns
         -------
         weights : numpy.ndarray of shape (n,)
-            Normalized weights of the input points
+            Normalized weights of the input points.
         """
 
         self._dimensions, points = _set_points_from_data(points, self._dimensions)
@@ -387,25 +386,27 @@ class FluctuationWeigher(Weigher):
     A weigher that benefits data with (locally) small fluctuation.
     For each data point, the weigher considers the standard variation of the data restricted to an interval
     before and after the datestamp of the considered point.
-    Given an upper bound on the standard variation the weight is computed by a ReLu function mirrored and stretched such
-    that a standard variation of 0 gets the weight 1 and if the standard variation exceeds the upper bound, the weight
-    is set to 0.
+    Given an upper bound on the standard variation the weight is computed by a ReLu function mirrored and stretched
+    such that a standard variation of 0 gets the weight 1 and if the standard variation exceeds the upper bound, the
+    weight is set to 0.
     If more than one numerical attribute is used, the weights described above will be computed for each such attribute
     and then multiplied.
 
-    Parameter
+    Parameters
     ----------
-    dimensions: list of str
-        The names of the numeric attributes to be considered
-    timespan: timedelta or tuple of two timedelta
+    dimensions : list of str
+        The names of the numeric attributes to be considered.
+
+    timespan : timedelta or tuple of two timedelta
 
         - If it is a single value, the weigher will consider the corresponding duration before the examined
-        data point
+        data point,
         - If it is a tuple, the weigher will consider points in the interval
         (`time` - `timespan[0]`, `time` + `timespan[1]`) where `time` is the timestamp of the currently examined data
-        point
-    upper_bounds: list of int or float
-        The upper bounds on the standard deviation for each considered attribute
+        point.
+
+    upper_bounds : list of int or float
+        The upper bounds on the standard deviation for each considered attribute.
     """
     def __init__(
         self,
@@ -427,7 +428,7 @@ class FluctuationWeigher(Weigher):
         Weighs points by the method described above.
 
         See also
-        ----------
+        --------
         `Weigher.weigh`
         """
         times = points["datetime"]
@@ -581,16 +582,14 @@ class FuzzyBool:
     `FuzzyVariables` class, but it can also be initialized with a custom truth
     function.
 
-    Parameter
-    --------
-
-    eval_fun: callable
+    Parameters
+    ----------
+    eval_fun : callable
         The truth function used. Truth values between 0 and 1 are recommended.
 
     See also
     --------
-
-    For recommendations how to use a `FuzzyBool` see also `FuzzyVariable`
+    For recommendations how to use a `FuzzyBool` see also `FuzzyVariable`.
     """
     def __init__(self, eval_fun):
         self._fun = eval_fun
@@ -615,16 +614,16 @@ class FuzzyBool:
     @classmethod
     def fuzzy_and(cls, one, other):
         """
-        Parameter
-        --------
-        one: FuzzyBool
+        Parameters
+        ----------
+        one : FuzzyBool
 
-        other: FuzzyBool
+        other : FuzzyBool
 
         Returns
         -------
-        one_and_other: FuzzyBool
-            represention of the fuzzy 'and' operation of `one` and `other`
+        one_and_other : FuzzyBool
+            Represention of the fuzzy 'and' operation of `one` and `other`
             realized via taking the minimum.
         """
         def eval_fun(x):
@@ -635,16 +634,16 @@ class FuzzyBool:
     @classmethod
     def fuzzy_or(cls, one, other):
         """
-        Parameter
-        --------
-        one: FuzzyBool
+        Parameters
+        ----------
+        one : FuzzyBool
 
-        other: FuzzyBool
+        other : FuzzyBool
 
         Returns
         -------
-        one_or_other: FuzzyBool
-            represention of the fuzzy 'or' operation of `one` and `other`
+        one_or_other : FuzzyBool
+            Represention of the fuzzy 'or' operation of `one` and `other`
             realized via taking the maximum.
         """
         def eval_fun(x):
@@ -655,14 +654,14 @@ class FuzzyBool:
     @classmethod
     def fuzzy_not(cls, one):
         """
-        Parameter
-        --------
-        one: FuzzyBool
+        Parameters
+        ----------
+        one : FuzzyBool
 
         Returns
         -------
-        not_one: FuzzyBool
-            represention of the fuzzy 'not' operation of `one`
+        not_one : FuzzyBool
+            Represention of the fuzzy 'not' operation of `one`
             realized via taking the difference to 1.
         """
         return cls(lambda x: 1 - one(x))
@@ -672,23 +671,23 @@ class FuzzyBool:
         """
         Classical activation function.
 
-        Parameter
-        --------
-        center: int or float
+        Parameters
+        ----------
+        center : int or float
 
-        sharpness: int or float
-            controls the slope of the sigmoid function
-            (higher sharpness yields higher slope)
+        sharpness : int or float
+            Controls the slope of the sigmoid function
+            (higher sharpness yields higher slope).
 
-        sigma: {1, -1}
+        sigma : {1, -1}
             The direction of the sigmoid function, -1 yields the classical
             sigmoid, 1 yields the inverted sigmoid.
 
         Returns
         -------
-        sigmoid: FuzzyBool
-            a `FuzzyBool` object with truth function
-            `x` -> 1/(1+e^{`sigma`*`sharpness`*(`x` - `center`)})
+        sigmoid : FuzzyBool
+            A `FuzzyBool` object with truth function
+            `x` -> 1/(1+e^{`sigma`*`sharpness`*(`x` - `center`)}).
         """
         def eval_fun(x):
             return 1/(1+np.exp(sigma*sharpness*(x - center)))
@@ -697,7 +696,7 @@ class FuzzyBool:
 
 class FuzzyVariable:
     """
-    Referes to Variables in the fuzzy logic.
+    Refers to Variables in the fuzzy logic.
     It's main purpose is to easily create `FuzzyBool` instances.
 
     For example, the following notations work for a `FuzzyVariable` x, `int` or `float`
@@ -705,34 +704,32 @@ class FuzzyVariable:
 
         - x < a, x <= a, x > a, x >= a, x == a
             refers to the respective truth function
-            (using sigmoid activation function)
-        - x(s) <= a, ... (same as above, but with sharpness `s` used)
+            (using sigmoid activation function),
+        - x(s) <= a, ... (same as above, but with sharpness `s` used),
         - x[key] <= a, ... (same as above, but the truth function will be
-            applied after getting the item referenced by `key`
-        - x[key](s) <= a (the both notations above combined)
-        - (x < a) & (x > b) (and concatenation)
-        - (x < a) | (x > b) (or concatenation)
-        - ~(x < a) (not operation)
+            applied after getting the item referenced by `key`,
+        - x[key](s) <= a (the both notations above combined),
+        - (x < a) & (x > b) (and concatenation),
+        - (x < a) | (x > b) (or concatenation),
+        - ~(x < a) (not operation).
 
-    Parameter
-    ---------
-
-    key: None or str
+    Parameters
+    ----------
+    key : None or str
         If `key` is not `None`, all generated `FuzzyBool` instances apply the
          truth function to `x`[`key`] instead of `x`.
 
-        Defaults to `None`
+        Defaults to `None`.
 
-    sharpness: int
+    sharpness : int
         Defines the default sharpness of all generated `FuzzyBool` instances.
         This sharpness will be used if no other sharpness is given via the
         `__call__` method.
 
     Properties
-    ---------
-
-    sharpness: int
-        the next sharpness that will be used
+    ----------
+    sharpness : int
+        The next sharpness that will be used.
 
     See also
     --------
@@ -784,10 +781,10 @@ class FuzzyWeigher(Weigher):
     Weigher that uses the truth function of a `FuzzyBool` object to create the
     weights.
 
-    Parameter
-    ---------
-    fuzzy: FuzzyBool
-        the object wrapped around the truth function
+    Parameters
+    ----------
+    fuzzy : FuzzyBool
+        The object wrapped around the truth function.
 
     See also
     ---------

@@ -50,24 +50,25 @@ class IDWInterpolator(Interpolator):
     of Shepard, "A two-dimensional interpolation function
     for irregularly-spaced data".
 
-    For a given point grid_pt, that is to be interpolated, we
+    For a given point `grid_pt`, that is to be interpolated, we
     calculate the distances d_pt = ||grid-pt - pt[:2]|| for all considered
-    measured points. Then we set the weights of a point pt to be
-    w_pt = 1 / d_pt^p, for some nonnegative integer p.
+    measured points. Then we set the weights of a point `pt` to be
+    w_pt = 1 / d_pt^p, for some nonnegative integer `p`.
 
-    The interpolated value on grid_pt then equals (Σ w_pt pt[2]) / Σ w_pt
-    or if grid_pt is already a measured point pt*, it will equal pt*[2].
+    The interpolated value on `grid_pt` then equals (Σ w_pt pt[2]) / Σ w_pt
+    or if `grid_pt` is already a measured point `pt*`, it will equal pt*[2].
 
     Parameters
     ----------
     p : nonnegative int, optional
+
         Defaults to `2`.
 
     norm : function or callable, optional
-        Norm with which to calculate the distances, ie ||.||
+        Norm with which to calculate the distances, i.e. ||.||.
 
         If nothing is passed, it will default to a scaled
-        version of ||.||_2
+        version of ||.||_2.
 
     Raises
     ------
@@ -86,7 +87,7 @@ class IDWInterpolator(Interpolator):
         return f"IDWInterpolator(p={self._p}, norm={self._norm.__name__})"
 
     def interpolate(self, w_pts, grid_pt):
-        """Interpolates a given grid_pt according to the
+        """Interpolates a given point `grid_pt` according to the
         above described method.
 
         Parameters
@@ -100,7 +101,7 @@ class IDWInterpolator(Interpolator):
         Returns
         -------
         out : int / float
-            Interpolated value at grid_pt.
+            Interpolated value at `grid_pt`.
         """
         pts = w_pts.points
         wts = self._norm(pts[:, :2] - grid_pt)
@@ -120,19 +121,19 @@ def _gauss_potential(distances, weights, *params):
 
 
 class ArithmeticMeanInterpolator(Interpolator):
-    """An Interpolator that gets the interpolated value according
+    """An interpolator that gets the interpolated value according
     to the following procedure.
 
     First the distance of the independent variables of all considered
-    points and of the to interpolate point is calculated, ie
-    || p[:2] - grid_pt ||
+    points and of the to interpolate point is calculated, i.e.
+    || p[:2] - grid_pt ||.
     Then using a distribution, new weights are calculated based on
     the old weights, the previously calculated distances and other
     parameters depending on the distribution.
 
     The value of the dependent variable of the interpolated point then equals
     s * (Σ w_p * p) / Σ w_p
-    where s is an additional scaling factor.
+    where `s` is an additional scaling factor.
 
     In fact, it is a more general approach to the inverse distance
     interpolator.
@@ -145,18 +146,18 @@ class ArithmeticMeanInterpolator(Interpolator):
         Defaults to `1`.
 
     norm : function or callable, optional
-        Norm with which to calculate the distances, ie ||.||
+        Norm with which to calculate the distances, i.e. ||.||.
 
         If nothing is passed, it will default to a scaled
-        version of ||.||_2
+        version of ||.||_2.
 
     distribution : function or callable, optional
         Function with which to calculate the updated weights.
 
         Should have the signature
-        f(distances, old_weights, *parameters) -> new_weights.
+        `f(distances, old_weights, *parameters) -> new_weights`.
 
-        If nothing is passed, it will default to gauss_potential, which
+        If nothing is passed, it will default to `gauss_potential`, which
         calculated weights based on the formula
         β * exp(-α * old_weights * distances).
 
@@ -226,10 +227,10 @@ class ImprovedIDWInterpolator(Interpolator):
     Instead of setting the weights as the normal inverse distance
     to some power, we set the weights in the following way:
 
-    Let r be the radius of the ScalingBall with the center being some
-    point grid_pt which is to be interpolated.
-    For all considered measured points let d_pt be the same as
-    in IDWInterpolator. If d_pt <= r/3 we set w_pt = 1 / d_pt.
+    Let `r` be the radius of the ScalingBall with the center being some
+    point `grid_pt` which is to be interpolated.
+    For all considered measured points let `d_pt` be the same as
+    in `IDWInterpolator`. If d_pt <= r/3 we set w_pt = 1 / d_pt.
     Otherwise, we set w_pt = 27 / (4 * r) * (d_pt / r - 1)^2.
 
     The resulting value on `grid_pt` will then be calculated the same
@@ -238,10 +239,10 @@ class ImprovedIDWInterpolator(Interpolator):
     Parameters
     ----------
     norm : function or callable, optional
-        Norm with which to calculate the distances, ie ||.||
+        Norm with which to calculate the distances, i.e. ||.||.
 
         If nothing is passed, it will default to a scaled
-        version of ||.||_2
+        version of ||.||_2.
     """
 
     def __init__(self, norm: Callable = scaled_euclidean_norm):
@@ -279,7 +280,7 @@ class ImprovedIDWInterpolator(Interpolator):
 
 # Shouldn't be used just yet
 class ShepardInterpolator(Interpolator):
-    """A full featured inverse distance interpolator, based
+    """A full-featured inverse distance interpolator, based
     on the work of Shepard, "A two-dimensional interpolation
     function for irregularly-spaced data".
 
@@ -295,17 +296,16 @@ class ShepardInterpolator(Interpolator):
         Defaults to `0.1`.
 
     norm : function or callable, optional
-        Norm with which to calculate the distances, ie ||.||
+        Norm with which to calculate the distances, i.e. ||.||.
 
         If nothing is passed, it will default to a scaled
-        version of ||.||_2
+        version of ||.||_2.
 
 
     Raises
     ------
     InterpolatorInitializationException
-
-        - If `tol` is nonpositive,
+        - If `tol` is nonpositive.
         - If `slope` is nonpositive.
 
     """

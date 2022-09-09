@@ -1,8 +1,8 @@
 """
-Contains the baseclass for Smoothers used in the `PolarPipeline` class,
+Contains the baseclass for Smoothers used in the `PolarPipeline` class
 that can also be used to create custom Smoothers.
 
-Also contains predefined and useable smoothers:
+Also contains predefined and usable smoothers:
 """
 
 from abc import ABC, abstractmethod
@@ -18,21 +18,21 @@ class Smoother(ABC):
         Parameters
         ----------
         data: dict
-            The data that should be smoothened
+            The data that should be smoothened.
 
         Returns
-        -----------
-        data: dict,
-            The processed data
-        statistics: dict,
-            Dictionary containing relevant statistics
+        -------
+        data: dict
+            The processed data.
+        statistics: dict
+            Dictionary containing relevant statistics.
         """
         return data, {}
 
 
 class LazySmoother(Smoother):
     """
-    Smoother that doesn't do anything
+    Smoother that doesn't do anything.
     """
     def smooth(self, data):
         return data, {}
@@ -41,7 +41,7 @@ class AffineSmoother(Smoother):
     """
     Locates intervals with same data in the numeric data and fills the rest
     with affine splines.
-    This is done under the assumption, that between intervals the arithmetic
+    This is done under the assumption that between intervals the arithmetic
     mean of the respective values is taken and at the center of the interval the
     actual value of the interval is taken.
     """
