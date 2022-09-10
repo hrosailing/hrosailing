@@ -589,7 +589,7 @@ class FuzzyBool:
 
     See also
     --------
-    For recommendations how to use a `FuzzyBool` see also `FuzzyVariable`.
+    For recommendations on how to use a `FuzzyBool` see also `FuzzyVariable`.
     """
     def __init__(self, eval_fun):
         self._fun = eval_fun
@@ -680,7 +680,7 @@ class FuzzyBool:
             (higher sharpness yields higher slope).
 
         sigma : {1, -1}
-            The direction of the sigmoid function, -1 yields the classical
+            The direction of the sigmoid function; -1 yields the classical
             sigmoid, 1 yields the inverted sigmoid.
 
         Returns
@@ -700,18 +700,18 @@ class FuzzyVariable:
     It's main purpose is to easily create `FuzzyBool` instances.
 
     For example, the following notations work for a `FuzzyVariable` x, `int` or `float`
-    Variables `a`, 'b', `s` and `key` such that x.__getitem__(key) works:
+    Variables `a`, 'b', `s` and `key` such that `x.__getitem__(key)` works:
 
         - x < a, x <= a, x > a, x >= a, x == a
             refers to the respective truth function
             (using sigmoid activation function),
         - x(s) <= a, ... (same as above, but with sharpness `s` used),
         - x[key] <= a, ... (same as above, but the truth function will be
-            applied after getting the item referenced by `key`,
+            applied after getting the item referenced by `key`),
         - x[key](s) <= a (the both notations above combined),
-        - (x < a) & (x > b) (and concatenation),
-        - (x < a) | (x > b) (or concatenation),
-        - ~(x < a) (not operation).
+        - (x < a) & (x > b) ('and' concatenation),
+        - (x < a) | (x > b) ('or' concatenation),
+        - ~(x < a) ('not' operation).
 
     Parameters
     ----------
@@ -724,7 +724,7 @@ class FuzzyVariable:
     sharpness : int
         Defines the default sharpness of all generated `FuzzyBool` instances.
         This sharpness will be used if no other sharpness is given via the
-        `__call__` method.
+        `__call__`-method.
 
     Properties
     ----------
