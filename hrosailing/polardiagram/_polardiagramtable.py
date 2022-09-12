@@ -990,7 +990,7 @@ class _Resolution(enum.Enum):
             raise ValueError("`res` is not array_like")
 
         if not res.size or res.ndim != 1:
-            raise ValueError("`res` has incorred shape")
+            raise ValueError("`res` has incorrect shape")
 
         if len(set(res)) != len(res):
             warnings.warn(
