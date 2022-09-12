@@ -13,11 +13,11 @@ class Imputator(ABC):
 
     Abstract Methods
     ----------------
-    imputate(self, data)
+    impute(self, data)
     """
 
     @abstractmethod
-    def imputate(self, data):
+    def impute(self, data):
         """
         This method should be used, given data that possibly contains `None`
         values, to create data without any `None` values.
@@ -100,7 +100,7 @@ class FillLocalImputator(Imputator):
         self._max_time_diff = max_time_diff
         self._n_filled = 0
 
-    def imputate(
+    def impute(
         self,
         data_dict
     ):
