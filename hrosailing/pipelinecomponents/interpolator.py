@@ -290,10 +290,13 @@ class ShepardInterpolator(Interpolator):
     Parameters
     ----------
     tol : positive float, optional
+        the distance around data points in which the actual data is prefered to
+        the interpolated data
 
         Defaults to `numpy.finfo(float).eps`.
 
     slope : positive float, optional
+        The initial slope used in Shepard`s algorithm
 
         Defaults to `0.1`.
 
