@@ -50,19 +50,18 @@ class Filter(ABC):
 
 class QuantileFilter(Filter):
     """A filter that filters all points based on if their
-    resp. weight lies above a certain quantile.
+    resp. weight lies above a certain percentage.
 
     Parameters
     ----------
     percent : int or float, optional
-        The quantile to be calculated.
 
         Defaults to `25`.
 
     Raises
     ------
     FilterInitializationException
-        If percent is not in the interval [0, 100].
+        If `percent` is not in the interval [0, 100].
     """
 
     def __init__(self, percent=50):

@@ -73,7 +73,7 @@ class ODRegressor(Regressor):
     Parameters
     ----------
     model_func : function
-        The function which describes the model and is to be fitted.
+        The function to be fitted.
 
         The function signature should be `f(ws, wa, *params) -> bsp`,
         where `ws` and `wa` are `numpy.ndarrays` resp. and `params` is a
@@ -118,8 +118,7 @@ class ODRegressor(Regressor):
     def fit(self, data, _enable_logging=False):
         """Fits the model function to the given data, i.e. calculates
         the optimal parameters to minimize an objective
-        function based on the given data, see also
-        [ODRPACK](https://docs.scipy.org/doc/external/odrpack_guide.pdf).
+        function based on the given data.
 
         Parameters
         ----------
@@ -127,6 +126,10 @@ class ODRegressor(Regressor):
             Data to which the model function will be fitted, given as
             a sequence of points consisting of wind speed, wind angle
             and boat speed.
+
+        See also
+        --------
+        [ODRPACK](https://docs.scipy.org/doc/external/odrpack_guide.pdf)
         """
         X, y = data[:, :2], data[:, 2]
 
@@ -227,9 +230,7 @@ class LeastSquareRegressor(Regressor):
     def fit(self, data, _enable_logging=False):
         """Fits the model function to the given data, i.e. calculates
         the optimal parameters to minimize the sum of the squares of
-        the residuals, see also
-        [curve_fit](https://docs.scipy.org/doc/scipy/reference/generated/\
-        scipy.optimize.curve_fit.html).
+        the residuals.
 
         Parameters
         ----------
@@ -237,6 +238,11 @@ class LeastSquareRegressor(Regressor):
             Data to which the model function will be fitted, given as
             a sequence of points consisting of wind speed, wind angle
             and boat speed.
+        
+        See also
+        --------
+        [curve_fit](https://docs.scipy.org/doc/scipy/reference/generated/\
+        scipy.optimize.curve_fit.html)
         """
         X, y = data[:, :2], data[:, 2]
 

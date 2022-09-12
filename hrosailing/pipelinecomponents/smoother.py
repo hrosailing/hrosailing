@@ -1,8 +1,11 @@
 """
-Contains the baseclass for Smoothers used in the `PolarPipeline` class
-that can also be used to create custom Smoothers.
+Contains the baseclass `Smoother` used in the `PolarPipeline` class
+that can also be used to create custom smoothers.
 
 Also contains predefined and usable smoothers:
+
+- `LazySmoother`,
+- `AffineSmoother`.
 """
 
 from abc import ABC, abstractmethod
@@ -12,8 +15,8 @@ class Smoother(ABC):
     @abstractmethod
     def smooth(self, data):
         """
-        Should be used to smoothen the measurement errors in data interpreted
-        as a time series.
+        Should be used to smoothen the measurement errors in `data`, where `data`
+        is interpreted as a time series.
 
         Parameters
         ----------

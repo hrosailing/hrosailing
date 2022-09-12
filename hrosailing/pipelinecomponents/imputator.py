@@ -1,6 +1,6 @@
 """
-Contains the Base class for the Imputator pipeline-component that can be used
-to create custom Imputators.
+Contains the Base class for the `Imputator` pipeline-component that can be used
+to create custom imputators.
 """
 
 from abc import ABC, abstractmethod
@@ -25,7 +25,7 @@ class Imputator(ABC):
         Parameters
         ----------
         data : Data
-            Data to be imputated.
+            Data to be imputed.
         """
 
 class FillLocalImputator(Imputator):
@@ -34,14 +34,12 @@ class FillLocalImputator(Imputator):
     and contains some datestamps.
     Fills missing data by:
     - deleting columns that only contain `None` values,
-    - deleting rows without datetime-stamp which lie between two data_points
-        that are far apart in time, before the first or after the last
-        datestamp,
+    - deleting rows between two data-points that are far apart in time
     - affine interpolation of datetime-stamps between two data_points which
         are not far apart in time,
-    - fill data before and after a not-`None` value which are not too far apart
+    - filling data before and after a not-`None` value which are not too far apart
         in time according to certain functions (`fill_before` and `fill_after`),
-    - fill data between a pair of not-`None` values which are not too far apart
+    - filling data between a pair of not-`None` values which are not too far apart
         in time according to a certain function (`fill_between`).
 
     Parameters
@@ -50,10 +48,10 @@ class FillLocalImputator(Imputator):
         The function which will be used to fill `None` fields before a not-`None`
         field.
 
-        First argument is the attribute `name`, second is the value of the
+        First argument is the attribute name, second is the value of the
         not-`None` field mentioned before, third argument is the relative
         position (in time) between the earliest applicable data and the
-        mentioned not-`None` data. Returns the value to be filled.
+        mentioned not-`None` data. Returns the value that replaces `None`.
 
         Defaults to `lambda name, right, mu: right`.
 
@@ -117,8 +115,10 @@ class FillLocalImputator(Imputator):
 
         Returns
         -------
-        data_dict, statistics: dict, dict
-            `data_dict` is the resulting dictionary containing no `None` values.
+        data_dict : Data
+            `data_dict` is the resulting `Data` object containing no `None` values.
+
+        statistics : dict
             `statistics` contains the number of removed columns, the number of
             removed rows, the number of filled fields and the number of rows and
             columns in the resulting dictionary as

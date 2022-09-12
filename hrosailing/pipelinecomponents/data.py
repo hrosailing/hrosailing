@@ -422,7 +422,7 @@ class Data:
 
         Parameters
         ----------
-        mask : iterable of booleans
+        mask : array_like of booleans
         """
 
         data = {

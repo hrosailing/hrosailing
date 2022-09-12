@@ -1,6 +1,6 @@
 """
 Classes used to model various geometric shapes centered around
-the origin.
+the geometric origin.
 
 Defines the `Neighbourhood` abstract base class that can be used
 to create custom geometric shapes.
@@ -56,7 +56,7 @@ class Ball(Neighbourhood):
         of ||.||_2.
 
     radius : positive int or float, optional
-        The radius of the ball, i.e. `r`.
+        The radius of the ball, i.e. r.
 
         Defaults to `0.05`.
 
@@ -114,9 +114,6 @@ class ScalingBall(Neighbourhood):
         contained in the scaling ball.
 
     max_pts : positive int
-        The "maximal" amount of certain given points that should be
-        contained in the scaling ball.
-
         Mostly used for initial guess of a "good" radius. Also used to
         guarantee that, on average, the scaling ball will contain
         (min_pts + max_pts) / 2 points of certain given points.
@@ -155,7 +152,7 @@ class ScalingBall(Neighbourhood):
             )
         if max_pts <= min_pts:
             raise NeighbourhoodInitializationException(
-                "`max_pts` is smaller than `min_pts`"
+                "`max_pts` is smaller than or equal to `min_pts`"
             )
 
         self._min_pts = min_pts
@@ -226,8 +223,8 @@ class Ellipsoid(Neighbourhood):
         The linear transformation which transforms the
         ball into the given ellipsoid, i.e. `T`.
 
-        If nothing is passed, it will default to I_2, the 2x2
-        unit matrix, i.e. the ellipsoid will be a ball.
+        If nothing is passed, it will default to the 2x2
+        identity matrix, i.e. the ellipsoid will be a ball.
 
     norm : function or callable, optional
         The norm for which the ellipsoid is described, i.e. ||.||.
@@ -315,12 +312,12 @@ class Cuboid(Neighbourhood):
     Parameters
     ----------
     norm : function or callable, optional
-        The 1-d norm used to measure the length of the `x_i`, i.e. |.|.
+        The 1-d norm used to measure the length of `x_i`, i.e. |.|.
 
         If nothing is passed, it will default to the absolute value |.|.
 
     dimensions : subscriptable of length 2, optional
-        The 'length' of the 'sides' of the cuboid, i.e. the `b_i`.
+        The length of the sides of the cuboid, i.e. `b_i`.
 
         If nothing is passed, it will default to `(0.05, 0.05)`.
 
@@ -362,7 +359,7 @@ class Cuboid(Neighbourhood):
 class Polytope(Neighbourhood):
     """A class to represent a general 2-dimensional polytope, i.e. the
     convex hull P = conv(x_1, ..., x_n) of some n points x_1 ,..., x_n
-    or equivalent as the (bounded) intersection of m half spaces
+    or equivalently the (bounded) intersection of m half spaces
     P = { x in R^2 : Ax <= b }.
 
     Parameters
@@ -372,10 +369,10 @@ class Polytope(Neighbourhood):
         spaces, i.e. A = (a_1, ... , a_m)^t.
 
         If nothing is passed, it will default to (I_2, -I_2)^t,
-        where I_d is the d-dimensional unit matrix.
+        where I_d is the d-dimensional identity matrix.
 
     b : array_like of shape (m, ), optional
-        Vector to represent the ... `b_i` of the half spaces, i.e.
+        Vector representing the `b` of the half spaces, i.e.
         b = (b_1, ... , b_m)^t.
 
         If nothing is passed, it will default to `(0.05,...,0.05)`.

@@ -55,8 +55,8 @@ class IDWInterpolator(Interpolator):
     measured points. Then we set the weights of a point `pt` to be
     w_pt = 1 / d_pt^p, for some nonnegative integer `p`.
 
-    The interpolated value on `grid_pt` then equals (Σ w_pt pt[2]) / Σ w_pt
-    or if `grid_pt` is already a measured point `pt*`, it will equal pt*[2].
+    The interpolated value at `grid_pt` then equals (Σ w_pt pt[2]) / Σ w_pt
+    or if `grid_pt` is already a measured point `pt`, it will equal `pt[2]`.
 
     Parameters
     ----------
@@ -135,7 +135,7 @@ class ArithmeticMeanInterpolator(Interpolator):
     s * (Σ w_p * p) / Σ w_p
     where `s` is an additional scaling factor.
 
-    In fact, it is a more general approach to the inverse distance
+    Note that this is a more general approach to the inverse distance
     interpolator.
 
     Parameters
@@ -158,7 +158,7 @@ class ArithmeticMeanInterpolator(Interpolator):
         `f(distances, old_weights, *parameters) -> new_weights`.
 
         If nothing is passed, it will default to `gauss_potential`, which
-        calculated weights based on the formula
+        calculates weights based on the formula
         β * exp(-α * old_weights * distances).
 
     params :
@@ -227,7 +227,7 @@ class ImprovedIDWInterpolator(Interpolator):
     Instead of setting the weights as the normal inverse distance
     to some power, we set the weights in the following way:
 
-    Let `r` be the radius of the ScalingBall with the center being some
+    Let `r` be the radius of the `neighbourhood.ScalingBall` with the center being some
     point `grid_pt` which is to be interpolated.
     For all considered measured points let `d_pt` be the same as
     in `IDWInterpolator`. If d_pt <= r/3 we set w_pt = 1 / d_pt.

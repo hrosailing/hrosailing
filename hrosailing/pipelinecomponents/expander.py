@@ -1,8 +1,11 @@
 """
-Contains the baseclass for Expanders used in the `PolarPipeline` class,
-that can also be used to create custom Expanders.
+Contains the baseclass `Expander` used in the `PolarPipeline` class,
+that can also be used to create custom expanders.
 
-Also contains predefined and usable smoothers:
+Also contains predefined and usable expanders:
+
+- `LazyExpander`,
+- `WeatherExpander`.
 """
 
 from abc import ABC, abstractmethod

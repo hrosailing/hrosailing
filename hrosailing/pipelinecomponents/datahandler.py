@@ -96,7 +96,7 @@ class ArrayHandler(DataHandler):
         Raises
         ------
         HandleException
-            If the given `array_like` has a different number of columns as attributes are given.
+            If the given `array_like` has a different number of columns than the number of given attributes.
 
         See also
         --------
@@ -126,7 +126,7 @@ class CsvFileHandler(DataHandler):
     """A data handler to extract data from a .csv file.
 
     The .csv file should be ordered in a column-wise fashion, with the
-    first row describing the attributes corresponding to each column.
+    first entry of each column describing the corresponding attribute.
     """
 
     # Check if pandas is available to use from_csv()-method
@@ -145,6 +145,10 @@ class CsvFileHandler(DataHandler):
         ----------
         data : path_like
             Path to a .csv file.
+
+        See also
+        --------
+        `Datahandler.handle`
         """
         if self.pand:
             df = self.pd.read_csv(data)
@@ -193,6 +197,8 @@ class NMEAFileHandler(DataHandler):
     unwanted_attributes : iterable of str, optional
         NMEA attributes that will be ignored.
         If `wanted_attributes` is set, this option is ignored.
+        If both `wanted_attributes` and `unwanted_attributes` are `None`,
+        all NMEA attributes will be read.
 
         Defaults to `None`.
 
@@ -238,7 +244,7 @@ class NMEAFileHandler(DataHandler):
 
         self._post_filter_types = post_filter_types
 
-    def handle(self, data) -> (dict, dict):
+    def handle(self, data):
         """Reads a text file containing NMEA sentences and extracts
         data points.
 

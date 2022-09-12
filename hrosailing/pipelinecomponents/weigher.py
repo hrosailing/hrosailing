@@ -1,6 +1,6 @@
 """
-Contains the baseclass for Weighers used in the `PolarPipeline` class
-that can also be used to create custom Weighers.
+Contains the baseclass `Weigher` used in the `PolarPipeline` class
+that can also be used to create custom weighers.
 
 Also contains two predefined and usable weighers, the `CylindricMeanWeigher`
 and the `CylindricMemberWeigher`, as well as the `WeightedPoints` class, used to
@@ -59,12 +59,6 @@ class WeightedPoints:
         the same weight.
 
         Defaults to `None`.
-
-    Raises
-    ------
-    WeightedPointsInitializationException
-
-    WeighingException
     """
 
     def __init__(
@@ -97,7 +91,7 @@ class WeightedPoints:
 
     def extend(self, other):
         """
-        Extends this weighted points by other weighted points.
+        Extends the weighted points by other weighted points.
         If both data is given as a dictionary of lists, the respective lists
         will be extended.
         Keys that are not present in both dictionaries are discarded.
@@ -126,7 +120,7 @@ def get_weight_statistics(weights):
     minimal and maximal weight as well as a list of percentages of how many
     weights are contained in each 10th of the span between the minimal and
     maximal weight.
-    The respective keys are `average_weight`, `min_weight`, `max_weight` and
+    The respective keys are `average_weight`, `minimal_weight`, `maximal_weight` and
     `quantiles`.
     """
     minw = np.min(weights)
@@ -154,7 +148,7 @@ class Weigher(ABC):
 
     Abstract Methods
     ----------------
-    weight(self, pts)
+    weigh(self, points)
     """
 
     @abstractmethod
@@ -283,7 +277,7 @@ class CylindricMemberWeigher(Weigher):
     we look at all the points `pt` in `pts` such that
     |pt[0] - p[0]| <= h and ||pt[1:] - p[1:]|| <= r.
 
-    Call the set of all such points `P`, then w_p = #P - 1.
+    If we call the set of all such points `P`, then w_p = #P - 1.
 
     Parameters
     ----------
@@ -292,7 +286,7 @@ class CylindricMemberWeigher(Weigher):
 
         Defaults to `0.05`
 
-    length : nonnegative int of float, optional
+    length : nonnegative int or float, optional
         The height of the considered cylinder, i.e. `h`.
 
         If length is 0, the cylinder is a d-1 dimensional ball.
@@ -306,7 +300,7 @@ class CylindricMemberWeigher(Weigher):
 
     dimensions : [str] or None, optional
         If the data is given as `dict`, `dimensions` contains the keys
-        which should be used in conjunction in order to create the
+        which should be used in order to create the
         data space. If `None`, all keys of the given `dict` are used.
 
         Defaults to `None`.
@@ -384,12 +378,16 @@ class CylindricMemberWeigher(Weigher):
 class FluctuationWeigher(Weigher):
     """
     A weigher that benefits data with (locally) small fluctuation.
+
+    If a single attribute is used, we use the following procedure:
+
     For each data point, the weigher considers the standard variation of the data restricted to an interval
     before and after the datestamp of the considered point.
     Given an upper bound on the standard variation the weight is computed by a ReLu function mirrored and stretched
     such that a standard variation of 0 gets the weight 1 and if the standard variation exceeds the upper bound, the
     weight is set to 0.
-    If more than one numerical attribute is used, the weights described above will be computed for each such attribute
+
+    If more than one attribute is used, the weights described above will be computed for each such attribute
     and then multiplied.
 
     Parameters
@@ -578,7 +576,7 @@ class FuzzyBool:
     """
     Class representing a fuzzy truth statement, i.e. a function with values
     between 0 and 1 (truth function).
-    The easiest way to initialize these is by using the operators of the
+    The easiest way to initialize a `FuzzyBool` object is by using the operators of the
     `FuzzyVariables` class, but it can also be initialized with a custom truth
     function.
 
@@ -705,13 +703,13 @@ class FuzzyVariable:
         - x < a, x <= a, x > a, x >= a, x == a
             refers to the respective truth function
             (using sigmoid activation function),
-        - x(s) <= a, ... (same as above, but with sharpness `s` used),
-        - x[key] <= a, ... (same as above, but the truth function will be
+        - x(s) < a, ... (same as above, but with sharpness `s` used),
+        - x[key] < a, ... (same as above, but the truth function will be
             applied after getting the item referenced by `key`),
-        - x[key](s) <= a (the both notations above combined),
-        - (x < a) & (x > b) ('and' concatenation),
-        - (x < a) | (x > b) ('or' concatenation),
-        - ~(x < a) ('not' operation).
+        - x[key](s) < a, ... (the both notations above combined),
+        - (x < a) & (x > b), ... ('and' concatenation),
+        - (x < a) | (x > b), ... ('or' concatenation),
+        - ~(x < a), ... ('not' operation).
 
     Parameters
     ----------
@@ -722,14 +720,15 @@ class FuzzyVariable:
         Defaults to `None`.
 
     sharpness : int
-        Defines the default sharpness of all generated `FuzzyBool` instances.
+        Defines the default sharpness of all `FuzzyBool` instances generated
+        by `FuzzyBool.sigmoid`.
         This sharpness will be used if no other sharpness is given via the
         `__call__`-method.
 
     Properties
     ----------
     sharpness : int
-        The next sharpness that will be used.
+        The sharpness that will be used for the next generated `FuzzyBool` instance.
 
     See also
     --------
@@ -778,7 +777,7 @@ class FuzzyVariable:
 
 class FuzzyWeigher(Weigher):
     """
-    Weigher that uses the truth function of a `FuzzyBool` object to create the
+    Weigher that uses the truth function of a `FuzzyBool` object to create
     weights.
 
     Parameters
