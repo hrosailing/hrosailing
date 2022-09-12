@@ -1,8 +1,6 @@
 """
-Classes used for
-
-Defines the InfluenceModel Abstract Base Class that can be used
-to create custom
+Defines the `InfluenceModel` Abstract Base Class that can be used
+to create custom influence models
 
 Subclasses of InfluenceModel can be used with
 
