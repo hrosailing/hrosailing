@@ -121,17 +121,19 @@ def _gauss_potential(distances, weights, *params):
 
 
 class ArithmeticMeanInterpolator(Interpolator):
-    """An interpolator that gets the interpolated value according
+    """An interpolator that computes the interpolated value according
     to the following procedure.
 
-    First the distance of the independent variables of all considered
+    First the distance of the independent variables (wind angle and wind speed)
+    of all considered
     points and of the to interpolate point is calculated, i.e.
     || p[:2] - grid_pt ||.
     Then using a distribution, new weights are calculated based on
     the old weights, the previously calculated distances and other
     parameters depending on the distribution.
 
-    The value of the dependent variable of the interpolated point then equals
+    The value of the dependent variable (boat speed) of the interpolated point
+    then equals
     s * (Σ w_p * p) / Σ w_p
     where `s` is an additional scaling factor.
 
