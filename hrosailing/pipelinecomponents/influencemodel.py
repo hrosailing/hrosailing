@@ -1,6 +1,6 @@
 """
-Defines the `InfluenceModel` Abstract Base Class that can be used
-to create custom influence models
+Defines the `InfluenceModel` abstract base class that can be used
+to create custom influence models.
 
 Subclasses of InfluenceModel can be used with
 

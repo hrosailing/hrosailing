@@ -137,7 +137,7 @@ class BoundFilter(Filter):
 
     def filter(self, wts):
         """Filters a set of points given by their resp. weights
-        according to the above described method.
+        according to the above described procedure.
 
         Parameters
         ----------

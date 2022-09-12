@@ -154,7 +154,7 @@ class Weigher(ABC):
     @abstractmethod
     def weigh(self, points) -> (np.ndarray, dict):
         """This method should be used to determine a weight for each point
-        where the points might be given as `data_dicts` or as `np.arrays`
+        where the points might be given as `data_dicts` or as `numpy.arrays`
         and return the result as `WeightedPoints` as well as a dictionary
         with statistics.
         """
@@ -221,7 +221,7 @@ class CylindricMeanWeigher(Weigher):
         )
 
     def weigh(self, points):
-        """Weighs given points according to the method described above.
+        """Weighs given points according to the procedure described above.
 
         Parameters
         ----------
@@ -300,8 +300,8 @@ class CylindricMemberWeigher(Weigher):
 
     dimensions : [str] or None, optional
         If the data is given as `dict`, `dimensions` contains the keys
-        which should be used in order to create the
-        data space. If `None`, all keys of the given `dict` are used.
+        which should be used in order to create the data space.
+        If `None`, all keys of the given `dict` are used.
 
         Defaults to `None`.
 
@@ -337,7 +337,7 @@ class CylindricMemberWeigher(Weigher):
         )
 
     def weigh(self, points):
-        """Weighs given points according to the method described above.
+        """Weighs given points according to the procedure described above.
 
         Parameters
         ----------
@@ -423,7 +423,7 @@ class FluctuationWeigher(Weigher):
 
     def weigh(self, points):
         """
-        Weighs points by the method described above.
+        Weighs points by the procedure described above.
 
         See also
         --------
@@ -621,7 +621,7 @@ class FuzzyBool:
         Returns
         -------
         one_and_other : FuzzyBool
-            Represention of the fuzzy 'and' operation of `one` and `other`
+            Representation of the fuzzy 'and' operation of `one` and `other`
             realized via taking the minimum.
         """
         def eval_fun(x):
@@ -641,7 +641,7 @@ class FuzzyBool:
         Returns
         -------
         one_or_other : FuzzyBool
-            Represention of the fuzzy 'or' operation of `one` and `other`
+            Representation of the fuzzy 'or' operation of `one` and `other`
             realized via taking the maximum.
         """
         def eval_fun(x):
@@ -659,7 +659,7 @@ class FuzzyBool:
         Returns
         -------
         not_one : FuzzyBool
-            Represention of the fuzzy 'not' operation of `one`
+            Representation of the fuzzy 'not' operation of `one`
             realized via taking the difference to 1.
         """
         return cls(lambda x: 1 - one(x))

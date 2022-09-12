@@ -52,10 +52,10 @@ class AffineSmoother(Smoother):
 
     def smooth(self, data):
         """
-        Smoothes data using the procedure described above.
+        Smooths data using the procedure described above.
 
         See also
-        ---------
+        --------
         `Smoother.smooth`
         """
         for key in data.keys():

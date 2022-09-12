@@ -64,7 +64,7 @@ class WeatherExpander(Expander):
 
     def expand(self, data):
         """
-        Expands given data by the method described above.
+        Expands given data by the procedure described above.
         
         See also
         --------

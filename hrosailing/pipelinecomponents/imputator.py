@@ -105,13 +105,13 @@ class FillLocalImputator(Imputator):
         data_dict
     ):
         """
-        Creates a dictionary that does not contain `None` values by the method
+        Creates a dictionary that does not contain `None` values by the procedure
         described above.
 
         Parameters
         ----------
         data_dict : dict
-            The dictionary to be imputated.
+            The dictionary to be imputed.
 
         Returns
         -------

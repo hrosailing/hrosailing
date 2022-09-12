@@ -186,6 +186,14 @@ class LeastSquareRegressor(Regressor):
         that are passed to `scipy.optimize.curve_fit`.
 
         Defaults to `None`.
+
+    Properties
+    ----------
+    model_func :
+        Returns a read-only version of `self._func`.
+
+    optimal_params :
+        Returns a read-only version of `self._popt`.
     """
 
     def __init__(self, model_func: Callable, init_vals=None):
@@ -219,12 +227,10 @@ class LeastSquareRegressor(Regressor):
 
     @property
     def model_func(self):
-        """Returns a read-only version of `self._func`."""
         return self._func
 
     @property
     def optimal_params(self):
-        """Returns a read-only version of `self._popt`."""
         return self._popt
 
     def fit(self, data, _enable_logging=False):

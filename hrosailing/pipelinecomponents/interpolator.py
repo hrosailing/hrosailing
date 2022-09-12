@@ -88,7 +88,7 @@ class IDWInterpolator(Interpolator):
 
     def interpolate(self, w_pts, grid_pt):
         """Interpolates a given point `grid_pt` according to the
-        above described method.
+        above described procedure.
 
         Parameters
         ----------
@@ -195,7 +195,7 @@ class ArithmeticMeanInterpolator(Interpolator):
 
     def interpolate(self, w_pts, grid_pt):
         """Interpolates a given `grid_pt` according to the
-        above described method.
+        above described procedure.
 
         Parameters
         ----------
@@ -252,7 +252,7 @@ class ImprovedIDWInterpolator(Interpolator):
 
     def interpolate(self, w_pts, grid_pt):
         """Interpolates a given `grid_pt` according to the
-        above described method.
+        above described procedure.
 
         Parameters
         ----------
@@ -290,13 +290,13 @@ class ShepardInterpolator(Interpolator):
     Parameters
     ----------
     tol : positive float, optional
-        the distance around data points in which the actual data is prefered to
-        the interpolated data
+        The distance around data points in which the actual data is preferred to
+        the interpolated data.
 
         Defaults to `numpy.finfo(float).eps`.
 
     slope : positive float, optional
-        The initial slope used in Shepard`s algorithm
+        The initial slope used in Shepard`s algorithm.
 
         Defaults to `0.1`.
 
@@ -342,7 +342,7 @@ class ShepardInterpolator(Interpolator):
 
     def interpolate(self, w_pts, grid_pt):
         """Interpolates a given `grid_pt` according to the
-        above described method.
+        above described procedure.
 
         Parameters
         ----------
