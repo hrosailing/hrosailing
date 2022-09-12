@@ -42,14 +42,22 @@ class LazySmoother(Smoother):
 
 class AffineSmoother(Smoother):
     """
-    Locates intervals with same data in the numeric data and fills the rest
-    with affine splines.
-    This is done under the assumption that between intervals the arithmetic
-    mean of the respective values is taken and at the center of the interval the
-    actual value of the interval is taken.
+    Locates intervals in which the data, interpreted as a time series,
+    is constant.
+    Between two intervals, the arithmetic mean of the values of the respective
+    intervals is used to replace the measured data.
+    Then, data points in such a time interval are replaced using affine
+    interpolation.
     """
 
     def smooth(self, data):
+        """
+        Smoothes data using the procedure described above.
+
+        See also
+        ---------
+        `Smoother.smooth`
+        """
         for key in data.keys():
             if data.type(key) == float:
                 data = self._smooth_field(key, data)
