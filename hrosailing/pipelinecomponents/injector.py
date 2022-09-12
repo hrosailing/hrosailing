@@ -1,3 +1,11 @@
+"""
+Contains the base class `Injector` to be used in as a component of the pipeline.
+
+Also contains the predefined and ready to use injectors:
+
+- `ZeroInjector`
+"""
+
 from abc import ABC, abstractmethod
 
 import numpy as np
@@ -6,6 +14,13 @@ import hrosailing.pipelinecomponents as pc
 
 
 class Injector(ABC):
+    """
+    Base class for all injector classes
+
+    Abstract Methods
+    --------------
+    inject(self, weighted_points)
+    """
     @abstractmethod
     def inject(self, weighted_points):
         """Method that should produce artificial weighted data points
