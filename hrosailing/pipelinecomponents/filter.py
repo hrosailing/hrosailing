@@ -36,7 +36,7 @@ class Filter(ABC):
 
     Abstract Methods
     ----------------
-    filter(self, weights)
+    filter(self, wts)
     """
 
     @abstractmethod

@@ -123,9 +123,9 @@ def get_weight_statistics(weights):
     The respective keys are `average_weight`, `minimal_weight`, `maximal_weight` and
     `quantiles`.
 
-    Parameter
-    ---------
-    weights: array_like of floats
+    Parameters
+    ----------
+    weights : array_like of floats
         The weights to be analyzed by the statistics.
     """
     minw = np.min(weights)
@@ -811,17 +811,17 @@ class FuzzyWeigher(Weigher):
 
 def hrosailing_standard_scaled_euclidean_norm(dimensions):
     """
-    Returns a scaled euclidean norm function where the scales are choosen with respect to `constants.NORM_SCALES`
+    Returns a scaled euclidean norm function where the scales are chosen with respect to `constants.NORM_SCALES`
     (or 1 if `constants.NORM_SCALES` does not contain the respective key).
 
-    Parameter
+    Parameters
     ----------
-    dimension: iterator of str or None, optional:
+    dimension : iterator of str or None, optional
         Iterates over the names of the attributes used.
-        If set to `None` a two dimensional norm with scalings 1/40 (for wind speed) and 1/360 (for wind angle) is
+        If set to `None`, a two-dimensional norm with scalings 1/40 (for wind speed) and 1/360 (for wind angle) is
         returned.
 
-        Defaults to `None`
+        Defaults to `None`.
     """
     if dimensions is None:
         return scaled_euclidean_norm

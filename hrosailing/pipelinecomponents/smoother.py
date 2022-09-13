@@ -39,7 +39,7 @@ class LazySmoother(Smoother):
     """
     def smooth(self, data):
         """
-        Does not change the data and provides empty statistics dictionary.
+        Does not change the data and provides an empty statistics dictionary.
 
         See also
         --------

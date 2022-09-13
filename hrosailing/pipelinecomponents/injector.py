@@ -36,7 +36,7 @@ class Injector(ABC):
         app_points : WeightedPoints
             Points to append to the original points.
         statistics : dict
-            dictionary of statistics
+            Dictionary of statistics.
         """
 
 
