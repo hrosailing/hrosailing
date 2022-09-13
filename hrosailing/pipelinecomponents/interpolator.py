@@ -63,13 +63,13 @@ class IDWInterpolator(Interpolator):
     of Shepard, "A two-dimensional interpolation function
     for irregularly-spaced data".
 
-    For a given point `grid_pt`, that is to be interpolated, we
-    calculate the distances d_pt = ||grid-pt - pt[:2]|| for all considered
-    measured points. Then we set the weights of a point `pt` to be
-    w_pt = 1 / d_pt^p, for some nonnegative integer `p`.
+    For a given point :math:`gridpt`, that is to be interpolated, we
+    calculate the distances :math:`d_{pt} = ||gridpt - pt[:2]||` for all considered
+    measured points. Then we set the weights of a point :math:`pt` to be
+    :math:`w_{pt} = \\cfrac{1}{d_{pt}^p}`, for some nonnegative integer :math:`p`.
 
-    The interpolated value at `grid_pt` then equals (Σ w_pt pt[2]) / Σ w_pt
-    or if `grid_pt` is already a measured point `pt`, it will equal `pt[2]`.
+    The interpolated value at :math:`gridpt` then equals (Σ w_{pt} pt[2]) / Σ w_{pt}
+    or if :math:`gridpt` is already a measured point :math:`pt`, it will equal :math:`pt[2]`.
 
     Parameters
     ----------
@@ -78,10 +78,10 @@ class IDWInterpolator(Interpolator):
         Defaults to `2`.
 
     norm : function or callable, optional
-        Norm with which to calculate the distances, i.e. ||.||.
+        Norm with which to calculate the distances, i.e. :math:`||.||`.
 
         If nothing is passed, it will default to a scaled
-        version of ||.||_2.
+        version of :math:`||.||_2`.
 
     Raises
     ------
@@ -140,7 +140,7 @@ class ArithmeticMeanInterpolator(Interpolator):
     First the distance of the independent variables (wind angle and wind speed)
     of all considered
     points and of the to interpolate point is calculated, i.e.
-    || p[:2] - grid_pt ||.
+    :math:`|| p[:2] - gridpt ||`.
     Then using a distribution, new weights are calculated based on
     the old weights, the previously calculated distances and other
     parameters depending on the distribution.
@@ -148,7 +148,7 @@ class ArithmeticMeanInterpolator(Interpolator):
     The value of the dependent variable (boat speed) of the interpolated point
     then equals
     s * (Σ w_p * p) / Σ w_p
-    where `s` is an additional scaling factor.
+    where :math:`s` is an additional scaling factor.
 
     Note that this is a more general approach to the inverse distance
     interpolator.
@@ -161,10 +161,10 @@ class ArithmeticMeanInterpolator(Interpolator):
         Defaults to `1`.
 
     norm : function or callable, optional
-        Norm with which to calculate the distances, i.e. ||.||.
+        Norm with which to calculate the distances, i.e. :math:`||.||`.
 
         If nothing is passed, it will default to a scaled
-        version of ||.||_2.
+        version of :math:`||.||_2`.
 
     distribution : function or callable, optional
         Function with which to calculate the updated weights.
@@ -174,7 +174,7 @@ class ArithmeticMeanInterpolator(Interpolator):
 
         If nothing is passed, it will default to `gauss_potential`, which
         calculates weights based on the formula
-        β * exp(-α * old_weights * distances).
+        :math:`\\beta * \\mathrm{e}^{\\textstyle -α * oldweights * distances}\\`.
 
     params :
         Parameters to be passed to `distribution`.
@@ -242,22 +242,22 @@ class ImprovedIDWInterpolator(Interpolator):
     Instead of setting the weights as the normal inverse distance
     to some power, we set the weights in the following way:
 
-    Let `r` be the radius of the `neighbourhood.ScalingBall` with the center being some
-    point `grid_pt` which is to be interpolated.
-    For all considered measured points let `d_pt` be the same as
-    in `IDWInterpolator`. If d_pt <= r/3 we set w_pt = 1 / d_pt.
-    Otherwise, we set w_pt = 27 / (4 * r) * (d_pt / r - 1)^2.
+    Let :math:`r` be the radius of the `neighbourhood.ScalingBall` with the center being some
+    point :math:`gridpt` which is to be interpolated.
+    For all considered measured points let :math:`d_{pt}` be the same as
+    in `IDWInterpolator`. If :math:`d_{pt} <= \\cfrac{r}{3}` we set :math:`w_{pt} = \\cfrac{1}{d_{pt}}`.
+    Otherwise, we set :math:`w_{pt} = \\cfrac{27}{4 * r} * (\\cfrac{d_{pt}}{r - 1})^2`.
 
-    The resulting value on `grid_pt` will then be calculated the same
+    The resulting value on :math:`gridpt` will then be calculated the same
     way as in `IDWInterpolator`.
 
     Parameters
     ----------
     norm : function or callable, optional
-        Norm with which to calculate the distances, i.e. ||.||.
+        Norm with which to calculate the distances, i.e. :math:`||.||`.
 
         If nothing is passed, it will default to a scaled
-        version of ||.||_2.
+        version of :math:`||.||_2`.
     """
 
     def __init__(self, norm: Callable = scaled_euclidean_norm):
@@ -314,10 +314,10 @@ class ShepardInterpolator(Interpolator):
         Defaults to `0.1`.
 
     norm : function or callable, optional
-        Norm with which to calculate the distances, i.e. ||.||.
+        Norm with which to calculate the distances, i.e. :math:`||.||`.
 
         If nothing is passed, it will default to a scaled
-        version of ||.||_2.
+        version of :math:`||.||_2`.
 
 
     Raises

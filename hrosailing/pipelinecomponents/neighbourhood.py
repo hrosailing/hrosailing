@@ -56,18 +56,18 @@ class Neighbourhood(ABC):
 
 class Ball(Neighbourhood):
     """A class to describe a closed 2-dimensional ball
-    centered around the origin, i.e. { x in R^2 : ||x|| <= r }.
+    centered around the origin, i.e. { :math:`x \\in R^2 : ||x|| <= r` }.
 
     Parameters
     ----------
     norm : function or callable, optional
-        The norm for which the ball is described, i.e. ||.||.
+        The norm for which the ball is described, i.e. :math:`||.||`.
 
         If nothing is passed, it will default to a scaled version
-        of ||.||_2.
+        of :math:`||.||_2`.
 
     radius : positive int or float, optional
-        The radius of the ball, i.e. r.
+        The radius of the ball, i.e. :math:`r`.
 
         Defaults to `0.05`.
 
@@ -113,8 +113,8 @@ class Ball(Neighbourhood):
 
 class ScalingBall(Neighbourhood):
     """A class to represent a closed 2-dimensional ball
-    centered around the origin, i.e. { x in R^2 : ||x|| <= r },
-    where the radius `r` will be dynamically determined, such that
+    centered around the origin, i.e. { :math:`x \\in R^2 : ||x|| <= r` },
+    where the radius :math:`r` will be dynamically determined, such that
     there is always a certain amount of given points contained
     in the ball.
 
@@ -127,16 +127,16 @@ class ScalingBall(Neighbourhood):
     max_pts : positive int
         Mostly used for initial guess of a "good" radius. Also used to
         guarantee that, on average, the scaling ball will contain
-        (min_pts + max_pts) / 2 points of certain given points.
+        :math:`cfrac{min_pts + max_pts}{2}` points of certain given points.
 
         It is also unlikely that the scaling ball will contain
         more than `max_pts` points.
 
     norm : function or callable, optional
-        The norm for which the scaling ball is described, i.e. ||.||.
+        The norm for which the scaling ball is described, i.e. :math:`||.||`.
 
         If nothing is passed, it will default to a scaled version
-        of ||.||_2.
+        of :math:´||.||_2`.
 
     Raises
     ------
@@ -221,30 +221,30 @@ class ScalingBall(Neighbourhood):
 
 class Ellipsoid(Neighbourhood):
     """A class to represent a closed d-dimensional ellipsoid
-    centered around the origin, i.e. `T(B)`, where `T` is an invertible
-    linear transformation, and `B` is a closed d-dimensional ball,
+    centered around the origin, i.e. :math:`T(B)`, where :math:`T` is an invertible
+    linear transformation, and :math:`B` is a closed d-dimensional ball,
     centered around the origin.
 
     It will be represented using the equivalent formulation:
-    { x in R^2 : ||T^-1 x|| <= r }.
+    { :math:`x \\in R^2 : ||T^{-1} x|| <= r` }.
 
     Parameters
     ----------
     lin_trans : array_like of shape (2,2), optional
         The linear transformation which transforms the
-        ball into the given ellipsoid, i.e. `T`.
+        ball into the given ellipsoid, i.e. :math:`T`.
 
         If nothing is passed, it will default to the 2x2
         identity matrix, i.e. the ellipsoid will be a ball.
 
     norm : function or callable, optional
-        The norm for which the ellipsoid is described, i.e. ||.||.
+        The norm for which the ellipsoid is described, i.e. :math:`||.||`.
 
         If nothing is passed, it will default to a scaled
-        version of ||.||_2.
+        version of :math:`||.||_2`.
 
     radius : positive int or float, optional
-        The radius of the ellipsoid, i.e. `r`.
+        The radius of the ellipsoid, i.e. :math:`r`.
 
         Defaults to `0.05`.
 
@@ -318,17 +318,17 @@ class Ellipsoid(Neighbourhood):
 
 class Cuboid(Neighbourhood):
     """A class to represent a d-dimensional closed cuboid, i.e.
-    { x in R^2 : |x_i| <= b_i, i=1,2 }.
+    { :math:`x \\in R^2 : |x_i| <= b_i, i=1,2` }.
 
     Parameters
     ----------
     norm : function or callable, optional
-        The 1-d norm used to measure the length of `x_i`, i.e. |.|.
+        The 1-d norm used to measure the length of :math:`x_i`, i.e. :math:`|.|`.
 
-        If nothing is passed, it will default to the absolute value |.|.
+        If nothing is passed, it will default to the absolute value :math:`|.|`.
 
     dimensions : subscriptable of length 2, optional
-        The length of the sides of the cuboid, i.e. `b_i`.
+        The length of the sides of the cuboid, i.e. :math:`b_i`.
 
         If nothing is passed, it will default to `(0.05, 0.05)`.
 
@@ -369,22 +369,22 @@ class Cuboid(Neighbourhood):
 
 class Polytope(Neighbourhood):
     """A class to represent a general 2-dimensional polytope, i.e. the
-    convex hull P = conv(x_1, ..., x_n) of some n points x_1 ,..., x_n
+    convex hull :math:`P = conv(x_1, ..., x_n)` of some n points :math:`x_1 ,..., x_n`
     or equivalently the (bounded) intersection of m half spaces
-    P = { x in R^2 : Ax <= b }.
+    :math:`P =` { :math:`x \\in R^2 : Ax <= b` }.
 
     Parameters
     ----------
     mat : array_like of shape (m, 2), optional
-        Matrix to represent the normal vectors `a_i` of the half
-        spaces, i.e. A = (a_1, ... , a_m)^t.
+        Matrix to represent the normal vectors :math:`a_i` of the half
+        spaces, i.e. :math:`A = (a_1, ... , a_m)^t`.
 
-        If nothing is passed, it will default to (I_2, -I_2)^t,
-        where I_d is the d-dimensional identity matrix.
+        If nothing is passed, it will default to :math:`(I_2, -I_2)^t`,
+        where :math:`I_d` is the d-dimensional identity matrix.
 
     b : array_like of shape (m, ), optional
-        Vector representing the `b` of the half spaces, i.e.
-        b = (b_1, ... , b_m)^t.
+        Vector representing the :math:`b` of the half spaces, i.e.
+        :math:`b = (b_1, ... , b_m)^t`.
 
         If nothing is passed, it will default to `(0.05,...,0.05)`.
 
@@ -398,7 +398,7 @@ class Polytope(Neighbourhood):
     Warning
     -------
     Does not check whether the polytope given by `mat` and `b` is a polytope,
-    i.e. if `P` is actually bounded.
+    i.e. if :math:`P` is actually bounded.
     """
 
     def __init__(
