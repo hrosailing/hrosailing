@@ -18,6 +18,7 @@ KEYSYNONYMS = {
     "true wind speed": "TWS",
     "ws": "TWS",
     "tws": "TWS",
+    "wspd": "TWS",
 
     "apparent wind speed": "AWS",
     "apparent wind": "AWS",
@@ -92,9 +93,6 @@ KEYSYNONYMS = {
     "wdir": "WD",
     "winddir": "WD",
 
-    "ws": "WS",
-    "wspd": "WS",
-
     "wpgt": "gust",
 
     "pres": "air pressure",
@@ -102,7 +100,7 @@ KEYSYNONYMS = {
     "tsun": "total sunshine"
 }
 
-SEPARATORS = ["_", "-", "+", "&", "\n", "\t"]
+SEPARATORS = [",", ";", "_", "-", "+", "&", "\n", "\t"]
 
 NORM_SCALES = {
     "TWS": 1/20,

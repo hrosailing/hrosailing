@@ -214,6 +214,7 @@ class Data:
             curr_len = len(self._data[key])
             fill_len = max(0, (len_ - curr_len))
             self._data[key].extend([None]*fill_len)
+            self._types[key] = self._get_type(self._data[key])
 
     def filter_types(self, type_list):
         """
