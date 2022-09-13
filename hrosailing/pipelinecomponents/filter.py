@@ -45,6 +45,17 @@ class Filter(ABC):
         to filter out points based on their weights, and produce a
         boolean array of the same size as `wts` and a dictionary containing
         statistics.
+
+        Parameters
+        ----------
+        wts : numpy.ndarray of shape (n,)
+            Weights of the points that are to be filtered, given
+            as a sequence of scalars.
+
+        Returns
+        -------
+        filtered_points : numpy.ndarray of shape (n,)
+            Boolean array describing which points are filtered.
         """
 
 

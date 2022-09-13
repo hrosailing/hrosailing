@@ -40,6 +40,17 @@ class Neighbourhood(ABC):
         determine which of these points lie in the neighbourhood
         and which do not, by producing a boolean array of the same
         size as `pts`.
+
+        Parameters
+        ----------
+        pts : array_like of shape (n, 2)
+            Points that will be checked for membership.
+
+        Returns
+        -------
+        mask : numpy.ndarray of shape (n, )
+            Boolean array describing which of the input points
+            are members of the neighbourhood.
         """
 
 

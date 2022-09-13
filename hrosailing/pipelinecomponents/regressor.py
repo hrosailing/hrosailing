@@ -64,6 +64,13 @@ class Regressor(ABC):
     def fit(self, data):
         """This method should, given data, be used to determine
         optimal parameters for the model function.
+
+        Parameters
+        ----------
+        data : array_like of shape (n, 3)
+            Data to which the model function will be fitted, given as
+            a sequence of points consisting of wind speed, wind angle
+            and boat speed.
         """
 
 

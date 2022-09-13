@@ -24,7 +24,20 @@ class Injector(ABC):
     @abstractmethod
     def inject(self, weighted_points):
         """Method that should produce artificial weighted data points
-        that are supposed to be appended to the original data."""
+        that are supposed to be appended to the original data.
+
+        Parameters
+        ----------
+        weighted_points : WeightedPoints
+            The original preprocessed points.
+
+        Returns
+        -------
+        app_points : WeightedPoints
+            Points to append to the original points.
+        statistics : dict
+            dictionary of statistics
+        """
 
 
 class ZeroInjector(Injector):

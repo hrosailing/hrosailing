@@ -42,6 +42,19 @@ class Interpolator(ABC):
         """This method should be used, given a point `grid_pt` and an
         instances of `WeightedPoints`, to determine the z-value at `grid_pt`,
         based on the z-values of the points in the `WeightedPoints` instance.
+
+        Parameters
+        ----------
+        w_pts : WeightedPoints
+            Considered measured points.
+
+        grid_pt : numpy.ndarray of shape (2,)
+            Point that is to be interpolated.
+
+        Returns
+        -------
+        out : int / float
+            Interpolated value at `grid_pt`.
         """
 
 

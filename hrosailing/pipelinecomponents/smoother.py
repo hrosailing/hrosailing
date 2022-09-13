@@ -38,6 +38,13 @@ class LazySmoother(Smoother):
     Smoother that doesn't do anything.
     """
     def smooth(self, data):
+        """
+        Does not change the data and provides empty statistics dictionary.
+
+        See also
+        --------
+        `Smoother.smooth`
+        """
         return data, {}
 
 class AffineSmoother(Smoother):
