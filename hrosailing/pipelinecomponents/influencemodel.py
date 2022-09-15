@@ -2,10 +2,10 @@
 Defines the `InfluenceModel` abstract base class that can be used
 to create custom influence models.
 
-Subclasses of InfluenceModel can be used with
+Subclasses of `InfluenceModel` can be used with
 
-- the PolarPipeline class in the hrosailing.pipeline module
-- various functions in the hrosailing.cruising module
+- the `PolarPipeline` class in the `hrosailing.pipeline` module,
+- various functions in the `hrosailing.cruising` module.
 """
 
 from ._utils import data_dict_to_numpy
@@ -15,11 +15,11 @@ from abc import ABC, abstractmethod
 
 
 class InfluenceException(Exception):
-    """Raised when removing or adding influence does not work"""
+    """Raised when removing or adding influence does not work."""
 
 
 class InfluenceModel(ABC):
-    """Base class for all InfluenceModel classes
+    """Base class for all influence model classes.
 
 
     Abstract Methods
@@ -36,15 +36,15 @@ class InfluenceModel(ABC):
         output where the columns correspond to wind speed, wind angle and
         boat speed respectively.
 
-        The dictionary should contain atleast keys for Wind speed, Wind angle
-        and either Speed over ground, Speed over water or Boat speed
+        The dictionary should contain at least keys for Wind speed, Wind angle
+        and either Speed over ground, Speed over water or Boat speed.
         """
 
     @abstractmethod
     def add_influence(self, pd, influence_data: dict):
         """This method should be used, given a polar diagram and a
         dictionary, to obtain a modified boat speed of that given
-        in the polar diagram, based on the influencences presented in
+        in the polar diagram, based on the influences presented in
         the given dictionary, such as wave height, underlying currents etc.
         """
 
@@ -52,25 +52,24 @@ class InfluenceModel(ABC):
     def fit(self, training_data: dict):
         """
         This method should be used to fit parameters of the influence
-        model to the given training_data
+        model to the given training data.
         """
 
 
 class IdentityInfluenceModel(InfluenceModel):
     """An influence model which ignores most influences and just calculates
     the true wind if only the apparent wind is given.
-    IF 'BSP' is not provided by the data 'SOG' is used instead."""
+    IF 'BSP' is not provided by the data, 'SOG' is used instead."""
 
     def remove_influence(self, data: dict):
         """
-        Ignores all influences as described above
+        Ignores all influences as described above.
 
-        Parameter
+        Parameters
         ----------
-
-        data: dict
-            data dictionary, must either provide 'BSP' or 'SOG' key as well as
-            either the keys 'TWS', 'TWA' or 'AWS', 'AWA'
+        data : dict
+            Data dictionary, must either provide 'BSP' or 'SOG' key as well as
+            either the keys 'TWS', 'TWA' or 'AWS', 'AWA'.
 
         Returns
         -------
@@ -83,21 +82,21 @@ class IdentityInfluenceModel(InfluenceModel):
         Ignores all influences and strictly calculates the boat speed using the
         polar diagram.
 
-        Parameter
-        -------
-        pd: PolarDiagram
+        Parameters
+        ----------
+        pd : PolarDiagram
 
-        influence_data: dict
-            either a dictionary of lists or a dictionary of values containing
+        influence_data : dict
+            Either a dictionary of lists or a dictionary of values containing
             one or more sets of influence data.
-            At least the keys 'TWS' and 'TWA' should be provided
+            At least the keys 'TWS' and 'TWA' should be provided.
 
         Returns
-        ---------
+        -------
         speeds, statistics: float or list of floats, {}
-            the boat speed if 'influence_data' contained values,
-            a list of respective boat speeds if 'influence_data' contained
-            lists
+            The boat speed if `influence_data` contained values,
+            a list of respective boat speeds if `influence_data` contained
+            lists.
         """
         if isinstance(influence_data["TWS"], list):
             wind = zip(influence_data["TWS"], influence_data["TWA"])
@@ -108,7 +107,7 @@ class IdentityInfluenceModel(InfluenceModel):
         return speed, {}
 
     def fit(self, training_data: dict):
-        """Does nothing, returns empty dictionary"""
+        """Does nothing, returns an empty dictionary."""
         return {}
 
 

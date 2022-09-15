@@ -333,7 +333,7 @@ def get_datahandler_statistics(data):
 
     Parameters
     ----------
-    data: Data
+    data : Data
     """
     return {
         "n_rows": data.n_rows,
