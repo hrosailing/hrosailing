@@ -1,5 +1,5 @@
 """
-Classes used for modular modeling of different interpolation methods.
+Classes used for modular modelling of different interpolation methods.
 
 Defines the `Interpolator` abstract base class that can be used to
 create custom interpolation methods.

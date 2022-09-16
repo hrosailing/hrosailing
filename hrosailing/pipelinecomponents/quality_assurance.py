@@ -6,9 +6,9 @@ class QualityAssurance(ABC):
 
     @abstractmethod
     def check(self, polar_diagram, test_data):
-        """Method that should test if a given polar_diagram works with given
+        """Method that should test if a given polar diagram works with given
         preprocessed test data and return a dict containing relevant
-        statistics"""
+        statistics."""
 
 
 class MinimalQualityAssurance(QualityAssurance):

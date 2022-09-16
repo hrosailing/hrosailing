@@ -1,5 +1,5 @@
 """
-Classes used for modular modeling of different sampling methods.
+Classes used for modular modelling of different sampling methods.
 
 Defines the `Sampler` abstract base class that can be used to create
 custom sampling methods.

@@ -1,5 +1,5 @@
 """
-Classes used for modular modeling of different regression methods.
+Classes used for modular modelling of different regression methods.
 
 Defines the `Regressor` abstract base class that can be used to create
 custom regression methods.

@@ -1,5 +1,5 @@
 """
-Classes used for modular modeling of different filtering methods based
+Classes used for modular modelling of different filtering methods based
 on weights.
 
 Defines the `Filter` abstract base class that can be used to create

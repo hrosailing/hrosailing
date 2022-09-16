@@ -136,7 +136,7 @@ class ScalingBall(Neighbourhood):
         The norm for which the scaling ball is described, i.e. :math:`||.||`.
 
         If nothing is passed, it will default to a scaled version
-        of :math:´||.||_2`.
+        of :math:`||.||_2`.
 
     Raises
     ------

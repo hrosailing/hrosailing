@@ -20,14 +20,14 @@ class Smoother(ABC):
 
         Parameters
         ----------
-        data: dict
+        data : dict
             The data that should be smoothened.
 
         Returns
         -------
-        data: dict
+        data : dict
             The processed data.
-        statistics: dict
+        statistics : dict
             Dictionary containing relevant statistics.
         """
         return data, {}
