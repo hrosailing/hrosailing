@@ -218,7 +218,7 @@ class ArchimedeanSampler(Sampler):
         vol = ch.volume
         ineqs = ch.equations
 
-        ub_n_samples = int(np.pi * self._n_samples / vol) + 10
+        ub_n_samples = int(np.pi * r**2 * self._n_samples / vol) + 10
 
         # estimate upper bounds for spiral points needed
         # and simultaniously create arc values
