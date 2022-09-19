@@ -243,6 +243,11 @@ class Data:
         """
         if old_key == new_key:
             return
+        if new_key in self.keys():
+            raise ValueError(
+                f"Can not rename {old_key} to {new_key} since {new_key} already exists."
+            )
+
         self._data[new_key] = self._data[old_key]
         self._types[new_key] = self._types[old_key]
 
