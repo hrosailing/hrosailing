@@ -29,6 +29,8 @@ class InfluenceModel(ABC):
     remove_influence(data)
 
     add_influence(pd, influence_data)
+
+    fit(training_data)
     """
 
     @abstractmethod
