@@ -34,29 +34,49 @@ class InfluenceModel(ABC):
     """
 
     @abstractmethod
-    def remove_influence(self, data: dict):
-        """This method should be used, given a dictionary containing
-        lists of different data at points in time, to get a (n,3) array_like
-        output where the columns correspond to wind speed, wind angle and
+    def remove_influence(self, data):
+        """This method should be used to create an `np.ndarray`
+        output from a given `Data` object where the columns correspond to wind speed, wind angle and
         boat speed respectively.
 
-        The dictionary should contain at least keys for wind speed, wind angle
-        and either speed over ground, speed over water or boat speed.
+        Parameter
+        ---------
+        data: Data
+            Should contain at least keys for wind speed, wind angle
+            and either speed over ground, speed over water or boat speed.
+
+        Returns
+        ----------
+        out: np.ndarray
+
+        statistics: dict
+            A dictionary containing relevant statistics
         """
 
     @abstractmethod
-    def add_influence(self, pd, influence_data: dict):
+    def add_influence(self, pd, influence_data):
         """This method should be used, given a polar diagram and a
         dictionary, to obtain a modified boat speed of that given
         in the polar diagram, based on the influences presented in
         the given dictionary, such as wave height, underlying currents etc.
+
+        Parameter
+        ---------
+        pd: PolarDiagram
+
+        influence_data: Data or dict
+            further influences to be considered
         """
 
     @abstractmethod
-    def fit(self, training_data: dict):
+    def fit(self, training_data):
         """
         This method should be used to fit parameters of the influence
         model to the given training data.
+
+        Parameter
+        ----------
+        training_data: Data
         """
 
 
@@ -78,6 +98,10 @@ class IdentityInfluenceModel(InfluenceModel):
         Returns
         -------
         (n,3)-array, {}
+
+        See also
+        ---------
+        `InfluenceMode.remove_influence`
         """
         return _get_true_wind_data(data), {}
 
@@ -101,6 +125,10 @@ class IdentityInfluenceModel(InfluenceModel):
             The boat speed if `influence_data` contained values,
             a list of respective boat speeds if `influence_data` contained
             lists.
+
+        See also
+        -------
+        `InfluenceModel.add_influence`
         """
         if isinstance(influence_data["TWS"], list):
             wind = zip(influence_data["TWS"], influence_data["TWA"])
@@ -111,7 +139,13 @@ class IdentityInfluenceModel(InfluenceModel):
         return speed, {}
 
     def fit(self, training_data: dict):
-        """Does nothing, returns an empty dictionary."""
+        """
+        Does nothing, returns an empty dictionary.
+
+        See also
+        -------
+        `InfluenceModel.fit`
+        """
         return {}
 
 

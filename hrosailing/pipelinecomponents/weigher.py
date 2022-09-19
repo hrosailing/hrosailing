@@ -162,9 +162,13 @@ class Weigher(ABC):
     @abstractmethod
     def weigh(self, points) -> (np.ndarray, dict):
         """This method should be used to determine a weight for each point
-        where the points might be given as `data_dicts` or as `numpy.arrays`
+        where the points might be given as `Data` or as `numpy.arrays`
         and return the result as `WeightedPoints` as well as a dictionary
         with statistics.
+
+        Parameter
+        --------
+        points: Data or numpy.ndarray
         """
 
 
@@ -173,6 +177,13 @@ class AllOneWeigher(Weigher):
     of the pipeline are set to `False`. Weighs everything as `1`."""
 
     def weigh(self, points) -> (np.ndarray, dict):
+        """
+        Assigns weights according to the function defined above.
+
+        See also
+        ---------
+        `Weigher.weigh`
+        """
         if isinstance(points, np.ndarray):
             size = len(points)
         else:
