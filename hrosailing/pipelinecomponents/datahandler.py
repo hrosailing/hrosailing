@@ -105,7 +105,6 @@ class ArrayHandler(DataHandler):
         """
         if self.pand and isinstance(data, self.pd.DataFrame):
             data_dict = data.to_dict()
-            data = Data().update(data_dict)
         else:
             arr, keys = data
             arr = np.asarray(arr)
@@ -114,8 +113,9 @@ class ArrayHandler(DataHandler):
                 raise HandleException("Number of keys does not match data")
 
             data_dict = {key: list(arr[i]) for i, key in enumerate(keys)}
-            data = Data()
-            data.update(data_dict)
+            
+        data = Data()
+        data.update(data_dict)
 
         data.hrosailing_standard_format()
 
