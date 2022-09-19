@@ -8,6 +8,8 @@ to the hrosailing standard term,
 hrosailing standard format,
 - NORM_SCALES is a dictionary containing suggested scale factors for various hrosailing standard keywords. These scales
 are intended to be used to scale components before applying a norm.
+- HROSAILING_TO_NMEA is a dictionary containing `key`, `value` pairs where `key` is an hrosailing standard keyword and `value`
+is a list of NMEA0183 keywords which are required for its computation.
 """
 
 KEYSYNONYMS = {
@@ -98,6 +100,19 @@ KEYSYNONYMS = {
     "pres": "air pressure",
 
     "tsun": "total sunshine"
+}
+
+
+HROSAILING_TO_NMEA = {
+    "TWS" : ["Wind speed", "Reference"],
+    "AWS" : ["Wind speed", "Reference"],
+    "TWA" : ["Wind angle", "Reference"],
+    "AWA" : ["Wind angle", "Reference"],
+    "lat" : ["Latitude"],
+    "lon" : ["Longitude"],
+    "SOG" : ["Speed Over Ground"],
+    "date" : ["Datestamp"],
+    "time" : ["Timestamp"]
 }
 
 SEPARATORS = [",", ";", "_", "-", "+", "&", "\n", "\t"]

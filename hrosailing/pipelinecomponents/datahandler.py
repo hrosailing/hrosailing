@@ -22,6 +22,7 @@ import numpy as np
 
 import hrosailing.pipelinecomponents.data
 from hrosailing.pipelinecomponents.data import Data
+from hrosailing.pipelinecomponents.constants import HROSAILING_TO_NMEA
 
 
 class HandlerInitializationException(Exception):
@@ -190,7 +191,8 @@ class NMEAFileHandler(DataHandler):
         Defaults to `None`.
 
     wanted_attributes : iterable of str, optional
-        NMEA attributes that will be appended to the output.
+        NMEA attributes or hrosailing standard keys that will be appended to the output.
+
 
         Defaults to `None`.
 
@@ -230,9 +232,16 @@ class NMEAFileHandler(DataHandler):
             self._sentence_filter = lambda line: True
 
         if wanted_attributes is not None:
+            wanted_nmea_attributes = []
+            for key in wanted_attributes:
+                if key in HROSAILING_TO_NMEA:
+                    wanted_nmea_attributes.extend(HROSAILING_TO_NMEA[key])
+                else:
+                    wanted_nmea_attributes.append(key)
+
             self._attribute_filter = lambda field: any(
                 field[0] == attribute
-                for attribute in wanted_attributes
+                for attribute in wanted_nmea_attributes
                 )
         elif unwanted_attributes is not None:
             self._attribute_filter = lambda field: all(
