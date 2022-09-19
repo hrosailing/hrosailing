@@ -48,6 +48,9 @@ class WeightedPoints:
     ----------
     data : Data, dict or numpy.ndarray
         Points that will be weight or paired with given weights.
+        If given as a dictionary, each value should be a list with data points interpreted as
+        `[data[key][i] for key in data.keys()]` for each suitable `i`.
+        If given as a `numpy.ndarray` the rows will be interpreted as data points.
 
     weights : scalar or array_like of shape (n,), optional
         If the weights of the points are known beforehand,
