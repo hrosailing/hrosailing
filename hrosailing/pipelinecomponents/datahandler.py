@@ -88,7 +88,7 @@ class ArrayHandler(DataHandler):
 
         Parameters
         ----------
-        data : pandas.DataFrame or tuple of array_like and ordered iterable
+        data : pandas.DataFrame or tuple containing an array_like and an ordered iterable
             If given as a tuple, the `array_like` should contain the values organized in such a way, that the columns
             correspond to different attributes and the rows to different data points.
             In this case, the ordered iterable should contain the names of the attributes corresponding to the columns.

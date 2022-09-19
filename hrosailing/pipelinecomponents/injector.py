@@ -1,5 +1,5 @@
 """
-Contains the base class `Injector` to be used in as a component of the pipeline.
+Contains the base class `Injector` to be used as a component of the pipeline.
 
 Also contains the predefined and ready to use injectors:
 

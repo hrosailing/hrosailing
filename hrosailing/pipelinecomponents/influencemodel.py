@@ -13,6 +13,8 @@ from hrosailing.wind import convert_apparent_wind_to_true
 
 from abc import ABC, abstractmethod
 
+import numpy as np
+
 
 class InfluenceException(Exception):
     """Raised when removing or adding influence does not work."""
@@ -32,12 +34,12 @@ class InfluenceModel(ABC):
     @abstractmethod
     def remove_influence(self, data: dict):
         """This method should be used, given a dictionary containing
-        lists of different data at points in time, to get a nx3 array_like
+        lists of different data at points in time, to get a (n,3) array_like
         output where the columns correspond to wind speed, wind angle and
         boat speed respectively.
 
-        The dictionary should contain at least keys for Wind speed, Wind angle
-        and either Speed over ground, Speed over water or Boat speed.
+        The dictionary should contain at least keys for wind speed, wind angle
+        and either speed over ground, speed over water or boat speed.
         """
 
     @abstractmethod
@@ -63,7 +65,7 @@ class IdentityInfluenceModel(InfluenceModel):
 
     def remove_influence(self, data: dict):
         """
-        Ignores all influences as described above.
+        Ignores most influences as described above.
 
         Parameters
         ----------
@@ -79,7 +81,7 @@ class IdentityInfluenceModel(InfluenceModel):
 
     def add_influence(self, pd, influence_data: dict):
         """
-        Ignores all influences and strictly calculates the boat speed using the
+        Ignores most influences and strictly calculates the boat speed using the
         polar diagram.
 
         Parameters

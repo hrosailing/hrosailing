@@ -40,8 +40,6 @@ class Regressor(ABC):
 
     optimal_params
 
-    set_weights(self, X_weights, y_weights)
-
     fit(self, data)
     """
 
@@ -188,7 +186,7 @@ class LeastSquareRegressor(Regressor):
         where `ws` and `wa` are `numpy.ndarrays` resp. and `params` is a
         sequence of parameters that will be fitted.
 
-    init_vals : array_like ,optional
+    init_vals : array_like, optional
         Initial guesses for the optimal parameters of `model_func`
         that are passed to `scipy.optimize.curve_fit`.
 
@@ -196,10 +194,10 @@ class LeastSquareRegressor(Regressor):
 
     Properties
     ----------
-    model_func :
+    model_func : Callable
         Returns a read-only version of `self._func`.
 
-    optimal_params :
+    optimal_params : numpy.ndarray
         Returns a read-only version of `self._popt`.
     """
 

@@ -23,12 +23,12 @@ class Expander(ABC):
 
         Parameters
         ----------
-        data : dict
+        data : Data
             The data that should be expanded.
 
         Returns
         -------
-        data : dict
+        data : Data
             The processed data.
         statistics : dict
             Dictionary containing relevant statistics."""

@@ -56,6 +56,9 @@ class Filter(ABC):
         -------
         filtered_points : numpy.ndarray of shape (n,)
             Boolean array describing which points are filtered.
+
+        statistics : dict
+            Dictionary containing relevant statistics.
         """
 
 
@@ -67,7 +70,7 @@ class QuantileFilter(Filter):
     ----------
     percent : int or float, optional
 
-        Defaults to `25`.
+        Defaults to `50`.
 
     Raises
     ------

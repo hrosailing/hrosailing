@@ -68,7 +68,7 @@ class IDWInterpolator(Interpolator):
     measured points. Then we set the weights of a point :math:`pt` to be
     :math:`w_{pt} = \\cfrac{1}{d_{pt}^p}`, for some nonnegative integer :math:`p`.
 
-    The interpolated value at :math:`gridpt` then equals (Σ w_{pt} pt[2]) / Σ w_{pt}
+    The interpolated value at :math:`gridpt` then equals (Σ (w_{pt} * pt[2])) / Σ w_{pt}
     or if :math:`gridpt` is already a measured point :math:`pt`, it will equal :math:`pt[2]`.
 
     Parameters
@@ -147,7 +147,7 @@ class ArithmeticMeanInterpolator(Interpolator):
 
     The value of the dependent variable (boat speed) of the interpolated point
     then equals
-    s * (Σ w_p * p) / Σ w_p
+    s * (Σ (w_p * p)) / Σ w_p
     where :math:`s` is an additional scaling factor.
 
     Note that this is a more general approach to the inverse distance
@@ -248,7 +248,7 @@ class ImprovedIDWInterpolator(Interpolator):
     in `IDWInterpolator`. If :math:`d_{pt} <= \\cfrac{r}{3}` we set :math:`w_{pt} = \\cfrac{1}{d_{pt}}`.
     Otherwise, we set :math:`w_{pt} = \\cfrac{27}{4 * r} * (\\cfrac{d_{pt}}{r - 1})^2`.
 
-    The resulting value on :math:`gridpt` will then be calculated the same
+    The resulting value at :math:`gridpt` will then be calculated the same
     way as in `IDWInterpolator`.
 
     Parameters
@@ -303,7 +303,7 @@ class ShepardInterpolator(Interpolator):
     Parameters
     ----------
     tol : positive float, optional
-        The distance around data points in which the actual data is preferred to
+        The distance around every data point in which the data point is preferred to
         the interpolated data.
 
         Defaults to `numpy.finfo(float).eps`.

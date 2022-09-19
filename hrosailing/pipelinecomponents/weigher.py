@@ -46,7 +46,7 @@ class WeightedPoints:
 
     Parameters
     ----------
-    data : dict or numpy.ndarray
+    data : Data, dict or numpy.ndarray
         Points that will be weight or paired with given weights.
 
     weights : scalar or array_like of shape (n,), optional
@@ -126,7 +126,7 @@ def get_weight_statistics(weights):
     Parameters
     ----------
     weights : array_like of floats
-        The weights to be analyzed by the statistics.
+        The weights to be analyzed.
     """
     minw = np.min(weights)
     span = np.max(weights) - minw

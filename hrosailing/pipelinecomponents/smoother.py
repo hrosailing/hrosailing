@@ -53,7 +53,7 @@ class AffineSmoother(Smoother):
     is constant.
     Between two intervals, the arithmetic mean of the values of the respective
     intervals is used to replace the measured data.
-    Then, data points in such a time interval are replaced using affine
+    Then, data points in such an interval are replaced using affine
     interpolation.
     """
 
