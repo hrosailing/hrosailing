@@ -392,6 +392,21 @@ class Data:
         new_obj._max_len = max_len
         return new_obj
 
+    @classmethod
+    def from_dict(cls, dict_):
+        """
+        Creates `Data` object that contains the same data as a given dictionary.
+        The values of the dictionary should be iterables and will correspond to the colums of the resulting `Data`
+        object. The keys of the dictionary will correspond to the rows of the resulting `Data` object.
+
+        Parameter
+        ---------
+        dict_: dict
+        """
+        data = cls()
+        data.extend(dict_)
+        return data
+
     def get_slice(self, slice):
         """
         Returns new `Data` object containing only keys in `slice`.
