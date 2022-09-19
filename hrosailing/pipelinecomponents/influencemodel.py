@@ -97,7 +97,7 @@ class IdentityInfluenceModel(InfluenceModel):
 
         Returns
         -------
-        speeds, statistics: float or list of floats, {}
+        speeds: float or list of floats
             The boat speed if `influence_data` contained values,
             a list of respective boat speeds if `influence_data` contained
             lists.
