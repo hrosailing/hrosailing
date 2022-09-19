@@ -15,7 +15,7 @@ from .neighbourhood import (Ball, Cuboid, Ellipsoid, Neighbourhood, Polytope,
                             ScalingBall)
 from .regressor import LeastSquareRegressor, ODRegressor, Regressor
 
-from .sampler import (ArchimedianSampler, FibonacciSampler, Sampler,
+from .sampler import (ArchimedeanSampler, FibonacciSampler, Sampler,
                       UniformRandomSampler)
 from .weigher import (CylindricMeanWeigher, CylindricMemberWeigher, Weigher,
                       WeightedPoints, AllOneWeigher,

@@ -168,7 +168,7 @@ class FibonacciSampler(Sampler):
         )
 
 
-class ArchimedianSampler(Sampler):
+class ArchimedeanSampler(Sampler):
     """A sampler that produces a number of approximately equidistant
     sample points on a moved and scaled version of the archimedean spiral
     (x*cos(x), x*sin(x)).
