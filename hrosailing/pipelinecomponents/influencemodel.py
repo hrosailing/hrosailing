@@ -136,7 +136,7 @@ class IdentityInfluenceModel(InfluenceModel):
         else:
             ws, wa = influence_data["TWS"], influence_data["TWA"]
             speed = pd(ws, wa)
-        return speed, {}
+        return speed
 
     def fit(self, training_data: dict):
         """
