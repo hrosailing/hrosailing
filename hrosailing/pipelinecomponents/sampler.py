@@ -150,7 +150,7 @@ class FibonacciSampler(Sampler):
         ch = ConvexHull(pts)
         vol = ch.volume
         ineqs = ch.equations
-        ub_n_samples = int(np.pi * self._n_samples / vol) + 10
+        ub_n_samples = int(np.pi*r**2 * self._n_samples / vol) + 10
 
         # create big fibonacci spiral
         golden_ratio = (1 + np.sqrt(5)) / 2
