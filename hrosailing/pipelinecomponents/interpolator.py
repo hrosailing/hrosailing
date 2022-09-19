@@ -116,7 +116,7 @@ class IDWInterpolator(Interpolator):
         out : int / float
             Interpolated value at `grid_pt`.
         """
-        pts = w_pts.points
+        pts = w_pts.data
         wts = self._norm(pts[:, :2] - grid_pt)
         if np.any(wts == 0):
             mask = wts == 0
