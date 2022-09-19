@@ -409,7 +409,7 @@ class Data:
         dict_: dict
         """
         data = cls()
-        data.extend(dict_)
+        data.update(dict_)
         return data
 
     def get_slice(self, slice):

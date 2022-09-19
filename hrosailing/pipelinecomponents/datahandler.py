@@ -113,7 +113,7 @@ class ArrayHandler(DataHandler):
                 raise HandleException("Number of keys does not match data")
 
             data_dict = {key: list(arr[i]) for i, key in enumerate(keys)}
-            
+
         data = Data()
         data.update(data_dict)
 
@@ -153,7 +153,7 @@ class CsvFileHandler(DataHandler):
         """
         if self.pand:
             df = self.pd.read_csv(data)
-            data_dict = Data().update(df.to_dict())
+            data_dict = df.to_dict()
         else:
             with open(data, "r", encoding="utf-8") as file:
                 csv_reader = csv.reader(file)
@@ -162,12 +162,12 @@ class CsvFileHandler(DataHandler):
                 for row in csv_reader:
                     for i, entry in enumerate(row):
                         data_dict[keys[i]].append(literal_eval(entry))
-                data = Data()
-                data.update(data_dict)
+
+        data = Data.from_dict(data_dict)
 
         data.hrosailing_standard_format()
 
-        statistics = get_datahandler_statistics(data_dict)
+        statistics = get_datahandler_statistics(data)
         return data_dict, statistics
 
 
