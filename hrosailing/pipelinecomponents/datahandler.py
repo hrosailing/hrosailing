@@ -113,7 +113,7 @@ class ArrayHandler(DataHandler):
             if len(keys) != arr.shape[1]:
                 raise HandleException("Number of keys does not match data")
 
-            data_dict = {key: arr[:, i] for i, key in enumerate(keys)}
+            data_dict = {key: list(arr[i]) for i, key in enumerate(keys)}
             data = Data()
             data.update(data_dict)
 
