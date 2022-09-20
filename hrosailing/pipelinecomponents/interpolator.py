@@ -68,7 +68,7 @@ class IDWInterpolator(Interpolator):
     measured points. Then we set the weights of a point :math:`pt` to be
     :math:`w_{pt} = \\cfrac{1}{d_{pt}^p}`, for some nonnegative integer :math:`p`.
 
-    The interpolated value at :math:`gridpt` then equals (Σ (w_{pt} * pt[2])) / Σ w_{pt}
+    The interpolated value at :math:`gridpt` then equals :math:`\\cfrac{\\sum w_{pt} * pt[2]}{\\sum w_{pt}}`
     or if :math:`gridpt` is already a measured point :math:`pt`, it will equal :math:`pt[2]`.
 
     Parameters
@@ -146,8 +146,7 @@ class ArithmeticMeanInterpolator(Interpolator):
     parameters depending on the distribution.
 
     The value of the dependent variable (boat speed) of the interpolated point
-    then equals
-    s * (Σ (w_p * p)) / Σ w_p
+    then equals :math:`s * \\cfrac{\\sum w_p * p}{\\sum w_p}`
     where :math:`s` is an additional scaling factor.
 
     Note that this is a more general approach to the inverse distance

@@ -245,7 +245,7 @@ class Data:
             return
         if new_key in self.keys():
             raise ValueError(
-                f"Can not rename {old_key} to {new_key} since {new_key} already exists."
+                f"Can not rename {old_key} to {new_key} since {new_key} already exists"
             )
 
         self._data[new_key] = self._data[old_key]
@@ -400,13 +400,13 @@ class Data:
     @classmethod
     def from_dict(cls, dict_):
         """
-        Creates `Data` object that contains the same data as a given dictionary.
-        The values of the dictionary should be iterables and will correspond to the colums of the resulting `Data`
+        Creates a `Data` object that contains the same data as a given dictionary.
+        The values of the dictionary should be iterables and will correspond to the columns of the resulting `Data`
         object. The keys of the dictionary will correspond to the rows of the resulting `Data` object.
 
-        Parameter
-        ---------
-        dict_: dict
+        Parameters
+        ----------
+        dict_ : dict
         """
         data = cls()
         data.update(dict_)

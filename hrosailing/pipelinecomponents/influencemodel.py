@@ -35,22 +35,22 @@ class InfluenceModel(ABC):
 
     @abstractmethod
     def remove_influence(self, data):
-        """This method should be used to create an `np.ndarray`
+        """This method should be used to create a `numpy.ndarray`
         output from a given `Data` object where the columns correspond to wind speed, wind angle and
         boat speed respectively.
 
-        Parameter
-        ---------
-        data: Data
+        Parameters
+        ----------
+        data : Data
             Should contain at least keys for wind speed, wind angle
             and either speed over ground, speed over water or boat speed.
 
         Returns
-        ----------
-        out: np.ndarray
+        -------
+        out : numpy.ndarray
 
-        statistics: dict
-            A dictionary containing relevant statistics
+        statistics : dict
+            A dictionary containing relevant statistics.
         """
 
     @abstractmethod
@@ -60,12 +60,12 @@ class InfluenceModel(ABC):
         in the polar diagram, based on the influences presented in
         the given dictionary, such as wave height, underlying currents etc.
 
-        Parameter
-        ---------
-        pd: PolarDiagram
+        Parameters
+        ----------
+        pd : PolarDiagram
 
-        influence_data: Data or dict
-            further influences to be considered
+        influence_data : Data or dict
+            Further influences to be considered.
         """
 
     @abstractmethod
@@ -74,9 +74,9 @@ class InfluenceModel(ABC):
         This method should be used to fit parameters of the influence
         model to the given training data.
 
-        Parameter
+        Parameters
         ----------
-        training_data: Data
+        training_data : Data
         """
 
 
@@ -100,8 +100,8 @@ class IdentityInfluenceModel(InfluenceModel):
         (n,3)-array, {}
 
         See also
-        ---------
-        `InfluenceMode.remove_influence`
+        --------
+        `InfluenceModel.remove_influence`
         """
         return _get_true_wind_data(data), {}
 
@@ -121,13 +121,13 @@ class IdentityInfluenceModel(InfluenceModel):
 
         Returns
         -------
-        speeds: float or list of floats
+        speeds : float or list of floats
             The boat speed if `influence_data` contained values,
             a list of respective boat speeds if `influence_data` contained
             lists.
 
         See also
-        -------
+        --------
         `InfluenceModel.add_influence`
         """
         if isinstance(influence_data["TWS"], list):
@@ -143,7 +143,7 @@ class IdentityInfluenceModel(InfluenceModel):
         Does nothing, returns an empty dictionary.
 
         See also
-        -------
+        --------
         `InfluenceModel.fit`
         """
         return {}
