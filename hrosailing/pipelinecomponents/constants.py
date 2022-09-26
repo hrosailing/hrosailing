@@ -9,7 +9,7 @@ hrosailing standard format,
 - NORM_SCALES is a dictionary containing suggested scale factors for various hrosailing standard keywords. These scales
 are intended to be used to scale components before applying a norm.
 - HROSAILING_TO_NMEA is a dictionary containing `key`, `value` pairs where `key` is an hrosailing standard keyword and
-`value` is a list of NMEA 0183 keywords which are required for its computation.
+`value` is a list of NMEA 0183 keywords which are required for the computation of the data associated with `key`.
 """
 
 KEYSYNONYMS = {

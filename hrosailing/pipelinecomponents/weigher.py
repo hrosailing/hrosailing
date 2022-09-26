@@ -48,7 +48,7 @@ class WeightedPoints:
     ----------
     data : Data, dict or numpy.ndarray
         Points that will be weight or paired with given weights.
-        If given as a dictionary, each value should be a list with data points interpreted as
+        If given as a dictionary, each value should be a list. Data points are interpreted as
         `[data[key][i] for key in data.keys()]` for each suitable `i`.
         If given as a `numpy.ndarray`, the rows will be interpreted as data points.
 
@@ -178,7 +178,7 @@ class AllOneWeigher(Weigher):
 
     def weigh(self, points) -> (np.ndarray, dict):
         """
-        Assigns weights according to the function defined above.
+        Assigns weights according to the procedure defined above.
 
         See also
         --------

@@ -173,7 +173,8 @@ class ArithmeticMeanInterpolator(Interpolator):
 
         If nothing is passed, it will default to `gauss_potential`, which
         calculates weights based on the formula
-        :math:`\\beta * \\mathrm{e}^{\\textstyle -α * oldweights * distances}\\`.
+        :math:`\\mathrm{e}^{\\textstyle -a * oldweights * distances}\\` with
+        parameter :math:`\\alpha`.
 
     params :
         Parameters to be passed to `distribution`.

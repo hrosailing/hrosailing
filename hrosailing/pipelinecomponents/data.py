@@ -401,8 +401,8 @@ class Data:
     def from_dict(cls, dict_):
         """
         Creates a `Data` object that contains the same data as a given dictionary.
-        The values of the dictionary should be iterables and will correspond to the columns of the resulting `Data`
-        object. The keys of the dictionary will correspond to the rows of the resulting `Data` object.
+        The keys and values of the dictionary should be iterables and will correspond to the columns of the resulting
+        `Data` object.
 
         Parameters
         ----------

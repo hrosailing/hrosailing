@@ -327,4 +327,4 @@ def _small_circle(pts):
         # TODO: handling for degenerate case
         a, b, c = np.linalg.inv(circle_m) @ circle_b
         return np.array([b / 2, c / 2]), np.sqrt(b**2 / 4 + c**2 / 4 - a)
-    raise ValueError(f"len(k) should be <= 3 but k = {pts}")
+    raise ValueError(f"number of points should be <= 3 but is {pts}")

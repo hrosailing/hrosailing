@@ -31,7 +31,7 @@ class Imputator(ABC):
 class FillLocalImputator(Imputator):
     """
     An `Imputator` which assumes that the data has been stored chronologically
-    and contains some datestamps.
+    and contains the field 'datetime'.
     Fills missing data by:
     - deleting columns that only contain `None` values,
     - deleting rows between two data-points that are far apart in time
@@ -110,8 +110,8 @@ class FillLocalImputator(Imputator):
 
         Parameters
         ----------
-        data_dict : dict
-            The dictionary to be imputed.
+        data_dict : Data
+            The `Data` object to be imputed.
 
         Returns
         -------
