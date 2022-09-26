@@ -221,7 +221,7 @@ class ArchimedeanSampler(Sampler):
         ub_n_samples = int(np.pi * r**2 * self._n_samples / vol) + 10
 
         # estimate upper bounds for spiral points needed
-        # and simultaniously create arc values
+        # and simultaneously create arc values
         beta = [0]
         for _ in range(ub_n_samples):
             beta.append(beta[-1] + 8 / (beta[-1] + 2))

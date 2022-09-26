@@ -50,7 +50,7 @@ class InfluenceModel(ABC):
         out : numpy.ndarray
 
         statistics : dict
-            A dictionary containing relevant statistics.
+            Dictionary containing relevant statistics.
         """
 
     @abstractmethod

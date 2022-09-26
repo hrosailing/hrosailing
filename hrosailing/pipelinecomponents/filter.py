@@ -93,17 +93,9 @@ class QuantileFilter(Filter):
         """Filters a set of points given by their resp. weights
         according to the above described method.
 
-        Parameters
-        ----------
-        wts : numpy.ndarray of shape (n,)
-            Weights of the points that are to be filtered, given
-            as a sequence of scalars.
-
-        Returns
-        -------
-        filtered_points : numpy.ndarray of shape (n,)
-            Boolean array describing which points are filtered
-            depending on their resp. weight.
+        See also
+        --------
+        `Filter.filter`
         """
         filtered_points = self._calculate_quantile(wts)
 
@@ -153,17 +145,9 @@ class BoundFilter(Filter):
         """Filters a set of points given by their resp. weights
         according to the above described procedure.
 
-        Parameters
-        ----------
-        wts : numpy.ndarray of shape (n,)
-            Weights of the points that are to be filtered, given
-            as a sequence of scalars.
-
-        Returns
-        -------
-        filtered_points : numpy.ndarray of shape (n,)
-            Boolean array describing which points are filtered
-            depending on their resp. weight.
+        See also
+        --------
+        `Filter.filter`
         """
         filtered_points = self._determine_points_within_bound(wts)
 
