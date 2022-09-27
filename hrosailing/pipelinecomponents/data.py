@@ -357,16 +357,16 @@ class Data:
     @staticmethod
     def _get_type(data):
         curr_type = None
-        for field in data:
-            if field is None:
+        for entry in data:
+            if entry is None:
                 continue
             if curr_type is None:
-                curr_type = type(field)
+                curr_type = type(entry)
                 continue
-            if type(field) != curr_type:
+            if type(entry) != curr_type:
                 raise ValueError(
                     f"Data has no consistent type."
-                    f"Found the types {type(field)} and {curr_type}"
+                    f"Found the types {type(entry)} and {curr_type}"
                 )
         return curr_type
 
