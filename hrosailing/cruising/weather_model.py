@@ -10,8 +10,6 @@ from abc import ABC, abstractmethod
 from datetime import timedelta, datetime
 #from math import prod
 
-import pandas as pd
-
 import json
 
 
@@ -213,9 +211,10 @@ class GriddedWeatherModel(WeatherModel):
         """
         try:
             import meteostat
+            import pandas as pd
         except ImportError:
             raise ImportError(
-                f"`meteostat` module needed in order "
+                f"The modules `meteostat` and `pandas` are necessary in order "
                 f"to use `from_meteostat`"
             )
 
