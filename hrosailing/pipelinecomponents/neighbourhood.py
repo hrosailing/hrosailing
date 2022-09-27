@@ -201,7 +201,7 @@ class ScalingBall(Neighbourhood):
 
         while True:
             in_ball = dist <= self._radius
-            if self._enough_points(in_ball):
+            if self._enough_points_in_ball(in_ball):
                 return in_ball
 
             self._expand_radius(dist, in_ball)
