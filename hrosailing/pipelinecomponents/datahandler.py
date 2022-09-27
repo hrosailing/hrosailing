@@ -153,7 +153,7 @@ class CsvFileHandler(DataHandler):
         """
         if self.pand:
             df = self.pd.read_csv(data)
-            data_dict = df.to_dict()
+            data_dict = df.to_dict(orient="list")
         else:
             with open(data, "r", encoding="utf-8") as file:
                 csv_reader = csv.reader(file)
