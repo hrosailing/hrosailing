@@ -336,7 +336,7 @@ class Cuboid(Neighbourhood):
 
     def __init__(
         self,
-        norm: Callable = scaled_euclidean_norm,
+        norm: Callable = np.abs,
         dimensions=(0.05, 0.05),
     ):
         self._norm = norm
@@ -359,9 +359,11 @@ class Cuboid(Neighbourhood):
             Boolean array describing which of the input points
             are members of the neighbourhood.
         """
+        pts = np.asarray(pts)
+
         mask = (
             np.ones((pts.shape[0],), dtype=bool)
-            & (self._norm(pts[:, 0]) <= self._size[0])
+            & (self._norm(pts[:, 1]) <= self._size[0])
             & (self._norm(pts[:, 1]) <= self._size[1])
         )
         return mask
