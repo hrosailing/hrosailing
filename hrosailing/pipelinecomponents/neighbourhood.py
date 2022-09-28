@@ -124,14 +124,6 @@ class ScalingBall(Neighbourhood):
         The minimal amount of certain given points that should be
         contained in the scaling ball.
 
-    max_pts : positive int
-        Mostly used for initial guess of a "good" radius. Also used to
-        guarantee that, on average, the scaling ball will contain
-        :math:`cfrac{min_pts + max_pts}{2}` points of certain given points.
-
-        It is also unlikely that the scaling ball will contain
-        more than `max_pts` points.
-
     norm : function or callable, optional
         The norm for which the scaling ball is described, i.e. :math:`||.||`.
 
@@ -149,7 +141,6 @@ class ScalingBall(Neighbourhood):
     def __init__(
         self,
         min_pts,
-        max_pts,
         norm: Callable = scaled_euclidean_norm,
     ):
 
@@ -157,26 +148,16 @@ class ScalingBall(Neighbourhood):
             raise NeighbourhoodInitializationException(
                 "`min_pts` is nonpositive"
             )
-        if max_pts <= 0:
-            raise NeighbourhoodInitializationException(
-                "`max_pts` is nonpositive"
-            )
-        if max_pts <= min_pts:
-            raise NeighbourhoodInitializationException(
-                "`max_pts` is smaller than or equal to `min_pts`"
-            )
 
         self._min_pts = min_pts
-        self._max_pts = max_pts
         self._norm = norm
-        self._avg = (min_pts + max_pts) / 2
 
         self._n_pts = None
         self._area = None
         self._radius = None
 
     def __repr__(self):
-        return f"ScalingBall(min_pts={self._min_pts}, max_pts={self._max_pts})"
+        return f"ScalingBall(min_pts={self._min_pts})"
 
     def is_contained_in(self, pts):
         """Checks given points for membership, and scales
@@ -195,28 +176,13 @@ class ScalingBall(Neighbourhood):
         """
         pts = np.asarray(pts)
 
-        self._guess_initial_suitable_radius(pts)
-
         dist = self._norm(pts)
+        self._radius = sorted(dist)[self._min_pts-1]
 
-        while True:
-            in_ball = dist <= self._radius
-            if self._enough_points_in_ball(in_ball):
-                return in_ball
-
-            self._expand_radius(dist, in_ball)
-
-    def _guess_initial_suitable_radius(self, pts):
-        self._n_pts = pts.shape[0]
-        self._area = ConvexHull(pts).volume
-        self._radius = np.sqrt(self._avg * self._area / (np.pi * self._n_pts))
+        return dist <= self._radius
 
     def _enough_points_in_ball(self, pts_in_ball):
         return self._min_pts <= len(pts_in_ball[pts_in_ball])
-
-    def _expand_radius(self, dist, pts_in_ball):
-        dist_of_not_included_pts = dist[~pts_in_ball]
-        self._radius = np.min(dist_of_not_included_pts)
 
 
 class Ellipsoid(Neighbourhood):
