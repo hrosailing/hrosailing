@@ -56,7 +56,7 @@ class Neighbourhood(ABC):
 
 class Ball(Neighbourhood):
     """A class to describe a closed 2-dimensional ball
-    centered around the origin, i.e. { :math:`x \\in R^2 : ||x|| <= r` }.
+    centered around the origin, i.e. :math:`\\\\{x \\in R^2 : ||x|| <= r\\\\}`.
 
     Parameters
     ----------
@@ -113,7 +113,7 @@ class Ball(Neighbourhood):
 
 class ScalingBall(Neighbourhood):
     """A class to represent a closed 2-dimensional ball
-    centered around the origin, i.e. { :math:`x \\in R^2 : ||x|| <= r` },
+    centered around the origin, i.e. :math:`\\\\{x \\in R^2 : ||x|| <= r\\\\}`,
     where the radius :math:`r` will be dynamically determined, such that
     there is always a certain amount of given points contained
     in the ball.
@@ -133,8 +133,7 @@ class ScalingBall(Neighbourhood):
     Raises
     ------
     NeighbourhoodInitializationException
-        - If `min_pts` or `max_pts` are nonpositive.
-        - If `max_pts` is less than or equal to `min_pts`.
+        - If `min_pts` is nonpositive.
 
     """
 
@@ -192,7 +191,7 @@ class Ellipsoid(Neighbourhood):
     centered around the origin.
 
     It will be represented using the equivalent formulation:
-    { :math:`x \\in R^2 : ||T^{-1} x|| <= r` }.
+    :math:`\\\\{x \\in R^2 : ||T^{-1} x|| <= r\\\\}`.
 
     Parameters
     ----------
@@ -284,7 +283,7 @@ class Ellipsoid(Neighbourhood):
 
 class Cuboid(Neighbourhood):
     """A class to represent a d-dimensional closed cuboid, i.e.
-    { :math:`x \\in R^2 : |x_i| <= b_i, i=1,2` }.
+    :math:`\\\\{x \\in R^2 : |x_i| <= b_i, i=1,2\\\\}`.
 
     Parameters
     ----------
@@ -339,7 +338,7 @@ class Polytope(Neighbourhood):
     """A class to represent a general 2-dimensional polytope, i.e. the
     convex hull :math:`P = conv(x_1, ..., x_n)` of some n points :math:`x_1 ,..., x_n`
     or equivalently the (bounded) intersection of m half spaces
-    :math:`P =` { :math:`x \\in R^2 : Ax <= b` }.
+    :math:`P = \\\\{x \\in R^2 : Ax <= b\\\\}`.
 
     Parameters
     ----------
