@@ -63,13 +63,14 @@ class IDWInterpolator(Interpolator):
     of Shepard, "A two-dimensional interpolation function
     for irregularly-spaced data".
 
-    For a given point :math:`gridpt`, that is to be interpolated, we
-    calculate the distances :math:`d_{pt} = ||gridpt - pt[:2]||` for all considered
+    For a given point :math:`grid\\\\_pt`, that is to be interpolated, we
+    calculate the distances :math:`d_{pt} = ||grid\\\\_pt - pt[:2]||` for all considered
     measured points. Then we set the weights of a point :math:`pt` to be
     :math:`w_{pt} = \\cfrac{1}{d_{pt}^p}`, for some nonnegative integer :math:`p`.
 
-    The interpolated value at :math:`gridpt` then equals :math:`\\cfrac{\\sum_{pt} w_{pt} * pt[2]}{\\sum_{pt} w_{pt}}`
-    or if :math:`gridpt` is already a measured point :math:`pt`, it will equal :math:`pt[2]`.
+    The interpolated value at :math:`grid\\\\_pt` then equals
+    :math:`\\cfrac{\\sum_{pt} w_{pt} * pt[2]}{\\sum_{pt} w_{pt}}`
+    or if :math:`grid\\\\_pt` is already a measured point :math:`pt`, it will equal :math:`pt[2]`.
 
     Parameters
     ----------
@@ -140,7 +141,7 @@ class ArithmeticMeanInterpolator(Interpolator):
     First the distance of the independent variables (wind angle and wind speed)
     of all considered
     points and of the to interpolate point is calculated, i.e.
-    :math:`|| p[:2] - gridpt ||`.
+    :math:`|| p[:2] - grid\\\\_pt ||`.
     Then using a distribution, new weights are calculated based on
     the old weights, the previously calculated distances and other
     parameters depending on the distribution.
@@ -243,12 +244,12 @@ class ImprovedIDWInterpolator(Interpolator):
     to some power, we set the weights in the following way:
 
     Let :math:`r` be the radius of the `neighbourhood.ScalingBall` with the center being some
-    point :math:`gridpt` which is to be interpolated.
+    point :math:`grid\\\\_pt` which is to be interpolated.
     For all considered measured points let :math:`d_{pt}` be the same as
     in `IDWInterpolator`. If :math:`d_{pt} <= \\cfrac{r}{3}` we set :math:`w_{pt} = \\cfrac{1}{d_{pt}}`.
     Otherwise, we set :math:`w_{pt} = \\cfrac{27}{4 * r} * (\\cfrac{d_{pt}}{r - 1})^2`.
 
-    The resulting value at :math:`gridpt` will then be calculated the same
+    The resulting value at :math:`grid\\\\_pt` will then be calculated the same
     way as in `IDWInterpolator`.
 
     Parameters
