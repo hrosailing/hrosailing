@@ -297,6 +297,7 @@ class NetCDFWeatherModel(GriddedWeatherModel):
     A weather model that uses gridded data from a NetCDF (.nc or .nc4) file.
     Uses the same interpolation method as `GriddedWeatherModel`.
     The module netCDF4 has to be installed in order to use this class.
+    The methods `from_file` and `to_file` are not supported.
 
     Parameter
     ----------
@@ -345,3 +346,42 @@ class NetCDFWeatherModel(GriddedWeatherModel):
         return np.asarray([
             self._dataset[attr][idxs] for attr in self._attrs
         ])
+
+
+class MultiWeatherModel(WeatherModel):
+    """
+    Weather model that manages multiple weather models at once and combines their output.
+
+    Parameter
+    ----------
+    *args
+        An arbitrary number of weather models.
+
+    exception_sensitive: bool, optional
+        If `False` any `ValueError`, `TypeError`, `KeyError`, `NotImplementedError` or `OutsideGridException`
+        raised by some submodel is ignored. If `True` these exceptions are not ignored.
+
+        Defaults to `False`.
+    """
+    def __init__(self, *args, exception_sensitive=False):
+        self._models = args
+        self._exception_sensitive = exception_sensitive
+
+    def get_weather(self, point):
+        """
+        Evaluates all submodels and combines the results.
+
+        See also
+        --------
+        `WeatherModel.get_weather`
+        """
+        weather_data = {}
+        for model in self._models:
+            try:
+                weather_data.update(
+                    model.get_weather(point)
+                )
+            except (ValueError, TypeError, KeyError, OutsideGridException) as e:
+                if self._exception_sensitive:
+                    raise e
+        return weather_data
