@@ -323,6 +323,7 @@ class NetCDFWeatherModel(GriddedWeatherModel):
         except ModuleNotFoundError:
             raise ModuleNotFoundError("Install netCDF4 in order to use NetCDFWeatherModel.")
         self._dataset = nc.Dataset(path)
+        self._aliases = aliases
 
         lats = self._dataset[aliases["lat"]]
         lons = self._dataset[aliases["lon"]]
@@ -373,9 +374,31 @@ class NetCDFWeatherModel(GriddedWeatherModel):
         lat_idx = len(lats) - idxs[1] - 1 if self._lats_flipped else idxs[1]
         lon_idx = len(lons) - idxs[2] - 1 if self._lons_flipped else idxs[2]
 
-        return np.asarray([
-            self._dataset[attr][time_idx, lat_idx, lon_idx] for attr in self._attrs
-        ])
+        idxs = (time_idx, lat_idx, lon_idx)
+
+        attr_list = []
+        for attr in self._attrs:
+            try:
+                coords = self._dataset[attr].coordinates.split(" ")
+            except AttributeError:
+                attr_list.append(self._dataset[attr][idxs])
+                continue
+            new_idxs = []
+            for coord in coords:
+                if coord == self._aliases["lat"]:
+                    new_idxs.append(lat_idx)
+                elif coord == self._aliases["lon"]:
+                    new_idxs.append(lon_idx)
+                elif coord == self._aliases["datetime"]:
+                    new_idxs.append(time_idx)
+                else:
+                    raise NotImplementedError(
+                        f"No handling of variables with coordinates other than latitude, longitude and time as `{coord}` are supported"
+                    )
+            attr_list.append(self._dataset[attr][new_idxs])
+
+
+        return np.asarray(attr_list)
 
 
 class MultiWeatherModel(WeatherModel):
