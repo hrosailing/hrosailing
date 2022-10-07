@@ -21,7 +21,6 @@ def prod(list_):
 
 from hrosailing.globe_model import SphericalGlobe
 
-
 class OutsideGridException(Exception):
     """Exception raised if point accessed in weather model lies
     outside the available grid"""
@@ -327,16 +326,32 @@ class NetCDFWeatherModel(GriddedWeatherModel):
         time = aliases["datetime"]
         plain_times = self._dataset[time][:]
         unit_str = self._dataset.variables[time].units
-        if not unit_str.startswith("hours since "):
-            raise NotImplementedError(f"NetCDFWeatherModel can not interpret time units {unit_str}.")
-        datetime_str = unit_str[12:]
-        fmt = "%Y-%m-%d %H:%M"
-        try:
-            starting_time = datetime.strptime(datetime_str, fmt)
-        except ValueError:
-            raise NotImplementedError(f"NetCDFWeatherModel does not support the time format of {datetime_str}. Use %Y-%m-%d %H:%M instead.")
+        if unit_str.startswith("hours since "):
+            timestep = timedelta(hours=1)
+            datetime_str = unit_str[12:]
+        elif unit_str.startswith("seconds since "):
+            timestep = timedelta(seconds=1)
+            datetime_str = unit_str[14:]
+        else:
+            raise NotImplementedError(f"NetCDFWeatherModel can not interpret time units '{unit_str}'.")
+        fmts = [
+            "%Y-%m-%d %H:%M",
+            "%Y-%m-%d %H:%M:%S"
+        ]
+        starting_time = None
+        for fmt in fmts:
+            try:
+                starting_time = datetime.strptime(datetime_str, fmt)
+                break
+            except ValueError:
+                pass
+        if starting_time is None:
+            raise NotImplementedError(
+                f"NetCDFWeatherModel does not support the time format of `{datetime_str}`. "
+                f"Use one of {fmts} instead."
+            )
 
-        times = [starting_time + timedelta(hours=int(plain_time)) for plain_time in plain_times]
+        times = [starting_time + int(plain_time)*timestep for plain_time in plain_times]
 
         attrs = [var for var in self._dataset.variables if var not in aliases.values()]
 
