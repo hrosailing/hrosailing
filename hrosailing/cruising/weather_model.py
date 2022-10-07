@@ -108,74 +108,12 @@ class GriddedWeatherModel(WeatherModel):
         `WeatherModel.get_weather`
         """
         # check if given point lies in the grid
-        fst = (self._times[0], self._lats[0], self._lons[0])
-        lst = (self._times[-1], self._lats[-1], self._lons[-1])
-
-        outside_left = [pt < left for pt, left in zip(point, fst)]
-        outside_right = [pt > right for pt, right in zip(point, lst)]
-
-        if any(outside_left) or any(outside_right):
-            raise OutsideGridException(
-                f"{point} is outside the grid. Weather data not available."
-            )
-
-        grid = self.grid
-        idxs = [
-            bisect_left(grid_comp, comp)
-            for grid_comp, comp in zip(grid, point)
-        ]
-        flags = [
-            grid_pt[idx] == pt
-            for grid_pt, idx, pt in zip(
-                grid,
-                idxs,
-                point,
-            )
-        ]
-
-        cuboid = [
-            [idx - 1, idx] if not flag else [idx]
-            for idx, flag in zip(idxs, flags)
-        ]
-
-        cuboid_vals = [
-            [grid[dim][idx] for idx in c]
-            for dim, c in enumerate(cuboid)
-        ]
-
-        def recursive_affine_interpolation(data, completed=[]):
-            # get first entry which has not been computed yet
-
-            dim = len(completed)
-
-            if dim==len(data): # terminate
-                return self._data[tuple(completed)]
-
-            comp = data[dim]
-
-            if comp in cuboid_vals[dim]:
-                j = cuboid_vals[dim].index(data[dim])
-                return recursive_affine_interpolation(data, completed + [j])
-
-            idx0 = cuboid[dim][0]
-            idx1 = cuboid[dim][1]
-
-            val1 = grid[dim][idx1]
-            val0 = grid[dim][idx0]
-
-            lamb = (comp - val1)/(val0-val1)
-
-            data0 = data[:dim] + [val0] + data[dim+1:]
-            data1 = data[:dim] + [val1] + data[dim+1:]
-
-            term0 = recursive_affine_interpolation(data0, completed + [idx0])
-            term1 = recursive_affine_interpolation(data1, completed + [idx1])
-
-            return lamb*term0 + (1-lamb)*term1
-
-        val = recursive_affine_interpolation(list(point))
+        val = _recursive_affine_interpolation(point, self.grid, self._get_data)
 
         return dict(zip(self._attrs, val))
+
+    def _get_data(self, idxs):
+        return self._data[idxs]
 
     @classmethod
     def from_meteostat(cls, lats, lons, start_time, end_time, keys):
@@ -238,7 +176,7 @@ class GriddedWeatherModel(WeatherModel):
             lat_datas.append(np.stack(lon_data, axis=0))
 
         times = [pd.to_datetime(t) for t in times]
-        data=np.stack(lat_datas, axis=0)
+        data = np.stack(lat_datas, axis=0)
         data = np.transpose(np.stack(lat_datas, axis=0), axes=(2, 0, 1, 3))
 
         return cls(data, times, lats, lons, keys)
@@ -284,3 +222,71 @@ class _GriddedWeatherModelEncoder(json.JSONEncoder):
         raise TypeError(
             f"Object of type {type(obj)} is not JSON serializable :("
         )
+
+
+def _recursive_affine_interpolation(point, grid, get_data):
+    fst = tuple(dimension[0] for dimension in grid)
+    lst = tuple(dimension[-1] for dimension in grid)
+
+    outside_left = [pt < left for pt, left in zip(point, fst)]
+    outside_right = [pt > right for pt, right in zip(point, lst)]
+
+    if any(outside_left) or any(outside_right):
+        raise OutsideGridException(
+            f"{point} is outside the grid. Weather data not available."
+        )
+
+    idxs = [
+        bisect_left(grid_comp, comp)
+        for grid_comp, comp in zip(grid, point)
+    ]
+    flags = [
+        grid_pt[idx] == pt
+        for grid_pt, idx, pt in zip(
+            grid,
+            idxs,
+            point,
+        )
+    ]
+
+    cuboid = [
+        [idx - 1, idx] if not flag else [idx]
+        for idx, flag in zip(idxs, flags)
+    ]
+
+    cuboid_vals = [
+        [grid[dim][idx] for idx in c]
+        for dim, c in enumerate(cuboid)
+    ]
+
+    def recursion(point_, completed=[]):
+        # get first entry which has not been computed yet
+
+        dim = len(completed)
+
+        if dim==len(point_): # terminate
+            return get_data(tuple(completed))
+
+        comp = point_[dim]
+
+        if comp in cuboid_vals[dim]:
+            j = cuboid_vals[dim].index(point_[dim])
+            return recursion(point_, completed + [j])
+
+        idx0 = cuboid[dim][0]
+        idx1 = cuboid[dim][1]
+
+        val1 = grid[dim][idx1]
+        val0 = grid[dim][idx0]
+
+        lamb = (comp - val1)/(val0-val1)
+
+        data0 = point_[:dim] + [val0] + point_[dim + 1:]
+        data1 = point_[:dim] + [val1] + point_[dim + 1:]
+
+        term0 = recursion(data0, completed + [idx0])
+        term1 = recursion(data1, completed + [idx1])
+
+        return lamb*term0 + (1-lamb)*term1
+
+    return recursion(list(point))
