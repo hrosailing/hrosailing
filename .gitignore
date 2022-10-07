@@ -160,7 +160,7 @@ testdata.csv
 *.vdr
 test.py
 vela_test/
-fetch_weather.py
 test_fuzzy_bool.py
 temp_test.py
 csv_file.csv
+vela_trip/
