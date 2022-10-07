@@ -313,7 +313,11 @@ class NetCDFWeatherModel(GriddedWeatherModel):
     `GriddedWeatherModel`
     """
 
-    def __init__(self, path, aliases={"lat": "latitude", "lon": "longitude", "datetime": "time"}):
+    def __init__(
+            self,
+            path,
+            aliases={"lat": "latitude", "lon": "longitude", "datetime": "time"}
+    ):
         try:
             import netCDF4 as nc
         except ModuleNotFoundError:
@@ -322,6 +326,12 @@ class NetCDFWeatherModel(GriddedWeatherModel):
 
         lats = self._dataset[aliases["lat"]]
         lons = self._dataset[aliases["lon"]]
+        #check if in descending order and change order if necessary
+        self._lats_flipped, self._lons_flipped = lats[-1] < lats[0], lons[-1] < lons[0]
+        if self._lats_flipped:
+            lats = np.flip(lats)
+        if self._lons_flipped:
+            lons = np.flip(lons)
 
         time = aliases["datetime"]
         plain_times = self._dataset[time][:]
@@ -358,8 +368,13 @@ class NetCDFWeatherModel(GriddedWeatherModel):
         super().__init__(None, times, lats, lons, attrs)
 
     def _get_data(self, idxs):
+        times, lats, lons = self.grid
+        time_idx = idxs[0]
+        lat_idx = len(lats) - idxs[1] - 1 if self._lats_flipped else idxs[1]
+        lon_idx = len(lons) - idxs[2] - 1 if self._lons_flipped else idxs[2]
+
         return np.asarray([
-            self._dataset[attr][idxs] for attr in self._attrs
+            self._dataset[attr][time_idx, lat_idx, lon_idx] for attr in self._attrs
         ])
 
 
