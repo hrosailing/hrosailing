@@ -290,3 +290,58 @@ def _recursive_affine_interpolation(point, grid, get_data):
         return lamb*term0 + (1-lamb)*term1
 
     return recursion(list(point))
+
+
+class NetCDFWeatherModel(GriddedWeatherModel):
+    """
+    A weather model that uses gridded data from a NetCDF (.nc or .nc4) file.
+    Uses the same interpolation method as `GriddedWeatherModel`.
+    The module netCDF4 has to be installed in order to use this class.
+
+    Parameter
+    ----------
+    path: str
+        path to the NetCDF file to be used.
+
+    aliases: dict with keys ["lat", "lon", "datetime"], optional
+        Contains the aliases for Latitude, Longitude and the Timestamp used in the NetCDF file.
+
+        Defaults to `{"lat": "latitude", "lon": "longitude", "datetime": "time"}`.
+
+    See also
+    --------
+    `GriddedWeatherModel`
+    """
+
+    def __init__(self, path, aliases={"lat": "latitude", "lon": "longitude", "datetime": "time"}):
+        try:
+            import netCDF4 as nc
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError("Install netCDF4 in order to use NetCDFWeatherModel.")
+        self._dataset = nc.Dataset(path)
+
+        lats = self._dataset[aliases["lat"]]
+        lons = self._dataset[aliases["lon"]]
+
+        time = aliases["datetime"]
+        plain_times = self._dataset[time][:]
+        unit_str = self._dataset.variables[time].units
+        if not unit_str.startswith("hours since "):
+            raise NotImplementedError(f"NetCDFWeatherModel can not interpret time units {unit_str}.")
+        datetime_str = unit_str[12:]
+        fmt = "%Y-%m-%d %H:%M"
+        try:
+            starting_time = datetime.strptime(datetime_str, fmt)
+        except ValueError:
+            raise NotImplementedError(f"NetCDFWeatherModel does not support the time format of {datetime_str}. Use %Y-%m-%d %H:%M instead.")
+
+        times = [starting_time + timedelta(hours=int(plain_time)) for plain_time in plain_times]
+
+        attrs = [var for var in self._dataset.variables if var not in aliases.values()]
+
+        super().__init__(None, times, lats, lons, attrs)
+
+    def _get_data(self, idxs):
+        return np.asarray([
+            self._dataset[attr][idxs] for attr in self._attrs
+        ])
