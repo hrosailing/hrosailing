@@ -8,7 +8,7 @@ import itertools
 from bisect import bisect_left
 from abc import ABC, abstractmethod
 from datetime import timedelta, datetime
-#from math import prod
+# from math import prod
 
 import json
 
@@ -19,7 +19,9 @@ def prod(list_):
         res *= l
     return res
 
+
 from hrosailing.globe_model import SphericalGlobe
+
 
 class OutsideGridException(Exception):
     """Exception raised if point accessed in weather model lies
@@ -263,7 +265,7 @@ def _recursive_affine_interpolation(point, grid, get_data):
 
         dim = len(completed)
 
-        if dim==len(point_): # terminate
+        if dim == len(point_):  # terminate
             return get_data(tuple(completed))
 
         comp = point_[dim]
@@ -278,7 +280,7 @@ def _recursive_affine_interpolation(point, grid, get_data):
         val1 = grid[dim][idx1]
         val0 = grid[dim][idx0]
 
-        lamb = (comp - val1)/(val0-val1)
+        lamb = (comp - val1) / (val0 - val1)
 
         data0 = point_[:dim] + [val0] + point_[dim + 1:]
         data1 = point_[:dim] + [val1] + point_[dim + 1:]
@@ -286,7 +288,7 @@ def _recursive_affine_interpolation(point, grid, get_data):
         term0 = recursion(data0, completed + [idx0])
         term1 = recursion(data1, completed + [idx1])
 
-        return lamb*term0 + (1-lamb)*term1
+        return lamb * term0 + (1 - lamb) * term1
 
     return recursion(list(point))
 
@@ -316,19 +318,24 @@ class NetCDFWeatherModel(GriddedWeatherModel):
     def __init__(
             self,
             path,
-            aliases={"lat": "latitude", "lon": "longitude", "datetime": "time"}
+            aliases={"lat": "latitude", "lon": "longitude",
+                     "datetime": "time"},
+            further_indices={}
     ):
         try:
             import netCDF4 as nc
         except ModuleNotFoundError:
-            raise ModuleNotFoundError("Install netCDF4 in order to use NetCDFWeatherModel.")
+            raise ModuleNotFoundError(
+                "Install netCDF4 in order to use NetCDFWeatherModel.")
         self._dataset = nc.Dataset(path)
         self._aliases = aliases
+        self._further_indices = further_indices
 
         lats = self._dataset[aliases["lat"]]
         lons = self._dataset[aliases["lon"]]
-        #check if in descending order and change order if necessary
-        self._lats_flipped, self._lons_flipped = lats[-1] < lats[0], lons[-1] < lons[0]
+        # check if in descending order and change order if necessary
+        self._lats_flipped, self._lons_flipped = lats[-1] < lats[0], lons[-1] < \
+                                                 lons[0]
         if self._lats_flipped:
             lats = np.flip(lats)
         if self._lons_flipped:
@@ -344,7 +351,8 @@ class NetCDFWeatherModel(GriddedWeatherModel):
             timestep = timedelta(seconds=1)
             datetime_str = unit_str[14:]
         else:
-            raise NotImplementedError(f"NetCDFWeatherModel can not interpret time units '{unit_str}'.")
+            raise NotImplementedError(
+                f"NetCDFWeatherModel can not interpret time units '{unit_str}'.")
         fmts = [
             "%Y-%m-%d %H:%M",
             "%Y-%m-%d %H:%M:%S"
@@ -362,9 +370,11 @@ class NetCDFWeatherModel(GriddedWeatherModel):
                 f"Use one of {fmts} instead."
             )
 
-        times = [starting_time + int(plain_time)*timestep for plain_time in plain_times]
+        times = [starting_time + int(plain_time) * timestep for plain_time in
+                 plain_times]
 
-        attrs = [var for var in self._dataset.variables if var not in aliases.values()]
+        attrs = [var for var in self._dataset.variables if
+                 var not in aliases.values()]
 
         super().__init__(None, times, lats, lons, attrs)
 
@@ -391,12 +401,13 @@ class NetCDFWeatherModel(GriddedWeatherModel):
                     new_idxs.append(lon_idx)
                 elif coord == self._aliases["datetime"]:
                     new_idxs.append(time_idx)
+                elif coord in self._further_indices:
+                    new_idxs.append(self._further_indices[coord])
                 else:
                     raise NotImplementedError(
-                        f"No handling of variables with coordinates other than latitude, longitude and time as `{coord}` are supported"
+                        f"For the handling of variables other than 'latitude', 'longitude' and 'time' as '{coord}' initialize the NetCDFWeatherModel with 'further_indices={{'{coord}': a}}'"
                     )
             attr_list.append(self._dataset[attr][new_idxs])
-
 
         return np.asarray(attr_list)
 
@@ -416,6 +427,7 @@ class MultiWeatherModel(WeatherModel):
 
         Defaults to `False`.
     """
+
     def __init__(self, *args, exception_sensitive=False):
         self._models = args
         self._exception_sensitive = exception_sensitive
@@ -434,7 +446,8 @@ class MultiWeatherModel(WeatherModel):
                 weather_data.update(
                     model.get_weather(point)
                 )
-            except (ValueError, TypeError, KeyError, OutsideGridException) as e:
+            except (
+            ValueError, TypeError, KeyError, OutsideGridException) as e:
                 if self._exception_sensitive:
                     raise e
         return weather_data
