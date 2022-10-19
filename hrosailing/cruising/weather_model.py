@@ -101,7 +101,7 @@ class GriddedWeatherModel(WeatherModel):
         to calculate the weather at that point
 
         If the point is not a grid point, the weather data will be
-        interpolated via the `interpolate_weather_data` method in dependency
+        interpolated via recursive affine interpolation
         of the up-to eight grid points which form a cuboid around the `points`.
 
         See also
@@ -389,7 +389,7 @@ class NetCDFWeatherModel(GriddedWeatherModel):
         attr_list = []
         for attr in self._attrs:
             try:
-                coords = self._dataset[attr].coordinates.split(" ")
+                coords = self._get_dimensions(attr)
             except AttributeError:
                 attr_list.append(self._dataset[attr][idxs])
                 continue
@@ -405,11 +405,22 @@ class NetCDFWeatherModel(GriddedWeatherModel):
                     new_idxs.append(self._further_indices[coord])
                 else:
                     raise NotImplementedError(
-                        f"For the handling of variables other than 'latitude', 'longitude' and 'time' as '{coord}' initialize the NetCDFWeatherModel with 'further_indices={{'{coord}': a}}'"
+                        f"For the handling of variables other than 'latitude',"
+                        f" 'longitude' and 'time' as '{coord}' initialize the"
+                        f" NetCDFWeatherModel with "
+                        f"'further_indices={{'{coord}': a}}'"
                     )
-            attr_list.append(self._dataset[attr][new_idxs])
+            attr_list.append(self._dataset[attr][tuple(new_idxs)])
 
         return np.asarray(attr_list)
+
+    def _get_dimensions(self, attr):
+        dimensions = str(self._dataset[attr]).split("\n")[1].split(" ")[1:]
+        dimensions = [
+            c.split("(")[1].strip(",)") if "(" in c else c.strip(",)")
+            for c in dimensions
+        ]
+        return dimensions
 
 
 class MultiWeatherModel(WeatherModel):
