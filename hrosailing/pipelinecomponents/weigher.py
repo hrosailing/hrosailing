@@ -152,6 +152,7 @@ def get_weight_statistics(weights):
 
 class Weigher(ABC):
     """Base class for all weigher classes.
+    Basic arithmetic operations may be performed among weighers.
 
 
     Abstract Methods
@@ -170,6 +171,68 @@ class Weigher(ABC):
         ----------
         points : Data or numpy.ndarray
         """
+
+    def __add__(self, other):
+        if isinstance(other, Weigher):
+            return _BinaryMapWeigher(self, other, lambda x, y: x + y)
+        elif isinstance(other, np.ndarray):
+            return _UnaryMapWeigher(self, lambda x: x + other)
+
+    def __mul__(self, other):
+        if isinstance(other, Weigher):
+            return _BinaryMapWeigher(self, other, lambda x, y: x*y)
+        elif isinstance(other, (int, float, np.ndarray)):
+            return _UnaryMapWeigher(self, lambda x: x*other)
+
+    def __rmul__(self, other):
+        return other*self
+
+    def __sub__(self, other):
+        if isinstance(other, Weigher):
+            return _BinaryMapWeigher(self, other, lambda x, y: x - y)
+        elif isinstance(other, np.ndarray):
+            return _UnaryMapWeigher(self, lambda x: x - other)
+
+    def __neg__(self):
+        return _UnaryMapWeigher(self, lambda x: -x)
+
+    def __truediv__(self, other):
+        if isinstance(other, Weigher):
+            return _BinaryMapWeigher(self, other, lambda x, y: x/y)
+        elif isinstance(other, (int, float, np.ndarray)):
+            return _UnaryMapWeigher(self, lambda x: x/other)
+
+    def __rtruediv__(self, other):
+        if isinstance(other, Weigher):
+            return _BinaryMapWeigher(self, other, lambda x, y: y/x)
+        elif isinstance(other, np.ndarray):
+            return _UnaryMapWeigher(self, lambda x: other/x)
+
+    def __pow__(self, power, modulo=None):
+        return _UnaryMapWeigher(self, lambda x: x**power)
+
+
+class _UnaryMapWeigher(Weigher):
+
+    def __init__(self, sub_weigher, map):
+        self._sub_weigher = sub_weigher
+        self._map = map
+
+    def weigh(self, points) -> (np.ndarray, dict):
+        weights = self._sub_weigher.weigh(points)
+        return self._map(weights)
+
+class _BinaryMapWeigher(Weigher):
+
+    def __init__(self, sub_weigher, other_sub_weigher, map):
+        self._sub_weigher = sub_weigher
+        self._other_sub_weigher = other_sub_weigher
+        self._map = map
+
+    def weigh(self, points) -> (np.ndarray, dict):
+        weights = self._sub_weigher.weigh(points)
+        other_weights = self._other_sub_weigher.weigh(points)
+        return self._map(weights, other_weights)
 
 
 class AllOneWeigher(Weigher):
