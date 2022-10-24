@@ -175,8 +175,11 @@ class Weigher(ABC):
     def __add__(self, other):
         if isinstance(other, Weigher):
             return _BinaryMapWeigher(self, other, lambda x, y: x + y)
-        elif isinstance(other, np.ndarray):
+        elif isinstance(other, (int, float, np.ndarray)):
             return _UnaryMapWeigher(self, lambda x: x + other)
+
+    def __radd__(self, other):
+        return self + other
 
     def __mul__(self, other):
         if isinstance(other, Weigher):
