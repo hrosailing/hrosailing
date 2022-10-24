@@ -185,7 +185,7 @@ class Weigher(ABC):
             return _UnaryMapWeigher(self, lambda x: x*other)
 
     def __rmul__(self, other):
-        return other*self
+        return self*other
 
     def __sub__(self, other):
         if isinstance(other, Weigher):
