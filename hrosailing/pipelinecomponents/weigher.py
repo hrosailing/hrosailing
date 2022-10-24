@@ -219,8 +219,10 @@ class _UnaryMapWeigher(Weigher):
         self._map = map
 
     def weigh(self, points) -> (np.ndarray, dict):
-        weights = self._sub_weigher.weigh(points)
-        return self._map(weights)
+        weights, _ = self._sub_weigher.weigh(points)
+        statistics = get_weight_statistics(weights)
+        return self._map(weights), statistics
+
 
 class _BinaryMapWeigher(Weigher):
 
@@ -230,9 +232,11 @@ class _BinaryMapWeigher(Weigher):
         self._map = map
 
     def weigh(self, points) -> (np.ndarray, dict):
-        weights = self._sub_weigher.weigh(points)
-        other_weights = self._other_sub_weigher.weigh(points)
-        return self._map(weights, other_weights)
+        weights, _ = self._sub_weigher.weigh(points)
+        other_weights, _ = self._other_sub_weigher.weigh(points)
+        new_weights = self._map(weights, other_weights)
+        statistics = get_weight_statistics(new_weights)
+        return new_weights, statistics
 
 
 class AllOneWeigher(Weigher):
