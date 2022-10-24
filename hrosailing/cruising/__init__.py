@@ -28,7 +28,7 @@ class Direction:
     """Dataclass to represent recommended sections of a sailing maneuver."""
 
     #: Right headed angle between the boat heading and the wind direction.
-    #:   Same as TWA but from the boats perspective.
+    #:   Same as TWA but from the boat's perspective.
     angle: float
 
     #: The recommended proportion of time needed to sail into this direction.
@@ -164,7 +164,7 @@ def cruise(
     im: Optional[InfluenceModel] = None,
     influence_data: Optional[dict] = None,
 ):
-    """Calculates fastes time and sailing direction for a vessel to reach `end`
+    """Calculates the fastest time and sailing direction for a vessel to reach `end`
     from `start`, under constant wind.
 
     If needed the function will calculate two directions as well as the
@@ -318,7 +318,7 @@ def cost_cruise(
         Defaults to `lambda total_t, total_s: total_t`.
     integration_method : callable, optional
         Function that takes two (n,) arrays y, x and computes
-        an approximative integral from that.
+        an approximate integral from that.
         Will only be used if `cost_fun_dens` is not `None`.
         Defaults to `scipy.integrate.trapezoid`.
     im : InfluenceModel, optional
@@ -512,6 +512,7 @@ def _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im):
         return 1 / bsp
 
     return 0
+
 
 def _right_handing_course(a, b):
     """Calculates course between two points on the surface of the earth

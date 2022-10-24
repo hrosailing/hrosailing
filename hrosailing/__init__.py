@@ -24,7 +24,7 @@ values in knots (nautical miles per hour) and all time values in hours
 Installation
 ------------
 The recommended way to install `hrosailing` is with
-[pip](http://pypi.python.org/pypi/pip)
+[pip](http://pypi.python.org/pypi/pip).
 
     pip install hrosailing
 
@@ -34,7 +34,7 @@ The recommended way to install `hrosailing` is with
 License
 -------
 The `hrosailing` package is published under the [Apache 2.0 License](https://\
-        choosealicense.com/licenses/apache-2.0/)
+        choosealicense.com/licenses/apache-2.0/).
 """
 
 # pylint: disable=wrong-import-order

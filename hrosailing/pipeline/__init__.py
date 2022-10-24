@@ -45,7 +45,7 @@ class PipelineOutput(NamedTuple):
 
 
 class PolarPipeline:
-    """A Pipeline class to create polar diagrams from raw data
+    """A Pipeline class to create polar diagrams from raw data.
 
     Parameters
     ----------
@@ -59,68 +59,68 @@ class PolarPipeline:
 
     imputator : Imputator, optional
         Determines the method which will be used to produce data without
-        None entries
+        `None` entries.
 
-        Defaults to `FillLocalImputator()`
+        Defaults to `FillLocalImputator()`.
 
     smoother: Smoother, optional
         Determines the method which will be used to smoothen out the rounding
         following from low measurement precision.
 
-        Defaults to `LazySmoother()`
+        Defaults to `LazySmoother()`.
 
     expander: Expander, optional
         Determines the method which will be used to expand the data by several more data fields.
         For example weather data from a weather model.
 
     pre_weigher : Weigher, optional
-        Determines the method with which the points will be weight before
+        Determines the method with which the points will be weighted before
         application of the influence model.
 
-        Defaults to `CylindricMeanWeigher()`
+        Defaults to `CylindricMeanWeigher()`.
 
     pre_filter : Filter, optional
-        Determines the methods with which the points will be filtered,
-        if `pre_filtering` in __call__ method
+        Determines the methods which the points will be filtered with,
+        if `pre_filtering` in `__call__` method.
 
-        Defaults to `QuantileFilter()`
+        Defaults to `QuantileFilter()`.
 
     influence_model : InfluenceModel, optional
-        Determines the influence model which is applied and fitted to the data
+        Determines the influence model which is applied and fitted to the data.
 
-        Defaults to 'IdentityInfluenceModel()'
+        Defaults to 'IdentityInfluenceModel()'.
 
     post_weigher : Weigher, optional
-        Determines the method with which the points will be weight after
+        Determines the method with which the points will be weighted after
         application of the influence model.
 
-        Defaults to `CylindricMeanWeigher()`
+        Defaults to `CylindricMeanWeigher()`.
 
     post_filter : Filter, optional
         Determines the methods with which the points will be filtered
-        after the apllication of the influence model,
-        if `post_filtering` in __call__ method
+        after the application of the influence model,
+        if `post_filtering` in `__call__` method.
 
-        Defaults to `QuantileFilter()`
+        Defaults to `QuantileFilter()`.
 
     injector : Injector, optional
-        Determines the method to add additional artificial data points to the
-        data
+        Determines the method used to add additional artificial data points to the
+        data.
 
-        Defaults to 'None'
+        Defaults to 'None'.
 
     extension: PipelineExtension
         Extension that is called in the pipeline, after all preprocessing
         is done, to generate a polar diagram from the processed data.
 
         Determines the subclass of `PolarDiagram`, that the pipeline will
-        produce
+        produce.
 
-        Defaults to 'None'
+        Defaults to 'None'.
 
     quality_assurance : QualityAssurance, optional
         Determines the method which is used to measure the quality of the
-        resulting polar diagram using preprocessed test_data
+        resulting polar diagram using preprocessed test_data.
     """
 
     def __init__(
@@ -168,39 +168,39 @@ class PolarPipeline:
         Parameters
         ----------
         training_data : list of data compatible with `self.data_handler`
-            Data from which to create the polar diagram
+            Data from which to create the polar diagram.
 
             The input should be compatible with the DataHandler instances
-            given in initialization of the pipeline instance
+            given in initialization of the pipeline instance.
 
         test_data: list of data compatible with `self.data_handler` or `None`
             Data which is preprocessed and then used to check the quality of
-            the resulting polar diagram
+            the resulting polar diagram.
 
             The input should be compatible with the DataHandler instances
             given in initialization of the pipeline instance.
             If `None` no quality check is performed.
 
-            Default to `None`
+            Default to `None`.
 
         apparent_wind : bool, optional
-            Specifies if wind data is given in apparent wind
+            Specifies if wind data is given in apparent wind.
 
-            If `True`, wind will be converted to true wind
+            If `True`, wind will be converted to true wind.
 
-            Defaults to `False`
+            Defaults to `False`.
 
         pre_weighing : bool, optional
-            Specifies, if points should be weighed before application of the
+            Specifies, if points should be weighted before application of the
             influence model.
-            Otherwise each point will be assigned the weight 1.
+            Otherwise, each point will be assigned the weight 1.
 
-            Defaults to `True`
+            Defaults to `True`.
 
         pre_filtering : bool, optional
-            Specifies, if points should be filtered after pre_weighing
+            Specifies, if points should be filtered after pre_weighing.
 
-            Defaults to `True`
+            Defaults to `True`.
 
         smoothing : bool, optional
             Specifies, if measurement errors of the time series should be
@@ -209,23 +209,23 @@ class PolarPipeline:
         post_weighing : bool, optional
             Specifies, if points should be weighed after application of the
             influence model.
-            Otherwise each point will be assigned the weight 1.
+            Otherwise, each point will be assigned the weight 1.
 
-            Defaults to `True`
+            Defaults to `True`.
 
         post_filtering : bool, optional
-            Specifies, if points should be filtered after post_weighing
+            Specifies, if points should be filtered after post_weighing.
 
-            Defaults to `True`
+            Defaults to `True`.
 
         injecting : bool, optional
-            Specifies, if artificial points should be added to the data
+            Specifies, if artificial points should be added to the data.
 
-            Defaults to `True`
+            Defaults to `True`.
 
         testing : bool, optional
             Specifies, if the resulting polar diagram should be tested against
-            test data
+            test data.
 
         Returns
         -------
@@ -395,7 +395,6 @@ class PolarPipeline:
             i: stat for i, stat in enumerate(statistics)
         }
         return list(data), statistics
-
 
 
 def _weigh_and_filter(

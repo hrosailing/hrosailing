@@ -1,6 +1,6 @@
 """
-Contains an abstrat base class and several implementations of globe model.
-Globe models can be used for computations with lattitude longitude coordinates
+Contains an abstract base class and several implementations of globe models.
+Globe models can be used for computations with latitude longitude coordinates
 for different ways to describe the globe.
 """
 
@@ -18,22 +18,22 @@ class GlobeModel(ABC):
         Parameter
         ---------
         start : tuple  of size 2 of ints/floats,
-            Lattitude/Longitude representation of the first point
+            Latitude/Longitude representation of the first point
         end : tuple of size 2 of ints/floats,
-            Lattitude/Longitude representation of the second point
+            Latitude/Longitude representation of the second point
         """
         pass
 
     @abstractmethod
     def project(self, points):
         """
-        Projects a point given in Lattitude/Longitude to a point in the
-        three dimensional model.
+        Projects a point given in Latitude/Longitude to a point in the
+        three-dimensional model.
 
         Parameter
         ---------
         point : tuple of size 2 of ints/floats,
-            Lattitude/Longitude representation fo the point to be projected.
+            Latitude/Longitude representation of the point to be projected.
         """
         pass
 

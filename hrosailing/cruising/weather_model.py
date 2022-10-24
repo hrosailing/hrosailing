@@ -42,13 +42,13 @@ class WeatherModel(ABC):
     @abstractmethod
     def get_weather(self, point):
         """Given a space-time point, uses the available weather model
-        to calculate the weather at that point
+        to calculate the weather at that point.
 
         Parameters
         ----------
         point: tuple of length 3
             Space-time point given as tuple of time, latitude
-            and longitude
+            and longitude.
 
         Returns
         -------
@@ -56,7 +56,7 @@ class WeatherModel(ABC):
             The weather data at the given point.
 
             If it is a grid point, the weather data is taken straight
-            from the model, else it is interpolated as described above
+            from the model, else it is interpolated as described above.
         """
         pass
 
@@ -69,19 +69,19 @@ class GriddedWeatherModel(WeatherModel):
     Parameters
     ----------
     data : array_like of shape (n, m, r, s)
-        Weather data at different space-time grid points
+        Weather data at different space-time grid points.
 
     times : list of length n
-        Sorted list of time values of the space-time grid
+        Sorted list of time values of the space-time grid.
 
     lats : list of length m
-        Sorted list of lattitude values of the space-time grid
+        Sorted list of latitude values of the space-time grid.
 
     lons : list of length r
-        Sorted list of longitude values of the space-time grid
+        Sorted list of longitude values of the space-time grid.
 
     attrs : list of length s
-        List of different (scalar) attributes of weather
+        List of different (scalar) attributes of weather.
 
     """
 
@@ -98,7 +98,7 @@ class GriddedWeatherModel(WeatherModel):
 
     def get_weather(self, point):
         """Given a space-time point, uses the available weather model
-        to calculate the weather at that point
+        to calculate the weather at that point.
 
         If the point is not a grid point, the weather data will be
         interpolated via recursive affine interpolation
@@ -129,19 +129,19 @@ class GriddedWeatherModel(WeatherModel):
         -----------
 
         lats : list of floats
-            Sorted list of lattitude values of the space-time grid
+            Sorted list of latitude values of the space-time grid.
 
         lons : list floats
-            Sorted list of longitude values of the space-time grid
+            Sorted list of longitude values of the space-time grid.
 
         start_time : datetime.datetime
-            Smallest time component of the grid
+            The smallest time component of the grid.
 
         end_time : datetime.datetime
-            (Approximately) the biggest time component of the grid
+            (Approximately) the biggest time component of the grid.
 
         keys : list of str,
-            meteostat keys to be included in the weather model
+            `meteostat` keys to be included in the weather model.
 
         Returns
         -------
@@ -190,7 +190,7 @@ class GriddedWeatherModel(WeatherModel):
         Parameter
         ---------
         path : path like
-            the path of the written file
+            The path of the written file.
         """
         with open(path, "w") as file:
             file.write(json.dumps(self, cls=_GriddedWeatherModelEncoder))
@@ -204,7 +204,7 @@ class GriddedWeatherModel(WeatherModel):
         Parameter
         ---------
         path : path like
-            The path of the file to be read
+            The path of the file to be read.
         """
         with open(path, "r") as file:
             data, times, *rest = json.loads(file.read())
@@ -303,7 +303,7 @@ class NetCDFWeatherModel(GriddedWeatherModel):
     Parameter
     ----------
     path: str
-        path to the NetCDF file to be used.
+        Path to the NetCDF file to be used.
 
     aliases: dict with keys ["lat", "lon", "datetime"], optional
         Contains the aliases for Latitude, Longitude and the Timestamp used in the NetCDF file.

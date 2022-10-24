@@ -9,7 +9,7 @@ from hrosailing.pipelinecomponents.modelfunctions \
 
 
 class PipelineExtension(ABC):
-    """Base class for all pipeline extensions
+    """Base class for all pipeline extensions.
 
     Abstract Methods
     ----------------
@@ -20,37 +20,37 @@ class PipelineExtension(ABC):
     def process(self, weighted_points):
         """This method, given an instance of WeightedPoints, should
         return a polar diagram object, which represents the trends
-        and data contained in the WeightedPoints instance
+        and data contained in the WeightedPoints instance.
         """
 
 
 class TableExtension(PipelineExtension):
     """Pipeline extension to produce PolarDiagramTable instances
-    from preprocessed data
+    from preprocessed data.
 
     Parameters
     ----------
     wind_resolution : tuple of two array_likes or scalars, or str, optional
-        Wind speed and angle resolution to be used in the final table
+        Wind speed and angle resolution to be used in the final table.
         Can be given as
 
         - a tuple of two `array_likes` with scalar entries, that
-        will be used as the resolution
+        will be used as the resolution,
         - a tuple of two `scalars`, which will be used as
-        stepsizes for the resolutions
+        step-sizes for the resolutions,
         - the str `"auto"`, which will result in a resolution, that is
-        somewhat fitted to the data
+        somewhat fitted to the data.
 
     neighbourhood : Neighbourhood, optional
         Determines the neighbourhood around a point from which to draw
-        the data points used in the interpolation of that point
+        the data points used in the interpolation of that point.
 
-        Defaults to `Ball(radius=1)`
+        Defaults to `Ball(radius=1)`.
 
     interpolator : Interpolator, optional
-        Determines which interpolation method is used
+        Determines which interpolation method is used.
 
-        Defaults to `ArithmeticMeanInterpolator(50)`
+        Defaults to `ArithmeticMeanInterpolator(50)`.
     """
 
     def __init__(
@@ -70,19 +70,19 @@ class TableExtension(PipelineExtension):
         grid points according to the interpolation method of
         `self.interpolator`, which only takes in consideration the data points
         which lie in a neighbourhood, determined by `self.neighbourhood`,
-        around each grid point
+        around each grid point.
 
         Parameters
         ----------
         weighted_points : WeightedPoints
-            Preprocessed data from which to create the polar diagram
+            Preprocessed data from which to create the polar diagram.
 
         Returns
         -------
         polar_diagram, statistics : PolarDiagramTable, dict
             'polar_diagram' is a polar diagram that should represent the trends
-            captured in the raw data
-            'statistics' is {}
+            captured in the raw data,
+            'statistics' is {}.
         """
         extension_stats = {}
         ws_resolution, wa_resolution = self._determine_table_size(
@@ -152,7 +152,7 @@ def _extract_boat_speed(interpolated_points, rows, cols):
 
 class CurveExtension(PipelineExtension):
     """Pipeline extension to produce PolarDiagramCurve instances
-    from preprocessed data
+    from preprocessed data.
 
     Parameters
     ----------
@@ -160,21 +160,21 @@ class CurveExtension(PipelineExtension):
         Determines which regression method and model function is to be used,
         to represent the data.
 
-        The model function will also be passed to PolarDiagramCurve
+        The model function will also be passed to `PolarDiagramCurve`.
 
         Defaults to `ODRegressor(
             model_func=ws_s_wa_gauss_and_square,
             init_values=(0.2, 0.2, 10, 0.001, 0.3, 110, 2000, 0.3, 250, 2000)
-        )`
+        )`.
 
     radians : bool, optional
         Determines if the model function used to represent the data takes
-        the wind angles to be in radians or degrees
+        the wind angles to be in radians or degrees.
 
         If `True`, will convert the wind angles of the data points to
-        radians
+        radians.
 
-        Defaults to `False`
+        Defaults to `False`.
     """
 
     def __init__(
@@ -191,19 +191,19 @@ class CurveExtension(PipelineExtension):
     def process(self, weighted_points):
         """Creates a PolarDiagramCurve instance from preprocessed data,
         by fitting a given function to said data, using a regression
-        method determined by `self.regressor`
+        method determined by `self.regressor`.
 
         Parameters
         ----------
         weighted_points : WeightedPoints
-            Preprocessed data from which to create the polar diagram
+            Preprocessed data from which to create the polar diagram.
 
         Returns
         -------
         pd, statistics : PolarDiagramCurve
             A polar diagram that should represent the trends captured
             in the raw data,
-            'statistics' is {}
+            'statistics' is {}.
         """
         extension_stats = {}
         if self._use_radians():
@@ -228,28 +228,28 @@ def _convert_angles_to_radians(weighted_points):
 
 
 class PointcloudExtension(PipelineExtension):
-    """Pipeline extension to produce PolarDiagramPointcloud instances
-    from preprocessed data
+    """Pipeline extension to produce `PolarDiagramPointcloud` instances
+    from preprocessed data.
 
     Parameters
     ----------
     sampler : Sampler, optional
         Determines the number of points in the resulting point cloud
         and the method used to sample the preprocessed data and represent
-        the trends captured in them
+        the trends captured in them.
 
-        Defaults to `UniformRandomSampler(2000)`
+        Defaults to `UniformRandomSampler(2000)`.
 
     neighbourhood : Neighbourhood, optional
         Determines the neighbourhood around a point from which to draw
-        the data points used in the interpolation of that point
+        the data points used in the interpolation of that point.
 
-        Defaults to `Ball(radius=1)`
+        Defaults to `Ball(radius=1)`.
 
     interpolator : Interpolator, optional
-        Determines which interpolation method is used
+        Determines which interpolation method is used.
 
-        Defaults to `ArithmeticMeanInterpolator(50)`
+        Defaults to `ArithmeticMeanInterpolator(50)`.
     """
 
     def __init__(
@@ -270,20 +270,20 @@ class PointcloudExtension(PipelineExtension):
         values at the sampled points according to the interpolation method of
         `self.interpolator`, which only takes in consideration the data points
         which lie in a neighbourhood, determined by `self.neighbourhood`,
-        around each sampled point
+        around each sampled point.
 
         Parameters
         ----------
         weighted_points : WeightedPoints
-            Preprocessed data from which to create the polar diagram
+            Preprocessed data from which to create the polar diagram.
 
         Returns
         -------
         pd, statistics : PolarDiagramPointcloud, dict
             A polar diagram that should represent the trends captured
-            in the raw data
+            in the raw data,
 
-            'statistics' is {}
+            'statistics' is {}.
         """
         extension_stats = {}
         sample_points = self.sampler.sample(weighted_points.data)

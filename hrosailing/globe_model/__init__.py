@@ -1,7 +1,7 @@
 """
 Contains a base class and several concrete implementations of globe models
-which can be used to perform calculations on a three dimensional model of the
-globe using lattitude/longitude coordinates.
+which can be used to perform calculations on a three-dimensional model of the
+globe using latitude/longitude coordinates.
 """
 
 from abc import ABC, abstractmethod
@@ -12,7 +12,7 @@ class GlobeModel(ABC):
     """
     Abstract base class of globe models.
     Contains methods to translate between points given in latitude and
-    longitude coordinates and points on a map or a three dimensional globe.
+    longitude coordinates and points on a map or a three-dimensional globe.
 
     Abstract Methods
     ----------------
@@ -28,14 +28,14 @@ class GlobeModel(ABC):
     @abstractmethod
     def project(self, points):
         """
-        Calculates the three dimensional points corresponding to a given
-        of points in lattitude/longitude coordinates.
+        Calculates the three-dimensional points corresponding to a given
+        of points in latitude/longitude coordinates.
 
         Parameter
         ----------
 
         points: numpy.ndarray of shape (n, 2) with dtype float
-            The points to project on the globe given in lattitude/longitude
+            The points to project on the globe given in latitude/longitude
             coordinates.
 
         Returns
@@ -49,7 +49,7 @@ class GlobeModel(ABC):
     @abstractmethod
     def lat_lon(self, points):
         """
-        Computes the lattitude/longitude representations of given points on the
+        Computes the latitude/longitude representations of given points on the
         globe.
 
         Parameter
@@ -62,7 +62,7 @@ class GlobeModel(ABC):
         ---------
 
         lat_lons: numpy.ndarray of shape (n,2) with dtype float
-            The lattitude/longitude coordinates of the given points.
+            The latitude/longitude coordinates of the given points.
         """
         pass
 
@@ -75,10 +75,10 @@ class GlobeModel(ABC):
         ---------
 
         start: sequence of floats of length 2
-            The lattitude/longitude coordinates of the starting position.
+            The latitude/longitude coordinates of the starting position.
 
         end: sequence of floats of length 2
-            The lattitude/longitude coordinates of the goal position.
+            The latitude/longitude coordinates of the goal position.
 
         Returns
         -------
@@ -93,17 +93,17 @@ class GlobeModel(ABC):
     def shortest_projected_path(self, start, end, res=1000):
         """
         Computes the shortest path in the projected globe model.
-        This is used in order to find the shortest path on the lattitude-
+        This is used in order to find the shortest path on the latitude-
         longitude plane.
 
         start : np.ndarray of shape (2,n) or (3,n)
-            The coordinates of the starting point on the globe
+            The coordinates of the starting point on the globe.
 
         end : np.ndarray of shape (2,n) or (3,n)
-            The coordinates of the destination point on the globe
+            The coordinates of the destination point on the globe.
 
         res : int
-            The number of points to be computed
+            The number of points to be computed.
 
             Defaults to 1000.
         """
@@ -113,19 +113,19 @@ class GlobeModel(ABC):
         """
         Uses the `shortest_projected_path` method to compute points on the
         shortest path from `start` to `end`, all given
-        in lattitude/longitude coordinates.
+        in latitude/longitude coordinates.
 
         Parameter
         ---------
 
         start : sequence of floats of length 2
-            The lattitude/longitude coordinates of the starting position.
+            The latitude/longitude coordinates of the starting position.
 
         end : sequence of floats of length 2
-            The lattitude/longitude coordinates of the goal position.
+            The latitude/longitude coordinates of the goal position.
 
         res : int
-            The number of points to be computed
+            The number of points to be computed.
 
             Defaults to 1000.
 
@@ -133,7 +133,7 @@ class GlobeModel(ABC):
         ----------
 
         path: numpy.ndarray of shape (`res`, 2)
-            The lattitude/longitude coordinates of points along the shortest
+            The latitude/longitude coordinates of points along the shortest
             path from `start` to `end`.
 
         """
@@ -177,7 +177,7 @@ class FlatMercatorProjection(GlobeModel):
 
     def project(self, points):
         """
-        Computes the mercator projection with reference point lat_mp of
+        Computes the mercator projection with reference point `lat_mp` of
         given points. Projection has size (n, 2).
 
         See also
@@ -230,7 +230,7 @@ class SphericalGlobe(GlobeModel):
     Parameters
     -----------
     earth_radius: int/float, optional
-        The radius of the assumed globe
+        The radius of the assumed globe.
     """
 
     def __init__(self, earth_radius=21600/2/np.pi):
@@ -317,7 +317,7 @@ def _on_lat_lon(pts):
 
 
 def _angle(pt1, pt2):
-    """Computes angles in radians between points"""
+    """Computes angles in radians between points."""
     pt1 = pt1.ravel()
     pt2 = pt2.ravel()
     return np.arccos(np.dot(pt1, pt2)/np.linalg.norm(pt1)/np.linalg.norm(pt2))
