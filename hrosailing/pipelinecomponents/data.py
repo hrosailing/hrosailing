@@ -310,7 +310,7 @@ class Data:
                 - date and time fields will be aggregated to datetime,
                 - tries to cast entries to `float` whenever possible.
         """
-        def standard_key(key):
+        def get_standard_key(key):
             lkey = key.lower()
             for sep in SEPARATORS:
                 lkey = lkey.replace(sep, " ")
@@ -325,10 +325,17 @@ class Data:
                 return key
 
         for key, value in list(self._data.items()):
-            self.rename(key, standard_key(key))
+            standard_key = get_standard_key(key)
+            new_key = standard_key
+            if key == new_key:
+                continue
+            i = 0
+            while new_key in self.keys():
+                i += 1
+                new_key = f"{standard_key}(Control value {i})"
+            self.rename(key, new_key)
 
         if "time" in self and "date" in self:
-
             def combine(date, time):
                 if date is None or time is None:
                     return None

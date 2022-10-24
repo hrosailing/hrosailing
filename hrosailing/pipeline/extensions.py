@@ -102,7 +102,7 @@ class TableExtension(PipelineExtension):
                extension_stats
 
     def _determine_table_size(self, points):
-        from hrosailing.polardiagram._polardiagramtable import _set_resolution
+        from hrosailing.polardiagram._polardiagramtable import _Resolution
 
         if self.wind_resolution == "auto":
             return _automatically_determined_resolution(points)
@@ -111,8 +111,9 @@ class TableExtension(PipelineExtension):
             self.wind_resolution = (None, None)
 
         ws_resolution, wa_resolution = self.wind_resolution
-        return _set_resolution(ws_resolution, "s"), _set_resolution(
-            wa_resolution, "a"
+        return (
+            _Resolution.WIND_SPEED.set_resolution(ws_resolution),
+            _Resolution.WIND_ANGLE.set_resolution(wa_resolution)
         )
 
 
@@ -209,7 +210,7 @@ class CurveExtension(PipelineExtension):
             _convert_angles_to_radians(weighted_points)
 
         self.regressor.fit(
-            weighted_points.points
+            weighted_points.data
         )
 
         return pol.PolarDiagramCurve(

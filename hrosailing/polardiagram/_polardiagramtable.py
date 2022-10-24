@@ -255,8 +255,8 @@ class PolarDiagramTable(PolarDiagram):
         """Returns the value of a given entry in the table."""
         ws, wa = key[0]
 
-        col = self._get_indices(np.atleast_1d(ws), "s")
-        row = self._get_indices(np.atleast_1d(wa), "a")
+        col = self._get_indices(np.atleast_1d(ws), _Resolution.WIND_SPEED)
+        row = self._get_indices(np.atleast_1d(wa), _Resolution.WIND_ANGLE)
         return float(self.boat_speeds[row, col])
 
     def _get_indices(self, wind, soa):
