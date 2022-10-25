@@ -179,7 +179,7 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
         """
         wind_data = _get_true_wind_data(data)
         wa = wind_data[:, 1]
-        wind_data[:, 1] = (wa + self._wa_shift)%360
+        wind_data[:, 1] = (wa - self._wa_shift)%360
         return wind_data, {}
 
     def add_influence(self, pd, influence_data):
