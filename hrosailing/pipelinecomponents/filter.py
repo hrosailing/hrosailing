@@ -16,6 +16,14 @@ import numpy as np
 
 
 def get_filter_statistics(filtered_points):
+    """
+    Computes standard statistics for the output of a filter.
+
+    Parameters
+    ----------
+    filtered_points : boolean array
+        Boolean array describing which points are filtered.
+    """
     n_filtered_points = len([f for f in filtered_points if not f])
 
     return {

@@ -12,14 +12,6 @@ from datetime import timedelta, datetime
 
 import json
 
-
-def prod(list_):
-    res = 1
-    for l in list_:
-        res *= l
-    return res
-
-
 from hrosailing.globe_model import SphericalGlobe
 
 

@@ -219,6 +219,11 @@ class FlatMercatorProjection(GlobeModel):
         return np.linalg.norm(self.project(start) - self.project(end))
 
     def shortest_projected_path(self, start, end, res=1000):
+        """
+        See also
+        ---------
+        `GlobeModel.shortest_projected_path`
+        """
         return np.linspace(start, end, res)
 
 

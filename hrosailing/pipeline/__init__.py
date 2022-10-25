@@ -19,7 +19,15 @@ from hrosailing.pipelinecomponents.modelfunctions import (
 )
 
 class Statistics(NamedTuple):
-    """"""
+    """
+    Organizes the statistics returned by different `Pipelinecomponents`.
+    The attributes correspond to the parameters of `PolarPipeline.__init__`
+    and each contain dictionaries with relevant statistics.
+
+    See also
+    ----------
+    `PolarPipeline`
+    """
     data_handler: dict
     imputator: dict
     smoother: dict
@@ -38,7 +46,21 @@ _EMPTY_STATISTIC = Statistics({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {})
 
 
 class PipelineOutput(NamedTuple):
-    """"""
+    """
+    Organizes the output of a `PolarPipeline` call.
+
+    Attributes
+    ----------
+    polardiagram: PolarDiagram
+        The resulting polar diagram
+
+    training_statistics: Statistics
+        Relevant statistics obtained in the preprocessing and processing of the the training data.
+
+    test_statistics: Statistics
+        Relevant statistics obtained in the preprocessing of the test data.
+        The attributes `extension` and `quality_assurance` only contain an empty dictionary.
+    """
     polardiagram: pol.PolarDiagram
     training_statistics: Statistics
     test_statistics: Statistics

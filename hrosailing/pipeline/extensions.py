@@ -1,3 +1,8 @@
+"""
+Contains the abstract base class `PipelineExtension` and some ready-to-use implementations of it.
+Pipeline extensions should take preprocessed data and use it to create polar diagrams.
+"""
+
 from abc import ABC, abstractmethod
 import numpy as np
 import warnings

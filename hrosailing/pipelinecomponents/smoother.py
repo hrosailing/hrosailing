@@ -12,6 +12,9 @@ from abc import ABC, abstractmethod
 
 
 class Smoother(ABC):
+    """
+    Base class for all smoothers aimed to smoothen measurement errors in given data.
+    """
     @abstractmethod
     def smooth(self, data):
         """
