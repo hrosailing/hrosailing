@@ -359,7 +359,7 @@ class PolarPipeline:
 
         if influence_fitting:
             influence_fit_statistics = self.influence_model.fit(
-                pre_filtered_data
+                pre_filtered_data.data
             )
         else:
             influence_fit_statistics = {}

@@ -149,6 +149,74 @@ class IdentityInfluenceModel(InfluenceModel):
         return {}
 
 
+class WindAngleCorrectingInfluenceModel(InfluenceModel):
+    """An influence model which corrects a structural measurement error in 'TWA'.
+
+    Parameter
+    ----------
+    wa_shift: int or float, optional
+        Difference between real wind angle and measured wind angle (correction value).
+
+        Defaults to 0.
+
+    interval_size: int or float, optional
+        The size in degrees of the interval that is used to evaluate the points.
+
+        Defaults to 30.
+    """
+
+    def __init__(self, interval_size = 30, wa_shift = 0):
+        self._wa_shift = wa_shift
+        self._interval_size = interval_size
+
+    def remove_influence(self, data):
+        """
+        Removes the correction value to the data.
+
+        See also
+        -------
+        `InfluenceModel.remove_influence`
+        """
+        wind_data = _get_true_wind_data(data)
+        wa = wind_data[:, 1]
+        wind_data[:, 1] = (wa + self._wa_shift)%360
+        return wind_data, {}
+
+    def add_influence(self, pd, influence_data):
+        """
+        Adds the correction value from the data.
+
+        See also
+        -------
+        `InfluenceModel.remove_influence`
+
+        """
+        if isinstance(influence_data["TWS"], (list, np.ndarray)):
+            wind = zip(influence_data["TWS"], influence_data["TWA"])
+            speed = [pd(ws, (wa + self._wa_shift)%360) for ws, wa in wind]
+        else:
+            ws, wa = influence_data["TWS"], influence_data["TWA"]
+            speed = pd(ws, wa)
+        return speed
+
+    def fit(self, training_data):
+        """
+        Assumes, that the wind angle with the fewest data points in a region is the actual zero angle.
+
+        See also
+        --------
+        `InfluenceModel.fit`
+        """
+        wind_angles = training_data["TWA"]
+        counts = [
+            len([other_wa for other_wa in wind_angles if abs((wa - other_wa)%360) < self._interval_size/2])
+            for wa in wind_angles
+        ]
+        min_angle, _ = min(zip(wind_angles, counts), key=lambda x: x[1])
+        self._wa_shift = min_angle
+        return {}
+
+
 def _get_true_wind_data(data: dict):
     speed = "BSP" if "BSP" in data else "SOG"
     if "AWA" in data and "AWS" in data:

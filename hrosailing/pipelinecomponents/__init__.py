@@ -8,7 +8,7 @@ from .datahandler import (ArrayHandler, CsvFileHandler, DataHandler,
 from .filter import BoundFilter, Filter, QuantileFilter
 from .smoother import Smoother, LazySmoother, AffineSmoother
 from .expander import Expander, LazyExpander, WeatherExpander
-from .influencemodel import InfluenceModel, IdentityInfluenceModel
+from .influencemodel import InfluenceModel, IdentityInfluenceModel, WindAngleCorrectingInfluenceModel
 from .interpolator import (ArithmeticMeanInterpolator, IDWInterpolator,
                            ImprovedIDWInterpolator, Interpolator)
 from .neighbourhood import (Ball, Cuboid, Ellipsoid, Neighbourhood, Polytope,
