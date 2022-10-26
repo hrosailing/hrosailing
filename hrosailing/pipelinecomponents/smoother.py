@@ -50,6 +50,7 @@ class LazySmoother(Smoother):
         """
         return data, {}
 
+
 class AffineSmoother(Smoother):
     """
     Locates intervals in which the data, interpreted as a time series,

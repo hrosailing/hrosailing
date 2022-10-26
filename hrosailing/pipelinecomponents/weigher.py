@@ -266,11 +266,11 @@ class CylindricMeanWeigher(Weigher):
     following procedure:
 
     For a given point `p` and points `pts` we look at all the points
-    `pt` in `pts` such that ||pt[:d-1] - p[:d-1]|| <= r.
+    `pt` in `pts` such that :math: `||pt[:d-1] - p[:d-1]|| <= r`.
 
     Then we take the mean `m_p` and standard deviation `std_p`
     of the dth component of all those points and set
-    w_p = | m_p - p[d-1] | / std_p.
+    :math: `w_p = | m_p - p[d-1] | / std_p`.
 
     Parameters
     ----------
@@ -287,7 +287,7 @@ class CylindricMeanWeigher(Weigher):
     Raises
     ------
     WeigherInitializationException
-        If radius is nonpositive.
+        If radius is non-positive.
     """
 
     def __init__(
@@ -297,7 +297,7 @@ class CylindricMeanWeigher(Weigher):
         dimensions=None
     ):
         if radius <= 0:
-            raise WeigherInitializationException("`radius` is nonpositive")
+            raise WeigherInitializationException("`radius` is non-positive")
 
         self._radius = radius
         self._norm = norm
@@ -364,9 +364,9 @@ class CylindricMemberWeigher(Weigher):
 
     For a given point `p` and points `pts`
     we look at all the points `pt` in `pts` such that
-    |pt[0] - p[0]| <= h and ||pt[1:] - p[1:]|| <= r.
+    :math:`|pt[0] - p[0]| <= h` and :math:`||pt[1:] - p[1:]|| <= r`.
 
-    If we call the set of all such points `P`, then w_p = #P - 1.
+    If we call the set of all such points `P`, then :math:`w_p = #P - 1`.
 
     Parameters
     ----------
@@ -375,7 +375,7 @@ class CylindricMemberWeigher(Weigher):
 
         Defaults to `0.05`
 
-    length : nonnegative int or float, optional
+    length : non-negative int or float, optional
         The height of the considered cylinder, i.e. `h`.
 
         If length is 0, the cylinder is a d-1 dimensional ball.
@@ -397,7 +397,7 @@ class CylindricMemberWeigher(Weigher):
     Raises
     ------
     WeigherInitializationException
-        - If radius is nonpositive.
+        - If radius is non-positive.
         - If length is negative.
     """
 
@@ -409,10 +409,10 @@ class CylindricMemberWeigher(Weigher):
         dimensions=None
     ):
         if radius <= 0:
-            raise WeigherInitializationException("`radius` is nonpositive")
+            raise WeigherInitializationException("`radius` is non-positive")
 
         if length < 0:
-            raise WeigherInitializationException("`length` is not nonnegative")
+            raise WeigherInitializationException("`length` is not non-negative")
 
         self._radius = radius
         self._length = length
@@ -541,8 +541,6 @@ class FluctuationWeigher(Weigher):
         statistics = get_weight_statistics(weights)
 
         return weights, statistics
-
-
 
 
 # class PastFluctuationWeigher(Weigher):
@@ -786,7 +784,7 @@ class FuzzyVariable:
     Refers to Variables in the fuzzy logic.
     It's main purpose is to easily create `FuzzyBool` instances.
 
-    For example, the following notations work for a `FuzzyVariable` x, `int` or `float`
+    For example, the following notations work for a `FuzzyVariable` `x`, `int` or `float`
     Variables `a`, 'b', `s` and `key` such that `x.__getitem__(key)` works:
 
         - x < a, x <= a, x > a, x >= a, x == a
@@ -900,7 +898,7 @@ def hrosailing_standard_scaled_euclidean_norm(dimensions):
 
     Parameters
     ----------
-    dimension : iterator of str or None, optional
+    dimensions : iterator of str or None, optional
         Iterates over the names of the attributes used.
         If set to `None`, a two-dimensional norm with scalings 1/40 (for wind speed) and 1/360 (for wind angle) is
         returned.

@@ -7,6 +7,7 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
+
 class QualityAssurance(ABC):
     """
     Base class for all quality assurance classes.
@@ -15,7 +16,7 @@ class QualityAssurance(ABC):
     @abstractmethod
     def check(self, polar_diagram, test_data):
         """Method that should test if a given polar diagram works with given
-        preprocessed test data and return a dict containing relevant
+        preprocessed test data and returns a dict containing relevant
         statistics."""
 
 
@@ -32,7 +33,7 @@ class MinimalQualityAssurance(QualityAssurance):
         statistics: dict
             Dictionary containing the keys
 
-            - 'max_error' : The maximal absolute difference between the boat speed of a test point the corresponding polar diagram output,
+            - 'max_error' : the maximal absolute difference between the boat speed of a test point the corresponding polar diagram output,
             - 'min_error' : the minimal absolute difference between the boat speed of a test point the corresponding polar diagram output,
             - 'average_error' : the average absolute difference between the boat speed of a test point the corresponding polar diagram output,
             - 'average_quadratic_error' : the average quadratic difference between the boat speed of a test point the corresponding polar diagram output.

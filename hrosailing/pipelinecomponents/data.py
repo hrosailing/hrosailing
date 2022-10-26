@@ -18,7 +18,7 @@ class Data:
     Weights might be added to the corresponding rows.
 
     If `data` is of type `Data`, `data[key]` yields the corresponding column if
-    key is a string and the corresponding row if key is an integer.
+    `key` is a string and the corresponding row if `key` is an integer.
     `key in data` checks if there is a column with key `key`.
     Iteration is performed over the rows.
 
@@ -33,6 +33,7 @@ class Data:
     n_cols : int
         The number of columns.
     """
+
     def __init__(self):
         self._data = {}
         self._types = {}
@@ -56,7 +57,7 @@ class Data:
     @property
     def n_rows(self):
         return self._max_len
-    
+
     @property
     def n_cols(self):
         return len(self._data)
@@ -167,7 +168,7 @@ class Data:
                 else:
                     self.append(key, val)
             self.fill()
-        #if isinstance(data_dict, Data): this does not work for some reason
+        # if isinstance(data_dict, Data): this does not work for some reason
         else:
             self.update(data_dict._data)
 
@@ -213,7 +214,7 @@ class Data:
                 self._data[key] = []
             curr_len = len(self._data[key])
             fill_len = max(0, (len_ - curr_len))
-            self._data[key].extend([None]*fill_len)
+            self._data[key].extend([None] * fill_len)
             self._types[key] = self._get_type(self._data[key])
 
     def filter_types(self, type_list):
@@ -291,15 +292,15 @@ class Data:
         """
         if mode == "cols":
             self._data = {key: value for key, value in self._data.items()
-                         if not all([v is None for v in value])}
+                          if not all([v is None for v in value])}
         elif mode == "rows":
-            end_leading_nones = 0 # first index AFTER leading None rows
-            start_tailing_nones = self._max_len -1 # first index BEFORE tailing None rows
+            end_leading_nones = 0  # first index AFTER leading None rows
+            start_tailing_nones = self._max_len - 1  # first index BEFORE tailing None rows
             while all([self[key][end_leading_nones] is None for key in self.keys()]):
                 end_leading_nones += 1
             while all([self[key][start_tailing_nones] is None for key in self.keys()]):
                 start_tailing_nones -= 1
-            self._data = {key: value[end_leading_nones:start_tailing_nones+1] for key, value in self._data.items()}
+            self._data = {key: value[end_leading_nones:start_tailing_nones + 1] for key, value in self._data.items()}
 
     def hrosailing_standard_format(self):
         """
@@ -310,6 +311,7 @@ class Data:
                 - date and time fields will be aggregated to datetime,
                 - tries to cast entries to `float` whenever possible.
         """
+
         def get_standard_key(key):
             lkey = key.lower()
             for sep in SEPARATORS:
@@ -345,21 +347,20 @@ class Data:
             self.extend(
                 "datetime",
                 [
-                combine(date, time)
-                for date, time in
-                zip(self["date"], self["time"])
+                    combine(date, time)
+                    for date, time in
+                    zip(self["date"], self["time"])
                 ]
             )
             self.delete("date")
             self.delete("time")
 
-        #ensure floats
+        # ensure floats
         for key in self.keys():
             if self._types[key] in (int, str, Decimal, np.float_):
                 succes, self._data[key] = _try_call_to_float(self._data[key])
                 if succes:
                     self._types[key] = float
-
 
     @staticmethod
     def _get_type(data):
@@ -454,7 +455,7 @@ class Data:
         """
 
         data = {
-            key : list(np.array(value)[mask]) for key, value in self._data.items()
+            key: list(np.array(value)[mask]) for key, value in self._data.items()
         }
         try:
             max_len = max([len(field) for field in data.values()])

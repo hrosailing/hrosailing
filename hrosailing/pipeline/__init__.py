@@ -18,6 +18,7 @@ from hrosailing.pipelinecomponents.modelfunctions import (
     ws_s_wa_gauss_and_square,
 )
 
+
 class Statistics(NamedTuple):
     """
     Organizes the statistics returned by different `Pipelinecomponents`.
@@ -52,10 +53,10 @@ class PipelineOutput(NamedTuple):
     Attributes
     ----------
     polardiagram: PolarDiagram
-        The resulting polar diagram
+        The resulting polar diagram.
 
     training_statistics: Statistics
-        Relevant statistics obtained in the preprocessing and processing of the the training data.
+        Relevant statistics obtained in the preprocessing and processing of the training data.
 
     test_statistics: Statistics
         Relevant statistics obtained in the preprocessing of the test data.

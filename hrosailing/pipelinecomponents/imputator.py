@@ -28,14 +28,15 @@ class Imputator(ABC):
             Data to be imputed.
         """
 
+
 class FillLocalImputator(Imputator):
     """
     An `Imputator` which assumes that the data has been stored chronologically
     and contains the field 'datetime'.
     Fills missing data by:
     - deleting columns that only contain `None` values,
-    - deleting rows between two data-points that are far apart in time
-    - affine interpolation of datetime-stamps between two data_points which
+    - deleting rows between two data-points that are far apart in time,
+    - affine interpolation of datetime-stamps between two data-points which
         are not far apart in time,
     - filling data before and after a not-`None` value which are not too far apart
         in time according to certain functions (`fill_before` and `fill_after`),
@@ -170,7 +171,7 @@ class FillLocalImputator(Imputator):
                 start_idx = min(
                     [i for i in range(idx[0])
                      if datetime[idx[0]] - datetime[i] < self._max_time_diff]
-                ) #first idx in time interval
+                )  # first idx in time interval
                 self._fill_range(
                     data_dict,
                     datetime,
@@ -184,7 +185,7 @@ class FillLocalImputator(Imputator):
             for idx1, idx2 in zip(idx, idx[1:]):
                 timediff = datetime[idx2] - datetime[idx1]
                 if timediff < self._max_time_diff:
-                    #fill data according to fill_between function
+                    # fill data according to fill_between function
                     self._fill_range(
                         data_dict,
                         datetime,
@@ -194,7 +195,7 @@ class FillLocalImputator(Imputator):
                         self._fill_between
                     )
                 else:
-                    #fill data according to fill_before and fill_after
+                    # fill data according to fill_before and fill_after
                     near_points = \
                         [i for i in range(idx1 + 1, idx2)
                          if datetime[i] - datetime[idx1] < self._max_time_diff]
@@ -222,12 +223,12 @@ class FillLocalImputator(Imputator):
                             self._fill_before
                         )
 
-            #fill last entries according to 'fill_after'
+            # fill last entries according to 'fill_after'
             near_points = \
                 [i for i in range(idx[0])
                  if datetime[idx[0]] - datetime[i] < self._max_time_diff]
             if len(near_points) > 0:
-                end_idx = min(near_points) #first idx in time interval
+                end_idx = min(near_points) # first idx in time interval
                 self._fill_range(
                     data_dict,
                     datetime,
@@ -237,7 +238,7 @@ class FillLocalImputator(Imputator):
                     self._fill_after
             )
 
-        #remove rows which still have None values
+        # remove rows which still have None values
         remove_rows = [i for i, _ in enumerate(data_dict["datetime"])
                        if any([data_dict[key][i] is None
                                for key in data_dict.keys()])]

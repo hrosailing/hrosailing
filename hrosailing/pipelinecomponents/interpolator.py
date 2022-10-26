@@ -8,7 +8,7 @@ Subclasses of `Interpolator` can be used with
 
 - the `TableExtension` and `PointcloudExtension` classes in the
 `hrosailing.pipeline` module,
-- the `__call__`-method of the `PolarDiagramTable` and `PolarDiagramPointcloud`
+- the `__call__`-methods of the `PolarDiagramTable` and `PolarDiagramPointcloud`
 classes in the `hrosailing.polardiagram` module.
 """
 
@@ -40,7 +40,7 @@ class Interpolator(ABC):
     @abstractmethod
     def interpolate(self, w_pts, grid_pt):
         """This method should be used, given a point `grid_pt` and an
-        instances of `WeightedPoints`, to determine the z-value at `grid_pt`,
+        instance of `WeightedPoints`, to determine the z-value at `grid_pt`,
         based on the z-values of the points in the `WeightedPoints` instance.
 
         Parameters
@@ -66,7 +66,7 @@ class IDWInterpolator(Interpolator):
     For a given point :math:`grid\\\\_pt`, that is to be interpolated, we
     calculate the distances :math:`d_{pt} = ||grid\\\\_pt - pt[:2]||` for all considered
     measured points. Then we set the weights of a point :math:`pt` to be
-    :math:`w_{pt} = \\cfrac{1}{d_{pt}^p}`, for some nonnegative integer :math:`p`.
+    :math:`w_{pt} = \\cfrac{1}{d_{pt}^p}`, for some non-negative integer :math:`p`.
 
     The interpolated value at :math:`grid\\\\_pt` then equals
     :math:`\\cfrac{\\sum_{pt} w_{pt} * pt[2]}{\\sum_{pt} w_{pt}}`
@@ -74,7 +74,7 @@ class IDWInterpolator(Interpolator):
 
     Parameters
     ----------
-    p : nonnegative int, optional
+    p : non-negative int, optional
 
         Defaults to `2`.
 
@@ -183,7 +183,7 @@ class ArithmeticMeanInterpolator(Interpolator):
     Raises
     ------
     InterpolatorInitializationException
-        If `s` is nonpositive.
+        If `s` is non-positive.
     """
 
     def __init__(
@@ -194,7 +194,7 @@ class ArithmeticMeanInterpolator(Interpolator):
         distribution: Callable = _gauss_potential,
     ):
         if s <= 0:
-            raise InterpolatorInitializationException("`s` is nonpositive")
+            raise InterpolatorInitializationException("`s` is non-positive")
 
         self._s = s
         self._norm = norm
@@ -324,8 +324,8 @@ class ShepardInterpolator(Interpolator):
     Raises
     ------
     InterpolatorInitializationException
-        - If `tol` is nonpositive.
-        - If `slope` is nonpositive.
+        - If `tol` is non-positive.
+        - If `slope` is non-positive.
 
     """
 
@@ -337,10 +337,10 @@ class ShepardInterpolator(Interpolator):
         norm: Callable = scaled_euclidean_norm,
     ):
         if tol <= 0:
-            raise InterpolatorInitializationException("`tol` is nonpositive")
+            raise InterpolatorInitializationException("`tol` is non-positive")
         if slope <= 0:
             raise InterpolatorInitializationException(
-                "`slope` is nonpositive"
+                "`slope` is non-positive"
             )
 
         self._norm = norm

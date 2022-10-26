@@ -16,18 +16,18 @@ from ._models2d import (
 
 def ws_times_wa(ws, wa, scal):
     """
-    Returns a scaled version of the product of wind_speeds and wind_angles.
+    Returns a scaled version of the product of wind speeds and wind angles.
 
     Parameter
     --------
     ws: array_like
-        Wind speeds
+        Wind speeds.
 
     wa: array_like
-        Wind angles
+        Wind angles.
 
     scal: int or float
-        The scaling factor
+        The scaling factor.
     """
     ws = np.asarray(ws)
     wa = np.asarray(wa)

@@ -74,7 +74,7 @@ class Ball(Neighbourhood):
     Raises
     ------
     NeighbourhoodInitializationException
-        If `radius` is nonpositive.
+        If `radius` is non-positive.
     """
 
     def __init__(
@@ -84,7 +84,7 @@ class Ball(Neighbourhood):
     ):
         if radius <= 0:
             raise NeighbourhoodInitializationException(
-                "`radius` is nonpositive"
+                "`radius` is non-positive"
             )
 
         self._norm = norm
@@ -133,7 +133,7 @@ class ScalingBall(Neighbourhood):
     Raises
     ------
     NeighbourhoodInitializationException
-        - If `min_pts` is nonpositive.
+        - If `min_pts` is non-positive.
 
     """
 
@@ -145,7 +145,7 @@ class ScalingBall(Neighbourhood):
 
         if min_pts <= 0:
             raise NeighbourhoodInitializationException(
-                "`min_pts` is nonpositive"
+                "`min_pts` is non-positive"
             )
 
         self._min_pts = min_pts
@@ -217,7 +217,7 @@ class Ellipsoid(Neighbourhood):
     Raises
     ------
     NeighbourhoodInitializationException
-        - If `radius` is nonpositive.
+        - If `radius` is non-positive.
         - If `lin_trans` is not a (2,2)-array or is not invertible.
     """
 
@@ -244,7 +244,7 @@ class Ellipsoid(Neighbourhood):
 
         if radius <= 0:
             raise NeighbourhoodInitializationException(
-                "`radius` is nonpositive"
+                "`radius` is non-positive"
             )
 
         self._T = np.linalg.inv(lin_trans)

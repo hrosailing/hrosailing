@@ -46,16 +46,15 @@ class Regressor(ABC):
     @property
     @abstractmethod
     def model_func(self):
-        """This property should return a version of the
-        in the regression used model function.
+        """
+        This property should return a version of the model function used in the regression.
         """
 
     @property
     @abstractmethod
     def optimal_params(self):
-        """This property should return a version of the
-        through regression determined optimal parameters
-        of the model function.
+        """This property should return a version of the optimal parameters determined
+        through regression of the model function.
         """
 
     @abstractmethod
