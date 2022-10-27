@@ -345,28 +345,46 @@ class PolarPipeline:
             smooth_data = imputated_data
             smooth_statistics = {}
 
-        smooth_data = pc.data.Data.concatenate(smooth_data)
+        # smooth_data = pc.data.Data.concatenate(smooth_data)
 
-        expanded_data, expanded_statistics = self.expander.expand(smooth_data)
+        expanded_data, expanded_statistics = self._map(
+            self.expander.expand, smooth_data
+        )
+
+        # expanded_data = pc.data.Data.concatenate(expanded_data)
+
+        # pre_filtered_data, pre_weigher_statistics, pre_filter_statistics = \
+        #     _weigh_and_filter(
+        #         expanded_data,
+        #         self.pre_weigher,
+        #         self.pre_filter,
+        #         pre_weighing,
+        #         pre_filtering
+        #     )
 
         pre_filtered_data, pre_weigher_statistics, pre_filter_statistics = \
-            _weigh_and_filter(
-                expanded_data,
-                self.pre_weigher,
-                self.pre_filter,
-                pre_weighing,
-                pre_filtering
+            self._map(
+                lambda data: _weigh_and_filter(
+                    data,
+                    self.pre_weigher,
+                    self.pre_filter,
+                    pre_weighing,
+                    pre_filtering
+                ),
+                expanded_data
             )
+
+        pre_filtered_data = pc.data.Data.concatenate([wp.data for wp in pre_filtered_data])
 
         if influence_fitting:
             influence_fit_statistics = self.influence_model.fit(
-                pre_filtered_data.data
+                pre_filtered_data
             )
         else:
             influence_fit_statistics = {}
 
         influence_free_data, influence_statistics = \
-            self.influence_model.remove_influence(expanded_data)
+            self.influence_model.remove_influence(pre_filtered_data)
 
         influence_statistics.update(influence_fit_statistics)
 
@@ -413,11 +431,11 @@ class PolarPipeline:
 
     @staticmethod
     def _list_statistics(pipe_output):
-        data, statistics = tuple(zip(*pipe_output))
-        statistics = {
-            i: stat for i, stat in enumerate(statistics)
-        }
-        return list(data), statistics
+        data, *statistics = tuple(zip(*pipe_output))
+        statistics = tuple({
+            i: stat for i, stat in enumerate(statistic)
+        } for statistic in statistics)
+        return list(data), *statistics
 
 
 def _weigh_and_filter(

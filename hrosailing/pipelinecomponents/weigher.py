@@ -111,10 +111,13 @@ class WeightedPoints:
                 for key, value in self.data.items()
                 if key in other.data
             }
+        elif isinstance(self.data, Data):
+            self.data = Data.concatenate([self.data, other.data])
         else:
             self.data = np.row_stack([self.data, other.data])
 
         self.weights = np.concatenate([self.weights, other.weights])
+
 
 
 def get_weight_statistics(weights):
