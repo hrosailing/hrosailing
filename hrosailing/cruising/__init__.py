@@ -94,7 +94,7 @@ def convex_direction(
     -------
     edge : list of Directions
         Either just one `Direction` instance, if sailing into `direction`
-        is the optimal way, or two `Direction` instances, that will "equal"
+        is the optimal way, or two `Direction` instances, that will be "equal"
         to `direction`.
 
     Raises
@@ -172,9 +172,9 @@ def cruise(
 
     Wind has to be given by one of the following combinations of parameters:
 
-    - `ws` and `wa_north`
-    - `ws`, `wa` and `hdt`
-    - `uv_grd`
+    - `ws` and `wa_north`,
+    - `ws`, `wa` and `hdt`,
+    - `uv_grd`.
 
     Parameters
     ----------
@@ -193,10 +193,10 @@ def cruise(
         Specification how to interpret the parameter `wind`.
 
         - "ws_wan": `wind` is interpreted as
-            (true wind speed, wind angle relative to north)
+            (true wind speed, wind angle relative to north),
         - "ws_wa_hdt": `wind` is interpreted as
             (true wind speed, true wind angle,
-            heading of the boat relative to north)
+            heading of the boat relative to north),
         - "uv_grd": `wind` is interpreted as (u_grd, v_grd) as can be read from
             a GRIB file.
     im : InfluenceModel, optional
@@ -290,10 +290,10 @@ def cost_cruise(
     Using this, it then uses numeric integration to predict the total costs as
 
     ..math::
-        \\int_{0}^{l} cost(s, t(s)) \\,ds + abs\\_cost(t(l), l).
+        int_{0}^{l} cost(s, t(s)) \\,ds + abs\\_cost(t(l), l).
 
     Note that the costs in this mathematical description indirectly depend on
-    weather forecast data, organized by a 'WeatherModel'.
+    weather forecast data, organized by a `WeatherModel`.
     Distances are computed using the mercator projection.
 
     Parameters

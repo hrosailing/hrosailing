@@ -1,5 +1,5 @@
 """
-Module contains the abstract base class and inheriting classes for the
+This Module contains the abstract base class and inheriting classes for the
 handling of weather information.
 """
 
@@ -117,7 +117,7 @@ class GriddedWeatherModel(WeatherModel):
         The time component of the resulting gridded data will have an hourly
         resolution.
 
-        Parameter
+        Parameters
         -----------
 
         lats : list of floats
@@ -132,7 +132,7 @@ class GriddedWeatherModel(WeatherModel):
         end_time : datetime.datetime
             (Approximately) the biggest time component of the grid.
 
-        keys : list of str,
+        keys : list of str
             `meteostat` keys to be included in the weather model.
 
         Returns
@@ -179,7 +179,7 @@ class GriddedWeatherModel(WeatherModel):
         Writes the data of the weather model to a `json` file such that it can
         be read via `from_file` method.
 
-        Parameter
+        Parameters
         ---------
         path : path like
             The path of the written file.
@@ -193,7 +193,7 @@ class GriddedWeatherModel(WeatherModel):
         Reads a gridded weather model from a compatible `json` file
         (for example those created via the `to_file` method)
 
-        Parameter
+        Parameters
         ---------
         path : path like
             The path of the file to be read.
@@ -289,16 +289,16 @@ class NetCDFWeatherModel(GriddedWeatherModel):
     """
     A weather model that uses gridded data from a NetCDF (.nc or .nc4) file.
     Uses the same interpolation method as `GriddedWeatherModel`.
-    The module netCDF4 has to be installed in order to use this class.
+    The module `netCDF4` has to be installed in order to use this class.
     The methods `from_file` and `to_file` are not supported.
 
-    Parameter
+    Parameters
     ----------
     path: str
         Path to the NetCDF file to be used.
 
     aliases: dict with keys ["lat", "lon", "datetime"], optional
-        Contains the aliases for Latitude, Longitude and the Timestamp used in the NetCDF file.
+        Contains the aliases for latitude, longitude and the timestamp used in the NetCDF file.
 
         Defaults to `{"lat": "latitude", "lon": "longitude", "datetime": "time"}`.
 
@@ -419,7 +419,7 @@ class MultiWeatherModel(WeatherModel):
     """
     Weather model that manages multiple weather models at once and combines their output.
 
-    Parameter
+    Parameters
     ----------
     *args
         An arbitrary number of weather models.

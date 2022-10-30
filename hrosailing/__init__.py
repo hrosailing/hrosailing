@@ -11,10 +11,10 @@ In particular, hrosailing provides:
 - creation of polar diagrams from measurement data using
 a modular pipeline model and suitable data science methods,
 - wind conversion,
-- suggesting optimal tacks and jibes,
-- calculating the costs of a sailing trip with respect to the
+- suggestion of optimal tacks and jibes,
+- calculation of costs for a sailing trip with respect to the
 weather on the way,
-- calculating isochrone points with respect to the weather along the way.
+- calculation of isochrone points with respect to the weather along the way.
 
 Note that all methods and classes of this package
 expect all distances in nautical miles, all speed

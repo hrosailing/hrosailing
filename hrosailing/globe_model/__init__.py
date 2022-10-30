@@ -31,7 +31,7 @@ class GlobeModel(ABC):
         Calculates the three-dimensional points corresponding to a given
         of points in latitude/longitude coordinates.
 
-        Parameter
+        Parameters
         ----------
 
         points: numpy.ndarray of shape (n, 2) with dtype float
@@ -52,7 +52,7 @@ class GlobeModel(ABC):
         Computes the latitude/longitude representations of given points on the
         globe.
 
-        Parameter
+        Parameters
         ---------
 
         points: numpy.ndarray of shape (n,2) or (n,3) with dtype float
@@ -71,7 +71,7 @@ class GlobeModel(ABC):
         """
         Computes the distance from `start` to `end` on the globe.
 
-        Parameter
+        Parameters
         ---------
 
         start: sequence of floats of length 2
@@ -93,8 +93,10 @@ class GlobeModel(ABC):
     def shortest_projected_path(self, start, end, res=1000):
         """
         Computes the shortest path in the projected globe model.
-        This is used in order to find the shortest path on the latitude-
-        longitude plane.
+        This is used in order to find the shortest path on the latitude-longitude plane.
+
+        Parameters
+        ----------
 
         start : np.ndarray of shape (2,n) or (3,n)
             The coordinates of the starting point on the globe.
@@ -115,7 +117,7 @@ class GlobeModel(ABC):
         shortest path from `start` to `end`, all given
         in latitude/longitude coordinates.
 
-        Parameter
+        Parameters
         ---------
 
         start : sequence of floats of length 2

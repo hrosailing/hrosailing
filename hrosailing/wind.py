@@ -7,7 +7,7 @@ import numpy as np
 
 
 class WindConversionException(Exception):
-    """Exception raised if an error occurs during wind conversion."""
+    """Exception raised if an error occurs during wind conversion"""
 
 
 class _Wind(enum.Enum):
