@@ -4,7 +4,7 @@ Classes used for modular modelling of different interpolation methods.
 Defines the `Interpolator` abstract base class that can be used to
 create custom interpolation methods.
 
-Subclasses of `Interpolator` can be used with
+Subclasses of `Interpolator` can be used with:
 
 - the `TableExtension` and `PointcloudExtension` classes in the
 `hrosailing.pipeline` module,
@@ -101,8 +101,8 @@ class IDWInterpolator(Interpolator):
         return f"IDWInterpolator(p={self._p}, norm={self._norm.__name__})"
 
     def interpolate(self, w_pts, grid_pt):
-        """Interpolates a given point `grid_pt` according to the
-        above described procedure.
+        """Interpolates a given point `grid_pt` according to the procedure described
+        above.
 
         Parameters
         ----------
@@ -208,8 +208,8 @@ class ArithmeticMeanInterpolator(Interpolator):
         )
 
     def interpolate(self, w_pts, grid_pt):
-        """Interpolates a given `grid_pt` according to the
-        above described procedure.
+        """Interpolates a given `grid_pt` according to the procedure described
+        above.
 
         Parameters
         ----------
@@ -246,7 +246,7 @@ class ImprovedIDWInterpolator(Interpolator):
     Let :math:`r` be the radius of the `neighbourhood.ScalingBall` with the center being some
     point :math:`grid\\\\_pt` which is to be interpolated.
     For all considered measured points let :math:`d_{pt}` be the same as
-    in `IDWInterpolator`. If :math:`d_{pt} <= \\cfrac{r}{3}` we set :math:`w_{pt} = \\cfrac{1}{d_{pt}}`.
+    in `IDWInterpolator`. If :math:`d_{pt} \\leq \\cfrac{r}{3}` we set :math:`w_{pt} = \\cfrac{1}{d_{pt}}`.
     Otherwise, we set :math:`w_{pt} = \\cfrac{27}{4 * r} * (\\cfrac{d_{pt}}{r - 1})^2`.
 
     The resulting value at :math:`grid\\\\_pt` will then be calculated the same
@@ -265,8 +265,8 @@ class ImprovedIDWInterpolator(Interpolator):
         self._norm = norm
 
     def interpolate(self, w_pts, grid_pt):
-        """Interpolates a given `grid_pt` according to the
-        above described procedure.
+        """Interpolates a given `grid_pt` according to the procedure described
+        above.
 
         Parameters
         ----------
@@ -355,8 +355,8 @@ class ShepardInterpolator(Interpolator):
         )
 
     def interpolate(self, w_pts, grid_pt):
-        """Interpolates a given `grid_pt` according to the
-        above described procedure.
+        """Interpolates a given `grid_pt` according to the procedure described
+        above.
 
         Parameters
         ----------

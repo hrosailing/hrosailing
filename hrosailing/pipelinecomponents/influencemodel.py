@@ -152,7 +152,7 @@ class IdentityInfluenceModel(InfluenceModel):
 class WindAngleCorrectingInfluenceModel(InfluenceModel):
     """An influence model which corrects a structural measurement error in 'TWA'.
 
-    Parameter
+    Parameters
     ----------
     wa_shift: int or float, optional
         Difference between real wind angle and measured wind angle (correction value).
@@ -171,7 +171,7 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
 
     def remove_influence(self, data):
         """
-        Removes the correction value to the data.
+        Removes the correction value from the data.
 
         See also
         -------
@@ -184,7 +184,7 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
 
     def add_influence(self, pd, influence_data):
         """
-        Adds the correction value from the data.
+        Adds the correction value to the data.
 
         See also
         -------

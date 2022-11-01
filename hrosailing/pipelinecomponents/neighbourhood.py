@@ -133,7 +133,7 @@ class ScalingBall(Neighbourhood):
     Raises
     ------
     NeighbourhoodInitializationException
-        - If `min_pts` is non-positive.
+        If `min_pts` is non-positive.
 
     """
 
@@ -191,7 +191,7 @@ class Ellipsoid(Neighbourhood):
     centered around the origin.
 
     It will be represented using the equivalent formulation:
-    :math:`\\\\{x \\in R^2 : ||T^{-1} x|| <= r\\\\}`.
+    :math:`\\\\{x \\in R^2 : ||T^{-1} x|| \\leq r\\\\}`.
 
     Parameters
     ----------
@@ -283,7 +283,7 @@ class Ellipsoid(Neighbourhood):
 
 class Cuboid(Neighbourhood):
     """A class to represent a d-dimensional closed cuboid, i.e.
-    :math:`\\\\{x \\in R^2 : |x_i| <= b_i, i=1,2\\\\}`.
+    :math:`\\\\{x \\in R^2 : |x_i| \\leq b_i, i=1,2\\\\}`.
 
     Parameters
     ----------
@@ -338,7 +338,7 @@ class Polytope(Neighbourhood):
     """A class to represent a general 2-dimensional polytope, i.e. the
     convex hull :math:`P = conv(x_1, ..., x_n)` of some n points :math:`x_1 ,..., x_n`
     or equivalently the (bounded) intersection of m half spaces
-    :math:`P = \\\\{x \\in R^2 : Ax <= b\\\\}`.
+    :math:`P = \\\\{x \\in R^2 : Ax \\leq b\\\\}`.
 
     Parameters
     ----------
