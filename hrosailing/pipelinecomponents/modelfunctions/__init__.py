@@ -18,7 +18,7 @@ def ws_times_wa(ws, wa, scal):
     """
     Returns a scaled version of the product of wind speeds and wind angles.
 
-    Parameter
+    Parameters
     --------
     ws: array_like
         Wind speeds.
@@ -111,7 +111,7 @@ def ws_s_s_dt_wa_gauss_comb(ws, wa, *params):
 
     .. math:: \\frac{a_2}{1 + \\exp(a_0 - a_1x)} - a_3x^2 \
     + a_4\\exp\\left(\\frac{-(y - a_5)^2}{2a_6}\\right) + a_7xy \
-    + a_8\\exp\\left(\frac{-((360 - y) - a_9)^2}{2a_{10}}\\right) \
+    + a_8\\exp\\left(\\frac{-((360 - y) - a_9)^2}{2a_{10}}\\right) \
     + a_11x(360 - y)
 
     """

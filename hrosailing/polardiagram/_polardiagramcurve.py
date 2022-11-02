@@ -133,7 +133,7 @@ class PolarDiagramCurve(PolarDiagram):
         Raises
         ------
         OSError
-            If no write permission is given for file.
+            If no permission to write is given for file.
         """
         with open(csv_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file, delimiter=":")
@@ -183,7 +183,7 @@ class PolarDiagramCurve(PolarDiagram):
         Parameters
         ----------
         ws : tuple of length 2, iterable, int or float, optional
-            Slices of the polar diagram given as either
+            Slices of the polar diagram given as either:
 
             - a tuple of length 2, specifying an interval of considered
             wind speeds. The amount of slices taken from that interval
@@ -255,7 +255,7 @@ class PolarDiagramCurve(PolarDiagram):
         Parameters
         ----------
         ws : tuple of length 2, iterable, int or float, optional
-            Slices of the polar diagram given as either
+            Slices of the polar diagram given as either:
 
             - a tuple of length 2, specifying an interval of considered
             wind speeds. The amount of slices taken from that interval
@@ -280,8 +280,7 @@ class PolarDiagramCurve(PolarDiagram):
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
 
-        colors : color_like or
-        sequence of color_likes or (ws, color_like) pairs, optional
+        colors : color_like or sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices.
 
             - If a color_like is passed, all slices will be plotted in the
@@ -297,7 +296,7 @@ class PolarDiagramCurve(PolarDiagram):
             Defaults to `("green", "red")`.
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot.
+            Specifies whether a legend will be shown next to the plot.
 
             The type of legend depends on the color options.
 
@@ -356,7 +355,7 @@ class PolarDiagramCurve(PolarDiagram):
         Parameters
         ----------
         ws : tuple of length 2, iterable, int or float, optional
-            Slices of the polar diagram given as either
+            Slices of the polar diagram given as either:
 
             - a tuple of length 2, specifying an interval of considered
             wind speeds. The amount of slices taken from that interval
@@ -381,8 +380,7 @@ class PolarDiagramCurve(PolarDiagram):
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
 
-        colors : color_like or
-        sequence of color_likes or (ws, color_like) pairs, optional
+        colors : color_like or sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices.
 
             - If a color_like is passed, all slices will be plotted in the
@@ -398,7 +396,7 @@ class PolarDiagramCurve(PolarDiagram):
             Defaults to `("green", "red")`.
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot.
+            Specifies whether a legend will be shown next to the plot.
 
             The type of legend depends on the color options.
 
@@ -536,7 +534,7 @@ class PolarDiagramCurve(PolarDiagram):
             Marker size in points**2.
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next
+            Specifies whether a legend will be shown next
             to the plot.
 
             Legend will be a `matplotlib.colorbar.Colorbar` instance.
@@ -593,7 +591,7 @@ class PolarDiagramCurve(PolarDiagram):
         Parameters
         ----------
         ws : tuple of length 2, iterable, int or float, optional
-            Slices of the polar diagram given as either
+            Slices of the polar diagram given as either:
 
             - a tuple of length 2, specifying an interval of considered
             wind speeds. The amount of slices taken from that interval

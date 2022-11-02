@@ -51,7 +51,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             points = points[np.where(points[:, 0] >= 0)]
             # if np.any((points[:, 0] <= 0)):
             #    raise PolarDiagramInitializationException(
-            #        "`points` has nonpositive wind speeds"
+            #        "`points` has non-positive wind speeds"
             #    )
             points[:, 1] %= 360
 
@@ -113,7 +113,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Boat speed value as determined above.
         """
         if np.any((ws <= 0)):
-            raise PolarDiagramException("`ws` is nonpositive")
+            raise PolarDiagramException("`ws` is non-positive")
 
         wa %= 360
 
@@ -234,7 +234,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             new_pts = np.asarray_chkfinite(new_pts)
             if np.any((new_pts[:, 0] <= 0)):
                 raise PolarDiagramException(
-                    "`new_pts` has nonpositive wind speeds"
+                    "`new_pts` has non-positive wind speeds"
                 )
             new_pts[:, 1] %= 360
 
@@ -251,7 +251,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         Parameters
         ----------
         ws : See below, optional
-            Slices of the polar diagram given as either
+            Slices of the polar diagram given as either:
 
             - a tuple of 2 int/float values, which will be turned into the
             iterable `numpy.linspace(ws[0], ws[1], n_steps)` of int/float
@@ -298,13 +298,12 @@ class PolarDiagramPointcloud(PolarDiagram):
             `bsp[i][j]` contains the resulting boat speed for wind speed
             `ws[i]` and wind angle `wa[i][j]`
 
-
         Raises
         ------
         PolarDiagramException
 
-            - If `n_steps` is nonpositive.
-            - If `range_` is nonpositive.
+            - If `n_steps` is non-positive.
+            - If `range_` is non-positive.
         """
         if ws is None:
             ws = self.wind_speeds
@@ -320,12 +319,12 @@ class PolarDiagramPointcloud(PolarDiagram):
                 n_steps = int(round(ws[1] - ws[0]))
 
             if n_steps <= 0:
-                raise PolarDiagramException("`n_steps` is nonpositive")
+                raise PolarDiagramException("`n_steps` is non-positive")
 
             ws = np.linspace(ws[0], ws[1], n_steps)
 
         if range_ <= 0:
-            raise PolarDiagramException("`range_` is nonpositive")
+            raise PolarDiagramException("`range_` is non-positive")
 
         wa, bsp = self._get_points(ws, range_)
 
@@ -384,7 +383,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         Parameters
         ----------
         ws : See below, optional
-            Slices of the polar diagram given as either
+            Slices of the polar diagram given as either:
 
             - a tuple of 2 int/float values, which will be turned into the
             iterable `numpy.linspace(ws[0], ws[1], n_steps)` of int/float
@@ -422,8 +421,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
 
-        colors : color_like or
-        sequence of color_likes or (ws, color_like) pairs, optional
+        colors : color_like or sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices.
 
             - If a color_like is passed, all slices will be plotted in the
@@ -439,7 +437,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to `("green", "red")`.
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot.
+            Specifies whether a legend will be shown next to the plot.
 
             The type of legend depends on the color options.
 
@@ -499,7 +497,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         Parameters
         ----------
         ws : See below, optional
-            Slices of the polar diagram given as either
+            Slices of the polar diagram given as either:
 
             - a tuple of 2 int/float values, which will be turned into the
             iterable `numpy.linspace(ws[0], ws[1], n_steps)` of int/float
@@ -537,8 +535,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
 
-        colors : color_like or
-        sequence of color_likes or (ws, color_like) pairs, optional
+        colors : color_like or sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices.
 
             - If a color_like is passed, all slices will be plotted in the
@@ -554,7 +551,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to `("green", "red")`.
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot.
+            Specifies whether a legend will be shown next to the plot.
 
             The type of legend depends on the color options.
 
@@ -670,7 +667,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Marker size in points**2.
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next
+            Specifies whether a legend will be shown next
             to the plot.
 
             Legend will be a `matplotlib.colorbar.Colorbar` instance.
@@ -724,7 +721,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         Parameters
         ----------
         ws : See below, optional
-            Slices of the polar diagram given as either
+            Slices of the polar diagram given as either:
 
             - a tuple of 2 int/float values, which will be turned into the
             iterable `numpy.linspace(ws[0], ws[1], n_steps)` of int/float
@@ -774,7 +771,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Defaults to `("green", "red")`.
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot.
+            Specifies whether a legend will be shown next to the plot.
 
             The type of legend depends on the color options.
 

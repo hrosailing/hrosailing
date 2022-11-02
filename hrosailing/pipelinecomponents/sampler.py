@@ -64,7 +64,7 @@ class UniformRandomSampler(Sampler):
         self._n_samples = n_samples
 
     def sample(self, pts):
-        """Produces samples according to the above described procedure.
+        """Produces samples according to the procedure described above.
 
         Parameters
         ----------
@@ -74,7 +74,7 @@ class UniformRandomSampler(Sampler):
         Returns
         -------
         samples : numpy.ndarray of shape (n_samples, 2)
-            Samples produced by the above described procedure.
+            Samples produced by the procedure described above.
         """
         rng = np.random.default_rng()
         proj_pts = pts[:, :2]
@@ -103,7 +103,7 @@ def _create_bounds(pts):
 
 class FibonacciSampler(Sampler):
     """A sampler that produces sample points on a moved and scaled version
-    of the spiral (sqrt(x)*cos(x), sqrt(x)*sin(x)), such that the angles
+    of the spiral (sqrt(x) * cos(x), sqrt(x) * sin(x)), such that the angles
     are distributed equidistantly by the inverse golden ratio.
 
     The sample points all lie in the smallest enclosing circle
@@ -130,7 +130,7 @@ class FibonacciSampler(Sampler):
         self._n_samples = n_samples
 
     def sample(self, pts):
-        """Produces samples according to the above described procedure.
+        """Produces samples according to the procedure described above.
 
         Parameters
         ----------
@@ -140,7 +140,7 @@ class FibonacciSampler(Sampler):
         Returns
         -------
         samples : numpy.ndarray of shape (n_samples, 2)
-            Samples produced by the above described procedure.
+            Samples produced by the procedure described above.
         """
         # calculate smallest circle containing pts
         midpoint, r = _make_circle(pts)
@@ -171,7 +171,7 @@ class FibonacciSampler(Sampler):
 class ArchimedeanSampler(Sampler):
     """A sampler that produces a number of approximately equidistant
     sample points on a moved and scaled version of the archimedean spiral
-    (x*cos(x), x*sin(x)).
+    (x * cos(x), x * sin(x)).
 
     The sample points all lie in the smallest enclosing circle
     of given data points.
@@ -197,7 +197,7 @@ class ArchimedeanSampler(Sampler):
         self._n_samples = n_samples
 
     def sample(self, pts):
-        """Produces samples according to the above described procedure.
+        """Produces samples according to the procedure described above.
 
         Parameters
         ----------
@@ -207,7 +207,7 @@ class ArchimedeanSampler(Sampler):
         Returns
         -------
         samples : numpy.ndarray of shape (n_samples, 2)
-            Samples produced by the above described procedure.
+            Samples produced by the procedure described above.
         """
 
         # calculate enclosing circle

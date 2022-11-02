@@ -82,7 +82,7 @@ class QuantileFilter(Filter):
     Raises
     ------
     FilterInitializationException
-        If `percent` is not in the interval [0, 100].
+        If `percent` is not in the interval :math:`[0, 100]`.
     """
 
     def __init__(self, percent=50):

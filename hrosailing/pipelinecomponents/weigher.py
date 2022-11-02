@@ -269,21 +269,21 @@ class CylindricMeanWeigher(Weigher):
     following procedure:
 
     For a given point `p` and points `pts` we look at all the points
-    `pt` in `pts` such that :math: `||pt[:d-1] - p[:d-1]|| <= r`.
+    `pt` in `pts` such that :math:`||pt[:d-1] - p[:d-1]|| \\leq r`.
 
     Then we take the mean `m_p` and standard deviation `std_p`
     of the dth component of all those points and set
-    :math: `w_p = | m_p - p[d-1] | / std_p`.
+    :math:`w_p = | m_p - p[d-1] | / std_p`.
 
     Parameters
     ----------
     radius : positive int or float, optional
-        The radius of the considered cylinder, with infinite height, i.e. `r`.
+        The radius of the considered cylinder, with infinite height, i.e. :math:`r`.
 
         Defaults to `0.05`.
 
     norm : function or callable, optional
-        Norm with which to evaluate the distances, i.e. ||.||.
+        Norm with which to evaluate the distances, i.e. :math:`||.||`.
 
         If nothing is passed, it will automatically detect a scaled euclidean norm with respect to the used dimensions.
 
@@ -367,28 +367,28 @@ class CylindricMemberWeigher(Weigher):
 
     For a given point `p` and points `pts`
     we look at all the points `pt` in `pts` such that
-    :math:`|pt[0] - p[0]| <= h` and :math:`||pt[1:] - p[1:]|| <= r`.
+    :math:`|pt[0] - p[0]| \\leq h` and :math:`||pt[1:] - p[1:]|| \\leq r`.
 
-    If we call the set of all such points `P`, then :math:`w_p = #P - 1`.
+    If we call the set of all such points `P`, then :math:`w_p = |P| - 1`.
 
     Parameters
     ----------
     radius : positive int or float, optional
-        The radius of the considered cylinder, i.e. `r`.
+        The radius of the considered cylinder, i.e. :math:`r`.
 
         Defaults to `0.05`
 
     length : non-negative int or float, optional
-        The height of the considered cylinder, i.e. `h`.
+        The height of the considered cylinder, i.e. :math:`h`.
 
         If length is 0, the cylinder is a d-1 dimensional ball.
 
         Defaults to `0.05`.
 
     norm : function or callable, optional
-        Norm with which to evaluate the distances, i.e. ||.||.
+        Norm with which to evaluate the distances, i.e. :math:`||.||`.
 
-        If nothing is passed, it will default to ||.||_2.
+        If nothing is passed, it will default to :math:`||.||_2`.
 
     dimensions : [str] or None, optional
         If the data is given as `dict`, `dimensions` contains the keys
@@ -775,7 +775,7 @@ class FuzzyBool:
         -------
         sigmoid : FuzzyBool
             A `FuzzyBool` object with truth function
-            `x` -> 1/(1+e^{`sigma`*`sharpness`*(`x` - `center`)}).
+            :math:`x → 1/(1+e^{sigma * sharpness * (x - center)})`.
         """
         def eval_fun(x):
             return 1/(1+np.exp(sigma*sharpness*(x - center)))
@@ -788,24 +788,30 @@ class FuzzyVariable:
     It's main purpose is to easily create `FuzzyBool` instances.
 
     For example, the following notations work for a `FuzzyVariable` `x`, `int` or `float`
-    Variables `a`, 'b', `s` and `key` such that `x.__getitem__(key)` works:
+    Variables `a`, `b`, `s` and `key` such that `x.__getitem__(key)` works:
 
         - x < a, x <= a, x > a, x >= a, x == a
             refers to the respective truth function
             (using sigmoid activation function),
+
         - x(s) < a, ... (same as above, but with sharpness `s` used),
+
         - x[key] < a, ... (same as above, but the truth function will be
             applied after getting the item referenced by `key`),
+
         - x[key](s) < a, ... (the both notations above combined),
+
         - (x < a) & (x > b), ... ('and' concatenation),
+
         - (x < a) | (x > b), ... ('or' concatenation),
+
         - ~(x < a), ... ('not' operation).
 
     Parameters
     ----------
     key : None or str
         If `key` is not `None`, all generated `FuzzyBool` instances apply the
-         truth function to `x`[`key`] instead of `x`.
+        truth function to `x`[`key`] instead of `x`.
 
         Defaults to `None`.
 

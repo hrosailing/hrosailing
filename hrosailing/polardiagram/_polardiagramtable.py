@@ -592,7 +592,7 @@ class PolarDiagramTable(PolarDiagram):
         Parameters
         ----------
         ws : array_like, default: `self.wind_speeds`
-            Slices of the polar diagram table, given as either
+            Slices of the polar diagram table, given as either:
             - a tuple of length 2 specifying an interval of
                 considered wind speeds,
             - an iterable containing only elements of `self.wind_speeds`,
@@ -641,16 +641,18 @@ class PolarDiagramTable(PolarDiagram):
         Parameters
         ----------
         ws : array_like, default: `self.wind_speeds`
-            Slices of the polar diagram table, given as either
+            Slices of the polar diagram table, given as either:
             - a tuple of length 2 specifying an interval of
                 considered wind speeds,
             - an iterable containing only elements of `self.wind_speeds`,
             - a single element of `self.wind_speeds`.
             The slices are then equal to the corresponding
-            columns of the table together with `self.wind_angles`
+            columns of the table together with `self.wind_angles`.
+
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
-        colors : color_like or sequence of color_likes or (ws, color_like) pairs, default: `("green", "red")`
+
+        colors : color_like or sequence of color_likes or (ws, color_like) pairs
             Specifies the colors to be used for the different slices.
 
             - If a color_like is passed, all slices will be plotted in the
@@ -662,6 +664,8 @@ class PolarDiagramTable(PolarDiagram):
             order is determined by the corresponding wind speeds.
             - Alternatively one can specify certain slices to be plotted in
             a color out of order by passing a sequence of `(ws, color)` pairs.
+
+            Defaults to `("green", "red")`.
 
         show_legend : bool, default: `False`
             Specifies wether or not a legend will be shown next to the plot.
@@ -703,8 +707,7 @@ class PolarDiagramTable(PolarDiagram):
         ... )
         >>> pyplot.show()
 
-        .. image:: https://raw.githubusercontent.com/hrosailing/hrosailing\
-        /main/examples/pictures/table_plot_polar.png
+        ![logo](https://raw.githubusercontent.com/hrosailing/hrosailing/main/examples/pictures/table_plot_polar.png)
         """
         ws, wa, bsp = self.get_slices(ws)
         bsp = list(bsp.T)
@@ -735,7 +738,7 @@ class PolarDiagramTable(PolarDiagram):
         Parameters
         ----------
         ws : array_like, default: `self.wind_speeds`
-            Slices of the polar diagram table, given as either
+            Slices of the polar diagram table, given as either:
             - a tuple of length 2 specifying an interval of considered
             wind speeds,
             - an iterable containing only elements of `self.wind_speeds`,
@@ -745,7 +748,7 @@ class PolarDiagramTable(PolarDiagram):
             columns of the table together with `self.wind_angles`.
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
-        colors : color_like or sequence of color_likes or (ws, color_like) pairs, default: `("green", "red")`
+        colors : color_like or sequence of color_likes or (ws, color_like) pairs
             Specifies the colors to be used for the different slices.
             - If a color_like is passed, all slices will be plotted in the
             respective color.
@@ -756,6 +759,9 @@ class PolarDiagramTable(PolarDiagram):
             order is determined by the corresponding wind speeds.
             - Alternatively one can specify certain slices to be plotted in
             a color out of order by passing a sequence of `(ws, color)` pairs.
+
+            Defaults to `("green", "red")`.
+
         show_legend : bool, default: `False`
             Specifies wether or not a legend will be shown next to the plot.
 
@@ -794,8 +800,7 @@ class PolarDiagramTable(PolarDiagram):
         ... )
         >>> pyplot.show()
 
-        .. image:: https://raw.githubusercontent.com/hrosailing/hrosailing\
-        /main/examples/pictures/table_plot_flat.png
+        ![logo](https://raw.githubusercontent.com/hrosailing/hrosailing/main/examples/pictures/table_plot_flat.png)
         """
         ws, wa, bsp = self.get_slices(ws)
         bsp = list(bsp.T)
@@ -853,12 +858,13 @@ class PolarDiagramTable(PolarDiagram):
             polar diagram will be plotted.
 
             Will be determined by the corresponding boat speed.
-        marker : matplotlib.markers.Markerstyle or equivalent, default: `"o"`
+        marker : matplotlib.markers.Markerstyle or equivalent
             Markerstyle for the created scatter plot.
+            Defaults to `"o"`.
         ms : array_like, optional
             Marker size in points**2.
         show_legend : bool, default: `False`
-            Specifies whether or not a legend will be shown next
+            Specifies whether a legend will be shown next
             to the plot.
 
             Legend will be a `matplotlib.colorbar.Colorbar` instance.
@@ -895,7 +901,7 @@ class PolarDiagramTable(PolarDiagram):
         Parameters
         ----------
         ws : array_like, default: `self.wind_speeds`
-            Slices of the polar diagram table, given as either
+            Slices of the polar diagram table, given as either:
             - a tuple of length 2 specifying an interval of considered
             wind speeds,
             - an iterable containing only elements of `self.wind_speeds`,
@@ -918,7 +924,7 @@ class PolarDiagramTable(PolarDiagram):
 
             Defaults to `("green", "red")`
         show_legend : bool, default: `False`
-            Specifies whether or not a legend will be shown next to the plot.
+            Specifies whether a legend will be shown next to the plot.
 
             The type of legend depends on the color options.
 
@@ -988,7 +994,7 @@ class _Resolution(enum.Enum):
             raise ValueError("`res` is not array_like")
 
         if not res.size or res.ndim != 1:
-            raise ValueError("`res` has incorred shape")
+            raise ValueError("`res` has incorrect shape")
 
         if len(set(res)) != len(res):
             warnings.warn(
@@ -1007,7 +1013,7 @@ class _Resolution(enum.Enum):
 
     def _custom_stepsize_resolution(self, res):
         if res <= 0:
-            raise ValueError("`res` is nonpositive")
+            raise ValueError("`res` is non-positive")
 
         return np.arange(res, self.max_value, res)
 
