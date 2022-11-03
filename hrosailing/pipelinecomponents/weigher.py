@@ -303,7 +303,10 @@ class CylindricMeanWeigher(Weigher):
             raise WeigherInitializationException("`radius` is non-positive")
 
         self._radius = radius
-        self._norm = norm
+        if norm is None:
+            self._norm = hrosailing_standard_scaled_euclidean_norm(dimensions)
+        else:
+            self._norm = norm
         self._dimensions = dimensions
 
     def __repr__(self):
@@ -408,7 +411,7 @@ class CylindricMemberWeigher(Weigher):
         self,
         radius=0.05,
         length=0.05,
-        norm =None,
+        norm=None,
         dimensions=None
     ):
         if radius <= 0:
@@ -419,7 +422,13 @@ class CylindricMemberWeigher(Weigher):
 
         self._radius = radius
         self._length = length
-        self._norm = norm
+
+        if norm is None:
+            self._norm = hrosailing_standard_scaled_euclidean_norm(
+                dimensions
+            )
+        else:
+            self._norm = norm
         self._dimensions = dimensions
 
     def __repr__(self):
@@ -456,8 +465,6 @@ class CylindricMemberWeigher(Weigher):
         return len(points_in_cylinder) - 1
 
     def _count_points_in_cylinder(self, point, points):
-        if self._norm is None:
-            self._norm = hrosailing_standard_scaled_euclidean_norm(self._dimensions)
 
         height = np.abs(points[:, 0] - point[0]) <= self._length
         radius = self._norm(points - point) <= self._radius
