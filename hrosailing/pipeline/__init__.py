@@ -435,7 +435,7 @@ class PolarPipeline:
         statistics = tuple({
             i: stat for i, stat in enumerate(statistic)
         } for statistic in statistics)
-        return list(data), *statistics
+        return (list(data),) + statistics
 
 
 def _weigh_and_filter(
