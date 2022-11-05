@@ -608,8 +608,9 @@ class PolarDiagramTable(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-            - If at least one element of `ws` is not in `self.wind_speeds`.
-            - If the given interval doesn't contain any slices of the
+            If at least one element of `ws` is not in `self.wind_speeds`.
+        PolarDiagramException
+            If the given interval doesn't contain any slices of the
             polar diagram.
         """
         if ws is None:
@@ -694,8 +695,9 @@ class PolarDiagramTable(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-            - If at least one element of `ws` is not in `self.wind_speeds`.
-            - If the given interval doesn't contain any slices of the
+            If at least one element of `ws` is not in `self.wind_speeds`.
+        PolarDiagramException
+            If the given interval doesn't contain any slices of the
             polar diagram.
 
         Examples
@@ -787,8 +789,9 @@ class PolarDiagramTable(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-            - If at least one element of `ws` is not in `self.wind_speeds`.
-            - If the given interval doesn't contain any slices of the
+            If at least one element of `ws` is not in `self.wind_speeds`.
+        PolarDiagramException
+            If the given interval doesn't contain any slices of the
             polar diagram.
 
         Examples
@@ -949,8 +952,9 @@ class PolarDiagramTable(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-            - If at least one element of `ws` is not in `self.wind_speeds`.
-            - If the given interval doesn't contain any slices of the
+            If at least one element of `ws` is not in `self.wind_speeds`.
+        PolarDiagramException
+            If the given interval doesn't contain any slices of the
             polar diagram.
         """
         ws, wa, bsp = self.get_slices(ws)

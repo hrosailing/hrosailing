@@ -66,9 +66,9 @@ def from_csv(csv_path, fmt="hro"):
     Raises
     ------
     FileReadingException
-
-        - If an unknown format was specified.
-        - If, in the format `hro`, the first row does not match any
+        If an unknown format was specified.
+    FileReadingException
+        If, in the format `hro`, the first row does not match any
         `PolarDiagram` subclass.
 
     OSError

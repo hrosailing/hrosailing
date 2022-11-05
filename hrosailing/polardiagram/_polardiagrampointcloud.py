@@ -301,9 +301,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-
-            - If `n_steps` is non-positive.
-            - If `range_` is non-positive.
+            If `n_steps` is non-positive.
+        PolarDiagramException
+            If `range_` is non-positive.
         """
         if ws is None:
             ws = self.wind_speeds

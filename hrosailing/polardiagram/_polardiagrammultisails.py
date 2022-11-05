@@ -301,9 +301,9 @@ class PolarDiagramMultiSails(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-
-            - If at least one element of `ws` is not in `self.wind_speeds`.
-            - If the given interval doesn't contain any slices of the
+            If at least one element of `ws` is not in `self.wind_speeds`.
+        PolarDiagramException
+            If the given interval doesn't contain any slices of the
             polar diagram.
         """
         if ax is None:
@@ -394,9 +394,9 @@ class PolarDiagramMultiSails(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-
-            - If at least one element of `ws` is not in `self.wind_speeds`.
-            - If the given interval doesn't contain any slices of the
+            If at least one element of `ws` is not in `self.wind_speeds`.
+        PolarDiagramException
+            If the given interval doesn't contain any slices of the
             polar diagram.
         """
         if ax is None:

@@ -52,9 +52,9 @@ class PolarDiagramCurve(PolarDiagram):
     Raises
     ------
     PolarDiagramInitializationException
-
-        - If `f` is not callable.
-        - If `params` contains not enough parameters for `f`.
+        If `f` is not callable.
+    PolarDiagramInitializationException
+        If `params` contains not enough parameters for `f`.
     """
 
     def __init__(self, f, *params, radians=False):
@@ -212,7 +212,7 @@ class PolarDiagramCurve(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-            If `n_steps` is nonpositive.
+            If `n_steps` is non-positive.
         """
         if ws is None:
             ws = (0, 20)
@@ -224,7 +224,7 @@ class PolarDiagramCurve(PolarDiagram):
                 n_steps = int(round(ws[1] - ws[0]))
 
             if n_steps <= 0:
-                raise PolarDiagramException("`n_steps` is nonpositive")
+                raise PolarDiagramException("`n_steps` is non-positive")
 
             ws = list(np.linspace(ws[0], ws[1], n_steps))
 

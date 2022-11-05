@@ -403,8 +403,9 @@ class CylindricMemberWeigher(Weigher):
     Raises
     ------
     WeigherInitializationException
-        - If radius is non-positive.
-        - If length is negative.
+        If radius is non-positive.
+    WeigherInitializationException
+        If length is negative.
     """
 
     def __init__(

@@ -324,8 +324,9 @@ class ShepardInterpolator(Interpolator):
     Raises
     ------
     InterpolatorInitializationException
-        - If `tol` is non-positive.
-        - If `slope` is non-positive.
+         If `tol` is non-positive.
+    InterpolatorInitializationException
+         If `slope` is non-positive.
 
     """
 

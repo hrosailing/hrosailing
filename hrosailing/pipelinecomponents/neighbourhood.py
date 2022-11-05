@@ -217,8 +217,9 @@ class Ellipsoid(Neighbourhood):
     Raises
     ------
     NeighbourhoodInitializationException
-        - If `radius` is non-positive.
-        - If `lin_trans` is not a (2,2)-array or is not invertible.
+        If `radius` is non-positive.
+     NeighbourhoodInitializationException
+        If `lin_trans` is not a (2,2)-array or is not invertible.
     """
 
     def __init__(
