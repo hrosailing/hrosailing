@@ -1,5 +1,4 @@
-"""
-Contains the class `Data` which is an output of several pipeline components.
+"""Contains the class `Data` which is an output of several pipeline components.
 """
 
 import numpy as np
@@ -261,7 +260,7 @@ class Data:
         Parameters
         ----------
         key : int, str, list of str or list of int
-            Name or names of column(s) to be deleted or index(es) of row(s) to be deleted.
+            Name(s) of column(s) to be deleted or index(es) of row(s) to be deleted.
         """
         if isinstance(key, str):
             del self._data[key]

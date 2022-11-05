@@ -23,7 +23,7 @@ class Statistics(NamedTuple):
     """
     Organizes the statistics returned by different `Pipelinecomponents`.
     The attributes correspond to the parameters of `PolarPipeline.__init__`
-    and each contain dictionaries with relevant statistics.
+    and each contains dictionaries with relevant statistics.
 
     See also
     ----------
@@ -78,7 +78,7 @@ class PolarPipeline:
         If only one handler is given, this handler will be used for all given inputs,
         otherwise the handlers will be used one after another for each data input including the training data.
 
-        Determines the type and format of input the pipeline should accept
+        Determines the type and format of input the pipeline should accept.
 
     imputator : Imputator, optional
         Determines the method which will be used to produce data without

@@ -30,14 +30,14 @@ class PipelineExtension(ABC):
 
 
 class TableExtension(PipelineExtension):
-    """Pipeline extension to produce PolarDiagramTable instances
+    """Pipeline extension to produce `PolarDiagramTable` instances
     from preprocessed data.
 
     Parameters
     ----------
     wind_resolution : tuple of two array_likes or scalars, or str, optional
         Wind speed and angle resolution to be used in the final table.
-        Can be given as
+        Can be given as:
 
         - a tuple of two `array_likes` with scalar entries, that
         will be used as the resolution,
@@ -69,7 +69,7 @@ class TableExtension(PipelineExtension):
         self.interpolator = interpolator
 
     def process(self, weighted_points):
-        """Creates a PolarDiagramTable instance from preprocessed data,
+        """Creates a `PolarDiagramTable` instance from preprocessed data,
         by first determining a wind speed / wind angle grid, using
         `self.w_res`, and then interpolating the boat speed values at the
         grid points according to the interpolation method of
@@ -87,7 +87,7 @@ class TableExtension(PipelineExtension):
         polar_diagram, statistics : PolarDiagramTable, dict
             'polar_diagram' is a polar diagram that should represent the trends
             captured in the raw data,
-            'statistics' is {}.
+            `statistics` is {}.
         """
         extension_stats = {}
         ws_resolution, wa_resolution = self._determine_table_size(
@@ -156,7 +156,7 @@ def _extract_boat_speed(interpolated_points, rows, cols):
 
 
 class CurveExtension(PipelineExtension):
-    """Pipeline extension to produce PolarDiagramCurve instances
+    """Pipeline extension to produce `PolarDiagramCurve` instances
     from preprocessed data.
 
     Parameters
@@ -194,7 +194,7 @@ class CurveExtension(PipelineExtension):
         self.radians = radians
 
     def process(self, weighted_points):
-        """Creates a PolarDiagramCurve instance from preprocessed data,
+        """Creates a `PolarDiagramCurve` instance from preprocessed data,
         by fitting a given function to said data, using a regression
         method determined by `self.regressor`.
 
@@ -208,7 +208,7 @@ class CurveExtension(PipelineExtension):
         pd, statistics : PolarDiagramCurve
             A polar diagram that should represent the trends captured
             in the raw data,
-            'statistics' is {}.
+            `statistics` is {}.
         """
         extension_stats = {}
         if self._use_radians():
@@ -268,9 +268,9 @@ class PointcloudExtension(PipelineExtension):
         self.interpolator = interpolator
 
     def process(self, weighted_points):
-        """Creates a PolarDiagramPointcloud instance from preprocessed data,
+        """Creates a `PolarDiagramPointcloud` instance from preprocessed data,
         first creating a set number of points by sampling the wind speed,
-        wind angle space of the data points and capturing the underlying
+        wind angle, space of the data points and capturing the underlying
         trends using `self.sampler` and then interpolating the boat speed
         values at the sampled points according to the interpolation method of
         `self.interpolator`, which only takes in consideration the data points
@@ -286,9 +286,7 @@ class PointcloudExtension(PipelineExtension):
         -------
         pd, statistics : PolarDiagramPointcloud, dict
             A polar diagram that should represent the trends captured
-            in the raw data,
-
-            'statistics' is {}.
+            in the raw data, `statistics` is {}.
         """
         extension_stats = {}
         sample_points = self.sampler.sample(weighted_points.data)
