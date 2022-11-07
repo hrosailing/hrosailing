@@ -300,7 +300,8 @@ class CylindricMeanWeigher(Weigher):
         dimensions=None
     ):
         if radius <= 0:
-            raise WeigherInitializationException("`radius` is non-positive")
+            raise WeigherInitializationException(
+                f"Invalid value for `radius`: {radius}. Non-positive number. Use a positive value for `radius`.")
 
         self._radius = radius
         if norm is None:
