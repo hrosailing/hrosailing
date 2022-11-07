@@ -384,12 +384,12 @@ class Data:
 
         Parameters
         ----------
-            list_ : list of Data
+        list_ : list of Data
 
         Returns
         -------
-            data : Data
-                The concatenated Data.
+        data : Data
+            The concatenated Data.
         """
         data = cls()
         for other_data in list_:
