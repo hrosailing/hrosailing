@@ -398,6 +398,7 @@ class Data:
 
     @classmethod
     def _force_set(cls, data, types, max_len):
+        # use with caution: wrong usage can produce inconsistent `Data` objects.
         new_obj = cls()
         new_obj._data = data
         new_obj._types = types
