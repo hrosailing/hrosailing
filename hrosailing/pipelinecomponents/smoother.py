@@ -60,7 +60,7 @@ class AffineSmoother(Smoother):
     Then, data points in such an interval are replaced using affine
     interpolation.
 
-    Parameter
+    Parameters
     ---------
     timespan: datetime.timedelta
         Amount of time before the actual value of an interval is assumed to be the real value.
