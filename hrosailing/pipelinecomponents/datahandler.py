@@ -326,6 +326,10 @@ class NMEAFileHandler(DataHandler):
                 parsed_sentence["Longitude"]
             )
             del parsed_sentence["Longitude"]
+        if "Timestamp" in parsed_sentence:
+            timestr = parsed_sentence["Timestamp"]
+            if isinstance(timestr, str):
+                parsed_sentence["Timestamp"] = self._time_from_nmea_format(timestr)
         return parsed_sentence
 
     def _from_nmea_format(self, value):
@@ -334,6 +338,23 @@ class NMEAFileHandler(DataHandler):
         minutes = value - 100*degrees
         return degrees + minutes/60
 
+    def _time_from_nmea_format(self, timestr):
+        hours = int(timestr[0:2])
+        minutes = int(timestr[2:4])
+        seconds = int(timestr[4:6])
+        microseconds = int(timestr.split(".")[1])
+        if seconds >= 60:
+            minutes += seconds//60
+            seconds %= 60
+        if minutes >= 60:
+            hours += minutes//60
+            minutes %= 60
+        return time(
+            hour=hours,
+            minute=minutes,
+            second=seconds,
+            microsecond=microseconds
+        )
 
 def get_datahandler_statistics(data):
     """
