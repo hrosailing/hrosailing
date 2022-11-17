@@ -45,6 +45,10 @@ class TableExtension(PipelineExtension):
         step-sizes for the resolutions,
         - the str `"auto"`, which will result in a resolution, that is
         somewhat fitted to the data.
+        - the str "min_max", which will result in a resolution defined by the
+        minimum and maximum of the data
+
+        Defaults to "min_max".
 
     neighbourhood : Neighbourhood, optional
         Determines the neighbourhood around a point from which to draw
@@ -60,7 +64,7 @@ class TableExtension(PipelineExtension):
 
     def __init__(
         self,
-        wind_resolution=None,
+        wind_resolution="min_max",
         neighbourhood=pc.Ball(radius=1),
         interpolator=pc.ArithmeticMeanInterpolator(50),
     ):
@@ -112,6 +116,8 @@ class TableExtension(PipelineExtension):
         if self.wind_resolution == "auto":
             return _automatically_determined_resolution(points)
 
+        if self.wind_resolution == "min_max":
+            return _min_max_resolution(points)
         if self.wind_resolution is None:
             self.wind_resolution = (None, None)
 
@@ -125,6 +131,14 @@ class TableExtension(PipelineExtension):
 def _automatically_determined_resolution(points):
     ws_resolution = _extract_wind(points[:, 0], 2, 100)
     wa_resolution = _extract_wind(points[:, 1], 5, 30)
+
+    return ws_resolution, wa_resolution
+
+
+def _min_max_resolution(points):
+    w_max = round(points.max())
+    ws_resolution = list(range(0, w_max, 2))
+    wa_resolution = list(range(5, 356, 5))
 
     return ws_resolution, wa_resolution
 
