@@ -136,8 +136,9 @@ def _automatically_determined_resolution(points):
 
 
 def _min_max_resolution(points):
-    w_max = round(points.max())
-    ws_resolution = list(range(0, w_max, 2))
+    ws_min = round(points[:, 0].min())
+    ws_max = round(points[:, 0].max())
+    ws_resolution = list(range(ws_min, ws_max + 1, 2))
     wa_resolution = list(range(5, 356, 5))
 
     return ws_resolution, wa_resolution
