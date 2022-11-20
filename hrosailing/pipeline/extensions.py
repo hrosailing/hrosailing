@@ -45,10 +45,10 @@ class TableExtension(PipelineExtension):
         step-sizes for the resolutions,
         - the str `"auto"`, which will result in a resolution, that is
         somewhat fitted to the data.
-        - the str "min_max", which will result in a resolution defined by the
+        - the str `"min_max"`, which will result in a resolution defined by the
         minimum and maximum of the data
 
-        Defaults to "min_max".
+        Defaults to `"min_max"`.
 
     neighbourhood : Neighbourhood, optional
         Determines the neighbourhood around a point from which to draw
