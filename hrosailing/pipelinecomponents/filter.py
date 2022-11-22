@@ -120,15 +120,15 @@ class BoundFilter(Filter):
 
     Parameters
     ----------
-    upper_bound : int or float, optional
-        The upper bound for the filter.
-
-        Defaults to `1`.
-
     lower_bound : int or float, optional
         The lower bound for the filter.
 
         Defaults to `0.5`.
+
+    upper_bound : int or float, optional
+        The upper bound for the filter.
+
+        Defaults to `1`.
 
     Raises
     ------
@@ -136,7 +136,7 @@ class BoundFilter(Filter):
         If `lower_bound` is greater than `upper_bound`.
     """
 
-    def __init__(self, upper_bound=1, lower_bound=0.5):
+    def __init__(self, lower_bound=0.5, upper_bound=1):
         if upper_bound < lower_bound:
             raise FilterInitializationException(
                 "`upper_bound` is smaller than `lower_bound`"
