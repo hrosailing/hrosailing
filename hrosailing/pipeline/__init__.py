@@ -32,9 +32,11 @@ class Statistics(NamedTuple):
     data_handler: dict
     imputator: dict
     smoother: dict
+    pre_expanding_weigher: dict
+    pre_expanding_filter: dict
     expander: dict
-    pre_weigher: dict
-    pre_filter: dict
+    pre_influence_weigher: dict
+    pre_influence_filter: dict
     influence_model: dict
     post_weigher: dict
     post_filter: dict
@@ -43,7 +45,7 @@ class Statistics(NamedTuple):
     quality_assurance: dict
 
 
-_EMPTY_STATISTIC = Statistics({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {})
+_EMPTY_STATISTIC = Statistics({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {})
 
 
 class PipelineOutput(NamedTuple):
@@ -92,19 +94,28 @@ class PolarPipeline:
 
         Defaults to `LazySmoother()`.
 
+    pre_expander_weigher : Weigher, optional
+        Determines the method with which the points will be weighted before application of the expander.
+
+        Defaults to `CylindricMeanWeigher()`
+
+    pre_expander_filter : Filter, optional
+        Determines the method with which the points will be filtered with before application of the expander.
+
+        Defaults to `QuantileFilter()`
+
     expander: Expander, optional
         Determines the method which will be used to expand the data by several more data fields.
         For example weather data from a weather model.
 
-    pre_weigher : Weigher, optional
+    pre_influence_weigher : Weigher, optional
         Determines the method with which the points will be weighted before
         application of the influence model.
 
         Defaults to `CylindricMeanWeigher()`.
 
-    pre_filter : Filter, optional
-        Determines the methods which the points will be filtered with,
-        if `pre_filtering` in `__call__` method.
+    pre_influence_filter : Filter, optional
+        Determines the methods which the points will be filtered with before application of the influence model.
 
         Defaults to `QuantileFilter()`.
 
@@ -150,10 +161,12 @@ class PolarPipeline:
         self,
         data_handler=pc.NMEAFileHandler(),
         imputator=pc.FillLocalImputator(),
-        expander=pc.LazyExpander(),
-        pre_weigher=pc.CylindricMeanWeigher(),
-        pre_filter=pc.QuantileFilter(),
         smoother=pc.LazySmoother(),
+        pre_expander_weigher=pc.CylindricMeanWeigher(),
+        pre_expander_filter=pc.QuantileFilter(),
+        expander=pc.LazyExpander(),
+        pre_influence_weigher=pc.CylindricMeanWeigher(),
+        pre_influence_filter=pc.QuantileFilter(),
         influence_model=pc.IdentityInfluenceModel(),
         post_weigher=pc.CylindricMeanWeigher(),
         post_filter=pc.QuantileFilter(),
@@ -163,10 +176,12 @@ class PolarPipeline:
     ):
         self.data_handler = data_handler
         self.imputator = imputator
-        self.pre_weigher = pre_weigher
-        self.pre_filter = pre_filter
         self.smoother = smoother
+        self.pre_expander_weigher = pre_expander_weigher
+        self.pre_expander_filter = pre_expander_filter
         self.expander = expander
+        self.pre_influence_weigher = pre_influence_weigher
+        self.pre_influence_filter = pre_influence_filter
         self.influence_model = influence_model
         self.post_weigher = post_weigher
         self.post_filter = post_filter
@@ -179,9 +194,11 @@ class PolarPipeline:
         training_data,
         test_data=None,
         apparent_wind=False,
-        pre_weighing=True,
-        pre_filtering=True,
         smoothing=True,
+        pre_expander_weighing=True,
+        pre_expander_filtering=True,
+        pre_influence_weighing=True,
+        pre_influence_filtering=True,
         post_weighing=True,
         post_filtering=True,
         injecting=True,
@@ -213,15 +230,28 @@ class PolarPipeline:
 
             Defaults to `False`.
 
-        pre_weighing : bool, optional
-            Specifies, if points should be weighted before application of the
+        pre_expander_weighing : bool, optional
+            Specifies, wether the pre_influence_weigher should be applied before application of the
+            expander.
+            Otherwise, each point will be assigned the weight 1.
+
+            Defaults to `True`.
+
+        pre_expander_filtering : bool, optional
+            Specifies, wether the pre_influence_filter should be applied before application of the expander.
+
+            Defaults to `True`.
+
+
+        pre_influence_weighing : bool, optional
+            Specifies, wether the pre_influence_weigher should be applied before application of the
             influence model.
             Otherwise, each point will be assigned the weight 1.
 
             Defaults to `True`.
 
-        pre_filtering : bool, optional
-            Specifies, if points should be filtered after pre_weighing.
+        pre_influence_filtering : bool, optional
+            Specifies, wether the pre_influence_filter should be applied before application of the influence model.
 
             Defaults to `True`.
 
@@ -260,9 +290,11 @@ class PolarPipeline:
 
         preproc_training_data, pp_training_statistics = self._preprocess(
             training_data,
-            pre_weighing,
-            pre_filtering,
             smoothing,
+            pre_expander_weighing,
+            pre_expander_filtering,
+            pre_influence_weighing,
+            pre_influence_filtering,
             post_weighing,
             post_filtering,
             True
@@ -323,9 +355,11 @@ class PolarPipeline:
     def _preprocess(
         self,
         data,
-        pre_weighing,
-        pre_filtering,
         smoothing,
+        pre_expander_weighing,
+        pre_expander_filtering,
+        pre_influence_weighing,
+        pre_influence_filtering,
         post_weighing,
         post_filtering,
         influence_fitting
@@ -345,22 +379,20 @@ class PolarPipeline:
             smooth_data = imputated_data
             smooth_statistics = {}
 
-        # smooth_data = pc.data.Data.concatenate(smooth_data)
+        pre_exp_filtered_data, pre_exp_weigher_statistics, pre_exp_filter_statistics = self._map(
+                lambda data: _weigh_and_filter(
+                    data,
+                    self.pre__weigher,
+                    self.pre_filter,
+                    pre_expander_weighing,
+                    pre_expander_filtering
+                ),
+                smooth_data
+            )
 
         expanded_data, expanded_statistics = self._map(
-            self.expander.expand, smooth_data
+            self.expander.expand, pre_exp_filtered_data
         )
-
-        # expanded_data = pc.data.Data.concatenate(expanded_data)
-
-        # pre_filtered_data, pre_weigher_statistics, pre_filter_statistics = \
-        #     _weigh_and_filter(
-        #         expanded_data,
-        #         self.pre_weigher,
-        #         self.pre_filter,
-        #         pre_weighing,
-        #         pre_filtering
-        #     )
 
         pre_filtered_data, pre_weigher_statistics, pre_filter_statistics = \
             self._map(
@@ -368,8 +400,8 @@ class PolarPipeline:
                     data,
                     self.pre_weigher,
                     self.pre_filter,
-                    pre_weighing,
-                    pre_filtering
+                    pre_influence_weighing,
+                    pre_influence_filtering
                 ),
                 expanded_data
             )
@@ -401,6 +433,8 @@ class PolarPipeline:
             handler_statistics,
             imputator_statistics,
             smooth_statistics,
+            pre_exp_weigher_statistics,
+            pre_exp_filter_statistics,
             expanded_statistics,
             pre_weigher_statistics,
             pre_filter_statistics,
