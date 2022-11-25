@@ -77,7 +77,7 @@ class WeightedPoints:
                 length = len(data)
             self.weights = weights*np.ones(length)
         else:
-            self.weights = weights
+            self.weights = np.asarray(weights)
 
     def __getitem__(self, mask):
         if isinstance(self.data, dict):

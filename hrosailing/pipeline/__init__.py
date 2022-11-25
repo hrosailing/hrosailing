@@ -316,8 +316,10 @@ class PolarPipeline:
         if testing:
             preproc_test_data, test_statistics = self._preprocess(
                 test_data,
-                pre_weighing,
-                pre_filtering,
+                pre_expander_weighing,
+                pre_expander_filtering,
+                pre_influence_weighing,
+                pre_influence_filtering,
                 smoothing,
                 post_weighing,
                 post_filtering,
@@ -335,9 +337,11 @@ class PolarPipeline:
             pp_training_statistics.data_handler,
             pp_training_statistics.imputator,
             pp_training_statistics.smoother,
+            pp_training_statistics.pre_expanding_weigher,
+            pp_training_statistics.pre_influence_filter,
             pp_training_statistics.expander,
-            pp_training_statistics.pre_weigher,
-            pp_training_statistics.pre_filter,
+            pp_training_statistics.pre_influence_weigher,
+            pp_training_statistics.pre_influence_filter,
             pp_training_statistics.influence_model,
             pp_training_statistics.post_weigher,
             pp_training_statistics.post_filter,
@@ -382,13 +386,15 @@ class PolarPipeline:
         pre_exp_filtered_data, pre_exp_weigher_statistics, pre_exp_filter_statistics = self._map(
                 lambda data: _weigh_and_filter(
                     data,
-                    self.pre__weigher,
-                    self.pre_filter,
+                    self.pre_expander_weigher,
+                    self.pre_expander_filter,
                     pre_expander_weighing,
                     pre_expander_filtering
                 ),
                 smooth_data
             )
+
+        pre_exp_filtered_data = [weighted_point.data for weighted_point in pre_exp_filtered_data]
 
         expanded_data, expanded_statistics = self._map(
             self.expander.expand, pre_exp_filtered_data
@@ -398,8 +404,8 @@ class PolarPipeline:
             self._map(
                 lambda data: _weigh_and_filter(
                     data,
-                    self.pre_weigher,
-                    self.pre_filter,
+                    self.pre_influence_weigher,
+                    self.pre_influence_filter,
                     pre_influence_weighing,
                     pre_influence_filtering
                 ),
