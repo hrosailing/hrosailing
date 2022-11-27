@@ -231,27 +231,27 @@ class PolarPipeline:
             Defaults to `False`.
 
         pre_expander_weighing : bool, optional
-            Specifies, wether the pre_influence_weigher should be applied before application of the
+            Specifies, whether the pre_influence_weigher should be applied before application of the
             expander.
             Otherwise, each point will be assigned the weight 1.
 
             Defaults to `True`.
 
         pre_expander_filtering : bool, optional
-            Specifies, wether the pre_influence_filter should be applied before application of the expander.
+            Specifies, whether the pre_influence_filter should be applied before application of the expander.
 
             Defaults to `True`.
 
 
         pre_influence_weighing : bool, optional
-            Specifies, wether the pre_influence_weigher should be applied before application of the
+            Specifies, whether the pre_influence_weigher should be applied before application of the
             influence model.
             Otherwise, each point will be assigned the weight 1.
 
             Defaults to `True`.
 
         pre_influence_filtering : bool, optional
-            Specifies, wether the pre_influence_filter should be applied before application of the influence model.
+            Specifies, whether the pre_influence_filter should be applied before application of the influence model.
 
             Defaults to `True`.
 
