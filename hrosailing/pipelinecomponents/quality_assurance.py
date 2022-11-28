@@ -75,6 +75,8 @@ class ComformingQualityAssurance(QualityAssurance):
             - 'min_zero_val': the minimal value of the polar diagram for wind angles of 0 or 360 degree and wind speed between 0 and 20,
             - 'average_zero_val': the average value of the polar diagram for wind angles of 0 or 360 degree and wind speed between 0 and 20,
             - 'average_quadratic_zero_val': the average squared value of the polar diagram for wind angles of 0 or 360 degree and wind speed between 0 and 20,
+            - 'test_covering': number of unique test cases when rounded to nearest integer test case,
+            - 'local_test_data_difference': maximal difference boat speed in test cases where wind speed and wind angle are rounded to the same nearest integer respectively.
 
         See also
         ---------
@@ -89,6 +91,14 @@ class ComformingQualityAssurance(QualityAssurance):
             for ws in np.linspace(0, 20, 20)
             for wa in [0, 360]
         ]
+        tested_tuples = {}
+        for ws, wa, bsp in test_data:
+            test_tuple = round(ws), round(wa)
+            if test_tuple not in tested_tuples:
+                tested_tuples[test_tuple] = (np.inf, 0)
+            prev_min, prev_max = tested_tuples[test_tuple]
+            tested_tuples[test_tuple] = min(bsp, prev_min), max(bsp, prev_max)
+
         statistics = {
             "max_error": max(diffs),
             "min_error": min(diffs),
@@ -98,5 +108,7 @@ class ComformingQualityAssurance(QualityAssurance):
             "min_zero_val": min(zero_diffs),
             "average_zero_val": np.mean(zero_diffs),
             "average_quadratic_zero_val": np.mean([diff**2 for diff in zero_diffs]),
+            "test_covering": len(tested_tuples),
+            "local_test_data_difference": max([bsp_max - bsp_min for bsp_min, bsp_max in tested_tuples.values()])
         }
         return statistics
