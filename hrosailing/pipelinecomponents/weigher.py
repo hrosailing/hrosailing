@@ -362,6 +362,8 @@ def _mean_of(points_in_cylinder):
 
 
 def _normalize(weights, normalizer):
+    if len(weights) == 0:
+        return weights
     return weights / normalizer(weights)
 
 
