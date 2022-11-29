@@ -168,7 +168,7 @@ class CsvFileHandler(DataHandler):
         data.hrosailing_standard_format()
 
         statistics = get_datahandler_statistics(data)
-        return data_dict, statistics
+        return data, statistics
 
 
 class NMEAFileHandler(DataHandler):
