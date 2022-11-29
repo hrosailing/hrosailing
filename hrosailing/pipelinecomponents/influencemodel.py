@@ -150,7 +150,8 @@ class IdentityInfluenceModel(InfluenceModel):
 
 
 class WindAngleCorrectingInfluenceModel(InfluenceModel):
-    """An influence model which corrects a structural measurement error in 'TWA'.
+    """
+    An influence model which corrects a structural measurement error in 'TWA'.
 
     Parameters
     ----------
@@ -160,7 +161,7 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
         Defaults to 0.
 
     interval_size: int or float, optional
-        The size in degrees of the interval that is used to evaluate the points.
+        Interval size used in the fitting method.
 
         Defaults to 30.
     """
@@ -188,7 +189,7 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
 
         See also
         -------
-        `InfluenceModel.remove_influence`
+        `InfluenceModel.add_influence`
 
         """
         if isinstance(influence_data["TWS"], (list, np.ndarray)):
@@ -201,7 +202,10 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
 
     def fit(self, training_data):
         """
-        Assumes, that the wind angle with the fewest data points in a region is the actual zero angle.
+        The wind angle with lowest density of measured wind angles is assumed to be the
+        actual zero. The data density is computed using gauss kernel functions
+        :math:`e^{\frac{wa - wa'}{l}}` where :math:`l` can be seen as the size of
+        an interval on which the gauss kernel is stretched.
 
         See also
         --------
