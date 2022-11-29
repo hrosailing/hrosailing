@@ -207,6 +207,10 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
         :math:`e^{\frac{wa - wa'}{l}}` where :math:`l` can be seen as the size of
         an interval on which the gauss kernel is stretched.
 
+        Parameter
+        ---------
+        training_data: Data containing key "TWA"
+
         See also
         --------
         `InfluenceModel.fit`
