@@ -64,8 +64,15 @@ class InfluenceModel(ABC):
         ----------
         pd : PolarDiagram
 
-        influence_data : Data or dict
+        influence_data : Data or dict or list of Data or list of dict
             Further influences to be considered.
+
+        Returns
+        -------
+        speeds : float or list of floats
+            The boat speed if `influence_data` contained values,
+            a list of respective boat speeds if `influence_data` contained
+            lists.
         """
 
     @abstractmethod
@@ -118,13 +125,6 @@ class IdentityInfluenceModel(InfluenceModel):
             Either a dictionary of lists or a dictionary of values containing
             one or more sets of influence data.
             At least the keys 'TWS' and 'TWA' should be provided.
-
-        Returns
-        -------
-        speeds : float or list of floats
-            The boat speed if `influence_data` contained values,
-            a list of respective boat speeds if `influence_data` contained
-            lists.
 
         See also
         --------
