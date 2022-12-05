@@ -180,9 +180,6 @@ class ScalingBall(Neighbourhood):
 
         return dist <= self._radius
 
-    def _enough_points_in_ball(self, pts_in_ball):
-        return self._min_pts <= len(pts_in_ball[pts_in_ball])
-
 
 class Ellipsoid(Neighbourhood):
     """A class to represent a closed d-dimensional ellipsoid
