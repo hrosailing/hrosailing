@@ -326,7 +326,7 @@ class Cuboid(Neighbourhood):
 
         mask = (
             np.ones((pts.shape[0],), dtype=bool)
-            & (self._norm(pts[:, 1]) <= self._size[0])
+            & (self._norm(pts[:, 0]) <= self._size[0])
             & (self._norm(pts[:, 1]) <= self._size[1])
         )
         return mask
