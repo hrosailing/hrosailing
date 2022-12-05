@@ -177,8 +177,10 @@ class ArithmeticMeanInterpolator(Interpolator):
         :math:`\\mathrm{e}^{\\textstyle -\\alpha * oldweights * distances}\\` with
         parameter :math:`\\alpha`.
 
-    params :
+    params : tuple
         Parameters to be passed to `distribution`.
+
+        Defaults to (100,)
 
     Raises
     ------
@@ -188,10 +190,10 @@ class ArithmeticMeanInterpolator(Interpolator):
 
     def __init__(
         self,
-        *params,
         s=1,
         norm: Callable = scaled_euclidean_norm,
         distribution: Callable = _gauss_potential,
+        params = (100,),
     ):
         if s <= 0:
             raise InterpolatorInitializationException("`s` is non-positive")
@@ -203,8 +205,8 @@ class ArithmeticMeanInterpolator(Interpolator):
 
     def __repr__(self):
         return (
-            f"ArithmeticMeanInterpolator(*params={self._params}, s={self._s}, "
-            f"norm={self._norm.__name__}, distribution={self._distr})"
+            f"ArithmeticMeanInterpolator(s={self._s}, "
+            f"norm={self._norm.__name__}, distribution={self._distr}, params={self._params})"
         )
 
     def interpolate(self, w_pts, grid_pt):
