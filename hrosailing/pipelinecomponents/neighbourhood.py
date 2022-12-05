@@ -156,7 +156,7 @@ class ScalingBall(Neighbourhood):
         self._radius = None
 
     def __repr__(self):
-        return f"ScalingBall(min_pts={self._min_pts})"
+        return f"ScalingBall(min_pts={self._min_pts}, norm={self._norm.__name__})"
 
     def is_contained_in(self, pts):
         """Checks given points for membership, and scales
