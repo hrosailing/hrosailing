@@ -294,7 +294,6 @@ class ImprovedIDWInterpolator(Interpolator):
         return wts @ pts[:, 2]
 
 
-# Shouldn't be used just yet
 class ShepardInterpolator(Interpolator):
     """A full-featured inverse distance interpolator, based
     on the work of Shepard, "A two-dimensional interpolation
@@ -372,7 +371,7 @@ class ShepardInterpolator(Interpolator):
         out : int / float
             Interpolated value at `grid_pt`.
         """
-        pts = w_pts.points
+        pts = w_pts.data
         dist = self._norm(pts[:, :2] - grid_pt)
         if np.any(dist == 0):
             mask = dist == 0
