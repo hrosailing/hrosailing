@@ -279,15 +279,17 @@ class Data:
                               for k, value in self._data.items()}
                 self._max_len -= len(key)
 
-    def strip(self, mode):
+    def strip(self, mode = "all"):
         """
         Removes either columns that only consist of `None` values or leading and tailing rows consisting only of `None`
         values.
 
         Parameters
         ----------
-        mode : {"cols", "rows"}
-            Specifies whether columns or rows should be removed.
+        mode : {"cols", "rows", "all"}
+            Specifies whether columns or rows or both should be removed.
+
+            Defaults to "all"
         """
         if mode == "cols":
             self._data = {key: value for key, value in self._data.items()
@@ -300,6 +302,9 @@ class Data:
             while all([self[key][start_tailing_nones] is None for key in self.keys()]):
                 start_tailing_nones -= 1
             self._data = {key: value[end_leading_nones:start_tailing_nones + 1] for key, value in self._data.items()}
+        elif mode == "all":
+            self.strip("cols")
+            self.strip("rows")
 
     def hrosailing_standard_format(self):
         """
