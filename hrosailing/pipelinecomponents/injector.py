@@ -29,7 +29,7 @@ class Injector(ABC):
         Parameters
         ----------
         weighted_points : WeightedPoints
-            The original preprocessed points.
+            The original preprocessed points. `weighted_points.data` should be an `ndarray`.
 
         Returns
         -------
