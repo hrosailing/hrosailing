@@ -16,7 +16,11 @@ def euclidean_norm(vec):
     return np.linalg.norm(vec, axis=1)
 
 
-scaled_euclidean_norm = scaled_norm(euclidean_norm, [1 / 40, 1 / 360])
+def scaled_euclidean_norm(vec):
+    if vec.shape[1] == 2:
+        return scaled_norm(euclidean_norm, [1 / 40, 1 / 360])(vec)
+    if vec.shape[1] == 3:
+        return scaled_norm(euclidean_norm, [1 / 40, 1 / 360, 1 / 20])(vec)
 
 
 def data_dict_to_numpy(data_dict, keys):
