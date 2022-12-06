@@ -180,7 +180,7 @@ class ArithmeticMeanInterpolator(Interpolator):
     params : tuple
         Parameters to be passed to `distribution`.
 
-        Defaults to (100,)
+        If no `distribution` is passed it defaults to `(100,)`, otherwise to `()`.
 
     Raises
     ------
@@ -192,16 +192,20 @@ class ArithmeticMeanInterpolator(Interpolator):
         self,
         s=1,
         norm: Callable = scaled_euclidean_norm,
-        distribution: Callable = _gauss_potential,
-        params = (100,),
+        distribution: Callable = None,
+        params = (),
     ):
         if s <= 0:
             raise InterpolatorInitializationException("`s` is non-positive")
 
         self._s = s
         self._norm = norm
-        self._distr = distribution
-        self._params = params
+        if distribution is None:
+            self._dist = _gauss_potential
+            self._params = (100,)
+        else:
+            self._distr = distribution
+            self._params = params
 
     def __repr__(self):
         return (
