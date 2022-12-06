@@ -60,16 +60,16 @@ class Ball(Neighbourhood):
 
     Parameters
     ----------
-    norm : function or callable, optional
-        The norm for which the ball is described, i.e. :math:`||.||`.
-
-        If nothing is passed, it will default to a scaled version
-        of :math:`||.||_2`.
-
     radius : positive int or float, optional
         The radius of the ball, i.e. :math:`r`.
 
         Defaults to `0.05`.
+
+    norm : function or callable, optional
+        The norm for which the ball is described, i.e. :math:`||.||`.
+
+        If nothing is passed, it will default to a scaled version
+        of :math:`||.||_2` in two dimensions.
 
     Raises
     ------
@@ -79,8 +79,8 @@ class Ball(Neighbourhood):
 
     def __init__(
         self,
-        norm: Callable = scaled_euclidean_norm,
         radius=0.05,
+        norm: Callable = scaled_euclidean_norm,
     ):
         if radius <= 0:
             raise NeighbourhoodInitializationException(
