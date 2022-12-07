@@ -356,7 +356,7 @@ class Polytope(Neighbourhood):
 
     Raises
     ------
-    NeighbourhoodException
+    NeighbourhoodInitializationException
         If `mat` and `b` are not of matching shape.
 
 
