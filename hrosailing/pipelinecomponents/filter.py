@@ -15,7 +15,7 @@ from abc import ABC, abstractmethod
 import numpy as np
 
 
-def get_filter_statistics(filtered_points):
+def get_filter_statistics(filtered_points, error_code=None):
     """
     Computes standard statistics for the output of a filter.
 
@@ -23,12 +23,35 @@ def get_filter_statistics(filtered_points):
     ----------
     filtered_points : boolean array
         Boolean array describing which points are filtered.
+
+    error_code : None or str, optional
+        When `None` the regular statistic is computed,
+        otherwise a placeholder statistic is produced.
+
+        Defaults to `None`
+
+    Returns
+    --------
+    statistic: dict
+        statistics containing keys
+
+        - "n_filtered_points": number of records removed by filter or `None` if an error occured
+        - "n_rows": number of records contained by filter or `None` if an error occured
+        - "error": If an error occured, short description of said error (or `None` if no error occured)
     """
+    if error_code is not None:
+        return {
+            "n_filtered_points": None,
+            "n_rows": None,
+            "error": error_code
+        }
+
     n_filtered_points = len([f for f in filtered_points if not f])
 
     return {
         "n_filtered_points": n_filtered_points,
-        "n_rows": len(filtered_points) - n_filtered_points
+        "n_rows": len(filtered_points) - n_filtered_points,
+        "error": None
     }
 
 
@@ -99,11 +122,15 @@ class QuantileFilter(Filter):
     def filter(self, wts):
         """Filters a set of points given by their resp. weights
         according to the above described method.
+        The returned statistics are computed via `get_filter_statistics`.
 
         See also
         --------
         `Filter.filter`
         """
+        if len(wts) == 0:
+            return [], get_filter_statistics(None, error_code="Empty list")
+
         filtered_points = self._calculate_quantile(wts)
 
         statistics = get_filter_statistics(filtered_points)
