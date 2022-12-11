@@ -202,9 +202,9 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
 
     def fit(self, training_data):
         """
-        The wind angle with lowest density of measured wind angles is assumed to be the
+        The wind angle with the lowest density of measured wind angles is assumed to be the
         actual zero. The data density is computed using gauss kernel functions
-        :math:`e^{\frac{wa - wa'}{l}}` where :math:`l` can be seen as the size of
+        :math:`e^{\frac{wa - wa'}{l}}`, where :math:`l` can be seen as the size of
         an interval on which the gauss kernel is stretched.
 
         Parameter

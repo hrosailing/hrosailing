@@ -35,9 +35,9 @@ def get_filter_statistics(filtered_points, error_code=None):
     statistic: dict
         statistics containing keys
 
-        - "n_filtered_points": number of records removed by filter or `None` if an error occured
-        - "n_rows": number of records contained by filter or `None` if an error occured
-        - "error": If an error occured, short description of said error (or `None` if no error occured)
+        - "n_filtered_points": number of records removed by filter or `None` if an error occurred,
+        - "n_rows": number of records contained by filter or `None` if an error occurred,
+        - "error": If an error occurred, short description of said error (or `None` if no error occurred).
     """
     if error_code is not None:
         return {

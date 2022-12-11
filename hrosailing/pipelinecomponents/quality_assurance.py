@@ -75,8 +75,8 @@ class ComformingQualityAssurance(QualityAssurance):
             - 'min_zero_val': the minimal value of the polar diagram for wind angles of 0 or 360 degree and wind speed between 0 and 20,
             - 'average_zero_val': the average value of the polar diagram for wind angles of 0 or 360 degree and wind speed between 0 and 20,
             - 'average_quadratic_zero_val': the average squared value of the polar diagram for wind angles of 0 or 360 degree and wind speed between 0 and 20,
-            - 'test_covering': number of unique test cases when rounded to nearest integer test case,
-            - 'local_test_data_difference': maximal difference boat speed in test cases where wind speed and wind angle are rounded to the same nearest integer respectively.
+            - 'test_covering': number of unique test cases when rounded to the nearest integer,
+            - 'local_test_data_difference': maximal difference in boat speeds in test cases where wind speed and wind angle are rounded to the same nearest integer respectively.
 
         See also
         ---------
