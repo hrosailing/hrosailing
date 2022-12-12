@@ -93,6 +93,7 @@ class WeightedPoints:
     def extend(self, other):
         """
         Extends the weighted points by other weighted points.
+        The value of the `data` attribute should be of the same type in both respective `WeightedPoints` objects.
         If both data is given as a dictionary of lists, the respective lists
         will be extended.
         Keys that are not present in both dictionaries are discarded.
