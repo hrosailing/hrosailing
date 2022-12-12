@@ -83,11 +83,9 @@ class ODRegressor(Regressor):
         where `ws` and `wa` are `numpy.ndarrays` resp. and `params` is a
         sequence of parameters that will be fitted.
 
-    init_values : array_like, optional
+    init_values : array_like
         Initial guesses for the optimal parameters of `model_func`
         that are passed to the `scipy.odr.ODR` class.
-
-        Defaults to `None`.
 
     max_it : int, optional
         Maximum number of iterations done by `scipy.odr.ODR`.
@@ -95,7 +93,7 @@ class ODRegressor(Regressor):
         Defaults to `1000`.
     """
 
-    def __init__(self, model_func: Callable, init_values=None, max_it=1000):
+    def __init__(self, model_func: Callable, init_values, max_it=1000):
         def odr_model_func(params, x):
             ws = x[0, :]
             wa = x[1, :]
