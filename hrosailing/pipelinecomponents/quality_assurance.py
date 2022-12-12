@@ -15,9 +15,23 @@ class QualityAssurance(ABC):
 
     @abstractmethod
     def check(self, polar_diagram, test_data):
-        """Method that should test if a given polar diagram works with given
+        """
+        Method that should test if a given polar diagram works with given
         preprocessed test data and returns a dict containing relevant
-        statistics."""
+        statistics.
+
+        Parameter
+        ---------
+        polar_diagram : PolarDiagram
+
+        test_data : (n, 3)-array
+            The data to be tested against with columns refering to true wind speed, true wind angle and boat speed.
+
+        Returns
+        --------
+        metrics : dict
+            A dictionary containing relevant quality metrics.
+        """
 
 
 class MinimalQualityAssurance(QualityAssurance):
