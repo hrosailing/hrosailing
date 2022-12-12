@@ -527,6 +527,11 @@ class FluctuationWeigher(Weigher):
         """
         Weighs points by the procedure described above.
 
+        Parameter
+        ----------
+        points : Data
+            Should contain the key "datetime" and all keys contained in the "dimension" parameter during initialization.
+
         See also
         --------
         `Weigher.weigh`
