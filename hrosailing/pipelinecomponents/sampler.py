@@ -38,7 +38,12 @@ class Sampler(ABC):
         Parameter
         ----------
         pts : numpy.ndarray
-            The given data points in a row-wise fashion.
+            The given data points in a row-wise fashion. Most commonly this should be an (n, 2) array.
+
+        Returns
+        ----------
+        sample : numpy.ndarray
+            A sample representing the data points.
         """
 
 
