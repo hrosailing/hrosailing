@@ -52,7 +52,7 @@ class WeightedPoints:
         `[data[key][i] for key in data.keys()]` for each suitable `i`.
         If given as a `numpy.ndarray`, the rows will be interpreted as data points.
 
-    weights : scalar or array_like of shape (n,), optional
+    weights : scalar or array_like of shape (n,)
         If the weights of the points are known beforehand,
         they can be given as an argument. If weights are
         passed, they will be assigned to the points
@@ -60,14 +60,12 @@ class WeightedPoints:
 
         If a scalar is passed, the points will all be assigned
         the same weight.
-
-        Defaults to `None`.
     """
 
     def __init__(
         self,
         data,
-        weights=None
+        weights
     ):
         self.data = data
         if isinstance(weights, (float, int)):
