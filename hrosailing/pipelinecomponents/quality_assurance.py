@@ -100,15 +100,21 @@ class ComformingQualityAssurance(QualityAssurance):
             tested_tuples[test_tuple] = min(bsp, prev_min), max(bsp, prev_max)
 
         statistics = {
-            "max_error": max(diffs),
-            "min_error": min(diffs),
-            "average_error": np.mean(diffs),
-            "average_quadratic_error": np.mean([diff**2 for diff in diffs]),
-            "max_zero_val": max(zero_diffs),
-            "min_zero_val": min(zero_diffs),
-            "average_zero_val": np.mean(zero_diffs),
-            "average_quadratic_zero_val": np.mean([diff**2 for diff in zero_diffs]),
+            "max_error": _safe_operation(max, diffs),
+            "min_error": _safe_operation(min, diffs),
+            "average_error": _safe_operation(np.mean, diffs),
+            "average_quadratic_error": _safe_operation(np.mean, [diff ** 2 for diff in diffs]),
+            "max_zero_val": _safe_operation(max, zero_diffs),
+            "min_zero_val": _safe_operation(min, zero_diffs),
+            "average_zero_val": _safe_operation(np.mean, zero_diffs),
+            "average_quadratic_zero_val": _safe_operation(np.mean, [diff**2 for diff in zero_diffs]),
             "test_covering": len(tested_tuples),
-            "local_test_data_difference": max([bsp_max - bsp_min for bsp_min, bsp_max in tested_tuples.values()])
+            "local_test_data_difference": _safe_operation(max, [bsp_max - bsp_min for bsp_min, bsp_max in tested_tuples.values()])
         }
         return statistics
+
+def _safe_operation(operand, value):
+    try:
+        return operand(value)
+    except ValueError:
+        return None
