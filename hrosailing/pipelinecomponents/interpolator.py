@@ -200,12 +200,13 @@ class ArithmeticMeanInterpolator(Interpolator):
 
         self._s = s
         self._norm = norm
+        self._params = params
         if distribution is None:
             self._distr = _gauss_potential
-            self._params = (100,)
+            if params is None:
+                self._params = (100,)
         else:
             self._distr = distribution
-            self._params = params
 
     def __repr__(self):
         return (
