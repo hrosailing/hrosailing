@@ -276,7 +276,7 @@ class PointcloudExtension(PipelineExtension):
         self,
         sampler=pc.UniformRandomSampler(2000),
         neighbourhood=pc.Ball(radius=1),
-        interpolator=pc.ArithmeticMeanInterpolator(params=(50)),
+        interpolator=pc.ArithmeticMeanInterpolator(params=(50,)),
     ):
         self.sampler = sampler
         self.neighbourhood = neighbourhood
