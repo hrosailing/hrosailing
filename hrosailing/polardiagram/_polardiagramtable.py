@@ -206,7 +206,7 @@ class PolarDiagramTable(PolarDiagram):
         self,
         ws,
         wa,
-        interpolator=ArithmeticMeanInterpolator(50),
+        interpolator=ArithmeticMeanInterpolator(params=(50,)),
         neighbourhood=Ball(radius=1),
     ):
         """Calculates the boat speed for given `ws` and `wa`.

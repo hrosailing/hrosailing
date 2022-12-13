@@ -203,7 +203,7 @@ class ArithmeticMeanInterpolator(Interpolator):
         self._params = params
         if distribution is None:
             self._distr = _gauss_potential
-            if params is None:
+            if params == ():
                 self._params = (100,)
         else:
             self._distr = distribution
