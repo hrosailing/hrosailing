@@ -533,13 +533,15 @@ class FluctuationWeigher(Weigher):
         ----------
         points : Data
             Should contain the key "datetime" and all keys contained in the "dimension" parameter during initialization.
+            Fields which do not contain `float` values are ignored.
 
         See also
         --------
         `Weigher.weigh`
         """
         times = points["datetime"]
-        self._dimensions, points = _set_points_from_data(points, self._dimensions, False)
+        dimensions, points = _set_points_from_data(points, self._dimensions, False)
+        upper_bounds = self._upper_bounds[[i for i, key in enumerate(self._dimensions) if key in dimensions]]
 
         weights = [1]*len(points)
         start_idx = 0
@@ -550,7 +552,7 @@ class FluctuationWeigher(Weigher):
             end_idx = start_idx
             while end_idx + 1 < len(times) and times[end_idx+1] - dt < self._timespan_after:
                 end_idx += 1
-            for col, ub in enumerate(self._upper_bounds):
+            for col, ub in enumerate(upper_bounds):
                 curr_pts = points[start_idx:end_idx+1, col]
                 std = np.std(curr_pts)
                 if std > ub:
