@@ -274,6 +274,8 @@ class CylindricMeanWeigher(Weigher):
     of the dth component of all those points and set
     :math:`w_p = | m_p - p[d-1] | / std_p`.
 
+    This weigher can only be used on floating point data.
+
     Parameters
     ----------
     radius : positive int or float, optional
@@ -320,8 +322,8 @@ class CylindricMeanWeigher(Weigher):
 
         Parameters
         ----------
-        points : numpy.ndarray of shape (n, d) with d>=3 or dict
-            Points to be weighed.
+        points : numpy.ndarray of shape (n, d) with d>=3 or Data
+            Points to be weighed. Data has to be given in type `float`.
 
         Returns
         -------
@@ -396,9 +398,9 @@ class CylindricMemberWeigher(Weigher):
         If nothing is passed, it will default to :math:`||.||_2`.
 
     dimensions : [str] or None, optional
-        If the data is given as `dict`, `dimensions` contains the keys
+        If the data is given as `Data`, `dimensions` contains the keys
         which should be used in order to create the data space.
-        If `None`, all keys of the given `dict` are used.
+        If `None`, all keys of the given `Data` are used.
 
         Defaults to `None`.
 
@@ -445,7 +447,7 @@ class CylindricMemberWeigher(Weigher):
 
         Parameters
         ----------
-        points : numpy.ndarray of shape (n, d) or dict
+        points : numpy.ndarray of shape (n, d) or Data
             Points to be weighed.
 
         Returns
