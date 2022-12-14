@@ -59,14 +59,14 @@ class TableExtension(PipelineExtension):
     interpolator : Interpolator, optional
         Determines which interpolation method is used.
 
-        Defaults to `ArithmeticMeanInterpolator(50)`.
+        Defaults to `ArithmeticMeanInterpolator(params=(50,))`.
     """
 
     def __init__(
         self,
         wind_resolution="min_max",
         neighbourhood=pc.Ball(radius=1),
-        interpolator=pc.ArithmeticMeanInterpolator(50),
+        interpolator=pc.ArithmeticMeanInterpolator(params=(50,)),
     ):
         self.wind_resolution = wind_resolution
         self.neighbourhood = neighbourhood
@@ -269,7 +269,7 @@ class PointcloudExtension(PipelineExtension):
     interpolator : Interpolator, optional
         Determines which interpolation method is used.
 
-        Defaults to `ArithmeticMeanInterpolator(50)`.
+        Defaults to `ArithmeticMeanInterpolator(params=(50,))`.
     """
 
     def __init__(

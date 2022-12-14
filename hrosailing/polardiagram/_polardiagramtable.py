@@ -218,11 +218,16 @@ class PolarDiagramTable(PolarDiagram):
         ----------
         ws : int or float
             Wind speed.
+
         wa : int or float
             Wind angle.
-        interpolator : hrosailing.pipelinecomponents.Interpolator, default: `hrosailing.pipelinecomponents.ArithmeticMeanInterpolator(50)`
+
+        interpolator : hrosailing.pipelinecomponents.Interpolator, optional
             Interpolator subclass that determines the interpolation
             method used to determine the value at the ws-wa point.
+
+            Defaults to: `hrosailing.pipelinecomponents.ArithmeticMeanInterpolator(params = (50, ))`
+
         neighbourhood : hrosailing.pipelinecomponents.Neighbourhood, default: `hrosailing.pipelinecomponents.Ball(1)`
             Neighbourhood subclass used to determine the grid points
             in the table that will be used in the interpolation.
