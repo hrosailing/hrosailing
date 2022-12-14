@@ -108,7 +108,10 @@ class Ball(Neighbourhood):
             are members of the neighbourhood.
         """
         pts = np.asarray(pts)
-        return self._norm(pts) <= self._radius
+        try:
+            return self._norm(pts) <= self._radius
+        except ValueError:
+            return np.asarray([self._norm(pt) <= self._radius for pt in pts])
 
 
 class ScalingBall(Neighbourhood):
