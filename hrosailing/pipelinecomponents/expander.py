@@ -11,6 +11,7 @@ Also contains predefined and usable expanders:
 from abc import ABC, abstractmethod
 
 from hrosailing.pipelinecomponents.data import Data
+from hrosailing.cruising.weather_model import WeatherModel, OutsideGridException
 
 
 class Expander(ABC):
@@ -57,10 +58,19 @@ class WeatherExpander(Expander):
     ----------
     weather_model : WeatherModel
         A suitable weather model (yielding weather information for the required times, latitudes and longitudes).
+
+    exception_handling_mode: {"delete", "ignore"}, optional
+        Describes how to handle weather cases which throw an OutsideGridException.
+
+        - "delete" : delete the occurances
+        - "ignore" : fill the corresponding records with `None`
+
+        Defaults to "delete"
     """
 
-    def __init__(self, weather_model):
+    def __init__(self, weather_model, exception_handling_mode="delete"):
         self._weather_model = weather_model
+        self._exception_handling_mode = exception_handling_mode
 
     def expand(self, data):
         """
@@ -70,15 +80,35 @@ class WeatherExpander(Expander):
         --------
         `Expander.expand`
         """
-        weather_data = [
-            self._weather_model.get_weather([datetime, lat, lon])
-            for datetime, lat, lon in data.rows(
-                ["datetime", "lat", "lon"], return_type=tuple
-            )
-        ]
-        weather_data = Data.concatenate(weather_data)
+        weather_data = self._get_weather(data)
+
         data.update(weather_data)
         data.hrosailing_standard_format()
         return data, {}
+
+
+    def _get_weather(self, data):
+        weather_keys = None
+        none_idxs = []
+        weather_list = []
+        for idx, (datetime, lat, lon) in enumerate(data.rows(["datetime", "lat", "lon"], return_type=tuple)):
+            try:
+                weather = self._weather_model.get_weather([datetime, lat, lon])
+                weather_list.append(weather)
+                if weather_keys is None:
+                    weather_keys = weather.keys()
+            except OutsideGridException:
+                if self._exception_handling_mode == "ignore":
+                    weather_list.append(None)
+                none_idxs.append(idx)
+
+        if self._exception_handling_mode == "delete":
+            data.delete(none_idxs)
+        else:
+            for idx in none_idxs:
+                weather_list[idx] = {key : None for key in weather_keys}
+
+        return Data.concatenate(weather_list)
+
 
 
