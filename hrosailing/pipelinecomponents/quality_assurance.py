@@ -123,7 +123,7 @@ class ComformingQualityAssurance(QualityAssurance):
             "average_zero_val": _safe_operation(np.mean, zero_diffs),
             "average_quadratic_zero_val": _safe_operation(np.mean, [diff**2 for diff in zero_diffs]),
             "test_covering": len(tested_tuples),
-            "local_test_data_difference": _safe_operation(max, [bsp_max - bsp_min for bsp_min, bsp_max in tested_tuples.values()])
+            "average_quadratic_local_test_data_difference": _safe_operation(np.mean, [bsp_max - bsp_min for bsp_min, bsp_max in tested_tuples.values()])
         }
         return statistics
 

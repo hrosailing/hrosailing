@@ -474,10 +474,11 @@ class Data:
             return self._data[item]
         if isinstance(item, int):
             return {key: val[item] for key, val in self._data.items()}
+        type_ = None
         for key in item:
             type_ = type(key)
             break
-        if type_ in (bool, np.bool_):
+        if type_ is None or type_ in (bool, np.bool_):
             return self.mask_rows(item)
         if type_ is str:
             return self.get_slice(item)
