@@ -631,7 +631,12 @@ class PolarDiagramTable(PolarDiagram):
 
         ind = self._get_indices(ws, _Resolution.WIND_SPEED)
         wa = np.deg2rad(self.wind_angles)
-        return ws, wa, self.boat_speeds[:, ind]
+
+        bsp = self.boat_speeds[:, ind]
+        if max(wa) > np.deg2rad(350) and min(wa) < np.deg2rad(10):
+            bsp = np.concatenate([bsp, [bsp[0]]])
+            wa = np.concatenate([wa, [wa[0]]])
+        return ws, wa, bsp
 
     def plot_polar(
         self,
