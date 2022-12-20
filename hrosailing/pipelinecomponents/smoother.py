@@ -31,8 +31,6 @@ class Smoother(ABC, ComponentWithStatistics):
         -------
         data : Data
             The processed data.
-        statistics : dict
-            Dictionary containing relevant statistics.
         """
         pass
 

@@ -48,9 +48,6 @@ class Filter(ABC, ComponentWithStatistics):
         -------
         filtered_points : numpy.ndarray of shape (n,)
             Boolean array describing which points are filtered.
-
-        statistics : dict
-            Dictionary containing relevant statistics.
         """
 
     def set_statistics(self, filtered_points, error_code=None):
@@ -113,7 +110,6 @@ class QuantileFilter(Filter):
     def filter(self, wts):
         """Filters a set of points given by their resp. weights
         according to the above described method.
-        The returned statistics are computed via `get_filter_statistics`.
 
         See also
         --------

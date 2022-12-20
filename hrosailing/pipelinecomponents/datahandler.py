@@ -64,10 +64,6 @@ class DataHandler(ABC, ComponentWithStatistics):
         -------
         data : Data
             The interpreted data in hrosailing format.
-
-        statistics : dict
-            Relevant statistics. If not stated otherwise contains the number of created rows and columns
-            as `n_rows` and `n_cols` respectively.
         """
 
     def set_statistics(self, data):

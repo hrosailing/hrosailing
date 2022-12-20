@@ -130,13 +130,6 @@ class FillLocalImputator(Imputator):
         -------
         data_dict : Data
             `data_dict` is the resulting `Data` object containing no `None` values.
-
-        statistics : dict
-            `statistics` contains the number of removed columns, the number of
-            removed rows, the number of filled fields and the number of rows and
-            columns in the resulting dictionary as
-            `n_removed_cols`, `n_removed_rows`, `n_filled_fields`,
-            `n_rows` and `n_cols` respectively.
         """
         self._n_filled = 0
         n_removed_cols = data_dict.n_cols
