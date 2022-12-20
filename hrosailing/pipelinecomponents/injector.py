@@ -11,9 +11,10 @@ from abc import ABC, abstractmethod
 import numpy as np
 
 import hrosailing.pipelinecomponents as pc
+from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 
 
-class Injector(ABC):
+class Injector(ABC, ComponentWithStatistics):
     """
     Base class for all injector classes.
 
@@ -35,8 +36,6 @@ class Injector(ABC):
         -------
         app_points : WeightedPoints
             Points to append to the original points.
-        statistics : dict
-            Dictionary of statistics.
         """
 
 
@@ -84,4 +83,4 @@ class ZeroInjector(Injector):
         return pc.WeightedPoints(
             data=np.concatenate([zeros, fulls]),
             weights=np.ones(2 * self.n_zeros),
-        ), {}
+        )
