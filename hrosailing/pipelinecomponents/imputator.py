@@ -6,8 +6,10 @@ to create custom imputators.
 from abc import ABC, abstractmethod
 from datetime import timedelta
 
+from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 
-class Imputator(ABC):
+
+class Imputator(ABC, ComponentWithStatistics):
     """Base class for all imputator classes.
 
 
@@ -27,6 +29,16 @@ class Imputator(ABC):
         data : Data
             Data to be imputed.
         """
+
+    def set_statistics(self, n_removed_cols, n_removed_rows, n_filled, data_dict):
+
+        super().set_statistics(
+            n_removed_cols= n_removed_cols,
+            n_removed_rows= n_removed_rows,
+            n_filled_fields= self._n_filled,
+            n_rows= data_dict.n_rows,
+            n_cols= data_dict.n_cols
+        )
 
 
 class FillLocalImputator(Imputator):
@@ -250,15 +262,11 @@ class FillLocalImputator(Imputator):
         data_dict.delete(remove_rows)
         n_removed_rows += len(remove_rows)
 
-        statistics = {
-            "n_removed_cols": n_removed_cols,
-            "n_removed_rows": n_removed_rows,
-            "n_filled_fields": self._n_filled,
-            "n_rows": data_dict.n_rows,
-            "n_cols": data_dict.n_cols
-        }
+        self.set_statistics(
+            n_removed_cols, n_removed_rows, self._n_filled, data_dict
+        )
 
-        return data_dict, statistics
+        return data_dict
 
     def _fill_range(
             self,

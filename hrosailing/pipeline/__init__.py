@@ -372,7 +372,8 @@ class PolarPipeline:
         handled_data, handler_statistics = self._handle_data(data)
 
         imputated_data, imputator_statistics = self._map(
-            self.imputator.impute, handled_data
+            _collector_fun(self.imputator, self.imputator.impute),
+            handled_data
         )
 
         if smoothing:
@@ -484,6 +485,11 @@ def _collect(comp, method, data):
     out = method(data)
     statistics = comp.get_latest_statistics()
     return out, statistics
+
+
+def _collector_fun(comp, method):
+    return lambda data: _collect(comp, method, data)
+
 
 def _weigh_and_filter(
     data,
