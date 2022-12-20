@@ -23,6 +23,7 @@ import numpy as np
 import hrosailing.pipelinecomponents.data
 from hrosailing.pipelinecomponents.data import Data
 from hrosailing.pipelinecomponents.constants import HROSAILING_TO_NMEA
+from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 
 
 class HandlerInitializationException(Exception):
@@ -37,7 +38,7 @@ class HandleException(Exception):
     """
 
 
-class DataHandler(ABC):
+class DataHandler(ABC, ComponentWithStatistics):
     """Base class for all data handler classes.
 
 
@@ -68,6 +69,19 @@ class DataHandler(ABC):
             Relevant statistics. If not stated otherwise contains the number of created rows and columns
             as `n_rows` and `n_cols` respectively.
         """
+
+    def set_statistics(self, data):
+        """
+        Computes standard statistics for the output of a data handler.
+
+        Parameters
+        ----------
+        data : Data
+        """
+        super().set_statistics(
+            n_rows= data.n_rows,
+            n_cols= data.n_cols
+        )
 
 
 class ArrayHandler(DataHandler):
@@ -119,8 +133,8 @@ class ArrayHandler(DataHandler):
 
         data.hrosailing_standard_format()
 
-        statistics = get_datahandler_statistics(data)
-        return data, statistics
+        self.set_statistics(data)
+        return data
 
 
 class CsvFileHandler(DataHandler):
@@ -167,8 +181,8 @@ class CsvFileHandler(DataHandler):
 
         data.hrosailing_standard_format()
 
-        statistics = get_datahandler_statistics(data)
-        return data, statistics
+        self.set_statistics(data)
+        return data
 
 
 class NMEAFileHandler(DataHandler):
@@ -298,9 +312,9 @@ class NMEAFileHandler(DataHandler):
         if self._post_filter_types:
             comp_data.filter_types(self._post_filter_types)
 
-        statistics = get_datahandler_statistics(comp_data)
+        self.set_statistics(comp_data)
 
-        return comp_data, statistics
+        return comp_data
 
     def _postprocess(self, parsed_sentence):
         if "Wind angle" in parsed_sentence and "Reference" in parsed_sentence and "Wind speed" in parsed_sentence:
@@ -355,16 +369,3 @@ class NMEAFileHandler(DataHandler):
             second=seconds,
             microsecond=microseconds
         )
-
-def get_datahandler_statistics(data):
-    """
-    Computes standard statistics for the output of a data handler.
-
-    Parameters
-    ----------
-    data : Data
-    """
-    return {
-        "n_rows": data.n_rows,
-        "n_cols": data.n_cols
-    }

@@ -456,12 +456,14 @@ class PolarPipeline:
 
     def _handle_data(self, data):
         if isinstance(self.data_handler, pc.DataHandler):
-            handler_output = [self.data_handler.handle(field) for field in data]
+            handler_output = [_collect(self.data_handler, self.data_handler.handle, field) for field in data]
         else:
             handler_output = []
             for field in data:
                 handler = next(self.data_handler)
-                handler_output.append(handler.handle(field))
+                handler_output.append(
+                    _collect(handler, handler.handle, field)
+                )
 
         return self._list_statistics(handler_output)
 
@@ -477,6 +479,11 @@ class PolarPipeline:
         } for statistic in statistics)
         return (list(data),) + statistics
 
+
+def _collect(comp, method, data):
+    out = method(data)
+    statistics = comp.get_latest_statistics()
+    return out, statistics
 
 def _weigh_and_filter(
     data,

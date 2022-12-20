@@ -66,4 +66,3 @@ class ComponentWithStatistics:
             The statistics of the latest run of the handler.
         """
         return self._statistics
-
