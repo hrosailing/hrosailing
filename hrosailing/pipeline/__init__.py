@@ -301,8 +301,9 @@ class PolarPipeline:
         )
 
         if injecting:
-            pts_to_inject, injector_statistics \
-                = self.injector.inject(preproc_training_data)
+            pts_to_inject, injector_statistics = _collect(
+                self.injector, self.injector.inject, preproc_training_data
+            )
         else:
             pts_to_inject, injector_statistics \
                 = pc.WeightedPoints(np.empty((0, 3)), np.empty(0)), {}
