@@ -10,6 +10,7 @@ Subclasses of `InfluenceModel` can be used with
 
 from ._utils import data_dict_to_numpy
 from hrosailing.wind import convert_apparent_wind_to_true
+from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 
 from abc import ABC, abstractmethod
 
@@ -20,7 +21,7 @@ class InfluenceException(Exception):
     """Raised when removing or adding influence does not work."""
 
 
-class InfluenceModel(ABC):
+class InfluenceModel(ABC, ComponentWithStatistics):
     """Base class for all influence model classes.
 
 
@@ -48,9 +49,6 @@ class InfluenceModel(ABC):
         Returns
         -------
         out : numpy.ndarray
-
-        statistics : dict
-            Dictionary containing relevant statistics.
         """
 
     @abstractmethod
@@ -110,7 +108,7 @@ class IdentityInfluenceModel(InfluenceModel):
         --------
         `InfluenceModel.remove_influence`
         """
-        return _get_true_wind_data(data), {}
+        return _get_true_wind_data(data)
 
     def add_influence(self, pd, influence_data: dict):
         """
@@ -140,13 +138,12 @@ class IdentityInfluenceModel(InfluenceModel):
 
     def fit(self, training_data: dict):
         """
-        Does nothing, returns an empty dictionary.
+        Does nothing.
 
         See also
         --------
         `InfluenceModel.fit`
         """
-        return {}
 
 
 class WindAngleCorrectingInfluenceModel(InfluenceModel):
@@ -181,7 +178,7 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
         wind_data = _get_true_wind_data(data)
         wa = wind_data[:, 1]
         wind_data[:, 1] = (wa - self._wa_shift)%360
-        return wind_data, {}
+        return wind_data
 
     def add_influence(self, pd, influence_data):
         """
@@ -223,7 +220,6 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
         ]
         min_angle, _ = min(zip(sample, counts), key=lambda x: x[1])
         self._wa_shift = min_angle
-        return {}
 
 
 def _get_true_wind_data(data: dict):

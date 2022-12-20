@@ -418,14 +418,18 @@ class PolarPipeline:
         pre_filtered_data = pc.data.Data.concatenate([wp.data for wp in pre_filtered_data])
 
         if influence_fitting:
-            influence_fit_statistics = self.influence_model.fit(
+            self.influence_model.fit(
                 pre_filtered_data
             )
+            influence_fit_statistics = self.influence_model.get_latest_statistics()
         else:
             influence_fit_statistics = {}
 
-        influence_free_data, influence_statistics = \
-            self.influence_model.remove_influence(pre_filtered_data)
+        influence_free_data, influence_statistics = _collect(
+            self.influence_model,
+            self.influence_model.remove_influence,
+            pre_filtered_data
+        )
 
         influence_statistics.update(influence_fit_statistics)
 
