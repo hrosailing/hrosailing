@@ -12,9 +12,10 @@ from abc import ABC, abstractmethod
 
 from hrosailing.pipelinecomponents.data import Data
 from hrosailing.cruising.weather_model import WeatherModel, OutsideGridException
+from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 
 
-class Expander(ABC):
+class Expander(ABC, ComponentWithStatistics):
     """Base class for all expander classes."""
 
     @abstractmethod
@@ -33,7 +34,7 @@ class Expander(ABC):
             The processed data.
         statistics : dict
             Dictionary containing relevant statistics."""
-        return data, {}
+        pass
 
 
 class LazyExpander(Expander):
@@ -46,7 +47,7 @@ class LazyExpander(Expander):
         --------
         `Expander.expand`
         """
-        return data, {}
+        return data
 
 
 class WeatherExpander(Expander):
@@ -84,7 +85,7 @@ class WeatherExpander(Expander):
 
         data.update(weather_data)
         data.hrosailing_standard_format()
-        return data, {}
+        return data
 
 
     def _get_weather(self, data):

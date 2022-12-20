@@ -399,7 +399,8 @@ class PolarPipeline:
         pre_exp_filtered_data = [weighted_point.data for weighted_point in pre_exp_filtered_data]
 
         expanded_data, expanded_statistics = self._map(
-            self.expander.expand, pre_exp_filtered_data
+            _collector_fun(self.expander, self.expander.expand),
+            pre_exp_filtered_data
         )
 
         pre_filtered_data, pre_weigher_statistics, pre_filter_statistics = \
