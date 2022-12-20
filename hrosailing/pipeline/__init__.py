@@ -500,8 +500,8 @@ def _weigh_and_filter(
     filtering
 ):
     weights, weigher_statistics = \
-        weigher.weigh(data) if weighing \
-        else pc.AllOneWeigher().weigh(data)
+        _collect(weigher, weigher.weigh, data) if weighing \
+        else _collect(pc.AllOneWeigher().weigh(data))
 
     weighed_data = pc.WeightedPoints(data, weights)
 

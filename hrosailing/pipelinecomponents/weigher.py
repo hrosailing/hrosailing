@@ -14,7 +14,7 @@ from typing import Callable
 import numpy as np
 
 from ._utils import (
-    euclidean_norm, scaled_norm, data_dict_to_numpy, scaled_euclidean_norm
+    euclidean_norm, scaled_norm, data_dict_to_numpy, scaled_euclidean_norm, ComponentWithStatistics
 )
 
 from hrosailing.pipelinecomponents.data import Data
@@ -118,41 +118,7 @@ class WeightedPoints:
         self.weights = np.concatenate([self.weights, other.weights])
 
 
-
-def get_weight_statistics(weights):
-    """
-    Produces hrosailing standard statistics for weighers, namely the average,
-    minimal and maximal weight as well as a list of percentages of how many
-    weights are contained in each 10th of the span between the minimal and
-    maximal weight.
-    The respective keys are `average_weight`, `minimal_weight`, `maximal_weight` and
-    `quantiles`.
-
-    Parameters
-    ----------
-    weights : array_like of floats
-        The weights to be analyzed.
-    """
-    minw = np.min(weights)
-    span = np.max(weights) - minw
-    return {
-        "average_weight": round(np.mean(weights), 4),
-        "minimal_weight": round(minw, 4),
-        "maximal_weight": round(np.max(weights), 4),
-        "quantiles": [
-            round(
-                100 * len(
-                    [w for w in weights if
-                     (w >= minw + span*i / 10)
-                     and (w <= minw + span*(i + 1) / 10)]
-                ) / len(weights),
-                2
-            ) for i in range(10)
-        ]
-    }
-
-
-class Weigher(ABC):
+class Weigher(ABC, ComponentWithStatistics):
     """Base class for all weigher classes.
     Basic arithmetic operations may be performed among weighers.
 
@@ -216,6 +182,38 @@ class Weigher(ABC):
     def __pow__(self, power, modulo=None):
         return _UnaryMapWeigher(self, lambda x: x**power)
 
+    def set_statistics(self, weights):
+        """
+        Produces hrosailing standard statistics for weighers, namely the average,
+        minimal and maximal weight as well as a list of percentages of how many
+        weights are contained in each 10th of the span between the minimal and
+        maximal weight.
+        The respective keys are `average_weight`, `minimal_weight`, `maximal_weight` and
+        `quantiles`.
+
+        Parameters
+        ----------
+        weights : array_like of floats
+            The weights to be analyzed.
+        """
+        minw = np.min(weights)
+        span = np.max(weights) - minw
+        super().set_statistics(
+            average_weight= round(np.mean(weights), 4),
+            minimal_weight= round(minw, 4),
+            maximal_weight= round(np.max(weights), 4),
+            quantiles= [
+                round(
+                    100 * len(
+                        [w for w in weights if
+                         (w >= minw + span * i / 10)
+                         and (w <= minw + span * (i + 1) / 10)]
+                    ) / len(weights),
+                    2
+                ) for i in range(10)
+            ]
+        )
+
 
 class _UnaryMapWeigher(Weigher):
 
@@ -225,8 +223,8 @@ class _UnaryMapWeigher(Weigher):
 
     def weigh(self, points) -> (np.ndarray, dict):
         weights, _ = self._sub_weigher.weigh(points)
-        statistics = get_weight_statistics(weights)
-        return self._map(weights), statistics
+        self.set_statistics(weights)
+        return self._map(weights)
 
 
 class _BinaryMapWeigher(Weigher):
@@ -240,8 +238,8 @@ class _BinaryMapWeigher(Weigher):
         weights, _ = self._sub_weigher.weigh(points)
         other_weights, _ = self._other_sub_weigher.weigh(points)
         new_weights = self._map(weights, other_weights)
-        statistics = get_weight_statistics(new_weights)
-        return new_weights, statistics
+        self.set_statistics(new_weights)
+        return new_weights
 
 
 class AllOneWeigher(Weigher):
@@ -260,7 +258,7 @@ class AllOneWeigher(Weigher):
             size = len(points)
         else:
             size = points.n_rows
-        return np.ones(size), {}
+        return np.ones(size)
 
 
 class CylindricMeanWeigher(Weigher):
@@ -333,9 +331,9 @@ class CylindricMeanWeigher(Weigher):
         weights = np.array(weights)
         weights = 1 - _normalize(weights, np.max)
 
-        statistics = get_weight_statistics(weights)
+        self.set_statistics(weights)
 
-        return weights, statistics
+        return weights
 
     def _calculate_weight(self, point, points):
         points_in_cylinder = self._determine_points_in_cylinder(point, points)
@@ -460,8 +458,8 @@ class CylindricMemberWeigher(Weigher):
         weights = np.array(weights)
         weights = _normalize(weights, np.max)
 
-        statistics = get_weight_statistics(weights)
-        return weights, statistics
+        self.set_statistics(weights)
+        return weights
 
     def _calculate_weight(self, point, points):
         points_in_cylinder = self._count_points_in_cylinder(point, points)
@@ -558,9 +556,9 @@ class FluctuationWeigher(Weigher):
                 else:
                     weights[curr_idx] *= (ub - std)/ub
 
-        statistics = get_weight_statistics(weights)
+        self.set_statistics(weights)
 
-        return weights, statistics
+        return weights
 
 
 # class PastFluctuationWeigher(Weigher):
@@ -911,10 +909,12 @@ class FuzzyWeigher(Weigher):
         --------
         `Weigher.weigh`
         """
-        return np.array([
+        weights = np.array([
             self.fuzzy(point)
             for point in points.rows()
-        ]), {}
+        ])
+        self.set_statistics(weights)
+        return weights
 
 
 def hrosailing_standard_scaled_euclidean_norm(dimensions):
