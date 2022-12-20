@@ -13,46 +13,7 @@ in the `hrosailing.pipeline` module.
 from abc import ABC, abstractmethod
 
 import numpy as np
-
-
-def get_filter_statistics(filtered_points, error_code=None):
-    """
-    Computes standard statistics for the output of a filter.
-
-    Parameters
-    ----------
-    filtered_points : boolean array
-        Boolean array describing which points are filtered.
-
-    error_code : None or str, optional
-        When `None` the regular statistic is computed,
-        otherwise a placeholder statistic is produced.
-
-        Defaults to `None`
-
-    Returns
-    --------
-    statistic: dict
-        statistics containing keys
-
-        - "n_filtered_points": number of records removed by filter or `None` if an error occurred,
-        - "n_rows": number of records contained by filter or `None` if an error occurred,
-        - "error": If an error occurred, short description of said error (or `None` if no error occurred).
-    """
-    if error_code is not None:
-        return {
-            "n_filtered_points": None,
-            "n_rows": None,
-            "error": error_code
-        }
-
-    n_filtered_points = len([f for f in filtered_points if not f])
-
-    return {
-        "n_filtered_points": n_filtered_points,
-        "n_rows": len(filtered_points) - n_filtered_points,
-        "error": None
-    }
+from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 
 
 class FilterInitializationException(Exception):
@@ -61,7 +22,7 @@ class FilterInitializationException(Exception):
     """
 
 
-class Filter(ABC):
+class Filter(ABC, ComponentWithStatistics):
     """Base class for all filter classes.
 
 
@@ -91,6 +52,36 @@ class Filter(ABC):
         statistics : dict
             Dictionary containing relevant statistics.
         """
+
+    def set_statistics(self, filtered_points, error_code=None):
+        """
+        Computes standard statistics for the output of a filter.
+
+        Parameters
+        ----------
+        filtered_points : boolean array
+            Boolean array describing which points are filtered.
+
+        error_code : None or str, optional
+            When `None` the regular statistic is computed,
+            otherwise a placeholder statistic is produced.
+
+            Defaults to `None`
+        """
+        if error_code is not None:
+            super().set_statistics(
+                n_filtered_points= None,
+                n_rows= None,
+                error= error_code
+            )
+
+        n_filtered_points = len([f for f in filtered_points if not f])
+
+        super().set_statistics(
+            n_filtered_points= n_filtered_points,
+            n_rows= len(filtered_points) - n_filtered_points,
+            error= None
+        )
 
 
 class QuantileFilter(Filter):
@@ -129,13 +120,14 @@ class QuantileFilter(Filter):
         `Filter.filter`
         """
         if len(wts) == 0:
-            return [], get_filter_statistics(None, error_code="Empty list")
+            self.set_statistics(None, "Empty list")
+            return []
 
         filtered_points = self._calculate_quantile(wts)
 
-        statistics = get_filter_statistics(filtered_points)
+        self.set_statistics(filtered_points)
 
-        return filtered_points, statistics
+        return filtered_points
 
     def _calculate_quantile(self, wts):
         return wts >= np.percentile(wts, self._percent)
@@ -185,9 +177,9 @@ class BoundFilter(Filter):
         """
         filtered_points = self._determine_points_within_bound(wts)
 
-        statistics = get_filter_statistics(filtered_points)
+        self.set_statistics(filtered_points)
 
-        return filtered_points, statistics
+        return filtered_points
 
     def _determine_points_within_bound(self, wts):
         points_above_lower_bound = wts >= self._l_b

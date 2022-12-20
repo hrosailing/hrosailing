@@ -512,9 +512,9 @@ def _weigh_and_filter(
     return filtered_data, weigher_statistics, filter_statistics
 
 
-def _filter_data(filter, weighted_points):
+def _filter_data(filter_, weighted_points):
     points_to_filter, filter_statistics = \
-        filter.filter(weighted_points.weights)
+        _collect(filter_, filter_.filter, weighted_points.weights)
     return weighted_points[points_to_filter], filter_statistics
 
 
