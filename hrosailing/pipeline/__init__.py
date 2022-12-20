@@ -378,7 +378,8 @@ class PolarPipeline:
 
         if smoothing:
             smooth_data, smooth_statistics = self._map(
-                self.smoother.smooth, imputated_data
+                _collector_fun(self.smoother, self.smoother.smooth),
+                imputated_data
             )
         else:
             smooth_data = imputated_data

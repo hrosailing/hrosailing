@@ -9,9 +9,10 @@ Also contains predefined and usable smoothers:
 """
 import datetime
 from abc import ABC, abstractmethod
+from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 
 
-class Smoother(ABC):
+class Smoother(ABC, ComponentWithStatistics):
     """
     Base class for all smoothers aimed to smoothen measurement errors in given data.
     """
@@ -33,7 +34,7 @@ class Smoother(ABC):
         statistics : dict
             Dictionary containing relevant statistics.
         """
-        return data, {}
+        pass
 
 
 class LazySmoother(Smoother):
@@ -48,7 +49,7 @@ class LazySmoother(Smoother):
         --------
         `Smoother.smooth`
         """
-        return data, {}
+        return data
 
 
 class AffineSmoother(Smoother):
@@ -80,7 +81,7 @@ class AffineSmoother(Smoother):
         for key in data.keys():
             if data.type(key) == float:
                 data = self._smooth_field(key, data)
-        return data, {}
+        return data
 
     def _smooth_field(self, key, data):
         ys = data[key].copy()
