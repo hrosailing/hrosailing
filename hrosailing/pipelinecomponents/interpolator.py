@@ -36,6 +36,8 @@ class Interpolator(ABC):
     ----------------
     interpolate(self, w_pts, grid_pt)
     """
+    def __init__(self):
+        super().__init__()
 
     @abstractmethod
     def interpolate(self, w_pts, grid_pt):
@@ -91,6 +93,7 @@ class IDWInterpolator(Interpolator):
     """
 
     def __init__(self, p=2, norm: Callable = scaled_euclidean_norm):
+        super().__init__()
         if p < 0:
             raise InterpolatorInitializationException("`p` is negative")
 
@@ -195,6 +198,7 @@ class ArithmeticMeanInterpolator(Interpolator):
         distribution: Callable = None,
         params = (),
     ):
+        super().__init__()
         if s <= 0:
             raise InterpolatorInitializationException("`s` is non-positive")
 
@@ -269,6 +273,7 @@ class ImprovedIDWInterpolator(Interpolator):
     """
 
     def __init__(self, norm: Callable = scaled_euclidean_norm):
+        super().__init__()
         self._norm = norm
 
     def interpolate(self, w_pts, grid_pt):
@@ -343,6 +348,7 @@ class ShepardInterpolator(Interpolator):
         slope=0.1,
         norm: Callable = scaled_euclidean_norm,
     ):
+        super().__init__()
         if tol <= 0:
             raise InterpolatorInitializationException("`tol` is non-positive")
         if slope <= 0:

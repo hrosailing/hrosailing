@@ -16,6 +16,9 @@ class Smoother(ABC, ComponentWithStatistics):
     """
     Base class for all smoothers aimed to smoothen measurement errors in given data.
     """
+    def __init__(self):
+        super().__init__()
+
     @abstractmethod
     def smooth(self, data):
         """
@@ -66,6 +69,7 @@ class AffineSmoother(Smoother):
     """
 
     def __init__(self, timespan = datetime.timedelta(seconds = 30)):
+        super().__init__()
         self._timespan = timespan.total_seconds()
 
     def smooth(self, data):

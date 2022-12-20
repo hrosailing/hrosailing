@@ -127,6 +127,8 @@ class Weigher(ABC, ComponentWithStatistics):
     ----------------
     weigh(self, points)
     """
+    def __init__(self):
+        super().__init__()
 
     @abstractmethod
     def weigh(self, points) -> (np.ndarray, dict):
@@ -218,6 +220,7 @@ class Weigher(ABC, ComponentWithStatistics):
 class _UnaryMapWeigher(Weigher):
 
     def __init__(self, sub_weigher, map):
+        super().__init__()
         self._sub_weigher = sub_weigher
         self._map = map
 
@@ -230,6 +233,7 @@ class _UnaryMapWeigher(Weigher):
 class _BinaryMapWeigher(Weigher):
 
     def __init__(self, sub_weigher, other_sub_weigher, map):
+        super().__init__()
         self._sub_weigher = sub_weigher
         self._other_sub_weigher = other_sub_weigher
         self._map = map
@@ -298,6 +302,7 @@ class CylindricMeanWeigher(Weigher):
         norm=None,
         dimensions=None
     ):
+        super().__init__()
         if radius <= 0:
             raise WeigherInitializationException(
                 f"Invalid value for `radius`: {radius}. Non-positive number. Use a positive value for `radius`.")
@@ -415,6 +420,7 @@ class CylindricMemberWeigher(Weigher):
         norm=None,
         dimensions=None
     ):
+        super().__init__()
         if radius <= 0:
             raise WeigherInitializationException("`radius` is non-positive")
 
@@ -512,6 +518,7 @@ class FluctuationWeigher(Weigher):
         timespan,
         upper_bounds
     ):
+        super().__init__()
         if isinstance(timespan, timedelta):
             self._timespan_before = timespan
             self._timespan_after = timedelta(seconds=0)
@@ -901,6 +908,7 @@ class FuzzyWeigher(Weigher):
     `FuzzyBool`, `FuzzyVariable`
     """
     def __init__(self, fuzzy):
+        super().__init__()
         self.fuzzy = fuzzy
 
     def weigh(self, points):

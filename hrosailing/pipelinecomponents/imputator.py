@@ -17,6 +17,8 @@ class Imputator(ABC, ComponentWithStatistics):
     ----------------
     impute(self, data)
     """
+    def __init__(self):
+        super().__init__()
 
     @abstractmethod
     def impute(self, data):
@@ -105,6 +107,7 @@ class FillLocalImputator(Imputator):
         fill_after=lambda name, left, mu: left,
         max_time_diff=timedelta(minutes=2)
     ):
+        super().__init__()
         self._fill_before = \
             lambda name, left, right, mu: fill_before(name, right, mu)
         self._fill_between = fill_between

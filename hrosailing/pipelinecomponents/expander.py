@@ -18,6 +18,9 @@ from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 class Expander(ABC, ComponentWithStatistics):
     """Base class for all expander classes."""
 
+    def __init__(self):
+        super().__init__()
+
     @abstractmethod
     def expand(self, data):
         """
@@ -69,6 +72,7 @@ class WeatherExpander(Expander):
     """
 
     def __init__(self, weather_model, exception_handling_mode="delete"):
+        super().__init__()
         self._weather_model = weather_model
         self._exception_handling_mode = exception_handling_mode
 

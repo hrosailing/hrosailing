@@ -33,6 +33,8 @@ class InfluenceModel(ABC, ComponentWithStatistics):
 
     fit(training_data)
     """
+    def __init__(self):
+        super().__init__()
 
     @abstractmethod
     def remove_influence(self, data):
@@ -164,6 +166,7 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
     """
 
     def __init__(self, interval_size = 30, wa_shift = 0):
+        super().__init__()
         self._wa_shift = wa_shift
         self._interval_size = interval_size
 

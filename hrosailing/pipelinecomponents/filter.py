@@ -30,6 +30,8 @@ class Filter(ABC, ComponentWithStatistics):
     ----------------
     filter(self, wts)
     """
+    def __init__(self):
+        super().__init__()
 
     @abstractmethod
     def filter(self, wts):
@@ -97,6 +99,7 @@ class QuantileFilter(Filter):
     """
 
     def __init__(self, percent=50):
+        super().__init__()
         if percent < 0 or percent > 100:
             raise FilterInitializationException(
                 "`percent` is not between 0 and 100"
@@ -152,6 +155,7 @@ class BoundFilter(Filter):
     """
 
     def __init__(self, lower_bound=0.5, upper_bound=1):
+        super().__init__()
         if upper_bound < lower_bound:
             raise FilterInitializationException(
                 "`upper_bound` is smaller than `lower_bound`"

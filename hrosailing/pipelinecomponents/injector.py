@@ -22,6 +22,9 @@ class Injector(ABC, ComponentWithStatistics):
     ----------------
     inject(self, weighted_points)
     """
+    def __init__(self):
+        super().__init__()
+
     @abstractmethod
     def inject(self, weighted_points):
         """Method that should produce artificial weighted data points
@@ -51,6 +54,7 @@ class ZeroInjector(Injector):
     """
 
     def __init__(self, n_zeros):
+        super().__init__()
         self.n_zeros = n_zeros
 
     def inject(self, weighted_points):
