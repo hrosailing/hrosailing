@@ -305,10 +305,8 @@ class CylindricMeanWeigher(Weigher):
                 f"Invalid value for `radius`: {radius}. Non-positive number. Use a positive value for `radius`.")
 
         self._radius = radius
-        if norm is None:
-            self._norm = hrosailing_standard_scaled_euclidean_norm(dimensions)
-        else:
-            self._norm = norm
+
+        self._norm = norm
         self._dimensions = dimensions
 
     def __repr__(self):
@@ -934,6 +932,6 @@ def hrosailing_standard_scaled_euclidean_norm(dimensions):
         Defaults to `None`.
     """
     if dimensions is None:
-        return scaled_euclidean_norm
+        dimensions = ["TWS", "TWA"]
     scales = [NORM_SCALES[key] if key in NORM_SCALES else 1 for key in dimensions]
     return scaled_norm(euclidean_norm, scales)
