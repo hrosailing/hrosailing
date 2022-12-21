@@ -223,6 +223,7 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
         ]
         min_angle, _ = min(zip(sample, counts), key=lambda x: x[1])
         self._wa_shift = min_angle
+        self.set_statistics(wa_shift = min_angle)
 
 
 def _get_true_wind_data(data: dict):

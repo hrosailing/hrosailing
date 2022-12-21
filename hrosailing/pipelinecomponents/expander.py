@@ -38,6 +38,12 @@ class Expander(ABC, ComponentWithStatistics):
         """
         pass
 
+    def set_statistics(self, data):
+        super().set_statistics(
+            n_rows = data.n_rows,
+            n_cols = data.n_cols
+        )
+
 
 class LazyExpander(Expander):
     """
@@ -49,6 +55,7 @@ class LazyExpander(Expander):
         --------
         `Expander.expand`
         """
+        self.set_statistics(data)
         return data
 
 
@@ -88,6 +95,7 @@ class WeatherExpander(Expander):
 
         data.update(weather_data)
         data.hrosailing_standard_format()
+        self.set_statistics(data)
         return data
 
 
