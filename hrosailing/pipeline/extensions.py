@@ -11,15 +11,18 @@ import hrosailing.pipelinecomponents as pc
 import hrosailing.polardiagram as pol
 from hrosailing.pipelinecomponents.modelfunctions \
     import ws_s_wa_gauss_and_square
+from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 
 
-class PipelineExtension(ABC):
+class PipelineExtension(ABC, ComponentWithStatistics):
     """Base class for all pipeline extensions.
 
     Abstract Methods
     ----------------
     process(weighted_points)
     """
+    def __init__(self):
+        super().__init__()
 
     @abstractmethod
     def process(self, weighted_points):
@@ -68,6 +71,7 @@ class TableExtension(PipelineExtension):
         neighbourhood=pc.Ball(radius=1),
         interpolator=pc.ArithmeticMeanInterpolator(params=(50,)),
     ):
+        super().__init__()
         self.wind_resolution = wind_resolution
         self.neighbourhood = neighbourhood
         self.interpolator = interpolator
@@ -88,12 +92,10 @@ class TableExtension(PipelineExtension):
 
         Returns
         -------
-        polar_diagram, statistics : PolarDiagramTable, dict
+        polar_diagram : PolarDiagramTable, dict
             'polar_diagram' is a polar diagram that should represent the trends
-            captured in the raw data,
-            `statistics` is {}.
+            captured in the raw data.
         """
-        extension_stats = {}
         ws_resolution, wa_resolution = self._determine_table_size(
             weighted_points.data
         )
@@ -107,8 +109,7 @@ class TableExtension(PipelineExtension):
             interpolated_points, len(wa_resolution), len(ws_resolution)
         )
 
-        return pol.PolarDiagramTable(ws_resolution, wa_resolution, bsps), \
-               extension_stats
+        return pol.PolarDiagramTable(ws_resolution, wa_resolution, bsps)
 
     def _determine_table_size(self, points):
         from hrosailing.polardiagram._polardiagramtable import _Resolution
@@ -205,6 +206,7 @@ class CurveExtension(PipelineExtension):
         ),
         radians=False,
     ):
+        super().__init__()
         self.regressor = regressor
         self.radians = radians
 
@@ -220,12 +222,10 @@ class CurveExtension(PipelineExtension):
 
         Returns
         -------
-        pd, statistics : PolarDiagramCurve
+        pd : PolarDiagramCurve
             A polar diagram that should represent the trends captured
-            in the raw data,
-            `statistics` is {}.
+            in the raw data.
         """
-        extension_stats = {}
         if self._use_radians():
             _convert_angles_to_radians(weighted_points)
 
@@ -237,7 +237,7 @@ class CurveExtension(PipelineExtension):
             self.regressor.model_func,
             *self.regressor.optimal_params,
             radians=self.radians,
-        ), extension_stats
+        )
 
     def _use_radians(self):
         return self.radians
@@ -278,6 +278,7 @@ class PointcloudExtension(PipelineExtension):
         neighbourhood=pc.Ball(radius=1),
         interpolator=pc.ArithmeticMeanInterpolator(params=(50,)),
     ):
+        super().__init__()
         self.sampler = sampler
         self.neighbourhood = neighbourhood
         self.interpolator = interpolator
@@ -299,11 +300,10 @@ class PointcloudExtension(PipelineExtension):
 
         Returns
         -------
-        pd, statistics : PolarDiagramPointcloud, dict
+        pd: PolarDiagramPointcloud, dict
             A polar diagram that should represent the trends captured
-            in the raw data, `statistics` is {}.
+            in the raw data.
         """
-        extension_stats = {}
         sample_points = self.sampler.sample(weighted_points.data)
         interpolated_points = _interpolate_points(
             sample_points,
@@ -312,7 +312,7 @@ class PointcloudExtension(PipelineExtension):
             self.interpolator,
         )
 
-        return pol.PolarDiagramPointcloud(interpolated_points), extension_stats
+        return pol.PolarDiagramPointcloud(interpolated_points)
 
 
 class InterpolationWarning(Warning):

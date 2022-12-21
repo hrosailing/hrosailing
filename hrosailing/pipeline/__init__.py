@@ -310,8 +310,8 @@ class PolarPipeline:
 
         preproc_training_data.extend(pts_to_inject)
 
-        polar_diagram, extension_statistics = self.extension.process(
-            preproc_training_data
+        polar_diagram, extension_statistics = _collect(
+            self.extension, self.extension.process, preproc_training_data
         )
 
         if testing:
