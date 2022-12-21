@@ -14,7 +14,7 @@ from typing import Callable
 import numpy as np
 
 from ._utils import (
-    euclidean_norm, scaled_norm, data_dict_to_numpy, scaled_euclidean_norm, ComponentWithStatistics
+    euclidean_norm, scaled_norm, data_dict_to_numpy, scaled_euclidean_norm, ComponentWithStatistics, _safe_operation
 )
 
 from hrosailing.pipelinecomponents.data import Data
@@ -198,13 +198,13 @@ class Weigher(ABC, ComponentWithStatistics):
         weights : array_like of floats
             The weights to be analyzed.
         """
-        minw = np.min(weights)
-        span = np.max(weights) - minw
-        super().set_statistics(
-            average_weight= round(np.mean(weights), 4),
-            minimal_weight= round(minw, 4),
-            maximal_weight= round(np.max(weights), 4),
-            quantiles= [
+        minw = _safe_operation(np.min, weights)
+        maxw = _safe_operation(np.max, weights)
+        span = _safe_operation(lambda x: x[1] - x[0], [minw, maxw])
+
+        def get_quantiles(args):
+            minw, span = args
+            return [
                 round(
                     100 * len(
                         [w for w in weights if
@@ -214,6 +214,12 @@ class Weigher(ABC, ComponentWithStatistics):
                     2
                 ) for i in range(10)
             ]
+
+        super().set_statistics(
+            average_weight= _safe_operation(np.mean, weights),
+            minimal_weight= minw,
+            maximal_weight= maxw,
+            quantiles= _safe_operation(get_quantiles, [minw, span])
         )
 
 

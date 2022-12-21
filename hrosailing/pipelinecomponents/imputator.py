@@ -37,7 +37,7 @@ class Imputator(ABC, ComponentWithStatistics):
         super().set_statistics(
             n_removed_cols= n_removed_cols,
             n_removed_rows= n_removed_rows,
-            n_filled_fields= self._n_filled,
+            n_filled_fields= n_filled,
             n_rows= data_dict.n_rows,
             n_cols= data_dict.n_cols
         )

@@ -44,6 +44,13 @@ def data_dict_to_numpy(data_dict, keys):
     return np.column_stack([data_dict[key] for key in keys])
 
 
+def _safe_operation(operand, value):
+    try:
+        return operand(value)
+    except (ValueError, TypeError, IndexError, KeyError):
+        return None
+
+
 class ComponentWithStatistics:
     """
     Interface class for pipelinecomponents enabling to save and handle run statistics.

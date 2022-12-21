@@ -3,6 +3,8 @@ Contains the abstract base class `QualityAssurance` and some ready-to-use implem
 of a polar diagram against test data.
 """
 
+from hrosailing.pipelinecomponents._utils import _safe_operation
+
 from abc import ABC, abstractmethod
 
 import numpy as np
@@ -126,9 +128,3 @@ class ComformingQualityAssurance(QualityAssurance):
             "average_local_test_data_difference": _safe_operation(np.mean, [bsp_max - bsp_min for bsp_min, bsp_max in tested_tuples.values()])
         }
         return statistics
-
-def _safe_operation(operand, value):
-    try:
-        return operand(value)
-    except ValueError:
-        return None
