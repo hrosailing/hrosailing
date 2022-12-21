@@ -47,7 +47,7 @@ def data_dict_to_numpy(data_dict, keys):
 def _safe_operation(operand, value):
     try:
         return operand(value)
-    except (ValueError, TypeError, IndexError, KeyError):
+    except (ValueError, TypeError, IndexError, KeyError, ZeroDivisionError):
         return None
 
 
