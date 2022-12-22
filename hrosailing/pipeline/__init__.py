@@ -509,7 +509,7 @@ def _weigh_and_filter(
         weights, weigher_statistics = _collect(weigher, weigher.weigh, data)
     else:
         def_weigher = pc.AllOneWeigher()
-        _collect(def_weigher, def_weigher.weigh, data)
+        weights, weigher_statistics = _collect(def_weigher, def_weigher.weigh, data)
 
     weighed_data = pc.WeightedPoints(data, weights)
 
