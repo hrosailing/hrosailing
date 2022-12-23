@@ -27,7 +27,7 @@ class QualityAssurance(ABC):
         polar_diagram : PolarDiagram
 
         test_data : (n, 3)-array
-            The data to be tested against with columns refering to true wind speed, true wind angle and boat speed.
+            The data to be tested against with columns referring to true wind speed, true wind angle and boat speed.
 
         Returns
         --------
