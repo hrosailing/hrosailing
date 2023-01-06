@@ -216,9 +216,10 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
         `InfluenceModel.fit`
         """
         wind_angles = training_data["TWA"]
+        wind_speeds = training_data["TWS"]
         sample = np.linspace(0, 359, 10*360)
         counts = [
-            sum([np.exp(-(((wa - other_wa)%360)/self._interval_size)**2) for other_wa in wind_angles])
+            sum([other_ws*np.exp(-((abs(wa - other_wa)%360)/self._interval_size)**2) for other_wa, other_ws in zip(wind_angles, wind_speeds)])
             for wa in sample
         ]
         min_angle, _ = min(zip(sample, counts), key=lambda x: x[1])
