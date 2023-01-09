@@ -22,7 +22,9 @@ def scaled_euclidean_norm(vec):
     elif vec.shape[1] == 3:
         norm_val = scaled_norm(euclidean_norm, [1 / 40, 1 / 360, 1 / 20])(vec)
     else:
-        raise NotImplementedError("scaled_euclidean_norm only supports 2 and 3 dimensional inputs")
+        raise NotImplementedError(
+            "scaled_euclidean_norm only supports 2 and 3 dimensional inputs"
+        )
     return norm_val
 
 

@@ -212,7 +212,11 @@ class Weigher(ComponentWithStatistics, ABC):
                         [
                             w
                             for w in weights
-                            if (minw + span * (i + 1) / 10 >= w >= minw + span * i / 10)
+                            if (
+                                minw + span * (i + 1) / 10
+                                >= w
+                                >= minw + span * i / 10
+                            )
                         ]
                     )
                     / len(weights),

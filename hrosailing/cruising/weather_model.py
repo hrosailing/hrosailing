@@ -12,18 +12,21 @@ import numpy as np
 
 try:
     import netCDF4 as nc
+
     installed_netcdf = True
 except ModuleNotFoundError:
     installed_netcdf = False
 
 try:
     import pandas as pd
+
     installed_pandas = True
 except ModuleNotFoundError:
     installed_pandas = False
 
 try:
     import meteostat
+
     installed_meteostat = True
 except ModuleNotFoundError:
     installed_meteostat = False
@@ -334,10 +337,16 @@ class NetCDFWeatherModel(GriddedWeatherModel):
         further_indices=None,
     ):
         if not installed_netcdf:
-            raise ModuleNotFoundError("Install netCDF4 to use NetCDFWeatherModel")
+            raise ModuleNotFoundError(
+                "Install netCDF4 to use NetCDFWeatherModel"
+            )
 
         if aliases is None:
-            aliases = {"lat": "latitude", "lon": "longitude", "datetime": "time"}
+            aliases = {
+                "lat": "latitude",
+                "lon": "longitude",
+                "datetime": "time",
+            }
         if further_indices is None:
             further_indices = {}
 

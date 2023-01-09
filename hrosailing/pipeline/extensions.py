@@ -16,6 +16,7 @@ from hrosailing.pipelinecomponents.modelfunctions import (
 )
 from hrosailing.polardiagram._polardiagramtable import _Resolution
 
+
 class PipelineExtension(ComponentWithStatistics, ABC):
     """Base class for all pipeline extensions.
 

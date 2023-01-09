@@ -494,8 +494,7 @@ class PolarPipeline:
     def _list_statistics(pipe_output):
         data, *statistics = tuple(zip(*pipe_output))
         statistics = tuple(
-            dict(enumerate(statistic))
-            for statistic in statistics
+            dict(enumerate(statistic)) for statistic in statistics
         )
         return (list(data),) + statistics
 
