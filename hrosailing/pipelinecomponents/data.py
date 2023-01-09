@@ -84,7 +84,7 @@ class Data:
             if return_type is dict:
                 yield {key: self._data[key][i] for key in keys}
             elif return_type is tuple:
-                yield tuple([self._data[key][i] for key in keys])
+                yield (self._data[key][i] for key in keys)
             elif return_type is list:
                 yield [self._data[key][i] for key in keys]
             else:

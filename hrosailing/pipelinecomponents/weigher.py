@@ -159,7 +159,7 @@ class Weigher(ComponentWithStatistics, ABC):
     def __sub__(self, other):
         if isinstance(other, Weigher):
             return _BinaryMapWeigher(self, other, lambda x, y: x - y)
-        elif isinstance(other, np.ndarray):
+        if isinstance(other, np.ndarray):
             return _UnaryMapWeigher(self, lambda x: x - other)
 
     def __neg__(self):
@@ -174,7 +174,7 @@ class Weigher(ComponentWithStatistics, ABC):
     def __rtruediv__(self, other):
         if isinstance(other, Weigher):
             return _BinaryMapWeigher(self, other, lambda x, y: y / x)
-        elif isinstance(other, np.ndarray):
+        if isinstance(other, np.ndarray):
             return _UnaryMapWeigher(self, lambda x: other / x)
 
     def __pow__(self, power, modulo=None):
