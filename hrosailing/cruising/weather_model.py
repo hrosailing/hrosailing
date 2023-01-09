@@ -86,7 +86,15 @@ class GriddedWeatherModel(WeatherModel):
 
     @property
     def grid(self):
-        return self._times, self._lats, self._lons
+        return self._times, self._lats.copy(), self._lons.copy()
+
+    @property
+    def data(self):
+        return self._data.copy()
+
+    @property
+    def attrs(self):
+        return self._attrs
 
     def get_weather(self, point):
         """Given a space-time point, uses the available weather model
@@ -207,7 +215,10 @@ class GriddedWeatherModel(WeatherModel):
 class _GriddedWeatherModelEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, GriddedWeatherModel):
-            return [obj._data, obj._times, obj._lats, obj._lons, obj._attrs]
+            data = obj.data
+            times, lats, lons = obj.grid
+            attrs = data.attrs
+            return [data, times, lats, lons, attrs]
         if isinstance(obj, np.ndarray):
             return obj.tolist()
         if isinstance(obj, pd.Timestamp):
