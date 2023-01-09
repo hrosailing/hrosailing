@@ -22,7 +22,7 @@ class InfluenceException(Exception):
     """Raised when removing or adding influence does not work."""
 
 
-class InfluenceModel(ABC, ComponentWithStatistics):
+class InfluenceModel(ComponentWithStatistics, ABC):
     """Base class for all influence model classes.
 
 
@@ -34,9 +34,6 @@ class InfluenceModel(ABC, ComponentWithStatistics):
 
     fit(training_data)
     """
-
-    def __init__(self):
-        super().__init__()
 
     @abstractmethod
     def remove_influence(self, data):

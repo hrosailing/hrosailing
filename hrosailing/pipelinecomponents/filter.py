@@ -26,7 +26,7 @@ class FilterInitializationException(Exception):
     """
 
 
-class Filter(ABC, ComponentWithStatistics):
+class Filter(ComponentWithStatistics, ABC):
     """Base class for all filter classes.
 
 

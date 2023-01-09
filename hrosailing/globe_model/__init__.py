@@ -88,7 +88,6 @@ class GlobeModel(ABC):
             The distance of the projections of the points `start` and `end`
             in the globe model.
         """
-        pass
 
     @abstractmethod
     def shortest_projected_path(self, start, end, res=1000):

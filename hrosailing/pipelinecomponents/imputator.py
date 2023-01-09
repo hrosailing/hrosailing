@@ -9,7 +9,7 @@ from datetime import timedelta
 from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 
 
-class Imputator(ABC, ComponentWithStatistics):
+class Imputator(ComponentWithStatistics, ABC):
     """Base class for all imputator classes.
 
 
@@ -17,9 +17,6 @@ class Imputator(ABC, ComponentWithStatistics):
     ----------------
     impute(self, data)
     """
-
-    def __init__(self):
-        super().__init__()
 
     @abstractmethod
     def impute(self, data):
@@ -145,7 +142,7 @@ class FillLocalImputator(Imputator):
         for i, dt in enumerate(data_dict["datetime"]):
             if dt is None:
                 continue
-            elif last_dt is None:
+            if last_dt is None:
                 pass
             elif abs(dt - last_dt) > self._max_time_diff:
                 continue

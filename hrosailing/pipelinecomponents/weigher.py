@@ -116,7 +116,7 @@ class WeightedPoints:
         self.weights = np.concatenate([self.weights, other.weights])
 
 
-class Weigher(ABC, ComponentWithStatistics):
+class Weigher(ComponentWithStatistics, ABC):
     """Base class for all weigher classes.
     Basic arithmetic operations may be performed among weighers.
 
@@ -125,9 +125,6 @@ class Weigher(ABC, ComponentWithStatistics):
     ----------------
     weigh(self, points)
     """
-
-    def __init__(self):
-        super().__init__()
 
     @abstractmethod
     def weigh(self, points) -> (np.ndarray, dict):
@@ -171,7 +168,7 @@ class Weigher(ABC, ComponentWithStatistics):
     def __truediv__(self, other):
         if isinstance(other, Weigher):
             return _BinaryMapWeigher(self, other, lambda x, y: x / y)
-        elif isinstance(other, (int, float, np.ndarray)):
+        if isinstance(other, (int, float, np.ndarray)):
             return _UnaryMapWeigher(self, lambda x: x / other)
 
     def __rtruediv__(self, other):
@@ -677,8 +674,6 @@ def _set_points_from_data(data, dimensions, reduce=True):
 
     if dimensions is None:
         dimensions = list(data.keys()) or list(data.keys)
-    else:
-        dimensions = dimensions
 
     if reduce:
         if "BSP" in dimensions:

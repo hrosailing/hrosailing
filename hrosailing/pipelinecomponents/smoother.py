@@ -13,13 +13,10 @@ from abc import ABC, abstractmethod
 from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 
 
-class Smoother(ABC, ComponentWithStatistics):
+class Smoother(ComponentWithStatistics, ABC):
     """
     Base class for all smoothers aimed to smoothen measurement errors in given data.
     """
-
-    def __init__(self):
-        super().__init__()
 
     @abstractmethod
     def smooth(self, data):

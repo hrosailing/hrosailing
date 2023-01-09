@@ -16,16 +16,13 @@ from hrosailing.pipelinecomponents.modelfunctions import (
 )
 
 
-class PipelineExtension(ABC, ComponentWithStatistics):
+class PipelineExtension(ComponentWithStatistics, ABC):
     """Base class for all pipeline extensions.
 
     Abstract Methods
     ----------------
     process(weighted_points)
     """
-
-    def __init__(self):
-        super().__init__()
 
     @abstractmethod
     def process(self, weighted_points):

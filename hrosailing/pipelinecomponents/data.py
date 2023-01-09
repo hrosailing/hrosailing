@@ -457,7 +457,7 @@ class Data:
             key: value for key, value in self._types.items() if key in slice
         }
         try:
-            max_len = max([len(field) for field in data.values()])
+            max_len = max(len(field) for field in data.values())
         except ValueError:
             max_len = 0
         return Data._force_set(data, types, max_len)

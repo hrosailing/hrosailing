@@ -18,11 +18,8 @@ from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 from hrosailing.pipelinecomponents.data import Data
 
 
-class Expander(ABC, ComponentWithStatistics):
+class Expander(ComponentWithStatistics, ABC):
     """Base class for all expander classes."""
-
-    def __init__(self):
-        super(ComponentWithStatistics, self).__init__()
 
     @abstractmethod
     def expand(self, data):

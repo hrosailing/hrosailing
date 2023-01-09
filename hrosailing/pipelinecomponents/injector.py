@@ -14,7 +14,7 @@ import hrosailing.pipelinecomponents as pc
 from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 
 
-class Injector(ABC, ComponentWithStatistics):
+class Injector(ComponentWithStatistics, ABC):
     """
     Base class for all injector classes.
 
@@ -22,9 +22,6 @@ class Injector(ABC, ComponentWithStatistics):
     ----------------
     inject(self, weighted_points)
     """
-
-    def __init__(self):
-        super().__init__()
 
     @abstractmethod
     def inject(self, weighted_points):

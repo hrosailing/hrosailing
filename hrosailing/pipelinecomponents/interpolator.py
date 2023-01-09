@@ -37,9 +37,6 @@ class Interpolator(ABC):
     interpolate(self, w_pts, grid_pt)
     """
 
-    def __init__(self):
-        super().__init__()
-
     @abstractmethod
     def interpolate(self, w_pts, grid_pt):
         """This method should be used, given a point `grid_pt` and an
