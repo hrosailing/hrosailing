@@ -165,29 +165,43 @@ class PolarPipeline:
         resulting polar diagram using preprocessed test_data.
     """
 
-    def __init__(
-        self,
-        **custom_components
-    ):
+    def __init__(self, **custom_components):
         keys = [
-            "data_handler", "imputator", "smoother", "pre_expander_weigher", "pre_expander_filter", "expander",
-            "pre_influence_weigher", "pre_influence_filter", "influence_model", "post_weigher", "post_filter",
-            "injector", "extension", "quality_assurance"
+            "data_handler",
+            "imputator",
+            "smoother",
+            "pre_expander_weigher",
+            "pre_expander_filter",
+            "expander",
+            "pre_influence_weigher",
+            "pre_influence_filter",
+            "influence_model",
+            "post_weigher",
+            "post_filter",
+            "injector",
+            "extension",
+            "quality_assurance",
         ]
         defaults = [
-            pc.NMEAFileHandler(), pc.FillLocalImputator(), pc.LazySmoother(), pc.CylindricMeanWeigher(),
-            pc.QuantileFilter(), pc.LazyExpander(), pc.CylindricMeanWeigher(), pc.QuantileFilter(),
-            pc.IdentityInfluenceModel(), pc.CylindricMeanWeigher(), pc.QuantileFilter(), pc.ZeroInjector(500),
-            TableExtension(), pc.MinimalQualityAssurance(),
+            pc.NMEAFileHandler(),
+            pc.FillLocalImputator(),
+            pc.LazySmoother(),
+            pc.CylindricMeanWeigher(),
+            pc.QuantileFilter(),
+            pc.LazyExpander(),
+            pc.CylindricMeanWeigher(),
+            pc.QuantileFilter(),
+            pc.IdentityInfluenceModel(),
+            pc.CylindricMeanWeigher(),
+            pc.QuantileFilter(),
+            pc.ZeroInjector(500),
+            TableExtension(),
+            pc.MinimalQualityAssurance(),
         ]
         self._set_with_default(custom_components, keys, defaults)
 
     def __call__(
-        self,
-        training_data,
-        test_data=None,
-        apparent_wind=False,
-        **enabling
+        self, training_data, test_data=None, apparent_wind=False, **enabling
     ):
         """
         Parameters
@@ -273,10 +287,17 @@ class PolarPipeline:
         out : PipelineOutput
         """
         keys = [
-            "smoothing", "pre_expander_weighing", "pre_expander_filtering", "pre_influence_weighing",
-            "pre_influence_filtering", "post_weighing", "post_filtering", "injecting", "testing"
+            "smoothing",
+            "pre_expander_weighing",
+            "pre_expander_filtering",
+            "pre_influence_weighing",
+            "pre_influence_filtering",
+            "post_weighing",
+            "post_filtering",
+            "injecting",
+            "testing",
         ]
-        defaults = [True]*len(keys)
+        defaults = [True] * len(keys)
 
         self._set_with_default(enabling, keys, defaults)
 
@@ -337,11 +358,7 @@ class PolarPipeline:
             polar_diagram, training_statistics, test_statistics
         )
 
-    def _preprocess(
-        self,
-        data,
-        influence_fitting
-    ):
+    def _preprocess(self, data, influence_fitting):
 
         handled_data, handler_statistics = self._handle_data(data)
 
