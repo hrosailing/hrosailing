@@ -221,10 +221,7 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
             sum(
                 other_ws
                 * np.exp(
-                    -(
-                        ((abs(wa - other_wa) % 360) / self._interval_size)
-                        ** 2
-                    )
+                    -(((abs(wa - other_wa) % 360) / self._interval_size) ** 2)
                 )
                 for other_wa, other_ws in zip(wind_angles, wind_speeds)
             )

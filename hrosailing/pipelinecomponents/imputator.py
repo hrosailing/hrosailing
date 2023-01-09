@@ -162,9 +162,7 @@ class FillLocalImputator(Imputator):
 
         # indices of not None values
         idx_dict = {
-            key: [
-                i for i, data in enumerate(data[key]) if data is not None
-            ]
+            key: [i for i, data in enumerate(data[key]) if data is not None]
             for key in data.keys()
         }
 

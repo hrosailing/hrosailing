@@ -10,9 +10,7 @@ Also contains predefined and usable expanders:
 
 from abc import ABC, abstractmethod
 
-from hrosailing.cruising.weather_model import (
-    OutsideGridException,
-)
+from hrosailing.cruising.weather_model import OutsideGridException
 from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 from hrosailing.pipelinecomponents.data import Data
 

@@ -14,9 +14,7 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from hrosailing.pipelinecomponents._utils import (
-    ComponentWithStatistics,
-)
+from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 
 
 class FilterInitializationException(Exception):
