@@ -3,7 +3,6 @@ This Module contains the abstract base class and inheriting classes for the
 handling of weather information.
 """
 
-import itertools
 import json
 from abc import ABC, abstractmethod
 from bisect import bisect_left
