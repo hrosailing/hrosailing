@@ -224,6 +224,7 @@ class NMEAFileHandler(DataHandler):
         unwanted_attributes=None,
         post_filter_types=(float, date, time, datetime),
     ):
+        super().__init__()
         if wanted_sentences is not None:
             self._sentence_filter = lambda line: any(
                 sentence in line for sentence in wanted_sentences

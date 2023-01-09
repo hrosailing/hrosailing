@@ -307,11 +307,11 @@ class Data:
                 self._max_len - 1
             )  # first index BEFORE tailing None rows
             while all(
-                self[key][end_leading_nones] is None for key in self.keys()
+                value[end_leading_nones] is None for key, value in self._data.items()
             ):
                 end_leading_nones += 1
             while all(
-                self[key][start_tailing_nones] is None for key in self.keys()
+                value[start_tailing_nones] is None for key, value in self._data.items()
             ):
                 start_tailing_nones -= 1
             self._data = {

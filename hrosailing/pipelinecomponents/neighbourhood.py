@@ -14,7 +14,6 @@ from abc import ABC, abstractmethod
 from typing import Callable
 
 import numpy as np
-from scipy.spatial import ConvexHull
 
 from ._utils import scaled_euclidean_norm
 

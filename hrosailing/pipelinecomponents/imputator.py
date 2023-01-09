@@ -148,7 +148,7 @@ class FillLocalImputator(Imputator):
         remove_rows = [
             i
             for i, _ in enumerate(data["datetime"])
-            if any([data[key][i] is None for key in data.keys()])
+            if any(data[key][i] is None for key in data.keys())
         ]
 
         data.delete(remove_rows)
