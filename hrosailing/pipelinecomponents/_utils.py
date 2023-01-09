@@ -59,7 +59,7 @@ class ComponentWithStatistics:
     def __init__(self):
         self._statistics = {}
 
-    def set_statistics(self, *args, **kwargs):
+    def set_statistics(self, **kwargs):
         """
         Sets the statistics dict corresponding to the keyword arguments.
         Supposed to be overwritten by inheriting classes with stronger requirements.

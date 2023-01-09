@@ -83,7 +83,7 @@ class PolarPipeline:
     Parameters
     ----------
 
-    data_handler : DataHandler or list of DataHandler
+    data_handler : DataHandler or list of DataHandler, optional
         Handlers that are responsible to extract actual data from the input.
         If only one handler is given, this handler will be used for all given inputs,
         otherwise the handlers will be used one after another for each data input including the training data.
