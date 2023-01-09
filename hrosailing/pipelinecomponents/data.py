@@ -1,10 +1,10 @@
 """Contains the class `Data` which is an output of several pipeline components.
 """
 
-import numpy as np
 from datetime import datetime
-
 from decimal import Decimal
+
+import numpy as np
 
 from hrosailing.pipelinecomponents.constants import KEYSYNONYMS, SEPARATORS
 
@@ -110,9 +110,7 @@ class Data:
         filtered_keys = [
             key for key in self.keys() if self._types[key] == type_
         ]
-        return filtered_keys, [
-            self._data[key] for key in filtered_keys
-        ]
+        return filtered_keys, [self._data[key] for key in filtered_keys]
 
     def type(self, key):
         """
@@ -245,7 +243,8 @@ class Data:
             return
         if new_key in self.keys():
             raise ValueError(
-                f"Can not rename {old_key} to {new_key} since {new_key} already exists"
+                f"Can not rename {old_key} to {new_key} since"
+                f" {new_key} already exists"
             )
 
         self._data[new_key] = self._data[old_key]
@@ -274,12 +273,13 @@ class Data:
                 for k in key:
                     self.delete(k)
             if isinstance(key[0], int):
-                self._data = {k: [v for i, v in enumerate(value)
-                                  if i not in key]
-                              for k, value in self._data.items()}
+                self._data = {
+                    k: [v for i, v in enumerate(value) if i not in key]
+                    for k, value in self._data.items()
+                }
                 self._max_len -= len(key)
 
-    def strip(self, mode = "all"):
+    def strip(self, mode="all"):
         """
         Removes either columns that only consist of `None` values or leading and tailing rows consisting only of `None`
         values.
@@ -292,28 +292,40 @@ class Data:
             Defaults to "all"
         """
         if mode == "cols":
-            self._data = {key: value for key, value in self._data.items()
-                          if not all([v is None for v in value])}
+            self._data = {
+                key: value
+                for key, value in self._data.items()
+                if not all([v is None for v in value])
+            }
         elif mode == "rows":
             end_leading_nones = 0  # first index AFTER leading None rows
-            start_tailing_nones = self._max_len - 1  # first index BEFORE tailing None rows
-            while all([self[key][end_leading_nones] is None for key in self.keys()]):
+            start_tailing_nones = (
+                self._max_len - 1
+            )  # first index BEFORE tailing None rows
+            while all(
+                [self[key][end_leading_nones] is None for key in self.keys()]
+            ):
                 end_leading_nones += 1
-            while all([self[key][start_tailing_nones] is None for key in self.keys()]):
+            while all(
+                [self[key][start_tailing_nones] is None for key in self.keys()]
+            ):
                 start_tailing_nones -= 1
-            self._data = {key: value[end_leading_nones:start_tailing_nones + 1] for key, value in self._data.items()}
+            self._data = {
+                key: value[end_leading_nones : start_tailing_nones + 1]
+                for key, value in self._data.items()
+            }
         elif mode == "all":
             self.strip("cols")
             self.strip("rows")
 
     def hrosailing_standard_format(self):
         """
-            Reformats data into the `hrosailing` standard format.
+        Reformats data into the `hrosailing` standard format.
 
-            This means:
-                - the dictionary has `hrosailing` standard keys whenever possible,
-                - date and time fields will be aggregated to datetime,
-                - tries to cast entries to `float` whenever possible.
+        This means:
+            - the dictionary has `hrosailing` standard keys whenever possible,
+            - date and time fields will be aggregated to datetime,
+            - tries to cast entries to `float` whenever possible.
         """
 
         def get_standard_key(key):
@@ -342,6 +354,7 @@ class Data:
             self.rename(key, new_key)
 
         if "time" in self and "date" in self:
+
             def combine(date, time):
                 if date is None or time is None:
                     return None
@@ -352,9 +365,8 @@ class Data:
                 "datetime",
                 [
                     combine(date, time)
-                    for date, time in
-                    zip(self["date"], self["time"])
-                ]
+                    for date, time in zip(self["date"], self["time"])
+                ],
             )
             self.delete("date")
             self.delete("time")
@@ -377,7 +389,7 @@ class Data:
                 continue
             if type(entry) != curr_type:
                 raise ValueError(
-                    f"Data has no consistent type."
+                    "Data has no consistent type."
                     f"Found the types {type(entry)} and {curr_type}"
                 )
         return curr_type
@@ -460,7 +472,8 @@ class Data:
         """
 
         data = {
-            key: list(np.array(value)[mask]) for key, value in self._data.items()
+            key: list(np.array(value)[mask])
+            for key, value in self._data.items()
         }
         try:
             max_len = max([len(field) for field in data.values()])
@@ -482,7 +495,10 @@ class Data:
             return self.mask_rows(item)
         if type_ is str:
             return self.get_slice(item)
-        raise TypeError(f"Only types `int`, `str` and iterables over `bool`, `numpy.bool_` or `str` are supported")
+        raise TypeError(
+            f"Only types `int`, `str` and iterables over `bool`, `numpy.bool_`"
+            f" or `str` are supported"
+        )
 
     def __contains__(self, item):
         return item in self._data
@@ -498,7 +514,11 @@ class Data:
             if len(self._data[key]) < 10:
                 str_ += str(self._data[key])
             else:
-                str_ += f"[{','.join([str(item) for item in self._data[key][:5]])}, ... ,{','.join([str(item) for item in self._data[key][-5:]])}]"
+                str_ += (
+                    f"[{','.join([str(item) for item in self._data[key][:5]])},"
+                    " ..."
+                    f" ,{','.join([str(item) for item in self._data[key][-5:]])}]"
+                )
             str_ += "\n"
 
         return str_

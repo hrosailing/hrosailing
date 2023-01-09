@@ -8,13 +8,14 @@ Subclasses of `InfluenceModel` can be used with
 - various functions in the `hrosailing.cruising` module.
 """
 
-from ._utils import data_dict_to_numpy
-from hrosailing.wind import convert_apparent_wind_to_true
-from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
-
 from abc import ABC, abstractmethod
 
 import numpy as np
+
+from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
+from hrosailing.wind import convert_apparent_wind_to_true
+
+from ._utils import data_dict_to_numpy
 
 
 class InfluenceException(Exception):
@@ -33,6 +34,7 @@ class InfluenceModel(ABC, ComponentWithStatistics):
 
     fit(training_data)
     """
+
     def __init__(self):
         super().__init__()
 
@@ -165,7 +167,7 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
         Defaults to 30.
     """
 
-    def __init__(self, interval_size = 30, wa_shift = 0):
+    def __init__(self, interval_size=30, wa_shift=0):
         super().__init__()
         self._wa_shift = wa_shift
         self._interval_size = interval_size
@@ -180,7 +182,7 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
         """
         wind_data = _get_true_wind_data(data)
         wa = wind_data[:, 1]
-        wind_data[:, 1] = (wa - self._wa_shift)%360
+        wind_data[:, 1] = (wa - self._wa_shift) % 360
         return wind_data
 
     def add_influence(self, pd, influence_data):
@@ -194,7 +196,7 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
         """
         if isinstance(influence_data["TWS"], (list, np.ndarray)):
             wind = zip(influence_data["TWS"], influence_data["TWA"])
-            speed = [pd(ws, (wa + self._wa_shift)%360) for ws, wa in wind]
+            speed = [pd(ws, (wa + self._wa_shift) % 360) for ws, wa in wind]
         else:
             ws, wa = influence_data["TWS"], influence_data["TWA"]
             speed = pd(ws, wa)
@@ -217,14 +219,25 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
         """
         wind_angles = training_data["TWA"]
         wind_speeds = training_data["TWS"]
-        sample = np.linspace(0, 359, 10*360)
+        sample = np.linspace(0, 359, 10 * 360)
         counts = [
-            sum([other_ws*np.exp(-((abs(wa - other_wa)%360)/self._interval_size)**2) for other_wa, other_ws in zip(wind_angles, wind_speeds)])
+            sum(
+                [
+                    other_ws
+                    * np.exp(
+                        -(
+                            ((abs(wa - other_wa) % 360) / self._interval_size)
+                            ** 2
+                        )
+                    )
+                    for other_wa, other_ws in zip(wind_angles, wind_speeds)
+                ]
+            )
             for wa in sample
         ]
         min_angle, _ = min(zip(sample, counts), key=lambda x: x[1])
         self._wa_shift = min_angle
-        self.set_statistics(wa_shift = min_angle)
+        self.set_statistics(wa_shift=min_angle)
 
 
 def _get_true_wind_data(data: dict):

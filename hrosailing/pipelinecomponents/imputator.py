@@ -17,6 +17,7 @@ class Imputator(ABC, ComponentWithStatistics):
     ----------------
     impute(self, data)
     """
+
     def __init__(self):
         super().__init__()
 
@@ -32,14 +33,16 @@ class Imputator(ABC, ComponentWithStatistics):
             Data to be imputed.
         """
 
-    def set_statistics(self, n_removed_cols, n_removed_rows, n_filled, data_dict):
+    def set_statistics(
+        self, n_removed_cols, n_removed_rows, n_filled, data_dict
+    ):
 
         super().set_statistics(
-            n_removed_cols= n_removed_cols,
-            n_removed_rows= n_removed_rows,
-            n_filled_fields= n_filled,
-            n_rows= data_dict.n_rows,
-            n_cols= data_dict.n_cols
+            n_removed_cols=n_removed_cols,
+            n_removed_rows=n_removed_rows,
+            n_filled_fields=n_filled,
+            n_rows=data_dict.n_rows,
+            n_cols=data_dict.n_cols,
         )
 
 
@@ -105,21 +108,20 @@ class FillLocalImputator(Imputator):
         fill_before=lambda name, right, mu: right,
         fill_between=lambda name, left, right, mu: left,
         fill_after=lambda name, left, mu: left,
-        max_time_diff=timedelta(minutes=2)
+        max_time_diff=timedelta(minutes=2),
     ):
         super().__init__()
-        self._fill_before = \
-            lambda name, left, right, mu: fill_before(name, right, mu)
+        self._fill_before = lambda name, left, right, mu: fill_before(
+            name, right, mu
+        )
         self._fill_between = fill_between
-        self._fill_after = \
-            lambda name, left, right, mu: fill_after(name, left, mu)
+        self._fill_after = lambda name, left, right, mu: fill_after(
+            name, left, mu
+        )
         self._max_time_diff = max_time_diff
         self._n_filled = 0
 
-    def impute(
-        self,
-        data_dict
-    ):
+    def impute(self, data_dict):
         """
         Creates a dictionary that does not contain `None` values by the procedure
         described above.
@@ -149,13 +151,12 @@ class FillLocalImputator(Imputator):
                 continue
             else:
                 # linear approximation of time in between
-                for j in range(last_i+1, i):
-                    mu = (j - last_i)/(i - last_i)
-                    data_dict["datetime"][j] = last_dt + mu*(dt - last_dt)
+                for j in range(last_i + 1, i):
+                    mu = (j - last_i) / (i - last_i)
+                    data_dict["datetime"][j] = last_dt + mu * (dt - last_dt)
             last_dt, last_i = dt, i
         remove_rows = [
-            i for i, dt in enumerate(data_dict["datetime"])
-            if dt is None
+            i for i, dt in enumerate(data_dict["datetime"]) if dt is None
         ]
         data_dict.delete(remove_rows)
 
@@ -163,8 +164,9 @@ class FillLocalImputator(Imputator):
 
         # indices of not None values
         idx_dict = {
-            key: [i for i, data in enumerate(data_dict[key]) if
-                  data is not None]
+            key: [
+                i for i, data in enumerate(data_dict[key]) if data is not None
+            ]
             for key in data_dict.keys()
         }
 
@@ -178,8 +180,12 @@ class FillLocalImputator(Imputator):
             if idx[0] > 0:
                 try:
                     start_idx = min(
-                        [i for i in range(idx[0])
-                         if datetime[idx[0]] - datetime[i] < self._max_time_diff]
+                        [
+                            i
+                            for i in range(idx[0])
+                            if datetime[idx[0]] - datetime[i]
+                            < self._max_time_diff
+                        ]
                     )  # first idx in time interval
                 except ValueError:
                     continue
@@ -190,7 +196,7 @@ class FillLocalImputator(Imputator):
                     key,
                     start_idx,
                     idx[0],
-                    self._fill_before
+                    self._fill_before,
                 )
 
             # convex interpolation of entries between non-None entries
@@ -204,13 +210,15 @@ class FillLocalImputator(Imputator):
                         key,
                         idx1,
                         idx2,
-                        self._fill_between
+                        self._fill_between,
                     )
                 else:
                     # fill data according to fill_before and fill_after
-                    near_points = \
-                        [i for i in range(idx1 + 1, idx2)
-                         if datetime[i] - datetime[idx1] < self._max_time_diff]
+                    near_points = [
+                        i
+                        for i in range(idx1 + 1, idx2)
+                        if datetime[i] - datetime[idx1] < self._max_time_diff
+                    ]
                     if len(near_points) > 0:
                         last_idx_right = max(near_points)
                         self._fill_range(
@@ -219,11 +227,13 @@ class FillLocalImputator(Imputator):
                             key,
                             idx1,
                             last_idx_right,
-                            self._fill_after
+                            self._fill_after,
                         )
-                    near_points = \
-                        [i for i in range(idx1 + 1, idx2)
-                         if datetime[idx2] - datetime[i] < self._max_time_diff]
+                    near_points = [
+                        i
+                        for i in range(idx1 + 1, idx2)
+                        if datetime[idx2] - datetime[i] < self._max_time_diff
+                    ]
                     if len(near_points) > 0:
                         first_idx_left = min(near_points)
                         self._fill_range(
@@ -232,28 +242,32 @@ class FillLocalImputator(Imputator):
                             key,
                             first_idx_left,
                             idx2,
-                            self._fill_before
+                            self._fill_before,
                         )
 
             # fill last entries according to 'fill_after'
-            near_points = \
-                [i for i in range(idx[0])
-                 if datetime[idx[0]] - datetime[i] < self._max_time_diff]
+            near_points = [
+                i
+                for i in range(idx[0])
+                if datetime[idx[0]] - datetime[i] < self._max_time_diff
+            ]
             if len(near_points) > 0:
-                end_idx = min(near_points) # first idx in time interval
+                end_idx = min(near_points)  # first idx in time interval
                 self._fill_range(
                     data_dict,
                     datetime,
                     key,
                     start_idx,
                     end_idx,
-                    self._fill_after
-            )
+                    self._fill_after,
+                )
 
         # remove rows which still have None values
-        remove_rows = [i for i, _ in enumerate(data_dict["datetime"])
-                       if any([data_dict[key][i] is None
-                               for key in data_dict.keys()])]
+        remove_rows = [
+            i
+            for i, _ in enumerate(data_dict["datetime"])
+            if any([data_dict[key][i] is None for key in data_dict.keys()])
+        ]
 
         data_dict.delete(remove_rows)
         n_removed_rows += len(remove_rows)
@@ -265,20 +279,14 @@ class FillLocalImputator(Imputator):
         return data_dict
 
     def _fill_range(
-            self,
-            data_dict,
-            datetime,
-            key,
-            start_idx,
-            end_idx,
-            fill_fun
+        self, data_dict, datetime, key, start_idx, end_idx, fill_fun
     ):
         left = data_dict[key][start_idx]
         right = data_dict[key][end_idx]
         for i in range(start_idx + 1, end_idx):
-            duration = (datetime[end_idx] - datetime[start_idx])
+            duration = datetime[end_idx] - datetime[start_idx]
             try:
-                mu = (datetime[i] - datetime[start_idx])/duration
+                mu = (datetime[i] - datetime[start_idx]) / duration
             except ZeroDivisionError:
                 mu = 0
             data_dict[key][i] = fill_fun(key, left, right, mu)

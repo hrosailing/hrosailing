@@ -16,14 +16,14 @@ in the `hrosailing.pipeline` module.
 import csv
 from abc import ABC, abstractmethod
 from ast import literal_eval
-from datetime import date, time, datetime
+from datetime import date, datetime, time
 
 import numpy as np
 
 import hrosailing.pipelinecomponents.data
-from hrosailing.pipelinecomponents.data import Data
-from hrosailing.pipelinecomponents.constants import HROSAILING_TO_NMEA
 from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
+from hrosailing.pipelinecomponents.constants import HROSAILING_TO_NMEA
+from hrosailing.pipelinecomponents.data import Data
 
 
 class HandlerInitializationException(Exception):
@@ -77,15 +77,11 @@ class DataHandler(ABC, ComponentWithStatistics):
         ----------
         data : Data
         """
-        super().set_statistics(
-            n_rows= data.n_rows,
-            n_cols= data.n_cols
-        )
+        super().set_statistics(n_rows=data.n_rows, n_cols=data.n_cols)
 
 
 class ArrayHandler(DataHandler):
-    """A data handler to interpret data given as an array-type.
-    """
+    """A data handler to interpret data given as an array-type."""
 
     # ArrayHandler usable even if pandas is not installed.
     try:
@@ -225,21 +221,21 @@ class NMEAFileHandler(DataHandler):
     """
 
     def __init__(
-            self,
-            wanted_sentences=None,
-            wanted_attributes=None,
-            unwanted_sentences=None,
-            unwanted_attributes=None,
-            post_filter_types=(float, date, time, datetime)
+        self,
+        wanted_sentences=None,
+        wanted_attributes=None,
+        unwanted_sentences=None,
+        unwanted_attributes=None,
+        post_filter_types=(float, date, time, datetime),
     ):
         if wanted_sentences is not None:
             self._sentence_filter = lambda line: any(
-                    sentence in line for sentence in wanted_sentences
-                )
+                sentence in line for sentence in wanted_sentences
+            )
         elif unwanted_sentences is not None:
             self._sentence_filter = lambda line: all(
-                    sentence not in line for sentence in unwanted_sentences
-                )
+                sentence not in line for sentence in unwanted_sentences
+            )
         else:
             self._sentence_filter = lambda line: True
 
@@ -252,14 +248,12 @@ class NMEAFileHandler(DataHandler):
                     wanted_nmea_attributes.append(key)
 
             self._attribute_filter = lambda field: any(
-                field[0] == attribute
-                for attribute in wanted_nmea_attributes
-                )
+                field[0] == attribute for attribute in wanted_nmea_attributes
+            )
         elif unwanted_attributes is not None:
             self._attribute_filter = lambda field: all(
-                field[0] != attribute
-                for attribute in unwanted_attributes
-                )
+                field[0] != attribute for attribute in unwanted_attributes
+            )
         else:
             self._attribute_filter = lambda field: True
 
@@ -316,7 +310,11 @@ class NMEAFileHandler(DataHandler):
         return comp_data
 
     def _postprocess(self, parsed_sentence):
-        if "Wind angle" in parsed_sentence and "Reference" in parsed_sentence and "Wind speed" in parsed_sentence:
+        if (
+            "Wind angle" in parsed_sentence
+            and "Reference" in parsed_sentence
+            and "Wind speed" in parsed_sentence
+        ):
             wind_angle = parsed_sentence["Wind angle"]
             wind_speed = parsed_sentence["Wind speed"]
             reference = parsed_sentence["Reference"]
@@ -342,14 +340,16 @@ class NMEAFileHandler(DataHandler):
         if "Timestamp" in parsed_sentence:
             timestr = parsed_sentence["Timestamp"]
             if isinstance(timestr, str):
-                parsed_sentence["Timestamp"] = self._time_from_nmea_format(timestr)
+                parsed_sentence["Timestamp"] = self._time_from_nmea_format(
+                    timestr
+                )
         return parsed_sentence
 
     def _from_nmea_format(self, value):
         value = float(value)
-        degrees = int(value/100)
-        minutes = value - 100*degrees
-        return degrees + minutes/60
+        degrees = int(value / 100)
+        minutes = value - 100 * degrees
+        return degrees + minutes / 60
 
     def _time_from_nmea_format(self, timestr):
         hours = int(timestr[0:2])
@@ -357,14 +357,14 @@ class NMEAFileHandler(DataHandler):
         seconds = int(timestr[4:6])
         microseconds = int(timestr.split(".")[1])
         if seconds >= 60:
-            minutes += seconds//60
+            minutes += seconds // 60
             seconds %= 60
         if minutes >= 60:
-            hours += minutes//60
+            hours += minutes // 60
             minutes %= 60
         return time(
             hour=hours,
             minute=minutes,
             second=seconds,
-            microsecond=microseconds
+            microsecond=microseconds,
         )

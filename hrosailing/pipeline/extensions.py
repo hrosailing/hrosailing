@@ -3,15 +3,17 @@ Contains the abstract base class `PipelineExtension` and some ready-to-use imple
 Pipeline extensions should take preprocessed data and use it to create polar diagrams.
 """
 
-from abc import ABC, abstractmethod
-import numpy as np
 import warnings
+from abc import ABC, abstractmethod
+
+import numpy as np
 
 import hrosailing.pipelinecomponents as pc
 import hrosailing.polardiagram as pol
-from hrosailing.pipelinecomponents.modelfunctions \
-    import ws_s_wa_gauss_and_square
 from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
+from hrosailing.pipelinecomponents.modelfunctions import (
+    ws_s_wa_gauss_and_square,
+)
 
 
 class PipelineExtension(ABC, ComponentWithStatistics):
@@ -21,6 +23,7 @@ class PipelineExtension(ABC, ComponentWithStatistics):
     ----------------
     process(weighted_points)
     """
+
     def __init__(self):
         super().__init__()
 
@@ -125,7 +128,7 @@ class TableExtension(PipelineExtension):
         ws_resolution, wa_resolution = self.wind_resolution
         return (
             _Resolution.WIND_SPEED.set_resolution(ws_resolution),
-            _Resolution.WIND_ANGLE.set_resolution(wa_resolution)
+            _Resolution.WIND_ANGLE.set_resolution(wa_resolution),
         )
 
 
@@ -229,9 +232,7 @@ class CurveExtension(PipelineExtension):
         if self._use_radians():
             _convert_angles_to_radians(weighted_points)
 
-        self.regressor.fit(
-            weighted_points.data
-        )
+        self.regressor.fit(weighted_points.data)
 
         return pol.PolarDiagramCurve(
             self.regressor.model_func,
@@ -339,9 +340,11 @@ def _interpolate_point(point, weighted_points, neighbourhood, interpolator):
 
     if _neighbourhood_too_small(considered):
         warnings.warn(
-            "Neighbourhood possibly to `small`, or"
-            "chosen resolution not fitting for data. "
-            "Interpolation will not lead to complete results",
+            (
+                "Neighbourhood possibly to `small`, or"
+                "chosen resolution not fitting for data. "
+                "Interpolation will not lead to complete results"
+            ),
             category=InterpolationWarning,
         )
         return np.concatenate([point, [0]])

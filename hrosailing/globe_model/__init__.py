@@ -5,6 +5,7 @@ globe using latitude/longitude coordinates.
 """
 
 from abc import ABC, abstractmethod
+
 import numpy as np
 
 
@@ -159,8 +160,7 @@ class FlatMercatorProjection(GlobeModel):
     """
 
     def __init__(
-            self, virt_northpole=(90, 0), virt_zero=(0, 0),
-            earth_radius=3440
+        self, virt_northpole=(90, 0), virt_zero=(0, 0), earth_radius=3440
     ):
         pole = _on_ball(np.array(virt_northpole))
         zero = _on_ball(np.array(virt_zero))
@@ -173,7 +173,7 @@ class FlatMercatorProjection(GlobeModel):
     def _transform_coordinates(self, pts, matrix):
         pts = _on_ball(pts)
         pts = pts.reshape((len(pts), 3, 1))
-        pts = matrix@pts
+        pts = matrix @ pts
         pts = pts.reshape(len(pts), 3)
         return _on_lat_lon(pts)
 
@@ -190,11 +190,11 @@ class FlatMercatorProjection(GlobeModel):
         points = self._transform_coordinates(points, self._transform_mat)
         lat, lon = points[:, 0], points[:, 1]
 
-        return self._earth_radius*np.column_stack(
+        return self._earth_radius * np.column_stack(
             [
                 np.deg2rad(lon),
                 np.arcsinh(np.tan(np.deg2rad(lat)))
-                #np.log(np.tan(np.pi/4 + np.deg2rad(lat)/2))
+                # np.log(np.tan(np.pi/4 + np.deg2rad(lat)/2))
             ]
         )
 
@@ -204,7 +204,7 @@ class FlatMercatorProjection(GlobeModel):
         ----------
         `GlobeModel.lat_lon`
         """
-        points = np.array(points)/self._earth_radius
+        points = np.array(points) / self._earth_radius
         x, y = points[:, 0], points[:, 1]
         lat = np.rad2deg(np.arcsin(np.tanh(y)))
         long = np.rad2deg(x)
@@ -240,7 +240,7 @@ class SphericalGlobe(GlobeModel):
         The radius of the assumed globe.
     """
 
-    def __init__(self, earth_radius=21600/2/np.pi):
+    def __init__(self, earth_radius=21600 / 2 / np.pi):
         self._earth_radius = earth_radius
 
     def project(self, points):
@@ -249,7 +249,7 @@ class SphericalGlobe(GlobeModel):
         ---------
         `GlobeModel.project`
         """
-        return self._earth_radius*_on_ball(points)
+        return self._earth_radius * _on_ball(points)
 
     def lat_lon(self, points):
         """
@@ -258,7 +258,7 @@ class SphericalGlobe(GlobeModel):
         `GlobeModel.lat_lon`
         """
         points = _ensure_2d(points)
-        points = points/self._earth_radius
+        points = points / self._earth_radius
         return _on_lat_lon(points)
 
     def distance(self, start, end):
@@ -270,7 +270,7 @@ class SphericalGlobe(GlobeModel):
 
         start, end = _on_ball(np.row_stack([start, end]))
         angle = _angle(start, end)
-        return self._earth_radius*angle
+        return self._earth_radius * angle
 
     def shortest_projected_path(self, start, end, res=1000):
         """
@@ -284,10 +284,12 @@ class SphericalGlobe(GlobeModel):
         angles = np.linspace(0, angle, res)
 
         # (1,0) -> (1, 0) -> (1,0,0) -> start, (cos(angle), sin(angle)) -> (0,1) -> (0,1,0) -> end
-        proj1 = np.linalg.inv(np.array([[1, np.cos(angle)], [0, np.sin(angle)]]))
+        proj1 = np.linalg.inv(
+            np.array([[1, np.cos(angle)], [0, np.sin(angle)]])
+        )
         proj2 = np.transpose(np.array([[1, 0, 0], [0, 1, 0]]))
         proj3 = np.transpose(np.row_stack([start, end, np.array([0, 0, 1])]))
-        proj = proj3@proj2@proj1
+        proj = proj3 @ proj2 @ proj1
 
         # # start -> (1,0,0) -> (1, 0) -> (1, 0), end -> (0,1,0) -> (0,1) -> (cos(angle), sin(angle))
         # inv_proj1 = np.linalg.inv(np.transpose(np.row_stack([start, end, np.array([0, 0, 1])])))
@@ -295,7 +297,7 @@ class SphericalGlobe(GlobeModel):
         # inv_proj = np.linalg.inv(proj2)@inv_proj2@inv_proj1
 
         flat_pts = np.array([[[np.cos(ang)], [np.sin(ang)]] for ang in angles])
-        return (proj@flat_pts).reshape((len(flat_pts), 3))
+        return (proj @ flat_pts).reshape((len(flat_pts), 3))
 
 
 def _ensure_2d(*args):
@@ -307,19 +309,14 @@ def _ensure_2d(*args):
 def _on_ball(pts):
     pts = np.atleast_2d(np.deg2rad(pts))
     lat, lon = pts[:, 0], pts[:, 1]
-    return np.column_stack([
-        np.cos(lat)*np.cos(lon),
-        np.cos(lat)*np.sin(lon),
-        np.sin(lat)
-    ])
+    return np.column_stack(
+        [np.cos(lat) * np.cos(lon), np.cos(lat) * np.sin(lon), np.sin(lat)]
+    )
 
 
 def _on_lat_lon(pts):
     x, y, z = pts.transpose()
-    latlon = np.column_stack([
-        np.arcsin(z),
-        np.arctan2(y, x)
-    ])
+    latlon = np.column_stack([np.arcsin(z), np.arctan2(y, x)])
     return np.rad2deg(latlon)
 
 
@@ -327,4 +324,6 @@ def _angle(pt1, pt2):
     """Computes angles in radians between points."""
     pt1 = pt1.ravel()
     pt2 = pt2.ravel()
-    return np.arccos(np.dot(pt1, pt2)/np.linalg.norm(pt1)/np.linalg.norm(pt2))
+    return np.arccos(
+        np.dot(pt1, pt2) / np.linalg.norm(pt1) / np.linalg.norm(pt2)
+    )
