@@ -138,6 +138,43 @@ class FillLocalImputator(Imputator):
         data.strip("cols")
         n_removed_cols -= data.n_cols
 
+        data = self._interpolate_datetime(data)
+
+        data, n_removed_rows = self._remove_rows(data)
+
+        data = self._interpolate_other(data)
+
+        # remove rows which still have None values
+        remove_rows = [
+            i
+            for i, _ in enumerate(data["datetime"])
+            if any([data[key][i] is None for key in data.keys()])
+        ]
+
+        data.delete(remove_rows)
+        n_removed_rows += len(remove_rows)
+
+        self.set_statistics(
+            n_removed_cols, n_removed_rows, self._n_filled, data
+        )
+
+        return data
+
+    def _fill_range(
+        self, data_dict, datetime, key, start_idx, end_idx, fill_fun
+    ):
+        left = data_dict[key][start_idx]
+        right = data_dict[key][end_idx]
+        for i in range(start_idx + 1, end_idx):
+            duration = datetime[end_idx] - datetime[start_idx]
+            try:
+                mu = (datetime[i] - datetime[start_idx]) / duration
+            except ZeroDivisionError:
+                mu = 0
+            data_dict[key][i] = fill_fun(key, left, right, mu)
+            self._n_filled += 1
+
+    def _interpolate_datetime(self, data):
         last_dt, last_i = None, None
         for i, dt in enumerate(data["datetime"]):
             if dt is None:
@@ -152,13 +189,20 @@ class FillLocalImputator(Imputator):
                     mu = (j - last_i) / (i - last_i)
                     data["datetime"][j] = last_dt + mu * (dt - last_dt)
             last_dt, last_i = dt, i
-            
+
+        return data
+
+    def _remove_rows(self, data):
         remove_rows = [
             i for i, dt in enumerate(data["datetime"]) if dt is None
         ]
         data.delete(remove_rows)
 
         n_removed_rows = len(remove_rows)
+
+        return data, n_removed_rows
+
+    def _interpolate_other(self, data):
 
         # indices of not None values
         idx_dict = {
@@ -258,32 +302,4 @@ class FillLocalImputator(Imputator):
                     self._fill_after,
                 )
 
-        # remove rows which still have None values
-        remove_rows = [
-            i
-            for i, _ in enumerate(data["datetime"])
-            if any([data[key][i] is None for key in data.keys()])
-        ]
-
-        data.delete(remove_rows)
-        n_removed_rows += len(remove_rows)
-
-        self.set_statistics(
-            n_removed_cols, n_removed_rows, self._n_filled, data
-        )
-
         return data
-
-    def _fill_range(
-        self, data_dict, datetime, key, start_idx, end_idx, fill_fun
-    ):
-        left = data_dict[key][start_idx]
-        right = data_dict[key][end_idx]
-        for i in range(start_idx + 1, end_idx):
-            duration = datetime[end_idx] - datetime[start_idx]
-            try:
-                mu = (datetime[i] - datetime[start_idx]) / duration
-            except ZeroDivisionError:
-                mu = 0
-            data_dict[key][i] = fill_fun(key, left, right, mu)
-            self._n_filled += 1
