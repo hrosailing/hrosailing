@@ -80,8 +80,8 @@ class PipelineOutput(NamedTuple):
 class PolarPipeline:
     """A Pipeline class to create polar diagrams from raw data.
 
-    Parameters
-    ----------
+    Supported keyword parameter
+    ---------------------------
 
     data_handler : DataHandler or list of DataHandler, optional
         Handlers that are responsible to extract actual data from the input.
@@ -167,35 +167,21 @@ class PolarPipeline:
 
     def __init__(
         self,
-        data_handler=pc.NMEAFileHandler(),
-        imputator=pc.FillLocalImputator(),
-        smoother=pc.LazySmoother(),
-        pre_expander_weigher=pc.CylindricMeanWeigher(),
-        pre_expander_filter=pc.QuantileFilter(),
-        expander=pc.LazyExpander(),
-        pre_influence_weigher=pc.CylindricMeanWeigher(),
-        pre_influence_filter=pc.QuantileFilter(),
-        influence_model=pc.IdentityInfluenceModel(),
-        post_weigher=pc.CylindricMeanWeigher(),
-        post_filter=pc.QuantileFilter(),
-        injector=pc.ZeroInjector(500),
-        extension=TableExtension(),
-        quality_assurance=pc.MinimalQualityAssurance(),
+        **custom_components
     ):
-        self.data_handler = data_handler
-        self.imputator = imputator
-        self.smoother = smoother
-        self.pre_expander_weigher = pre_expander_weigher
-        self.pre_expander_filter = pre_expander_filter
-        self.expander = expander
-        self.pre_influence_weigher = pre_influence_weigher
-        self.pre_influence_filter = pre_influence_filter
-        self.influence_model = influence_model
-        self.post_weigher = post_weigher
-        self.post_filter = post_filter
-        self.injector = injector
-        self.extension = extension
-        self.quality_assurance = quality_assurance
+        keys = [
+            "data_handler", "imputator", "smoother", "pre_expander_weigher", "pre_expander_filter", "expander",
+            "pre_influence_weigher", "pre_influence_filter", "influence_model", "post_weigher", "post_filter",
+            "injector", "extension", "quality_assurance"
+        ]
+        defaults = [
+            pc.NMEAFileHandler(), pc.FillLocalImputator(), pc.LazySmoother(), pc.CylindricMeanWeigher(),
+            pc.QuantileFilter(), pc.LazyExpander(), pc.CylindricMeanWeigher(), pc.QuantileFilter(),
+            pc.IdentityInfluenceModel(), pc.CylindricMeanWeigher(), pc.QuantileFilter(), pc.ZeroInjector(500),
+            TableExtension(), pc.MinimalQualityAssurance(),
+        ]
+        for key, default in zip(keys, defaults):
+            self._set_with_default(custom_components, key, default)
 
     def __call__(
         self,
@@ -481,6 +467,12 @@ class PolarPipeline:
         )
 
         return post_filtered_data, statistics
+
+    def _set_with_default(self, dict_, key, default):
+        if key in dict_:
+            self.__setattr__(key, dict_[key])
+        else:
+            self.__setattr__(key, default)
 
     def _handle_data(self, data):
         if isinstance(self.data_handler, pc.DataHandler):
