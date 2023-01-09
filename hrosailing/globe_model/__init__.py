@@ -45,7 +45,6 @@ class GlobeModel(ABC):
         projection: numpy.ndarray of shape (n,2) or (n,3) with dtype float
             The points on the globe. The exact shape depends on the model.
         """
-        pass
 
     @abstractmethod
     def lat_lon(self, points):
@@ -65,7 +64,6 @@ class GlobeModel(ABC):
         lat_lons: numpy.ndarray of shape (n,2) with dtype float
             The latitude/longitude coordinates of the given points.
         """
-        pass
 
     @abstractmethod
     def distance(self, start, end):
@@ -109,7 +107,6 @@ class GlobeModel(ABC):
 
             Defaults to 1000.
         """
-        pass
 
     def shortest_path(self, start, end, res=1000):
         """

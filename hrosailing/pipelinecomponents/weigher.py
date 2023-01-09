@@ -138,45 +138,52 @@ class Weigher(ComponentWithStatistics, ABC):
 
     def __add__(self, other):
         if isinstance(other, Weigher):
-            return _BinaryMapWeigher(self, other, lambda x, y: x + y)
+            sum_ = _BinaryMapWeigher(self, other, lambda x, y: x + y)
         elif isinstance(other, (int, float, np.ndarray)):
-            return _UnaryMapWeigher(self, lambda x: x + other)
+            sum_ = _UnaryMapWeigher(self, lambda x: x + other)
+        return sum_
 
     def __radd__(self, other):
         return self + other
 
     def __mul__(self, other):
         if isinstance(other, Weigher):
-            return _BinaryMapWeigher(self, other, lambda x, y: x * y)
+            prod_ = _BinaryMapWeigher(self, other, lambda x, y: x * y)
         elif isinstance(other, (int, float, np.ndarray)):
-            return _UnaryMapWeigher(self, lambda x: x * other)
+            prod_ = _UnaryMapWeigher(self, lambda x: x * other)
+        return prod_
 
     def __rmul__(self, other):
         return self * other
 
     def __sub__(self, other):
         if isinstance(other, Weigher):
-            return _BinaryMapWeigher(self, other, lambda x, y: x - y)
-        if isinstance(other, np.ndarray):
-            return _UnaryMapWeigher(self, lambda x: x - other)
+            sub = _BinaryMapWeigher(self, other, lambda x, y: x - y)
+        elif isinstance(other, np.ndarray):
+            sub = _UnaryMapWeigher(self, lambda x: x - other)
+        return sub
 
     def __neg__(self):
-        return _UnaryMapWeigher(self, lambda x: -x)
+        neg = _UnaryMapWeigher(self, lambda x: -x)
+        return neg
 
     def __truediv__(self, other):
         if isinstance(other, Weigher):
-            return _BinaryMapWeigher(self, other, lambda x, y: x / y)
-        if isinstance(other, (int, float, np.ndarray)):
-            return _UnaryMapWeigher(self, lambda x: x / other)
+            div = _BinaryMapWeigher(self, other, lambda x, y: x / y)
+        elif isinstance(other, (int, float, np.ndarray)):
+            div = _UnaryMapWeigher(self, lambda x: x / other)
+        return div
 
     def __rtruediv__(self, other):
         if isinstance(other, Weigher):
-            return _BinaryMapWeigher(self, other, lambda x, y: y / x)
-        if isinstance(other, np.ndarray):
-            return _UnaryMapWeigher(self, lambda x: other / x)
+            div = _BinaryMapWeigher(self, other, lambda x, y: y / x)
+        elif isinstance(other, np.ndarray):
+            div = _UnaryMapWeigher(self, lambda x: other / x)
+        return div
 
     def __pow__(self, power, modulo=None):
-        return _UnaryMapWeigher(self, lambda x: x**power)
+        pow = _UnaryMapWeigher(self, lambda x: x**power)
+        return pow
 
     def set_statistics(self, weights):
         """
@@ -680,10 +687,12 @@ def _set_points_from_data(data, dimensions, reduce=True):
             dimensions.remove("SOG")
 
     if isinstance(data, dict):
-        return dimensions, data_dict_to_numpy(data, dimensions)
+        data = data_dict_to_numpy(data, dimensions)
+        return dimensions, data
 
     if isinstance(data, Data):
-        return data[dimensions].numerical
+        data = data[dimensions].numerical
+        return data
 
 
 class FuzzyBool:
