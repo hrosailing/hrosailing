@@ -20,7 +20,6 @@ from datetime import date, datetime, time
 
 import numpy as np
 
-import hrosailing.pipelinecomponents.data
 from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 from hrosailing.pipelinecomponents.constants import HROSAILING_TO_NMEA
 from hrosailing.pipelinecomponents.data import Data

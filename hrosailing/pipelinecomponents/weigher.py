@@ -9,8 +9,7 @@ represent data points together with their respective weights.
 
 
 from abc import ABC, abstractmethod
-from datetime import datetime, timedelta
-from typing import Callable
+from datetime import timedelta
 
 import numpy as np
 
@@ -22,7 +21,6 @@ from ._utils import (
     _safe_operation,
     data_dict_to_numpy,
     euclidean_norm,
-    scaled_euclidean_norm,
     scaled_norm,
 )
 
@@ -226,10 +224,10 @@ class Weigher(ComponentWithStatistics, ABC):
 
 
 class _UnaryMapWeigher(Weigher):
-    def __init__(self, sub_weigher, map):
+    def __init__(self, sub_weigher, map_):
         super().__init__()
         self._sub_weigher = sub_weigher
-        self._map = map
+        self._map = map_
 
     def weigh(self, points) -> (np.ndarray, dict):
         weights, _ = self._sub_weigher.weigh(points)

@@ -437,13 +437,13 @@ class Data:
         data.update(dict_)
         return data
 
-    def get_slice(self, slice):
+    def get_slice(self, slice_):
         """
         Returns new `Data` object containing only keys in `slice`.
 
         Parameters
         ----------
-        slice : object with method `__contains__`
+        slice_ : object with method `__contains__`
 
         Returns
         -------
@@ -451,10 +451,10 @@ class Data:
         """
 
         data = {
-            key: value for key, value in self._data.items() if key in slice
+            key: value for key, value in self._data.items() if key in slice_
         }
         types = {
-            key: value for key, value in self._types.items() if key in slice
+            key: value for key, value in self._types.items() if key in slice_
         }
         try:
             max_len = max(len(field) for field in data.values())
