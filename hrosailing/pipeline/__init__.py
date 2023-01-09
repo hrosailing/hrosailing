@@ -467,7 +467,7 @@ class PolarPipeline:
 
     def _set_with_default(self, dict_, keys, defaults):
         for key, default in zip(keys, defaults):
-            self.__setattr__(key, self._switch_default(dict_, key, default))
+            setattr(self, key, self._switch_default(dict_, key, default))
 
     def _switch_default(self, dict_, key, default):
         return dict_[key] if key in dict_ else default

@@ -239,11 +239,12 @@ def _get_true_wind_data(data: dict):
             return data_dict_to_numpy(data, ["TWS", "TWA", speed])
         else:
             return np.array([data["TWS"], data["TWA"], data[speed]])
-    elif "AWA" in data and "AWS" in data:
+
+    if "AWA" in data and "AWS" in data:
         apparent_data = data_dict_to_numpy(data, ["AWS", "AWA", speed])
         return convert_apparent_wind_to_true(apparent_data)
-    else:
-        raise InfluenceException(
-            "No sufficient wind data is given in order to apply influence"
-            "model. Either give 'AWA' and 'AWS' or 'TWA' and 'TWS'"
-        )
+
+    raise InfluenceException(
+        "No sufficient wind data is given in order to apply influence"
+        "model. Either give 'AWA' and 'AWS' or 'TWA' and 'TWS'"
+    )

@@ -37,7 +37,7 @@ class HandleException(Exception):
     """
 
 
-class DataHandler(ABC, ComponentWithStatistics):
+class DataHandler(ComponentWithStatistics, ABC):
     """Base class for all data handler classes.
 
 
@@ -45,9 +45,6 @@ class DataHandler(ABC, ComponentWithStatistics):
     ----------------
     handle(self, data)
     """
-
-    def __init__(self):
-        super().__init__()
 
     @abstractmethod
     def handle(self, data):

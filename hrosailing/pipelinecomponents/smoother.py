@@ -34,7 +34,6 @@ class Smoother(ComponentWithStatistics, ABC):
         data : Data
             The processed data.
         """
-        pass
 
 
 class LazySmoother(Smoother):

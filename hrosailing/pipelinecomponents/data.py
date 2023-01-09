@@ -303,11 +303,11 @@ class Data:
                 self._max_len - 1
             )  # first index BEFORE tailing None rows
             while all(
-                [self[key][end_leading_nones] is None for key in self.keys()]
+                self[key][end_leading_nones] is None for key in self.keys()
             ):
                 end_leading_nones += 1
             while all(
-                [self[key][start_tailing_nones] is None for key in self.keys()]
+                self[key][start_tailing_nones] is None for key in self.keys()
             ):
                 start_tailing_nones -= 1
             self._data = {
@@ -358,8 +358,7 @@ class Data:
             def combine(date, time):
                 if date is None or time is None:
                     return None
-                else:
-                    return datetime.combine(date, time)
+                return datetime.combine(date, time)
 
             self.extend(
                 "datetime",

@@ -10,9 +10,23 @@ from datetime import datetime, timedelta
 
 import numpy as np
 
-from hrosailing.globe_model import SphericalGlobe
+try:
+    import netCDF4 as nc
+    installed_netcdf = True
+except ModuleNotFoundError:
+    installed_netcdf = False
 
-# from math import prod
+try:
+    import pandas as pd
+    installed_pandas = True
+except ModuleNotFoundError:
+    installed_pandas = False
+
+try:
+    import meteostat
+    installed_meteostat = True
+except ModuleNotFoundError:
+    installed_meteostat = False
 
 
 class OutsideGridException(Exception):
@@ -148,13 +162,10 @@ class GriddedWeatherModel(WeatherModel):
         wm: `GriddedWeatherModel` as described above
 
         """
-        try:
-            import meteostat
-            import pandas as pd
-        except ImportError:
+        if (not installed_meteostat) or (not installed_pandas):
             raise ImportError(
                 f"The modules `meteostat` and `pandas` are necessary in order "
-                f"to use `from_meteostat`"
+                f"to use `GriddedWeatherModel.from_meteostat`"
             )
 
         # fetch data
@@ -221,7 +232,7 @@ class _GriddedWeatherModelEncoder(json.JSONEncoder):
             return [data, times, lats, lons, attrs]
         if isinstance(obj, np.ndarray):
             return obj.tolist()
-        if isinstance(obj, pd.Timestamp):
+        if installed_pandas and isinstance(obj, pd.Timestamp):
             return obj.strftime("%d.%m.%Y:%X")
         raise TypeError(
             f"Object of type {type(obj)} is not JSON serializable :("
@@ -321,12 +332,9 @@ class NetCDFWeatherModel(GriddedWeatherModel):
         aliases={"lat": "latitude", "lon": "longitude", "datetime": "time"},
         further_indices={},
     ):
-        try:
-            import netCDF4 as nc
-        except ModuleNotFoundError:
-            raise ModuleNotFoundError(
-                "Install netCDF4 in order to use NetCDFWeatherModel."
-            )
+        if not installed_netcdf:
+            raise ModuleNotFoundError("Install netCDF4 to use NetCDFWeatherModel")
+
         self._dataset = nc.Dataset(path)
         self._aliases = aliases
         self._further_indices = further_indices

@@ -32,9 +32,6 @@ class Filter(ComponentWithStatistics, ABC):
     filter(self, wts)
     """
 
-    def __init__(self):
-        super().__init__()
-
     @abstractmethod
     def filter(self, wts):
         """This method should be used, given an array of weights,

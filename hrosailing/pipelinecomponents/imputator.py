@@ -152,6 +152,7 @@ class FillLocalImputator(Imputator):
                     mu = (j - last_i) / (i - last_i)
                     data["datetime"][j] = last_dt + mu * (dt - last_dt)
             last_dt, last_i = dt, i
+            
         remove_rows = [
             i for i, dt in enumerate(data["datetime"]) if dt is None
         ]
