@@ -16,7 +16,6 @@ import numpy as np
 
 from hrosailing.pipelinecomponents._utils import (
     ComponentWithStatistics,
-    _safe_operation,
 )
 
 

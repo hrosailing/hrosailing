@@ -12,7 +12,6 @@ from abc import ABC, abstractmethod
 
 from hrosailing.cruising.weather_model import (
     OutsideGridException,
-    WeatherModel,
 )
 from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 from hrosailing.pipelinecomponents.data import Data

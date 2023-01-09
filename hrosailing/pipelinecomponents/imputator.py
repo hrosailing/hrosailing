@@ -118,14 +118,14 @@ class FillLocalImputator(Imputator):
         self._max_time_diff = max_time_diff
         self._n_filled = 0
 
-    def impute(self, data_dict):
+    def impute(self, data):
         """
         Creates a dictionary that does not contain `None` values by the procedure
         described above.
 
         Parameters
         ----------
-        data_dict : Data
+        data : Data
             The `Data` object to be imputed.
 
         Returns
@@ -134,12 +134,12 @@ class FillLocalImputator(Imputator):
             `data_dict` is the resulting `Data` object containing no `None` values.
         """
         self._n_filled = 0
-        n_removed_cols = data_dict.n_cols
-        data_dict.strip("cols")
-        n_removed_cols -= data_dict.n_cols
+        n_removed_cols = data.n_cols
+        data.strip("cols")
+        n_removed_cols -= data.n_cols
 
         last_dt, last_i = None, None
-        for i, dt in enumerate(data_dict["datetime"]):
+        for i, dt in enumerate(data["datetime"]):
             if dt is None:
                 continue
             if last_dt is None:
@@ -150,24 +150,25 @@ class FillLocalImputator(Imputator):
                 # linear approximation of time in between
                 for j in range(last_i + 1, i):
                     mu = (j - last_i) / (i - last_i)
-                    data_dict["datetime"][j] = last_dt + mu * (dt - last_dt)
+                    data["datetime"][j] = last_dt + mu * (dt - last_dt)
             last_dt, last_i = dt, i
+        data = self._interpolate()
         remove_rows = [
-            i for i, dt in enumerate(data_dict["datetime"]) if dt is None
+            i for i, dt in enumerate(data["datetime"]) if dt is None
         ]
-        data_dict.delete(remove_rows)
+        data.delete(remove_rows)
 
         n_removed_rows = len(remove_rows)
 
         # indices of not None values
         idx_dict = {
             key: [
-                i for i, data in enumerate(data_dict[key]) if data is not None
+                i for i, data in enumerate(data[key]) if data is not None
             ]
-            for key in data_dict.keys()
+            for key in data.keys()
         }
 
-        datetime = data_dict["datetime"]
+        datetime = data["datetime"]
 
         for key, idx in idx_dict.items():
             # fill every entry before the first not-None entry according to the
@@ -188,7 +189,7 @@ class FillLocalImputator(Imputator):
                     continue
 
                 self._fill_range(
-                    data_dict,
+                    data,
                     datetime,
                     key,
                     start_idx,
@@ -202,7 +203,7 @@ class FillLocalImputator(Imputator):
                 if timediff < self._max_time_diff:
                     # fill data according to fill_between function
                     self._fill_range(
-                        data_dict,
+                        data,
                         datetime,
                         key,
                         idx1,
@@ -219,7 +220,7 @@ class FillLocalImputator(Imputator):
                     if len(near_points) > 0:
                         last_idx_right = max(near_points)
                         self._fill_range(
-                            data_dict,
+                            data,
                             datetime,
                             key,
                             idx1,
@@ -234,7 +235,7 @@ class FillLocalImputator(Imputator):
                     if len(near_points) > 0:
                         first_idx_left = min(near_points)
                         self._fill_range(
-                            data_dict,
+                            data,
                             datetime,
                             key,
                             first_idx_left,
@@ -251,7 +252,7 @@ class FillLocalImputator(Imputator):
             if len(near_points) > 0:
                 end_idx = min(near_points)  # first idx in time interval
                 self._fill_range(
-                    data_dict,
+                    data,
                     datetime,
                     key,
                     start_idx,
@@ -262,18 +263,18 @@ class FillLocalImputator(Imputator):
         # remove rows which still have None values
         remove_rows = [
             i
-            for i, _ in enumerate(data_dict["datetime"])
-            if any([data_dict[key][i] is None for key in data_dict.keys()])
+            for i, _ in enumerate(data["datetime"])
+            if any([data[key][i] is None for key in data.keys()])
         ]
 
-        data_dict.delete(remove_rows)
+        data.delete(remove_rows)
         n_removed_rows += len(remove_rows)
 
         self.set_statistics(
-            n_removed_cols, n_removed_rows, self._n_filled, data_dict
+            n_removed_cols, n_removed_rows, self._n_filled, data
         )
 
-        return data_dict
+        return data
 
     def _fill_range(
         self, data_dict, datetime, key, start_idx, end_idx, fill_fun

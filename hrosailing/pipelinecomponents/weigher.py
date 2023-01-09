@@ -182,8 +182,8 @@ class Weigher(ComponentWithStatistics, ABC):
         return div
 
     def __pow__(self, power, modulo=None):
-        pow = _UnaryMapWeigher(self, lambda x: x**power)
-        return pow
+        pow_ = _UnaryMapWeigher(self, lambda x: x**power)
+        return pow_
 
     def set_statistics(self, weights):
         """

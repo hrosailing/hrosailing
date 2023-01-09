@@ -496,8 +496,7 @@ class Data:
         if type_ is str:
             return self.get_slice(item)
         raise TypeError(
-            f"Only types `int`, `str` and iterables over `bool`, `numpy.bool_`"
-            f" or `str` are supported"
+            "Only types `int`, `str` and iterables over `bool`, `numpy.bool_` or `str` are supported"
         )
 
     def __contains__(self, item):

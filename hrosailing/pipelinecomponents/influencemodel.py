@@ -219,16 +219,14 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
         sample = np.linspace(0, 359, 10 * 360)
         counts = [
             sum(
-                [
-                    other_ws
-                    * np.exp(
-                        -(
-                            ((abs(wa - other_wa) % 360) / self._interval_size)
-                            ** 2
-                        )
+                other_ws
+                * np.exp(
+                    -(
+                        ((abs(wa - other_wa) % 360) / self._interval_size)
+                        ** 2
                     )
-                    for other_wa, other_ws in zip(wind_angles, wind_speeds)
-                ]
+                )
+                for other_wa, other_ws in zip(wind_angles, wind_speeds)
             )
             for wa in sample
         ]
