@@ -13,7 +13,11 @@ in the `hrosailing.pipeline` module.
 from abc import ABC, abstractmethod
 
 import numpy as np
-from hrosailing.pipelinecomponents._utils import ComponentWithStatistics, _safe_operation
+
+from hrosailing.pipelinecomponents._utils import (
+    ComponentWithStatistics,
+    _safe_operation,
+)
 
 
 class FilterInitializationException(Exception):
@@ -30,6 +34,7 @@ class Filter(ABC, ComponentWithStatistics):
     ----------------
     filter(self, wts)
     """
+
     def __init__(self):
         super().__init__()
 
@@ -64,9 +69,9 @@ class Filter(ABC, ComponentWithStatistics):
         n_filtered_points = len([f for f in filtered_points if not f])
 
         super().set_statistics(
-            n_filtered_points= n_filtered_points,
-            n_rows= len(filtered_points) - n_filtered_points,
-            error= None
+            n_filtered_points=n_filtered_points,
+            n_rows=len(filtered_points) - n_filtered_points,
+            error=None,
         )
 
 
@@ -105,7 +110,6 @@ class QuantileFilter(Filter):
         --------
         `Filter.filter`
         """
-
 
         filtered_points = self._calculate_quantile(wts)
 

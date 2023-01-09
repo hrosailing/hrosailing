@@ -9,18 +9,22 @@ represent data points together with their respective weights.
 
 
 from abc import ABC, abstractmethod
+from datetime import datetime, timedelta
 from typing import Callable
 
 import numpy as np
 
-from ._utils import (
-    euclidean_norm, scaled_norm, data_dict_to_numpy, scaled_euclidean_norm, ComponentWithStatistics, _safe_operation
-)
-
-from hrosailing.pipelinecomponents.data import Data
 from hrosailing.pipelinecomponents.constants import NORM_SCALES
+from hrosailing.pipelinecomponents.data import Data
 
-from datetime import datetime, timedelta
+from ._utils import (
+    ComponentWithStatistics,
+    _safe_operation,
+    data_dict_to_numpy,
+    euclidean_norm,
+    scaled_euclidean_norm,
+    scaled_norm,
+)
 
 
 class WeightedPointsInitializationException(Exception):
@@ -62,18 +66,14 @@ class WeightedPoints:
         the same weight.
     """
 
-    def __init__(
-        self,
-        data,
-        weights
-    ):
+    def __init__(self, data, weights):
         self.data = data
         if isinstance(weights, (float, int)):
             if isinstance(data, dict):
                 length = len(list(data.values())[0])
             else:
                 length = len(data)
-            self.weights = weights*np.ones(length)
+            self.weights = weights * np.ones(length)
         else:
             self.weights = np.asarray(weights)
 
@@ -84,11 +84,9 @@ class WeightedPoints:
                     key: list(np.array(value)[mask])
                     for key, value in self.data.items()
                 },
-                weights=self.weights[mask]
+                weights=self.weights[mask],
             )
-        return WeightedPoints(
-            data=self.data[mask], weights=self.weights[mask]
-        )
+        return WeightedPoints(data=self.data[mask], weights=self.weights[mask])
 
     def extend(self, other):
         """
@@ -127,6 +125,7 @@ class Weigher(ABC, ComponentWithStatistics):
     ----------------
     weigh(self, points)
     """
+
     def __init__(self):
         super().__init__()
 
@@ -153,12 +152,12 @@ class Weigher(ABC, ComponentWithStatistics):
 
     def __mul__(self, other):
         if isinstance(other, Weigher):
-            return _BinaryMapWeigher(self, other, lambda x, y: x*y)
+            return _BinaryMapWeigher(self, other, lambda x, y: x * y)
         elif isinstance(other, (int, float, np.ndarray)):
-            return _UnaryMapWeigher(self, lambda x: x*other)
+            return _UnaryMapWeigher(self, lambda x: x * other)
 
     def __rmul__(self, other):
-        return self*other
+        return self * other
 
     def __sub__(self, other):
         if isinstance(other, Weigher):
@@ -171,15 +170,15 @@ class Weigher(ABC, ComponentWithStatistics):
 
     def __truediv__(self, other):
         if isinstance(other, Weigher):
-            return _BinaryMapWeigher(self, other, lambda x, y: x/y)
+            return _BinaryMapWeigher(self, other, lambda x, y: x / y)
         elif isinstance(other, (int, float, np.ndarray)):
-            return _UnaryMapWeigher(self, lambda x: x/other)
+            return _UnaryMapWeigher(self, lambda x: x / other)
 
     def __rtruediv__(self, other):
         if isinstance(other, Weigher):
-            return _BinaryMapWeigher(self, other, lambda x, y: y/x)
+            return _BinaryMapWeigher(self, other, lambda x, y: y / x)
         elif isinstance(other, np.ndarray):
-            return _UnaryMapWeigher(self, lambda x: other/x)
+            return _UnaryMapWeigher(self, lambda x: other / x)
 
     def __pow__(self, power, modulo=None):
         return _UnaryMapWeigher(self, lambda x: x**power)
@@ -206,25 +205,30 @@ class Weigher(ABC, ComponentWithStatistics):
             minw, span = args
             return [
                 round(
-                    100 * len(
-                        [w for w in weights if
-                         (w >= minw + span * i / 10)
-                         and (w <= minw + span * (i + 1) / 10)]
-                    ) / len(weights),
-                    2
-                ) for i in range(10)
+                    100
+                    * len(
+                        [
+                            w
+                            for w in weights
+                            if (w >= minw + span * i / 10)
+                            and (w <= minw + span * (i + 1) / 10)
+                        ]
+                    )
+                    / len(weights),
+                    2,
+                )
+                for i in range(10)
             ]
 
         super().set_statistics(
-            average_weight= _safe_operation(np.mean, weights),
-            minimal_weight= minw,
-            maximal_weight= maxw,
-            quantiles= _safe_operation(get_quantiles, [minw, span])
+            average_weight=_safe_operation(np.mean, weights),
+            minimal_weight=minw,
+            maximal_weight=maxw,
+            quantiles=_safe_operation(get_quantiles, [minw, span]),
         )
 
 
 class _UnaryMapWeigher(Weigher):
-
     def __init__(self, sub_weigher, map):
         super().__init__()
         self._sub_weigher = sub_weigher
@@ -237,7 +241,6 @@ class _UnaryMapWeigher(Weigher):
 
 
 class _BinaryMapWeigher(Weigher):
-
     def __init__(self, sub_weigher, other_sub_weigher, map):
         super().__init__()
         self._sub_weigher = sub_weigher
@@ -302,16 +305,13 @@ class CylindricMeanWeigher(Weigher):
         If radius is non-positive.
     """
 
-    def __init__(
-        self,
-        radius=0.05,
-        norm=None,
-        dimensions=None
-    ):
+    def __init__(self, radius=0.05, norm=None, dimensions=None):
         super().__init__()
         if radius <= 0:
             raise WeigherInitializationException(
-                f"Invalid value for `radius`: {radius}. Non-positive number. Use a positive value for `radius`.")
+                f"Invalid value for `radius`: {radius}. Non-positive number."
+                " Use a positive value for `radius`."
+            )
 
         self._radius = radius
 
@@ -337,7 +337,9 @@ class CylindricMeanWeigher(Weigher):
         WeightedPoints : numpy.ndarray of shape (n,)
             Normalized weights of the input points.
         """
-        self._dimensions, points = _set_points_from_data(points, self._dimensions)
+        self._dimensions, points = _set_points_from_data(
+            points, self._dimensions
+        )
         weights = [self._calculate_weight(point, points) for point in points]
         weights = np.array(weights)
         weights = 1 - _normalize(weights, np.max)
@@ -356,7 +358,9 @@ class CylindricMeanWeigher(Weigher):
 
     def _determine_points_in_cylinder(self, point, points):
         if self._norm is None:
-            self._norm = hrosailing_standard_scaled_euclidean_norm(self._dimensions)
+            self._norm = hrosailing_standard_scaled_euclidean_norm(
+                self._dimensions
+            )
         in_cylinder = self._norm(points - point) <= self._radius
         return points[in_cylinder][:, -1]
 
@@ -419,27 +423,21 @@ class CylindricMemberWeigher(Weigher):
         If length is negative.
     """
 
-    def __init__(
-        self,
-        radius=0.05,
-        length=0.05,
-        norm=None,
-        dimensions=None
-    ):
+    def __init__(self, radius=0.05, length=0.05, norm=None, dimensions=None):
         super().__init__()
         if radius <= 0:
             raise WeigherInitializationException("`radius` is non-positive")
 
         if length < 0:
-            raise WeigherInitializationException("`length` is not non-negative")
+            raise WeigherInitializationException(
+                "`length` is not non-negative"
+            )
 
         self._radius = radius
         self._length = length
 
         if norm is None:
-            self._norm = hrosailing_standard_scaled_euclidean_norm(
-                dimensions
-            )
+            self._norm = hrosailing_standard_scaled_euclidean_norm(dimensions)
         else:
             self._norm = norm
         self._dimensions = dimensions
@@ -464,7 +462,9 @@ class CylindricMemberWeigher(Weigher):
             Normalized weights of the input points.
         """
 
-        self._dimensions, points = _set_points_from_data(points, self._dimensions)
+        self._dimensions, points = _set_points_from_data(
+            points, self._dimensions
+        )
 
         weights = [self._calculate_weight(point, points) for point in points]
         weights = np.array(weights)
@@ -518,12 +518,8 @@ class FluctuationWeigher(Weigher):
     upper_bounds : list of int or float
         The upper bounds on the standard deviation for each considered attribute.
     """
-    def __init__(
-        self,
-        dimensions,
-        timespan,
-        upper_bounds
-    ):
+
+    def __init__(self, dimensions, timespan, upper_bounds):
         super().__init__()
         if isinstance(timespan, timedelta):
             self._timespan_before = timespan
@@ -549,25 +545,32 @@ class FluctuationWeigher(Weigher):
         `Weigher.weigh`
         """
         times = points["datetime"]
-        dimensions, points = _set_points_from_data(points, self._dimensions, False)
-        upper_bounds = self._upper_bounds[[i for i, key in enumerate(self._dimensions) if key in dimensions]]
+        dimensions, points = _set_points_from_data(
+            points, self._dimensions, False
+        )
+        upper_bounds = self._upper_bounds[
+            [i for i, key in enumerate(self._dimensions) if key in dimensions]
+        ]
 
-        weights = [1]*len(points)
+        weights = [1] * len(points)
         start_idx = 0
 
         for curr_idx, (dt, pt) in enumerate(zip(times, points)):
             while dt - times[start_idx] > self._timespan_before:
                 start_idx += 1
             end_idx = start_idx
-            while end_idx + 1 < len(times) and times[end_idx+1] - dt < self._timespan_after:
+            while (
+                end_idx + 1 < len(times)
+                and times[end_idx + 1] - dt < self._timespan_after
+            ):
                 end_idx += 1
             for col, ub in enumerate(upper_bounds):
-                curr_pts = points[start_idx:end_idx+1, col]
+                curr_pts = points[start_idx : end_idx + 1, col]
                 std = np.std(curr_pts)
                 if std > ub:
                     weights[curr_idx] = 0
                 else:
-                    weights[curr_idx] *= (ub - std)/ub
+                    weights[curr_idx] *= (ub - std) / ub
 
         self.set_statistics(weights)
 
@@ -707,6 +710,7 @@ class FuzzyBool:
     --------
     For recommendations on how to use a `FuzzyBool` see also `FuzzyVariable`.
     """
+
     def __init__(self, eval_fun):
         self._fun = eval_fun
 
@@ -725,6 +729,7 @@ class FuzzyBool:
     def __getitem__(self, item):
         def eval_fun(x):
             return self._fun(x[item])
+
         return FuzzyBool(eval_fun)
 
     @classmethod
@@ -742,9 +747,11 @@ class FuzzyBool:
             Representation of the fuzzy 'and' operation of `one` and `other`
             realized via taking the minimum.
         """
+
         def eval_fun(x):
             concat = np.row_stack([one(x), other(x)])
             return np.min(concat, axis=0)
+
         return cls(eval_fun)
 
     @classmethod
@@ -762,9 +769,11 @@ class FuzzyBool:
             Representation of the fuzzy 'or' operation of `one` and `other`
             realized via taking the maximum.
         """
+
         def eval_fun(x):
             concat = np.row_stack([one(x), other(x)])
             return np.max(concat, axis=0)
+
         return cls(eval_fun)
 
     @classmethod
@@ -805,8 +814,10 @@ class FuzzyBool:
             A `FuzzyBool` object with truth function
             :math:`x → 1/(1+e^{sigma * sharpness * (x - center)})`.
         """
+
         def eval_fun(x):
-            return 1/(1+np.exp(sigma*sharpness*(x - center)))
+            return 1 / (1 + np.exp(sigma * sharpness * (x - center)))
+
         return cls(eval_fun)
 
 
@@ -858,6 +869,7 @@ class FuzzyVariable:
     --------
     `FuzzyBool`
     """
+
     def __init__(self, sharpness=10, key=None):
         self.key = key
         self._sharpness = sharpness
@@ -913,6 +925,7 @@ class FuzzyWeigher(Weigher):
     ---------
     `FuzzyBool`, `FuzzyVariable`
     """
+
     def __init__(self, fuzzy):
         super().__init__()
         self.fuzzy = fuzzy
@@ -923,10 +936,7 @@ class FuzzyWeigher(Weigher):
         --------
         `Weigher.weigh`
         """
-        weights = np.array([
-            self.fuzzy(point)
-            for point in points.rows()
-        ])
+        weights = np.array([self.fuzzy(point) for point in points.rows()])
         self.set_statistics(weights)
         return weights
 
@@ -947,5 +957,7 @@ def hrosailing_standard_scaled_euclidean_norm(dimensions):
     """
     if dimensions is None:
         dimensions = ["TWS", "TWA"]
-    scales = [NORM_SCALES[key] if key in NORM_SCALES else 1 for key in dimensions]
+    scales = [
+        NORM_SCALES[key] if key in NORM_SCALES else 1 for key in dimensions
+    ]
     return scaled_norm(euclidean_norm, scales)

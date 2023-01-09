@@ -36,6 +36,7 @@ class Interpolator(ABC):
     ----------------
     interpolate(self, w_pts, grid_pt)
     """
+
     def __init__(self):
         super().__init__()
 
@@ -196,7 +197,7 @@ class ArithmeticMeanInterpolator(Interpolator):
         s=1,
         norm: Callable = scaled_euclidean_norm,
         distribution: Callable = None,
-        params = (),
+        params=(),
     ):
         super().__init__()
         if s <= 0:
@@ -214,8 +215,9 @@ class ArithmeticMeanInterpolator(Interpolator):
 
     def __repr__(self):
         return (
-            f"ArithmeticMeanInterpolator(s={self._s}, "
-            f"norm={self._norm.__name__}, distribution={self._distr}, params={self._params})"
+            f"ArithmeticMeanInterpolator(s={self._s},"
+            f" norm={self._norm.__name__}, distribution={self._distr},"
+            f" params={self._params})"
         )
 
     def interpolate(self, w_pts, grid_pt):

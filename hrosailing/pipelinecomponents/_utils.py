@@ -55,6 +55,7 @@ class ComponentWithStatistics:
     """
     Interface class for pipelinecomponents enabling to save and handle run statistics.
     """
+
     def __init__(self):
         self._statistics = {}
 

@@ -10,9 +10,12 @@ Also contains predefined and usable expanders:
 
 from abc import ABC, abstractmethod
 
-from hrosailing.pipelinecomponents.data import Data
-from hrosailing.cruising.weather_model import WeatherModel, OutsideGridException
+from hrosailing.cruising.weather_model import (
+    OutsideGridException,
+    WeatherModel,
+)
 from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
+from hrosailing.pipelinecomponents.data import Data
 
 
 class Expander(ABC, ComponentWithStatistics):
@@ -39,16 +42,14 @@ class Expander(ABC, ComponentWithStatistics):
         pass
 
     def set_statistics(self, data):
-        super().set_statistics(
-            n_rows = data.n_rows,
-            n_cols = data.n_cols
-        )
+        super().set_statistics(n_rows=data.n_rows, n_cols=data.n_cols)
 
 
 class LazyExpander(Expander):
     """
     Expander that doesn't do anything.
     """
+
     def expand(self, data):
         """
         See also
@@ -86,7 +87,7 @@ class WeatherExpander(Expander):
     def expand(self, data):
         """
         Expands given data by the procedure described above.
-        
+
         See also
         --------
         `Expander.expand`
@@ -98,12 +99,13 @@ class WeatherExpander(Expander):
         self.set_statistics(data)
         return data
 
-
     def _get_weather(self, data):
         weather_keys = None
         none_idxs = []
         weather_list = []
-        for idx, (datetime, lat, lon) in enumerate(data.rows(["datetime", "lat", "lon"], return_type=tuple)):
+        for idx, (datetime, lat, lon) in enumerate(
+            data.rows(["datetime", "lat", "lon"], return_type=tuple)
+        ):
             try:
                 weather = self._weather_model.get_weather([datetime, lat, lon])
                 weather_list.append(weather)
@@ -118,9 +120,6 @@ class WeatherExpander(Expander):
             data.delete(none_idxs)
         else:
             for idx in none_idxs:
-                weather_list[idx] = {key : None for key in weather_keys}
+                weather_list[idx] = {key: None for key in weather_keys}
 
         return Data.concatenate(weather_list)
-
-
-

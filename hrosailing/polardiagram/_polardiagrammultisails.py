@@ -54,9 +54,11 @@ class PolarDiagramMultiSails(PolarDiagram):
 
     def __init__(self, pds, sails=None):
         warnings.warn(
-            "class features aren't all fully developed yet and/or might "
-            "change behaviour heavily in the future. "
-            "Take care when using this class",
+            (
+                "class features aren't all fully developed yet and/or might "
+                "change behaviour heavily in the future. "
+                "Take care when using this class"
+            ),
             category=NotYetImplementedWarning,
         )
         ws = pds[0].wind_speeds

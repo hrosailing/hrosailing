@@ -22,6 +22,7 @@ class Injector(ABC, ComponentWithStatistics):
     ----------------
     inject(self, weighted_points)
     """
+
     def __init__(self):
         super().__init__()
 
@@ -42,9 +43,7 @@ class Injector(ABC, ComponentWithStatistics):
         """
 
     def set_statistics(self, n_injected):
-        super().set_statistics(
-            n_injected= n_injected
-        )
+        super().set_statistics(n_injected=n_injected)
 
 
 class ZeroInjector(Injector):
@@ -89,7 +88,7 @@ class ZeroInjector(Injector):
         zeros = np.column_stack((ws, zero, zero))
         fulls = np.column_stack((ws, full, zero))
 
-        self.set_statistics(2*self.n_zeros)
+        self.set_statistics(2 * self.n_zeros)
         return pc.WeightedPoints(
             data=np.concatenate([zeros, fulls]),
             weights=np.ones(2 * self.n_zeros),

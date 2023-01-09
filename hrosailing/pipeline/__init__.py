@@ -11,11 +11,15 @@ import numpy as np
 
 import hrosailing.pipelinecomponents as pc
 import hrosailing.polardiagram as pol
-from .extensions import (
-    PipelineExtension, TableExtension, PointcloudExtension, CurveExtension
-)
 from hrosailing.pipelinecomponents.modelfunctions import (
     ws_s_wa_gauss_and_square,
+)
+
+from .extensions import (
+    CurveExtension,
+    PipelineExtension,
+    PointcloudExtension,
+    TableExtension,
 )
 
 
@@ -29,6 +33,7 @@ class Statistics(NamedTuple):
     ----------
     `PolarPipeline`
     """
+
     data_handler: dict
     imputator: dict
     smoother: dict
@@ -45,7 +50,9 @@ class Statistics(NamedTuple):
     quality_assurance: dict
 
 
-_EMPTY_STATISTIC = Statistics({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {})
+_EMPTY_STATISTIC = Statistics(
+    {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
+)
 
 
 class PipelineOutput(NamedTuple):
@@ -64,6 +71,7 @@ class PipelineOutput(NamedTuple):
         Relevant statistics obtained in the preprocessing of the test data.
         The attributes `extension` and `quality_assurance` only contain an empty dictionary.
     """
+
     polardiagram: pol.PolarDiagram
     training_statistics: Statistics
     test_statistics: Statistics
@@ -172,7 +180,7 @@ class PolarPipeline:
         post_filter=pc.QuantileFilter(),
         injector=pc.ZeroInjector(500),
         extension=TableExtension(),
-        quality_assurance=pc.MinimalQualityAssurance()
+        quality_assurance=pc.MinimalQualityAssurance(),
     ):
         self.data_handler = data_handler
         self.imputator = imputator
@@ -202,7 +210,7 @@ class PolarPipeline:
         post_weighing=True,
         post_filtering=True,
         injecting=True,
-        testing=True
+        testing=True,
     ):
         """
         Parameters
@@ -297,7 +305,7 @@ class PolarPipeline:
             pre_influence_filtering,
             post_weighing,
             post_filtering,
-            True
+            True,
         )
 
         if injecting:
@@ -305,8 +313,10 @@ class PolarPipeline:
                 self.injector, self.injector.inject, preproc_training_data
             )
         else:
-            pts_to_inject, injector_statistics \
-                = pc.WeightedPoints(np.empty((0, 3)), np.empty(0)), {}
+            pts_to_inject, injector_statistics = (
+                pc.WeightedPoints(np.empty((0, 3)), np.empty(0)),
+                {},
+            )
 
         preproc_training_data.extend(pts_to_inject)
 
@@ -324,11 +334,10 @@ class PolarPipeline:
                 smoothing,
                 post_weighing,
                 post_filtering,
-                False
+                False,
             )
             quality_assurance_statistics = self.quality_assurance.check(
-                polar_diagram,
-                preproc_test_data.data
+                polar_diagram, preproc_test_data.data
             )
         else:
             test_statistics = _EMPTY_STATISTIC
@@ -348,13 +357,11 @@ class PolarPipeline:
             pp_training_statistics.post_filter,
             injector_statistics,
             extension_statistics,
-            quality_assurance_statistics
+            quality_assurance_statistics,
         )
 
         return PipelineOutput(
-            polar_diagram,
-            training_statistics,
-            test_statistics
+            polar_diagram, training_statistics, test_statistics
         )
 
     def _preprocess(
@@ -367,81 +374,94 @@ class PolarPipeline:
         pre_influence_filtering,
         post_weighing,
         post_filtering,
-        influence_fitting
+        influence_fitting,
     ):
 
         handled_data, handler_statistics = self._handle_data(data)
 
         imputated_data, imputator_statistics = self._map(
-            _collector_fun(self.imputator, self.imputator.impute),
-            handled_data
+            _collector_fun(self.imputator, self.imputator.impute), handled_data
         )
 
         if smoothing:
             smooth_data, smooth_statistics = self._map(
                 _collector_fun(self.smoother, self.smoother.smooth),
-                imputated_data
+                imputated_data,
             )
         else:
             smooth_data = imputated_data
             smooth_statistics = {}
 
-        pre_exp_filtered_data, pre_exp_weigher_statistics, pre_exp_filter_statistics = self._map(
-                lambda data: _weigh_and_filter(
-                    data,
-                    self.pre_expander_weigher,
-                    self.pre_expander_filter,
-                    pre_expander_weighing,
-                    pre_expander_filtering
-                ),
-                smooth_data
-            )
+        (
+            pre_exp_filtered_data,
+            pre_exp_weigher_statistics,
+            pre_exp_filter_statistics,
+        ) = self._map(
+            lambda data: _weigh_and_filter(
+                data,
+                self.pre_expander_weigher,
+                self.pre_expander_filter,
+                pre_expander_weighing,
+                pre_expander_filtering,
+            ),
+            smooth_data,
+        )
 
-        pre_exp_filtered_data = [weighted_point.data for weighted_point in pre_exp_filtered_data]
+        pre_exp_filtered_data = [
+            weighted_point.data for weighted_point in pre_exp_filtered_data
+        ]
 
         expanded_data, expanded_statistics = self._map(
             _collector_fun(self.expander, self.expander.expand),
-            pre_exp_filtered_data
+            pre_exp_filtered_data,
         )
 
-        pre_filtered_data, pre_weigher_statistics, pre_filter_statistics = \
-            self._map(
-                lambda data: _weigh_and_filter(
-                    data,
-                    self.pre_influence_weigher,
-                    self.pre_influence_filter,
-                    pre_influence_weighing,
-                    pre_influence_filtering
-                ),
-                expanded_data
-            )
+        (
+            pre_filtered_data,
+            pre_weigher_statistics,
+            pre_filter_statistics,
+        ) = self._map(
+            lambda data: _weigh_and_filter(
+                data,
+                self.pre_influence_weigher,
+                self.pre_influence_filter,
+                pre_influence_weighing,
+                pre_influence_filtering,
+            ),
+            expanded_data,
+        )
 
-        pre_filtered_data = pc.data.Data.concatenate([wp.data for wp in pre_filtered_data])
+        pre_filtered_data = pc.data.Data.concatenate(
+            [wp.data for wp in pre_filtered_data]
+        )
 
         if influence_fitting:
-            self.influence_model.fit(
-                pre_filtered_data
+            self.influence_model.fit(pre_filtered_data)
+            influence_fit_statistics = (
+                self.influence_model.get_latest_statistics()
             )
-            influence_fit_statistics = self.influence_model.get_latest_statistics()
         else:
             influence_fit_statistics = {}
 
         influence_free_data, influence_statistics = _collect(
             self.influence_model,
             self.influence_model.remove_influence,
-            pre_filtered_data
+            pre_filtered_data,
         )
 
         influence_statistics.update(influence_fit_statistics)
 
-        post_filtered_data, post_weigher_statistics, post_filter_statistics = \
-            _weigh_and_filter(
-                influence_free_data,
-                self.post_weigher,
-                self.post_filter,
-                post_weighing,
-                post_filtering
-            )
+        (
+            post_filtered_data,
+            post_weigher_statistics,
+            post_filter_statistics,
+        ) = _weigh_and_filter(
+            influence_free_data,
+            self.post_weigher,
+            self.post_filter,
+            post_weighing,
+            post_filtering,
+        )
 
         statistics = Statistics(
             handler_statistics,
@@ -457,21 +477,22 @@ class PolarPipeline:
             post_filter_statistics,
             {},
             {},
-            {}
+            {},
         )
 
         return post_filtered_data, statistics
 
     def _handle_data(self, data):
         if isinstance(self.data_handler, pc.DataHandler):
-            handler_output = [_collect(self.data_handler, self.data_handler.handle, field) for field in data]
+            handler_output = [
+                _collect(self.data_handler, self.data_handler.handle, field)
+                for field in data
+            ]
         else:
             handler_output = []
             for field in data:
                 handler = next(self.data_handler)
-                handler_output.append(
-                    _collect(handler, handler.handle, field)
-                )
+                handler_output.append(_collect(handler, handler.handle, field))
 
         return self._list_statistics(handler_output)
 
@@ -482,9 +503,10 @@ class PolarPipeline:
     @staticmethod
     def _list_statistics(pipe_output):
         data, *statistics = tuple(zip(*pipe_output))
-        statistics = tuple({
-            i: stat for i, stat in enumerate(statistic)
-        } for statistic in statistics)
+        statistics = tuple(
+            {i: stat for i, stat in enumerate(statistic)}
+            for statistic in statistics
+        )
         return (list(data),) + statistics
 
 
@@ -498,31 +520,30 @@ def _collector_fun(comp, method):
     return lambda data: _collect(comp, method, data)
 
 
-def _weigh_and_filter(
-    data,
-    weigher,
-    filter_,
-    weighing,
-    filtering
-):
+def _weigh_and_filter(data, weigher, filter_, weighing, filtering):
     if weighing:
         weights, weigher_statistics = _collect(weigher, weigher.weigh, data)
     else:
         def_weigher = pc.AllOneWeigher()
-        weights, weigher_statistics = _collect(def_weigher, def_weigher.weigh, data)
+        weights, weigher_statistics = _collect(
+            def_weigher, def_weigher.weigh, data
+        )
 
     weighed_data = pc.WeightedPoints(data, weights)
 
-    filtered_data, filter_statistics = \
-        _filter_data(filter_, weighed_data) if filtering \
+    filtered_data, filter_statistics = (
+        _filter_data(filter_, weighed_data)
+        if filtering
         else (weighed_data, {})
+    )
 
     return filtered_data, weigher_statistics, filter_statistics
 
 
 def _filter_data(filter_, weighted_points):
-    points_to_filter, filter_statistics = \
-        _collect(filter_, filter_.filter, weighted_points.weights)
+    points_to_filter, filter_statistics = _collect(
+        filter_, filter_.filter, weighted_points.weights
+    )
     return weighted_points[points_to_filter], filter_statistics
 
 

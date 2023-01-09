@@ -3,11 +3,11 @@ Contains the abstract base class `QualityAssurance` and some ready-to-use implem
 of a polar diagram against test data.
 """
 
-from hrosailing.pipelinecomponents._utils import _safe_operation
-
 from abc import ABC, abstractmethod
 
 import numpy as np
+
+from hrosailing.pipelinecomponents._utils import _safe_operation
 
 
 class QualityAssurance(ABC):
@@ -58,15 +58,12 @@ class MinimalQualityAssurance(QualityAssurance):
         ---------
         `QualityAssurance.check`
         """
-        diffs = [
-            abs(bsp - polar_diagram(ws, wa))
-            for ws, wa, bsp in test_data
-        ]
+        diffs = [abs(bsp - polar_diagram(ws, wa)) for ws, wa, bsp in test_data]
         statistics = {
             "max_error": max(diffs),
             "min_error": min(diffs),
             "average_error": np.mean(diffs),
-            "average_quadratic_error": np.mean([diff**2 for diff in diffs])
+            "average_quadratic_error": np.mean([diff**2 for diff in diffs]),
         }
         return statistics
 
@@ -76,6 +73,7 @@ class ComformingQualityAssurance(QualityAssurance):
     Quality assurance which evaluates the quality of a polar diagram using a small set of well established
     statistical metrics and additionally quality features derived from the theory of polar diagrams.
     """
+
     def check(self, polar_diagram, test_data):
         """
         Returns
@@ -98,10 +96,7 @@ class ComformingQualityAssurance(QualityAssurance):
         ---------
         `QualityAssurance.check`
         """
-        diffs = [
-            abs(bsp - polar_diagram(ws, wa))
-            for ws, wa, bsp in test_data
-        ]
+        diffs = [abs(bsp - polar_diagram(ws, wa)) for ws, wa, bsp in test_data]
         zero_diffs = [
             abs(polar_diagram(ws, wa))
             for ws in np.linspace(0, 20, 20)
@@ -119,12 +114,22 @@ class ComformingQualityAssurance(QualityAssurance):
             "max_error": _safe_operation(max, diffs),
             "min_error": _safe_operation(min, diffs),
             "average_error": _safe_operation(np.mean, diffs),
-            "average_quadratic_error": _safe_operation(np.mean, [diff ** 2 for diff in diffs]),
+            "average_quadratic_error": _safe_operation(
+                np.mean, [diff**2 for diff in diffs]
+            ),
             "max_zero_val": _safe_operation(max, zero_diffs),
             "min_zero_val": _safe_operation(min, zero_diffs),
             "average_zero_val": _safe_operation(np.mean, zero_diffs),
-            "average_quadratic_zero_val": _safe_operation(np.mean, [diff**2 for diff in zero_diffs]),
+            "average_quadratic_zero_val": _safe_operation(
+                np.mean, [diff**2 for diff in zero_diffs]
+            ),
             "test_covering": len(tested_tuples),
-            "average_local_test_data_difference": _safe_operation(np.mean, [bsp_max - bsp_min for bsp_min, bsp_max in tested_tuples.values()])
+            "average_local_test_data_difference": _safe_operation(
+                np.mean,
+                [
+                    bsp_max - bsp_min
+                    for bsp_min, bsp_max in tested_tuples.values()
+                ],
+            ),
         }
         return statistics

@@ -3,16 +3,19 @@ This Module contains the abstract base class and inheriting classes for the
 handling of weather information.
 """
 
-import numpy as np
 import itertools
-from bisect import bisect_left
-from abc import ABC, abstractmethod
-from datetime import timedelta, datetime
-# from math import prod
-
 import json
+from abc import ABC, abstractmethod
+from bisect import bisect_left
+from datetime import datetime, timedelta
+
+import numpy as np
 
 from hrosailing.globe_model import SphericalGlobe
+
+# from math import prod
+
+
 
 
 class OutsideGridException(Exception):
@@ -230,8 +233,7 @@ def _recursive_affine_interpolation(point, grid, get_data):
         )
 
     idxs = [
-        bisect_left(grid_comp, comp)
-        for grid_comp, comp in zip(grid, point)
+        bisect_left(grid_comp, comp) for grid_comp, comp in zip(grid, point)
     ]
     flags = [
         grid_pt[idx] == pt
@@ -243,13 +245,11 @@ def _recursive_affine_interpolation(point, grid, get_data):
     ]
 
     cuboid = [
-        [idx - 1, idx] if not flag else [idx]
-        for idx, flag in zip(idxs, flags)
+        [idx - 1, idx] if not flag else [idx] for idx, flag in zip(idxs, flags)
     ]
 
     cuboid_vals = [
-        [grid[dim][idx] for idx in c]
-        for dim, c in enumerate(cuboid)
+        [grid[dim][idx] for idx in c] for dim, c in enumerate(cuboid)
     ]
 
     def recursion(point_, completed=[]):
@@ -274,8 +274,8 @@ def _recursive_affine_interpolation(point, grid, get_data):
 
         lamb = (comp - val1) / (val0 - val1)
 
-        data0 = point_[:dim] + [val0] + point_[dim + 1:]
-        data1 = point_[:dim] + [val1] + point_[dim + 1:]
+        data0 = point_[:dim] + [val0] + point_[dim + 1 :]
+        data1 = point_[:dim] + [val1] + point_[dim + 1 :]
 
         term0 = recursion(data0, completed + [idx0])
         term1 = recursion(data1, completed + [idx1])
@@ -308,17 +308,17 @@ class NetCDFWeatherModel(GriddedWeatherModel):
     """
 
     def __init__(
-            self,
-            path,
-            aliases={"lat": "latitude", "lon": "longitude",
-                     "datetime": "time"},
-            further_indices={}
+        self,
+        path,
+        aliases={"lat": "latitude", "lon": "longitude", "datetime": "time"},
+        further_indices={},
     ):
         try:
             import netCDF4 as nc
         except ModuleNotFoundError:
             raise ModuleNotFoundError(
-                "Install netCDF4 in order to use NetCDFWeatherModel.")
+                "Install netCDF4 in order to use NetCDFWeatherModel."
+            )
         self._dataset = nc.Dataset(path)
         self._aliases = aliases
         self._further_indices = further_indices
@@ -326,8 +326,10 @@ class NetCDFWeatherModel(GriddedWeatherModel):
         lats = self._dataset[aliases["lat"]]
         lons = self._dataset[aliases["lon"]]
         # check if in descending order and change order if necessary
-        self._lats_flipped, self._lons_flipped = lats[-1] < lats[0], lons[-1] < \
-                                                 lons[0]
+        self._lats_flipped, self._lons_flipped = (
+            lats[-1] < lats[0],
+            lons[-1] < lons[0],
+        )
         if self._lats_flipped:
             lats = np.flip(lats)
         if self._lons_flipped:
@@ -344,11 +346,10 @@ class NetCDFWeatherModel(GriddedWeatherModel):
             datetime_str = unit_str[14:]
         else:
             raise NotImplementedError(
-                f"NetCDFWeatherModel can not interpret time units '{unit_str}'.")
-        fmts = [
-            "%Y-%m-%d %H:%M",
-            "%Y-%m-%d %H:%M:%S"
-        ]
+                "NetCDFWeatherModel can not interpret time units"
+                f" '{unit_str}'."
+            )
+        fmts = ["%Y-%m-%d %H:%M", "%Y-%m-%d %H:%M:%S"]
         starting_time = None
         for fmt in fmts:
             try:
@@ -358,15 +359,20 @@ class NetCDFWeatherModel(GriddedWeatherModel):
                 pass
         if starting_time is None:
             raise NotImplementedError(
-                f"NetCDFWeatherModel does not support the time format of `{datetime_str}`. "
-                f"Use one of {fmts} instead."
+                "NetCDFWeatherModel does not support the time format of"
+                f" `{datetime_str}`. Use one of {fmts} instead."
             )
 
-        times = [starting_time + int(plain_time) * timestep for plain_time in
-                 plain_times]
+        times = [
+            starting_time + int(plain_time) * timestep
+            for plain_time in plain_times
+        ]
 
-        attrs = [var for var in self._dataset.variables if
-                 var not in aliases.values()]
+        attrs = [
+            var
+            for var in self._dataset.variables
+            if var not in aliases.values()
+        ]
 
         super().__init__(None, times, lats, lons, attrs)
 
@@ -397,9 +403,9 @@ class NetCDFWeatherModel(GriddedWeatherModel):
                     new_idxs.append(self._further_indices[coord])
                 else:
                     raise NotImplementedError(
-                        f"For the handling of variables other than 'latitude',"
+                        "For the handling of variables other than 'latitude',"
                         f" 'longitude' and 'time' as '{coord}' initialize the"
-                        f" NetCDFWeatherModel with "
+                        " NetCDFWeatherModel with "
                         f"'further_indices={{'{coord}': a}}'"
                     )
             attr_list.append(self._dataset[attr][tuple(new_idxs)])
@@ -446,11 +452,13 @@ class MultiWeatherModel(WeatherModel):
         weather_data = {}
         for model in self._models:
             try:
-                weather_data.update(
-                    model.get_weather(point)
-                )
+                weather_data.update(model.get_weather(point))
             except (
-            ValueError, TypeError, KeyError, OutsideGridException) as e:
+                ValueError,
+                TypeError,
+                KeyError,
+                OutsideGridException,
+            ) as e:
                 if self._exception_sensitive:
                     raise e
         return weather_data

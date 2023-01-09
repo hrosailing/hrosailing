@@ -9,6 +9,7 @@ Also contains predefined and usable smoothers:
 """
 import datetime
 from abc import ABC, abstractmethod
+
 from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 
 
@@ -16,6 +17,7 @@ class Smoother(ABC, ComponentWithStatistics):
     """
     Base class for all smoothers aimed to smoothen measurement errors in given data.
     """
+
     def __init__(self):
         super().__init__()
 
@@ -42,6 +44,7 @@ class LazySmoother(Smoother):
     """
     Smoother that doesn't do anything.
     """
+
     def smooth(self, data):
         """
         Does not change the data and provides an empty statistics dictionary.
@@ -68,7 +71,7 @@ class AffineSmoother(Smoother):
         Amount of time before the actual value of an interval is assumed to be the real value.
     """
 
-    def __init__(self, timespan = datetime.timedelta(seconds = 30)):
+    def __init__(self, timespan=datetime.timedelta(seconds=30)):
         super().__init__()
         self._timespan = timespan.total_seconds()
 
@@ -91,11 +94,17 @@ class AffineSmoother(Smoother):
         start_time = data["datetime"][0]
         xs = [(time - start_time).total_seconds() for time in data["datetime"]]
 
-        interval_bounds_x, interval_bounds_y = self._get_interval_bounds(xs, ys)
+        interval_bounds_x, interval_bounds_y = self._get_interval_bounds(
+            xs, ys
+        )
 
-        approx_intervals_x, approx_intervals_y = self._approximate_intervals(interval_bounds_x, interval_bounds_y, ys)
+        approx_intervals_x, approx_intervals_y = self._approximate_intervals(
+            interval_bounds_x, interval_bounds_y, ys
+        )
 
-        smooth_data = self._smooth_data_from_approx_intervals(approx_intervals_x, approx_intervals_y, xs, data, key)
+        smooth_data = self._smooth_data_from_approx_intervals(
+            approx_intervals_x, approx_intervals_y, xs, data, key
+        )
 
         return smooth_data
 
@@ -105,16 +114,17 @@ class AffineSmoother(Smoother):
         interval_bounds_x = []
         interval_bounds_y = []
         for i, (x, x_after, y, y_after) in enumerate(
-                zip(xs, xs[1:], ys, ys[1:])):
+            zip(xs, xs[1:], ys, ys[1:])
+        ):
             if i == len(ys) - 2:
                 interval_bounds_x.append((x_lb, x_after))
                 interval_bounds_y.append(y)
                 break
             if y == y_after:
                 continue
-            interval_bounds_x.extend([(x_lb, 1/2*(x + x_after))])
+            interval_bounds_x.extend([(x_lb, 1 / 2 * (x + x_after))])
             interval_bounds_y.append(y_lb)
-            x_lb = 1/2*(x + x_after)
+            x_lb = 1 / 2 * (x + x_after)
             y_lb = y_after
 
         return interval_bounds_x, interval_bounds_y
@@ -128,26 +138,36 @@ class AffineSmoother(Smoother):
         #         interval_bounds_x, interval_bounds_y, interval_bounds_y[1:] + [ys[-1]]
         # ):
         for (x_lb, x_ub), y, y_after in zip(
-                interval_bounds_x, interval_bounds_y, interval_bounds_y[1:] + [ys[-1]]
+            interval_bounds_x,
+            interval_bounds_y,
+            interval_bounds_y[1:] + [ys[-1]],
         ):
-            if x_ub - x_lb < 2*self._timespan:
-                midpt = 1/2*(x_ub + x_lb)
+            if x_ub - x_lb < 2 * self._timespan:
+                midpt = 1 / 2 * (x_ub + x_lb)
                 approx_intervals_x.extend([(x_lb, midpt), (midpt, x_ub)])
-                approx_intervals_y.extend([(1/2*(y_before + y), y), (y, 1/2*(y_after + y))])
+                approx_intervals_y.extend(
+                    [(1 / 2 * (y_before + y), y), (y, 1 / 2 * (y_after + y))]
+                )
             else:
                 lb_ref = x_lb + self._timespan
                 ub_ref = x_ub - self._timespan
-                approx_intervals_x.extend([
-                    (x_lb, lb_ref), (lb_ref, ub_ref), (ub_ref, x_ub)
-                ])
-                approx_intervals_y.extend([
-                    (1/2*(y_before + y), y), (y, y), (y, 1/2*(y_after + y))
-                ])
+                approx_intervals_x.extend(
+                    [(x_lb, lb_ref), (lb_ref, ub_ref), (ub_ref, x_ub)]
+                )
+                approx_intervals_y.extend(
+                    [
+                        (1 / 2 * (y_before + y), y),
+                        (y, y),
+                        (y, 1 / 2 * (y_after + y)),
+                    ]
+                )
             y_before = y
 
         return approx_intervals_x, approx_intervals_y
 
-    def _smooth_data_from_approx_intervals(self, approx_intervals_x, approx_intervals_y, xs, data, key):
+    def _smooth_data_from_approx_intervals(
+        self, approx_intervals_x, approx_intervals_y, xs, data, key
+    ):
 
         x_lb, x_ub = approx_intervals_x[0]
         y_lb, y_ub = approx_intervals_y[0]
@@ -162,8 +182,8 @@ class AffineSmoother(Smoother):
                     break
 
             try:
-                mu = (x - x_lb)/(x_ub - x_lb)
-                data[key][i] = mu*y_ub + (1-mu)*y_lb
+                mu = (x - x_lb) / (x_ub - x_lb)
+                data[key][i] = mu * y_ub + (1 - mu) * y_lb
             except ZeroDivisionError:
                 data[key][i] = y_ub
 
