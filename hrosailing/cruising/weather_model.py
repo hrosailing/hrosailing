@@ -16,8 +16,6 @@ from hrosailing.globe_model import SphericalGlobe
 # from math import prod
 
 
-
-
 class OutsideGridException(Exception):
     """Exception raised if point accessed in weather model lies
     outside the available grid"""
