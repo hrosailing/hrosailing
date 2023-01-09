@@ -80,7 +80,7 @@ class PipelineOutput(NamedTuple):
 class PolarPipeline:
     """A Pipeline class to create polar diagrams from raw data.
 
-    Supported keyword parameter
+    Supported Keyword Parameter
     ---------------------------
 
     data_handler : DataHandler or list of DataHandler, optional
@@ -180,23 +180,14 @@ class PolarPipeline:
             pc.IdentityInfluenceModel(), pc.CylindricMeanWeigher(), pc.QuantileFilter(), pc.ZeroInjector(500),
             TableExtension(), pc.MinimalQualityAssurance(),
         ]
-        for key, default in zip(keys, defaults):
-            self._set_with_default(custom_components, key, default)
+        self._set_with_default(custom_components, keys, defaults)
 
     def __call__(
         self,
         training_data,
         test_data=None,
         apparent_wind=False,
-        smoothing=True,
-        pre_expander_weighing=True,
-        pre_expander_filtering=True,
-        pre_influence_weighing=True,
-        pre_influence_filtering=True,
-        post_weighing=True,
-        post_filtering=True,
-        injecting=True,
-        testing=True,
+        **enabling
     ):
         """
         Parameters
@@ -223,6 +214,9 @@ class PolarPipeline:
             If `True`, wind will be converted to true wind.
 
             Defaults to `False`.
+
+        Supported Keyword Parameter
+        ---------------------------
 
         pre_expander_weighing : bool, optional
             Specifies, whether the pre_influence_weigher should be applied before application of the
@@ -278,23 +272,23 @@ class PolarPipeline:
         -------
         out : PipelineOutput
         """
+        keys = [
+            "smoothing", "pre_expander_weighing", "pre_expander_filtering", "pre_influence_weighing",
+            "pre_influence_filtering", "post_weighing", "post_filtering", "injecting", "testing"
+        ]
+        defaults = [True]*len(keys)
+
+        self._set_with_default(enabling, keys, defaults)
 
         if test_data is None:
             testing = False
 
         preproc_training_data, pp_training_statistics = self._preprocess(
             training_data,
-            smoothing,
-            pre_expander_weighing,
-            pre_expander_filtering,
-            pre_influence_weighing,
-            pre_influence_filtering,
-            post_weighing,
-            post_filtering,
             True,
         )
 
-        if injecting:
+        if self.injecting:
             pts_to_inject, injector_statistics = _collect(
                 self.injector, self.injector.inject, preproc_training_data
             )
@@ -310,16 +304,9 @@ class PolarPipeline:
             self.extension, self.extension.process, preproc_training_data
         )
 
-        if testing:
+        if self.testing:
             preproc_test_data, test_statistics = self._preprocess(
                 test_data,
-                pre_expander_weighing,
-                pre_expander_filtering,
-                pre_influence_weighing,
-                pre_influence_filtering,
-                smoothing,
-                post_weighing,
-                post_filtering,
                 False,
             )
             quality_assurance_statistics = self.quality_assurance.check(
@@ -353,14 +340,7 @@ class PolarPipeline:
     def _preprocess(
         self,
         data,
-        smoothing,
-        pre_expander_weighing,
-        pre_expander_filtering,
-        pre_influence_weighing,
-        pre_influence_filtering,
-        post_weighing,
-        post_filtering,
-        influence_fitting,
+        influence_fitting
     ):
 
         handled_data, handler_statistics = self._handle_data(data)
@@ -369,7 +349,7 @@ class PolarPipeline:
             _collector_fun(self.imputator, self.imputator.impute), handled_data
         )
 
-        if smoothing:
+        if self.smoothing:
             smooth_data, smooth_statistics = self._map(
                 _collector_fun(self.smoother, self.smoother.smooth),
                 imputated_data,
@@ -387,8 +367,8 @@ class PolarPipeline:
                 data,
                 self.pre_expander_weigher,
                 self.pre_expander_filter,
-                pre_expander_weighing,
-                pre_expander_filtering,
+                self.pre_expander_weighing,
+                self.pre_expander_filtering,
             ),
             smooth_data,
         )
@@ -411,8 +391,8 @@ class PolarPipeline:
                 data,
                 self.pre_influence_weigher,
                 self.pre_influence_filter,
-                pre_influence_weighing,
-                pre_influence_filtering,
+                self.pre_influence_weighing,
+                self.pre_influence_filtering,
             ),
             expanded_data,
         )
@@ -445,8 +425,8 @@ class PolarPipeline:
             influence_free_data,
             self.post_weigher,
             self.post_filter,
-            post_weighing,
-            post_filtering,
+            self.post_weighing,
+            self.post_filtering,
         )
 
         statistics = Statistics(
@@ -468,11 +448,12 @@ class PolarPipeline:
 
         return post_filtered_data, statistics
 
-    def _set_with_default(self, dict_, key, default):
-        if key in dict_:
-            self.__setattr__(key, dict_[key])
-        else:
-            self.__setattr__(key, default)
+    def _set_with_default(self, dict_, keys, defaults):
+        for key, default in zip(keys, defaults):
+            self.__setattr__(key, self._switch_default(dict_, key, default))
+
+    def _switch_default(self, dict_, key, default):
+        return dict_[key] if key in dict_ else default
 
     def _handle_data(self, data):
         if isinstance(self.data_handler, pc.DataHandler):
