@@ -13,7 +13,10 @@ import numpy as np
 from scipy.integrate import solve_ivp, trapezoid
 from scipy.spatial import ConvexHull
 
-from hrosailing.cruising.weather_model import WeatherModel, OutsideGridException
+from hrosailing.cruising.weather_model import (
+    OutsideGridException,
+    WeatherModel,
+)
 from hrosailing.pipelinecomponents import InfluenceModel
 
 
