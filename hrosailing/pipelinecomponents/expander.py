@@ -19,7 +19,7 @@ class Expander(ABC, ComponentWithStatistics):
     """Base class for all expander classes."""
 
     def __init__(self):
-        super().__init__()
+        super(ComponentWithStatistics, self).__init__()
 
     @abstractmethod
     def expand(self, data):
