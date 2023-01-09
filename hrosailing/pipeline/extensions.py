@@ -14,7 +14,7 @@ from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 from hrosailing.pipelinecomponents.modelfunctions import (
     ws_s_wa_gauss_and_square,
 )
-
+from hrosailing.polardiagram._polardiagramtable import _Resolution
 
 class PipelineExtension(ComponentWithStatistics, ABC):
     """Base class for all pipeline extensions.
@@ -112,7 +112,6 @@ class TableExtension(PipelineExtension):
         return pol.PolarDiagramTable(ws_resolution, wa_resolution, bsps)
 
     def _determine_table_size(self, points):
-        from hrosailing.polardiagram._polardiagramtable import _Resolution
 
         if self.wind_resolution == "auto":
             return _automatically_determined_resolution(points)

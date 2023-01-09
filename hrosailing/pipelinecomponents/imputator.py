@@ -220,12 +220,10 @@ class FillLocalImputator(Imputator):
             if idx[0] > 0:
                 try:
                     start_idx = min(
-                        [
-                            i
-                            for i in range(idx[0])
-                            if datetime[idx[0]] - datetime[i]
-                            < self._max_time_diff
-                        ]
+                        i
+                        for i in range(idx[0])
+                        if datetime[idx[0]] - datetime[i]
+                        < self._max_time_diff
                     )  # first idx in time interval
                 except ValueError:
                     continue

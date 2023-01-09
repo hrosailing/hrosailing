@@ -64,7 +64,6 @@ class WeatherModel(ABC):
             If it is a grid point, the weather data is taken straight
             from the model, else it is interpolated as described above.
         """
-        pass
 
 
 class GriddedWeatherModel(WeatherModel):
@@ -203,7 +202,7 @@ class GriddedWeatherModel(WeatherModel):
         path : path like
             The path of the written file.
         """
-        with open(path, "w") as file:
+        with open(path, "w", encoding="utf-8") as file:
             file.write(json.dumps(self, cls=_GriddedWeatherModelEncoder))
 
     @classmethod
@@ -217,7 +216,7 @@ class GriddedWeatherModel(WeatherModel):
         path : path like
             The path of the file to be read.
         """
-        with open(path, "r") as file:
+        with open(path, "r", encoding="utf-8") as file:
             data, times, *rest = json.loads(file.read())
             times = [datetime.strptime(t, "%d.%m.%Y:%X") for t in times]
             return cls(data, times, *rest)
@@ -271,8 +270,10 @@ def _recursive_affine_interpolation(point, grid, get_data):
         [grid[dim][idx] for idx in c] for dim, c in enumerate(cuboid)
     ]
 
-    def recursion(point_, completed=[]):
+    def recursion(point_, completed=None):
         # get first entry which has not been computed yet
+        if completed is None:
+            completed = []
 
         dim = len(completed)
 
@@ -329,11 +330,16 @@ class NetCDFWeatherModel(GriddedWeatherModel):
     def __init__(
         self,
         path,
-        aliases={"lat": "latitude", "lon": "longitude", "datetime": "time"},
-        further_indices={},
+        aliases=None,
+        further_indices=None,
     ):
         if not installed_netcdf:
             raise ModuleNotFoundError("Install netCDF4 to use NetCDFWeatherModel")
+
+        if aliases is None:
+            aliases = {"lat": "latitude", "lon": "longitude", "datetime": "time"}
+        if further_indices is None:
+            further_indices = {}
 
         self._dataset = nc.Dataset(path)
         self._aliases = aliases

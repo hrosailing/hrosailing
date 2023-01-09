@@ -33,7 +33,6 @@ class Expander(ComponentWithStatistics, ABC):
         data : Data
             The processed data.
         """
-        pass
 
     def set_statistics(self, data):
         super().set_statistics(n_rows=data.n_rows, n_cols=data.n_cols)

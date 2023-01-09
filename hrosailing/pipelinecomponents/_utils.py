@@ -18,9 +18,12 @@ def euclidean_norm(vec):
 
 def scaled_euclidean_norm(vec):
     if vec.shape[1] == 2:
-        return scaled_norm(euclidean_norm, [1 / 40, 1 / 360])(vec)
-    if vec.shape[1] == 3:
-        return scaled_norm(euclidean_norm, [1 / 40, 1 / 360, 1 / 20])(vec)
+        norm_val = scaled_norm(euclidean_norm, [1 / 40, 1 / 360])(vec)
+    elif vec.shape[1] == 3:
+        norm_val = scaled_norm(euclidean_norm, [1 / 40, 1 / 360, 1 / 20])(vec)
+    else:
+        raise NotImplementedError("scaled_euclidean_norm only supports 2 and 3 dimensional inputs")
+    return norm_val
 
 
 def data_dict_to_numpy(data_dict, keys):

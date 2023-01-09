@@ -243,11 +243,11 @@ class _UnaryMapWeigher(Weigher):
 
 
 class _BinaryMapWeigher(Weigher):
-    def __init__(self, sub_weigher, other_sub_weigher, map):
+    def __init__(self, sub_weigher, other_sub_weigher, map_):
         super().__init__()
         self._sub_weigher = sub_weigher
         self._other_sub_weigher = other_sub_weigher
-        self._map = map
+        self._map = map_
 
     def weigh(self, points) -> (np.ndarray, dict):
         weights, _ = self._sub_weigher.weigh(points)
@@ -795,8 +795,8 @@ class FuzzyVariable:
         sigmoid = FuzzyBool.sigmoid(float(other), self.sharpness, sigma)
         if self.key is None:
             return sigmoid
-        else:
-            return sigmoid[self.key]
+
+        return sigmoid[self.key]
 
     def __gt__(self, other):
         return self._truth(other, -1)

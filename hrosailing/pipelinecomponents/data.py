@@ -61,6 +61,10 @@ class Data:
     def n_cols(self):
         return len(self._data)
 
+    @property
+    def data(self):
+        return self._data.copy()
+
     def rows(self, keys=None, return_type=dict):
         """
         Iterates over the rows.
@@ -167,7 +171,7 @@ class Data:
             self.fill()
         # if isinstance(data_dict, Data): this does not work for some reason
         else:
-            self.update(data_dict._data)
+            self.update(data_dict.data)
 
     def append(self, key, data):
         """
@@ -295,7 +299,7 @@ class Data:
             self._data = {
                 key: value
                 for key, value in self._data.items()
-                if not all([v is None for v in value])
+                if not all(v is None for v in value)
             }
         elif mode == "rows":
             end_leading_nones = 0  # first index AFTER leading None rows
@@ -337,10 +341,10 @@ class Data:
             stripped_lkey = lkey if lkey[-1] != "s" else lkey[:-1]
             if lkey in KEYSYNONYMS:
                 return KEYSYNONYMS[lkey]
-            elif stripped_lkey in KEYSYNONYMS:
+            if stripped_lkey in KEYSYNONYMS:
                 return KEYSYNONYMS[stripped_lkey]
-            else:
-                return key
+
+            return key
 
         for key, value in list(self._data.items()):
             standard_key = get_standard_key(key)
