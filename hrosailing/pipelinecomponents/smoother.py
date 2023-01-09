@@ -86,11 +86,20 @@ class AffineSmoother(Smoother):
         return data
 
     def _smooth_field(self, key, data):
+
         ys = data[key].copy()
         start_time = data["datetime"][0]
         xs = [(time - start_time).total_seconds() for time in data["datetime"]]
 
-        i_start = 0
+        interval_bounds_x, interval_bounds_y = self._get_interval_bounds(xs, ys)
+
+        approx_intervals_x, approx_intervals_y = self._approximate_intervals(interval_bounds_x, interval_bounds_y, ys)
+
+        smooth_data = self._smooth_data_from_approx_intervals(approx_intervals_x, approx_intervals_y, xs, data, key)
+
+        return smooth_data
+
+    def _get_interval_bounds(self, xs, ys):
         x_lb = xs[0]
         y_lb = ys[0]
         interval_bounds_x = []
@@ -108,6 +117,9 @@ class AffineSmoother(Smoother):
             x_lb = 1/2*(x + x_after)
             y_lb = y_after
 
+        return interval_bounds_x, interval_bounds_y
+
+    def _approximate_intervals(self, interval_bounds_x, interval_bounds_y, ys):
         approx_intervals_x = []
         approx_intervals_y = []
 
@@ -132,6 +144,10 @@ class AffineSmoother(Smoother):
                     (1/2*(y_before + y), y), (y, y), (y, 1/2*(y_after + y))
                 ])
             y_before = y
+
+        return approx_intervals_x, approx_intervals_y
+
+    def _smooth_data_from_approx_intervals(self, approx_intervals_x, approx_intervals_y, xs, data, key):
 
         x_lb, x_ub = approx_intervals_x[0]
         y_lb, y_ub = approx_intervals_y[0]
