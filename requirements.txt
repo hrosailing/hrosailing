@@ -1,5 +1,5 @@
 scipy~=1.9.1
-numpy~=1.21.2
+numpy~=1.22.0
 matplotlib~=3.4.3
 setuptools~=58.1.0
 pynmea2~=1.18.0
