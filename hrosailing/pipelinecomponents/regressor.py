@@ -246,7 +246,7 @@ class LeastSquareRegressor(Regressor):
             Data to which the model function will be fitted, given as
             a sequence of points consisting of wind speed, wind angle
             and boat speed.
-        
+
         See also
         --------
         [curve_fit](https://docs.scipy.org/doc/scipy/reference/generated/\

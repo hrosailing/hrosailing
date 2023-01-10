@@ -302,7 +302,7 @@ class PolarPipeline:
         self._set_with_default(enabling, keys, defaults)
 
         if test_data is None:
-            testing = False
+            self.testing = False
 
         preproc_training_data, pp_training_statistics = self._preprocess(
             training_data,
