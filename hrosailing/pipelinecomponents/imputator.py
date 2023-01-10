@@ -217,86 +217,97 @@ class FillLocalImputator(Imputator):
             # "fill before" function
             if key == "datetime":
                 continue
-            if idx[0] > 0:
-                try:
-                    start_idx = min(
-                        i
-                        for i in range(idx[0])
-                        if datetime[idx[0]] - datetime[i] < self._max_time_diff
-                    )  # first idx in time interval
-                except ValueError:
-                    continue
 
+            try:
+                start_idx = self._aplly_fill_before(datetime, idx, key, data)
+            except ValueError:
+                continue
+
+            self._apply_fill_between(key, idx, data, datetime)
+
+            self._apply_fill_after(key, idx, data, datetime, start_idx)
+
+        return data
+
+    def _aplly_fill_before(self, datetime, idx, key, data):
+        if idx[0] > 0:
+            start_idx = min(
+                i
+                for i in range(idx[0])
+                if datetime[idx[0]] - datetime[i] < self._max_time_diff
+            )  # first idx in time interval
+
+            self._fill_range(
+                data,
+                datetime,
+                key,
+                start_idx,
+                idx[0],
+                self._fill_before,
+            )
+
+            return start_idx
+        return None
+
+    def _apply_fill_between(self, key, idx, data, datetime):
+        for idx1, idx2 in zip(idx, idx[1:]):
+            timediff = datetime[idx2] - datetime[idx1]
+            if timediff < self._max_time_diff:
+                # fill data according to fill_between function
                 self._fill_range(
                     data,
                     datetime,
                     key,
-                    start_idx,
-                    idx[0],
-                    self._fill_before,
+                    idx1,
+                    idx2,
+                    self._fill_between,
                 )
-
-            # convex interpolation of entries between non-None entries
-            for idx1, idx2 in zip(idx, idx[1:]):
-                timediff = datetime[idx2] - datetime[idx1]
-                if timediff < self._max_time_diff:
-                    # fill data according to fill_between function
+            else:
+                # fill data according to fill_before and fill_after
+                near_points = [
+                    i
+                    for i in range(idx1 + 1, idx2)
+                    if datetime[i] - datetime[idx1] < self._max_time_diff
+                ]
+                if len(near_points) > 0:
+                    last_idx_right = max(near_points)
                     self._fill_range(
                         data,
                         datetime,
                         key,
                         idx1,
-                        idx2,
-                        self._fill_between,
+                        last_idx_right,
+                        self._fill_after,
                     )
-                else:
-                    # fill data according to fill_before and fill_after
-                    near_points = [
-                        i
-                        for i in range(idx1 + 1, idx2)
-                        if datetime[i] - datetime[idx1] < self._max_time_diff
-                    ]
-                    if len(near_points) > 0:
-                        last_idx_right = max(near_points)
-                        self._fill_range(
-                            data,
-                            datetime,
-                            key,
-                            idx1,
-                            last_idx_right,
-                            self._fill_after,
-                        )
-                    near_points = [
-                        i
-                        for i in range(idx1 + 1, idx2)
-                        if datetime[idx2] - datetime[i] < self._max_time_diff
-                    ]
-                    if len(near_points) > 0:
-                        first_idx_left = min(near_points)
-                        self._fill_range(
-                            data,
-                            datetime,
-                            key,
-                            first_idx_left,
-                            idx2,
-                            self._fill_before,
-                        )
+                near_points = [
+                    i
+                    for i in range(idx1 + 1, idx2)
+                    if datetime[idx2] - datetime[i] < self._max_time_diff
+                ]
+                if len(near_points) > 0:
+                    first_idx_left = min(near_points)
+                    self._fill_range(
+                        data,
+                        datetime,
+                        key,
+                        first_idx_left,
+                        idx2,
+                        self._fill_before,
+                    )
 
-            # fill last entries according to 'fill_after'
-            near_points = [
-                i
-                for i in range(idx[0])
-                if datetime[idx[0]] - datetime[i] < self._max_time_diff
-            ]
-            if len(near_points) > 0:
-                end_idx = min(near_points)  # first idx in time interval
-                self._fill_range(
-                    data,
-                    datetime,
-                    key,
-                    start_idx,
-                    end_idx,
-                    self._fill_after,
-                )
-
-        return data
+    def _apply_fill_after(self, key, idx, data, datetime, start_idx):
+        near_points = [
+            i
+            for i in range(idx[0])
+            if datetime[idx[0]] - datetime[i] < self._max_time_diff
+        ]
+        if len(near_points) > 0:
+            end_idx = min(near_points)  # first idx in time interval
+            self._fill_range(
+                data,
+                datetime,
+                key,
+                start_idx,
+                end_idx,
+                self._fill_after,
+            )
