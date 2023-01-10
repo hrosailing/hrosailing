@@ -389,20 +389,14 @@ class PolarPipeline:
             data,
         )
 
-        data = [
-            weighted_point.data for weighted_point in data
-        ]
+        data = [weighted_point.data for weighted_point in data]
 
         data, expanded_statistics = self._map(
             _collector_fun(self.expander, self.expander.expand),
             data,
         )
 
-        (
-            data,
-            pre_weigher_statistics,
-            pre_filter_statistics,
-        ) = self._map(
+        (data, pre_weigher_statistics, pre_filter_statistics,) = self._map(
             lambda data: _weigh_and_filter(
                 data,
                 self.pre_influence_weigher,
@@ -413,9 +407,7 @@ class PolarPipeline:
             data,
         )
 
-        data = pc.data.Data.concatenate(
-            [wp.data for wp in data]
-        )
+        data = pc.data.Data.concatenate([wp.data for wp in data])
 
         if influence_fitting:
             self.influence_model.fit(data)
