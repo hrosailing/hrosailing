@@ -360,47 +360,46 @@ class PolarPipeline:
 
     def _preprocess(self, data, influence_fitting):
 
-        handled_data, handler_statistics = self._handle_data(data)
+        data, handler_statistics = self._handle_data(data)
 
-        imputated_data, imputator_statistics = self._map(
-            _collector_fun(self.imputator, self.imputator.impute), handled_data
+        data, imputator_statistics = self._map(
+            _collector_fun(self.imputator, self.imputator.impute), data
         )
 
         if self.smoothing:
-            smooth_data, smooth_statistics = self._map(
+            data, smooth_statistics = self._map(
                 _collector_fun(self.smoother, self.smoother.smooth),
-                imputated_data,
+                data,
             )
         else:
-            smooth_data = imputated_data
             smooth_statistics = {}
 
         (
-            pre_exp_filtered_data,
+            data,
             pre_exp_weigher_statistics,
             pre_exp_filter_statistics,
         ) = self._map(
-            lambda data: _weigh_and_filter(
-                data,
+            lambda x: _weigh_and_filter(
+                x,
                 self.pre_expander_weigher,
                 self.pre_expander_filter,
                 self.pre_expander_weighing,
                 self.pre_expander_filtering,
             ),
-            smooth_data,
+            data,
         )
 
-        pre_exp_filtered_data = [
-            weighted_point.data for weighted_point in pre_exp_filtered_data
+        data = [
+            weighted_point.data for weighted_point in data
         ]
 
-        expanded_data, expanded_statistics = self._map(
+        data, expanded_statistics = self._map(
             _collector_fun(self.expander, self.expander.expand),
-            pre_exp_filtered_data,
+            data,
         )
 
         (
-            pre_filtered_data,
+            data,
             pre_weigher_statistics,
             pre_filter_statistics,
         ) = self._map(
@@ -411,35 +410,35 @@ class PolarPipeline:
                 self.pre_influence_weighing,
                 self.pre_influence_filtering,
             ),
-            expanded_data,
+            data,
         )
 
-        pre_filtered_data = pc.data.Data.concatenate(
-            [wp.data for wp in pre_filtered_data]
+        data = pc.data.Data.concatenate(
+            [wp.data for wp in data]
         )
 
         if influence_fitting:
-            self.influence_model.fit(pre_filtered_data)
+            self.influence_model.fit(data)
             influence_fit_statistics = (
                 self.influence_model.get_latest_statistics()
             )
         else:
             influence_fit_statistics = {}
 
-        influence_free_data, influence_statistics = _collect(
+        data, influence_statistics = _collect(
             self.influence_model,
             self.influence_model.remove_influence,
-            pre_filtered_data,
+            data,
         )
 
         influence_statistics.update(influence_fit_statistics)
 
         (
-            post_filtered_data,
+            data,
             post_weigher_statistics,
             post_filter_statistics,
         ) = _weigh_and_filter(
-            influence_free_data,
+            data,
             self.post_weigher,
             self.post_filter,
             self.post_weighing,
@@ -463,7 +462,7 @@ class PolarPipeline:
             {},
         )
 
-        return post_filtered_data, statistics
+        return data, statistics
 
     def _set_with_default(self, dict_, keys, defaults):
         for key, default in zip(keys, defaults):
