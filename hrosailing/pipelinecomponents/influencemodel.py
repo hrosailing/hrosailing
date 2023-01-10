@@ -237,8 +237,8 @@ def _get_true_wind_data(data: dict):
     if "TWA" in data and "TWS" in data:
         if isinstance(data["TWS"], list):
             return data_dict_to_numpy(data, ["TWS", "TWA", speed])
-        else:
-            return np.array([data["TWS"], data["TWA"], data[speed]])
+
+        return np.array([data["TWS"], data["TWA"], data[speed]])
 
     if "AWA" in data and "AWS" in data:
         apparent_data = data_dict_to_numpy(data, ["AWS", "AWA", speed])

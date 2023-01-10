@@ -166,8 +166,8 @@ class GriddedWeatherModel(WeatherModel):
         """
         if (not installed_meteostat) or (not installed_pandas):
             raise ImportError(
-                f"The modules `meteostat` and `pandas` are necessary in order "
-                f"to use `GriddedWeatherModel.from_meteostat`"
+                """The modules `meteostat` and `pandas` are
+                necessary to use `GriddedWeatherModel.from_meteostat`"""
             )
 
         # fetch data
