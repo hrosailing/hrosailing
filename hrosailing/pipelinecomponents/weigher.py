@@ -605,6 +605,8 @@ def _set_points_from_data(data, dimensions, reduce=True):
         data = data[dimensions].numerical
         return data
 
+    raise TypeError(f"Data of type {type(data)} is not supported.")
+
 
 class FuzzyBool:
     """

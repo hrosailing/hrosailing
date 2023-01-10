@@ -481,7 +481,7 @@ class Data:
             for key, value in self._data.items()
         }
         try:
-            max_len = max([len(field) for field in data.values()])
+            max_len = max(len(field) for field in data.values())
         except ValueError:
             max_len = 0
 
