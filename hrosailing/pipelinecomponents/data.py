@@ -467,7 +467,7 @@ class Data:
             max_len = 0
         return Data._force_set(data, types, max_len)
 
-    def mask_rows(self, mask):
+    def _mask_rows(self, mask):
         """
         Keeps only a subset of the rows indicated by `mask`.
 
@@ -497,7 +497,7 @@ class Data:
             type_ = type(key)
             break
         if type_ is None or type_ in (bool, np.bool_):
-            return self.mask_rows(item)
+            return self._mask_rows(item)
         if type_ is str:
             return self.get_slice(item)
         raise TypeError(
