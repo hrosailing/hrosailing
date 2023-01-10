@@ -52,9 +52,9 @@ class PolarDiagramCurve(PolarDiagram):
     Raises
     ------
     PolarDiagramInitializationException
-
-        - If `f` is not callable.
-        - If `params` contains not enough parameters for `f`.
+        If `f` is not callable.
+    PolarDiagramInitializationException
+        If `params` contains not enough parameters for `f`.
     """
 
     def __init__(self, f, *params, radians=False):
@@ -133,7 +133,7 @@ class PolarDiagramCurve(PolarDiagram):
         Raises
         ------
         OSError
-            If no write permission is given for file.
+            If no permission to write is given for file.
         """
         with open(csv_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file, delimiter=":")
@@ -183,7 +183,7 @@ class PolarDiagramCurve(PolarDiagram):
         Parameters
         ----------
         ws : tuple of length 2, iterable, int or float, optional
-            Slices of the polar diagram given as either
+            Slices of the polar diagram given as either:
 
             - a tuple of length 2, specifying an interval of considered
             wind speeds. The amount of slices taken from that interval
@@ -212,7 +212,7 @@ class PolarDiagramCurve(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-            If `n_steps` is nonpositive.
+            If `n_steps` is non-positive.
         """
         if ws is None:
             ws = (0, 20)
@@ -224,7 +224,7 @@ class PolarDiagramCurve(PolarDiagram):
                 n_steps = int(round(ws[1] - ws[0]))
 
             if n_steps <= 0:
-                raise PolarDiagramException("`n_steps` is nonpositive")
+                raise PolarDiagramException("`n_steps` is non-positive")
 
             ws = list(np.linspace(ws[0], ws[1], n_steps))
 
@@ -255,7 +255,7 @@ class PolarDiagramCurve(PolarDiagram):
         Parameters
         ----------
         ws : tuple of length 2, iterable, int or float, optional
-            Slices of the polar diagram given as either
+            Slices of the polar diagram given as either:
 
             - a tuple of length 2, specifying an interval of considered
             wind speeds. The amount of slices taken from that interval
@@ -280,8 +280,7 @@ class PolarDiagramCurve(PolarDiagram):
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
 
-        colors : color_like or
-        sequence of color_likes or (ws, color_like) pairs, optional
+        colors : color_like or sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices.
 
             - If a color_like is passed, all slices will be plotted in the
@@ -297,7 +296,7 @@ class PolarDiagramCurve(PolarDiagram):
             Defaults to `("green", "red")`.
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot.
+            Specifies whether a legend will be shown next to the plot.
 
             The type of legend depends on the color options.
 
@@ -356,7 +355,7 @@ class PolarDiagramCurve(PolarDiagram):
         Parameters
         ----------
         ws : tuple of length 2, iterable, int or float, optional
-            Slices of the polar diagram given as either
+            Slices of the polar diagram given as either:
 
             - a tuple of length 2, specifying an interval of considered
             wind speeds. The amount of slices taken from that interval
@@ -381,8 +380,7 @@ class PolarDiagramCurve(PolarDiagram):
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
 
-        colors : color_like or
-        sequence of color_likes or (ws, color_like) pairs, optional
+        colors : color_like or sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices.
 
             - If a color_like is passed, all slices will be plotted in the
@@ -398,7 +396,7 @@ class PolarDiagramCurve(PolarDiagram):
             Defaults to `("green", "red")`.
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot.
+            Specifies whether a legend will be shown next to the plot.
 
             The type of legend depends on the color options.
 
@@ -536,7 +534,7 @@ class PolarDiagramCurve(PolarDiagram):
             Marker size in points**2.
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next
+            Specifies whether a legend will be shown next
             to the plot.
 
             Legend will be a `matplotlib.colorbar.Colorbar` instance.
@@ -593,7 +591,7 @@ class PolarDiagramCurve(PolarDiagram):
         Parameters
         ----------
         ws : tuple of length 2, iterable, int or float, optional
-            Slices of the polar diagram given as either
+            Slices of the polar diagram given as either:
 
             - a tuple of length 2, specifying an interval of considered
             wind speeds. The amount of slices taken from that interval

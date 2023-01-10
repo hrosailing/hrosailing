@@ -1,12 +1,12 @@
 """
 Classes used to model various geometric shapes centered around
-the origin
+the geometric origin.
 
-Defines the Neighbourhood Abstract Base Class that can be used
-to create custom geometric shapes
+Defines the `Neighbourhood` abstract base class that can be used
+to create custom geometric shapes.
 
-Subclasses of Neighbourhood can be used with the TableExtension and
-the PointcloudExtension class in the hrosailing.pipeline module
+Subclasses of `Neighbourhood` can be used with the `TableExtension` and
+the `PointcloudExtension` classes in the `hrosailing.pipeline` module.
 """
 
 
@@ -14,19 +14,18 @@ from abc import ABC, abstractmethod
 from typing import Callable
 
 import numpy as np
-from scipy.spatial import ConvexHull
 
 from ._utils import scaled_euclidean_norm
 
 
 class NeighbourhoodInitializationException(Exception):
     """Exception raised if an error occurs during
-    initialization of a Neighbourhood
+    initialization of a `Neighbourhood`.
     """
 
 
 class Neighbourhood(ABC):
-    """Base class for all neighbourhood classes
+    """Base class for all neighbourhood classes.
 
 
     Abstract Methods
@@ -39,41 +38,52 @@ class Neighbourhood(ABC):
         """This method should be used, given certain points, to
         determine which of these points lie in the neighbourhood
         and which do not, by producing a boolean array of the same
-        size as pts
+        size as `pts`.
+
+        Parameters
+        ----------
+        pts : array_like of shape (n, 2)
+            Points that will be checked for membership.
+
+        Returns
+        -------
+        mask : numpy.ndarray of shape (n, )
+            Boolean array describing which of the input points
+            are members of the neighbourhood.
         """
 
 
 class Ball(Neighbourhood):
     """A class to describe a closed 2-dimensional ball
-    centered around the origin, ie { x in R^2 : ||x|| <= r }
+    centered around the origin, i.e. :math:`\\\\{x \\in R^2 : ||x|| <= r\\\\}`.
 
     Parameters
     ----------
+    radius : positive int or float, optional
+        The radius of the ball, i.e. :math:`r`.
+
+        Defaults to `0.05`.
+
     norm : function or callable, optional
-        The norm for which the ball is described, ie ||.||
+        The norm for which the ball is described, i.e. :math:`||.||`.
 
         If nothing is passed, it will default to a scaled version
-        of ||.||_2
-
-    radius : positive int or float, optional
-        The radius of the ball, ie r
-
-        Defaults to `0.05`
+        of :math:`||.||_2` in two dimensions.
 
     Raises
     ------
     NeighbourhoodInitializationException
-        If radius is nonpositive
+        If `radius` is non-positive.
     """
 
     def __init__(
         self,
-        norm: Callable = scaled_euclidean_norm,
         radius=0.05,
+        norm: Callable = scaled_euclidean_norm,
     ):
         if radius <= 0:
             raise NeighbourhoodInitializationException(
-                "`radius` is not positive"
+                "`radius` is non-positive"
             )
 
         self._norm = norm
@@ -88,166 +98,129 @@ class Ball(Neighbourhood):
         Parameters
         ----------
         pts : array_like of shape (n, 2)
-            Points that will be checked for membership
+            Points that will be checked for membership.
 
         Returns
         -------
         mask : numpy.ndarray of shape (n, )
             Boolean array describing which of the input points
-            is a member of the neighbourhood
+            are members of the neighbourhood.
         """
         pts = np.asarray(pts)
-        return self._norm(pts) <= self._radius
+        try:
+            return self._norm(pts) <= self._radius
+        except ValueError:
+            return np.asarray([self._norm(pt) <= self._radius for pt in pts])
 
 
 class ScalingBall(Neighbourhood):
     """A class to represent a closed 2-dimensional ball
-    centered around the origin, ie { x in R^2 : ||x|| <= r },
-    where the radius r will be dynamically determined, such that
-    there are always a certain amount of given points contained
-    in the ball
+    centered around the origin, i.e. :math:`\\\\{x \\in R^2 : ||x|| <= r\\\\}`,
+    where the radius :math:`r` will be dynamically determined, such that
+    there is always a certain amount of given points contained
+    in the ball.
 
     Parameters
     ----------
     min_pts : positive int
         The minimal amount of certain given points that should be
-        contained in the scaling ball
-
-    max_pts : positive int
-        The "maximal" amount of certain given points that should be
         contained in the scaling ball.
 
-        Mostly used for initial guess of a "good" radius. Also to
-        guarantee that on average, the scaling ball will contain
-        (min_pts + max_pts) / 2 points of certain given points
-
-        It is also unlikely that the scaling ball will contain
-        more than max_pts points
-
     norm : function or callable, optional
-        The norm for which the scaling ball is described, ie ||.||
+        The norm for which the scaling ball is described, i.e. :math:`||.||`.
 
         If nothing is passed, it will default to a scaled version
-        of ||.||_2
+        of :math:`||.||_2`.
 
     Raises
     ------
     NeighbourhoodInitializationException
-
-        - If min_pts or max_pts are nonpositive
-        - If max_pts is less than or equal to min_pts
+        If `min_pts` is non-positive.
 
     """
 
     def __init__(
         self,
         min_pts,
-        max_pts,
         norm: Callable = scaled_euclidean_norm,
     ):
 
         if min_pts <= 0:
             raise NeighbourhoodInitializationException(
-                "`min_pts` is not positive"
-            )
-        if max_pts <= 0:
-            raise NeighbourhoodInitializationException(
-                "`max_pts` is not positive"
-            )
-        if max_pts <= min_pts:
-            raise NeighbourhoodInitializationException(
-                "`max_pts` is smaller than `min_pts`"
+                "`min_pts` is non-positive"
             )
 
         self._min_pts = min_pts
-        self._max_pts = max_pts
         self._norm = norm
-        self._avg = (min_pts + max_pts) / 2
 
         self._n_pts = None
         self._area = None
         self._radius = None
 
     def __repr__(self):
-        return f"ScalingBall(min_pts={self._min_pts}, max_pts={self._max_pts})"
+        return (
+            f"ScalingBall(min_pts={self._min_pts}, norm={self._norm.__name__})"
+        )
 
     def is_contained_in(self, pts):
         """Checks given points for membership, and scales
-        ball so that at least min_pts points are contained in it
+        ball so that at least `min_pts` points are contained in it.
 
         Parameters
         ----------
         pts : array_like of shape (n, 2)
-            Points that will be checked for membership
+            Points that will be checked for membership.
 
         Returns
         -------
         points_in_ball : boolean numpy.ndarray of shape (n, )
             Boolean array describing which of the input points
-            is a member of the neighbourhood
+            are members of the neighbourhood.
         """
         pts = np.asarray(pts)
 
-        self._guess_initial_suitable_radius(pts)
-
         dist = self._norm(pts)
+        self._radius = sorted(dist)[self._min_pts - 1]
 
-        while True:
-            in_ball = dist <= self._radius
-            if self._enough_points(in_ball):
-                return in_ball
-
-            self._expand_radius(dist, in_ball)
-
-    def _guess_initial_suitable_radius(self, pts):
-        self._n_pts = pts.shape[0]
-        self._area = ConvexHull(pts).volume
-        self._radius = np.sqrt(self._avg * self._area / (np.pi * self._n_pts))
-
-    def _enough_points_in_ball(self, pts_in_ball):
-        return self._min_pts <= len(pts_in_ball[pts_in_ball])
-
-    def _expand_radius(self, dist, pts_in_ball):
-        dist_of_not_included_pts = dist[~pts_in_ball]
-        self._radius = np.min(dist_of_not_included_pts)
+        return dist <= self._radius
 
 
 class Ellipsoid(Neighbourhood):
     """A class to represent a closed d-dimensional ellipsoid
-    centered around the origin, ie T(B), where T is an invertible
-    linear transformation, and B is a closed d-dimensional ball,
+    centered around the origin, i.e. :math:`T(B)`, where :math:`T` is an invertible
+    linear transformation, and :math:`B` is a closed d-dimensional ball,
     centered around the origin.
 
     It will be represented using the equivalent formulation:
-    { x in R^2 : ||T^-1 x|| <= r }
+    :math:`\\\\{x \\in R^2 : ||T^{-1} x|| \\leq r\\\\}`.
 
     Parameters
     ----------
-    lin_trans: array_like of shape (2,2), optional
+    lin_trans : array_like of shape (2,2), optional
         The linear transformation which transforms the
-        ball into the given ellipsoid, ie T
+        ball into the given ellipsoid, i.e. :math:`T`.
 
-        If nothing is passed, it will default to I_2, the 2x2
-        unit matrix, ie the ellipsoid will be a ball
+        If nothing is passed, it will default to the 2x2
+        identity matrix, i.e. the ellipsoid will be a ball.
 
     norm : function or callable, optional
-        The norm for which the ellipsoid is described, ie ||.||
+        The norm for which the ellipsoid is described, i.e. :math:`||.||`.
 
         If nothing is passed, it will default to a scaled
-        version of ||.||_2
+        version of :math:`||.||_2`.
 
     radius : positive int or float, optional
-        The radius of the ellipsoid, ie r
+        The radius of the ellipsoid, i.e. :math:`r`.
 
-        Defaults to 0.05
+        Defaults to `0.05`.
 
 
     Raises
     ------
     NeighbourhoodInitializationException
-
-        - If radius is nonpositive
-        - If lin_trans is not a (2,2)-array or is not invertible
+        If `radius` is non-positive.
+     NeighbourhoodInitializationException
+        If `lin_trans` is not a (2,2)-array or is not invertible.
     """
 
     def __init__(
@@ -273,7 +246,7 @@ class Ellipsoid(Neighbourhood):
 
         if radius <= 0:
             raise NeighbourhoodInitializationException(
-                "`radius` is not positive"
+                "`radius` is non-positive"
             )
 
         self._T = np.linalg.inv(lin_trans)
@@ -290,15 +263,15 @@ class Ellipsoid(Neighbourhood):
         """Checks given points for membership.
 
         Parameters
-         ----------
+        ----------
         pts : array_like of shape (n, 2)
-            Points that will be checked for membership
+            Points that will be checked for membership.
 
         Returns
         -------
         mask : numpy.ndarray of shape (n, )
             Boolean array describing which of the input points
-            is a member of the neighbourhood
+            are members of the neighbourhood.
         """
         pts = np.asarray(pts)
 
@@ -311,26 +284,26 @@ class Ellipsoid(Neighbourhood):
 
 
 class Cuboid(Neighbourhood):
-    """A class to represent a d-dimensional closed cuboid, ie
-    { x in R^2 : |x_i| <= b_i, i=1,2 }
+    """A class to represent a d-dimensional closed cuboid, i.e.
+    :math:`\\\\{x \\in R^2 : |x_i| \\leq b_i, i=1,2\\\\}`.
 
     Parameters
     ----------
     norm : function or callable, optional
-        The 1-d norm used to measure the length of the x_i, ie |.|
+        The 1-d norm used to measure the length of :math:`x_i`, i.e. :math:`|.|`.
 
-        If nothing is passed, it will default to the absolute value |.|
+        If nothing is passed, it will default to the absolute value :math:`|.|`.
 
-    dimensions: subscriptable of length 2, optional
-        The 'length' of the 'sides' of the cuboid, ie the b_i
+    dimensions : subscriptable of length 2, optional
+        The length of the sides of the cuboid, i.e. :math:`b_i`.
 
-        If nothing is passed, it will default to (0.05, 0.05)
+        If nothing is passed, it will default to `(0.05, 0.05)`.
 
     """
 
     def __init__(
         self,
-        norm: Callable = scaled_euclidean_norm,
+        norm: Callable = np.abs,
         dimensions=(0.05, 0.05),
     ):
         self._norm = norm
@@ -345,14 +318,16 @@ class Cuboid(Neighbourhood):
         Parameters
         ----------
         pts : array_like of shape (n, 2)
-            Points that will be checked for membership
+            Points that will be checked for membership.
 
         Returns
         -------
         mask : numpy.ndarray of shape (n, )
             Boolean array describing which of the input points
-            is a member of the neighbourhood
+            are members of the neighbourhood.
         """
+        pts = np.asarray(pts)
+
         mask = (
             np.ones((pts.shape[0],), dtype=bool)
             & (self._norm(pts[:, 0]) <= self._size[0])
@@ -362,37 +337,37 @@ class Cuboid(Neighbourhood):
 
 
 class Polytope(Neighbourhood):
-    """A class to represent a general 2-dimensional polytope, ie the
-    convex hull P = conv(x_1, ..., x_n) of some n points x_1 ,..., x_n
-    or equivalent as the (bounded) intersection of m half spaces
-    P = { x in R^2 : Ax <= b }
+    """A class to represent a general 2-dimensional polytope, i.e. the
+    convex hull :math:`P = conv(x_1, ..., x_n)` of some n points :math:`x_1 ,..., x_n`
+    or equivalently the (bounded) intersection of m half spaces
+    :math:`P = \\\\{x \\in R^2 : Ax \\leq b\\\\}`.
 
     Parameters
     ----------
-    mat: array_like of shape (m, 2), optional
-        matrix to represent the normal vectors a_i of the half
-        spaces, ie A = (a_1, ... , a_m)^t
+    mat : array_like of shape (m, 2), optional
+        Matrix to represent the normal vectors :math:`a_i` of the half
+        spaces, i.e. :math:`A = (a_1, ... , a_m)^t`.
 
-        If nothing is passed, it will default to (I_2, -I_2)^t,
-        where I_d is the d-dimensional unit matrix
+        If nothing is passed, it will default to :math:`(I_2, -I_2)^t`,
+        where :math:`I_d` is the d-dimensional identity matrix.
 
-    b: array_like of shape (m, ), optional
-        vector to represent the ... b_i of the half spaces, ie
-        b = (b_1, ... , b_m)^t
+    b : array_like of shape (m, ), optional
+        Vector representing the :math:`b` of the half spaces, i.e.
+        :math:`b = (b_1, ... , b_m)^t`.
 
-        If nothing is passed, it will default to (0.05,...,0.05)
+        If nothing is passed, it will default to `(0.05,...,0.05)`.
 
 
     Raises
     ------
-    NeighbourhoodException
-        If mat and b are not of matching shape
+    NeighbourhoodInitializationException
+        If `mat` and `b` are not of matching shape.
 
 
     Warning
     -------
-    Does not check wether the polytope given by mat and b is a polytope,
-    ie if P is actually bounded
+    Does not check whether the polytope given by `mat` and `b` is a polytope,
+    i.e. if :math:`P` is actually bounded.
     """
 
     def __init__(
@@ -424,13 +399,13 @@ class Polytope(Neighbourhood):
         Parameters
         ----------
         pts : array_like of shape (n, 2)
-            Points that will be checked for membership
+            Points that will be checked for membership.
 
         Returns
         -------
         mask : numpy.ndarray of shape (n, )
             Boolean array describing which of the input points
-            is a member of the neighbourhood
+            are members of the neighbourhood.
         """
         pts = np.asarray(pts)
 

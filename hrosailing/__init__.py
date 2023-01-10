@@ -11,10 +11,10 @@ In particular, hrosailing provides:
 - creation of polar diagrams from measurement data using
 a modular pipeline model and suitable data science methods,
 - wind conversion,
-- suggesting optimal tacks and jibes,
-- calculating the costs of a sailing trip with respect to the
+- suggestion of optimal tacks and jibes,
+- calculation of costs for a sailing trip with respect to the
 weather on the way,
-- calculating isochrone points with respect to the weather along the way.
+- calculation of isochrone points with respect to the weather along the way.
 
 Note that all methods and classes of this package
 expect all distances in nautical miles, all speed
@@ -24,7 +24,7 @@ values in knots (nautical miles per hour) and all time values in hours
 Installation
 ------------
 The recommended way to install `hrosailing` is with
-[pip](http://pypi.python.org/pypi/pip)
+[pip](http://pypi.python.org/pypi/pip).
 
     pip install hrosailing
 
@@ -34,7 +34,7 @@ The recommended way to install `hrosailing` is with
 License
 -------
 The `hrosailing` package is published under the [Apache 2.0 License](https://\
-        choosealicense.com/licenses/apache-2.0/)
+        choosealicense.com/licenses/apache-2.0/).
 """
 
 # pylint: disable=wrong-import-order

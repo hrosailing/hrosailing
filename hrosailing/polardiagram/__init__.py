@@ -33,7 +33,7 @@ __all__ = [
 
 
 class FileReadingException(Exception):
-    """Exception raised if non-OSerror occurs,
+    """Exception raised if non-OS-error occurs,
     when reading a file.
     """
 
@@ -66,9 +66,9 @@ def from_csv(csv_path, fmt="hro"):
     Raises
     ------
     FileReadingException
-
-        - If an unknown format was specified.
-        - If, in the format `hro`, the first row does not match any
+        If an unknown format was specified.
+    FileReadingException
+        If, in the format `hro`, the first row does not match any
         `PolarDiagram` subclass.
 
     OSError

@@ -5,6 +5,7 @@ Pipeline to create polar diagrams from raw data.
 
 import warnings
 from abc import ABC, abstractmethod
+from typing import NamedTuple
 
 import numpy as np
 
@@ -14,121 +15,516 @@ from hrosailing.pipelinecomponents.modelfunctions import (
     ws_s_wa_gauss_and_square,
 )
 
+from .extensions import (
+    CurveExtension,
+    PipelineExtension,
+    PointcloudExtension,
+    TableExtension,
+)
+
+
+class Statistics(NamedTuple):
+    """
+    Organizes the statistics returned by different `Pipelinecomponents`.
+    The attributes correspond to the parameters of `PolarPipeline.__init__`
+    and each contains dictionaries with relevant statistics.
+
+    See also
+    ----------
+    `PolarPipeline`
+    """
+
+    data_handler: dict
+    imputator: dict
+    smoother: dict
+    pre_expanding_weigher: dict
+    pre_expanding_filter: dict
+    expander: dict
+    pre_influence_weigher: dict
+    pre_influence_filter: dict
+    influence_model: dict
+    post_weigher: dict
+    post_filter: dict
+    injector: dict
+    extension: dict
+    quality_assurance: dict
+
+
+_EMPTY_STATISTIC = Statistics(
+    {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
+)
+
+
+class PipelineOutput(NamedTuple):
+    """
+    Organizes the output of a `PolarPipeline` call.
+
+    Attributes
+    ----------
+    polardiagram: PolarDiagram
+        The resulting polar diagram.
+
+    training_statistics: Statistics
+        Relevant statistics obtained in the preprocessing and processing of the training data.
+
+    test_statistics: Statistics
+        Relevant statistics obtained in the preprocessing of the test data.
+        The attributes `extension` and `quality_assurance` only contain an empty dictionary.
+    """
+
+    polardiagram: pol.PolarDiagram
+    training_statistics: Statistics
+    test_statistics: Statistics
+
 
 class PolarPipeline:
-    """A Pipeline class to create polar diagrams from raw data
+    """A Pipeline class to create polar diagrams from raw data.
 
-    Parameters
-    ----------
+    Supported Keyword Parameter
+    ---------------------------
+
+    data_handler : DataHandler or list of DataHandler, optional
+        Handlers that are responsible to extract actual data from the input.
+        If only one handler is given, this handler will be used for all given inputs,
+        otherwise the handlers will be used one after another for each data input including the training data.
+
+        Determines the type and format of input the pipeline should accept.
+
+    imputator : Imputator, optional
+        Determines the method which will be used to produce data without
+        `None` entries.
+
+        Defaults to `FillLocalImputator()`.
+
+    smoother: Smoother, optional
+        Determines the method which will be used to smoothen out the rounding
+        following from low measurement precision.
+
+        Defaults to `LazySmoother()`.
+
+    pre_expander_weigher : Weigher, optional
+        Determines the method with which the points will be weighted before application of the expander.
+
+        Defaults to `CylindricMeanWeigher()`
+
+    pre_expander_filter : Filter, optional
+        Determines the method with which the points will be filtered with before application of the expander.
+
+        Defaults to `QuantileFilter()`
+
+    expander: Expander, optional
+        Determines the method which will be used to expand the data by several more data fields.
+        For example weather data from a weather model.
+
+    pre_influence_weigher : Weigher, optional
+        Determines the method with which the points will be weighted before
+        application of the influence model.
+
+        Defaults to `CylindricMeanWeigher()`.
+
+    pre_influence_filter : Filter, optional
+        Determines the methods which the points will be filtered with before application of the influence model.
+
+        Defaults to `QuantileFilter()`.
+
+    influence_model : InfluenceModel, optional
+        Determines the influence model which is applied and fitted to the data.
+
+        Defaults to 'IdentityInfluenceModel()'.
+
+    post_weigher : Weigher, optional
+        Determines the method with which the points will be weighted after
+        application of the influence model.
+
+        Defaults to `CylindricMeanWeigher()`.
+
+    post_filter : Filter, optional
+        Determines the methods with which the points will be filtered
+        after the application of the influence model,
+        if `post_filtering` in `__call__` method.
+
+        Defaults to `QuantileFilter()`.
+
+    injector : Injector, optional
+        Determines the method used to add additional artificial data points to the
+        data.
+
+        Defaults to 'None'.
+
     extension: PipelineExtension
         Extension that is called in the pipeline, after all preprocessing
         is done, to generate a polar diagram from the processed data.
 
         Determines the subclass of `PolarDiagram`, that the pipeline will
-        produce
+        produce.
 
-    handler : DataHandler
-        Handler that is responsible to extract actual data from the input
+        Defaults to 'None'.
 
-        Determines the type and format of input the pipeline should accept
-
-    weigher : Weigher, optional
-        Determines the method with which the points will be weight.
-
-        Defaults to `CylindricMeanWeigher()`
-
-    filter_ : Filter, optional
-        Determines the methods with which the points will be filtered,
-        if `filtering` in __call__ method
-
-        Defaults to `QuantileFilter()`
+    quality_assurance : QualityAssurance, optional
+        Determines the method which is used to measure the quality of the
+        resulting polar diagram using preprocessed test_data.
     """
 
-    def __init__(
-        self,
-        extension,
-        handler,
-        weigher=pc.CylindricMeanWeigher(),
-        filter_=pc.QuantileFilter(),
-        influence_model=None,
-    ):
-        self.handler = handler
-        self.influence_model = influence_model
-        self.weigher = weigher
-        self.filter = filter_
-        self.extension = extension
+    def __init__(self, **custom_components):
+        keys = [
+            "data_handler",
+            "imputator",
+            "smoother",
+            "pre_expander_weigher",
+            "pre_expander_filter",
+            "expander",
+            "pre_influence_weigher",
+            "pre_influence_filter",
+            "influence_model",
+            "post_weigher",
+            "post_filter",
+            "injector",
+            "extension",
+            "quality_assurance",
+        ]
+        defaults = [
+            pc.NMEAFileHandler(),
+            pc.FillLocalImputator(),
+            pc.LazySmoother(),
+            pc.CylindricMeanWeigher(),
+            pc.QuantileFilter(),
+            pc.LazyExpander(),
+            pc.CylindricMeanWeigher(),
+            pc.QuantileFilter(),
+            pc.IdentityInfluenceModel(),
+            pc.CylindricMeanWeigher(),
+            pc.QuantileFilter(),
+            pc.ZeroInjector(500),
+            TableExtension(),
+            pc.MinimalQualityAssurance(),
+        ]
+        self._set_with_default(custom_components, keys, defaults)
 
     def __call__(
-        self,
-        data,
-        apparent_wind=False,
-        filtering=True,
-        n_zeros=500,
-        _enable_logging=False,
+        self, training_data, test_data=None, apparent_wind=False, **enabling
     ):
         """
         Parameters
         ----------
-        data : compatible with `self.handler`
-            Data from which to create the polar diagram
+        training_data : list of data compatible with `self.data_handler`
+            Data from which to create the polar diagram.
 
-            The input should be compatible with the DataHandler instance
-            given in initialization of the pipeline instance
+            The input should be compatible with the DataHandler instances
+            given in initialization of the pipeline instance.
+
+        test_data: list of data compatible with `self.data_handler` or `None`
+            Data which is preprocessed and then used to check the quality of
+            the resulting polar diagram.
+
+            The input should be compatible with the DataHandler instances
+            given in initialization of the pipeline instance.
+            If `None` no quality check is performed.
+
+            Default to `None`.
 
         apparent_wind : bool, optional
-            Specifies if wind data is given in apparent wind
+            Specifies if wind data is given in apparent wind.
 
-            If `True`, wind will be converted to true wind
+            If `True`, wind will be converted to true wind.
 
-            Defaults to `False`
+            Defaults to `False`.
 
-        filtering : bool, optional
-            Specifies, if points should be filtered after weighing
+        Supported Keyword Parameter
+        ---------------------------
 
-            Defaults to `True`
+        pre_expander_weighing : bool, optional
+            Specifies, whether the pre_influence_weigher should be applied before application of the
+            expander.
+            Otherwise, each point will be assigned the weight 1.
 
-        n_zeros: positive int, optional
-            Specifies the number of additional data points at `(tws, 0)` and
-            `(tws, 360)` respectively, which are appended to the filtered data
+            Defaults to `True`.
 
-            This is done to better simulate the behaviour of sailing vessels at
-            wind angle 0 / 360.
+        pre_expander_filtering : bool, optional
+            Specifies, whether the pre_influence_filter should be applied before application of the expander.
 
-            Defaults to `500`
+            Defaults to `True`.
+
+
+        pre_influence_weighing : bool, optional
+            Specifies, whether the pre_influence_weigher should be applied before application of the
+            influence model.
+            Otherwise, each point will be assigned the weight 1.
+
+            Defaults to `True`.
+
+        pre_influence_filtering : bool, optional
+            Specifies, whether the pre_influence_filter should be applied before application of the influence model.
+
+            Defaults to `True`.
+
+        smoothing : bool, optional
+            Specifies, if measurement errors of the time series should be
+            smoothened after pre_filtering.
+
+        post_weighing : bool, optional
+            Specifies, if points should be weighed after application of the
+            influence model.
+            Otherwise, each point will be assigned the weight 1.
+
+            Defaults to `True`.
+
+        post_filtering : bool, optional
+            Specifies, if points should be filtered after post_weighing.
+
+            Defaults to `True`.
+
+        injecting : bool, optional
+            Specifies, if artificial points should be added to the data.
+
+            Defaults to `True`.
+
+        testing : bool, optional
+            Specifies, if the resulting polar diagram should be tested against
+            test data.
 
         Returns
         -------
-        pd : PolarDiagram
-            `PolarDiagram` subclass instance, which represents the
-            trends in `data`
-
-            Type depends on the chosen `PipelineExtension` subclass
+        out : PipelineOutput
         """
-        data = self.handler.handle(data)
+        keys = [
+            "smoothing",
+            "pre_expander_weighing",
+            "pre_expander_filtering",
+            "pre_influence_weighing",
+            "pre_influence_filtering",
+            "post_weighing",
+            "post_filtering",
+            "injecting",
+            "testing",
+        ]
+        defaults = [True] * len(keys)
 
-        if self._has_influence_model():
-            data = self.influence_model.remove_influence(data)
+        self._set_with_default(enabling, keys, defaults)
 
-        weighted_points = pc.WeightedPoints(
-            data,
-            weigher=self.weigher,
-            apparent_wind=apparent_wind,
-            _enable_logging=_enable_logging,
+        if test_data is None:
+            testing = False
+
+        preproc_training_data, pp_training_statistics = self._preprocess(
+            training_data,
+            True,
         )
 
-        if filtering:
-            self._filter_data(weighted_points)
+        if self.injecting:
+            pts_to_inject, injector_statistics = _collect(
+                self.injector, self.injector.inject, preproc_training_data
+            )
+        else:
+            pts_to_inject, injector_statistics = (
+                pc.WeightedPoints(np.empty((0, 3)), np.empty(0)),
+                {},
+            )
 
-        weighted_points = _add_zeros(weighted_points, n_zeros)
+        preproc_training_data.extend(pts_to_inject)
 
-        return self.extension.process(weighted_points, _enable_logging)
+        polar_diagram, extension_statistics = _collect(
+            self.extension, self.extension.process, preproc_training_data
+        )
 
-    def _has_influence_model(self):
-        return self.influence_model is not None
+        if self.testing:
+            preproc_test_data, test_statistics = self._preprocess(
+                test_data,
+                False,
+            )
+            quality_assurance_statistics = self.quality_assurance.check(
+                polar_diagram, preproc_test_data.data
+            )
+        else:
+            test_statistics = _EMPTY_STATISTIC
+            quality_assurance_statistics = {}
 
-    def _filter_data(self, weighted_points):
-        points_to_filter = self.filter.filter(weighted_points.weights)
-        weighted_points = weighted_points[points_to_filter]
+        training_statistics = Statistics(
+            pp_training_statistics.data_handler,
+            pp_training_statistics.imputator,
+            pp_training_statistics.smoother,
+            pp_training_statistics.pre_expanding_weigher,
+            pp_training_statistics.pre_influence_filter,
+            pp_training_statistics.expander,
+            pp_training_statistics.pre_influence_weigher,
+            pp_training_statistics.pre_influence_filter,
+            pp_training_statistics.influence_model,
+            pp_training_statistics.post_weigher,
+            pp_training_statistics.post_filter,
+            injector_statistics,
+            extension_statistics,
+            quality_assurance_statistics,
+        )
+
+        return PipelineOutput(
+            polar_diagram, training_statistics, test_statistics
+        )
+
+    def _preprocess(self, data, influence_fitting):
+
+        data, handler_statistics = self._handle_data(data)
+
+        data, imputator_statistics = self._map(
+            _collector_fun(self.imputator, self.imputator.impute), data
+        )
+
+        if self.smoothing:
+            data, smooth_statistics = self._map(
+                _collector_fun(self.smoother, self.smoother.smooth),
+                data,
+            )
+        else:
+            smooth_statistics = {}
+
+        (
+            data,
+            pre_exp_weigher_statistics,
+            pre_exp_filter_statistics,
+        ) = self._map(
+            lambda x: _weigh_and_filter(
+                x,
+                self.pre_expander_weigher,
+                self.pre_expander_filter,
+                self.pre_expander_weighing,
+                self.pre_expander_filtering,
+            ),
+            data,
+        )
+
+        data = [weighted_point.data for weighted_point in data]
+
+        data, expanded_statistics = self._map(
+            _collector_fun(self.expander, self.expander.expand),
+            data,
+        )
+
+        (data, pre_weigher_statistics, pre_filter_statistics,) = self._map(
+            lambda data: _weigh_and_filter(
+                data,
+                self.pre_influence_weigher,
+                self.pre_influence_filter,
+                self.pre_influence_weighing,
+                self.pre_influence_filtering,
+            ),
+            data,
+        )
+
+        data = pc.data.Data.concatenate([wp.data for wp in data])
+
+        if influence_fitting:
+            self.influence_model.fit(data)
+            influence_fit_statistics = (
+                self.influence_model.get_latest_statistics()
+            )
+        else:
+            influence_fit_statistics = {}
+
+        data, influence_statistics = _collect(
+            self.influence_model,
+            self.influence_model.remove_influence,
+            data,
+        )
+
+        influence_statistics.update(influence_fit_statistics)
+
+        (
+            data,
+            post_weigher_statistics,
+            post_filter_statistics,
+        ) = _weigh_and_filter(
+            data,
+            self.post_weigher,
+            self.post_filter,
+            self.post_weighing,
+            self.post_filtering,
+        )
+
+        statistics = Statistics(
+            handler_statistics,
+            imputator_statistics,
+            smooth_statistics,
+            pre_exp_weigher_statistics,
+            pre_exp_filter_statistics,
+            expanded_statistics,
+            pre_weigher_statistics,
+            pre_filter_statistics,
+            influence_statistics,
+            post_weigher_statistics,
+            post_filter_statistics,
+            {},
+            {},
+            {},
+        )
+
+        return data, statistics
+
+    def _set_with_default(self, dict_, keys, defaults):
+        for key, default in zip(keys, defaults):
+            setattr(self, key, self._switch_default(dict_, key, default))
+
+    def _switch_default(self, dict_, key, default):
+        return dict_[key] if key in dict_ else default
+
+    def _handle_data(self, data):
+        if isinstance(self.data_handler, pc.DataHandler):
+            handler_output = [
+                _collect(self.data_handler, self.data_handler.handle, field)
+                for field in data
+            ]
+        else:
+            handler_output = []
+            for field in data:
+                handler = next(self.data_handler)
+                handler_output.append(_collect(handler, handler.handle, field))
+
+        return self._list_statistics(handler_output)
+
+    def _map(self, method, data):
+        output = [method(field) for field in data]
+        return self._list_statistics(output)
+
+    @staticmethod
+    def _list_statistics(pipe_output):
+        data, *statistics = tuple(zip(*pipe_output))
+        statistics = tuple(
+            dict(enumerate(statistic)) for statistic in statistics
+        )
+        return (list(data),) + statistics
+
+
+def _collect(comp, method, data):
+    out = method(data)
+    statistics = comp.get_latest_statistics()
+    return out, statistics
+
+
+def _collector_fun(comp, method):
+    return lambda data: _collect(comp, method, data)
+
+
+def _weigh_and_filter(data, weigher, filter_, weighing, filtering):
+    if weighing:
+        weights, weigher_statistics = _collect(weigher, weigher.weigh, data)
+    else:
+        def_weigher = pc.AllOneWeigher()
+        weights, weigher_statistics = _collect(
+            def_weigher, def_weigher.weigh, data
+        )
+
+    weighed_data = pc.WeightedPoints(data, weights)
+
+    filtered_data, filter_statistics = (
+        _filter_data(filter_, weighed_data)
+        if filtering
+        else (weighed_data, {})
+    )
+
+    return filtered_data, weigher_statistics, filter_statistics
+
+
+def _filter_data(filter_, weighted_points):
+    points_to_filter, filter_statistics = _collect(
+        filter_, filter_.filter, weighted_points.weights
+    )
+    return weighted_points[points_to_filter], filter_statistics
 
 
 def _add_zeros(weighted_points, n_zeros):
@@ -147,326 +543,3 @@ def _add_zeros(weighted_points, n_zeros):
         data=np.concatenate([original_points, zeros, fulls]),
         weights=np.concatenate([original_weights, np.ones(2 * n_zeros)]),
     )
-
-
-class PipelineExtension(ABC):
-    """Base class for all pipeline extensions
-
-    Abstract Methods
-    ----------------
-    process(weighted_points)
-    """
-
-    @abstractmethod
-    def process(self, weighted_points, _enable_logging):
-        """This method, given an instance of WeightedPoints, should
-        return a polar diagram object, which represents the trends
-        and data contained in the WeightedPoints instance
-        """
-
-
-class TableExtension(PipelineExtension):
-    """Pipeline extension to produce PolarDiagramTable instances
-    from preprocessed data
-
-    Parameters
-    ----------
-    wind_resolution : tuple of two array_likes or scalars, or str, optional
-        Wind speed and angle resolution to be used in the final table
-        Can be given as
-
-        - a tuple of two `array_likes` with scalar entries, that
-        will be used as the resolution
-        - a tuple of two `scalars`, which will be used as
-        stepsizes for the resolutions
-        - the str `"auto"`, which will result in a resolution, that is
-        somewhat fitted to the data
-
-    neighbourhood : Neighbourhood, optional
-        Determines the neighbourhood around a point from which to draw
-        the data points used in the interpolation of that point
-
-        Defaults to `Ball(radius=1)`
-
-    interpolator : Interpolator, optional
-        Determines which interpolation method is used
-
-        Defaults to `ArithmeticMeanInterpolator(50)`
-    """
-
-    def __init__(
-        self,
-        wind_resolution=None,
-        neighbourhood=pc.Ball(radius=1),
-        interpolator=pc.ArithmeticMeanInterpolator(50),
-    ):
-        self.wind_resolution = wind_resolution
-        self.neighbourhood = neighbourhood
-        self.interpolator = interpolator
-
-    def process(self, weighted_points, _enable_logging):
-        """Creates a PolarDiagramTable instance from preprocessed data,
-        by first determining a wind speed / wind angle grid, using
-        `self.w_res`, and then interpolating the boat speed values at the
-        grid points according to the interpolation method of
-        `self.interpolator`, which only takes in consideration the data points
-        which lie in a neighbourhood, determined by `self.neighbourhood`,
-        around each grid point
-
-        Parameters
-        ----------
-        weighted_points : WeightedPoints
-            Preprocessed data from which to create the polar diagram
-
-        Returns
-        -------
-        polar_diagram : PolarDiagramTable
-            A polar diagram that should represent the trends captured
-            in the raw data
-        """
-        ws_resolution, wa_resolution = self._determine_table_size(
-            weighted_points.points
-        )
-        ws, wa = np.meshgrid(ws_resolution, wa_resolution)
-        grid_points = np.column_stack((ws.ravel(), wa.ravel()))
-
-        interpolated_points = _interpolate_points(
-            grid_points, weighted_points, self.neighbourhood, self.interpolator
-        )
-        bsps = _extract_boat_speed(
-            interpolated_points, len(wa_resolution), len(ws_resolution)
-        )
-
-        return pol.PolarDiagramTable(ws_resolution, wa_resolution, bsps)
-
-    def _determine_table_size(self, points):
-        from hrosailing.polardiagram._polardiagramtable import _Resolution
-
-        if self.wind_resolution == "auto":
-            return _automatically_determined_resolution(points)
-
-        if self.wind_resolution is None:
-            self.wind_resolution = (None, None)
-
-        ws_resolution, wa_resolution = self.wind_resolution
-        return (
-            _Resolution.WIND_SPEED.set_resolution(ws_resolution),
-            _Resolution.WIND_ANGLE.set_resolution(wa_resolution),
-        )
-
-
-def _automatically_determined_resolution(points):
-    ws_resolution = _extract_wind(points[:, 0], 2, 100)
-    wa_resolution = _extract_wind(points[:, 1], 5, 30)
-
-    return ws_resolution, wa_resolution
-
-
-def _extract_wind(points, n, threshhold):
-    w_max = round(points.max())
-    w_min = round(points.min())
-    w_start = (w_min // n + 1) * n
-    w_end = (w_max // n) * n
-    res = [w_max, w_min]
-
-    for w in range(w_start, w_end + n, n):
-        if w == w_start:
-            mask = np.logical_and(w >= points, points >= w_min)
-        elif w == w_end:
-            mask = np.logical_and(w_max >= points, points >= w)
-        else:
-            mask = np.logical_and(w >= points, points >= w - n)
-
-        if len(points[mask]) >= threshhold:
-            res.append(w)
-
-    return res
-
-
-def _extract_boat_speed(interpolated_points, rows, cols):
-    bsps = interpolated_points[:, 2]
-    return bsps.reshape(rows, cols)
-
-
-class CurveExtension(PipelineExtension):
-    """Pipeline extension to produce PolarDiagramCurve instances
-    from preprocessed data
-
-    Parameters
-    ----------
-    regressor : Regressor, optional
-        Determines which regression method and model function is to be used,
-        to represent the data.
-
-        The model function will also be passed to PolarDiagramCurve
-
-        Defaults to `ODRegressor(
-            model_func=ws_s_wa_gauss_and_square,
-            init_values=(0.2, 0.2, 10, 0.001, 0.3, 110, 2000, 0.3, 250, 2000)
-        )`
-
-    radians : bool, optional
-        Determines if the model function used to represent the data takes
-        the wind angles to be in radians or degrees
-
-        If `True`, will convert the wind angles of the data points to
-        radians
-
-        Defaults to `False`
-    """
-
-    def __init__(
-        self,
-        regressor=pc.ODRegressor(
-            model_func=ws_s_wa_gauss_and_square,
-            init_values=(0.2, 0.2, 10, 0.001, 0.3, 110, 2000, 0.3, 250, 2000),
-        ),
-        radians=False,
-    ):
-        self.regressor = regressor
-        self.radians = radians
-
-    def process(self, weighted_points, _enable_logging):
-        """Creates a PolarDiagramCurve instance from preprocessed data,
-        by fitting a given function to said data, using a regression
-        method determined by `self.regressor`
-
-        Parameters
-        ----------
-        weighted_points : WeightedPoints
-            Preprocessed data from which to create the polar diagram
-
-        Returns
-        -------
-        pd : PolarDiagramCurve
-            A polar diagram that should represent the trends captured
-            in the raw data
-        """
-        if self._use_radians():
-            _convert_angles_to_radians(weighted_points)
-
-        self.regressor.fit(
-            weighted_points.points, _enable_logging=_enable_logging
-        )
-
-        return pol.PolarDiagramCurve(
-            self.regressor.model_func,
-            *self.regressor.optimal_params,
-            radians=self.radians,
-        )
-
-    def _use_radians(self):
-        return self.radians
-
-
-def _convert_angles_to_radians(weighted_points):
-    weighted_points.points[:, 1] = np.deg2rad(weighted_points.points[:, 1])
-
-
-class PointcloudExtension(PipelineExtension):
-    """Pipeline extension to produce PolarDiagramPointcloud instances
-    from preprocessed data
-
-    Parameters
-    ----------
-    sampler : Sampler, optional
-        Determines the number of points in the resulting point cloud
-        and the method used to sample the preprocessed data and represent
-        the trends captured in them
-
-        Defaults to `UniformRandomSampler(2000)`
-
-    neighbourhood : Neighbourhood, optional
-        Determines the neighbourhood around a point from which to draw
-        the data points used in the interpolation of that point
-
-        Defaults to `Ball(radius=1)`
-
-    interpolator : Interpolator, optional
-        Determines which interpolation method is used
-
-        Defaults to `ArithmeticMeanInterpolator(50)`
-    """
-
-    def __init__(
-        self,
-        sampler=pc.UniformRandomSampler(2000),
-        neighbourhood=pc.Ball(radius=1),
-        interpolator=pc.ArithmeticMeanInterpolator(50),
-    ):
-        self.sampler = sampler
-        self.neighbourhood = neighbourhood
-        self.interpolator = interpolator
-
-    def process(self, weighted_points, _enable_logging):
-        """Creates a PolarDiagramPointcloud instance from preprocessed data,
-        first creating a set number of points by sampling the wind speed,
-        wind angle space of the data points and capturing the underlying
-        trends using `self.sampler` and then interpolating the boat speed
-        values at the sampled points according to the interpolation method of
-        `self.interpolator`, which only takes in consideration the data points
-        which lie in a neighbourhood, determined by `self.neighbourhood`,
-        around each sampled point
-
-        Parameters
-        ----------
-        weighted_points : WeightedPoints
-            Preprocessed data from which to create the polar diagram
-
-        Returns
-        -------
-        pd : PolarDiagramPointcloud
-            A polar diagram that should represent the trends captured
-            in the raw data
-        """
-        sample_points = self.sampler.sample(weighted_points.points)
-        interpolated_points = _interpolate_points(
-            sample_points,
-            weighted_points,
-            self.neighbourhood,
-            self.interpolator,
-        )
-
-        return pol.PolarDiagramPointcloud(interpolated_points)
-
-
-class InterpolationWarning(Warning):
-    """Warning raised if neighbourhood is too small for
-    successful interpolation
-    """
-
-
-def _interpolate_points(
-    interpolating_points, weighted_points, neighbourhood, interpolator
-):
-    interpolated_points = [
-        _interpolate_point(point, weighted_points, neighbourhood, interpolator)
-        for point in interpolating_points
-    ]
-
-    return np.array(interpolated_points)
-
-
-def _interpolate_point(point, weighted_points, neighbourhood, interpolator):
-    considered = neighbourhood.is_contained_in(
-        weighted_points.points[:, :2] - point
-    )
-
-    if _neighbourhood_too_small(considered):
-        warnings.warn(
-            "Neighbourhood possibly to `small`, or"
-            "chosen resolution not fitting for data. "
-            "Interpolation will not lead to complete results",
-            category=InterpolationWarning,
-        )
-        return np.concatenate([point, 0])
-
-    interpolated_value = interpolator.interpolate(
-        weighted_points[considered], point
-    )
-
-    return np.concatenate([point, [interpolated_value]])
-
-
-def _neighbourhood_too_small(considered_points):
-    return not np.any(considered_points)

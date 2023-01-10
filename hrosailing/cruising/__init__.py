@@ -13,6 +13,10 @@ import numpy as np
 from scipy.integrate import solve_ivp, trapezoid
 from scipy.spatial import ConvexHull
 
+from hrosailing.cruising.weather_model import (
+    OutsideGridException,
+    WeatherModel,
+)
 from hrosailing.pipelinecomponents import InfluenceModel
 
 
@@ -26,7 +30,7 @@ class Direction:
     """Dataclass to represent recommended sections of a sailing maneuver."""
 
     #: Right headed angle between the boat heading and the wind direction.
-    #:   Same as TWA but from the boats perspective.
+    #:   Same as TWA but from the boat's perspective.
     angle: float
 
     #: The recommended proportion of time needed to sail into this direction.
@@ -92,7 +96,7 @@ def convex_direction(
     -------
     edge : list of Directions
         Either just one `Direction` instance, if sailing into `direction`
-        is the optimal way, or two `Direction` instances, that will "equal"
+        is the optimal way, or two `Direction` instances, that will be "equal"
         to `direction`.
 
     Raises
@@ -162,7 +166,7 @@ def cruise(
     im: Optional[InfluenceModel] = None,
     influence_data: Optional[dict] = None,
 ):
-    """Calculates fastes time and sailing direction for a vessel to reach `end`
+    """Calculates the fastest time and sailing direction for a vessel to reach `end`
     from `start`, under constant wind.
 
     If needed the function will calculate two directions as well as the
@@ -170,9 +174,9 @@ def cruise(
 
     Wind has to be given by one of the following combinations of parameters:
 
-    - `ws` and `wa_north`
-    - `ws`, `wa` and `hdt`
-    - `uv_grd`
+    - `ws` and `wa_north`,
+    - `ws`, `wa` and `hdt`,
+    - `uv_grd`.
 
     Parameters
     ----------
@@ -191,10 +195,10 @@ def cruise(
         Specification how to interpret the parameter `wind`.
 
         - "ws_wan": `wind` is interpreted as
-            (true wind speed, wind angle relative to north)
+            (true wind speed, wind angle relative to north),
         - "ws_wa_hdt": `wind` is interpreted as
             (true wind speed, true wind angle,
-            heading of the boat relative to north)
+            heading of the boat relative to north),
         - "uv_grd": `wind` is interpreted as (u_grd, v_grd) as can be read from
             a GRIB file.
     im : InfluenceModel, optional
@@ -256,116 +260,6 @@ def cruise(
     return [(d1.angle, float(t1)), (d2.angle, float(t2))]
 
 
-class OutsideGridException(Exception):
-    """Exception raised if point accessed in weather model lies
-    outside the available grid."""
-
-
-class WeatherModel:
-    """Models a weather model as a 3-dimensional space-time grid
-    where each space-time point has certain values of a given list
-    of attributes.
-
-    Parameters
-    ----------
-    data : array_like of shape (n, m, r, s)
-        Weather data at different space-time grid points.
-    times : list of length n
-        Sorted list of time values of the space-time grid.
-    lats : list of length m
-        Sorted list of latitude values of the space-time grid.
-    lons : list of length r
-        Sorted list of longitude values of the space-time grid.
-    attrs : list of length s
-        List of different (scalar) attributes of weather.
-
-    Raises
-    ---------
-    ValueError
-        If the shape of `data`, `times`, `lats`, `lons` and `attrs`
-        do not match.
-    """
-
-    def __init__(self, data, times, lats, lons, attrs):
-        if (len(times), len(lats), len(lons), len(attrs)) != data.shape:
-            raise ValueError(
-                "Parameter data should have the shape "
-                f"({len(times)}, {len(lats)}, {len(lons)}, {len(attrs)})"
-            )
-
-        self._times = times
-        self._lats = lats
-        self._lons = lons
-        self._attrs = attrs
-        self._data = data
-
-    def _grid(self):
-        return self._times, self._lats, self._lons
-
-    def get_weather(self, point):
-        """Calculates weather at a given point.
-
-        If the point is not a grid point, the weather data will be
-        affinely interpolated, starting with the time-component, using
-        the (at most) 8 grid points that span the vertices of a cube, which
-        contains the given point.
-
-        Parameters
-        ----------
-        point : tuple of length 3
-            Space-time point given as tuple of time, latitude
-            and longitude.
-
-        Returns
-        -------
-        weather : dict
-            The weather data at the given point.
-            If it is a grid point, the weather data is taken straight
-            from the model, else it is interpolated as described above.
-
-        Raises
-        ------
-        OutsideGridException
-            When `point` is not contained in any cell of the grid.
-        """
-        # check if given point lies in the grid
-        fst = (self._times[0], self._lats[0], self._lons[0])
-        lst = (self._times[-1], self._lats[-1], self._lons[-1])
-
-        outside_left = [pt < left for pt, left in zip(point, fst)]
-        outside_right = [pt > right for pt, right in zip(point, lst)]
-
-        if any(outside_left) or any(outside_right):
-            raise OutsideGridException(
-                "`point` is outside the grid. Weather data not available"
-            )
-
-        grid = self._grid()
-        idxs = [
-            bisect_left(grid_comp, comp)
-            for grid_comp, comp in zip(grid, point)
-        ]
-        flags = [
-            grid_pt[idx] == pt
-            for grid_pt, idx, pt in zip(
-                grid,
-                idxs,
-                point,
-            )
-        ]
-
-        cuboid = [
-            [idx - 1, idx] if not flag else [idx]
-            for idx, flag in zip(idxs, flags)
-        ]
-
-        cuboid = np.meshgrid(*cuboid)
-        idxs = np.vstack(tuple(map(np.ravel, cuboid))).T
-
-        val = _interpolate_weather_data(self._data, idxs, point, flags, grid)
-        return dict(zip(self._attrs, val))
-
-
 def cost_cruise(
     pd,
     start,
@@ -398,10 +292,10 @@ def cost_cruise(
     Using this, it then uses numeric integration to predict the total costs as
 
     ..math::
-        \\int_{0}^{l} cost(s, t(s)) \\,ds + abs\\_cost(t(l), l).
+        int_{0}^{l} cost(s, t(s)) \\,ds + abs\\_cost(t(l), l).
 
     Note that the costs in this mathematical description indirectly depend on
-    weather forecast data, organized by a 'WeatherModel'.
+    weather forecast data, organized by a `WeatherModel`.
     Distances are computed using the mercator projection.
 
     Parameters
@@ -426,7 +320,7 @@ def cost_cruise(
         Defaults to `lambda total_t, total_s: total_t`.
     integration_method : callable, optional
         Function that takes two (n,) arrays y, x and computes
-        an approximative integral from that.
+        an approximate integral from that.
         Will only be used if `cost_fun_dens` is not `None`.
         Defaults to `scipy.integrate.trapezoid`.
     im : InfluenceModel, optional
@@ -620,43 +514,6 @@ def _get_inverse_bsp(pd, pos, hdt, t, lat_mp, start_time, wm, im):
         return 1 / bsp
 
     return 0
-
-
-def _interpolate_weather_data(data, idxs, point, flags, grid):
-    """"""
-    # point is a grid point
-    if len(idxs) == 1:
-        i, j, k = idxs.T
-        return data[i, j, k, :]
-
-    # lexicographic first and last vertex of cube
-    start = idxs[0]
-    end = idxs[-1]
-
-    # interpolate along time edges first
-    if flags[0] and flags[1] and not flags[2]:
-        idxs[[1, 2]] = idxs[[2, 1]]
-
-    face = [i for i, flag in enumerate(flags) if not flag]
-
-    if len(face) == 1:
-        edges = [idxs[0], idxs[1]]
-    else:
-        edges = [0, 1] if len(face) == 2 else [0, 1, 4, 5]
-        edges = [(idxs[i], idxs[i + 2]) for i in edges]
-        flatten = itertools.chain.from_iterable
-        edges = list(flatten(edges))
-
-    interim = [data[i, j, k, :] for i, j, k in edges]
-
-    for i in face:
-        mu = (point[i] - grid[i][end[i]]) / (
-            grid[i][start[i]] - grid[i][end[i]]
-        )
-        it = iter(interim)
-        interim = [mu * left + (1 - mu) * right for left, right in zip(it, it)]
-
-    return interim[0]
 
 
 def _right_handing_course(a, b):

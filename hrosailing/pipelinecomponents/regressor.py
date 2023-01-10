@@ -1,11 +1,11 @@
 """
-Classes used for modular modeling of different regression methods
+Classes used for modular modelling of different regression methods.
 
-Defines the Regressor Abstract Base Class that can be used to create
-custom regression methods
+Defines the `Regressor` abstract base class that can be used to create
+custom regression methods.
 
-Subclasses of Regressor can be used with the CurveExtension class
-in the hrosailing.pipeline module
+Subclasses of `Regressor` can be used with the `CurveExtension` class
+in the `hrosailing.pipeline` module.
 """
 
 
@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 
 
 class Regressor(ABC):
-    """Base class for all regressor classes
+    """Base class for all regressor classes.
 
 
     Abstract Methods
@@ -40,58 +40,60 @@ class Regressor(ABC):
 
     optimal_params
 
-    set_weights(self, X_weights, y_weights)
-
     fit(self, data)
     """
 
     @property
     @abstractmethod
     def model_func(self):
-        """This property should return a version of the
-        in the regression used model function
+        """
+        This property should return a version of the model function used in the regression.
         """
 
     @property
     @abstractmethod
     def optimal_params(self):
-        """This property should return a version of the
-        through regression determined optimal parameters
-        of the model function
+        """This property should return a version of the optimal parameters determined
+        through regression of the model function.
         """
 
     @abstractmethod
     def fit(self, data):
         """This method should, given data, be used to determine
-        optimal parameters for the model function
+        optimal parameters for the model function.
+
+        Parameters
+        ----------
+        data : array_like of shape (n, 3)
+            Data to which the model function will be fitted, given as
+            a sequence of points consisting of wind speed, wind angle
+            and boat speed.
         """
 
 
 class ODRegressor(Regressor):
-    """An orthogonal distance regressor based on scipy.odr.odrpack
+    """An orthogonal distance regressor based on `scipy.odr.odrpack`.
 
     Parameters
     ----------
     model_func : function
-        The function which describes the model and is to be fitted.
+        The function to be fitted.
 
-        The function signature should be f(ws, wa, *params) -> bsp,
-        where ws and wa are numpy.ndarrays resp. and params is a
-        sequence of parameters that will be fitted
+        The function signature should be `f(ws, wa, *params) -> bsp`,
+        where `ws` and `wa` are `numpy.ndarrays` resp. and `params` is a
+        sequence of parameters that will be fitted.
 
-    init_values : array_like, optional
-        Inital guesses for the optimal parameters of  model_func
-        that are passed to the scipy.odr.ODR class
-
-        Defaults to None
+    init_values : array_like
+        Initial guesses for the optimal parameters of `model_func`
+        that are passed to the `scipy.odr.ODR` class.
 
     max_it : int, optional
-        Maximum number of iterations done by scipy.odr.ODR.
+        Maximum number of iterations done by `scipy.odr.ODR`.
 
-        Defaults to 1000
+        Defaults to `1000`.
     """
 
-    def __init__(self, model_func: Callable, init_values=None, max_it=1000):
+    def __init__(self, model_func: Callable, init_values, max_it=1000):
         def odr_model_func(params, x):
             ws = x[0, :]
             wa = x[1, :]
@@ -107,26 +109,29 @@ class ODRegressor(Regressor):
 
     @property
     def model_func(self):
-        """Returns a read-only version of self._func"""
+        """Returns a read-only version of `self._func`."""
         return self._func
 
     @property
     def optimal_params(self):
-        """Returns a read-only version of self._popt"""
+        """Returns a read-only version of `self._popt`."""
         return self._popt
 
     def fit(self, data, _enable_logging=False):
-        """Fits the model function to the given data, ie calculates
+        """Fits the model function to the given data, i.e. calculates
         the optimal parameters to minimize an objective
-        function based on the data, see also
-        [ODRPACK](https://docs.scipy.org/doc/external/odrpack_guide.pdf)
+        function based on the given data.
 
         Parameters
         ----------
         data : array_like of shape (n, 3)
-            Data to which the model function will  be fitted, given as
+            Data to which the model function will be fitted, given as
             a sequence of points consisting of wind speed, wind angle
-            and boat speed
+            and boat speed.
+
+        See also
+        --------
+        [ODRPACK](https://docs.scipy.org/doc/external/odrpack_guide.pdf)
         """
         X, y = data[:, :2], data[:, 2]
 
@@ -167,22 +172,30 @@ class ODRegressor(Regressor):
 
 
 class LeastSquareRegressor(Regressor):
-    """A least square regressor based on scipy.optimize.curve_fit
+    """A least square regressor based on `scipy.optimize.curve_fit`.
 
     Parameters
     ----------
     model_func : function or callable
         The function which describes the model and is to be fitted.
 
-        The function signature should be f(ws, wa, *params) -> bsp,
-        where ws and wa are  numpy.ndarrays resp. and params is a
-        sequence of parameters that will be fitted
+        The function signature should be `f(ws, wa, *params) -> bsp`,
+        where `ws` and `wa` are `numpy.ndarrays` resp. and `params` is a
+        sequence of parameters that will be fitted.
 
-    init_vals : array_like ,optional
-        Inital guesses for the optimal parameters of model_func
-        that are passed to scipy.optimize.curve_fit
+    init_vals : array_like, optional
+        Initial guesses for the optimal parameters of `model_func`
+        that are passed to `scipy.optimize.curve_fit`.
 
-        Defaults to None
+        Defaults to `None`.
+
+    Properties
+    ----------
+    model_func : Callable
+        Returns a read-only version of `self._func`.
+
+    optimal_params : numpy.ndarray
+        Returns a read-only version of `self._popt`.
     """
 
     def __init__(self, model_func: Callable, init_vals=None):
@@ -216,27 +229,28 @@ class LeastSquareRegressor(Regressor):
 
     @property
     def model_func(self):
-        """Returns a read-only version of self._func"""
         return self._func
 
     @property
     def optimal_params(self):
-        """Returns a read-only version of self._popt"""
         return self._popt
 
     def fit(self, data, _enable_logging=False):
-        """Fits the model function to the given data, ie calculates
+        """Fits the model function to the given data, i.e. calculates
         the optimal parameters to minimize the sum of the squares of
-        the residuals, see also
-        [curve_fit](https://docs.scipy.org/doc/scipy/reference/generated/\
-        scipy.optimize.curve_fit.html)
+        the residuals.
 
         Parameters
         ----------
         data : array_like of shape (n, 3)
             Data to which the model function will be fitted, given as
             a sequence of points consisting of wind speed, wind angle
-            and boat speed
+            and boat speed.
+        
+        See also
+        --------
+        [curve_fit](https://docs.scipy.org/doc/scipy/reference/generated/\
+        scipy.optimize.curve_fit.html)
         """
         X, y = data[:, :2], data[:, 2]
 

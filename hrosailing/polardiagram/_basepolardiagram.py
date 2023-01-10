@@ -75,7 +75,7 @@ class PolarDiagram(ABC):
 
         Parameters
         ----------
-        csv_path: str,
+        csv_path: str
             Path of the created csv file.
         """
 
@@ -88,7 +88,7 @@ class PolarDiagram(ABC):
     def symmetrize(self):
         """This method should return a new `PolarDiagram` object that is a
         symmetric (i.e. mirrored along the 0 - 180° axis) version of the
-        polar diagram object that called the method.
+        `PolarDiagram` object called the method.
         """
 
     @abstractmethod
@@ -215,7 +215,7 @@ class PolarDiagram(ABC):
             For details refer to the `plot_polar()`-method of the respective
             `PolarDiagram` subclass.
 
-            Will only be used if show_legend is `True`.
+            Will only be used if `show_legend` is `True`.
 
         plot_kw : Keyword arguments
             Keyword arguments to change various appearances of the plot.
@@ -235,7 +235,7 @@ class PolarDiagram(ABC):
         **plot_kw,
     ):
         """This method should create a cartesian plot of one or more slices,
-        corresponding to `ws`, of the polar diagram object.
+        corresponding to `ws`, of the `PolarDiagram` object.
 
 
         Parameters
@@ -260,7 +260,7 @@ class PolarDiagram(ABC):
             Defaults to `("green", "red")`.
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot.
+            Specifies whether a legend will be shown next to the plot.
 
             For details refer to the `plot_flat()`-method of the respective
             `PolarDiagram` subclass.

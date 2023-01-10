@@ -1,11 +1,11 @@
 """
-Classes used for modular modeling of different sampling methods
+Classes used for modular modelling of different sampling methods.
 
-Defines the Sampler Abstract Base Class that can be used to create
-custom sampling methods
+Defines the `Sampler` abstract base class that can be used to create
+custom sampling methods.
 
-Subclasses of Sampler can be used with the PointcloudExtension class
-in the hrosailing.pipeline module
+Subclasses of `Sampler` can be used with the `PointcloudExtension` class
+in the `hrosailing.pipeline` module.
 """
 
 
@@ -17,12 +17,12 @@ from scipy.spatial import ConvexHull
 
 class SamplerInitializationException(Exception):
     """Exception raised if an error occurs during
-    initialization of a Sampler
+    initialization of a `Sampler` object.
     """
 
 
 class Sampler(ABC):
-    """Base class for all sampler classes
+    """Base class for all sampler classes.
 
 
     Abstract Methods
@@ -33,44 +33,53 @@ class Sampler(ABC):
     @abstractmethod
     def sample(self, pts):
         """This method should be used, given certain points, to determine a
-        constant number of sample points that lie in the convex hull of pts
-        and are more or less representative of the trend of the given points
+        constant number of sample points that are more or less representative of the trend of the given points.
+
+        Parameter
+        ----------
+        pts : numpy.ndarray
+            The given data points in a row-wise fashion. Most commonly this should be an (n, 2) array.
+
+        Returns
+        ----------
+        sample : numpy.ndarray
+            A sample representing the data points.
         """
 
 
 class UniformRandomSampler(Sampler):
     """A sampler that produces a number of uniformly distributed samples,
-    which all lie in the convex hull of certain given points
+    which all lie in the convex hull of certain given points.
 
     Parameters
     ----------
     n_samples : positive int
-        Amount of samples that will be produced by the sampler
+        Amount of samples that will be produced by the sampler.
 
     Raises
     ------
     SamplerInitializationException
-        If n_samples is nonpositive
+        If `n_samples` is non-positive.
     """
 
     def __init__(self, n_samples):
         if n_samples <= 0:
-            raise SamplerInitializationException("`n_samples`is not positive")
+            raise SamplerInitializationException("`n_samples` is non-positive")
 
         self._n_samples = n_samples
 
     def sample(self, pts):
-        """Produces samples according to the above described procedure
+        """Produces samples according to the procedure described above.
 
         Parameters
         ----------
         pts : array_like of shape (n, 2)
-            Points in whose convex hull the produced samples will lie
+            Points in whose convex hull the produced samples will lie.
 
         Returns
         -------
         samples : numpy.ndarray of shape (n_samples, 2)
-            samples produced by the above described method
+            Samples produced by the procedure described above.
         """
         rng = np.random.default_rng()
         proj_pts = pts[:, :2]
@@ -99,44 +108,44 @@ def _create_bounds(pts):
 
 class FibonacciSampler(Sampler):
     """A sampler that produces sample points on a moved and scaled version
-    of the spiral (sqrt(x)*cos(x), sqrt(x)*sin(x)), such that the angles
+    of the spiral (sqrt(x) * cos(x), sqrt(x) * sin(x)), such that the angles
     are distributed equidistantly by the inverse golden ratio.
 
     The sample points all lie in the smallest enclosing circle
     of given data points.
 
     Inspired by Álvaro Gonzzález - "Measurement of areas on a sphere using
-    Fibonacci and latitude–longitude lattices"
+    Fibonacci and latitude–longitude lattices".
 
     Parameters
     ----------
     n_samples : positive int
-        Amount of samples that will be produced by the sampler
+        Amount of samples that will be produced by the sampler.
 
     Raises
     ------
     SamplerInitializationException
-        If n_samples is nonpositive
+        If `n_samples` is non-positive.
     """
 
     def __init__(self, n_samples):
         if n_samples <= 0:
-            raise SamplerInitializationException("`n_samples` is not positive")
+            raise SamplerInitializationException("`n_samples` is non-positive")
 
         self._n_samples = n_samples
 
     def sample(self, pts):
-        """Produces samples according to the above described procedure
+        """Produces samples according to the procedure described above.
 
         Parameters
         ----------
         pts : array_like of shape (n, 2)
-            Points in whose convex hull the produced samples will lie
+            Points in whose convex hull the produced samples will lie.
 
         Returns
         -------
         samples : numpy.ndarray of shape (n_samples, 2)
-            samples produced by the above described method
+            Samples produced by the procedure described above.
         """
         # calculate smallest circle containing pts
         midpoint, r = _make_circle(pts)
@@ -146,7 +155,7 @@ class FibonacciSampler(Sampler):
         ch = ConvexHull(pts)
         vol = ch.volume
         ineqs = ch.equations
-        ub_n_samples = int(np.pi * self._n_samples / vol) + 10
+        ub_n_samples = int(np.pi * r**2 * self._n_samples / vol) + 10
 
         # create big fibonacci spiral
         golden_ratio = (1 + np.sqrt(5)) / 2
@@ -164,46 +173,46 @@ class FibonacciSampler(Sampler):
         )
 
 
-class ArchimedianSampler(Sampler):
+class ArchimedeanSampler(Sampler):
     """A sampler that produces a number of approximately equidistant
     sample points on a moved and scaled version of the archimedean spiral
-    (x*cos(x), x*sin(x)).
+    (x * cos(x), x * sin(x)).
 
     The sample points all lie in the smallest enclosing circle
     of given data points.
 
     Inspired by
-    https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2007GC001581
+    https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2007GC001581.
 
     Parameters
     ----------
     n_samples : positive int
-        Amount of samples that will be produced by the sampler
+        Amount of samples that will be produced by the sampler.
 
     Raises
     ------
     SamplerInitializationException
-        If n_samples is nonpositive
+        If `n_samples` is non-positive.
     """
 
     def __init__(self, n_samples):
         if n_samples <= 0:
-            raise SamplerInitializationException("`n_samples` is not positive")
+            raise SamplerInitializationException("`n_samples` is non-positive")
 
         self._n_samples = n_samples
 
     def sample(self, pts):
-        """Produces samples according to the above described procedure
+        """Produces samples according to the procedure described above.
 
         Parameters
         ----------
         pts : array_like of shape (n, 2)
-            Points in whose convex hull the produced samples will lie
+            Points in whose convex hull the produced samples will lie.
 
         Returns
         -------
         samples : numpy.ndarray of shape (n_samples, 2)
-            samples produced by the above described method
+            Samples produced by the procedure described above.
         """
 
         # calculate enclosing circle
@@ -214,10 +223,10 @@ class ArchimedianSampler(Sampler):
         vol = ch.volume
         ineqs = ch.equations
 
-        ub_n_samples = int(np.pi * self._n_samples / vol) + 10
+        ub_n_samples = int(np.pi * r**2 * self._n_samples / vol) + 10
 
         # estimate upper bounds for spiral points needed
-        # and simultaniously create arc values
+        # and simultaneously create arc values
         beta = [0]
         for _ in range(ub_n_samples):
             beta.append(beta[-1] + 8 / (beta[-1] + 2))
@@ -323,4 +332,4 @@ def _small_circle(pts):
         # TODO: handling for degenerate case
         a, b, c = np.linalg.inv(circle_m) @ circle_b
         return np.array([b / 2, c / 2]), np.sqrt(b**2 / 4 + c**2 / 4 - a)
-    raise ValueError(f"len(k) should be <= 3 but k = {pts}")
+    raise ValueError(f"number of points should be <= 3 but is {pts}")

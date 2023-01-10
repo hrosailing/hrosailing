@@ -54,9 +54,11 @@ class PolarDiagramMultiSails(PolarDiagram):
 
     def __init__(self, pds, sails=None):
         warnings.warn(
-            "class features aren't all fully developed yet and/or might "
-            "change behaviour heavily in the future. "
-            "Take care when using this class",
+            (
+                "class features aren't all fully developed yet and/or might "
+                "change behaviour heavily in the future. "
+                "Take care when using this class"
+            ),
             category=NotYetImplementedWarning,
         )
         ws = pds[0].wind_speeds
@@ -180,7 +182,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         Parameters
         ----------
         ws : tuple of length 2, iterable, int or float, optional
-            Slices of the polar diagram table, given as either
+            Slices of the polar diagram table, given as either:
 
             - a tuple of length 2 specifying an interval of considered
             wind speeds,
@@ -193,18 +195,18 @@ class PolarDiagramMultiSails(PolarDiagram):
         Returns
         -------
         ws : list
-            The wind speeds corresponding to the slices
+            The wind speeds corresponding to the slices.
 
         wa : list of numpy.ndarray
-            A list of the corresponding wind angles for each slice
+            A list of the corresponding wind angles for each slice.
 
         bsp : list of numpy.ndarray
             `bsp[i][j]` contains the resulting boat speed for wind speed
-            `ws[i]` and wind angle `wa[i][j]`
+            `ws[i]` and wind angle `wa[i][j]`.
 
         members : list of str
             `members[j]` contains the name of the sail corresponding to the
-            wind `ws[i]` and `wa[i][j]` for any value of `i`
+            wind `ws[i]` and `wa[i][j]` for any value of `i`.
         """
         wa = []
         temp = []
@@ -239,7 +241,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         Parameters
         ----------
         ws : tuple of length 2, iterable, int or float, optional
-            Slices of the polar diagram table, given as either
+            Slices of the polar diagram table, given as either:
 
             - a tuple of length 2 specifying an interval of considered
             wind speeds,
@@ -254,8 +256,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
 
-        colors : color_like or
-        sequence of color_likes or (ws, color_like) pairs, optional
+        colors : color_like or sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices.
 
             - If a color_like is passed, all slices will be plotted in the
@@ -271,7 +272,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             Defaults to `("green", "red")`.
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot.
+            Specifies whether a legend will be shown next to the plot.
 
             The type of legend depends on the color options.
 
@@ -302,9 +303,9 @@ class PolarDiagramMultiSails(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-
-            - If at least one element of `ws` is not in `self.wind_speeds`.
-            - If the given interval doesn't contain any slices of the
+            If at least one element of `ws` is not in `self.wind_speeds`.
+        PolarDiagramException
+            If the given interval doesn't contain any slices of the
             polar diagram.
         """
         if ax is None:
@@ -333,7 +334,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         Parameters
         ----------
         ws : tuple of length 2, iterable, int or float, optional
-            Slices of the polar diagram table, given as either
+            Slices of the polar diagram table, given as either:
 
             - a tuple of length 2 specifying an interval of considered
             wind speeds,
@@ -343,13 +344,12 @@ class PolarDiagramMultiSails(PolarDiagram):
             The slices are then equal to the corresponding
             columns of the table together with `self.wind_angles`.
 
-            If nothing it passed, it will default to `self.wind_speeds`.
+            If nothing is passed, it will default to `self.wind_speeds`.
 
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
 
-        colors : color_like or
-        sequence of color_likes or (ws, color_like) pairs, optional
+        colors : color_like or sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices.
 
             - If a color_like is passed, all slices will be plotted in the
@@ -396,9 +396,9 @@ class PolarDiagramMultiSails(PolarDiagram):
         Raises
         ------
         PolarDiagramException
-
-            - If at least one element of `ws` is not in `self.wind_speeds`.
-            - If the given interval doesn't contain any slices of the
+            If at least one element of `ws` is not in `self.wind_speeds`.
+        PolarDiagramException
+            If the given interval doesn't contain any slices of the
             polar diagram.
         """
         if ax is None:
@@ -506,7 +506,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         Parameters
         ----------
         ws : tuple of length 2, iterable, int or float, optional
-            Slices of the polar diagram table, given as either
+            Slices of the polar diagram table, given as either:
 
             - a tuple of length 2 specifying an interval of considered
             wind speeds,
@@ -524,7 +524,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         colors : subscriptable iterable of color_likes, optional
 
         show_legend : bool, optional
-            Specifies whether or not a legend will be shown next to the plot.
+            Specifies whether a legend will be shown next to the plot.
 
             The type of legend depends on the color options.
 
