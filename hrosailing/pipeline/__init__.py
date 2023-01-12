@@ -5,6 +5,7 @@ Pipeline to create polar diagrams from raw data.
 
 import warnings
 from abc import ABC, abstractmethod
+from datetime import datetime as dt
 from typing import NamedTuple
 
 import numpy as np
@@ -14,7 +15,6 @@ import hrosailing.polardiagram as pol
 from hrosailing.pipelinecomponents.modelfunctions import (
     ws_s_wa_gauss_and_square,
 )
-from datetime import datetime as dt
 
 from .extensions import (
     CurveExtension,
@@ -339,7 +339,9 @@ class PolarPipeline:
             test_statistics = _EMPTY_STATISTIC
             quality_assurance_statistics = {}
 
-        quality_assurance_statistics["execution time"] = (dt.now() - start_time).total_seconds()
+        quality_assurance_statistics["execution time"] = (
+            dt.now() - start_time
+        ).total_seconds()
 
         training_statistics = Statistics(
             pp_training_statistics.data_handler,
