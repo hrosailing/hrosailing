@@ -14,6 +14,7 @@ import hrosailing.polardiagram as pol
 from hrosailing.pipelinecomponents.modelfunctions import (
     ws_s_wa_gauss_and_square,
 )
+from datetime import datetime as dt
 
 from .extensions import (
     CurveExtension,
@@ -286,6 +287,7 @@ class PolarPipeline:
         -------
         out : PipelineOutput
         """
+        start_time = dt.now()
         keys = [
             "smoothing",
             "pre_expander_weighing",
@@ -336,6 +338,8 @@ class PolarPipeline:
         else:
             test_statistics = _EMPTY_STATISTIC
             quality_assurance_statistics = {}
+
+        quality_assurance_statistics["execution time"] = (dt.now() - start_time).total_seconds()
 
         training_statistics = Statistics(
             pp_training_statistics.data_handler,
