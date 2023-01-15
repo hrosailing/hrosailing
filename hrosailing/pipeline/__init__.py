@@ -81,7 +81,7 @@ class PipelineOutput(NamedTuple):
 class PolarPipeline:
     """A Pipeline class to create polar diagrams from raw data.
 
-    Supported Keyword Parameter
+    Supported Keyword Parameters
     ---------------------------
 
     data_handler : DataHandler or list of DataHandler, optional
