@@ -342,10 +342,10 @@ class CylindricMeanWeigher(Weigher):
         WeightedPoints : numpy.ndarray of shape (n,)
             Normalized weights of the input points.
         """
-        self._dimensions, points = _set_points_from_data(
+        self._dimensions, points, bsps = _set_points_from_data(
             points, self._dimensions
         )
-        weights = [self._calculate_weight(point, points) for point in points]
+        weights = [self._calculate_weight(point, points, bsps, bsp) for point, bsp in zip(points, bsps)]
         weights = np.array(weights)
         weights = 1 - _normalize(weights, np.max)
 
@@ -353,21 +353,21 @@ class CylindricMeanWeigher(Weigher):
 
         return weights
 
-    def _calculate_weight(self, point, points):
-        points_in_cylinder = self._determine_points_in_cylinder(point, points)
+    def _calculate_weight(self, point, points, bsps, bsp):
+        points_in_cylinder = self._determine_points_in_cylinder(point, points, bsps)
 
         std = _standard_deviation_of(points_in_cylinder)
         mean = _mean_of(points_in_cylinder)
 
-        return np.abs(mean - point[-1]) / std
+        return np.abs(mean - bsp) / std
 
-    def _determine_points_in_cylinder(self, point, points):
+    def _determine_points_in_cylinder(self, point, points, bsps):
         if self._norm is None:
             self._norm = hrosailing_standard_scaled_euclidean_norm(
                 self._dimensions
             )
         in_cylinder = self._norm(points - point) <= self._radius
-        return points[in_cylinder][:, -1]
+        return bsps[in_cylinder]
 
 
 def _standard_deviation_of(points_in_cylinder):
@@ -467,7 +467,7 @@ class CylindricMemberWeigher(Weigher):
             Normalized weights of the input points.
         """
 
-        self._dimensions, points = _set_points_from_data(
+        self._dimensions, points, bsps = _set_points_from_data(
             points, self._dimensions
         )
 
@@ -586,6 +586,8 @@ def _set_points_from_data(data, dimensions, reduce=True):
     if isinstance(data, np.ndarray):
         if reduce:
             data = data[:, :-1]
+            bsp = data[:, -1]
+            return dimensions, data, bsp
         return dimensions, data
 
     if dimensions is None:
@@ -593,19 +595,21 @@ def _set_points_from_data(data, dimensions, reduce=True):
 
     if reduce:
         if "BSP" in dimensions:
+            bsp = data["BSP"]
             dimensions.remove("BSP")
         if "SOG" in dimensions:
+            bsp = data["SOG"]
             dimensions.remove("SOG")
 
     if isinstance(data, dict):
         data = data_dict_to_numpy(data, dimensions)
-        return dimensions, data
 
     if isinstance(data, Data):
-        data = data[dimensions].numerical
-        return data
+        dimensions, data = data[dimensions].numerical
 
-    raise TypeError(f"Data of type {type(data)} is not supported.")
+    if reduce:
+        return dimensions, data, bsp
+    return dimensions, data
 
 
 class FuzzyBool:
