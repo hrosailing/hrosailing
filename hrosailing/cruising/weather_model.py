@@ -313,7 +313,7 @@ class NetCDFWeatherModel(GriddedWeatherModel):
     A weather model that uses gridded data from a NetCDF (.nc or .nc4) file.
     Uses the same interpolation method as `GriddedWeatherModel`.
     The module `netCDF4` has to be installed in order to use this class.
-    The methods `from_file` and `to_file` are not supported.
+    The methods `from_file`, `to_file` and `from_meteostat` are not supported.
 
     Parameters
     ----------
