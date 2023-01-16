@@ -381,6 +381,9 @@ def _mean_of(points_in_cylinder):
 def _normalize(weights, normalizer):
     if len(weights) == 0:
         return weights
+    normalizer_ = normalizer(weights)
+    if normalizer_ == 0:
+        return weights
     return weights / normalizer(weights)
 
 
@@ -608,7 +611,7 @@ def _set_points_from_data(data, dimensions, reduce=True):
         dimensions, data = data[dimensions].numerical
 
     if reduce:
-        return dimensions, data, bsp
+        return dimensions, data, np.asarray(bsp)
     return dimensions, data
 
 
