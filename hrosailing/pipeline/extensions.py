@@ -245,7 +245,7 @@ class CurveExtension(PipelineExtension):
 
 
 def _convert_angles_to_radians(weighted_points):
-    weighted_points.points[:, 1] = np.deg2rad(weighted_points.points[:, 1])
+    weighted_points.data[:, 1] = np.deg2rad(weighted_points.data[:, 1])
 
 
 class PointcloudExtension(PipelineExtension):
