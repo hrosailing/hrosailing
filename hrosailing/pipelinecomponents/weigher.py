@@ -461,7 +461,7 @@ class CylindricMemberWeigher(Weigher):
 
         Parameters
         ----------
-        points : numpy.ndarray of shape (n, d) or Data
+        points : numpy.ndarray of shape (n, d)
             Points to be weighed.
 
         Returns
