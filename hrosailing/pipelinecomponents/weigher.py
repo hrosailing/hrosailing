@@ -619,6 +619,7 @@ class FuzzyBool:
     """
     Class representing a fuzzy truth statement, i.e. a function with values
     between 0 and 1 (truth function).
+    Supports the operators `&`, `|`, `~` for the operators and, or, not.
     The easiest way to initialize a `FuzzyBool` object is by using the operators of the
     `FuzzyVariables` class, but it can also be initialized with a custom truth
     function.
@@ -628,6 +629,12 @@ class FuzzyBool:
     eval_fun : callable
         The truth function used. Truth values between 0 and 1 are recommended.
 
+    Attributes
+    ----------
+    repr : str
+        A human readable representation of the `FuzzyBool` object.
+        Is returned by `__str__`. First set to 'Fuzzy-Bool'.
+
     See also
     --------
     For recommendations on how to use a `FuzzyBool` see also `FuzzyVariable`.
@@ -635,24 +642,36 @@ class FuzzyBool:
 
     def __init__(self, eval_fun):
         self._fun = eval_fun
+        self.repr = "Fuzzy-Bool"
 
     def __call__(self, x):
         return self._fun(x)
 
     def __and__(self, other):
-        return FuzzyBool.fuzzy_and(self, other)
+        new = FuzzyBool.fuzzy_and(self, other)
+        new._concat_repr(self, other, "&")
+        return new
 
     def __or__(self, other):
-        return FuzzyBool.fuzzy_or(self, other)
+        new = FuzzyBool.fuzzy_or(self, other)
+        new._concat_repr(self, other, "|")
+        return new
 
     def __invert__(self):
-        return FuzzyBool.fuzzy_not(self)
+        new = FuzzyBool.fuzzy_not(self)
+        new.repr = f"~({self})"
+        return new
 
     def __getitem__(self, item):
         def eval_fun(x):
             return self._fun(x[item])
 
-        return FuzzyBool(eval_fun)
+        new = FuzzyBool(eval_fun)
+        new.repr = f"{self}[{item}]"
+        return new
+
+    def __str__(self):
+        return self.repr
 
     @classmethod
     def fuzzy_and(cls, one, other):
@@ -743,6 +762,23 @@ class FuzzyBool:
         return cls(eval_fun)
 
 
+    def _concat_repr(self, origin, other, concat):
+        """
+        Set the representation string to f"{origin} {concat} {other}". Use brackets if necessary.
+
+        Parameters
+        ----------
+        origin : FuzzyBool
+
+        other : FuzzyBool
+
+        concat : str
+        """
+        self_repr = f"({origin})" if " " in f"{origin}" else f"{origin}"
+        other_repr = f"({other})" if " " in f"{other}" else f"{other}"
+        self.repr = f"{self_repr} {concat} {other_repr}"
+
+
 class FuzzyVariable:
     """
     Refers to Variables in the fuzzy logic.
@@ -811,19 +847,25 @@ class FuzzyVariable:
         return sigmoid[self.key]
 
     def __gt__(self, other):
-        return self._truth(other, -1)
+        new = self._truth(other, -1)
+        new.repr = f"{self} > {other}"
+        return new
 
     def __lt__(self, other):
-        return self._truth(other, 1)
+        new = self._truth(other, 1)
+        new.repr = f"{self} < {other}"
+        return new
 
     def __ge__(self, other):
-        return other > self
+        return self > other
 
     def __le__(self, other):
-        return other < self
+        return self < other
 
     def __eq__(self, other):
-        return FuzzyBool.fuzzy_and(self < other, self > other)
+        new = FuzzyBool.fuzzy_and(self < other, self > other)
+        new.repr = f"{self} == {other}"
+        return new
 
     def __getitem__(self, item):
         return FuzzyVariable(key=item, sharpness=self.sharpness)
@@ -831,6 +873,16 @@ class FuzzyVariable:
     def __call__(self, sharpness):
         self._next_sharpness = sharpness
         return self
+
+    def __str__(self):
+        if self.key is None:
+            return "x"
+        return f"x[{self.key}]"
+
+    def __repr__(self):
+        if self.key is None:
+            return f"x({self._sharpness})"
+        return f"x({self._sharpness})[{self.key}]"
 
 
 class FuzzyWeigher(Weigher):
