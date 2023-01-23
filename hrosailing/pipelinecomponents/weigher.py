@@ -600,9 +600,13 @@ def _set_points_from_data(data, dimensions, reduce=True):
         if "BSP" in dimensions:
             bsp = data["BSP"]
             dimensions.remove("BSP")
-        if "SOG" in dimensions:
+        elif "SOG" in dimensions:
             bsp = data["SOG"]
             dimensions.remove("SOG")
+        else:
+            raise ValueError(
+                "Data has to support one of the keys 'BSP' or 'SOG'"
+            )
 
     if isinstance(data, dict):
         data = data_dict_to_numpy(data, dimensions)
