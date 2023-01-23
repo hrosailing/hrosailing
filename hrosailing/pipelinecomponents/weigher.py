@@ -588,8 +588,8 @@ class FluctuationWeigher(Weigher):
 def _set_points_from_data(data, dimensions, reduce=True):
     if isinstance(data, np.ndarray):
         if reduce:
-            data = data[:, :-1]
             bsp = data[:, -1]
+            data = data[:, :-1]
             return dimensions, data, bsp
         return dimensions, data
 
