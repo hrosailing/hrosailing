@@ -923,7 +923,7 @@ class FuzzyWeigher(Weigher):
         return weights
 
 
-def hrosailing_standard_scaled_euclidean_norm(dimensions):
+def hrosailing_standard_scaled_euclidean_norm(dimensions=None):
     """
     Returns a scaled euclidean norm function where the scales are chosen with respect to `constants.NORM_SCALES`
     (or 1 if `constants.NORM_SCALES` does not contain the respective key).
