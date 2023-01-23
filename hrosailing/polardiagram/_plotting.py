@@ -308,7 +308,7 @@ def _convex_hull(slices):
             continue
 
         conv = _convex_hull_in_polar_coordinates(wa, bsp)
-        vert = sorted(conv.vertices)
+        vert = conv.vertices
         x, y = zip(
             *([(wa[i], bsp[i]) for i in vert] + [(wa[vert[0]], bsp[vert[0]])])
         )
