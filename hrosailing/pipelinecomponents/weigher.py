@@ -910,7 +910,15 @@ class FuzzyWeigher(Weigher):
         --------
         `Weigher.weigh`
         """
-        weights = np.array([self.fuzzy(point) for point in points.rows()])
+        if isinstance(points, Data):
+            weights = np.array([self.fuzzy(point) for point in points.rows()])
+        elif isinstance(points, np.ndarray):
+            weights = np.array([self.fuzzy(point)[0] for point in points])
+        else:
+            raise TypeError(
+                f"FuzzyWeigher only takes numpy arrays or `hrosailing.pipelinecomponents.data.Data` objects"
+                f"got {type(points)} instead."
+            )
         self.set_statistics(weights)
         return weights
 
