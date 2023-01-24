@@ -915,7 +915,7 @@ class FuzzyWeigher(Weigher):
         `Weigher.weigh`
         """
         if isinstance(points, Data):
-            weights = np.array([self.fuzzy(point) for point in points.rows()])
+            weights = np.array([self.fuzzy(point)[0] for point in points.rows()])
         elif isinstance(points, np.ndarray):
             weights = np.array([self.fuzzy(point)[0] for point in points])
         else:

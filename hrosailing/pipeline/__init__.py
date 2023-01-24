@@ -507,6 +507,8 @@ def _collector_fun(comp, method):
 
 
 def _weigh_and_filter(data, weigher, filter_, weighing, filtering):
+    if (isinstance(data, pc.data.Data) and data.n_rows == 0) or (isinstance(data, np.ndarray) and len(data) == 0):
+        raise RuntimeError("Data is empty, try to use weaker filter.")
     if weighing:
         weights, weigher_statistics = _collect(weigher, weigher.weigh, data)
     else:

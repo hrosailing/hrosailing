@@ -104,7 +104,6 @@ class QuantileFilter(Filter):
         --------
         `Filter.filter`
         """
-
         filtered_points = self._calculate_quantile(wts)
 
         self.set_statistics(filtered_points)
