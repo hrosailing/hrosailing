@@ -39,7 +39,8 @@ class HROPolar(PolarAxes):
             ws = np.array(ws)
             wa = np.array(wa)
             bsp = np.array(bsp)
-            self._plot_polar(ws, wa, bsp, colors, show_legend, legend_kw, True, **kwargs)
+            lines_ = _check_for_lines(wa)
+            self._plot_polar(ws, wa, bsp, colors, show_legend, legend_kw, lines_, **kwargs)
             return
 
         super().plot(*args, **kwargs)
@@ -55,6 +56,9 @@ class HROPolar(PolarAxes):
 
 register_projection(HROPolar)
 
+
+def _check_for_lines(wa):
+    return wa.ndim == 1
 
 def _get_new_axis(kind):
     return plt.axes(projection=kind)
