@@ -55,8 +55,22 @@ class HROPolar(PolarAxes):
 class HROFlat(Axes):
     name = "hro flat"
 
-    def plot(self):
-        pass
+    def plot(self,
+             *args,
+             ws=None,
+             colors=("green", "red"),
+             show_legend=False,
+             legend_kw=None,
+             **kwargs
+             ):
+        if isinstance(args[0], PolarDiagram):
+            pd = args[0]
+            ws, wa, bsp = pd.get_slices(ws)
+            _lines = _check_for_lines(wa)
+            self._plot_flat(ws, wa, bsp, colors, show_legend, legend_kw, _lines, **kwargs)
+            return
+
+        super().plot(*args, **kwargs)
 
     def _plot_flat(
             self, ws, wa, bsp, colors, show_legend, legend_kw, _lines, **plot_kw

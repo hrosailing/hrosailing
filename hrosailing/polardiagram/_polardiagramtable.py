@@ -837,7 +837,6 @@ class PolarDiagramTable(PolarDiagram):
         ![logo](https://raw.githubusercontent.com/hrosailing/hrosailing/main/examples/pictures/table_plot_flat.png)
         """
         ws, wa, bsp = self.get_slices(ws)
-        bsp = list(bsp.T)
         wa = [np.rad2deg(wa)] * len(bsp)
         plot_flat(
             ws,
