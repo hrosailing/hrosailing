@@ -230,11 +230,13 @@ class _GriddedWeatherModelEncoder(json.JSONEncoder):
         if isinstance(o, GriddedWeatherModel):
             data = o.data
             times, lats, lons = o.grid
-            attrs = data.attrs
+            attrs = o.attrs
             return [data, times, lats, lons, attrs]
         if isinstance(o, np.ndarray):
             return o.tolist()
         if installed_pandas and isinstance(o, pd.Timestamp):
+            return o.strftime("%d.%m.%Y:%X")
+        if isinstance(o, datetime):
             return o.strftime("%d.%m.%Y:%X")
         raise TypeError(
             f"Object of type {type(o)} is not JSON serializable :("
