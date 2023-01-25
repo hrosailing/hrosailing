@@ -1,6 +1,7 @@
 # pylint: disable=missing-module-docstring
 
 from abc import ABC, abstractmethod
+import numpy as np
 
 
 class PolarDiagramException(Exception):
@@ -42,22 +43,99 @@ class PolarDiagram(ABC):
         `PolarDiagram` object called the method.
         """
 
-    @abstractmethod
-    def get_slices(self, ws):
-        """This method should, given a number of wind speeds, return
-        a list of the given wind speeds as well as wind angles and
-        corresponding boat speeds, that reflect how the vessel behaves at
+    def get_slices(self, ws=None, n_steps=None, full_info=False, **kwargs):
+        """This method should produce a list of 'slices' describing the
+        performance of specified wind_speed as well as wind angles and
+        corresponding boat speeds, that reflect how the vessel behaves near
         the given wind speeds.
 
         Parameters
         ----------
-        ws : int/float
-            Description of slices of the polar diagram to be plotted.
+        ws : int, float or iterable thereof, optional
+            The wind speeds corresponding to the requested slices.
 
-            For a description of what the slice is made of,
-            see the `get_slices()`-method of the respective
-            `PolarDiagram` subclass.
+            Defaults to `self.windspeeds`
+
+        n_steps : int, optional
+            If set, a total of `n_steps` wind_speeds between each value given
+            in `ws` is taken into account. For example `n_steps = 1` adds all
+            midpoints.
+
+            Defaults to 0.
+
+        full_info : bool, optional
+            Specifies wether the additional value `info` will be
+            returned or not
+
+            Defaults to `False`.
+
+        **kwargs :
+            Additional keyword arguments whose functionality depends on the
+            inheriting class. Are forwarded to `ws_to_slices`.
+
+        Returns
+        ---------
+        ws : np.ndarray
+            The wind speeds corresponding to the slices
+
+        slices : list of `numpy.ndarray` of shape (3, *)
+            A list of slices.
+            A slice stores row wise data points consisting of actual
+            wind speed, wind angle and boat speed.
+            Note that the actual wind speed can differ (slightly) from the
+            wind speed corresponding to the slice, depending on the inheriting
+            class.
         """
+        ws = self._get_windspeeds(ws, n_steps)
+        slices = self.ws_to_slices(ws, **kwargs)
+        if full_info:
+            info = self.get_slice_info(ws)
+            return ws, slices, info
+        return ws, slices
+
+    def _get_windspeeds(self, ws, n_steps):
+        if ws is None:
+            ws = self.wind_speeds
+        if isinstance(ws, (int, float)):
+            return [ws]
+        try:
+            all_numbers = all([isinstance(ws_, (int, float)) for ws_ in ws])
+        except TypeError:
+            raise TypeError(
+                "`ws` has to be an int a float or an iterable"
+            )
+        if not all_numbers:
+            raise TypeError(
+                "If `ws` is an iterable, it needs to iterate over int or float"
+            )
+        if n_steps is None:
+            return np.array(ws)
+        if n_steps <= 0:
+            raise ValueError("`n_steps` has to be positive")
+        return np.concatenate(
+            [
+                np.linspace(ws_before, ws_next, n_steps + 2)
+                for ws_before, ws_next in zip(ws, ws[1:])
+            ] + [[ws[-1]]]
+        )
+
+    @abstractmethod
+    @property
+    def wind_speeds(self):
+        """
+        Should return an np.ndarray of wind speeds for which the polar diagram
+        is defined. Also sets the default windspeeds for `get_slices`.
+        """
+
+    @abstractmethod
+    def ws_to_slices(self, ws):
+        """
+        Should produce slices for the windspeeds given in ws.
+        """
+
+    def get_slice_info(self, ws):
+        return [[]]*len(ws)
+
 
     def plot_polar_slice(self, ws, ax=None, **plot_kw):
         """Creates a polar plot of a given slice of the
