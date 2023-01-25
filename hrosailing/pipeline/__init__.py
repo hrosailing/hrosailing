@@ -81,9 +81,8 @@ class PipelineOutput(NamedTuple):
 class PolarPipeline:
     """A Pipeline class to create polar diagrams from raw data.
 
-    Supported Keyword Parameters
+    Other Parameters
     ---------------------------
-
     data_handler : DataHandler or list of DataHandler, optional
         Handlers that are responsible to extract actual data from the input.
         If only one handler is given, this handler will be used for all given inputs,
@@ -230,7 +229,7 @@ class PolarPipeline:
 
             Defaults to `False`.
 
-        Supported Keyword Parameter
+        Other Parameters
         ---------------------------
 
         pre_expander_weighing : bool, optional
