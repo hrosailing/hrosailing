@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from matplotlib.projections.polar import PolarAxes
 from matplotlib.axes import Axes
 from matplotlib.projections import register_projection
+from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 from matplotlib.cm import ScalarMappable
 from matplotlib.colors import (
@@ -121,9 +122,32 @@ class HROColorGradient(Axes):
         self.scatter(ws.ravel(), wa.ravel(), c=color_gradient, **legend_kw)
 
 
+class HRO3D(Axes3D):
+    name = "hro 3d"
+
+    def plot(self, *args, colors=("green", "red"), **kwargs):
+        if not isinstance(args[0], PolarDiagram):
+            super().plot(*args, **kwargs)
+            return
+
+        pd = args[0]
+        ws, wa, bsp = pd.get_slices()
+        self._plot3d(ws, wa, bsp, colors, **kwargs)
+
+
+    def _plot3d(self, ws, wa, bsp, colors, **plot_kw):
+        _set_3d_axis_labels(self)
+        _remove_3d_tick_labels_for_polar_coordinates(self)
+
+        color_map = _create_color_map(colors)
+
+        super().scatter(ws, wa, bsp, c=ws, cmap=color_map, **plot_kw)
+
+
 register_projection(HROPolar)
 register_projection(HROFlat)
 register_projection(HROColorGradient)
+register_projection(HRO3D)
 
 def _check_for_lines(wa):
     return wa.ndim == 1
@@ -312,18 +336,6 @@ def _set_legend_with_wind_speeds(ax, colors, ws, legend_kw):
         ],
         **legend_kw,
     )
-
-
-def plot3d(ws, wa, bsp, ax, colors, **plot_kw):
-    if ax is None:
-        ax = _get_new_axis("3d")
-
-    _set_3d_axis_labels(ax)
-    _remove_3d_tick_labels_for_polar_coordinates(ax)
-
-    color_map = _create_color_map(colors)
-
-    ax.scatter(ws, wa, bsp, c=ws, cmap=color_map, **plot_kw)
 
 
 def _set_3d_axis_labels(ax):
