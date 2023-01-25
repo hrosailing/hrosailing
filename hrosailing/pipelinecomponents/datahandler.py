@@ -19,7 +19,6 @@ from ast import literal_eval
 from datetime import date, datetime, time
 
 import numpy as np
-import pandas as pd
 
 from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 from hrosailing.pipelinecomponents.constants import HROSAILING_TO_NMEA
