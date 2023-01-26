@@ -54,7 +54,7 @@ class PolarDiagram(ABC):
         ws : int, float or iterable thereof, optional
             The wind speeds corresponding to the requested slices.
 
-            Defaults to `self.windspeeds`
+            Defaults to `self.default_slices`
 
         n_steps : int, optional
             If set, a total of `n_steps` wind_speeds between each value given
@@ -75,7 +75,7 @@ class PolarDiagram(ABC):
 
         Returns
         ---------
-        ws : np.ndarray
+        labels : np.ndarray
             The wind speeds corresponding to the slices
 
         slices : list of `numpy.ndarray` of shape (3, *)
@@ -95,7 +95,7 @@ class PolarDiagram(ABC):
 
     def _get_windspeeds(self, ws, n_steps):
         if ws is None:
-            ws = self.wind_speeds
+            ws = self.default_slices
         if isinstance(ws, (int, float)):
             return [ws]
         try:
@@ -121,10 +121,9 @@ class PolarDiagram(ABC):
 
     @property
     @abstractmethod
-    def wind_speeds(self):
+    def default_slices(self):
         """
-        Should return an np.ndarray of wind speeds for which the polar diagram
-        is defined. Also sets the default windspeeds for `get_slices`.
+        Sets the default windspeeds for `get_slices`.
         """
 
     @abstractmethod

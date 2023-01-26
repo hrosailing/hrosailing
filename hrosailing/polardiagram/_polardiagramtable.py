@@ -315,6 +315,15 @@ class PolarDiagramTable(PolarDiagram):
         return self._ws_resolution.copy()
 
     @property
+    def default_slices(self):
+        """
+        See also
+        ---------
+        `Polardiagram.default_slices`
+        """
+        return self.wind_speeds
+
+    @property
     def boat_speeds(self):
         """Returns a read only version of `self._boat_speeds`."""
         return self._boat_speeds.copy()
