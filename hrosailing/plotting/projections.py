@@ -40,18 +40,20 @@ class HROPolar(PolarAxes):
             return
 
         pd = args[0]
-        ws, wa, bsp = pd.get_slices(ws)
-        lines_ = _check_for_lines(wa)
-        self._plot_polar(ws, wa, bsp, colors, show_legend, legend_kw, lines_, **kwargs)
+        labels, slices = pd.get_slices(ws)
+        self._plot_polar(labels, slices, colors, show_legend, legend_kw, **kwargs)
 
-
-
-    def _plot_polar(self, ws, wa, bsp, colors, show_legend, legend_kw, _lines, **plot_kw):
+    def _plot_polar(
+            self, labels, slices, colors, show_legend, legend_kw, **kwargs
+    ):
         _set_polar_axis(self)
+        _configure_axes(self, labels, colors, show_legend, legend_kw, **kwargs)
 
-        _check_plot_kw(plot_kw, _lines)
-
-        _plot(ws, wa, bsp, self, colors, show_legend, legend_kw, **plot_kw)
+        for label, slice in zip(labels, slices):
+            ws, wa, bsp = slice
+            wa = np.deg2rad(wa)
+            super().plot(wa, bsp)
+            #_plot(labels, wa, bsp, self, colors, show_legend, legend_kw, **kwargs)
 
 
 class HROFlat(Axes):
@@ -182,6 +184,11 @@ def _check_for_lines(wa):
 def _get_new_axis(kind):
     return plt.axes(projection=kind)
 
+def _configure_axes(ax, labels, colors, show_legend, legend_kw, **kwargs):
+    _configure_colors(ax, labels, colors)
+    _check_plot_kw(kwargs, True)
+    if show_legend:
+        _show_legend(ax, labels, colors, "True Wind Speed", legend_kw)
 
 def _set_polar_axis(ax):
     ax.set_theta_zero_location("N")
@@ -208,10 +215,10 @@ def _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
     if show_legend:
         _show_legend(ax, ws, colors, "True Wind Speed", legend_kw)
 
-    if wa.ndim == 1:
-        for y in bsp:
-            ax.plot(wa, y, **plot_kw)
-        return
+    # if wa.ndim == 1:
+    #     for y in bsp:
+    #         ax.plot(wa, y, **plot_kw)
+    #     return
 
     for x, y in zip(wa, bsp):
         ax.plot(x, y, **plot_kw)
