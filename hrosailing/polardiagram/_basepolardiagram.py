@@ -87,9 +87,10 @@ class PolarDiagram(ABC):
             class.
         """
         ws = self._get_windspeeds(ws, n_steps)
+        kwargs["full_info"] = full_info
         slices = self.ws_to_slices(ws, **kwargs)
         if full_info:
-            info = self.get_slice_info(ws, **kwargs)
+            info = self.get_slice_info(ws, slices, **kwargs)
             return ws, slices, info
         return ws, slices
 
@@ -123,17 +124,66 @@ class PolarDiagram(ABC):
     @abstractmethod
     def default_slices(self):
         """
-        Sets the default windspeeds for `get_slices`.
+        Should set the default windspeeds for `get_slices`.
         """
 
     @abstractmethod
     def ws_to_slices(self, ws, **kwargs):
         """
         Should produce slices for the windspeeds given in ws.
+
+        Parameters
+        ---------
+        ws : 1 dimensional numpy.ndarray
+            The wind speeds corresponding to the requested slices.
+
+        slices : list of (3, *) `np.ndarray`
+            Slices produced by `ws_to_slices`
+
+        **kwargs :
+            Further keyword arguments that may be used by custom
+            implementations. Are forwarded by the `get_slices` method.
+            Supports the key 'full_info'.
+
+        Returns
+        --------
+        slices : list of (3, *) numpy.ndarrays
+            List of the requested slices. The three rows of a slice
+            should correspond to the actual
+            wind speeds, the wind angles and the boat speeds
+
+        See also
+        -----------
+        `get_slices`
         """
 
-    def get_slice_info(self, ws, **kwargs):
-        return [[]]*len(ws)
+    def get_slice_info(self, slices, **kwargs):
+        """
+        Should produce additional information about slices depending on the
+        inheriting class which is returned when the `full_info` parameter of
+        the `get_slices` method is set to `True`.
+
+        Parameters
+        ----------
+        ws : 1 dimensional numpy.ndarray
+            The wind speeds corresponding to the requested slices.
+
+        **kwargs :
+            Further keyword arguments that may be used by custom
+            implementations. Are forwarded by the `get_slices` method.
+            Supports the key 'full_info'.
+
+        Returns
+        -------
+        info : list of lists
+            List of additional information for each record of each slice
+            organized in the same manner as a slice.
+
+        See also
+        -----------
+        `get_slices`
+        """
+        return [["" for _ in slice[0]] for slice in slices]*len(ws)
 
 
     def plot_polar_slice(self, ws, ax=None, **plot_kw):
