@@ -98,6 +98,23 @@ class PolarDiagramTable(PolarDiagram):
     7.50924383603392
     """
 
+    def ws_to_slices(
+            self, ws,
+            interpolator=ArithmeticMeanInterpolator(params=(50,))
+    ):
+        slices = []
+        for ws_ in ws:
+            if ws_ in self.wind_speeds:
+                bsp = self.boat_speeds[self.wind_speeds.index(ws_)]
+            else:
+                bsp = [self(ws_, self.wind_angles, interpolator)]
+            slices.append(
+                np.row_stack([
+                    [ws_]*len(self.wind_angles), self.wind_angles, bsp
+                ])
+            )
+        return slices
+
     def __init__(self, ws_resolution=None, wa_resolution=None, bsps=None):
         ws_resolution = _Resolution.WIND_SPEED.set_resolution(ws_resolution)
         wa_resolution = _Resolution.WIND_ANGLE.set_resolution(wa_resolution)
@@ -596,58 +613,6 @@ class PolarDiagramTable(PolarDiagram):
                 mask[i, j] = True
 
         self._boat_speeds[mask] = new_bsps.flat
-
-    def get_slices(self, ws=None):
-        """Returns given slice of polar diagram.
-
-        The slices are equal to the corresponding columns of the table
-        together with `self.wind_angles`.
-
-        Parameters
-        ----------
-        ws : array_like, optional
-            Slices of the polar diagram table, given as either:
-            - a tuple of length 2 specifying an interval of
-                considered wind speeds,
-            - an iterable containing only elements of `self.wind_speeds`,
-            - a single element of `self.wind_speeds`.
-
-            Defaults to `self.wind_speeds`.
-
-        Returns
-        -------
-        slices : tuple
-            Slices of the polar diagram, given as a tuple of length 3,
-            consisting of the given wind speeds `ws`, `self.wind_angles`
-            (in rad) and an array with the corresponding columns of the table.
-
-        Raises
-        ------
-        PolarDiagramException
-            If at least one element of `ws` is not in `self.wind_speeds`.
-        PolarDiagramException
-            If the given interval doesn't contain any slices of the
-            polar diagram.
-        """
-        if ws is None:
-            ws = self.wind_speeds
-        elif isinstance(ws, (int, float)):
-            ws = [ws]
-        elif isinstance(ws, tuple) and len(ws) == 2:
-            ws = [w for w in self.wind_speeds if ws[0] <= w <= ws[1]]
-
-        ws = sorted(list(ws))
-        if not ws:
-            raise PolarDiagramException("no slices were given")
-
-        ind = self._get_indices(ws, _Resolution.WIND_SPEED)
-        wa = np.deg2rad(self.wind_angles)
-
-        bsp = self.boat_speeds[:, ind]
-        if max(wa) > np.deg2rad(350) and min(wa) < np.deg2rad(10):
-            bsp = np.concatenate([bsp, [bsp[0]]])
-            wa = np.concatenate([wa, [wa[0]]])
-        return ws, wa, bsp
 
     def plot_polar(
         self,

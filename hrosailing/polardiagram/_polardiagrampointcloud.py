@@ -241,7 +241,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         self._points = np.row_stack((self._points, new_pts))
 
     # TODO Add positivity checks for ws in various cases
-    def get_slices(self, ws, n_steps=None, range_=1):
+    def get_slices(self, ws=None, n_steps=None, range_=1):
         """For given wind speeds, return the slices of the polar diagram
         corresponding to them.
 

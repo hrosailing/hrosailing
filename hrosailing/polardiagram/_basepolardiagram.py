@@ -119,8 +119,8 @@ class PolarDiagram(ABC):
             ] + [[ws[-1]]]
         )
 
-    @abstractmethod
     @property
+    @abstractmethod
     def wind_speeds(self):
         """
         Should return an np.ndarray of wind speeds for which the polar diagram
