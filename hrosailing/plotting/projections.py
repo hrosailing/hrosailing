@@ -34,14 +34,15 @@ class HROPolar(PolarAxes):
              legend_kw=None,
              **kwargs
              ):
-        if isinstance(args[0], PolarDiagram):
-            pd = args[0]
-            ws, wa, bsp = pd.get_slices(ws)
-            lines_ = _check_for_lines(wa)
-            self._plot_polar(ws, wa, bsp, colors, show_legend, legend_kw, lines_, **kwargs)
+        if not isinstance(args[0], PolarDiagram):
+            super().plot(*args, **kwargs)
             return
 
-        super().plot(*args, **kwargs)
+        pd = args[0]
+        ws, wa, bsp = pd.get_slices(ws)
+        lines_ = _check_for_lines(wa)
+        self._plot_polar(ws, wa, bsp, colors, show_legend, legend_kw, lines_, **kwargs)
+
 
 
     def _plot_polar(self, ws, wa, bsp, colors, show_legend, legend_kw, _lines, **plot_kw):
@@ -63,14 +64,14 @@ class HROFlat(Axes):
              legend_kw=None,
              **kwargs
              ):
-        if isinstance(args[0], PolarDiagram):
-            pd = args[0]
-            ws, wa, bsp = pd.get_slices(ws)
-            _lines = _check_for_lines(wa)
-            self._plot_flat(ws, wa, bsp, colors, show_legend, legend_kw, _lines, **kwargs)
+        if not isinstance(args[0], PolarDiagram):
+            super().plot(*args, **kwargs)
             return
 
-        super().plot(*args, **kwargs)
+        pd = args[0]
+        ws, wa, bsp = pd.get_slices(ws)
+        _lines = _check_for_lines(wa)
+        self._plot_flat(ws, wa, bsp, colors, show_legend, legend_kw, _lines, **kwargs)
 
     def _plot_flat(
             self, ws, wa, bsp, colors, show_legend, legend_kw, _lines, **plot_kw
@@ -80,8 +81,45 @@ class HROFlat(Axes):
         _plot(ws, wa, bsp, self, colors, show_legend, legend_kw, **plot_kw)
 
 
+class HROColorGradient(Axes):
+    name = "hro color gradient"
+
+    def plot(self,
+             *args,
+             ws=None,
+             colors=("green", "red"),
+             show_legend=False,
+             legend_kw=None,
+             **kwargs
+             ):
+        if not isinstance(args[0], PolarDiagram):
+            super().plot(*args, **kwargs)
+            return
+
+        pd = args[0]
+        ws, wa, bsp = pd.get_slices(ws)
+        wa = np.rad2deg(wa)
+
+        self._plot_color_gradient(ws, wa, bsp, colors, show_legend, **kwargs)
+
+
+    def _plot_color_gradient(
+            self, ws, wa, bsp, colors, show_legend, **legend_kw
+    ):
+        if show_legend:
+            _show_legend(self, bsp, colors, "Boat Speed", legend_kw)
+
+        color_gradient = _determine_color_gradient(colors, bsp.T.ravel())
+
+        if wa.ndim == 1:
+            ws, wa = np.meshgrid(ws, wa)
+
+        self.scatter(ws.ravel(), wa.ravel(), c=color_gradient, **legend_kw)
+
+
 register_projection(HROPolar)
 register_projection(HROFlat)
+register_projection(HROColorGradient)
 
 def _check_for_lines(wa):
     return wa.ndim == 1
@@ -192,8 +230,8 @@ def _determine_color_gradient(colors, gradient):
 
 
 def _get_gradient_coefficients(gradient):
-    min_gradient = min(gradient)
-    max_gradient = max(gradient)
+    min_gradient = gradient.min()
+    max_gradient = gradient.max()
 
     return [
         (grad - min_gradient) / (max_gradient - min_gradient)
@@ -270,20 +308,6 @@ def _set_legend_with_wind_speeds(ax, colors, ws, legend_kw):
         ],
         **legend_kw,
     )
-
-
-def plot_color_gradient(
-        ws, wa, bsp, ax, colors, marker, ms, show_legend, **legend_kw
-):
-    if ax is None:
-        ax = _get_new_axis("rectilinear")
-
-    if show_legend:
-        _show_legend(ax, bsp, colors, "Boat Speed", legend_kw)
-
-    color_gradient = _determine_color_gradient(colors, bsp)
-
-    ax.scatter(ws, wa, s=ms, marker=marker, c=color_gradient)
 
 
 def plot3d(ws, wa, bsp, ax, colors, **plot_kw):
