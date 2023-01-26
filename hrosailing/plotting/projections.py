@@ -109,10 +109,14 @@ class HROColorGradient(Axes):
         if show_legend:
             _show_legend(self, bsp, colors, "Boat Speed", legend_kw)
 
-        color_gradient = _determine_color_gradient(colors, bsp.T.ravel())
+        color_gradient = _determine_color_gradient(colors, bsp.ravel())
 
         if wa.ndim == 1:
             ws, wa = np.meshgrid(ws, wa)
+            ws, wa = ws.T, wa.T
+
+        if ws.ndim == 1:
+            ws = np.array([[ws_ for _ in range(len(wa_))] for ws_, wa_ in zip(ws, wa)])
 
         self.scatter(ws.ravel(), wa.ravel(), c=color_gradient, **legend_kw)
 
