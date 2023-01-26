@@ -69,7 +69,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         --------
         `PolarDiagram.get_slices`
         """
-        super().get_slices(ws, n_steps, full_info, **kwargs)
+        return super().get_slices(ws, n_steps, full_info, **kwargs)
 
     def ws_to_slices(
             self, ws, wa_resolution=100, range_=1, interpolator=None, **kwargs
