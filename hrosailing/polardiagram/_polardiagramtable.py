@@ -105,9 +105,9 @@ class PolarDiagramTable(PolarDiagram):
         slices = []
         for ws_ in ws:
             if ws_ in self.wind_speeds:
-                bsp = self.boat_speeds[self.wind_speeds.index(ws_)]
+                bsp = self.boat_speeds.T[np.where(self.wind_speeds == ws_)][0]
             else:
-                bsp = [self(ws_, self.wind_angles, interpolator)]
+                bsp = self(ws_, self.wind_angles, interpolator)
             slices.append(
                 np.row_stack([
                     [ws_]*len(self.wind_angles), self.wind_angles, bsp
