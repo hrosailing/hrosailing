@@ -767,7 +767,9 @@ class FuzzyBool:
         def eval_fun(x):
             return 1 / (1 + np.exp(sigma * sharpness * (x - center)))
 
-        return cls(eval_fun)
+        new = cls(eval_fun)
+        new.repr = f"sigmoid(center={center},sharpness={sharpness},sigma={sigma})"
+        return new
 
 
     def _concat_repr(self, origin, other, concat):
