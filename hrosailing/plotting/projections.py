@@ -132,8 +132,23 @@ class HRO3D(Axes3D):
 
         pd = args[0]
         ws, wa, bsp = pd.get_slices()
-        self._plot3d(ws, wa, bsp, colors, **kwargs)
+        lines_ = _check_for_lines(wa)
+        if wa.ndim == 1 and ws.ndim == 1:
+            wa, ws = np.meshgrid(np.flip(wa), ws)
+            bsp = np.flip(bsp, axis=1)
+        elif ws.ndim == 1:
+            ws = np.array(
+                [[ws_ for _ in range(len(wa_))] for ws_, wa_ in
+                 zip(ws, wa)]
+            )
 
+        y, z = np.cos(np.pi/2-wa) * bsp, np.sin(np.pi/2-wa) * bsp
+
+        if lines_:
+            self._plot_surf(ws, y, z, colors, **kwargs)
+            return
+
+        self._plot3d(ws, y, z, colors, **kwargs)
 
     def _plot3d(self, ws, wa, bsp, colors, **plot_kw):
         _set_3d_axis_labels(self)
@@ -142,6 +157,18 @@ class HRO3D(Axes3D):
         color_map = _create_color_map(colors)
 
         super().scatter(ws, wa, bsp, c=ws, cmap=color_map, **plot_kw)
+
+    def _plot_surf(self, ws, wa, bsp, colors, **plot_kw):
+        _set_3d_axis_labels(self)
+        _remove_3d_tick_labels_for_polar_coordinates(self)
+
+        color_map = _create_color_map(colors)
+        face_colors = _determine_face_colors(color_map, ws)
+
+        super().plot_surface(
+            ws, wa, bsp, facecolors=face_colors
+        )
+
 
 
 register_projection(HROPolar)
@@ -350,19 +377,6 @@ def _remove_3d_tick_labels_for_polar_coordinates(ax):
 
 def _create_color_map(colors):
     return LinearSegmentedColormap.from_list("cmap", list(colors))
-
-
-def plot_surface(ws, wa, bsp, ax, colors):
-    if ax is None:
-        ax = _get_new_axis("3d")
-
-    _set_3d_axis_labels(ax)
-    _remove_3d_tick_labels_for_polar_coordinates(ax)
-
-    color_map = _create_color_map(colors)
-    face_colors = _determine_face_colors(color_map, ws)
-
-    ax.plot_surface(ws, wa, bsp, facecolors=face_colors)
 
 
 def _determine_face_colors(color_map, ws):
