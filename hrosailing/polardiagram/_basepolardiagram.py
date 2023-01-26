@@ -17,7 +17,61 @@ class PolarDiagramInitializationException(Exception):
 
 
 class PolarDiagram(ABC):
-    """Base class for all polar diagrams."""
+    """Base class for all polar diagrams.
+
+    Properties
+    -----------
+    default_slices (abstract) :
+        Should set the default windspeeds for `get_slices`.
+
+    Abstract Methods
+    ----------------
+    to_csv(csv_path)
+
+    __from_csv__(cls, file)
+
+    symmetrize()
+
+    get_slices(ws)
+
+    plot_polar(
+        ws,
+        ax=None,
+        colors=("green", "red"),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw
+    )
+
+    plot_flat(
+        ws,
+        ax=None,
+        colors=("green", "red"),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw
+    )
+
+    plot_3d(ax=None, **plot_kw)
+
+    plot_color_gradient(
+        ax=None,
+        colors=("green", "red"),
+        marker=None,
+        ms=None,
+        show_legend=False,
+        **legend_kw,
+    )
+
+    plot_convex_hull(
+        ws,
+        ax=None,
+        colors=("green", "red"),
+        show_legend=False,
+        legend_kw=None,
+        **plot_kw,
+    )
+    """
 
     @abstractmethod
     def to_csv(self, csv_path):
@@ -123,9 +177,7 @@ class PolarDiagram(ABC):
     @property
     @abstractmethod
     def default_slices(self):
-        """
-        Should set the default windspeeds for `get_slices`.
-        """
+        pass
 
     @abstractmethod
     def ws_to_slices(self, ws, **kwargs):
@@ -136,9 +188,6 @@ class PolarDiagram(ABC):
         ---------
         ws : 1 dimensional numpy.ndarray
             The wind speeds corresponding to the requested slices.
-
-        slices : list of (3, *) `np.ndarray`
-            Slices produced by `ws_to_slices`
 
         **kwargs :
             Further keyword arguments that may be used by custom
@@ -167,6 +216,9 @@ class PolarDiagram(ABC):
         ----------
         ws : 1 dimensional numpy.ndarray
             The wind speeds corresponding to the requested slices.
+
+        slices : list of (3, *) `np.ndarray`
+            Slices produced by `ws_to_slices`
 
         **kwargs :
             Further keyword arguments that may be used by custom

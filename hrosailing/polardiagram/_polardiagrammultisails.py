@@ -52,7 +52,33 @@ class PolarDiagramMultiSails(PolarDiagram):
         If the polar tables don't share the same wind speeds.
     """
 
+    def get_slices(self, ws=None, n_steps=None, full_info=False, **kwargs):
+        """
+        Parameters
+        ---------
+        **kwargs :
+            The keyword arguments are forwarded to the `ws_to_slices` methods
+            of the polardiagrams in `self.diagrams`.
+
+        Returns
+        --------
+        slices : list of slices
+            Concatenations of the slices of the polardiagrams in
+            `self.diagrams`.
+
+        See also
+        -------
+        `PolarDiagram.get_slices`
+        """
+        super().get_slices(ws, n_steps, full_info, **kwargs)
+
     def ws_to_slices(self, ws, **kwargs):
+        """
+        See also
+        -------
+        `PolarDiagramMultisails.get_slices`
+        `PolarDiagram.ws_to_slices`
+        """
         all_slices = [
             pd.ws_to_slices(ws, **kwargs) for pd in self._diagrams
         ]
@@ -62,7 +88,18 @@ class PolarDiagramMultiSails(PolarDiagram):
         ]
         return slices
 
-    def get_slice_info(self, ws, **kwargs):
+    def get_slice_info(self, ws, slices, **kwargs):
+        """
+        Returns
+        --------
+        info : list of lists
+            Contains the sail name used for each record. Organized in the
+            same manner as the slices.
+
+        See also
+        ----------
+        `PolarDiagram.get_slices`
+        """
         all_slices = [
             pd.ws_to_slices(ws, **kwargs) for pd in self._diagrams
         ]

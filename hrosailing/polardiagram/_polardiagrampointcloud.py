@@ -43,9 +43,43 @@ class PolarDiagramPointcloud(PolarDiagram):
         Defaults to `False`.
     """
 
+    def get_slices(self, ws=None, n_steps=None, full_info=False, **kwargs):
+        """
+        Other Parameters
+        ---------------------
+        wa_resolution : int, optional
+            The number of wind angles that will be used for estimation if an
+            interpolator is given.
+
+            Defaults to 100.
+
+        range_ : int, optional
+            If no interpolator is given, a slice consists of all data points
+            with a wind speed with an absolute difference of at most `range_`
+            to the corresponding wind speed value.
+
+            Defaults to 1
+
+        interpolator : Interpolator, optional
+            The interpolation method used to estimate unknown boat speeds.
+
+            Defaults to `None`
+
+        See also
+        --------
+        `PolarDiagram.get_slices`
+        """
+        super().get_slices(ws, n_steps, full_info, **kwargs)
+
     def ws_to_slices(
             self, ws, wa_resolution=100, range_=1, interpolator=None, **kwargs
     ):
+        """
+        See also
+        -------
+        `PolarDiagramPointcloud.get_slices`
+        `PolarDiagram.ws_to_slices`
+        """
         all_ws = self.points[:, 0]
         if interpolator is not None:
             default_wind_angles = np.linspace(0, 360, wa_resolution)

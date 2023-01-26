@@ -57,7 +57,29 @@ class PolarDiagramCurve(PolarDiagram):
         If `params` contains not enough parameters for `f`.
     """
 
+    def get_slices(self, ws=None, n_steps=None, full_info=False, **kwargs):
+        """
+        Other Parameters
+        ----------------
+        wa_resolution : int, optional
+            The number of wind angles that will be used for estimation if an
+            interpolator is given.
+
+            Defaults to 100.
+
+        See also
+        -------
+        `PolarDiagram.get_slices`
+        """
+        super().get_slices(ws, n_steps, full_info, **kwargs)
+
     def ws_to_slices(self, ws, wa_resolution=100, **kwargs):
+        """
+        See also
+        -------
+        `PolarDiagramCurve.get_slices`
+        `PolarDiagram.ws_to_slices`
+        """
         wa_ls = np.linspace(0, 360, wa_resolution)
         return [
             np.row_stack([

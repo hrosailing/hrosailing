@@ -98,11 +98,33 @@ class PolarDiagramTable(PolarDiagram):
     7.50924383603392
     """
 
+    def get_slices(self, ws=None, n_steps=None, full_info=False, **kwargs):
+        """
+        Other Parameters
+        ----------------
+        interpolator : Interpolator, optional
+            The interpolator used to estimate boat speeds
+            not covered in the table.
+
+            Defaults to `ArithmeticMeanInterpolator(params=(50,)`
+
+        See also
+        -------
+        `PolarDiagram.get_slices`
+        """
+        super().get_slices(ws, n_steps, full_info, **kwargs)
+
     def ws_to_slices(
             self, ws,
             interpolator=ArithmeticMeanInterpolator(params=(50,)),
             **kwargs
     ):
+        """
+        See also
+        -------
+        `PolarDiagramTable.get_slices`
+        `PolarDiagram.ws_to_slices`
+        """
         slices = []
         for ws_ in ws:
             if ws_ in self.wind_speeds:
