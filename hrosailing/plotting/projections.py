@@ -7,6 +7,7 @@ import itertools
 
 import matplotlib.pyplot as plt
 from matplotlib.projections.polar import PolarAxes
+from matplotlib.axes import Axes
 from matplotlib.projections import register_projection
 import numpy as np
 from matplotlib.cm import ScalarMappable
@@ -36,10 +37,6 @@ class HROPolar(PolarAxes):
         if isinstance(args[0], PolarDiagram):
             pd = args[0]
             ws, wa, bsp = pd.get_slices(ws)
-            ws = np.array(ws)
-            wa = np.array(wa)
-            bsp = np.array(bsp)
-            print(ws.shape, wa.shape, bsp.shape)
             lines_ = _check_for_lines(wa)
             self._plot_polar(ws, wa, bsp, colors, show_legend, legend_kw, lines_, **kwargs)
             return
@@ -55,8 +52,22 @@ class HROPolar(PolarAxes):
         _plot(ws, wa, bsp, self, colors, show_legend, legend_kw, **plot_kw)
 
 
-register_projection(HROPolar)
+class HROFlat(Axes):
+    name = "hro flat"
 
+    def plot(self):
+        pass
+
+    def _plot_flat(
+            self, ws, wa, bsp, colors, show_legend, legend_kw, _lines, **plot_kw
+    ):
+        _check_plot_kw(plot_kw, _lines)
+
+        _plot(ws, wa, bsp, self, colors, show_legend, legend_kw, **plot_kw)
+
+
+register_projection(HROPolar)
+register_projection(HROFlat)
 
 def _check_for_lines(wa):
     return wa.ndim == 1
@@ -245,17 +256,6 @@ def _set_legend_with_wind_speeds(ax, colors, ws, legend_kw):
         ],
         **legend_kw,
     )
-
-
-def plot_flat(
-        ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines, **plot_kw
-):
-    if ax is None:
-        ax = _get_new_axis("rectilinear")
-
-    _check_plot_kw(plot_kw, _lines)
-
-    _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
 
 
 def plot_color_gradient(
