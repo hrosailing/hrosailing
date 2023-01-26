@@ -57,6 +57,12 @@ class PolarDiagramCurve(PolarDiagram):
         If `params` contains not enough parameters for `f`.
     """
 
+    def ws_to_slices(self, ws, wa_resolution = 100, **kwargs):
+        wa_ls = np.linspace(0, 360, wa_resolution)
+        return [
+            self(ws_, wa_ls) for ws_ in ws
+        ]
+
     def __init__(self, f, *params, radians=False):
         if not callable(f):
             raise PolarDiagramInitializationException("`f` is not callable")
@@ -105,6 +111,10 @@ class PolarDiagramCurve(PolarDiagram):
     def curve(self):
         """Returns a read only version of `self._f`."""
         return self._f
+
+    @property
+    def default_slices(self):
+        return np.linspace(5, 20, 16)
 
     @property
     def parameters(self):
@@ -170,74 +180,6 @@ class PolarDiagramCurve(PolarDiagram):
         return PolarDiagramCurve(
             sym_func, *self.parameters, radians=self.radians
         )
-
-    # TODO Add positivity checks for ws in various cases
-    def get_slices(self, ws=None, n_steps=None):
-        """For given wind speeds, return the slices of the polar diagram
-        corresponding to them.
-
-        Slices are equal to `self(w, wa)` where `w` goes through
-        the given values in `ws` and `wa` goes through a fixed
-        number of angles between 0° and 360°.
-
-        Parameters
-        ----------
-        ws : tuple of length 2, iterable, int or float, optional
-            Slices of the polar diagram given as either:
-
-            - a tuple of length 2, specifying an interval of considered
-            wind speeds. The amount of slices taken from that interval
-            are determined by the parameter `n_steps`,
-            - an iterable of specific wind speeds,
-            - a single wind speed.
-
-            If nothing is passed, it will default to `(0, 20)`.
-
-        n_steps : positive int or float, optional
-            Specifies the amount of slices taken from the given
-            wind speed interval.
-
-            Will only be used if `ws` is a tuple of length 2.
-
-            If nothing is passed, it will default to `ws[1] - ws[0]`.
-
-        Returns
-        -------
-        slices : tuple
-            Slices of the polar diagram, given as a tuple of length 3,
-            consisting of the given wind speeds `ws`, `self.wind_angles`
-            (in rad) and a list of arrays containing the
-            corresponding boat speeds.
-
-        Raises
-        ------
-        PolarDiagramException
-            If `n_steps` is non-positive.
-        """
-        if ws is None:
-            ws = (0, 20)
-
-        if isinstance(ws, (int, float)):
-            ws = [ws]
-        elif isinstance(ws, tuple) and len(ws) == 2:
-            if n_steps is None:
-                n_steps = int(round(ws[1] - ws[0]))
-
-            if n_steps <= 0:
-                raise PolarDiagramException("`n_steps` is non-positive")
-
-            ws = list(np.linspace(ws[0], ws[1], n_steps))
-
-        wa = np.linspace(0, 360, 1000)
-        if self.radians:
-            wa = np.deg2rad(wa)
-
-        bsp = [self(np.array([w] * 1000), wa) for w in ws]
-
-        if not self.radians:
-            wa = np.deg2rad(wa)
-
-        return ws, wa, bsp
 
     # pylint: disable=arguments-renamed
     def plot_polar(
