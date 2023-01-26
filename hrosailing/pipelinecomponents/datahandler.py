@@ -195,7 +195,14 @@ class CsvFileHandler(DataHandler):
         try:
             return datetime.strptime(entry.strip(), self._date_format)
         except (ValueError, TypeError, AttributeError):
-            return literal_eval(entry)
+            try:
+                return literal_eval(entry)
+            except SyntaxError:
+                raise RuntimeError(
+                    f"Could not parse '{entry}'. "
+                    f"Try using `CsvFileHandler(date_format=...)` "
+                    f"or check your format string."
+                )
 
 
 class NMEAFileHandler(DataHandler):
