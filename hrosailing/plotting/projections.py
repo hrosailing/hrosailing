@@ -49,10 +49,10 @@ class HROPolar(PolarAxes):
         _set_polar_axis(self)
         _configure_axes(self, labels, colors, show_legend, legend_kw, **kwargs)
 
-        for label, slice in zip(labels, slices):
+        for slice in slices:
             ws, wa, bsp = slice
             wa = np.deg2rad(wa)
-            super().plot(wa, bsp)
+            super().plot(wa, bsp, **kwargs)
             #_plot(labels, wa, bsp, self, colors, show_legend, legend_kw, **kwargs)
 
 
@@ -72,16 +72,17 @@ class HROFlat(Axes):
             return
 
         pd = args[0]
-        ws, wa, bsp = pd.get_slices(ws)
-        _lines = _check_for_lines(wa)
-        self._plot_flat(ws, wa, bsp, colors, show_legend, legend_kw, _lines, **kwargs)
+        labels, slices = pd.get_slices(ws)
+        self._plot_flat(labels, slices, colors, show_legend, legend_kw, **kwargs)
 
     def _plot_flat(
-            self, ws, wa, bsp, colors, show_legend, legend_kw, _lines, **plot_kw
+            self, labels, slices, colors, show_legend, legend_kw, **kwargs
     ):
-        _check_plot_kw(plot_kw, _lines)
+        _configure_axes(self, labels, colors, show_legend, legend_kw, **kwargs)
 
-        _plot(ws, wa, bsp, self, colors, show_legend, legend_kw, **plot_kw)
+        for slice in slices:
+            ws, wa, bsp = slice
+            super().plot(wa, bsp, **kwargs)
 
 
 class HROColorGradient(Axes):
