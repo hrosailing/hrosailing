@@ -57,10 +57,13 @@ class PolarDiagramCurve(PolarDiagram):
         If `params` contains not enough parameters for `f`.
     """
 
-    def ws_to_slices(self, ws, wa_resolution = 100, **kwargs):
+    def ws_to_slices(self, ws, wa_resolution=100, **kwargs):
         wa_ls = np.linspace(0, 360, wa_resolution)
         return [
-            self(ws_, wa_ls) for ws_ in ws
+            np.row_stack([
+                [ws_]*len(wa_ls), wa_ls, self(ws_, wa_ls)
+            ])
+            for ws_ in ws
         ]
 
     def __init__(self, f, *params, radians=False):

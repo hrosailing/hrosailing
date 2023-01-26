@@ -43,16 +43,20 @@ class PolarDiagramPointcloud(PolarDiagram):
         Defaults to `False`.
     """
 
-    def ws_to_slices(self, ws, range_=1, interpolator=None):
+    def ws_to_slices(
+            self, ws, wa_resolution=100, range_=1, interpolator=None, **kwargs
+    ):
         all_ws = self.points[:, 0]
         if interpolator is not None:
-            default_wind_angles = np.linspace(0, 360, 5)
+            default_wind_angles = np.linspace(0, 360, wa_resolution)
 
         slices = []
         for ws_ in ws:
             if interpolator is None:
                 slicing = np.where(np.abs(all_ws -ws_) <= range_)
-                slices.append(self.points[slicing].T)
+                slices.append(
+                    np.atleast_2d(self.points[slicing]).T
+                )
                 continue
             slices.append(self(ws_, default_wind_angles))
         return slices

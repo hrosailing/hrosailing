@@ -100,7 +100,8 @@ class PolarDiagramTable(PolarDiagram):
 
     def ws_to_slices(
             self, ws,
-            interpolator=ArithmeticMeanInterpolator(params=(50,))
+            interpolator=ArithmeticMeanInterpolator(params=(50,)),
+            **kwargs
     ):
         slices = []
         for ws_ in ws:
