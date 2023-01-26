@@ -342,10 +342,13 @@ class CylindricMeanWeigher(Weigher):
         WeightedPoints : numpy.ndarray of shape (n,)
             Normalized weights of the input points.
         """
-        self._dimensions, points, bsps = _set_points_from_data(
+        dimensions, points, bsps = _set_points_from_data(
             points, self._dimensions
         )
-        weights = [self._calculate_weight(point, points, bsps, bsp) for point, bsp in zip(points, bsps)]
+        weights = [
+            self._calculate_weight(point, points, bsps, bsp, dimensions)
+            for point, bsp in zip(points, bsps)
+        ]
         weights = np.array(weights)
         weights = 1 - _normalize(weights, np.max)
 
@@ -353,18 +356,20 @@ class CylindricMeanWeigher(Weigher):
 
         return weights
 
-    def _calculate_weight(self, point, points, bsps, bsp):
-        points_in_cylinder = self._determine_points_in_cylinder(point, points, bsps)
+    def _calculate_weight(self, point, points, bsps, bsp, dimensions):
+        points_in_cylinder = self._determine_points_in_cylinder(
+            point, points, bsps, dimensions
+        )
 
         std = _standard_deviation_of(points_in_cylinder)
         mean = _mean_of(points_in_cylinder)
 
         return np.abs(mean - bsp) / std
 
-    def _determine_points_in_cylinder(self, point, points, bsps):
+    def _determine_points_in_cylinder(self, point, points, bsps, dimensions):
         if self._norm is None:
             self._norm = hrosailing_standard_scaled_euclidean_norm(
-                self._dimensions
+                dimensions
             )
         in_cylinder = self._norm(points - point) <= self._radius
         return bsps[in_cylinder]
