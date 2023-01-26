@@ -89,7 +89,7 @@ class PolarDiagram(ABC):
         ws = self._get_windspeeds(ws, n_steps)
         slices = self.ws_to_slices(ws, **kwargs)
         if full_info:
-            info = self.get_slice_info(ws)
+            info = self.get_slice_info(ws, **kwargs)
             return ws, slices, info
         return ws, slices
 
@@ -127,12 +127,12 @@ class PolarDiagram(ABC):
         """
 
     @abstractmethod
-    def ws_to_slices(self, ws):
+    def ws_to_slices(self, ws, **kwargs):
         """
         Should produce slices for the windspeeds given in ws.
         """
 
-    def get_slice_info(self, ws):
+    def get_slice_info(self, ws, **kwargs):
         return [[]]*len(ws)
 
 

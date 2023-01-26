@@ -52,6 +52,29 @@ class PolarDiagramMultiSails(PolarDiagram):
         If the polar tables don't share the same wind speeds.
     """
 
+    def ws_to_slices(self, ws, **kwargs):
+        all_slices = [
+            pd.ws_to_slices(ws, **kwargs) for pd in self._diagrams
+        ]
+        slices = [
+            np.column_stack(slice_collection)
+            for slice_collection in zip(*all_slices)
+        ]
+        return slices
+
+    def get_slice_info(self, ws, **kwargs):
+        all_slices = [
+            pd.ws_to_slices(ws, **kwargs) for pd in self._diagrams
+        ]
+        slice_infos = [
+            [
+                sail
+                for sail, slice in zip(self.sails, slice_collection)
+                for _ in range(slice.shape[1])]
+            for slice_collection in zip(*all_slices)
+        ]
+        return slice_infos
+
     def __init__(self, pds, sails=None):
         warnings.warn(
             (
@@ -61,12 +84,6 @@ class PolarDiagramMultiSails(PolarDiagram):
             ),
             category=NotYetImplementedWarning,
         )
-        ws = pds[0].wind_speeds
-        for pd in pds:
-            if not np.array_equal(ws, pd.wind_speeds):
-                raise PolarDiagramInitializationException(
-                    "wind speed resolution of `pds` does not coincide"
-                )
 
         if sails is None:
             sails = [f"Sail {i}" for i in range(len(pds))]
@@ -79,19 +96,15 @@ class PolarDiagramMultiSails(PolarDiagram):
             sails = sails[: len(pds)]
 
         self._sails = list(sails)
-        self._tables = list(pds)
+        self._diagrams = list(pds)
 
     @property
     def sails(self):
         return self._sails
 
     @property
-    def wind_speeds(self):
-        return self._tables[0].wind_speeds
-
-    @property
-    def tables(self):
-        return self._tables
+    def diagrams(self):
+        return self._diagrams
 
     def __getitem__(self, item) -> PolarDiagramTable:
         """"""
@@ -102,10 +115,10 @@ class PolarDiagramMultiSails(PolarDiagram):
                 "`item` is not a name of a sail"
             ) from ve
 
-        return self.tables[index]
+        return self._diagrams[index]
 
     def __str__(self):
-        tables = [str(pd) for pd in self._tables]
+        tables = [str(pd) for pd in self._diagrams]
         names = [str(sail) for sail in self._sails]
         out = []
         for name, table in zip(names, tables):
@@ -117,7 +130,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         return "".join(out)
 
     def __repr__(self):
-        return f"PolarDiagramMultiSails({self.tables}, {self.sails})"
+        return f"PolarDiagramMultiSails({self._diagrams}, {self.sails})"
 
     def to_csv(self, csv_path):
         """Creates a .csv file with delimiter ',' and the
@@ -142,7 +155,7 @@ class PolarDiagramMultiSails(PolarDiagram):
             csv_writer.writerow([self.__class__.__name__])
             csv_writer.writerow(["TWS"])
             csv_writer.writerow(self.wind_speeds)
-            for sail, table in zip(self.sails, self.tables):
+            for sail, table in zip(self.sails, self.diagrams):
                 csv_writer.writerow([sail])
                 csv_writer.writerow(["TWA"])
                 csv_writer.writerow(table.wind_angles)
@@ -169,63 +182,15 @@ class PolarDiagramMultiSails(PolarDiagram):
         are each on one side of the 0° - 180° axis, otherwise this can lead
         to duplicate data, which can overwrite or live alongside old data.
         """
-        pds = [pd.symmetrize() for pd in self._tables]
+        pds = [pd.symmetrize() for pd in self.diagrams]
         return PolarDiagramMultiSails(pds, self._sails)
 
-    def get_slices(self, ws):
-        """For given wind speeds, return the slices of the polar diagram
-        corresponding to them.
-
-        The slices are equal to the corresponding
-        columns of the table together with `self.wind_angles`.
-
-        Parameters
-        ----------
-        ws : tuple of length 2, iterable, int or float, optional
-            Slices of the polar diagram table, given as either:
-
-            - a tuple of length 2 specifying an interval of considered
-            wind speeds,
-            - an iterable containing only elements of `self.wind_speeds`,
-            - a single element of `self.wind_speeds`.
-
-            If nothing it passed, it will default to `self.wind_speeds`.
-
-
-        Returns
-        -------
-        ws : list
-            The wind speeds corresponding to the slices.
-
-        wa : list of numpy.ndarray
-            A list of the corresponding wind angles for each slice.
-
-        bsp : list of numpy.ndarray
-            `bsp[i][j]` contains the resulting boat speed for wind speed
-            `ws[i]` and wind angle `wa[i][j]`.
-
-        members : list of str
-            `members[j]` contains the name of the sail corresponding to the
-            wind `ws[i]` and `wa[i][j]` for any value of `i`.
-        """
-        wa = []
-        temp = []
-        for pd in self._tables:
-            ws, w, b = pd.get_slices(ws)
-            wa.append(w)
-            temp.append(b)
-
-        flatten = itertools.chain.from_iterable
-        members = [[self._sails[i]] * len(w) for i, w in enumerate(wa)]
-        members = list(flatten(members))
-
-        wa = [np.asarray(wa).ravel()] * len(ws)
-        bsp = []
-        for i in range(len(ws)):
-            b = np.asarray([b_[:, i] for b_ in temp]).ravel()
-            bsp.append(b)
-
-        return ws, wa, bsp, members
+    @property
+    def default_slices(self):
+        all_defaults = np.concatenate([
+            pd.default_slices for pd in self._diagrams
+        ])
+        return np.array(sorted(list(set(all_defaults))))
 
     def plot_polar(
         self,
