@@ -43,6 +43,20 @@ class PolarDiagramPointcloud(PolarDiagram):
         Defaults to `False`.
     """
 
+    def ws_to_slices(self, ws, range_=1, interpolator=None):
+        all_ws = self.points[:, 0]
+        if interpolator is not None:
+            default_wind_angles = np.linspace(0, 360, 5)
+
+        slices = []
+        for ws_ in ws:
+            if interpolator is None:
+                slicing = np.where(np.abs(all_ws -ws_) <= range_)
+                slices.append(self.points[slicing].T)
+                continue
+            slices.append(self(ws_, default_wind_angles))
+        return slices
+
     def __init__(self, points, apparent_wind=False):
         if apparent_wind:
             points = convert_apparent_wind_to_true(points)
@@ -130,6 +144,11 @@ class PolarDiagramPointcloud(PolarDiagram):
         return interpolator.interpolate(
             weighted_points[considered_points], point
         )
+
+    @property
+    def default_slices(self):
+        ws = self.points[:, 0]
+        return np.linspace(ws.min(), ws.max(), 20)
 
     @property
     def wind_speeds(self):
@@ -239,103 +258,6 @@ class PolarDiagramPointcloud(PolarDiagram):
             new_pts[:, 1] %= 360
 
         self._points = np.row_stack((self._points, new_pts))
-
-    # TODO Add positivity checks for ws in various cases
-    def get_slices(self, ws=None, n_steps=None, range_=1):
-        """For given wind speeds, return the slices of the polar diagram
-        corresponding to them.
-
-        The slices then consist of all points in the point cloud where the
-        wind speed lies in certain intervals determined by `ws` as below.
-
-        Parameters
-        ----------
-        ws : See below, optional
-            Slices of the polar diagram given as either:
-
-            - a tuple of 2 int/float values, which will be turned into the
-            iterable `numpy.linspace(ws[0], ws[1], n_steps)` of int/float
-            values.
-            The iterable will then be interpreted as below,
-            - a mixed iterable containing tuples of 2 int/float values or
-            singular int/float values which will be interpreted as
-            individual slices. For a tuple the corresponding interval is given
-            by the two values of the tuple interpreted as a lower and an upper
-            bound. For a singular int/float value `w` the corresponding
-            interval will be `(w - range_, w + range_)`,
-            - a singular int/float value `w`. The corresponding interval will
-            be `(w - range_, w + range_)`.
-
-            If nothing is passed, it will default to
-            `(min(self.wind_speeds), max(self.wind_speeds))`.
-
-        n_steps : positive int, optional
-            Specifies the amount of slices taken from the given
-            interval in `ws`.
-
-            Will only be used if `ws` is a tuple of length 2.
-
-            If nothing is passed it will default to `int(round(ws[1] - ws[0]))`.
-
-        range_ : positive int or float, optional
-            Used to convert an int or float `w` in `ws` to the interval
-            `(w - range_, w + range_)`.
-
-            Will only be used if `ws` is int or float or
-            if any `w` in `ws` is an int or float.
-
-            Defaults to `1`.
-
-        Returns
-        -------
-        ws : list
-            The wind speeds corresponding to the slices
-
-        wa : numpy.ndarray
-            `wa[i]` contains the respective wind angles for wind speed `ws[i]`
-
-        bsp : list of numpy.ndarray
-            `bsp[i][j]` contains the resulting boat speed for wind speed
-            `ws[i]` and wind angle `wa[i][j]`
-
-        Raises
-        ------
-        PolarDiagramException
-            If `n_steps` is non-positive.
-        PolarDiagramException
-            If `range_` is non-positive.
-        """
-        if ws is None:
-            ws = self.wind_speeds
-
-        if isinstance(ws, (int, float)):
-            ws = [ws]
-        elif (
-            isinstance(ws, tuple)
-            and len(ws) == 2
-            and all(isinstance(w, (int, float)) for w in ws)
-        ):
-            if n_steps is None:
-                n_steps = int(round(ws[1] - ws[0]))
-
-            if n_steps <= 0:
-                raise PolarDiagramException("`n_steps` is non-positive")
-
-            ws = np.linspace(ws[0], ws[1], n_steps)
-
-        if range_ <= 0:
-            raise PolarDiagramException("`range_` is non-positive")
-
-        wa, bsp = self._get_points(ws, range_)
-
-        ws = [(w[0] + w[1]) / 2 if isinstance(w, tuple) else w for w in ws]
-        if len(ws) != len(set(ws)):
-            warnings.warn(
-                "there are duplicate slices. This might cause "
-                "unwanted behaviour"
-            )
-
-        return ws, wa, bsp
 
     def _get_points(self, ws, range_):
         wa = []
