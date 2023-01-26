@@ -39,6 +39,7 @@ class HROPolar(PolarAxes):
             ws = np.array(ws)
             wa = np.array(wa)
             bsp = np.array(bsp)
+            print(ws.shape, wa.shape, bsp.shape)
             lines_ = _check_for_lines(wa)
             self._plot_polar(ws, wa, bsp, colors, show_legend, legend_kw, lines_, **kwargs)
             return

@@ -737,7 +737,6 @@ class PolarDiagramTable(PolarDiagram):
         ![logo](https://raw.githubusercontent.com/hrosailing/hrosailing/main/examples/pictures/table_plot_polar.png)
         """
         ws, wa, bsp = self.get_slices(ws)
-        bsp = list(bsp.T)
         wa = [wa] * len(bsp)
         plot_polar(
             ws,
