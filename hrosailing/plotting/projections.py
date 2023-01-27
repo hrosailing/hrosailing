@@ -305,9 +305,18 @@ def _get_convex_hull(slice, info_):
         slice = sorted(slice, key=lambda x: x[1])
     slice = np.array(slice).T
 
-    #if wind angle difference is small, wrap around
-    if abs(slice[1][0] - slice[1][-1]) > 180:
-        slice = np.column_stack([slice, slice[:, 0]])
+    #if wind angle difference is big, wrap around
+    if slice[1][-1] - slice[1][0] > 180:
+        #estimate bsp value at 0 (360 resp)
+        x0 = slice[2, 0]*np.sin(np.deg2rad(slice[1, 0]))
+        x1 = slice[2, -1]*np.sin(np.deg2rad(slice[1, -1]))
+        y0 = slice[2, 1]*np.cos(np.deg2rad(slice[1, 0]))
+        y1 = slice[2, -1]*np.cos(np.deg2rad(slice[1, -1]))
+        lamb = x0/(x0 - x1)
+        approx_ws = lamb*slice[0, 0] + (1-lamb)*slice[0, -1]
+        approx_bsp = lamb*y0 + (1-lamb)*y1
+
+        slice = np.column_stack([[approx_ws, 0, approx_bsp], slice, [approx_ws, 360, approx_bsp]])
 
     ws, wa, bsp = slice
 
