@@ -1,7 +1,19 @@
-"""Contains various helper functions for the `plot_*`-methods()."""
+"""
+Contains projections and functions for plotting objects of the hrosailing framework.
+Currently the plot of `PolarDiagram` objects is supported.
+Defines the following projections:
 
-# pylint: disable=missing-function-docstring
+- 'hro polar' : plot polar diagrams in a polar plot (see `HROPolar.plot`)
+- 'hro flat' : plot polar diagrams in an euclidean plot (see `HROFlat.plot`)
 
+Examples
+--------
+>>> import matplotlib.pyplot as plt
+>>> from hrosailing.polardiagram import from_csv
+>>> ax = plt.subplot("hro polar")
+>>> pd = from_csv("my_file.pd")
+>>> ax.plot(pd)
+"""
 
 import itertools
 
@@ -25,29 +37,93 @@ from hrosailing.polardiagram import PolarDiagram
 
 
 class HROPolar(PolarAxes):
+    """
+    Projection for plotting polar diagrams in a polar plot.
+    """
     name = "hro polar"
 
     def plot(self,
              *args,
              ws=None,
+             n_steps=None,
              colors=("green", "red"),
              show_legend=False,
              legend_kw=None,
              use_convex_hull=False,
              **kwargs
              ):
+        """
+        Plots the given data as a polar plot.
+        If a `PolarDiagram` is given, plots each slice corresponding to `ws` and `n_steps`
+        as described in `PolarDiagram.get_slices`.
+
+        Parameter
+        ----------
+        *args :
+            If the first argument is a polar diagram it plots the polar diagram.
+            Otherwise it plots the arguments as usual.
+
+        ws : int, float or iterable thereof, optional
+            As in `Polardiagram.get_slices`
+
+        n_steps : int, optional
+            As in `Polardiagram.get_slices`
+
+        colors : color_like or sequence of color_likes or (ws, color_like) pairs
+            Specifies the colors to be used for the different slices.
+
+            - If a color_like is passed, all slices will be plotted in the
+            respective color.
+            - If 2 colors are passed, slices will be plotted with a color
+            gradient that is determined by the corresponding wind speed.
+            - Otherwise the slices will be colored in turn with the specified
+            colors or the color `"blue"`, if there are too few colors. The
+            order is determined by the corresponding wind speeds.
+            - Alternatively one can specify certain slices to be plotted in
+            a color out of order by passing a sequence of `(ws, color)` pairs.
+
+            Defaults to `("green", "red")`.
+
+        show_legend : bool, default: `False`
+            Specifies wether or not a legend will be shown next to the plot.
+
+            The type of legend depends on the color options.
+
+            If plotted with a color gradient, a `matplotlib.colorbar.Colorbar`
+            will be created, otherwise a `matplotlib.legend.Legend` instance.
+
+        legend_kw : dict, optional
+            Keyword arguments to change position and appearance of the colorbar
+            or legend respectively.
+            - If 2 colors are passed, a colorbar will be created.
+            In this case see `matplotlib.colorbar.Colorbar` for possible
+            keywords and their effect.
+            - Otherwise, a legend will be created.
+            In this case see `matplotlib.legend.Legend` for possible keywords
+            and their effect.
+
+            Defaults to `None`
+
+        use_convex_hull : bool, optional
+            If set to `True`, the convex hull (in polar coordinates) of the slices will be plotted instead of the
+            slices itself.
+        """
         if not isinstance(args[0], PolarDiagram):
             super().plot(*args, **kwargs)
             return
 
         pd = args[0]
-        labels, slices, info = pd.get_slices(ws, full_info=True)
+        labels, slices, info = pd.get_slices(ws, n_steps, full_info=True)
         _set_polar_axis(self)
         _configure_axes(self, labels, colors, show_legend, legend_kw, **kwargs)
         _plot(self, slices, info, True, use_convex_hull, **kwargs)
 
 
 class HROFlat(Axes):
+    """
+    Projection to plot given data in a rectilinear plot.
+    API works identical to `HROPolar`.
+    """
     name = "hro flat"
 
     def plot(self,
@@ -59,6 +135,14 @@ class HROFlat(Axes):
              legend_kw=None,
              **kwargs
              ):
+        """
+        Plots the given data in a rectilinear plot.
+        Otherwise it works identical to `HROPolar.plot`.
+
+        See also
+        ----------
+        `HROPolar.plot`
+        """
         if not isinstance(args[0], PolarDiagram):
             super().plot(*args, **kwargs)
             return
@@ -258,24 +342,6 @@ def _check_plot_kw(plot_kw, lines=True):
 
     if plot_kw.get("marker", None) is None and not lines:
         plot_kw["marker"] = "o"
-
-
-def ________plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
-    _configure_colors(ax, ws, colors)
-
-    if _only_one_color(colors):
-        colors = [colors] * len(ws)
-
-    if show_legend:
-        _show_legend(ax, ws, colors, "True Wind Speed", legend_kw)
-
-    # if wa.ndim == 1:
-    #     for y in bsp:
-    #         ax.plot(wa, y, **plot_kw)
-    #     return
-
-    for x, y in zip(wa, bsp):
-        ax.plot(x, y, **plot_kw)
 
 
 def _configure_colors(ax, ws, colors):
