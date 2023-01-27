@@ -33,6 +33,7 @@ class HROPolar(PolarAxes):
              colors=("green", "red"),
              show_legend=False,
              legend_kw=None,
+             use_convex_hull=False,
              **kwargs
              ):
         if not isinstance(args[0], PolarDiagram):
@@ -43,7 +44,7 @@ class HROPolar(PolarAxes):
         labels, slices, info = pd.get_slices(ws, full_info=True)
         _set_polar_axis(self)
         _configure_axes(self, labels, colors, show_legend, legend_kw, **kwargs)
-        _plot(self, slices, info, True, **kwargs)
+        _plot(self, slices, info, True, use_convex_hull, **kwargs)
 
 
 class HROFlat(Axes):
@@ -54,6 +55,7 @@ class HROFlat(Axes):
              ws=None,
              colors=("green", "red"),
              show_legend=False,
+             use_convex_hull=False,
              legend_kw=None,
              **kwargs
              ):
@@ -64,7 +66,7 @@ class HROFlat(Axes):
         pd = args[0]
         labels, slices, info = pd.get_slices(ws, full_info=True)
         _configure_axes(self, labels, colors, show_legend, legend_kw, **kwargs)
-        _plot(self, slices, info, False, **kwargs)
+        _plot(self, slices, info, False, use_convex_hull, **kwargs)
 
 
 class HROColorGradient(Axes):
@@ -162,7 +164,7 @@ register_projection(HROColorGradient)
 register_projection(HRO3D)
 
 
-def _plot(ax, slices, info, use_radians, **kwargs):
+def _plot(ax, slices, info, use_radians, use_convex_hull, **kwargs):
     def safe_zip(iter1, iter2):
         if iter2 is not None:
             yield from zip(iter1, iter2)
@@ -171,10 +173,13 @@ def _plot(ax, slices, info, use_radians, **kwargs):
             yield (entry, None)
 
     for slice, info_ in safe_zip(slices, info):
-        ws, wa, bsp = slice
+        if use_convex_hull:
+            ws, wa, bsp, info_ = _get_convex_hull(slice, info_)
+        else:
+            ws, wa, bsp = slice
         if use_radians:
             wa = np.deg2rad(wa)
-        if info_ is not None:
+        if info_ is not None and not use_convex_hull:
             wa, bsp = _alter_with_info(wa, bsp, info_)
         ax.plot(wa, bsp, **kwargs)
 
@@ -200,12 +205,32 @@ def _alter_with_info(wa, bsp, info_):
 
 def _get_convex_hull(slice, info_):
     ws, wa, bsp = slice
-    wa = np.deg2rad(wa)
+    wa_rad = np.deg2rad(wa)
     points = np.column_stack([
-            bsp*np.cos(wa), bsp*np.sin(wa)
+            bsp*np.cos(wa_rad), bsp*np.sin(wa_rad)
     ])
-    vertices = ConvexHull(points).vertices
-    return ws[vertices], wa[vertices], bsp[vertices], info_[vertices]
+    try:
+        vertices = ConvexHull(points).vertices
+    except ValueError:
+        return ws, wa, bsp, info_
+    slice = slice.T[vertices]
+    if info_ is not None:
+        info_ = [entry for i, entry in enumerate(info_) if i in vertices]
+        slice, info = zip(*sorted(zip(slice, info_), key=lambda x: x[0][1]))
+    else:
+        slice = sorted(slice, key=lambda x: x[1])
+    slice = np.array(slice).T
+
+    #if wind angle difference is small, wrap around
+    if abs(slice[1][0] - slice[1][-1]) > 180:
+        slice = np.column_stack([slice, slice[:, 0]])
+
+    ws, wa, bsp = slice
+
+    #connect if smaller than 180
+
+
+    return ws, wa, bsp, info_
 
 def _check_for_lines(wa):
     return wa.ndim == 1
