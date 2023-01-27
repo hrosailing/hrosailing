@@ -40,33 +40,10 @@ class HROPolar(PolarAxes):
             return
 
         pd = args[0]
-        self._plot_polar(pd, ws, colors, show_legend, legend_kw, **kwargs)
-
-    def _plot_polar(
-            self, pd, ws, colors, show_legend, legend_kw, **kwargs
-    ):
         labels, slices, info = pd.get_slices(ws, full_info=True)
         _set_polar_axis(self)
         _configure_axes(self, labels, colors, show_legend, legend_kw, **kwargs)
-
-        if info is None:
-            self._plot_without_info(slices, **kwargs)
-            return
-        self._plot_with_info(slices, info, **kwargs)
-
-
-    def _plot_without_info(self, slices, **kwargs):
-        for slice in slices:
-            ws, wa, bsp = slice
-            wa = np.deg2rad(wa)
-            super().plot(wa, bsp, **kwargs)
-
-    def _plot_with_info(self, slices, info, **kwargs):
-        for slice, info_ in zip(slices, info):
-            ws, wa, bsp = slice
-            wa = np.deg2rad(wa)
-            wa, bsp = _alter_with_info(wa, bsp, info_)
-            super().plot(wa, bsp, **kwargs)
+        _plot(self, slices, info, True, **kwargs)
 
 
 class HROFlat(Axes):
@@ -85,30 +62,9 @@ class HROFlat(Axes):
             return
 
         pd = args[0]
-        self._plot_polar(pd, ws, colors, show_legend, legend_kw, **kwargs)
-
-    def _plot_polar(
-            self, pd, ws, colors, show_legend, legend_kw, **kwargs
-    ):
         labels, slices, info = pd.get_slices(ws, full_info=True)
         _configure_axes(self, labels, colors, show_legend, legend_kw, **kwargs)
-
-        if info is None:
-            self._plot_without_info(slices, **kwargs)
-            return
-        self._plot_with_info(slices, info, **kwargs)
-
-
-    def _plot_without_info(self, slices, **kwargs):
-        for slice in slices:
-            ws, wa, bsp = slice
-            self.plot(wa, bsp, **kwargs)
-
-    def _plot_with_info(self, slices, info, **kwargs):
-        for slice, info_ in zip(slices, info):
-            ws, wa, bsp = slice
-            wa, bsp = _alter_with_info(wa, bsp, info_)
-            self.plot(wa, bsp, **kwargs)
+        _plot(self, slices, info, False, **kwargs)
 
 
 class HROColorGradient(Axes):
@@ -206,6 +162,23 @@ register_projection(HROColorGradient)
 register_projection(HRO3D)
 
 
+def _plot(ax, slices, info, use_radians, **kwargs):
+    def safe_zip(iter1, iter2):
+        if iter2 is not None:
+            yield from zip(iter1, iter2)
+            return
+        for entry in iter1:
+            yield (entry, None)
+
+    for slice, info_ in safe_zip(slices, info):
+        ws, wa, bsp = slice
+        if use_radians:
+            wa = np.deg2rad(wa)
+        if info_ is not None:
+            wa, bsp = _alter_with_info(wa, bsp, info_)
+        ax.plot(wa, bsp, **kwargs)
+
+
 def _get_info_intervals(info_):
     intervals = {}
     for j, entry in enumerate(info_):
@@ -262,7 +235,7 @@ def _check_plot_kw(plot_kw, lines=True):
         plot_kw["marker"] = "o"
 
 
-def _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
+def ________plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw):
     _configure_colors(ax, ws, colors)
 
     if _only_one_color(colors):
