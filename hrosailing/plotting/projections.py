@@ -225,6 +225,15 @@ def _alter_with_info(wa, bsp, info_):
     bsp = _merge(bsp, intervals)
     return wa, bsp
 
+def _get_convex_hull(slice, info_):
+    ws, wa, bsp = slice
+    wa = np.deg2rad(wa)
+    points = np.column_stack([
+            bsp*np.cos(wa), bsp*np.sin(wa)
+    ])
+    vertices = ConvexHull(points).vertices
+    return ws[vertices], wa[vertices], bsp[vertices], info_[vertices]
+
 def _check_for_lines(wa):
     return wa.ndim == 1
 
