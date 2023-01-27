@@ -40,21 +40,44 @@ class HROPolar(PolarAxes):
             return
 
         pd = args[0]
-        labels, slices = pd.get_slices(ws)
-        self._plot_polar(labels, slices, colors, show_legend, legend_kw, **kwargs)
+        self._plot_polar(pd, ws, colors, show_legend, legend_kw, **kwargs)
 
     def _plot_polar(
-            self, labels, slices, colors, show_legend, legend_kw, **kwargs
+            self, pd, ws, colors, show_legend, legend_kw, **kwargs
     ):
+        labels, slices, info = pd.get_slices(ws, full_info=True)
         _set_polar_axis(self)
         _configure_axes(self, labels, colors, show_legend, legend_kw, **kwargs)
 
+        if info is None:
+            self._plot_without_info(slices, **kwargs)
+            return
+        self._plot_with_info(slices, info, **kwargs)
+
+
+    def _plot_without_info(self, slices, **kwargs):
         for slice in slices:
             ws, wa, bsp = slice
             wa = np.deg2rad(wa)
             super().plot(wa, bsp, **kwargs)
-            #_plot(labels, wa, bsp, self, colors, show_legend, legend_kw, **kwargs)
 
+
+    def _plot_with_info(self, slices, info, **kwargs):
+        intervals = self._get_info_intervals(info)
+        for slice, info_ in zip(slices, info):
+            ws, wa, bsp = slice
+            wa = np.deg2rad(wa)
+            for interval in intervals:
+                super().plot(wa[interval], bsp[interval], **kwargs)
+
+    def _get_info_intervals(self, info):
+        intervals = {}
+        for i, info_ in enumerate(info):
+            for j, entry in enumerate(info_):
+                if entry not in intervals:
+                    intervals[entry] = [[] for _ in range(i)]
+                intervals[entry][-1].append(j)
+        return intervals
 
 class HROFlat(Axes):
     name = "hro flat"

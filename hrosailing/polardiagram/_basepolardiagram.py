@@ -210,7 +210,8 @@ class PolarDiagram(ABC):
         """
         Should produce additional information about slices depending on the
         inheriting class which is returned when the `full_info` parameter of
-        the `get_slices` method is set to `True`.
+        the `get_slices` method is set to `True`. If no further information
+        is known, return None.
 
         Parameters
         ----------
@@ -235,7 +236,7 @@ class PolarDiagram(ABC):
         -----------
         `get_slices`
         """
-        return [["" for _ in slice[0]] for slice in slices]*len(ws)
+        return None
 
 
     def plot_polar_slice(self, ws, ax=None, **plot_kw):
