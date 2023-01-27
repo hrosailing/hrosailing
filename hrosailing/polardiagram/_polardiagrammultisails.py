@@ -227,7 +227,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         all_defaults = np.concatenate([
             pd.default_slices for pd in self._diagrams
         ])
-        return np.array(sorted(list(set(all_defaults))))
+        return np.linspace(all_defaults.min(), all_defaults.max(), 20)
 
     def plot_polar(
         self,

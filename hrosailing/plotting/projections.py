@@ -63,21 +63,27 @@ class HROPolar(PolarAxes):
 
 
     def _plot_with_info(self, slices, info, **kwargs):
-        intervals = self._get_info_intervals(info)
         for slice, info_ in zip(slices, info):
             ws, wa, bsp = slice
             wa = np.deg2rad(wa)
-            for interval in intervals:
-                super().plot(wa[interval], bsp[interval], **kwargs)
+            intervals = self._get_info_intervals(info_)
+            wa = self._merge(wa, intervals)
+            print(wa)
+            print(bsp)
+            bsp = self._merge(bsp, intervals)
+            super().plot(wa, bsp, **kwargs)
 
-    def _get_info_intervals(self, info):
+    def _get_info_intervals(self, info_):
         intervals = {}
-        for i, info_ in enumerate(info):
-            for j, entry in enumerate(info_):
-                if entry not in intervals:
-                    intervals[entry] = [[] for _ in range(i)]
-                intervals[entry][-1].append(j)
-        return intervals
+        for j, entry in enumerate(info_):
+            if entry not in intervals:
+                intervals[entry] = []
+            intervals[entry].append(j)
+        return intervals.values()
+
+    def _merge(self, wa, intervals):
+        wa_in_intervals = [np.concatenate([wa[interval], [np.NAN]]) for interval in intervals]
+        return np.concatenate(wa_in_intervals)[:-1]
 
 class HROFlat(Axes):
     name = "hro flat"
