@@ -22,8 +22,8 @@ class QualityAssurance(ABC):
         preprocessed test data and returns a dict containing relevant
         statistics.
 
-        Parameter
-        ---------
+        Parameters
+        ----------
         polar_diagram : PolarDiagram
 
         test_data : (n, 3)-array
