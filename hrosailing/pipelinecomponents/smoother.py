@@ -79,13 +79,14 @@ class AffineSmoother(Smoother):
         --------
         `Smoother.smooth`
         """
+        if any(time < data["datetime"][0] for time in data["datetime"]):
+            raise ValueError("AffineSmoother only supports chronologically ordered time series.")
         for key in data.keys():
             if data.type(key) == float:
                 data = self._smooth_field(key, data)
         return data
 
     def _smooth_field(self, key, data):
-
         ys = data[key].copy()
         start_time = data["datetime"][0]
         xs = [(time - start_time).total_seconds() for time in data["datetime"]]
@@ -176,6 +177,7 @@ class AffineSmoother(Smoother):
                     y_lb, y_ub = approx_intervals_y[interval_idx]
                 except IndexError:
                     break
+                continue
 
             try:
                 mu = (x - x_lb) / (x_ub - x_lb)

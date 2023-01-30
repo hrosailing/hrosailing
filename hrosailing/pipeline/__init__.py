@@ -211,6 +211,8 @@ class PolarPipeline:
 
             The input should be compatible with the DataHandler instances
             given in initialization of the pipeline instance.
+            Also, the input should be suitable to be interpreted as chronologically
+            ordered time series by the before-mentioned data handler.
 
         test_data: list of data compatible with `self.data_handler` or `None`
             Data which is preprocessed and then used to check the quality of
