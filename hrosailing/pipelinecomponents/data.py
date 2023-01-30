@@ -477,7 +477,7 @@ class Data:
         """
 
         data = {
-            key: list(np.array(value)[mask])
+            key: [entry for entry, choose in zip(value, mask) if choose]
             for key, value in self._data.items()
         }
         try:

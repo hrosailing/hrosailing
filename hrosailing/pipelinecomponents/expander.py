@@ -86,6 +86,8 @@ class WeatherExpander(Expander):
         `Expander.expand`
         """
         weather_data = self._get_weather(data)
+        weather_data.hrosailing_standard_format()
+        weather_data = self._mark_duplicate_keys(weather_data, data)
 
         data.update(weather_data)
         data.hrosailing_standard_format()
@@ -116,3 +118,9 @@ class WeatherExpander(Expander):
                 weather_list[idx] = {key: None for key in weather_keys}
 
         return Data.concatenate(weather_list)
+
+    def _mark_duplicate_keys(self, weather_data, data):
+        for key in [k for k in weather_data.keys()]:
+            if key in data.keys():
+                weather_data.rename(key, f"{key}(duplicate)")
+        return weather_data
