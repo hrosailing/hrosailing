@@ -120,7 +120,7 @@ class WeatherExpander(Expander):
         return Data.concatenate(weather_list)
 
     def _mark_duplicate_keys(self, weather_data, data):
-        for key in [k for k in weather_data.keys()]:
+        for key in list(weather_data.keys()):
             if key in data.keys():
                 weather_data.rename(key, f"{key}(duplicate)")
         return weather_data

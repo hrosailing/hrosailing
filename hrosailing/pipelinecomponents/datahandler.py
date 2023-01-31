@@ -197,13 +197,13 @@ class CsvFileHandler(DataHandler):
         except (ValueError, TypeError, AttributeError):
             try:
                 return literal_eval(entry)
-            except SyntaxError:
+            except SyntaxError as exc:
                 raise RuntimeError(
                     f"Could not parse '{entry}'. "
-                    "Try using `CsvFileHandler(date_format=...)` "
-                    "or check your format string."
-                )
-
+                    f"Try using `CsvFileHandler(date_format=...)` "
+                    f"or check your format string."
+                ) from exc
+            
 
 class NMEAFileHandler(DataHandler):
     """A data handler to extract data from a text file containing

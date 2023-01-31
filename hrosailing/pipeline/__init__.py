@@ -484,7 +484,7 @@ class PolarPipeline:
         return data, statistics
 
     def _set_with_default(self, dict_, keys, defaults, aliases):
-        for key in [k for k in dict_.keys()]:
+        for key in list(dict_.keys()):
             if key in aliases:
                 dict_[aliases[key]] = dict_[key]
         for key, default in zip(keys, defaults):
