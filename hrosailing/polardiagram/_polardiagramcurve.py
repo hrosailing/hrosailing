@@ -557,6 +557,9 @@ class PolarDiagramCurve(PolarDiagram):
         if n_steps is None:
             n_steps = 100
 
+        if isinstance(ws, set):
+            ws = sorted(list(ws))
+
         ws, wa, bsp = self.get_slices(ws, n_steps)
         wa = np.rad2deg(wa)
         ws, wa = np.meshgrid(ws, wa)

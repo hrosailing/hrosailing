@@ -133,6 +133,13 @@ class CsvFileHandler(DataHandler):
 
     The .csv file should be ordered in a column-wise fashion, with the
     first entry of each column describing the corresponding attribute.
+
+    Parameters
+    ----------
+    date_format : str, optional
+        Format string compatible with `datetime.strptime` indicating which strings should be treated as dates.
+
+        Defaults to '%Y-%m-%d %H:%M:%S.%f'.
     """
 
     # Check if pandas is available to use from_csv()-method
@@ -144,6 +151,10 @@ class CsvFileHandler(DataHandler):
 
     if pand:
         import pandas as pd
+
+    def __init__(self, date_format="%Y-%m-%d %H:%M:%S.%f"):
+        super().__init__()
+        self._date_format = date_format
 
     def handle(self, data):
         """
@@ -166,7 +177,10 @@ class CsvFileHandler(DataHandler):
                 data_dict = {key: [] for key in keys}
                 for row in csv_reader:
                     for i, entry in enumerate(row):
-                        data_dict[keys[i]].append(literal_eval(entry))
+                        data_dict[keys[i]].append(entry)
+
+        for key, value_list in data_dict.items():
+            data_dict[key] = [self._save_eval(value) for value in value_list]
 
         data = Data.from_dict(data_dict)
 
@@ -174,6 +188,21 @@ class CsvFileHandler(DataHandler):
 
         self.set_statistics(data)
         return data
+
+    def _save_eval(self, entry):
+        if not isinstance(entry, str):
+            return entry
+        try:
+            return datetime.strptime(entry.strip(), self._date_format)
+        except (ValueError, TypeError, AttributeError):
+            try:
+                return literal_eval(entry)
+            except SyntaxError as exc:
+                raise RuntimeError(
+                    f"Could not parse '{entry}'. "
+                    "Try using `CsvFileHandler(date_format=...)` "
+                    "or check your format string."
+                ) from exc
 
 
 class NMEAFileHandler(DataHandler):

@@ -127,9 +127,8 @@ class Weigher(ComponentWithStatistics, ABC):
     @abstractmethod
     def weigh(self, points) -> (np.ndarray, dict):
         """This method should be used to determine a weight for each point
-        where the points might be given as `Data` or as `numpy.ndarrays`
-        and return the result as `WeightedPoints` as well as a dictionary
-        with statistics.
+        where the points might be given as `Data` or as `numpy.ndarray` of floating point numbers storing records
+        in a row wise fashion and return the resulting weights.
 
         Parameters
         ----------
@@ -342,10 +341,13 @@ class CylindricMeanWeigher(Weigher):
         WeightedPoints : numpy.ndarray of shape (n,)
             Normalized weights of the input points.
         """
-        self._dimensions, points = _set_points_from_data(
+        dimensions, points, bsps = _set_points_from_data(
             points, self._dimensions
         )
-        weights = [self._calculate_weight(point, points) for point in points]
+        weights = [
+            self._calculate_weight(point, points, bsps, bsp, dimensions)
+            for point, bsp in zip(points, bsps)
+        ]
         weights = np.array(weights)
         weights = 1 - _normalize(weights, np.max)
 
@@ -353,21 +355,21 @@ class CylindricMeanWeigher(Weigher):
 
         return weights
 
-    def _calculate_weight(self, point, points):
-        points_in_cylinder = self._determine_points_in_cylinder(point, points)
+    def _calculate_weight(self, point, points, bsps, bsp, dimensions):
+        points_in_cylinder = self._determine_points_in_cylinder(
+            point, points, bsps, dimensions
+        )
 
         std = _standard_deviation_of(points_in_cylinder)
         mean = _mean_of(points_in_cylinder)
 
-        return np.abs(mean - point[-1]) / std
+        return np.abs(mean - bsp) / std
 
-    def _determine_points_in_cylinder(self, point, points):
+    def _determine_points_in_cylinder(self, point, points, bsps, dimensions):
         if self._norm is None:
-            self._norm = hrosailing_standard_scaled_euclidean_norm(
-                self._dimensions
-            )
+            self._norm = hrosailing_standard_scaled_euclidean_norm(dimensions)
         in_cylinder = self._norm(points - point) <= self._radius
-        return points[in_cylinder][:, -1]
+        return bsps[in_cylinder]
 
 
 def _standard_deviation_of(points_in_cylinder):
@@ -380,6 +382,9 @@ def _mean_of(points_in_cylinder):
 
 def _normalize(weights, normalizer):
     if len(weights) == 0:
+        return weights
+    normalizer_ = normalizer(weights)
+    if normalizer_ == 0:
         return weights
     return weights / normalizer(weights)
 
@@ -458,7 +463,7 @@ class CylindricMemberWeigher(Weigher):
 
         Parameters
         ----------
-        points : numpy.ndarray of shape (n, d) or Data
+        points : numpy.ndarray of shape (n, d)
             Points to be weighed.
 
         Returns
@@ -467,7 +472,7 @@ class CylindricMemberWeigher(Weigher):
             Normalized weights of the input points.
         """
 
-        self._dimensions, points = _set_points_from_data(
+        self._dimensions, points, bsps = _set_points_from_data(
             points, self._dimensions
         )
 
@@ -585,7 +590,9 @@ class FluctuationWeigher(Weigher):
 def _set_points_from_data(data, dimensions, reduce=True):
     if isinstance(data, np.ndarray):
         if reduce:
+            bsp = data[:, -1]
             data = data[:, :-1]
+            return dimensions, data, bsp
         return dimensions, data
 
     if dimensions is None:
@@ -593,25 +600,32 @@ def _set_points_from_data(data, dimensions, reduce=True):
 
     if reduce:
         if "BSP" in dimensions:
+            bsp = data["BSP"]
             dimensions.remove("BSP")
-        if "SOG" in dimensions:
+        elif "SOG" in dimensions:
+            bsp = data["SOG"]
             dimensions.remove("SOG")
+        else:
+            raise ValueError(
+                "Data has to support one of the keys 'BSP' or 'SOG'"
+            )
 
     if isinstance(data, dict):
         data = data_dict_to_numpy(data, dimensions)
-        return dimensions, data
 
     if isinstance(data, Data):
-        data = data[dimensions].numerical
-        return data
+        dimensions, data = data[dimensions].numerical
 
-    raise TypeError(f"Data of type {type(data)} is not supported.")
+    if reduce:
+        return dimensions, data, np.asarray(bsp)
+    return dimensions, data
 
 
 class FuzzyBool:
     """
     Class representing a fuzzy truth statement, i.e. a function with values
     between 0 and 1 (truth function).
+    Supports the operators `&`, `|`, `~` for the operators and, or, not.
     The easiest way to initialize a `FuzzyBool` object is by using the operators of the
     `FuzzyVariables` class, but it can also be initialized with a custom truth
     function.
@@ -621,6 +635,12 @@ class FuzzyBool:
     eval_fun : callable
         The truth function used. Truth values between 0 and 1 are recommended.
 
+    Attributes
+    ----------
+    repr : str
+        A human readable representation of the `FuzzyBool` object.
+        Is returned by `__str__`. First set to 'Fuzzy-Bool'.
+
     See also
     --------
     For recommendations on how to use a `FuzzyBool` see also `FuzzyVariable`.
@@ -628,24 +648,36 @@ class FuzzyBool:
 
     def __init__(self, eval_fun):
         self._fun = eval_fun
+        self.repr = "Fuzzy-Bool"
 
     def __call__(self, x):
         return self._fun(x)
 
     def __and__(self, other):
-        return FuzzyBool.fuzzy_and(self, other)
+        new = FuzzyBool.fuzzy_and(self, other)
+        new._concat_repr(self, other, "&")
+        return new
 
     def __or__(self, other):
-        return FuzzyBool.fuzzy_or(self, other)
+        new = FuzzyBool.fuzzy_or(self, other)
+        new._concat_repr(self, other, "|")
+        return new
 
     def __invert__(self):
-        return FuzzyBool.fuzzy_not(self)
+        new = FuzzyBool.fuzzy_not(self)
+        new.repr = f"~({self})"
+        return new
 
     def __getitem__(self, item):
         def eval_fun(x):
             return self._fun(x[item])
 
-        return FuzzyBool(eval_fun)
+        new = FuzzyBool(eval_fun)
+        new.repr = f"{self}[{item}]"
+        return new
+
+    def __str__(self):
+        return self.repr
 
     @classmethod
     def fuzzy_and(cls, one, other):
@@ -665,7 +697,7 @@ class FuzzyBool:
 
         def eval_fun(x):
             concat = np.row_stack([one(x), other(x)])
-            return np.min(concat, axis=0)
+            return np.min(concat, axis=0)[0]
 
         return cls(eval_fun)
 
@@ -687,7 +719,7 @@ class FuzzyBool:
 
         def eval_fun(x):
             concat = np.row_stack([one(x), other(x)])
-            return np.max(concat, axis=0)
+            return np.max(concat, axis=0)[0]
 
         return cls(eval_fun)
 
@@ -733,7 +765,27 @@ class FuzzyBool:
         def eval_fun(x):
             return 1 / (1 + np.exp(sigma * sharpness * (x - center)))
 
-        return cls(eval_fun)
+        new = cls(eval_fun)
+        new.repr = (
+            f"sigmoid(center={center},sharpness={sharpness},sigma={sigma})"
+        )
+        return new
+
+    def _concat_repr(self, origin, other, concat):
+        """
+        Set the representation string to f"{origin} {concat} {other}". Use brackets if necessary.
+
+        Parameters
+        ----------
+        origin : FuzzyBool
+
+        other : FuzzyBool
+
+        concat : str
+        """
+        self_repr = f"({origin})" if " " in f"{origin}" else f"{origin}"
+        other_repr = f"({other})" if " " in f"{other}" else f"{other}"
+        self.repr = f"{self_repr} {concat} {other_repr}"
 
 
 class FuzzyVariable:
@@ -804,19 +856,25 @@ class FuzzyVariable:
         return sigmoid[self.key]
 
     def __gt__(self, other):
-        return self._truth(other, -1)
+        new = self._truth(other, -1)
+        new.repr = f"{self} > {other}"
+        return new
 
     def __lt__(self, other):
-        return self._truth(other, 1)
+        new = self._truth(other, 1)
+        new.repr = f"{self} < {other}"
+        return new
 
     def __ge__(self, other):
-        return other > self
+        return self > other
 
     def __le__(self, other):
-        return other < self
+        return self < other
 
     def __eq__(self, other):
-        return FuzzyBool.fuzzy_and(self < other, self > other)
+        new = FuzzyBool.fuzzy_and(self < other, self > other)
+        new.repr = f"{self} == {other}"
+        return new
 
     def __getitem__(self, item):
         return FuzzyVariable(key=item, sharpness=self.sharpness)
@@ -824,6 +882,16 @@ class FuzzyVariable:
     def __call__(self, sharpness):
         self._next_sharpness = sharpness
         return self
+
+    def __str__(self):
+        if self.key is None:
+            return "x"
+        return f"x[{self.key}]"
+
+    def __repr__(self):
+        if self.key is None:
+            return f"x({self._sharpness})"
+        return f"x({self._sharpness})[{self.key}]"
 
 
 class FuzzyWeigher(Weigher):
@@ -851,12 +919,21 @@ class FuzzyWeigher(Weigher):
         --------
         `Weigher.weigh`
         """
-        weights = np.array([self.fuzzy(point) for point in points.rows()])
+        if isinstance(points, Data):
+            weights = np.array([self.fuzzy(point) for point in points.rows()])
+        elif isinstance(points, np.ndarray):
+            weights = np.array([self.fuzzy(point) for point in points])
+        else:
+            raise TypeError(
+                "FuzzyWeigher only takes numpy arrays or"
+                " `hrosailing.pipelinecomponents.data.Data` objectsgot"
+                f" {type(points)} instead."
+            )
         self.set_statistics(weights)
         return weights
 
 
-def hrosailing_standard_scaled_euclidean_norm(dimensions):
+def hrosailing_standard_scaled_euclidean_norm(dimensions=None):
     """
     Returns a scaled euclidean norm function where the scales are chosen with respect to `constants.NORM_SCALES`
     (or 1 if `constants.NORM_SCALES` does not contain the respective key).

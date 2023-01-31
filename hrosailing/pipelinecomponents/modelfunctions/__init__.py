@@ -142,9 +142,9 @@ def ws_s_wa_gauss(ws, wa, *params):
     wa = np.asarray(wa)
 
     return (
-        s_shaped(ws, params[0], params[1], params[2])
-        + gaussian_model(wa, params[3], params[4], params[5])
-        + gaussian_model(360 - wa, params[6], params[7], params[8])
+        s_shaped(ws, *params[0:4])
+        + gaussian_model(wa, *params[4:8])
+        + gaussian_model(360 - wa, *params[8:12])
     )
 
 

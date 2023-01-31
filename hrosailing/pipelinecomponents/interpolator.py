@@ -343,10 +343,12 @@ class ShepardInterpolator(Interpolator):
     def __init__(
         self,
         neighbourhood: Neighbourhood,
-        tol=np.finfo(float).eps,
+        tol=None,
         slope=0.1,
         norm: Callable = scaled_euclidean_norm,
     ):
+        if tol is None:
+            tol = np.finfo(float).eps
         super().__init__()
         if tol <= 0:
             raise InterpolatorInitializationException("`tol` is non-positive")

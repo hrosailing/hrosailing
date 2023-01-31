@@ -1029,6 +1029,12 @@ class _Resolution(enum.Enum):
         if res <= 0:
             raise ValueError("`res` is non-positive")
 
+        if res > self.max_value:
+            raise ValueError(
+                f"Resolution stepsize ({res}) is bigger than the maximal"
+                f" resolution value ({self.max_value})."
+            )
+
         return np.arange(res, self.max_value, res)
 
     def normalize_wind(self, wind):

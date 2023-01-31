@@ -309,7 +309,7 @@ def cost_cruise(
     start_time : datetime.datetime
         The time at which the traveling starts.
     wm : WeatherModel
-        The weather model used.
+        The weather model used. Needs to support the keys 'TWA' and 'TWS'.
     cost_fun_dens : callable, optional
         Function giving a cost density for given time as `datetime.datetime`,
         latitude as float, longitude as float and WeatherModel.
@@ -410,7 +410,7 @@ def isochrone(
     direction : float
         The angle between North and the direction in which we aim to travel.
     wm : WeatherModel
-        The weather model used.
+        The weather model used. Needs to support the keys 'TWA' and 'TWS'.
     total_time : float, optional
         The time in hours that the vessel is supposed to travel
         in the given direction.

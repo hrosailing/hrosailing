@@ -230,11 +230,13 @@ class _GriddedWeatherModelEncoder(json.JSONEncoder):
         if isinstance(o, GriddedWeatherModel):
             data = o.data
             times, lats, lons = o.grid
-            attrs = data.attrs
+            attrs = o.attrs
             return [data, times, lats, lons, attrs]
         if isinstance(o, np.ndarray):
             return o.tolist()
         if installed_pandas and isinstance(o, pd.Timestamp):
+            return o.strftime("%d.%m.%Y:%X")
+        if isinstance(o, datetime):
             return o.strftime("%d.%m.%Y:%X")
         raise TypeError(
             f"Object of type {type(o)} is not JSON serializable :("
@@ -313,7 +315,7 @@ class NetCDFWeatherModel(GriddedWeatherModel):
     A weather model that uses gridded data from a NetCDF (.nc or .nc4) file.
     Uses the same interpolation method as `GriddedWeatherModel`.
     The module `netCDF4` has to be installed in order to use this class.
-    The methods `from_file` and `to_file` are not supported.
+    The methods `from_file`, `to_file` and `from_meteostat` are not supported.
 
     Parameters
     ----------

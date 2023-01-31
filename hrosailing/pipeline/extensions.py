@@ -30,6 +30,19 @@ class PipelineExtension(ComponentWithStatistics, ABC):
         """This method, given an instance of WeightedPoints, should
         return a polar diagram object, which represents the trends
         and data contained in the WeightedPoints instance.
+
+        Parameters
+        -----------
+        weighted_points : WeightedPoints
+            Preprocessed data from which to create the polar diagram.
+            `weighted_points.data` has to be an `np.ndarray` of shape (n, 3) of dtype `float` containing
+            'TWS', 'TWA', 'BSP' values columnwise.
+
+        Returns
+        -------
+        polar_diagram : PolarDiagramTable
+            A polar diagram that should represent the trends
+            captured in the raw data.
         """
 
 
@@ -86,16 +99,13 @@ class TableExtension(PipelineExtension):
         which lie in a neighbourhood, determined by `self.neighbourhood`,
         around each grid point.
 
-        Parameters
-        ----------
-        weighted_points : WeightedPoints
-            Preprocessed data from which to create the polar diagram.
-
         Returns
         -------
-        polar_diagram : PolarDiagramTable, dict
-            'polar_diagram' is a polar diagram that should represent the trends
-            captured in the raw data.
+        polar_diagram : PolarDiagramTable
+
+        See also
+        --------
+        `PipelineExtension.process`
         """
         ws_resolution, wa_resolution = self._determine_table_size(
             weighted_points.data
@@ -215,16 +225,9 @@ class CurveExtension(PipelineExtension):
         by fitting a given function to said data, using a regression
         method determined by `self.regressor`.
 
-        Parameters
-        ----------
-        weighted_points : WeightedPoints
-            Preprocessed data from which to create the polar diagram.
-
-        Returns
-        -------
-        pd : PolarDiagramCurve
-            A polar diagram that should represent the trends captured
-            in the raw data.
+        See also
+        --------
+        `PipelineExtension.process`
         """
         if self._use_radians():
             _convert_angles_to_radians(weighted_points)
@@ -242,7 +245,7 @@ class CurveExtension(PipelineExtension):
 
 
 def _convert_angles_to_radians(weighted_points):
-    weighted_points.points[:, 1] = np.deg2rad(weighted_points.points[:, 1])
+    weighted_points.data[:, 1] = np.deg2rad(weighted_points.data[:, 1])
 
 
 class PointcloudExtension(PipelineExtension):
@@ -291,16 +294,13 @@ class PointcloudExtension(PipelineExtension):
         which lie in a neighbourhood, determined by `self.neighbourhood`,
         around each sampled point.
 
-        Parameters
-        ----------
-        weighted_points : WeightedPoints
-            Preprocessed data from which to create the polar diagram.
-
         Returns
         -------
-        pd: PolarDiagramPointcloud, dict
-            A polar diagram that should represent the trends captured
-            in the raw data.
+        pd: PolarDiagramPointcloud
+
+        See also
+        --------
+        `PipelineExtension.process`
         """
         sample_points = self.sampler.sample(weighted_points.data)
         interpolated_points = _interpolate_points(

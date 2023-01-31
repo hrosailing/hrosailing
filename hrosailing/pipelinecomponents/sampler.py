@@ -35,7 +35,7 @@ class Sampler(ABC):
         """This method should be used, given certain points, to determine a
         constant number of sample points that are more or less representative of the trend of the given points.
 
-        Parameter
+        Parameters
         ----------
         pts : numpy.ndarray
             The given data points in a row-wise fashion. Most commonly this should be an (n, 2) array.
