@@ -116,13 +116,13 @@ class PolarPipeline:
         Determines the method which will be used to expand the data by several more data fields.
         For example weather data from a weather model.
 
-    pre_influence_weigher : Weigher, optional
+    pre_influence_weigher, pre_weigher : Weigher, optional
         Determines the method with which the points will be weighted before
         application of the influence model.
 
         Defaults to `CylindricMeanWeigher()`.
 
-    pre_influence_filter : Filter, optional
+    pre_influence_filter, pre_filter : Filter, optional
         Determines the methods which the points will be filtered with before application of the influence model.
 
         Defaults to `QuantileFilter()`.
@@ -132,13 +132,13 @@ class PolarPipeline:
 
         Defaults to 'IdentityInfluenceModel()'.
 
-    post_weigher : Weigher, optional
+    post_weigher, weigher : Weigher, optional
         Determines the method with which the points will be weighted after
         application of the influence model.
 
         Defaults to `CylindricMeanWeigher()`.
 
-    post_filter : Filter, optional
+    post_filter, filter : Filter, optional
         Determines the methods with which the points will be filtered
         after the application of the influence model,
         if `post_filtering` in `__call__` method.
@@ -164,41 +164,54 @@ class PolarPipeline:
         Determines the method which is used to measure the quality of the
         resulting polar diagram using preprocessed test_data.
     """
+    _defaults = [
+        pc.NMEAFileHandler(),
+        pc.FillLocalImputator(),
+        pc.LazySmoother(),
+        pc.CylindricMeanWeigher(),
+        pc.QuantileFilter(),
+        pc.LazyExpander(),
+        pc.CylindricMeanWeigher(),
+        pc.QuantileFilter(),
+        pc.IdentityInfluenceModel(),
+        pc.CylindricMeanWeigher(),
+        pc.QuantileFilter(),
+        pc.ZeroInjector(500),
+        TableExtension(),
+        pc.MinimalQualityAssurance(),
+    ]
+
+    _keys = [
+        "data_handler",
+        "imputator",
+        "smoother",
+        "pre_expander_weigher",
+        "pre_expander_filter",
+        "expander",
+        "pre_influence_weigher",
+        "pre_influence_filter",
+        "influence_model",
+        "post_weigher",
+        "post_filter",
+        "injector",
+        "extension",
+        "quality_assurance",
+    ]
+
+    _aliases = {
+        "filter": "post_filter",
+        "weigher": "post_weigher",
+        "pre_filter": "pre_influence_filter",
+        "pre_weigher": "pre_influence_weigher"
+    }
 
     def __init__(self, **custom_components):
-        keys = [
-            "data_handler",
-            "imputator",
-            "smoother",
-            "pre_expander_weigher",
-            "pre_expander_filter",
-            "expander",
-            "pre_influence_weigher",
-            "pre_influence_filter",
-            "influence_model",
-            "post_weigher",
-            "post_filter",
-            "injector",
-            "extension",
-            "quality_assurance",
-        ]
-        defaults = [
-            pc.NMEAFileHandler(),
-            pc.FillLocalImputator(),
-            pc.LazySmoother(),
-            pc.CylindricMeanWeigher(),
-            pc.QuantileFilter(),
-            pc.LazyExpander(),
-            pc.CylindricMeanWeigher(),
-            pc.QuantileFilter(),
-            pc.IdentityInfluenceModel(),
-            pc.CylindricMeanWeigher(),
-            pc.QuantileFilter(),
-            pc.ZeroInjector(500),
-            TableExtension(),
-            pc.MinimalQualityAssurance(),
-        ]
-        self._set_with_default(custom_components, keys, defaults)
+
+        for key in [k for k in custom_components.keys()]:
+            if key in self._aliases:
+                custom_components[self._aliases[key]] = custom_components[key]
+
+        self._set_with_default(custom_components, self._keys, self._defaults)
 
     def __call__(
         self, training_data, test_data=None, apparent_wind=False, **enabling
