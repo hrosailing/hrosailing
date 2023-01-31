@@ -164,54 +164,50 @@ class PolarPipeline:
         Determines the method which is used to measure the quality of the
         resulting polar diagram using preprocessed test_data.
     """
-    _defaults = [
-        pc.NMEAFileHandler(),
-        pc.FillLocalImputator(),
-        pc.LazySmoother(),
-        pc.CylindricMeanWeigher(),
-        pc.QuantileFilter(),
-        pc.LazyExpander(),
-        pc.CylindricMeanWeigher(),
-        pc.QuantileFilter(),
-        pc.IdentityInfluenceModel(),
-        pc.CylindricMeanWeigher(),
-        pc.QuantileFilter(),
-        pc.ZeroInjector(500),
-        TableExtension(),
-        pc.MinimalQualityAssurance(),
-    ]
-
-    _keys = [
-        "data_handler",
-        "imputator",
-        "smoother",
-        "pre_expander_weigher",
-        "pre_expander_filter",
-        "expander",
-        "pre_influence_weigher",
-        "pre_influence_filter",
-        "influence_model",
-        "post_weigher",
-        "post_filter",
-        "injector",
-        "extension",
-        "quality_assurance",
-    ]
-
-    _aliases = {
-        "filter": "post_filter",
-        "weigher": "post_weigher",
-        "pre_filter": "pre_influence_filter",
-        "pre_weigher": "pre_influence_weigher"
-    }
 
     def __init__(self, **custom_components):
+        defaults = [
+            pc.NMEAFileHandler(),
+            pc.FillLocalImputator(),
+            pc.LazySmoother(),
+            pc.CylindricMeanWeigher(),
+            pc.QuantileFilter(),
+            pc.LazyExpander(),
+            pc.CylindricMeanWeigher(),
+            pc.QuantileFilter(),
+            pc.IdentityInfluenceModel(),
+            pc.CylindricMeanWeigher(),
+            pc.QuantileFilter(),
+            pc.ZeroInjector(500),
+            TableExtension(),
+            pc.MinimalQualityAssurance(),
+        ]
 
-        for key in [k for k in custom_components.keys()]:
-            if key in self._aliases:
-                custom_components[self._aliases[key]] = custom_components[key]
+        keys = [
+            "data_handler",
+            "imputator",
+            "smoother",
+            "pre_expander_weigher",
+            "pre_expander_filter",
+            "expander",
+            "pre_influence_weigher",
+            "pre_influence_filter",
+            "influence_model",
+            "post_weigher",
+            "post_filter",
+            "injector",
+            "extension",
+            "quality_assurance",
+        ]
 
-        self._set_with_default(custom_components, self._keys, self._defaults)
+        aliases = {
+            "filter": "post_filter",
+            "weigher": "post_weigher",
+            "pre_filter": "pre_influence_filter",
+            "pre_weigher": "pre_influence_weigher"
+        }
+
+        self._set_with_default(custom_components, keys, defaults, aliases)
 
     def __call__(
         self, training_data, test_data=None, apparent_wind=False, **enabling
@@ -260,14 +256,14 @@ class PolarPipeline:
             Defaults to `True`.
 
 
-        pre_influence_weighing : bool, optional
+        pre_influence_weighing, pre_weighing : bool, optional
             Specifies, whether the pre_influence_weigher should be applied before application of the
             influence model.
             Otherwise, each point will be assigned the weight 1.
 
             Defaults to `True`.
 
-        pre_influence_filtering : bool, optional
+        pre_influence_filtering, pre_filtering : bool, optional
             Specifies, whether the pre_influence_filter should be applied before application of the influence model.
 
             Defaults to `True`.
@@ -276,14 +272,14 @@ class PolarPipeline:
             Specifies, if measurement errors of the time series should be
             smoothened after pre_filtering.
 
-        post_weighing : bool, optional
+        post_weighing, weighing : bool, optional
             Specifies, if points should be weighed after application of the
             influence model.
             Otherwise, each point will be assigned the weight 1.
 
             Defaults to `True`.
 
-        post_filtering : bool, optional
+        post_filtering, filtering : bool, optional
             Specifies, if points should be filtered after post_weighing.
 
             Defaults to `True`.
@@ -313,9 +309,15 @@ class PolarPipeline:
             "injecting",
             "testing",
         ]
+        aliases = {
+            "pre_weighing": "pre_influence_weighing",
+            "pre_filtering": "pre_influence_filtering",
+            "weighing": "post_weighing",
+            "filtering": "post_filtering"
+        }
         defaults = [True] * len(keys)
 
-        self._set_with_default(enabling, keys, defaults)
+        self._set_with_default(enabling, keys, defaults, aliases)
 
         if test_data is None:
             self.testing = False
@@ -479,7 +481,10 @@ class PolarPipeline:
 
         return data, statistics
 
-    def _set_with_default(self, dict_, keys, defaults):
+    def _set_with_default(self, dict_, keys, defaults, aliases):
+        for key in [k for k in dict_.keys()]:
+            if key in aliases:
+                dict_[aliases[key]] = dict_[key]
         for key, default in zip(keys, defaults):
             setattr(self, key, self._switch_default(dict_, key, default))
 
