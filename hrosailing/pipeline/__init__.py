@@ -204,7 +204,7 @@ class PolarPipeline:
             "filter": "post_filter",
             "weigher": "post_weigher",
             "pre_filter": "pre_influence_filter",
-            "pre_weigher": "pre_influence_weigher"
+            "pre_weigher": "pre_influence_weigher",
         }
 
         self._set_with_default(custom_components, keys, defaults, aliases)
@@ -313,7 +313,7 @@ class PolarPipeline:
             "pre_weighing": "pre_influence_weighing",
             "pre_filtering": "pre_influence_filtering",
             "weighing": "post_weighing",
-            "filtering": "post_filtering"
+            "filtering": "post_filtering",
         }
         defaults = [True] * len(keys)
 
@@ -328,7 +328,9 @@ class PolarPipeline:
         )
 
         if is_empty_data(preproc_training_data):
-            raise RuntimeError("Empty data after preprocessing. Try to use weaker filters.")
+            raise RuntimeError(
+                "Empty data after preprocessing. Try to use weaker filters."
+            )
 
         if self.injecting:
             pts_to_inject, injector_statistics = _collect(
@@ -527,14 +529,16 @@ def _collect(comp, method, data):
 def _collector_fun(comp, method):
     return lambda data: _collect(comp, method, data)
 
+
 def is_empty_data(data):
-    if (isinstance(data, pc.data.Data) and data.n_rows == 0):
+    if isinstance(data, pc.data.Data) and data.n_rows == 0:
         return True
-    if (isinstance(data, np.ndarray) and len(data) == 0):
+    if isinstance(data, np.ndarray) and len(data) == 0:
         return True
     if isinstance(data, pc.WeightedPoints):
         return is_empty_data(data.data)
     return False
+
 
 def _weigh_and_filter(data, weigher, filter_, weighing, filtering):
     if is_empty_data(data):

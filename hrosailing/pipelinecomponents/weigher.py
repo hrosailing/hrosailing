@@ -367,9 +367,7 @@ class CylindricMeanWeigher(Weigher):
 
     def _determine_points_in_cylinder(self, point, points, bsps, dimensions):
         if self._norm is None:
-            self._norm = hrosailing_standard_scaled_euclidean_norm(
-                dimensions
-            )
+            self._norm = hrosailing_standard_scaled_euclidean_norm(dimensions)
         in_cylinder = self._norm(points - point) <= self._radius
         return bsps[in_cylinder]
 
@@ -768,9 +766,10 @@ class FuzzyBool:
             return 1 / (1 + np.exp(sigma * sharpness * (x - center)))
 
         new = cls(eval_fun)
-        new.repr = f"sigmoid(center={center},sharpness={sharpness},sigma={sigma})"
+        new.repr = (
+            f"sigmoid(center={center},sharpness={sharpness},sigma={sigma})"
+        )
         return new
-
 
     def _concat_repr(self, origin, other, concat):
         """
@@ -926,8 +925,9 @@ class FuzzyWeigher(Weigher):
             weights = np.array([self.fuzzy(point) for point in points])
         else:
             raise TypeError(
-                f"FuzzyWeigher only takes numpy arrays or `hrosailing.pipelinecomponents.data.Data` objects"
-                f"got {type(points)} instead."
+                "FuzzyWeigher only takes numpy arrays or"
+                " `hrosailing.pipelinecomponents.data.Data` objectsgot"
+                f" {type(points)} instead."
             )
         self.set_statistics(weights)
         return weights

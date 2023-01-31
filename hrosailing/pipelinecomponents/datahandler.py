@@ -200,8 +200,8 @@ class CsvFileHandler(DataHandler):
             except SyntaxError:
                 raise RuntimeError(
                     f"Could not parse '{entry}'. "
-                    f"Try using `CsvFileHandler(date_format=...)` "
-                    f"or check your format string."
+                    "Try using `CsvFileHandler(date_format=...)` "
+                    "or check your format string."
                 )
 
 

@@ -80,7 +80,10 @@ class AffineSmoother(Smoother):
         `Smoother.smooth`
         """
         if any(time < data["datetime"][0] for time in data["datetime"]):
-            raise ValueError("AffineSmoother only supports chronologically ordered time series.")
+            raise ValueError(
+                "AffineSmoother only supports chronologically ordered time"
+                " series."
+            )
         for key in data.keys():
             if data.type(key) == float:
                 data = self._smooth_field(key, data)
