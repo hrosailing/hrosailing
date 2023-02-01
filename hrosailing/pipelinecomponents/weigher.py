@@ -821,11 +821,6 @@ class FuzzyVariable:
         This sharpness will be used if no other sharpness is given via the
         `__call__`-method.
 
-    Properties
-    ----------
-    sharpness : int
-        The sharpness that will be used for the next generated `FuzzyBool` instance.
-
     See also
     --------
     `FuzzyBool`
@@ -838,6 +833,7 @@ class FuzzyVariable:
 
     @property
     def sharpness(self):
+        """Sharpness that will be used for the next generated `FuzzyBool` instance."""
         next_sharpness = self._next_sharpness
         self._next_sharpness = self._sharpness
         return next_sharpness
