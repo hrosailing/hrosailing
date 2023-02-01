@@ -20,17 +20,6 @@ class Data:
     `key` is a string and the corresponding row if `key` is an integer.
     `key in data` checks if there is a column with key `key`.
     Iteration is performed over the rows.
-
-    Properties
-    ----------
-    numerical : numpy.ndarray
-        An array containing all data of type `float`.
-
-    n_rows : int
-        The number of rows.
-
-    n_cols : int
-        The number of columns.
     """
 
     def __init__(self):
@@ -49,20 +38,32 @@ class Data:
 
     @property
     def numerical(self):
+        """
+        A `numpy.ndarray` containing all data of type `float`.
+        """
         float_keys, float_vals = self.get_by_type(float)
         array = np.column_stack(float_vals)
         return float_keys, array
 
     @property
     def n_rows(self):
+        """
+        The number of rows.
+        """
         return self._max_len
 
     @property
     def n_cols(self):
+        """
+        The number of columns"
+        """
         return len(self._data)
 
     @property
     def data(self):
+        """
+        A 'read-only' version of the dictionary of columns.
+        """
         return self._data.copy()
 
     def rows(self, keys=None, return_type=dict):
@@ -81,6 +82,11 @@ class Data:
             order as in `keys`.
 
             Defaults to `dict`.
+
+        Yields
+        -------
+        The columns of the instance, filtered as indicated by `keys` organized
+        in a way indicated by `return_type`.
         """
         if keys is None:
             keys = self.keys()
@@ -118,11 +124,14 @@ class Data:
 
     def type(self, key):
         """
-        Returns the associated type corresponding to the `key` column.
-
         Parameters
         ----------
         key : str
+
+        Returns
+        --------
+        type_ : type
+            The associated type of the column corresponding to `key`.
         """
         return self._types[key]
 
@@ -402,7 +411,7 @@ class Data:
     @classmethod
     def concatenate(cls, list_):
         """
-        Returns concatenated data, given a list of `Data` classes.
+        Returns concatenated data, given a list of `Data` instances.
 
         Parameters
         ----------
@@ -437,6 +446,11 @@ class Data:
         Parameters
         ----------
         dict_ : dict
+
+        Returns
+        -------
+        data : Data
+            Instance containing the same data as `dict_`.
         """
         data = cls()
         data.update(dict_)
