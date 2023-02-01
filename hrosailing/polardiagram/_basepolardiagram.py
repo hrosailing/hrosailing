@@ -174,6 +174,33 @@ class PolarDiagram(ABC):
             ] + [[ws[-1]]]
         )
 
+    def _get_wind(self, wind):
+        if isinstance(wind, np.ndarray):
+            if wind.shape[1] == 2:
+                return wind
+            if wind.shape[0] == 2:
+                return wind.T
+            raise ValueError(
+                 f"`wind` should be a tuple or an array with a dimension of shape 2,\n"
+                 f"got an array of shape {wind.shape} instead."
+            )
+        if isinstance(wind, tuple):
+            if len(wind) != 2:
+                raise ValueError(
+                    f"`wind` should be a tuple of size 2 or an array,\n"
+                    f"got a tuple of size {len(wind)} instead."
+                )
+            ws, wa = wind
+            return np.array(list(zip(ws.ravel, wa.ravel)))
+        raise ValueError(
+            f"`wind` should be a tuple or an array, got {type(wind)} instead."
+        )
+
+    @property
+    @abstractmethod
+    def default_points(self):
+        pass
+
     @property
     @abstractmethod
     def default_slices(self):
@@ -206,7 +233,38 @@ class PolarDiagram(ABC):
         `get_slices`
         """
 
-    def get_slice_info(self, slices, **kwargs):
+    def points(self, wind=None):
+        """
+        Returns a read only version of all relevant points specified by wind
+
+        Parameters
+        ----------
+        wind : (2, d) or (d, 2) numpy.ndarray or tuple of 2 (1, d) numpy.ndarray or `None`, optional
+            A specification of the wind.
+
+            - If given as a (2, d) or (d, 2) numpy.ndarray the columns (rows)
+                are interpreted as different wind records
+                (for d=2 we assume the shape (d, 2))
+            - If given as a tuple, the first array defines the wind speed
+             resolution, the second array defines the wind angle resolution.
+             The wind records are all combinations thereof.
+
+        Returns
+        ---------
+        points : (m, 3) numpy.ndarray
+            Row-wise contains all records specified in `wind`
+            consisting of wind speed, wind angle, boat speed.
+            If `wind` is not specified, `self.default_points` is returned.
+        """
+
+        if wind is None:
+            return self.default_points
+        wind = self._get_wind(wind)
+        bsps = [self(wa, ws) for wa, ws in wind]
+        return np.column_stack(wind, bsps)
+
+
+    def get_slice_info(self, ws, slices, **kwargs):
         """
         Should produce additional information about slices depending on the
         inheriting class which is returned when the `full_info` parameter of
