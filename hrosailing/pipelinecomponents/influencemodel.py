@@ -76,14 +76,14 @@ class InfluenceModel(ComponentWithStatistics, ABC):
 
     def fit(self, training_data):
         """
-        This method should be used to fit parameters of the influence
-        model to the given training data.
+        This method can be overwritten in order
+        to fit parameters of the influence
+        model to given training data.
 
         Parameters
         ----------
         training_data : Data
         """
-        return
 
 
 class IdentityInfluenceModel(InfluenceModel):
