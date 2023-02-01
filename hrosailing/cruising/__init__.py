@@ -14,8 +14,9 @@ from scipy.integrate import solve_ivp, trapezoid
 from scipy.spatial import ConvexHull
 
 from hrosailing.cruising.weather_model import (
+    GriddedWeatherModel,
     OutsideGridException,
-    WeatherModel, GriddedWeatherModel
+    WeatherModel,
 )
 from hrosailing.pipelinecomponents import InfluenceModel
 

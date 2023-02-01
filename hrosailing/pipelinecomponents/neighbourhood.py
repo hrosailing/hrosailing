@@ -144,7 +144,6 @@ class ScalingBall(Neighbourhood):
         min_pts,
         norm: Callable = scaled_euclidean_norm,
     ):
-
         if min_pts <= 0:
             raise NeighbourhoodInitializationException(
                 "`min_pts` is non-positive"

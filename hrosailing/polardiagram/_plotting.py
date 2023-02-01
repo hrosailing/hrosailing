@@ -157,7 +157,6 @@ def _show_legend(ax, ws, colors, label, legend_kw):
 
 
 def _configure_legend(ax, ws, colors, label, **legend_kw):
-
     if _plot_with_color_gradient(ws, colors):
         _set_colormap(ws, colors, ax, label, **legend_kw)
         return

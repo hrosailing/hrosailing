@@ -168,7 +168,6 @@ class AffineSmoother(Smoother):
     def _smooth_data_from_approx_intervals(
         self, approx_intervals_x, approx_intervals_y, xs, data, key
     ):
-
         x_lb, x_ub = approx_intervals_x[0]
         y_lb, y_ub = approx_intervals_y[0]
         interval_idx = 0

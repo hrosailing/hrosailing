@@ -123,7 +123,6 @@ class TableExtension(PipelineExtension):
         return pol.PolarDiagramTable(ws_resolution, wa_resolution, bsps)
 
     def _determine_table_size(self, points):
-
         if self.wind_resolution == "auto":
             return _automatically_determined_resolution(points)
 

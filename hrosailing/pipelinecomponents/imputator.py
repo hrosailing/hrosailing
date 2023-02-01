@@ -33,7 +33,6 @@ class Imputator(ComponentWithStatistics, ABC):
     def set_statistics(
         self, n_removed_cols, n_removed_rows, n_filled, data_dict
     ):
-
         super().set_statistics(
             n_removed_cols=n_removed_cols,
             n_removed_rows=n_removed_rows,
@@ -64,12 +63,9 @@ class RemoveOnlyImputator(Imputator):
         ]
         data.delete(remove_rows)
 
-        self.set_statistics(
-            0, n_rows - len(remove_rows), 0, data
-        )
+        self.set_statistics(0, n_rows - len(remove_rows), 0, data)
 
         return data
-
 
 
 class FillLocalImputator(Imputator):
@@ -232,7 +228,6 @@ class FillLocalImputator(Imputator):
         return data, n_removed_rows
 
     def _interpolate_other(self, data):
-
         # indices of not None values
         idx_dict = {
             key: [i for i, data in enumerate(data[key]) if data is not None]

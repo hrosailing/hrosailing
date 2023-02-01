@@ -199,7 +199,6 @@ class LeastSquareRegressor(Regressor):
     """
 
     def __init__(self, model_func: Callable, init_vals=None):
-
         self._func = model_func
 
         def fitting_func(wind, *params):

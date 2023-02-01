@@ -265,6 +265,7 @@ def _binary_rescale(n_samples, generate_sample, start_value):
 
 def _sample_generator(base_set, midpoint, ineqs):
     """"""
+
     # creates a function which generates samples as a scaled base_set
     # translated in midpoint and forfilling the
     # inequalities ineqs
