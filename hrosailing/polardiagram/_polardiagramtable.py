@@ -350,6 +350,18 @@ class PolarDiagramTable(PolarDiagram):
         return self.wind_speeds
 
     @property
+    def default_points(self):
+        """
+        See also
+        --------
+        `Polardiagra.default_slices`
+        """
+        x, y = np.meshgrid(self.wind_speeds, self.wind_angles)
+        wind = np.array(list(zip(x.ravel(), y.ravel())))
+        bsps = self.boat_speeds.ravel()
+        return np.column_stack([wind, bsps])
+
+    @property
     def boat_speeds(self):
         """Returns a read only version of `self._boat_speeds`."""
         return self._boat_speeds.copy()

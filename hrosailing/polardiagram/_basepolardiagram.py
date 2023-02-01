@@ -191,7 +191,7 @@ class PolarDiagram(ABC):
                     f"got a tuple of size {len(wind)} instead."
                 )
             ws, wa = wind
-            return np.array(list(zip(ws.ravel, wa.ravel)))
+            return np.array(list(zip(ws.ravel(), wa.ravel())))
         raise ValueError(
             f"`wind` should be a tuple or an array, got {type(wind)} instead."
         )
@@ -261,7 +261,7 @@ class PolarDiagram(ABC):
             return self.default_points
         wind = self._get_wind(wind)
         bsps = [self(wa, ws) for wa, ws in wind]
-        return np.column_stack(wind, bsps)
+        return np.column_stack([wind, bsps])
 
 
     def get_slice_info(self, ws, slices, **kwargs):
