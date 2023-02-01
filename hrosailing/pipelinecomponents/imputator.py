@@ -43,6 +43,35 @@ class Imputator(ComponentWithStatistics, ABC):
         )
 
 
+class RemoveOnlyImputator(Imputator):
+    """
+    Imputator that removes all entries containing None values.
+    """
+
+    def impute(self, data):
+        """
+        Removes all entries containing None values.
+
+        See also
+        --------
+        `Imputator.impute`
+        """
+        n_rows = data.n_rows
+        remove_rows = [
+            idx
+            for idx, row in enumerate(data.rows(return_type=list))
+            if None in row
+        ]
+        data.delete(remove_rows)
+
+        self.set_statistics(
+            0, n_rows - len(remove_rows), 0, data
+        )
+
+        return data
+
+
+
 class FillLocalImputator(Imputator):
     """
     An `Imputator` which assumes that the data has been stored chronologically

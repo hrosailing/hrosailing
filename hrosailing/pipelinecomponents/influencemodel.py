@@ -74,7 +74,6 @@ class InfluenceModel(ComponentWithStatistics, ABC):
             lists.
         """
 
-    @abstractmethod
     def fit(self, training_data):
         """
         This method should be used to fit parameters of the influence
@@ -84,6 +83,7 @@ class InfluenceModel(ComponentWithStatistics, ABC):
         ----------
         training_data : Data
         """
+        return
 
 
 class IdentityInfluenceModel(InfluenceModel):

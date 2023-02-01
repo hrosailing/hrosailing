@@ -11,7 +11,7 @@ from .datahandler import (
 )
 from .expander import Expander, LazyExpander, WeatherExpander
 from .filter import BoundFilter, Filter, QuantileFilter
-from .imputator import FillLocalImputator
+from .imputator import FillLocalImputator, RemoveOnlyImputator
 from .influencemodel import (
     IdentityInfluenceModel,
     InfluenceModel,

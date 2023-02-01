@@ -15,7 +15,7 @@ from scipy.spatial import ConvexHull
 
 from hrosailing.cruising.weather_model import (
     OutsideGridException,
-    WeatherModel,
+    WeatherModel, GriddedWeatherModel
 )
 from hrosailing.pipelinecomponents import InfluenceModel
 

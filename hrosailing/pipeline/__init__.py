@@ -94,7 +94,7 @@ class PolarPipeline:
         Determines the method which will be used to produce data without
         `None` entries.
 
-        Defaults to `FillLocalImputator()`.
+        Defaults to `RemoveOnlyImputator()`.
 
     smoother: Smoother, optional
         Determines the method which will be used to smoothen out the rounding
@@ -149,7 +149,7 @@ class PolarPipeline:
         Determines the method used to add additional artificial data points to the
         data.
 
-        Defaults to 'None'.
+        Defaults to `ZeroInjector(500)`.
 
     extension: PipelineExtension
         Extension that is called in the pipeline, after all preprocessing
@@ -158,17 +158,19 @@ class PolarPipeline:
         Determines the subclass of `PolarDiagram`, that the pipeline will
         produce.
 
-        Defaults to 'None'.
+        Defaults to `TableExtension()`.
 
     quality_assurance : QualityAssurance, optional
         Determines the method which is used to measure the quality of the
         resulting polar diagram using preprocessed test_data.
+
+        Defaults to `MinimalQualityAssurance()`.
     """
 
     def __init__(self, **custom_components):
         defaults = [
             pc.NMEAFileHandler(),
-            pc.FillLocalImputator(),
+            pc.RemoveOnlyImputator(),
             pc.LazySmoother(),
             pc.CylindricMeanWeigher(),
             pc.QuantileFilter(),
