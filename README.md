@@ -12,7 +12,7 @@
 
 hrosailing 
 ==========
-![Still in active development]!
+![Still in active development. In particular we do not guarantee backwards compatibility to the versions 0.x.x.]!
 ---------------------------
 
 The `hrosailing` package provides various tools and interfaces to
@@ -122,11 +122,14 @@ def random_shifted_pt(pt, mul):
     pt = np.array(pt)
     rand = np.random.random(pt.shape) - 0.5
     rand *= np.array(mul)
-    return pt + rand
+    random_pt = pt + rand
+    for i in range(3):
+        random_pt[i] = max(random_pt[i], 0)
+    return random_pt
 
 
 data = np.array([
-    random_shifted_pt([ws, wa, pd(ws, wa)[0]], [10, 5, 2])
+    random_shifted_pt([ws, wa, pd(ws, wa)], [10, 5, 2])
     for wa in pd.wind_angles
     for ws in pd.wind_speeds
     for _ in range(6)
@@ -140,18 +143,17 @@ data = data[np.random.choice(len(data), size=500)]
 import hrosailing.pipeline as pipe
 import hrosailing.pipelinecomponents as pcomp
 
-
 pol_pips = [
     pipe.PolarPipeline(
-        handler=pcomp.ArrayHandler(),
+        data_handler=pcomp.ArrayHandler(),
         extension=pipe.TableExtension()
     ),
     pipe.PolarPipeline(
-        handler=pcomp.ArrayHandler(),
+        data_handler=pcomp.ArrayHandler(),
         extension=pipe.PointcloudExtension()
     ),
     pipe.PolarPipeline(
-        handler=pcomp.ArrayHandler(),
+        data_handler=pcomp.ArrayHandler(),
         extension=pipe.CurveExtension()
     )
 ]
@@ -159,7 +161,9 @@ pol_pips = [
 # here `data` is treated as some obtained measurements given as
 # a numpy.ndarray
 pds = [
-	pol_pip((data, ["Wind speed", "Wind angle", "Boat speed"]))
+	pol_pip(
+        [(data, ["Wind speed", "Wind angle", "Boat speed"])]
+    ).polardiagram
 	for pol_pip in pol_pips
 ]
 #
@@ -178,11 +182,14 @@ we can customize one or more components of it.
 #### Customizing `PolarPipeline`
 ```python
 class MyInfluenceModel(pcomp.InfluenceModel):
-    def remove_influence(self, data: dict):
+    def remove_influence(self, data):
+        tws = np.array(data["TWS"])
+        twa = np.array(data["TWA"])
+        bsp = np.array(data["BSP"])
         return np.array([
-            data["Wind speed"],
-            (data["Wind angle"] + 90)%360,
-            data["Boat speed"]**2
+            tws,
+            (twa + 90)%360,
+            bsp**2
         ]).transpose()
 
     def add_influence(self, pd, influence_data: dict):
@@ -214,14 +221,16 @@ def my_norm(pt):
 
 
 my_pol_pip = pipe.PolarPipeline(
-    handler=pcomp.ArrayHandler(),
+    data_handler=pcomp.ArrayHandler(),
     influence_model=MyInfluenceModel(),
-    weigher=pcomp.CylindricMeanWeigher(radius=2, norm=my_norm),
+    post_weigher=pcomp.CylindricMeanWeigher(radius=2, norm=my_norm),
     extension=my_extension,
-    filter_=MyFilter()
+    post_filter=MyFilter()
 )
 
-my_pd = my_pol_pip((data, ["Wind speed", "Wind angle", "Boat speed"]))
+out = my_pol_pip([(data, ["Wind speed", "Wind angle", "Boat speed"])])
+my_pd = out.polardiagram
+
 ```
 
 The customizations above are arbitrary and lead to comparably bad results:
@@ -240,7 +249,6 @@ a random weather model.
 ```python
 from datetime import timedelta
 from datetime import datetime as dt
-from hrosailing.cruising import cruise
 
 import hrosailing.cruising as cruise
 
@@ -265,7 +273,7 @@ n, m, k, l = 500, 50, 40, 3
 
 data = 20 * (np.random.random((n, m, k, l)))
 
-wm = cruise.WeatherModel(
+wm = cruise.GriddedWeatherModel(
     data=data,
     times=[dt.now() + i * timedelta(hours=1) for i in range(n)],
     lats=np.linspace(40, 50, m),
