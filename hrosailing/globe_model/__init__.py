@@ -106,6 +106,12 @@ class GlobeModel(ABC):
             The number of points to be computed.
 
             Defaults to 1000.
+
+        Returns
+        ---------
+        path: numpy.ndarray of shape (`res`, 2) or (`res`, 3)
+            The coordinates of points along the shortest
+            path from `start` to `end` on the projected globe.
         """
 
     def shortest_path(self, start, end, res=1000):
