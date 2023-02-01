@@ -945,6 +945,12 @@ def hrosailing_standard_scaled_euclidean_norm(dimensions=None):
         returned.
 
         Defaults to `None`.
+
+    Returns
+    ---------
+    norm : callable
+        The euclidean norm, scaled by coefficients corresponding to
+        `constants.NORM_SCALES`.
     """
     if dimensions is None:
         dimensions = ["TWS", "TWA"]
