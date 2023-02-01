@@ -340,7 +340,7 @@ class Polytope(Neighbourhood):
     convex hull :math:`P = conv(x_1, ..., x_n)` of some n points :math:`x_1 ,..., x_n`
     or equivalently the (bounded) intersection of m half spaces
     :math:`P = \\\\{x \\in R^2 : Ax \\leq b\\\\}`.
-    
+
     Attention! Does not check whether the polytope given by `mat` and `b` is a polytope,
     i.e. if :math:`P` is actually bounded.
 

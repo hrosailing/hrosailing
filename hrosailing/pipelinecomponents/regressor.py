@@ -47,13 +47,14 @@ class Regressor(ABC):
     @abstractmethod
     def model_func(self):
         """
-        This property should return a version of the model function used in the regression.
+        A version of the model function used in the regression.
         """
 
     @property
     @abstractmethod
     def optimal_params(self):
-        """This property should return a version of the optimal parameters determined
+        """
+        A version of the optimal parameters determined
         through regression of the model function.
         """
 
@@ -91,6 +92,10 @@ class ODRegressor(Regressor):
         Maximum number of iterations done by `scipy.odr.ODR`.
 
         Defaults to `1000`.
+
+    See also
+    ----------
+    `Regressor`
     """
 
     def __init__(self, model_func: Callable, init_values, max_it=1000):
