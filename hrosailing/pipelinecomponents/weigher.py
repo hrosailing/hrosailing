@@ -117,11 +117,6 @@ class WeightedPoints:
 class Weigher(ComponentWithStatistics, ABC):
     """Base class for all weigher classes.
     Basic arithmetic operations may be performed among weighers.
-
-
-    Abstract Methods
-    ----------------
-    weigh(self, points)
     """
 
     @abstractmethod

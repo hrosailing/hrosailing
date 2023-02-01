@@ -14,16 +14,6 @@ class GlobeModel(ABC):
     Abstract base class of globe models.
     Contains methods to translate between points given in latitude and
     longitude coordinates and points on a map or a three-dimensional globe.
-
-    Abstract Methods
-    ----------------
-    project(points)
-
-    lat_lon(points)
-
-    distance(start, end)
-
-    shortest_projected_path(start, end, res)
     """
 
     @abstractmethod

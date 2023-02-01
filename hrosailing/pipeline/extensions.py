@@ -19,10 +19,6 @@ from hrosailing.polardiagram._polardiagramtable import _Resolution
 
 class PipelineExtension(ComponentWithStatistics, ABC):
     """Base class for all pipeline extensions.
-
-    Abstract Methods
-    ----------------
-    process(weighted_points)
     """
 
     @abstractmethod

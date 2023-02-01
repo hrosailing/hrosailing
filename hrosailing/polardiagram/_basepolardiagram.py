@@ -17,54 +17,6 @@ class PolarDiagramInitializationException(Exception):
 
 class PolarDiagram(ABC):
     """Base class for all polar diagrams.
-
-    Abstract Methods
-    ----------------
-    to_csv(csv_path)
-
-    __from_csv__(cls, file)
-
-    symmetrize()
-
-    get_slices(ws)
-
-    plot_polar(
-        ws,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw
-    )
-
-    plot_flat(
-        ws,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw
-    )
-
-    plot_3d(ax=None, **plot_kw)
-
-    plot_color_gradient(
-        ax=None,
-        colors=("green", "red"),
-        marker=None,
-        ms=None,
-        show_legend=False,
-        **legend_kw,
-    )
-
-    plot_convex_hull(
-        ws,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw,
-    )
     """
 
     @abstractmethod

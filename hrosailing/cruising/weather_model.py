@@ -42,10 +42,6 @@ class WeatherModel(ABC):
     Base class for handling and approximating weather data.
     How the weather data is organized and how the approximation is executed
     depends on the inheriting classes.
-
-    Abstract Methods
-    ----------------
-    get_weather
     """
 
     @abstractmethod

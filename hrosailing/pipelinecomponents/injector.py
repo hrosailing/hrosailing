@@ -17,10 +17,6 @@ from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 class Injector(ComponentWithStatistics, ABC):
     """
     Base class for all injector classes.
-
-    Abstract Methods
-    ----------------
-    inject(self, weighted_points)
     """
 
     @abstractmethod

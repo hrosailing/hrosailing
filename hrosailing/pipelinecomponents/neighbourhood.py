@@ -26,11 +26,6 @@ class NeighbourhoodInitializationException(Exception):
 
 class Neighbourhood(ABC):
     """Base class for all neighbourhood classes.
-
-
-    Abstract Methods
-    ----------------
-    is_contained_in(self, pts)
     """
 
     @abstractmethod

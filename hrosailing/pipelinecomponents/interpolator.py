@@ -30,11 +30,6 @@ class InterpolatorInitializationException(Exception):
 
 class Interpolator(ABC):
     """Base class for all `Interpolator` classes.
-
-
-    Abstract Methods
-    ----------------
-    interpolate(self, w_pts, grid_pt)
     """
 
     @abstractmethod

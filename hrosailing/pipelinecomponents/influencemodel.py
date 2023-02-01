@@ -24,15 +24,6 @@ class InfluenceException(Exception):
 
 class InfluenceModel(ComponentWithStatistics, ABC):
     """Base class for all influence model classes.
-
-
-    Abstract Methods
-    ----------------
-    remove_influence(data)
-
-    add_influence(pd, influence_data)
-
-    fit(training_data)
     """
 
     @abstractmethod

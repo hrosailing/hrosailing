@@ -23,11 +23,6 @@ class SamplerInitializationException(Exception):
 
 class Sampler(ABC):
     """Base class for all sampler classes.
-
-
-    Abstract Methods
-    ----------------
-    sample(self, pts)
     """
 
     @abstractmethod

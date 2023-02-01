@@ -32,15 +32,6 @@ logger = logging.getLogger(__name__)
 
 class Regressor(ABC):
     """Base class for all regressor classes.
-
-
-    Abstract Methods
-    ----------------
-    model_func
-
-    optimal_params
-
-    fit(self, data)
     """
 
     @property

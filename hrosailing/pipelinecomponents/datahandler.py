@@ -39,11 +39,6 @@ class HandleException(Exception):
 
 class DataHandler(ComponentWithStatistics, ABC):
     """Base class for all data handler classes.
-
-
-    Abstract Methods
-    ----------------
-    handle(self, data)
     """
 
     @abstractmethod
