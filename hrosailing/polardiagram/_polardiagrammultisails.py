@@ -117,15 +117,6 @@ class PolarDiagramMultiSails(PolarDiagram):
         return slice_infos
 
     def __init__(self, pds, sails=None):
-        warnings.warn(
-            (
-                "class features aren't all fully developed yet and/or might "
-                "change behaviour heavily in the future. "
-                "Take care when using this class"
-            ),
-            category=NotYetImplementedWarning,
-        )
-
         if sails is None:
             sails = [f"Sail {i}" for i in range(len(pds))]
         elif len(sails) < len(pds):
