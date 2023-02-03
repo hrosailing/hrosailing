@@ -43,6 +43,17 @@ class PolarDiagramPointcloud(PolarDiagram):
         Defaults to `False`.
     """
 
+    @property
+    def default_points(self):
+        """
+        Returns all points given in the data.
+
+        See also
+        -------
+        `PolarDiagram.default_points`
+        """
+        return self.points
+
     def get_slices(self, ws=None, n_steps=None, full_info=False, **kwargs):
         """
         Other Parameters
