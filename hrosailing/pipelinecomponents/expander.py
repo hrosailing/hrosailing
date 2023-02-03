@@ -26,7 +26,7 @@ class Expander(ComponentWithStatistics, ABC):
         Parameters
         ----------
         data : Data
-            The data that should be expanded.
+            The data that will be expanded.
 
         Returns
         -------

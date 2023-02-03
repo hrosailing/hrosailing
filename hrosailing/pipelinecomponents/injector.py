@@ -27,7 +27,7 @@ class Injector(ComponentWithStatistics, ABC):
         Parameters
         ----------
         weighted_points : WeightedPoints
-            The original preprocessed points. `weighted_points.data` should be an `ndarray`.
+            The original preprocessed points. `weighted_points.data` has to be an `ndarray`.
 
         Returns
         -------

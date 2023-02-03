@@ -27,7 +27,7 @@ class Smoother(ComponentWithStatistics, ABC):
         Parameters
         ----------
         data : Data
-            The data that should be smoothened.
+            The data to be smoothened.
 
         Returns
         -------

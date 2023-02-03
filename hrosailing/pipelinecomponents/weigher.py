@@ -50,7 +50,7 @@ class WeightedPoints:
     ----------
     data : Data, dict or numpy.ndarray
         Points that will be weight or paired with given weights.
-        If given as a dictionary, each value should be a list. Data points are interpreted as
+        If given as a dictionary, each value has to be a list. Data points are interpreted as
         `[data[key][i] for key in data.keys()]` for each suitable `i`.
         If given as a `numpy.ndarray`, the rows will be interpreted as data points.
 
@@ -89,7 +89,7 @@ class WeightedPoints:
     def extend(self, other):
         """
         Extends the weighted points by other weighted points.
-        The value of the `data` attribute should be of the same type in both respective `WeightedPoints` objects.
+        The value of the `data` attribute has to be of the same type in both respective `WeightedPoints` objects.
         If both data is given as a dictionary of lists, the respective lists
         will be extended.
         Keys that are not present in both dictionaries are discarded.
@@ -415,7 +415,7 @@ class CylindricMemberWeigher(Weigher):
 
     dimensions : [str] or None, optional
         If the data is given as `Data`, `dimensions` contains the keys
-        which should be used in order to create the data space.
+        which will be used in order to create the data space.
         If `None`, all keys of the given `Data` are used.
 
         Defaults to `None`.
@@ -541,7 +541,7 @@ class FluctuationWeigher(Weigher):
         Parameters
         ----------
         points : Data
-            Should contain the key "datetime" and all keys contained in the "dimension" parameter during initialization.
+            Has to contain the key "datetime" and all keys contained in the "dimension" parameter during initialization.
             Fields which do not contain `float` values are ignored.
 
         See also

@@ -142,9 +142,9 @@ class Data:
         Parameters
         ----------
         key : str
-            The key of the column that should be extended by the given data.
+            The key of the column that will be extended by the given data.
         data : list
-            Data that should be appended to the given column.
+            Data that will be appended to the given column.
         """
         data_type = self._get_type(data)
         if key in self._data:
@@ -189,7 +189,7 @@ class Data:
         Parameters
         ----------
         key : str
-            The key of the column to which the given data should be appended.
+            The key of the column to which the given data will be appended.
         data : object
             Single data object to be appended.
 
@@ -211,7 +211,7 @@ class Data:
             Defaults to `self.n_rows`.
 
         keys : list of str, optional
-            The keys of the columns which should be filled.
+            The keys of the columns which will be filled.
 
             Defaults to `self.keys`.
         """
@@ -300,7 +300,7 @@ class Data:
         Parameters
         ----------
         mode : {"cols", "rows", "all"}
-            Specifies whether columns or rows or both should be removed.
+            Specifies whether columns or rows or both will be removed.
 
             Defaults to "all"
         """
@@ -440,7 +440,7 @@ class Data:
     def from_dict(cls, dict_):
         """
         Creates a `Data` object that contains the same data as a given dictionary.
-        The keys and values of the dictionary should be iterables and will correspond to the columns of the resulting
+        The keys and values of the dictionary need to be iterables and will correspond to the columns of the resulting
         `Data` object.
 
         Parameters

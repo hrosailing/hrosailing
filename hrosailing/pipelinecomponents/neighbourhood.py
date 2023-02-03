@@ -118,7 +118,7 @@ class ScalingBall(Neighbourhood):
     Parameters
     ----------
     min_pts : positive int
-        The minimal amount of certain given points that should be
+        The minimal amount of certain given points that will be
         contained in the scaling ball.
 
     norm : function or callable, optional

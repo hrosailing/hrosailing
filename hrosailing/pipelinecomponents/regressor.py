@@ -71,7 +71,7 @@ class ODRegressor(Regressor):
     model_func : function
         The function to be fitted.
 
-        The function signature should be `f(ws, wa, *params) -> bsp`,
+        The function signature has to be `f(ws, wa, *params) -> bsp`,
         where `ws` and `wa` are `numpy.ndarrays` resp. and `params` is a
         sequence of parameters that will be fitted.
 
@@ -175,7 +175,7 @@ class LeastSquareRegressor(Regressor):
     model_func : function or callable
         The function which describes the model and is to be fitted.
 
-        The function signature should be `f(ws, wa, *params) -> bsp`,
+        The function signature has to be `f(ws, wa, *params) -> bsp`,
         where `ws` and `wa` are `numpy.ndarrays` resp. and `params` is a
         sequence of parameters that will be fitted.
 

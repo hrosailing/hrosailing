@@ -165,7 +165,7 @@ class ArithmeticMeanInterpolator(Interpolator):
     distribution : function or callable, optional
         Function with which to calculate the updated weights.
 
-        Should have the signature
+        Needs to have the signature
         `f(distances, old_weights, *parameters) -> new_weights`.
 
         If nothing is passed, it will default to `gauss_potential`, which

@@ -35,7 +35,7 @@ class InfluenceModel(ComponentWithStatistics, ABC):
         Parameters
         ----------
         data : Data
-            Should contain at least keys for wind speed, wind angle
+            Has to contain at least keys for wind speed, wind angle
             and either speed over ground, speed over water or boat speed.
 
         Returns
@@ -114,7 +114,7 @@ class IdentityInfluenceModel(InfluenceModel):
         influence_data : dict
             Either a dictionary of lists or a dictionary of values containing
             one or more sets of influence data.
-            At least the keys 'TWS' and 'TWA' should be provided.
+            At least the keys 'TWS' and 'TWA' have to be provided.
 
         See also
         --------

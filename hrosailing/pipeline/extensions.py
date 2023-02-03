@@ -32,7 +32,7 @@ class PipelineExtension(ComponentWithStatistics, ABC):
         weighted_points : WeightedPoints
             Preprocessed data from which to create the polar diagram.
             `weighted_points.data` has to be an `np.ndarray` of shape (n, 3) of dtype `float` containing
-            'TWS', 'TWA', 'BSP' values columnwise.
+            'TWS', 'TWA', 'BSP' values column-wise.
 
         Returns
         -------
