@@ -27,6 +27,7 @@ from matplotlib.projections import register_projection
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 from matplotlib.cm import ScalarMappable
+from matplotlib.tri import Triangulation
 from matplotlib.colors import (
     LinearSegmentedColormap,
     Normalize,
@@ -242,15 +243,57 @@ class HRO3D(Axes3D):
             return
 
         pd = args[0]
+        x, y, z = self._prepare_points(pd, wind)
+
+        self._plot3d(x, y, z, colors, **kwargs)
+
+    def plot_surface(self, *args, wind=None, colors=("green", "red"), **kwargs):
+        if not isinstance(args[0], PolarDiagram):
+            super().plot_surface(*args, **kwargs)
+
+        pd = args[0]
+        x, y, z = self._prepare_points(pd, wind)
+
+        triang = Triangulation(x, y)
+
+        txs = x[triang.triangles]
+        tys = y[triang.triangles]
+        tzs = z[triang.triangles]
+
+        diffz = [
+            (tzs[:, idx1] - tzs[:, idx2])**2
+            for idx1, idx2 in itertools.combinations([0,1,2], 2)
+        ]
+
+        not_too_narrow = np.logical_or(diffz[0] > 0.2, diffz[1] > 0.2, diffz[2] > 0.2)
+        axis_skip = np.logical_or(
+            np.sign(txs[:, 0]) != np.sign(txs[:, 1]),
+            np.sign(txs[:, 0]) != np.sign(txs[:, 2])
+        )
+        northern = np.logical_and(
+            *[tys[:, i] > 0 for i in range(2)]
+        )
+        no_northern_skip = np.logical_not(np.logical_and(
+            axis_skip, northern
+        ))
+        mask = np.logical_and(not_too_narrow, no_northern_skip)
+
+        color_map = _create_color_map(colors)
+
+        _set_3d_axis_labels(self)
+        _remove_3d_tick_labels_for_polar_coordinates(self)
+
+        self.plot_trisurf(x, y, z, triangles = triang.triangles[mask], cmap=color_map, **kwargs)
+
+    def _prepare_points(self, pd, wind):
         points = pd.get_points(wind)
         ws, wa, bsp = points.T
         #flip and rotate such that 0° is on top and 90° is right
         #wa = (-wa)%360 - 90
         wa_rad = np.deg2rad(wa)
 
-        y, z = bsp*np.sin(wa_rad), bsp*np.cos(wa_rad)
-
-        self._plot3d(ws, y, z, colors, **kwargs)
+        x, y = bsp*np.sin(wa_rad), bsp*np.cos(wa_rad)
+        return x, y, ws
 
     def _plot3d(self, ws, wa, bsp, colors, **plot_kw):
         _set_3d_axis_labels(self)
@@ -260,15 +303,15 @@ class HRO3D(Axes3D):
 
         super().scatter(ws, wa, bsp, c=ws, cmap=color_map, **plot_kw)
 
-    def _plot_surf(self, ws, wa, bsp, colors, **plot_kw):
+    def _plot_surf(self, x, y, z, colors, **plot_kw):
         _set_3d_axis_labels(self)
         _remove_3d_tick_labels_for_polar_coordinates(self)
 
         color_map = _create_color_map(colors)
-        face_colors = _determine_face_colors(color_map, ws)
+        face_colors = _determine_face_colors(color_map, x)
 
-        super().plot_surface(
-            ws, wa, bsp, facecolors=face_colors
+        super().plot_trisurf(
+            x, y, z, facecolors=face_colors, **plot_kw
         )
 
 
@@ -530,13 +573,13 @@ def _set_legend_with_wind_speeds(ax, colors, ws, legend_kw):
 
 
 def _set_3d_axis_labels(ax):
-    ax.set_xlabel("TWS")
-    ax.set_ylabel("Polar plane: TWA / BSP ")
+    ax.set_zlabel("TWS")
+    ax.set_xlabel("Polar plane: TWA / BSP ")
 
 
 def _remove_3d_tick_labels_for_polar_coordinates(ax):
+    ax.xaxis.set_ticklabels([])
     ax.yaxis.set_ticklabels([])
-    ax.zaxis.set_ticklabels([])
 
 
 def _create_color_map(colors):
