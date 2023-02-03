@@ -354,7 +354,7 @@ class PolarDiagramTable(PolarDiagram):
         """
         See also
         --------
-        `Polardiagra.default_slices`
+        `Polardiagram.default_slices`
         """
         x, y = np.meshgrid(self.wind_speeds, self.wind_angles)
         wind = np.array(list(zip(x.ravel(), y.ravel())))

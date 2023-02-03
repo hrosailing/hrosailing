@@ -233,7 +233,7 @@ class PolarDiagram(ABC):
         `get_slices`
         """
 
-    def points(self, wind=None):
+    def get_points(self, wind=None):
         """
         Returns a read only version of all relevant points specified by wind
 

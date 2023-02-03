@@ -10,9 +10,12 @@ Examples
 --------
 >>> import matplotlib.pyplot as plt
 >>> from hrosailing.polardiagram import from_csv
+>>> import hrosailing.plotting
+>>>
 >>> ax = plt.subplot("hro polar")
 >>> pd = from_csv("my_file.pd")
 >>> ax.plot(pd)
+>>> plt.show()
 """
 
 import itertools
@@ -154,43 +157,61 @@ class HROFlat(Axes):
 
 
 class HROColorGradient(Axes):
+    """Projection supporting two dimensional color gradient plotting of polar diagrams."""
     name = "hro color gradient"
 
     def plot(self,
              *args,
-             ws=None,
-             colors=("green", "red"),
+             wind = None,
+             colors = ("green", "red"),
              show_legend=False,
              legend_kw=None,
              **kwargs
              ):
+        """
+        Plots the given data as a polar plot.
+        If a `PolarDiagram` is given, plots each slice corresponding to `ws` and `n_steps`
+        as described in `PolarDiagram.get_slices`.
+
+        Parameter
+        ----------
+        *args :
+            If the first argument is a polar diagram it plots the polar diagram.
+            Otherwise it plots the arguments as usual.
+
+        wind : (2, d) or (d, 2) numpy.ndarray or tuple of 2 (1, d) numpy.ndarray or `None`, optional
+            As in `Polardiagram.get_points`
+
+        colors : color_like or sequence of color_likes or (ws, color_like) pairs
+            Specifies the colors to be used for the different slices.
+            As in `HROPolar.plot`.
+
+        show_legend : bool, default: `False`
+            Specifies wether or not a legend will be shown next to the plot.
+            As in `HROPolar.plot`.
+
+        legend_kw : dict, optional
+            Keyword arguments to change position and appearance of the colorbar
+            or legend respectively.
+            As in `HROPolar.plot`.
+        """
         if not isinstance(args[0], PolarDiagram):
             super().plot(*args, **kwargs)
             return
 
+        if legend_kw is None:
+            legend_kw = {}
+
         pd = args[0]
-        ws, wa, bsp = pd.get_slices(ws)
-        wa = np.rad2deg(wa)
+        points = pd.get_points()
+        ws, wa, bsp = points.T
 
-        self._plot_color_gradient(ws, wa, bsp, colors, show_legend, **kwargs)
-
-
-    def _plot_color_gradient(
-            self, ws, wa, bsp, colors, show_legend, **legend_kw
-    ):
         if show_legend:
             _show_legend(self, bsp, colors, "Boat Speed", legend_kw)
 
         color_gradient = _determine_color_gradient(colors, bsp.ravel())
 
-        if wa.ndim == 1:
-            ws, wa = np.meshgrid(ws, wa)
-            ws, wa = ws.T, wa.T
-
-        if ws.ndim == 1:
-            ws = np.array([[ws_ for _ in range(len(wa_))] for ws_, wa_ in zip(ws, wa)])
-
-        self.scatter(ws.ravel(), wa.ravel(), c=color_gradient, **legend_kw)
+        self.scatter(ws, wa, c=color_gradient, **legend_kw)
 
 
 class HRO3D(Axes3D):
@@ -440,9 +461,6 @@ def _determine_colors_from_coefficients(coefficients, colors):
 
 
 def _show_legend(ax, ws, colors, label, legend_kw):
-    if legend_kw is None:
-        legend_kw = {}
-
     _configure_legend(ax, ws, colors, label, **legend_kw)
 
 
