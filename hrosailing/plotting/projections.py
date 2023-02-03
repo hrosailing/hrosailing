@@ -160,7 +160,7 @@ class HROColorGradient(Axes):
     """Projection supporting two dimensional color gradient plotting of polar diagrams."""
     name = "hro color gradient"
 
-    def plot(self,
+    def scatter(self,
              *args,
              wind = None,
              colors = ("green", "red"),
@@ -196,7 +196,7 @@ class HROColorGradient(Axes):
             As in `HROPolar.plot`.
         """
         if not isinstance(args[0], PolarDiagram):
-            super().plot(*args, **kwargs)
+            super().scatter(*args, **kwargs)
             return
 
         if legend_kw is None:
@@ -215,30 +215,40 @@ class HROColorGradient(Axes):
 
 
 class HRO3D(Axes3D):
+    """Projection enabling the display of polar diagrams in a three dimensional plot."""
     name = "hro 3d"
 
-    def plot(self, *args, colors=("green", "red"), **kwargs):
+    def __init__(self, *args, **kwargs):
+        print("Hallo Welt!")
+        super().__init__(*args, **kwargs)
+
+    def scatter(self,
+             *args,
+             wind=None,
+             colors=("green", "red"),
+             show_legend=False,
+             legend_kw=None,
+             **kwargs
+             ):
+        """
+        Uses the same API as `HROColorGradient.scatter`.
+
+        See also
+        ---------
+        `HROColorGradient.scatter`
+        """
         if not isinstance(args[0], PolarDiagram):
             super().plot(*args, **kwargs)
             return
 
         pd = args[0]
-        ws, wa, bsp = pd.get_slices()
-        lines_ = _check_for_lines(wa)
-        if wa.ndim == 1 and ws.ndim == 1:
-            wa, ws = np.meshgrid(np.flip(wa), ws)
-            bsp = np.flip(bsp, axis=1)
-        elif ws.ndim == 1:
-            ws = np.array(
-                [[ws_ for _ in range(len(wa_))] for ws_, wa_ in
-                 zip(ws, wa)]
-            )
+        points = pd.get_points(wind)
+        ws, wa, bsp = points.T
+        #flip and rotate such that 0° is on top and 90° is right
+        #wa = (-wa)%360 - 90
+        wa_rad = np.deg2rad(wa)
 
-        y, z = np.cos(np.pi/2-wa) * bsp, np.sin(np.pi/2-wa) * bsp
-
-        if lines_:
-            self._plot_surf(ws, y, z, colors, **kwargs)
-            return
+        y, z = bsp*np.sin(wa_rad), bsp*np.cos(wa_rad)
 
         self._plot3d(ws, y, z, colors, **kwargs)
 
