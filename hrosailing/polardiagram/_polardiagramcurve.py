@@ -57,6 +57,15 @@ class PolarDiagramCurve(PolarDiagram):
         If `params` contains not enough parameters for `f`.
     """
 
+    @property
+    def default_points(self):
+        ws = np.linspace(5, 20, 128)
+        wa = np.linspace(5, 355, 144)
+        ws, wa = np.meshgrid(ws, wa)
+        ws, wa = ws.ravel(), wa.ravel()
+        bsp = np.array([self(ws_, wa_) for ws_, wa_ in zip(ws, wa)])
+        return np.column_stack([ws, wa, bsp])
+
     def get_slices(self, ws=None, n_steps=None, full_info=False, **kwargs):
         """
         Other Parameters
