@@ -88,7 +88,7 @@ class PolarPipeline:
         If only one handler is given, this handler will be used for all given inputs,
         otherwise the handlers will be used one after another for each data input including the training data.
 
-        Determines the type and format of input the pipeline should accept.
+        Determines the type and format of input the pipeline will accept.
 
     imputator : Imputator, optional
         Determines the method which will be used to produce data without
@@ -220,16 +220,16 @@ class PolarPipeline:
         training_data : list of data compatible with `self.data_handler`
             Data from which to create the polar diagram.
 
-            The input should be compatible with the DataHandler instances
+            The input has to be compatible with the DataHandler instances
             given in initialization of the pipeline instance.
-            Also, the input should be suitable to be interpreted as chronologically
+            Also, the input has to be suitable to be interpreted as chronologically
             ordered time series by the before-mentioned data handler.
 
         test_data: list of data compatible with `self.data_handler` or `None`
             Data which is preprocessed and then used to check the quality of
             the resulting polar diagram.
 
-            The input should be compatible with the DataHandler instances
+            The input has to be compatible with the DataHandler instances
             given in initialization of the pipeline instance.
             If `None` no quality check is performed.
 
@@ -246,53 +246,53 @@ class PolarPipeline:
         ---------------------------
 
         pre_expander_weighing : bool, optional
-            Specifies, whether the pre_influence_weigher should be applied before application of the
+            Specifies, whether the pre_influence_weigher is applied before application of the
             expander.
             Otherwise, each point will be assigned the weight 1.
 
             Defaults to `True`.
 
         pre_expander_filtering : bool, optional
-            Specifies, whether the pre_influence_filter should be applied before application of the expander.
+            Specifies, whether the pre_influence_filter is applied before application of the expander.
 
             Defaults to `True`.
 
 
         pre_influence_weighing, pre_weighing : bool, optional
-            Specifies, whether the pre_influence_weigher should be applied before application of the
+            Specifies, whether the pre_influence_weigher is applied before application of the
             influence model.
             Otherwise, each point will be assigned the weight 1.
 
             Defaults to `True`.
 
         pre_influence_filtering, pre_filtering : bool, optional
-            Specifies, whether the pre_influence_filter should be applied before application of the influence model.
+            Specifies, whether the pre_influence_filter is applied before application of the influence model.
 
             Defaults to `True`.
 
         smoothing : bool, optional
-            Specifies, if measurement errors of the time series should be
+            Specifies, if measurement errors of the time series will be
             smoothened after pre_filtering.
 
         post_weighing, weighing : bool, optional
-            Specifies, if points should be weighed after application of the
+            Specifies, if points will be weighed after application of the
             influence model.
             Otherwise, each point will be assigned the weight 1.
 
             Defaults to `True`.
 
         post_filtering, filtering : bool, optional
-            Specifies, if points should be filtered after post_weighing.
+            Specifies, if points will be filtered after post_weighing.
 
             Defaults to `True`.
 
         injecting : bool, optional
-            Specifies, if artificial points should be added to the data.
+            Specifies, if artificial points are added to the data.
 
             Defaults to `True`.
 
         testing : bool, optional
-            Specifies, if the resulting polar diagram should be tested against
+            Specifies, if the resulting polar diagram will be tested against
             test data.
 
         Returns

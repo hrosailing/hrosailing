@@ -38,7 +38,7 @@ def data_dict_to_numpy(data_dict, keys):
         Dictionary to transform.
 
     keys : [str],
-        Keys that indicate which lists of the data dictionary should be used
+        Keys that indicate which lists of the data dictionary will be used
         to create the columns of the resulting array.
 
     Returns

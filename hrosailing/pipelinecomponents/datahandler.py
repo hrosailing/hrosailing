@@ -38,13 +38,7 @@ class HandleException(Exception):
 
 
 class DataHandler(ComponentWithStatistics, ABC):
-    """Base class for all data handler classes.
-
-
-    Abstract Methods
-    ----------------
-    handle(self, data)
-    """
+    """Base class for all data handler classes."""
 
     @abstractmethod
     def handle(self, data):
@@ -95,9 +89,9 @@ class ArrayHandler(DataHandler):
         Parameters
         ----------
         data : pandas.DataFrame or tuple containing an `array_like` and an ordered iterable
-            If given as a tuple, the `array_like` should contain the values organized in such a way, that the columns
+            If given as a tuple, the `array_like` has to contain the values organized in such a way, that the columns
             correspond to different attributes and the rows to different data points.
-            In this case, the ordered iterable should contain the names of the attributes corresponding to the columns.
+            In this case, the ordered iterable has to contain the names of the attributes corresponding to the columns.
 
         Raises
         ------
@@ -131,13 +125,13 @@ class ArrayHandler(DataHandler):
 class CsvFileHandler(DataHandler):
     """A data handler to extract data from a .csv file.
 
-    The .csv file should be ordered in a column-wise fashion, with the
+    The .csv file has to be ordered in a column-wise fashion, with the
     first entry of each column describing the corresponding attribute.
 
     Parameters
     ----------
     date_format : str, optional
-        Format string compatible with `datetime.strptime` indicating which strings should be treated as dates.
+        Format string compatible with `datetime.strptime` indicating which strings will be treated as dates.
 
         Defaults to '%Y-%m-%d %H:%M:%S.%f'.
     """

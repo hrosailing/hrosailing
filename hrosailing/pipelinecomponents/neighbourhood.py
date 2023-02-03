@@ -25,13 +25,7 @@ class NeighbourhoodInitializationException(Exception):
 
 
 class Neighbourhood(ABC):
-    """Base class for all neighbourhood classes.
-
-
-    Abstract Methods
-    ----------------
-    is_contained_in(self, pts)
-    """
+    """Base class for all neighbourhood classes."""
 
     @abstractmethod
     def is_contained_in(self, pts):
@@ -123,7 +117,7 @@ class ScalingBall(Neighbourhood):
     Parameters
     ----------
     min_pts : positive int
-        The minimal amount of certain given points that should be
+        The minimal amount of certain given points that will be
         contained in the scaling ball.
 
     norm : function or callable, optional
@@ -341,6 +335,9 @@ class Polytope(Neighbourhood):
     or equivalently the (bounded) intersection of m half spaces
     :math:`P = \\\\{x \\in R^2 : Ax \\leq b\\\\}`.
 
+    Attention! Does not check whether the polytope given by `mat` and `b` is a polytope,
+    i.e. if :math:`P` is actually bounded.
+
     Parameters
     ----------
     mat : array_like of shape (m, 2), optional
@@ -361,12 +358,6 @@ class Polytope(Neighbourhood):
     ------
     NeighbourhoodInitializationException
         If `mat` and `b` are not of matching shape.
-
-
-    Warning
-    -------
-    Does not check whether the polytope given by `mat` and `b` is a polytope,
-    i.e. if :math:`P` is actually bounded.
     """
 
     def __init__(

@@ -42,10 +42,6 @@ class WeatherModel(ABC):
     Base class for handling and approximating weather data.
     How the weather data is organized and how the approximation is executed
     depends on the inheriting classes.
-
-    Abstract Methods
-    ----------------
-    get_weather
     """
 
     @abstractmethod
@@ -102,14 +98,27 @@ class GriddedWeatherModel(WeatherModel):
 
     @property
     def grid(self):
+        """
+        The dimensions of the grid given as an iterable containing times,
+        an `numpy.ndarray` containing the latitudes and an `numpy.ndarray`
+        containing the longitudes.
+        """
         return self._times, self._lats.copy(), self._lons.copy()
 
     @property
     def data(self):
+        """
+        A read only copy of the complete weather data. The columns correspond
+        to the entries in `self.attrs`.
+        """
         return self._data.copy()
 
     @property
     def attrs(self):
+        """
+        The attributes of the weather model. Each attribute corresponds to
+        a column of `self.data`.
+        """
         return self._attrs
 
     def get_weather(self, point):

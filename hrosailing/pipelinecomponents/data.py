@@ -20,17 +20,6 @@ class Data:
     `key` is a string and the corresponding row if `key` is an integer.
     `key in data` checks if there is a column with key `key`.
     Iteration is performed over the rows.
-
-    Properties
-    ----------
-    numerical : numpy.ndarray
-        An array containing all data of type `float`.
-
-    n_rows : int
-        The number of rows.
-
-    n_cols : int
-        The number of columns.
     """
 
     def __init__(self):
@@ -49,20 +38,32 @@ class Data:
 
     @property
     def numerical(self):
+        """
+        A `numpy.ndarray` containing all data of type `float`.
+        """
         float_keys, float_vals = self.get_by_type(float)
         array = np.column_stack(float_vals)
         return float_keys, array
 
     @property
     def n_rows(self):
+        """
+        The number of rows.
+        """
         return self._max_len
 
     @property
     def n_cols(self):
+        """
+        The number of columns"
+        """
         return len(self._data)
 
     @property
     def data(self):
+        """
+        A 'read-only' version of the dictionary of columns.
+        """
         return self._data.copy()
 
     def rows(self, keys=None, return_type=dict):
@@ -81,6 +82,11 @@ class Data:
             order as in `keys`.
 
             Defaults to `dict`.
+
+        Yields
+        -------
+        The columns of the instance, filtered as indicated by `keys` organized
+        in a way indicated by `return_type`.
         """
         if keys is None:
             keys = self.keys()
@@ -118,11 +124,14 @@ class Data:
 
     def type(self, key):
         """
-        Returns the associated type corresponding to the `key` column.
-
         Parameters
         ----------
         key : str
+
+        Returns
+        --------
+        type_ : type
+            The associated type of the column corresponding to `key`.
         """
         return self._types[key]
 
@@ -133,9 +142,9 @@ class Data:
         Parameters
         ----------
         key : str
-            The key of the column that should be extended by the given data.
+            The key of the column that will be extended by the given data.
         data : list
-            Data that should be appended to the given column.
+            Data that will be appended to the given column.
         """
         data_type = self._get_type(data)
         if key in self._data:
@@ -180,7 +189,7 @@ class Data:
         Parameters
         ----------
         key : str
-            The key of the column to which the given data should be appended.
+            The key of the column to which the given data will be appended.
         data : object
             Single data object to be appended.
 
@@ -202,7 +211,7 @@ class Data:
             Defaults to `self.n_rows`.
 
         keys : list of str, optional
-            The keys of the columns which should be filled.
+            The keys of the columns which will be filled.
 
             Defaults to `self.keys`.
         """
@@ -291,7 +300,7 @@ class Data:
         Parameters
         ----------
         mode : {"cols", "rows", "all"}
-            Specifies whether columns or rows or both should be removed.
+            Specifies whether columns or rows or both will be removed.
 
             Defaults to "all"
         """
@@ -402,7 +411,7 @@ class Data:
     @classmethod
     def concatenate(cls, list_):
         """
-        Returns concatenated data, given a list of `Data` classes.
+        Returns concatenated data, given a list of `Data` instances.
 
         Parameters
         ----------
@@ -431,12 +440,17 @@ class Data:
     def from_dict(cls, dict_):
         """
         Creates a `Data` object that contains the same data as a given dictionary.
-        The keys and values of the dictionary should be iterables and will correspond to the columns of the resulting
+        The keys and values of the dictionary need to be iterables and will correspond to the columns of the resulting
         `Data` object.
 
         Parameters
         ----------
         dict_ : dict
+
+        Returns
+        -------
+        data : Data
+            Instance containing the same data as `dict_`.
         """
         data = cls()
         data.update(dict_)

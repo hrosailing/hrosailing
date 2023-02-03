@@ -24,13 +24,7 @@ class FilterInitializationException(Exception):
 
 
 class Filter(ComponentWithStatistics, ABC):
-    """Base class for all filter classes.
-
-
-    Abstract Methods
-    ----------------
-    filter(self, wts)
-    """
+    """Base class for all filter classes."""
 
     @abstractmethod
     def filter(self, wts):

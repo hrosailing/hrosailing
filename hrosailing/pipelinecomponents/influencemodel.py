@@ -23,17 +23,7 @@ class InfluenceException(Exception):
 
 
 class InfluenceModel(ComponentWithStatistics, ABC):
-    """Base class for all influence model classes.
-
-
-    Abstract Methods
-    ----------------
-    remove_influence(data)
-
-    add_influence(pd, influence_data)
-
-    fit(training_data)
-    """
+    """Base class for all influence model classes."""
 
     @abstractmethod
     def remove_influence(self, data):
@@ -44,7 +34,7 @@ class InfluenceModel(ComponentWithStatistics, ABC):
         Parameters
         ----------
         data : Data
-            Should contain at least keys for wind speed, wind angle
+            Has to contain at least keys for wind speed, wind angle
             and either speed over ground, speed over water or boat speed.
 
         Returns
@@ -123,7 +113,7 @@ class IdentityInfluenceModel(InfluenceModel):
         influence_data : dict
             Either a dictionary of lists or a dictionary of values containing
             one or more sets of influence data.
-            At least the keys 'TWS' and 'TWA' should be provided.
+            At least the keys 'TWS' and 'TWA' have to be provided.
 
         See also
         --------

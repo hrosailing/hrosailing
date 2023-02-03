@@ -17,10 +17,6 @@ from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 class Injector(ComponentWithStatistics, ABC):
     """
     Base class for all injector classes.
-
-    Abstract Methods
-    ----------------
-    inject(self, weighted_points)
     """
 
     @abstractmethod
@@ -31,7 +27,7 @@ class Injector(ComponentWithStatistics, ABC):
         Parameters
         ----------
         weighted_points : WeightedPoints
-            The original preprocessed points. `weighted_points.data` should be an `ndarray`.
+            The original preprocessed points. `weighted_points.data` has to be an `ndarray`.
 
         Returns
         -------

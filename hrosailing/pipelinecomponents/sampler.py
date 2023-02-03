@@ -22,13 +22,7 @@ class SamplerInitializationException(Exception):
 
 
 class Sampler(ABC):
-    """Base class for all sampler classes.
-
-
-    Abstract Methods
-    ----------------
-    sample(self, pts)
-    """
+    """Base class for all sampler classes."""
 
     @abstractmethod
     def sample(self, pts):
@@ -38,7 +32,7 @@ class Sampler(ABC):
         Parameters
         ----------
         pts : numpy.ndarray
-            The given data points in a row-wise fashion. Most commonly this should be an (n, 2) array.
+            The given data points in a row-wise fashion. Most commonly this will be an (n, 2) array.
 
         Returns
         ----------

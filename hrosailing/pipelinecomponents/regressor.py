@@ -31,29 +31,20 @@ logger = logging.getLogger(__name__)
 
 
 class Regressor(ABC):
-    """Base class for all regressor classes.
-
-
-    Abstract Methods
-    ----------------
-    model_func
-
-    optimal_params
-
-    fit(self, data)
-    """
+    """Base class for all regressor classes."""
 
     @property
     @abstractmethod
     def model_func(self):
         """
-        This property should return a version of the model function used in the regression.
+        A version of the model function used in the regression.
         """
 
     @property
     @abstractmethod
     def optimal_params(self):
-        """This property should return a version of the optimal parameters determined
+        """
+        A version of the optimal parameters determined
         through regression of the model function.
         """
 
@@ -79,7 +70,7 @@ class ODRegressor(Regressor):
     model_func : function
         The function to be fitted.
 
-        The function signature should be `f(ws, wa, *params) -> bsp`,
+        The function signature has to be `f(ws, wa, *params) -> bsp`,
         where `ws` and `wa` are `numpy.ndarrays` resp. and `params` is a
         sequence of parameters that will be fitted.
 
@@ -91,6 +82,10 @@ class ODRegressor(Regressor):
         Maximum number of iterations done by `scipy.odr.ODR`.
 
         Defaults to `1000`.
+
+    See also
+    ----------
+    `Regressor`
     """
 
     def __init__(self, model_func: Callable, init_values, max_it=1000):
@@ -179,7 +174,7 @@ class LeastSquareRegressor(Regressor):
     model_func : function or callable
         The function which describes the model and is to be fitted.
 
-        The function signature should be `f(ws, wa, *params) -> bsp`,
+        The function signature has to be `f(ws, wa, *params) -> bsp`,
         where `ws` and `wa` are `numpy.ndarrays` resp. and `params` is a
         sequence of parameters that will be fitted.
 
@@ -188,14 +183,6 @@ class LeastSquareRegressor(Regressor):
         that are passed to `scipy.optimize.curve_fit`.
 
         Defaults to `None`.
-
-    Properties
-    ----------
-    model_func : Callable
-        Returns a read-only version of `self._func`.
-
-    optimal_params : numpy.ndarray
-        Returns a read-only version of `self._popt`.
     """
 
     def __init__(self, model_func: Callable, init_vals=None):
@@ -228,10 +215,12 @@ class LeastSquareRegressor(Regressor):
 
     @property
     def model_func(self):
+        """Read-only version of `self._func`."""
         return self._func
 
     @property
     def optimal_params(self):
+        """Read-only version of `self._popt`."""
         return self._popt
 
     def fit(self, data, _enable_logging=False):

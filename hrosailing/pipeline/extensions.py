@@ -18,12 +18,7 @@ from hrosailing.polardiagram._polardiagramtable import _Resolution
 
 
 class PipelineExtension(ComponentWithStatistics, ABC):
-    """Base class for all pipeline extensions.
-
-    Abstract Methods
-    ----------------
-    process(weighted_points)
-    """
+    """Base class for all pipeline extensions."""
 
     @abstractmethod
     def process(self, weighted_points):
@@ -36,11 +31,11 @@ class PipelineExtension(ComponentWithStatistics, ABC):
         weighted_points : WeightedPoints
             Preprocessed data from which to create the polar diagram.
             `weighted_points.data` has to be an `np.ndarray` of shape (n, 3) of dtype `float` containing
-            'TWS', 'TWA', 'BSP' values columnwise.
+            'TWS', 'TWA', 'BSP' values column-wise.
 
         Returns
         -------
-        polar_diagram : PolarDiagramTable
+        polar_diagram : PolarDiagram
             A polar diagram that should represent the trends
             captured in the raw data.
         """
@@ -77,6 +72,10 @@ class TableExtension(PipelineExtension):
         Determines which interpolation method is used.
 
         Defaults to `ArithmeticMeanInterpolator(params=(50,))`.
+
+    See also
+    --------
+    `PipelineExtension`
     """
 
     def __init__(
@@ -205,6 +204,10 @@ class CurveExtension(PipelineExtension):
         radians.
 
         Defaults to `False`.
+
+    See also
+    ----------
+    `PipelineExtension`
     """
 
     def __init__(
@@ -223,6 +226,10 @@ class CurveExtension(PipelineExtension):
         """Creates a `PolarDiagramCurve` instance from preprocessed data,
         by fitting a given function to said data, using a regression
         method determined by `self.regressor`.
+
+        Returns
+        -------
+        polar_diagram : PolarDiagramCurve
 
         See also
         --------
@@ -270,6 +277,10 @@ class PointcloudExtension(PipelineExtension):
         Determines which interpolation method is used.
 
         Defaults to `ArithmeticMeanInterpolator(params=(50,))`.
+
+    See also
+    --------
+    `PipelineExtension`
     """
 
     def __init__(
@@ -295,7 +306,7 @@ class PointcloudExtension(PipelineExtension):
 
         Returns
         -------
-        pd: PolarDiagramPointcloud
+        polar_diagram: PolarDiagramPointcloud
 
         See also
         --------

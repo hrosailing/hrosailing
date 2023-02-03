@@ -29,13 +29,7 @@ class InterpolatorInitializationException(Exception):
 
 
 class Interpolator(ABC):
-    """Base class for all `Interpolator` classes.
-
-
-    Abstract Methods
-    ----------------
-    interpolate(self, w_pts, grid_pt)
-    """
+    """Base class for all `Interpolator` classes."""
 
     @abstractmethod
     def interpolate(self, w_pts, grid_pt):
@@ -170,7 +164,7 @@ class ArithmeticMeanInterpolator(Interpolator):
     distribution : function or callable, optional
         Function with which to calculate the updated weights.
 
-        Should have the signature
+        Needs to have the signature
         `f(distances, old_weights, *parameters) -> new_weights`.
 
         If nothing is passed, it will default to `gauss_potential`, which
