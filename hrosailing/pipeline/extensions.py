@@ -18,8 +18,7 @@ from hrosailing.polardiagram._polardiagramtable import _Resolution
 
 
 class PipelineExtension(ComponentWithStatistics, ABC):
-    """Base class for all pipeline extensions.
-    """
+    """Base class for all pipeline extensions."""
 
     @abstractmethod
     def process(self, weighted_points):

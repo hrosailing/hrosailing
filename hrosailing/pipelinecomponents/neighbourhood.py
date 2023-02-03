@@ -25,8 +25,7 @@ class NeighbourhoodInitializationException(Exception):
 
 
 class Neighbourhood(ABC):
-    """Base class for all neighbourhood classes.
-    """
+    """Base class for all neighbourhood classes."""
 
     @abstractmethod
     def is_contained_in(self, pts):

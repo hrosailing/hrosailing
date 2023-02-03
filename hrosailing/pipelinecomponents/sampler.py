@@ -22,8 +22,7 @@ class SamplerInitializationException(Exception):
 
 
 class Sampler(ABC):
-    """Base class for all sampler classes.
-    """
+    """Base class for all sampler classes."""
 
     @abstractmethod
     def sample(self, pts):

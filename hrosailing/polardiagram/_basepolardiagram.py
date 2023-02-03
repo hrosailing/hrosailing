@@ -16,8 +16,7 @@ class PolarDiagramInitializationException(Exception):
 
 
 class PolarDiagram(ABC):
-    """Base class for all polar diagrams.
-    """
+    """Base class for all polar diagrams."""
 
     @abstractmethod
     def to_csv(self, csv_path):

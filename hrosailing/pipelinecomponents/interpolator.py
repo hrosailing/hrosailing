@@ -29,8 +29,7 @@ class InterpolatorInitializationException(Exception):
 
 
 class Interpolator(ABC):
-    """Base class for all `Interpolator` classes.
-    """
+    """Base class for all `Interpolator` classes."""
 
     @abstractmethod
     def interpolate(self, w_pts, grid_pt):

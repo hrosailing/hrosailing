@@ -38,8 +38,7 @@ class HandleException(Exception):
 
 
 class DataHandler(ComponentWithStatistics, ABC):
-    """Base class for all data handler classes.
-    """
+    """Base class for all data handler classes."""
 
     @abstractmethod
     def handle(self, data):

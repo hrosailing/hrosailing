@@ -23,8 +23,7 @@ class InfluenceException(Exception):
 
 
 class InfluenceModel(ComponentWithStatistics, ABC):
-    """Base class for all influence model classes.
-    """
+    """Base class for all influence model classes."""
 
     @abstractmethod
     def remove_influence(self, data):

@@ -10,8 +10,7 @@ from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 
 
 class Imputator(ComponentWithStatistics, ABC):
-    """Base class for all imputator classes.
-    """
+    """Base class for all imputator classes."""
 
     @abstractmethod
     def impute(self, data):
