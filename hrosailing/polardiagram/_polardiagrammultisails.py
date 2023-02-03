@@ -52,6 +52,10 @@ class PolarDiagramMultiSails(PolarDiagram):
         If the polar tables don't share the same wind speeds.
     """
 
+    @property
+    def default_points(self):
+        return np.row_stack([pd.default_points for pd in self._diagrams])
+
     def get_slices(self, ws=None, n_steps=None, full_info=False, **kwargs):
         """
         Parameters
