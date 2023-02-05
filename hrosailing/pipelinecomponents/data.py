@@ -55,7 +55,7 @@ class Data:
     @property
     def n_cols(self):
         """
-        The number of columns"
+        The number of columns.
         """
         return len(self._data)
 
@@ -302,7 +302,7 @@ class Data:
         mode : {"cols", "rows", "all"}
             Specifies whether columns or rows or both will be removed.
 
-            Defaults to "all"
+            Defaults to `"all"`.
         """
         if mode == "cols":
             self._data = {
@@ -339,7 +339,7 @@ class Data:
 
         This means:
             - the dictionary has `hrosailing` standard keys whenever possible,
-            - date and time fields will be aggregated to datetime,
+            - date and time fields will be aggregated to `datetime`,
             - tries to cast entries to `float` whenever possible.
         """
 
@@ -458,7 +458,7 @@ class Data:
 
     def get_slice(self, slice_):
         """
-        Returns new `Data` object containing only keys in `slice`.
+        Returns new `Data` object containing only keys in `slice_`.
 
         Parameters
         ----------

@@ -75,8 +75,7 @@ class IDWInterpolator(Interpolator):
     norm : function or callable, optional
         Norm with which to calculate the distances, i.e. :math:`||.||`.
 
-        If nothing is passed, it will default to a scaled
-        version of :math:`||.||_2`.
+        Defaults to a scaled version of :math:`||.||_2`.
 
     Raises
     ------
@@ -158,8 +157,7 @@ class ArithmeticMeanInterpolator(Interpolator):
     norm : function or callable, optional
         Norm with which to calculate the distances, i.e. :math:`||.||`.
 
-        If nothing is passed, it will default to a scaled
-        version of :math:`||.||_2`.
+        Defaults to a scaled version of :math:`||.||_2`.
 
     distribution : function or callable, optional
         Function with which to calculate the updated weights.
@@ -167,8 +165,7 @@ class ArithmeticMeanInterpolator(Interpolator):
         Needs to have the signature
         `f(distances, old_weights, *parameters) -> new_weights`.
 
-        If nothing is passed, it will default to `gauss_potential`, which
-        calculates weights based on the formula
+        Defaults to `gauss_potential`, which calculates weights based on the formula
         :math:`\\mathrm{e}^{\\textstyle -\\alpha * oldweights * distances}\\` with
         parameter :math:`\\alpha`.
 
@@ -261,8 +258,7 @@ class ImprovedIDWInterpolator(Interpolator):
     norm : function or callable, optional
         Norm with which to calculate the distances, i.e. :math:`||.||`.
 
-        If nothing is passed, it will default to a scaled
-        version of :math:`||.||_2`.
+        Defaults to a scaled version of :math:`||.||_2`.
     """
 
     def __init__(self, norm: Callable = scaled_euclidean_norm):
@@ -321,8 +317,7 @@ class ShepardInterpolator(Interpolator):
     norm : function or callable, optional
         Norm with which to calculate the distances, i.e. :math:`||.||`.
 
-        If nothing is passed, it will default to a scaled
-        version of :math:`||.||_2`.
+        Defaults to a scaled version of :math:`||.||_2`.
 
 
     Raises

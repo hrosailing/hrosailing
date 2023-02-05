@@ -49,7 +49,7 @@ class Neighbourhood(ABC):
 
 class Ball(Neighbourhood):
     """A class to describe a closed 2-dimensional ball
-    centered around the origin, i.e. :math:`\\\\{x \\in R^2 : ||x|| <= r\\\\}`.
+    centered around the origin, i.e. :math:`\\\\{x \\in R^2 : ||x|| \\leq r\\\\}`.
 
     Parameters
     ----------
@@ -61,8 +61,7 @@ class Ball(Neighbourhood):
     norm : function or callable, optional
         The norm for which the ball is described, i.e. :math:`||.||`.
 
-        If nothing is passed, it will default to a scaled version
-        of :math:`||.||_2` in two dimensions.
+        Defaults to a scaled version of :math:`||.||_2` in two dimensions.
 
     Raises
     ------
@@ -109,7 +108,7 @@ class Ball(Neighbourhood):
 
 class ScalingBall(Neighbourhood):
     """A class to represent a closed 2-dimensional ball
-    centered around the origin, i.e. :math:`\\\\{x \\in R^2 : ||x|| <= r\\\\}`,
+    centered around the origin, i.e. :math:`\\\\{x \\in R^2 : ||x|| \\leq r\\\\}`,
     where the radius :math:`r` will be dynamically determined, such that
     there is always a certain amount of given points contained
     in the ball.
@@ -123,8 +122,7 @@ class ScalingBall(Neighbourhood):
     norm : function or callable, optional
         The norm for which the scaling ball is described, i.e. :math:`||.||`.
 
-        If nothing is passed, it will default to a scaled version
-        of :math:`||.||_2`.
+        Defaults to a scaled version of :math:`||.||_2`.
 
     Raises
     ------
@@ -193,14 +191,12 @@ class Ellipsoid(Neighbourhood):
         The linear transformation which transforms the
         ball into the given ellipsoid, i.e. :math:`T`.
 
-        If nothing is passed, it will default to the 2x2
-        identity matrix, i.e. the ellipsoid will be a ball.
+        Defaults to the 2x2 identity matrix, i.e. the ellipsoid will be a ball.
 
     norm : function or callable, optional
         The norm for which the ellipsoid is described, i.e. :math:`||.||`.
 
-        If nothing is passed, it will default to a scaled
-        version of :math:`||.||_2`.
+        Defaults to a scaled version of :math:`||.||_2`.
 
     radius : positive int or float, optional
         The radius of the ellipsoid, i.e. :math:`r`.
@@ -285,12 +281,12 @@ class Cuboid(Neighbourhood):
     norm : function or callable, optional
         The 1-d norm used to measure the length of :math:`x_i`, i.e. :math:`|.|`.
 
-        If nothing is passed, it will default to the absolute value :math:`|.|`.
+        Defaults to the absolute value :math:`|.|`.
 
     dimensions : subscriptable of length 2, optional
         The length of the sides of the cuboid, i.e. :math:`b_i`.
 
-        If nothing is passed, it will default to `(0.05, 0.05)`.
+        Defaults to `(0.05, 0.05)`.
 
     """
 
@@ -344,14 +340,14 @@ class Polytope(Neighbourhood):
         Matrix to represent the normal vectors :math:`a_i` of the half
         spaces, i.e. :math:`A = (a_1, ... , a_m)^t`.
 
-        If nothing is passed, it will default to :math:`(I_2, -I_2)^t`,
+        Defaults to :math:`(I_2, -I_2)^t`,
         where :math:`I_d` is the d-dimensional identity matrix.
 
     b : array_like of shape (m, ), optional
         Vector representing the :math:`b` of the half spaces, i.e.
         :math:`b = (b_1, ... , b_m)^t`.
 
-        If nothing is passed, it will default to `(0.05,...,0.05)`.
+        Defaults to `(0.05, 0.05, 0.05, 0.05)`.
 
 
     Raises

@@ -79,7 +79,7 @@ class InfluenceModel(ComponentWithStatistics, ABC):
 class IdentityInfluenceModel(InfluenceModel):
     """An influence model which ignores most influences and just calculates
     the true wind if only the apparent wind is given.
-    IF 'BSP' is not provided by the data, 'SOG' is used instead."""
+    IF `"BSP"` is not provided by the data, `"SOG"` is used instead."""
 
     def remove_influence(self, data: dict):
         """
@@ -88,12 +88,12 @@ class IdentityInfluenceModel(InfluenceModel):
         Parameters
         ----------
         data : dict
-            Data dictionary, must either provide 'BSP' or 'SOG' key as well as
-            either the keys 'TWS', 'TWA' or 'AWS', 'AWA'.
+            Data dictionary, must either provide `"BSP"` or `"SOG"` key as well as
+            either the keys `"TWS"`, `"TWA"` or `"AWS"`, `"AWA"`.
 
         Returns
         -------
-        (n,3)-array, {}
+        (n,3)-array
 
         See also
         --------
@@ -113,7 +113,7 @@ class IdentityInfluenceModel(InfluenceModel):
         influence_data : dict
             Either a dictionary of lists or a dictionary of values containing
             one or more sets of influence data.
-            At least the keys 'TWS' and 'TWA' have to be provided.
+            At least the keys `"TWS"` and `"TWA"` have to be provided.
 
         See also
         --------
@@ -139,19 +139,19 @@ class IdentityInfluenceModel(InfluenceModel):
 
 class WindAngleCorrectingInfluenceModel(InfluenceModel):
     """
-    An influence model which corrects a structural measurement error in 'TWA'.
+    An influence model which corrects a structural measurement error in `"TWA"`.
 
     Parameters
     ----------
     wa_shift: int or float, optional
         Difference between real wind angle and measured wind angle (correction value).
 
-        Defaults to 0.
+        Defaults to `0`.
 
     interval_size: int or float, optional
         Interval size used in the fitting method.
 
-        Defaults to 30.
+        Defaults to `30`.
     """
 
     def __init__(self, interval_size=30, wa_shift=0):
@@ -192,13 +192,12 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
     def fit(self, training_data):
         """
         The wind angle with the lowest density of measured wind angles is assumed to be the
-        actual zero. The data density is computed using gauss kernel functions
-        :math:`e^{\frac{wa - wa'}{l}}`, where :math:`l` can be seen as the size of
-        an interval on which the gauss kernel is stretched.
+        actual zero. The data density is computed using gauss kernel functions :math:`e^{\\frac{wa - wa'}{l}}`,
+        where :math:`l` can be seen as the size of an interval on which the gauss kernel is stretched.
 
-        Parameter
-        ---------
-        training_data: Data containing key "TWA"
+        Parameters
+        ----------
+        training_data: Data containing key `"TWA"`
 
         See also
         --------

@@ -105,12 +105,12 @@ class PolarPipeline:
     pre_expander_weigher : Weigher, optional
         Determines the method with which the points will be weighted before application of the expander.
 
-        Defaults to `CylindricMeanWeigher()`
+        Defaults to `CylindricMeanWeigher()`.
 
     pre_expander_filter : Filter, optional
         Determines the method with which the points will be filtered with before application of the expander.
 
-        Defaults to `QuantileFilter()`
+        Defaults to `QuantileFilter()`.
 
     expander: Expander, optional
         Determines the method which will be used to expand the data by several more data fields.
@@ -123,12 +123,12 @@ class PolarPipeline:
         Defaults to `CylindricMeanWeigher()`.
 
     pre_influence_filter, pre_filter : Filter, optional
-        Determines the methods which the points will be filtered with before application of the influence model.
+        Determines the methods the points are filtered with before application of the influence model.
 
         Defaults to `QuantileFilter()`.
 
     influence_model : InfluenceModel, optional
-        Determines the influence model which is applied and fitted to the data.
+        Determines the influence model which will be applied and fitted to the data.
 
         Defaults to 'IdentityInfluenceModel()'.
 
@@ -246,38 +246,38 @@ class PolarPipeline:
         ---------------------------
 
         pre_expander_weighing : bool, optional
-            Specifies, whether the pre_influence_weigher is applied before application of the
-            expander.
-            Otherwise, each point will be assigned the weight 1.
+            Specifies, whether the `pre_influence_weigher` is applied before application of the
+            `expander`.
+            Otherwise, each point will be assigned the weight `1`.
 
             Defaults to `True`.
 
         pre_expander_filtering : bool, optional
-            Specifies, whether the pre_influence_filter is applied before application of the expander.
+            Specifies, whether the `pre_influence_filter` is applied before application of the `expander`.
 
             Defaults to `True`.
 
 
         pre_influence_weighing, pre_weighing : bool, optional
-            Specifies, whether the pre_influence_weigher is applied before application of the
-            influence model.
-            Otherwise, each point will be assigned the weight 1.
+            Specifies, whether the `pre_influence_weigher` is applied before application of the
+            `influence_model`.
+            Otherwise, each point will be assigned the weight `1`.
 
             Defaults to `True`.
 
         pre_influence_filtering, pre_filtering : bool, optional
-            Specifies, whether the pre_influence_filter is applied before application of the influence model.
+            Specifies, whether the `pre_influence_filter` is applied before application of the `influence_model`.
 
             Defaults to `True`.
 
         smoothing : bool, optional
             Specifies, if measurement errors of the time series will be
-            smoothened after pre_filtering.
+            smoothened after `pre_filtering`.
 
         post_weighing, weighing : bool, optional
             Specifies, if points will be weighed after application of the
-            influence model.
-            Otherwise, each point will be assigned the weight 1.
+            `influence_model`.
+            Otherwise, each point will be assigned the weight `1`.
 
             Defaults to `True`.
 

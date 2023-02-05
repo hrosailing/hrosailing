@@ -65,7 +65,7 @@ class RemoveOnlyImputator(Imputator):
 class FillLocalImputator(Imputator):
     """
     An `Imputator` which assumes that the data has been stored chronologically
-    and contains the field 'datetime'.
+    and contains the field `"datetime"`.
     Fills missing data by:
     - deleting columns that only contain `None` values,
     - deleting rows between two data-points that are far apart in time,

@@ -133,7 +133,7 @@ class CsvFileHandler(DataHandler):
     date_format : str, optional
         Format string compatible with `datetime.strptime` indicating which strings will be treated as dates.
 
-        Defaults to '%Y-%m-%d %H:%M:%S.%f'.
+        Defaults to `"%Y-%m-%d %H:%M:%S.%f"`.
     """
 
     # Check if pandas is available to use from_csv()-method

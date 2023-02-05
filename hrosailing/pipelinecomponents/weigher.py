@@ -54,7 +54,7 @@ class WeightedPoints:
         `[data[key][i] for key in data.keys()]` for each suitable `i`.
         If given as a `numpy.ndarray`, the rows will be interpreted as data points.
 
-    weights : scalar or array_like of shape (n,)
+    weights : scalar or array_like of shape (n, )
         If the weights of the points are known beforehand,
         they can be given as an argument. If weights are
         passed, they will be assigned to the points
@@ -185,8 +185,8 @@ class Weigher(ComponentWithStatistics, ABC):
         minimal and maximal weight as well as a list of percentages of how many
         weights are contained in each 10th of the span between the minimal and
         maximal weight.
-        The respective keys are `average_weight`, `minimal_weight`, `maximal_weight` and
-        `quantiles`.
+        The respective keys are `"average_weight"`, `"minimal_weight"`, `"maximal_weight"` and
+        `"quantiles"`.
 
         Parameters
         ----------
@@ -260,7 +260,7 @@ class AllOneWeigher(Weigher):
 
     def weigh(self, points) -> (np.ndarray, dict):
         """
-        Assigns weights according to the procedure defined above.
+        Assigns weights according to the procedure described above.
 
         See also
         --------
@@ -504,7 +504,7 @@ class FluctuationWeigher(Weigher):
     weight is set to 0.
 
     If more than one attribute is used, the weights described above will be computed for each such attribute
-    and then multiplied.
+    and will then be multiplied.
 
     Parameters
     ----------
@@ -541,8 +541,8 @@ class FluctuationWeigher(Weigher):
         Parameters
         ----------
         points : Data
-            Has to contain the key "datetime" and all keys contained in the "dimension" parameter during initialization.
-            Fields which do not contain `float` values are ignored.
+            Has to contain the key `"datetime"` and all keys contained in the `dimension` parameter during
+            initialization. Fields which do not contain `float` values are ignored.
 
         See also
         --------
@@ -790,22 +790,22 @@ class FuzzyVariable:
     For example, the following notations work for a `FuzzyVariable` `x`, `int` or `float`
     Variables `a`, `b`, `s` and `key` such that `x.__getitem__(key)` works:
 
-        - x < a, x <= a, x > a, x >= a, x == a
+    - `x < a`, `x <= a`, `x > a`, `x >= a`, `x == a`
             refers to the respective truth function
             (using sigmoid activation function),
 
-        - x(s) < a, ... (same as above, but with sharpness `s` used),
+    - `x(s) < a`, ... (same as above, but with sharpness `s` used),
 
-        - x[key] < a, ... (same as above, but the truth function will be
+    - `x[key] < a`, ... (same as above, but the truth function will be
             applied after getting the item referenced by `key`),
 
-        - x[key](s) < a, ... (the both notations above combined),
+    - `x[key](s) < a`, ... (the both notations above combined),
 
-        - (x < a) & (x > b), ... ('and' concatenation),
+    - `(x < a) & (x > b)`, ... ('and' concatenation),
 
-        - (x < a) | (x > b), ... ('or' concatenation),
+    - `(x < a) | (x > b)`, ... ('or' concatenation),
 
-        - ~(x < a), ... ('not' operation).
+    - `~(x < a)`, ... ('not' operation).
 
     Parameters
     ----------

@@ -34,7 +34,7 @@ except ModuleNotFoundError:
 
 class OutsideGridException(Exception):
     """Exception raised if point accessed in weather model lies
-    outside the available grid"""
+    outside the available grid."""
 
 
 class WeatherModel(ABC):
@@ -100,7 +100,7 @@ class GriddedWeatherModel(WeatherModel):
     def grid(self):
         """
         The dimensions of the grid given as an iterable containing times,
-        an `numpy.ndarray` containing the latitudes and an `numpy.ndarray`
+        a `numpy.ndarray` containing the latitudes and a `numpy.ndarray`
         containing the longitudes.
         """
         return self._times, self._lats.copy(), self._lons.copy()
@@ -221,7 +221,7 @@ class GriddedWeatherModel(WeatherModel):
     def from_file(cls, path):
         """
         Reads a gridded weather model from a compatible `json` file
-        (for example those created via the `to_file` method)
+        (for example those created via the `to_file` method).
 
         Parameters
         ---------

@@ -50,12 +50,12 @@ def from_csv(csv_path, fmt="hro"):
     fmt : str
         The format of the .csv file.
 
-        - `hro` : format created by the `to_csv`-method of the `PolarDiagram` class.
-        - `orc` : format found at [ORC](https://\
-            jieter.github.io/orc-data/site/).
-        - `opencpn` : format created by the [OpenCPN Polar Plugin](https://\
-            opencpn.org/OpenCPN/plugins/polar.html).
-        - `array` : tab-separated polar diagram in form of a table, also
+        - `"hro"` : format created by the `to_csv`-method of the `PolarDiagram` class,
+        - `"orc"` : format found at [ORC](https://\
+            jieter.github.io/orc-data/site/),
+        - `"opencpn"` : format created by the [OpenCPN Polar Plugin](https://\
+            opencpn.org/OpenCPN/plugins/polar.html),
+        - `"array"` : tab-separated polar diagram in form of a table, also
             see the example files for a better look at the format.
 
     Returns

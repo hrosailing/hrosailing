@@ -61,7 +61,7 @@ def convex_direction(
     im: Optional[InfluenceModel] = None,
     influence_data: Optional[dict] = None,
 ) -> List[Direction]:
-    """Given a direction, computes the "fastest" way to sail in
+    """Given a direction, computes the 'fastest' way to sail in
     that direction, assuming constant wind speed `ws`.
 
     If sailing straight into direction is the fastest way, function
@@ -97,7 +97,7 @@ def convex_direction(
     -------
     edge : list of Directions
         Either just one `Direction` instance, if sailing into `direction`
-        is the optimal way, or two `Direction` instances, that will be "equal"
+        is the optimal way, or two `Direction` instances, that will be 'equal'
         to `direction`.
 
     Raises
@@ -287,13 +287,12 @@ def cost_cruise(
     as a function dependent on distance travelled (s) by numerically solving
     the initial value problem
 
-    ..math::
-        t(0) = 0, \\frac{dt}{ds} = \\frac{1}{bsp(s,t)}.
+    .. math:: t(0) = 0, \\frac{dt}{ds} = \\frac{1}{bsp(s,t)}.
 
     Using this, it then uses numeric integration to predict the total costs as
 
-    ..math::
-        int_{0}^{l} cost(s, t(s)) \\,ds + abs\\_cost(t(l), l).
+    .. math::
+        \\int_{0}^{l} cost(s, t(s)) \\,ds + abs\\\\_cost (t(l), l).
 
     Note that the costs in this mathematical description indirectly depend on
     weather forecast data, organized by a `WeatherModel`.
@@ -310,7 +309,7 @@ def cost_cruise(
     start_time : datetime.datetime
         The time at which the traveling starts.
     wm : WeatherModel
-        The weather model used. Needs to support the keys 'TWA' and 'TWS'.
+        The weather model used. Needs to support the keys `"TWA"` and `"TWS"`.
     cost_fun_dens : callable, optional
         Function giving a cost density for given time as `datetime.datetime`,
         latitude as float, longitude as float and WeatherModel.
@@ -415,10 +414,10 @@ def isochrone(
     total_time : float, optional
         The time in hours that the vessel is supposed to travel
         in the given direction.
-        Defaults to 1.
+        Defaults to `1`.
     min_nodes : int, optional
         The minimum amount of sample points to sample the position space.
-        Defaults to 100.
+        Defaults to `100`.
     im : InfluenceModel, optional
         The influence model used.
 
@@ -544,10 +543,10 @@ def _wind_relative_to_north(wind, wind_fmt):
         Specification how to interpret the parameter `wind`.
 
         - "ws_wan": `wind` is interpreted as
-            (true wind speed, wind angle relative to north)
+            (true wind speed, wind angle relative to north),
         - "ws_wa_hdt": `wind` is interpreted as
             (true wind speed, true wind angle,
-            heading of the boat relative to north)
+            heading of the boat relative to north),
         - "uv_grd": `wind` is interpreted as (u_grd, v_grd) as can be read from
             a GRIB file.
 

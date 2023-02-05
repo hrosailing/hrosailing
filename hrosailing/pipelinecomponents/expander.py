@@ -66,10 +66,10 @@ class WeatherExpander(Expander):
     exception_handling_mode: {"delete", "ignore"}, optional
         Describes how to handle weather cases which throw an OutsideGridException.
 
-        - "delete" : delete the occurances
-        - "ignore" : fill the corresponding records with `None`
+        - `"delete"` : delete the occurrences,
+        - `"ignore"` : fill the corresponding records with `None`.
 
-        Defaults to "delete"
+        Defaults to `"delete"`.
     """
 
     def __init__(self, weather_model, exception_handling_mode="delete"):

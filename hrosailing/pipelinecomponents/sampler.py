@@ -68,7 +68,7 @@ class UniformRandomSampler(Sampler):
         Parameters
         ----------
         pts : array_like of shape (n, 2)
-            Points in whose convex hull the produced samples will lie.
+            Points in which convex hull the produced samples will lie.
 
         Returns
         -------
@@ -102,7 +102,7 @@ def _create_bounds(pts):
 
 class FibonacciSampler(Sampler):
     """A sampler that produces sample points on a moved and scaled version
-    of the spiral (sqrt(x) * cos(x), sqrt(x) * sin(x)), such that the angles
+    of the spiral :math:`(sqrt(x) * cos(x), sqrt(x) * sin(x))`, such that the angles
     are distributed equidistantly by the inverse golden ratio.
 
     The sample points all lie in the smallest enclosing circle
@@ -170,7 +170,7 @@ class FibonacciSampler(Sampler):
 class ArchimedeanSampler(Sampler):
     """A sampler that produces a number of approximately equidistant
     sample points on a moved and scaled version of the archimedean spiral
-    (x * cos(x), x * sin(x)).
+    :math:`(x * cos(x), x * sin(x))`.
 
     The sample points all lie in the smallest enclosing circle
     of given data points.

@@ -22,9 +22,9 @@ class PipelineExtension(ComponentWithStatistics, ABC):
 
     @abstractmethod
     def process(self, weighted_points):
-        """This method, given an instance of WeightedPoints, should
+        """This method, given an instance of `WeightedPoints`, should
         return a polar diagram object, which represents the trends
-        and data contained in the WeightedPoints instance.
+        and data contained in the `WeightedPoints` instance.
 
         Parameters
         -----------
@@ -48,7 +48,7 @@ class TableExtension(PipelineExtension):
     Parameters
     ----------
     wind_resolution : tuple of two array_likes or scalars, or str, optional
-        Wind speed and angle resolution to be used in the final table.
+        Wind speed and wind angle resolution to be used in the final table.
         Can be given as:
 
         - a tuple of two `array_likes` with scalar entries, that
@@ -56,9 +56,9 @@ class TableExtension(PipelineExtension):
         - a tuple of two `scalars`, which will be used as
         step-sizes for the resolutions,
         - the str `"auto"`, which will result in a resolution, that is
-        somewhat fitted to the data.
+        somewhat fitted to the data,
         - the str `"min_max"`, which will result in a resolution defined by the
-        minimum and maximum of the data
+        minimum and maximum of the data.
 
         Defaults to `"min_max"`.
 
@@ -325,7 +325,7 @@ class PointcloudExtension(PipelineExtension):
 
 class InterpolationWarning(Warning):
     """Warning raised if neighbourhood is too small for
-    successful interpolation
+    successful interpolation.
     """
 
 

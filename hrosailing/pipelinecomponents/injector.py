@@ -1,5 +1,5 @@
 """
-Contains the base class `Injector` to be used as a component of the pipeline.
+Defines the base class `Injector` to be used as a component of the pipeline.
 
 Also contains the predefined and ready to use injectors:
 
@@ -68,9 +68,6 @@ class ZeroInjector(Injector):
         -------
         app_points : WeightedPoints
             Points to append to the original points.
-        statistics : dict
-            `statistics` is empty.
-
         """
 
         ws = weighted_points.data[:, 0]

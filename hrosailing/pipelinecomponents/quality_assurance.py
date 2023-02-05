@@ -47,12 +47,12 @@ class MinimalQualityAssurance(QualityAssurance):
         Returns
         -------
         statistics: dict
-            Dictionary containing the keys
+            Dictionary containing the following keys:
 
-            - 'max_error' : the maximal absolute difference between the boat speed of a test point the corresponding polar diagram output,
-            - 'min_error' : the minimal absolute difference between the boat speed of a test point the corresponding polar diagram output,
-            - 'average_error' : the average absolute difference between the boat speed of a test point the corresponding polar diagram output,
-            - 'average_quadratic_error' : the average quadratic difference between the boat speed of a test point the corresponding polar diagram output.
+            - `"max_error"` : the maximal absolute difference between the boat speed of a test point the corresponding polar diagram output,
+            - `"min_error"` : the minimal absolute difference between the boat speed of a test point the corresponding polar diagram output,
+            - `"average_error"` : the average absolute difference between the boat speed of a test point the corresponding polar diagram output,
+            - `"average_quadratic_error"` : the average quadratic difference between the boat speed of a test point the corresponding polar diagram output.
 
         See also
         ---------
@@ -79,18 +79,18 @@ class ComformingQualityAssurance(QualityAssurance):
         Returns
         -------
         statistics: dict
-            Dictionary containing the keys
+            Dictionary containing the following keys:
 
-            - 'max_error' : the maximal absolute difference between the boat speed of a test point the corresponding polar diagram output,
-            - 'min_error' : the minimal absolute difference between the boat speed of a test point the corresponding polar diagram output,
-            - 'average_error' : the average absolute difference between the boat speed of a test point the corresponding polar diagram output,
-            - 'average_quadratic_error' : the average quadratic difference between the boat speed of a test point the corresponding polar diagram output.
-            - 'max_zero_val' : the maximal value of the polar diagram for wind angles of 0 or 360 degree and wind speed between 0 and 20,
-            - 'min_zero_val': the minimal value of the polar diagram for wind angles of 0 or 360 degree and wind speed between 0 and 20,
-            - 'average_zero_val': the average value of the polar diagram for wind angles of 0 or 360 degree and wind speed between 0 and 20,
-            - 'average_quadratic_zero_val': the average squared value of the polar diagram for wind angles of 0 or 360 degree and wind speed between 0 and 20,
-            - 'test_covering': number of unique test cases when rounded to the nearest integer,
-            - 'local_test_data_difference': maximal difference in boat speeds in test cases where wind speed and wind angle are rounded to the same nearest integer respectively.
+            - `"max_error"` : the maximal absolute difference between the boat speed of a test point the corresponding polar diagram output,
+            - `"min_error"` : the minimal absolute difference between the boat speed of a test point the corresponding polar diagram output,
+            - `"average_error"` : the average absolute difference between the boat speed of a test point the corresponding polar diagram output,
+            - `"average_quadratic_error"` : the average quadratic difference between the boat speed of a test point the corresponding polar diagram output,
+            - `"max_zero_val"` : the maximal value of the polar diagram for wind angles of 0 or 360 degree and wind speed between 0 and 20,
+            - `"min_zero_val"`: the minimal value of the polar diagram for wind angles of 0 or 360 degree and wind speed between 0 and 20,
+            - `"average_zero_val"`: the average value of the polar diagram for wind angles of 0 or 360 degree and wind speed between 0 and 20,
+            - `"average_quadratic_zero_val"`: the average squared value of the polar diagram for wind angles of 0 or 360 degree and wind speed between 0 and 20,
+            - `"test_covering"`: number of unique test cases when rounded to the nearest integer,
+            - `"local_test_data_difference"`: maximal difference in boat speeds in test cases where wind speed and wind angle are rounded to the same nearest integer respectively.
 
         See also
         ---------
