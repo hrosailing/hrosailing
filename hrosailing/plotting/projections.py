@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt
 from matplotlib.projections.polar import PolarAxes
 from matplotlib.axes import Axes
 from matplotlib.projections import register_projection
-from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits.mplot3d import Axes3D as pltAxes3D
 import numpy as np
 from matplotlib.cm import ScalarMappable
 from matplotlib.tri import Triangulation
@@ -215,7 +215,7 @@ class HROColorGradient(Axes):
         self.scatter(ws, wa, c=color_gradient, **legend_kw)
 
 
-class HRO3D(Axes3D):
+class Axes3D(pltAxes3D):
     """Projection enabling the display of polar diagrams in a three dimensional plot."""
     name = "hro 3d"
 
@@ -319,7 +319,7 @@ class HRO3D(Axes3D):
 register_projection(HROPolar)
 register_projection(HROFlat)
 register_projection(HROColorGradient)
-register_projection(HRO3D)
+register_projection(Axes3D)
 
 
 def _plot(ax, slices, info, use_radians, use_convex_hull, **kwargs):
