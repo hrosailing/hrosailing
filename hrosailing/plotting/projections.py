@@ -219,10 +219,6 @@ class Axes3D(pltAxes3D):
     """Projection enabling the display of polar diagrams in a three dimensional plot."""
     name = "hro 3d"
 
-    def __init__(self, *args, **kwargs):
-        print("Hallo Welt!")
-        super().__init__(*args, **kwargs)
-
     def scatter(self,
              *args,
              wind=None,
