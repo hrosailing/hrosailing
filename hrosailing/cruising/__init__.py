@@ -107,7 +107,8 @@ def convex_direction(
         direction. For example, this could be the case, if the polar diagram
         only has data for angles between 0 and 180 degrees.
     """
-    _, wa, bsp, *sails = pd.get_slices(ws)
+    labels, slices, info = pd.get_slices(ws, full_info=True)
+    ws, wa, bsp = slices[0]
     if im:
         bsp = im.add_influence(pd, influence_data)
     bsp = np.array(bsp).ravel()
@@ -135,9 +136,9 @@ def convex_direction(
             )
         edge = [Direction(wa[i1], 1), Direction(wa[i2], 1)]
 
-    if sails:
-        edge[0].sail = sails[0][i1]
-        edge[1].sail = sails[0][i2]
+    if info:
+        edge[0].sail = info[0][i1]
+        edge[1].sail = info[0][i2]
 
     if edge[0] == direction:
         return [edge[0]]
