@@ -230,8 +230,8 @@ def cruise(
 
     ws, wdir = _wind_relative_to_north(wind, wind_fmt)
 
-    _, wa, bsp, *_ = pd.get_slices(ws)
-    wa = np.rad2deg(wa)
+    labels, slices, info = pd.get_slices(ws, full_info=True)
+    ws, wa, bsp = slices[0]
     if im:
         for key, val in influence_data.items():
             influence_data[key] = [val] * len(wa)
