@@ -13,7 +13,6 @@ from ._basepolardiagram import (
     PolarDiagramException,
     PolarDiagramInitializationException,
 )
-from ._plotting import _get_new_axis, plot_convex_hull_multisails
 from ._polardiagramtable import PolarDiagramTable
 
 

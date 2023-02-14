@@ -14,13 +14,6 @@ from hrosailing.pipelinecomponents import (
 from hrosailing.wind import convert_apparent_wind_to_true
 
 from ._basepolardiagram import PolarDiagram, PolarDiagramException
-from ._plotting import (
-    plot3d,
-    plot_color_gradient,
-    plot_convex_hull,
-    plot_flat,
-    plot_polar,
-)
 
 
 class PolarDiagramPointcloud(PolarDiagram):
