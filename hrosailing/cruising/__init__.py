@@ -112,7 +112,7 @@ def convex_direction(
     if im:
         bsp = im.add_influence(pd, influence_data)
     bsp = np.array(bsp).ravel()
-    wa = np.array(wa).ravel()
+    wa = np.deg2rad(np.array(wa).ravel())
 
     polar_pts = np.column_stack(
         (bsp * np.cos(wa).ravel(), bsp * np.sin(wa).ravel())
