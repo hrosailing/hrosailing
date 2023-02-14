@@ -276,7 +276,7 @@ class HROColorGradient(Axes):
         ws, wa, bsp = points.T
 
         if show_legend:
-            _show_legend(self, bsp, colors, "Boat Speed", legend_kw)
+            _configure_legend(self, bsp, colors, "Boat Speed", **legend_kw)
 
         color_gradient = _determine_color_gradient(colors, bsp.ravel())
 
@@ -406,7 +406,6 @@ class Axes3D(pltAxes3D):
         )
 
 
-
 register_projection(HROPolar)
 register_projection(HROFlat)
 register_projection(HROColorGradient)
@@ -449,11 +448,13 @@ def _merge(wa, intervals):
     wa_in_intervals = [np.concatenate([wa[interval], [np.NAN]]) for interval in intervals]
     return np.concatenate(wa_in_intervals)[:-1]
 
+
 def _alter_with_info(wa, bsp, info_):
     intervals = _get_info_intervals(info_)
     wa = _merge(wa, intervals)
     bsp = _merge(bsp, intervals)
     return wa, bsp
+
 
 def _get_convex_hull(slice, info_):
     ws, wa, bsp = slice
@@ -493,17 +494,13 @@ def _get_convex_hull(slice, info_):
 
     return ws, wa, bsp, info_
 
-def _check_for_lines(wa):
-    return wa.ndim == 1
-
-def _get_new_axis(kind):
-    return plt.axes(projection=kind)
 
 def _configure_axes(ax, labels, colors, show_legend, legend_kw, **kwargs):
     _configure_colors(ax, labels, colors)
     _check_plot_kw(kwargs, True)
     if show_legend:
-        _show_legend(ax, labels, colors, "True Wind Speed", legend_kw)
+        _configure_legend(ax, labels, colors, "True Wind Speed", **legend_kw)
+
 
 def _set_polar_axis(ax):
     ax.set_theta_zero_location("N")
@@ -607,10 +604,6 @@ def _determine_colors_from_coefficients(coefficients, colors):
     ]
 
 
-def _show_legend(ax, ws, colors, label, legend_kw):
-    _configure_legend(ax, ws, colors, label, **legend_kw)
-
-
 def _configure_legend(ax, ws, colors, label, **legend_kw):
     if _plot_with_color_gradient(ws, colors):
         _set_colormap(ws, colors, ax, label, **legend_kw)
@@ -678,156 +671,3 @@ def _remove_3d_tick_labels_for_polar_coordinates(ax):
 
 def _create_color_map(colors):
     return LinearSegmentedColormap.from_list("cmap", list(colors))
-
-
-def _determine_face_colors(color_map, ws):
-    return color_map((ws - ws.min()) / float((ws - ws.min()).max()))
-
-
-def plot_convex_hull(
-        ws, wa, bsp, ax, colors, show_legend, legend_kw, _lines, **plot_kw
-):
-    if ax is None:
-        ax = _get_new_axis("polar")
-    _set_polar_axis(ax)
-
-    _check_plot_kw(plot_kw, _lines)
-
-    wa, bsp = _convex_hull(zip(wa, bsp))
-
-    _plot(ws, wa, bsp, ax, colors, show_legend, legend_kw, **plot_kw)
-
-
-def _convex_hull(slices):
-    xs, ys = [], []
-    for wa, bsp in slices:
-        wa = np.asarray(wa)
-        bsp = np.asarray(bsp)
-
-        # convex hull is line between the two points
-        # or is equal to one point
-        if len(wa) < 3:
-            xs.append(wa)
-            ys.append(bsp)
-            continue
-
-        conv = _convex_hull_in_polar_coordinates(wa, bsp)
-        vert = conv.vertices
-        x, y = zip(
-            *([(wa[i], bsp[i]) for i in vert] + [(wa[vert[0]], bsp[vert[0]])])
-        )
-        xs.append(list(x))
-        ys.append(list(y))
-
-    return xs, ys
-
-
-def _convex_hull_in_polar_coordinates(wa, bsp):
-    polar_points = np.column_stack((bsp * np.cos(wa), bsp * np.sin(wa)))
-    return ConvexHull(polar_points)
-
-
-def plot_convex_hull_multisails(
-        ws, wa, bsp, members, ax, colors, show_legend, legend_kw, **plot_kw
-):
-    if ax is None:
-        ax = _get_new_axis("polar")
-
-    _set_polar_axis(ax)
-
-    _check_plot_kw(plot_kw)
-
-    xs, ys, members = _get_convex_hull_multisails(ws, wa, bsp, members)
-
-    if colors is None:
-        colors = plot_kw.pop("color", None) or plot_kw.pop("c", None) or []
-    colors = dict(colors)
-    _set_colors_multisails(ax, members, colors)
-
-    if legend_kw is None:
-        legend_kw = {}
-    if show_legend:
-        _set_legend_multisails(ax, colors, **legend_kw)
-
-    for x, y in zip(list(xs), list(ys)):
-        ax.plot(x, y, **plot_kw)
-
-
-def _get_convex_hull_multisails(ws, wa, bsp, members):
-    xs = []
-    ys = []
-    membs = []
-    for s, w, b in zip(ws, wa, bsp):
-        w = np.asarray(w)
-        b = np.asarray(b)
-        conv = _convex_hull_in_polar_coordinates(w, b)
-        vert = sorted(conv.vertices)
-
-        x, y, memb = zip(
-            *(
-                    [(w[i], b[i], members[i]) for i in vert]
-                    + [(w[vert[0]], b[vert[0]], members[vert[0]])]
-            )
-        )
-        x = list(x)
-        y = list(y)
-        memb = list(memb)
-
-        for i in range(len(vert)):
-            xs.append(x[i: i + 2])
-            ys.append(y[i: i + 2])
-            membs.append(memb[i: i + 2] + [s])
-
-    return xs, ys, membs
-
-
-def _set_colors_multisails(ax, members, colors):
-    colorlist = []
-
-    for member in members:
-        # check if edge belongs to one or two sails
-        # If it belongs to one sail, color it in that sails color
-        # else color it in neutral color
-        if len(set(member[:2])) == 1:
-            color = colors.get(member[0], "blue")
-        else:
-            color = colors.get("neutral", "gray")
-
-        if is_color_like(color):
-            colorlist.append(color)
-            continue
-
-        color = dict(color)
-        colorlist.append(color.get(member[2], "blue"))
-
-    ax.set_prop_cycle("color", colorlist)
-
-
-def _set_legend_multisails(ax, colors, **legend_kw):
-    handles = []
-    for key in colors:
-        color = colors.get(key, "blue")
-
-        if is_color_like(color):
-            legend = Line2D([0], [0], color=color, lw=1, label=key)
-            handles.append(legend)
-            continue
-
-        color = dict(color)
-        legends = [
-            Line2D(
-                [0],
-                [0],
-                color=color.get(ws, "blue"),
-                lw=1,
-                label=f"{key} at TWS {ws}",
-            )
-            for ws in color
-        ]
-        handles.extend(legends)
-
-    if "neutral" not in colors:
-        legend = Line2D([0], [0], color="gray", lw=1, label="neutral")
-        handles.append(legend)
-
-    ax.legend(handles=handles, **legend_kw)
