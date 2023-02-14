@@ -131,7 +131,7 @@ class HROPolar(PolarAxes):
              ):
         """
         Plots the given data as a polar plot.
-        API is the same as `plot`.
+        Parameters are identical to `plot`.
 
         See also
         -------
@@ -184,6 +184,33 @@ class HROFlat(Axes):
         labels, slices, info = pd.get_slices(ws, full_info=True)
         _configure_axes(self, labels, colors, show_legend, legend_kw, **kwargs)
         _plot(self, slices, info, False, use_convex_hull, **kwargs)
+
+    def scatter(self,
+             *args,
+             ws=None,
+             colors=("green", "red"),
+             show_legend=False,
+             use_convex_hull=False,
+             legend_kw=None,
+             **kwargs
+             ):
+        """
+        Creates rectilinear scatter plot of a `PolarDiagram` instance.
+        Otherwise it works the same as `HROPolar.plot`
+
+        See also:
+        ----------
+        `HROPolar.plot`
+        """
+
+        if not isinstance(args[0], PolarDiagram):
+            super().scatter(*args, **kwargs)
+            return
+
+        pd = args[0]
+        labels, slices, info = pd.get_slices(ws, full_info=True)
+        _configure_axes(self, labels, colors, show_legend, legend_kw, **kwargs)
+        _plot(self, slices, info, False, use_convex_hull, True, **kwargs)
 
 
 class HROColorGradient(Axes):
