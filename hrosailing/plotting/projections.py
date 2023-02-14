@@ -3,8 +3,10 @@ Contains projections and functions for plotting objects of the hrosailing framew
 Currently the plot of `PolarDiagram` objects is supported.
 Defines the following projections:
 
-- 'hro polar' : plot polar diagrams in a polar plot (see `HROPolar.plot`)
-- 'hro flat' : plot polar diagrams in an euclidean plot (see `HROFlat.plot`)
+- "hro polar" : plot and scatter polar diagrams in a polar plot (see `HROPolar`)
+- "hro flat" : plot and scatter polar diagrams in an euclidean plot (see `HROFlat`)
+- "hro color gradient" : plot two dimensional heat maps of a polar diagram (see `HROColorGradient`)
+- "hro 3d" : scatter or plot the surface of the three dimensional representation of a polar diagram (see `Axes3D`)
 
 Examples
 --------
