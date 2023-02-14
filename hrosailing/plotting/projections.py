@@ -294,7 +294,7 @@ class Axes3D(pltAxes3D):
              **kwargs
              ):
         """
-        Uses the same API as `HROColorGradient.scatter`.
+        Works identical to `HROColorGradient.scatter`.
 
         See also
         ---------
@@ -309,9 +309,36 @@ class Axes3D(pltAxes3D):
 
         self._plot3d(x, y, z, colors, **kwargs)
 
+    def plot(self, *args, **kwargs):
+        """
+        Works identical to `plot_surface` on polar diagrams.
+        Otherwise it works like `mpl_toolkits.mplot3d.Axes3D.plot`.
+
+        See also
+        --------
+        `Axes3D.plot_surface`
+        `mpl_toolkits.mplot3d.Axes3D.plot`
+        """
+        if not isinstance(args[0], PolarDiagram):
+            super().plot(*args, **kwargs)
+            return
+
+        self.plot_surface(*args, **kwargs)
+
     def plot_surface(self, *args, wind=None, colors=("green", "red"), **kwargs):
+        """
+        Plots a three dimensional depiction of the polar diagram as a triangulated surface plot if a
+        polar diagram is given. Otherwise it works as `mpl_toolkits.mplot3d.plot_surface`.
+        Parameters are the same as in `HROColorGradient.scatter`.
+
+        See also
+        --------
+        `HROColorGradient.scatter`
+        `mpl_toolkits.mplot3d.Axes3D.plot_surface`
+        """
         if not isinstance(args[0], PolarDiagram):
             super().plot_surface(*args, **kwargs)
+            return
 
         pd = args[0]
         x, y, z = self._prepare_points(pd, wind)
