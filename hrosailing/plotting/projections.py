@@ -116,11 +116,40 @@ class HROPolar(PolarAxes):
             super().plot(*args, **kwargs)
             return
 
+        labels, slices, info = self._prepare_plot(args, ws, n_steps, colors, show_legend, legend_kw, **kwargs)
+        _plot(self, slices, info, True, use_convex_hull, **kwargs)
+
+    def scatter(self,
+             *args,
+             ws=None,
+             n_steps=None,
+             colors=("green", "red"),
+             show_legend=False,
+             legend_kw=None,
+             use_convex_hull=False,
+             **kwargs
+             ):
+        """
+        Plots the given data as a polar plot.
+        API is the same as `plot`.
+
+        See also
+        -------
+        `HROPolar.plot`
+        """
+        if not isinstance(args[0], PolarDiagram):
+            super().scatter(*args, **kwargs)
+            return
+
+        labels, slices, info = self._prepare_plot(args, ws, n_steps, colors, show_legend, legend_kw, **kwargs)
+        _plot(self, slices, info, True, use_convex_hull, True, **kwargs)
+
+    def _prepare_plot(self, args, ws, n_steps, colors, show_legend, legend_kw, **kwargs):
         pd = args[0]
         labels, slices, info = pd.get_slices(ws, n_steps, full_info=True)
         _set_polar_axis(self)
         _configure_axes(self, labels, colors, show_legend, legend_kw, **kwargs)
-        _plot(self, slices, info, True, use_convex_hull, **kwargs)
+        return labels, slices, info
 
 
 class HROFlat(Axes):
@@ -318,7 +347,7 @@ register_projection(HROColorGradient)
 register_projection(Axes3D)
 
 
-def _plot(ax, slices, info, use_radians, use_convex_hull, **kwargs):
+def _plot(ax, slices, info, use_radians, use_convex_hull=False, use_scatter=False, **kwargs):
     def safe_zip(iter1, iter2):
         if iter2 is not None:
             yield from zip(iter1, iter2)
@@ -335,7 +364,10 @@ def _plot(ax, slices, info, use_radians, use_convex_hull, **kwargs):
             wa = np.deg2rad(wa)
         if info_ is not None and not use_convex_hull:
             wa, bsp = _alter_with_info(wa, bsp, info_)
-        ax.plot(wa, bsp, **kwargs)
+        if use_scatter:
+            ax.scatter(wa, bsp, **kwargs)
+        else:
+            ax.plot(wa, bsp, **kwargs)
 
 
 def _get_info_intervals(info_):
