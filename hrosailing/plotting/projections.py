@@ -217,6 +217,16 @@ class HROColorGradient(Axes):
     """Projection supporting two dimensional color gradient plotting of polar diagrams."""
     name = "hro color gradient"
 
+    def plot(self, *args, **kwargs):
+        """
+        Works identical to `scatter`.
+
+        See also
+        ----------
+        `HROColorGradient.scatter`
+        """
+        self.scatter(*args, **kwargs)
+
     def scatter(self,
              *args,
              wind = None,
