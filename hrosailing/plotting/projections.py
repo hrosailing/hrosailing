@@ -157,7 +157,6 @@ class HROPolar(PolarAxes):
 class HROFlat(Axes):
     """
     Projection to plot given data in a rectilinear plot.
-    API works identical to `HROPolar`.
     """
     name = "hro flat"
 
