@@ -303,7 +303,7 @@ class Axes3D(pltAxes3D):
         `HROColorGradient.scatter`
         """
         if not isinstance(args[0], PolarDiagram):
-            super().plot(*args, **kwargs)
+            super().scatter(*args, **kwargs)
             return
 
         pd = args[0]
@@ -386,24 +386,13 @@ class Axes3D(pltAxes3D):
         x, y = bsp*np.sin(wa_rad), bsp*np.cos(wa_rad)
         return x, y, ws
 
-    def _plot3d(self, ws, wa, bsp, colors, **plot_kw):
+    def _plot3d(self, x, y, z, colors, **plot_kw):
         _set_3d_axis_labels(self)
         _remove_3d_tick_labels_for_polar_coordinates(self)
 
         color_map = _create_color_map(colors)
 
-        super().scatter(ws, wa, bsp, c=ws, cmap=color_map, **plot_kw)
-
-    def _plot_surf(self, x, y, z, colors, **plot_kw):
-        _set_3d_axis_labels(self)
-        _remove_3d_tick_labels_for_polar_coordinates(self)
-
-        color_map = _create_color_map(colors)
-        face_colors = _determine_face_colors(color_map, x)
-
-        super().plot_trisurf(
-            x, y, z, facecolors=face_colors, **plot_kw
-        )
+        super().scatter(x, y, z, c=z, cmap=color_map, **plot_kw)
 
 
 register_projection(HROPolar)
