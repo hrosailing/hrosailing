@@ -79,7 +79,12 @@ class InfluenceModel(ComponentWithStatistics, ABC):
 class IdentityInfluenceModel(InfluenceModel):
     """An influence model which ignores most influences and just calculates
     the true wind if only the apparent wind is given.
-    IF `"BSP"` is not provided by the data, `"SOG"` is used instead."""
+    IF `"BSP"` is not provided by the data, `"SOG"` is used instead.
+
+    See also
+    ----------
+    `InfluenceModel`
+    """
 
     def remove_influence(self, data: dict):
         """
@@ -152,6 +157,10 @@ class WindAngleCorrectingInfluenceModel(InfluenceModel):
         Interval size used in the fitting method.
 
         Defaults to `30`.
+
+    See also
+    ----------
+    `InfluenceModel`
     """
 
     def __init__(self, interval_size=30, wa_shift=0):

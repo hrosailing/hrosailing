@@ -87,6 +87,9 @@ class GriddedWeatherModel(WeatherModel):
     attrs : list of length s
         List of different (scalar) attributes of weather.
 
+    See also
+    ----------
+    `WeatherModel`
     """
 
     def __init__(self, data, times, lats, lons, attrs):
@@ -477,6 +480,9 @@ class MultiWeatherModel(WeatherModel):
         raised by some submodel is ignored. If `True` these exceptions are not ignored.
 
         Defaults to `False`.
+    See also
+    ----------
+    `WeatherModel`
     """
 
     def __init__(self, *args, exception_sensitive=False):

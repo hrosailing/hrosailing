@@ -81,6 +81,10 @@ class IDWInterpolator(Interpolator):
     ------
     InterpolatorInitializationException
         If `p` is negative.
+
+    See also
+    ----------
+    `Interpolator`
     """
 
     def __init__(self, p=2, norm: Callable = scaled_euclidean_norm):
@@ -110,6 +114,10 @@ class IDWInterpolator(Interpolator):
         -------
         out : int / float
             Interpolated value at `grid_pt`.
+
+        See also
+        ----------
+        `Interpolator.interpolate`
         """
         pts = w_pts.data
         wts = self._norm(pts[:, :2] - grid_pt)
@@ -178,6 +186,10 @@ class ArithmeticMeanInterpolator(Interpolator):
     ------
     InterpolatorInitializationException
         If `s` is non-positive.
+
+    See also
+    ----------
+    `Interpolator`
     """
 
     def __init__(
@@ -224,6 +236,10 @@ class ArithmeticMeanInterpolator(Interpolator):
         -------
         out : int / float
             Interpolated value at `grid_pt`.
+
+        See also
+        ----------
+        `Interpolator.interpolate`
         """
         pts = w_pts.data
         dist = self._norm(pts[:, :2] - grid_pt)
@@ -259,6 +275,10 @@ class ImprovedIDWInterpolator(Interpolator):
         Norm with which to calculate the distances, i.e. :math:`||.||`.
 
         Defaults to a scaled version of :math:`||.||_2`.
+
+    See also
+    ----------
+    `Interpolator`, `IDWInterpolator`
     """
 
     def __init__(self, norm: Callable = scaled_euclidean_norm):
@@ -281,6 +301,10 @@ class ImprovedIDWInterpolator(Interpolator):
         -------
         out : int / float
             Interpolated value at `grid_pt`.
+
+        See also
+        ----------
+        `Interpolator.interpolate`
         """
         pts = w_pts.data
         dist = self._norm(pts[:, :2] - grid_pt)
@@ -327,6 +351,9 @@ class ShepardInterpolator(Interpolator):
     InterpolatorInitializationException
          If `slope` is non-positive.
 
+    See also
+    ----------
+    `Interpolator`
     """
 
     def __init__(
@@ -373,6 +400,10 @@ class ShepardInterpolator(Interpolator):
         -------
         out : int / float
             Interpolated value at `grid_pt`.
+
+        See also
+        ----------
+        `Interpolator.interpolate`
         """
         pts = w_pts.data
         dist = self._norm(pts[:, :2] - grid_pt)

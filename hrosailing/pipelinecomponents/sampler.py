@@ -54,6 +54,10 @@ class UniformRandomSampler(Sampler):
     ------
     SamplerInitializationException
         If `n_samples` is non-positive.
+
+    See also
+    ----------
+    `Sampler`
     """
 
     def __init__(self, n_samples):
@@ -74,6 +78,10 @@ class UniformRandomSampler(Sampler):
         -------
         samples : numpy.ndarray of shape (n_samples, 2)
             Samples produced by the procedure described above.
+
+        See also
+        ----------
+        `Sampler.sample`
         """
         rng = np.random.default_rng()
         proj_pts = pts[:, :2]
@@ -120,6 +128,10 @@ class FibonacciSampler(Sampler):
     ------
     SamplerInitializationException
         If `n_samples` is non-positive.
+
+    See also
+    ----------
+    `Sampler`
     """
 
     def __init__(self, n_samples):
@@ -140,6 +152,10 @@ class FibonacciSampler(Sampler):
         -------
         samples : numpy.ndarray of shape (n_samples, 2)
             Samples produced by the procedure described above.
+
+        See also
+        ----------
+        `Sampler.sample`
         """
         # calculate smallest circle containing pts
         midpoint, r = _make_circle(pts)
@@ -187,6 +203,10 @@ class ArchimedeanSampler(Sampler):
     ------
     SamplerInitializationException
         If `n_samples` is non-positive.
+
+    See also
+    ----------
+    `Sampler`
     """
 
     def __init__(self, n_samples):
@@ -207,6 +227,10 @@ class ArchimedeanSampler(Sampler):
         -------
         samples : numpy.ndarray of shape (n_samples, 2)
             Samples produced by the procedure described above.
+
+        See also
+        ----------
+        `Sampler.sample`
         """
 
         # calculate enclosing circle

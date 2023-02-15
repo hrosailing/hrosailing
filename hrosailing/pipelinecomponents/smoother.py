@@ -39,6 +39,10 @@ class Smoother(ComponentWithStatistics, ABC):
 class LazySmoother(Smoother):
     """
     Smoother that doesn't do anything.
+
+    See also
+    ----------
+    `Smoother`
     """
 
     def smooth(self, data):
@@ -65,6 +69,10 @@ class AffineSmoother(Smoother):
     ---------
     timespan: datetime.timedelta
         Amount of time before the actual value of an interval is assumed to be the real value.
+
+    See also
+    ----------
+    `Smoother`
     """
 
     def __init__(self, timespan=datetime.timedelta(seconds=30)):

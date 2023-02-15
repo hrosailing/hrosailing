@@ -38,8 +38,12 @@ class QualityAssurance(ABC):
 
 class MinimalQualityAssurance(QualityAssurance):
     """
-    Quality assurance which evaluates the quality of a polar diagram using a small set of well established
+    Quality assurance which evaluates the quality of a polar diagram by using a small set of well established
     statistical metrics.
+
+    See also
+    ----------
+    `QualityAssurance`
     """
 
     def check(self, polar_diagram, test_data):
@@ -70,8 +74,12 @@ class MinimalQualityAssurance(QualityAssurance):
 
 class ComformingQualityAssurance(QualityAssurance):
     """
-    Quality assurance which evaluates the quality of a polar diagram using a small set of well established
+    Quality assurance which evaluates the quality of a polar diagram by using a small set of well established
     statistical metrics and additionally quality features derived from the theory of polar diagrams.
+
+    See also
+    ----------
+    `QualityAssurance`
     """
 
     def check(self, polar_diagram, test_data):

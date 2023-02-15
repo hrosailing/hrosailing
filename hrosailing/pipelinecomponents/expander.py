@@ -41,6 +41,10 @@ class Expander(ComponentWithStatistics, ABC):
 class LazyExpander(Expander):
     """
     Expander that doesn't do anything.
+
+    See also
+    ----------
+    `Expander`
     """
 
     def expand(self, data):
@@ -70,6 +74,10 @@ class WeatherExpander(Expander):
         - `"ignore"` : fill the corresponding records with `None`.
 
         Defaults to `"delete"`.
+
+    See also
+    ----------
+    `Expander`
     """
 
     def __init__(self, weather_model, exception_handling_mode="delete"):

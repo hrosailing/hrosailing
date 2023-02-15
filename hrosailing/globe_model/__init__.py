@@ -149,6 +149,10 @@ class FlatMercatorProjection(GlobeModel):
         The assumed radius of the (spherical) earth in nautical miles.
 
         Defaults to 3440.
+
+    See also
+    ----------
+    `GlobeModel`
     """
 
     def __init__(
@@ -230,6 +234,10 @@ class SphericalGlobe(GlobeModel):
     -----------
     earth_radius: int/float, optional
         The radius of the assumed globe.
+
+    See also
+    ----------
+    `GlobeModel`
     """
 
     def __init__(self, earth_radius=21600 / 2 / np.pi):

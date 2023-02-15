@@ -48,6 +48,10 @@ class ZeroInjector(Injector):
     n_zeros : int
         Number of artificial points to be added at 0 degree and at 360 degree
         respectively.
+
+    See also
+    ----------
+    `Injector`
     """
 
     def __init__(self, n_zeros):
@@ -68,6 +72,10 @@ class ZeroInjector(Injector):
         -------
         app_points : WeightedPoints
             Points to append to the original points.
+
+        See also
+        ----------
+        `Injector.inject`
         """
 
         ws = weighted_points.data[:, 0]

@@ -71,7 +71,12 @@ class DataHandler(ComponentWithStatistics, ABC):
 
 
 class ArrayHandler(DataHandler):
-    """A data handler to interpret data given as an array-type."""
+    """A data handler to interpret data given as an array-type.
+
+    See also
+    ----------
+    `DataHandler`
+    """
 
     # ArrayHandler usable even if pandas is not installed.
     try:
@@ -100,7 +105,7 @@ class ArrayHandler(DataHandler):
 
         See also
         --------
-        `Datahandler.handle`
+        `DataHandler.handle`
         """
         if self.pand and isinstance(data, self.pd.DataFrame):
             data_dict = data.to_dict()
@@ -134,6 +139,10 @@ class CsvFileHandler(DataHandler):
         Format string compatible with `datetime.strptime` indicating which strings will be treated as dates.
 
         Defaults to `"%Y-%m-%d %H:%M:%S.%f"`.
+
+    See also
+    ----------
+    `DataHandler`
     """
 
     # Check if pandas is available to use from_csv()-method
@@ -159,7 +168,7 @@ class CsvFileHandler(DataHandler):
 
         See also
         --------
-        `Datahandler.handle`
+        `DataHandler.handle`
         """
         if self.pand:
             df = self.pd.read_csv(data)
@@ -237,6 +246,10 @@ class NMEAFileHandler(DataHandler):
         If set to `False` all attributes are taken into account.
 
         Defaults to `(float, datetime.date, datetime.time, datetime.datetime)`.
+
+    See also
+    ----------
+    `DataHandler`
     """
 
     def __init__(

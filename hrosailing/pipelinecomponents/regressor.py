@@ -104,12 +104,20 @@ class ODRegressor(Regressor):
 
     @property
     def model_func(self):
-        """Returns a read-only version of `self._func`."""
+        """Returns a read-only version of `self._func`.
+
+        See also
+        ----------
+        `Regressor.model_func`"""
         return self._func
 
     @property
     def optimal_params(self):
-        """Returns a read-only version of `self._popt`."""
+        """Returns a read-only version of `self._popt`.
+
+        See also
+        ----------
+        `Regressor.optimal_params`"""
         return self._popt
 
     def fit(self, data, _enable_logging=False):
@@ -126,7 +134,7 @@ class ODRegressor(Regressor):
 
         See also
         --------
-        [ODRPACK](https://docs.scipy.org/doc/external/odrpack_guide.pdf)
+        [ODRPACK](https://docs.scipy.org/doc/external/odrpack_guide.pdf), `Regressor.fit`
         """
         X, y = data[:, :2], data[:, 2]
 
@@ -183,6 +191,10 @@ class LeastSquareRegressor(Regressor):
         that are passed to `scipy.optimize.curve_fit`.
 
         Defaults to `None`.
+
+    See also
+    ----------
+    `Regressor`
     """
 
     def __init__(self, model_func: Callable, init_vals=None):
@@ -215,12 +227,22 @@ class LeastSquareRegressor(Regressor):
 
     @property
     def model_func(self):
-        """Read-only version of `self._func`."""
+        """Read-only version of `self._func`.
+
+        See also
+        ----------
+        `Regressor.model_func`
+        """
         return self._func
 
     @property
     def optimal_params(self):
-        """Read-only version of `self._popt`."""
+        """Read-only version of `self._popt`.
+
+        See also
+        ----------
+        `Regressor.optimal_params`
+        """
         return self._popt
 
     def fit(self, data, _enable_logging=False):
@@ -238,7 +260,7 @@ class LeastSquareRegressor(Regressor):
         See also
         --------
         [curve_fit](https://docs.scipy.org/doc/scipy/reference/generated/\
-        scipy.optimize.curve_fit.html)
+        scipy.optimize.curve_fit.html), `Regressor.fit`
         """
         X, y = data[:, :2], data[:, 2]
 

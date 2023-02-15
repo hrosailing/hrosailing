@@ -256,7 +256,12 @@ class _BinaryMapWeigher(Weigher):
 
 class AllOneWeigher(Weigher):
     """A weigher that functions mainly as a stand in if the weighing options
-    of the pipeline are set to `False`. Weighs everything as `1`."""
+    of the pipeline are set to `False`. Weighs everything as `1`.
+
+    See also
+    ----------
+    `Weigher`
+    """
 
     def weigh(self, points) -> (np.ndarray, dict):
         """
@@ -302,6 +307,10 @@ class CylindricMeanWeigher(Weigher):
     ------
     WeigherInitializationException
         If radius is non-positive.
+
+    See also
+    ----------
+    `Weigher`
     """
 
     def __init__(self, radius=0.05, norm=None, dimensions=None):
@@ -335,6 +344,10 @@ class CylindricMeanWeigher(Weigher):
         -------
         WeightedPoints : numpy.ndarray of shape (n,)
             Normalized weights of the input points.
+
+        See also
+        ----------
+        `Weigher.weigh`
         """
         dimensions, points, bsps = _set_points_from_data(
             points, self._dimensions
@@ -426,6 +439,10 @@ class CylindricMemberWeigher(Weigher):
         If radius is non-positive.
     WeigherInitializationException
         If length is negative.
+
+    See also
+    ----------
+    `Weigher`
     """
 
     def __init__(self, radius=0.05, length=0.05, norm=None, dimensions=None):
@@ -465,6 +482,10 @@ class CylindricMemberWeigher(Weigher):
         -------
         weights : numpy.ndarray of shape (n,)
             Normalized weights of the input points.
+
+        See also
+        ----------
+        `Weigher.weigh`
         """
 
         self._dimensions, points, bsps = _set_points_from_data(
@@ -521,6 +542,10 @@ class FluctuationWeigher(Weigher):
 
     upper_bounds : list of int or float
         The upper bounds on the standard deviation for each considered attribute.
+
+    See also
+    ----------
+    `Weigher`
     """
 
     def __init__(self, dimensions, timespan, upper_bounds):
@@ -896,7 +921,7 @@ class FuzzyWeigher(Weigher):
 
     See also
     ---------
-    `FuzzyBool`, `FuzzyVariable`
+    `FuzzyBool`, `FuzzyVariable`, `Weigher`
     """
 
     def __init__(self, fuzzy):

@@ -67,6 +67,10 @@ class Ball(Neighbourhood):
     ------
     NeighbourhoodInitializationException
         If `radius` is non-positive.
+
+    See also
+    ----------
+    `Neighbourhood`
     """
 
     def __init__(
@@ -98,6 +102,10 @@ class Ball(Neighbourhood):
         mask : numpy.ndarray of shape (n, )
             Boolean array describing which of the input points
             are members of the neighbourhood.
+
+        See also
+        ----------
+        `Neighbourhood.is_contained_in`
         """
         pts = np.asarray(pts)
         try:
@@ -129,6 +137,9 @@ class ScalingBall(Neighbourhood):
     NeighbourhoodInitializationException
         If `min_pts` is non-positive.
 
+    See also
+    ----------
+    `Neighbourhood`
     """
 
     def __init__(
@@ -167,6 +178,10 @@ class ScalingBall(Neighbourhood):
         points_in_ball : boolean numpy.ndarray of shape (n, )
             Boolean array describing which of the input points
             are members of the neighbourhood.
+
+        See also
+        ----------
+        `Neighbourhood.is_contained_in`
         """
         pts = np.asarray(pts)
 
@@ -210,6 +225,10 @@ class Ellipsoid(Neighbourhood):
         If `radius` is non-positive.
      NeighbourhoodInitializationException
         If `lin_trans` is not a (2,2)-array or is not invertible.
+
+    See also
+    ----------
+    `Neighbourhood`
     """
 
     def __init__(
@@ -261,6 +280,10 @@ class Ellipsoid(Neighbourhood):
         mask : numpy.ndarray of shape (n, )
             Boolean array describing which of the input points
             are members of the neighbourhood.
+
+        See also
+        ----------
+        `Neighbourhood.is_contained_in`
         """
         pts = np.asarray(pts)
 
@@ -288,6 +311,9 @@ class Cuboid(Neighbourhood):
 
         Defaults to `(0.05, 0.05)`.
 
+    See also
+    ----------
+    `Neighbourhood`
     """
 
     def __init__(
@@ -314,6 +340,10 @@ class Cuboid(Neighbourhood):
         mask : numpy.ndarray of shape (n, )
             Boolean array describing which of the input points
             are members of the neighbourhood.
+
+        See also
+        ----------
+        `Neighbourhood.is_contained_in`
         """
         pts = np.asarray(pts)
 
@@ -354,6 +384,10 @@ class Polytope(Neighbourhood):
     ------
     NeighbourhoodInitializationException
         If `mat` and `b` are not of matching shape.
+
+    See also
+    ----------
+    `Neighbourhood`
     """
 
     def __init__(
@@ -392,6 +426,10 @@ class Polytope(Neighbourhood):
         mask : numpy.ndarray of shape (n, )
             Boolean array describing which of the input points
             are members of the neighbourhood.
+
+        See also
+        ----------
+        `Neighbourhood.is_contained_in`
         """
         pts = np.asarray(pts)
 

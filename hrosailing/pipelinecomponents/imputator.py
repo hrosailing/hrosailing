@@ -39,6 +39,10 @@ class Imputator(ComponentWithStatistics, ABC):
 class RemoveOnlyImputator(Imputator):
     """
     Imputator that removes all entries containing None values.
+
+    See also
+    ----------
+    `Imputator`
     """
 
     def impute(self, data):
@@ -117,6 +121,10 @@ class FillLocalImputator(Imputator):
         is smaller than `max_time_diff`.
 
         Defaults to `2 minutes`.
+
+    See also
+    ----------
+    `Imputator`
     """
 
     def __init__(
@@ -151,6 +159,10 @@ class FillLocalImputator(Imputator):
         -------
         data_dict : Data
             `data_dict` is the resulting `Data` object containing no `None` values.
+
+        See also
+        ----------
+        `Imputator.impute`
         """
         self._n_filled = 0
         n_removed_cols = data.n_cols

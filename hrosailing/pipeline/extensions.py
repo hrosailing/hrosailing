@@ -22,7 +22,7 @@ class PipelineExtension(ComponentWithStatistics, ABC):
 
     @abstractmethod
     def process(self, weighted_points):
-        """This method, given an instance of `WeightedPoints`, should
+        """This method should, given an instance of `WeightedPoints`,
         return a polar diagram object, which represents the trends
         and data contained in the `WeightedPoints` instance.
 

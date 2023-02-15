@@ -76,6 +76,10 @@ class QuantileFilter(Filter):
     ------
     FilterInitializationException
         If `percent` is not in the interval :math:`[0, 100]`.
+
+    See also
+    ----------
+    `Filter`
     """
 
     def __init__(self, percent=50):
@@ -128,6 +132,10 @@ class BoundFilter(Filter):
     ------
     FilterInitializationException
         If `lower_bound` is greater than `upper_bound`.
+
+    See also
+    ----------
+    `Filter`
     """
 
     def __init__(self, lower_bound=0.5, upper_bound=1):
