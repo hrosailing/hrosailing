@@ -66,6 +66,8 @@ class IDWInterpolator(Interpolator):
     :math:`\\cfrac{\\sum_{pt} w_{pt} * pt[2]}{\\sum_{pt} w_{pt}}`
     or if :math:`grid\\\\_pt` is already a measured point :math:`pt`, it will equal :math:`pt[2]`.
 
+    Supports the `repr` method.
+
     Parameters
     ----------
     p : non-negative int, optional
@@ -155,6 +157,8 @@ class ArithmeticMeanInterpolator(Interpolator):
 
     Note that this is a more general approach to the inverse distance
     interpolator.
+
+    Supports the `repr` method.
 
     Parameters
     ----------
@@ -324,6 +328,8 @@ class ShepardInterpolator(Interpolator):
     """A full-featured inverse distance interpolator, based
     on the work of Shepard, "A two-dimensional interpolation
     function for irregularly-spaced data".
+
+    Supports the `repr` method.
 
 
     Parameters

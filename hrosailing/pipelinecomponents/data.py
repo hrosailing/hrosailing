@@ -16,10 +16,18 @@ class Data:
     point. Also saves and checks the data types of the corresponding columns.
     Weights might be added to the corresponding rows.
 
-    If `data` is of type `Data`, `data[key]` yields the corresponding column if
-    `key` is a string and the corresponding row if `key` is an integer.
+    If `data` is of type `Data`, `data[key]` yields a reduced version of `data` depending on the type of `key`:
+
+     - if `key` is a string it returns the corresponding column.
+     - if `key` is an integer it returns the corresponding row.
+     - if `key` is an array like of strings, it works identical to `data.get_slice(key)`
+     - if `key` is an array like of booleans, it uses `key` as a boolean mask on the rows.
+
     `key in data` checks if there is a column with key `key`.
-    Iteration is performed over the rows.
+
+    Iteration is supported and is performed over the rows.
+
+    Also supports the `str` method.
     """
 
     def __init__(self):

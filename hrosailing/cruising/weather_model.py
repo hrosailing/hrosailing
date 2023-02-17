@@ -321,7 +321,6 @@ def _recursive_affine_interpolation(point, grid, get_data):
 class NetCDFWeatherModel(GriddedWeatherModel):
     """
     A weather model that uses gridded data from a NetCDF (.nc or .nc4) file.
-    Uses the same interpolation method as `GriddedWeatherModel`.
     The module `netCDF4` has to be installed in order to use this class.
     The methods `from_file`, `to_file` and `from_meteostat` are not supported.
 

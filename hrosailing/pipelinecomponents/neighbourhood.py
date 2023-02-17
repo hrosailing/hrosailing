@@ -51,6 +51,8 @@ class Ball(Neighbourhood):
     """A class to describe a closed 2-dimensional ball
     centered around the origin, i.e. :math:`\\\\{x \\in R^2 : ||x|| \\leq r\\\\}`.
 
+    Supports the `repr` method.
+
     Parameters
     ----------
     radius : positive int or float, optional
@@ -120,6 +122,8 @@ class ScalingBall(Neighbourhood):
     where the radius :math:`r` will be dynamically determined, such that
     there is always a certain amount of given points contained
     in the ball.
+
+    Supports the `repr` method.
 
     Parameters
     ----------

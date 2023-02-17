@@ -79,7 +79,10 @@ class PipelineOutput(NamedTuple):
 
 
 class PolarPipeline:
-    """A Pipeline class to create polar diagrams from raw data.
+    """
+    Organizes pre-processing and processing in order to create polar diagrams from raw data.
+    Use via calling, i.e. `polar_pipeline(training_data, test_data, enabling_keywords)`.
+    The behaviour of the call is documented in `PolarPipeline.execute`.
 
     Other Parameters
     ---------------------------
@@ -214,7 +217,15 @@ class PolarPipeline:
     def __call__(
         self, training_data, test_data=None, apparent_wind=False, **enabling
     ):
+        return self.execute(training_data, test_data, apparent_wind, **enabling)
+
+    def execute(
+            self, training_data, test_data=None, apparent_wind=False, **enabling
+    ):
         """
+        Executes the polar pipeline to create a polar diagram from data.
+        Alternatively you can call the polar pipeline.
+
         Parameters
         ----------
         training_data : list of data compatible with `self.data_handler`
@@ -329,7 +340,7 @@ class PolarPipeline:
             True,
         )
 
-        if is_empty_data(preproc_training_data):
+        if _is_empty_data(preproc_training_data):
             raise RuntimeError(
                 "Empty data after preprocessing. Try to use weaker filters."
             )
@@ -535,18 +546,18 @@ def _collector_fun(comp, method):
     return lambda data: _collect(comp, method, data)
 
 
-def is_empty_data(data):
+def _is_empty_data(data):
     if isinstance(data, pc.data.Data) and data.n_rows == 0:
         return True
     if isinstance(data, np.ndarray) and len(data) == 0:
         return True
     if isinstance(data, pc.WeightedPoints):
-        return is_empty_data(data.data)
+        return _is_empty_data(data.data)
     return False
 
 
 def _weigh_and_filter(data, weigher, filter_, weighing, filtering):
-    if is_empty_data(data):
+    if _is_empty_data(data):
         return (pc.WeightedPoints(data, []), {}, {})
     if weighing:
         weights, weigher_statistics = _collect(weigher, weigher.weigh, data)

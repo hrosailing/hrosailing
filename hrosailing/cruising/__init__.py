@@ -28,7 +28,7 @@ class CruisingException(Exception):
 
 @dataclass
 class Direction:
-    """Dataclass to represent recommended sections of a sailing maneuver."""
+    """Dataclass to represent recommended sections of a sailing maneuver. Supports `str` method."""
 
     #: Right headed angle between the boat heading and the wind direction.
     #:   Same as TWA but from the boat's perspective.
@@ -198,6 +198,7 @@ def cruise(
         - "ws_wan": `wind` is interpreted as
             `(true wind speed, wind angle relative to north)`,
         - "ws_wa_hdt": `wind` is interpreted as
+            `(true wind speed, true wind angle,
             `(true wind speed, true wind angle,
             heading of the boat relative to north)`,
         - "uv_grd": `wind` is interpreted as `(u_grd, v_grd)` as can be read from

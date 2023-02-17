@@ -46,6 +46,9 @@ class WeightedPoints:
     """A class to weigh data points and represent them together
     with their respective weights.
 
+    If `weighted_points` is of type `WeightedPoints` then you can use `weighted_points[mask]` with an array-like over
+    booleans to create a boolean mask over the repective rows of the weighted points.
+
     Parameters
     ----------
     data : Data, dict or numpy.ndarray
@@ -124,6 +127,17 @@ class Weigher(ComponentWithStatistics, ABC):
         """This method should be used to determine a weight for each point
         where the points might be given as `Data` or as `numpy.ndarray` of floating point numbers storing records
         in a row wise fashion and return the resulting weights.
+
+        The following arithmetic operations are supported for `Weigher` instances `weigher`, `weigher1`, `weigher2`,
+         integers `k` and `a` of type `float`, `int` or array like over `float` or `int`:
+
+        - `weigher1 + weigher2`, weigher + a`
+        - `-weigher`, `weigher1 - weigher2`, `weigher - a`
+        - `a*weigher`, `weigher1*weigher2`
+        - `weigher1/weigher2`, `a/weigher`, `weigher/a`
+        - `weigher**k`
+
+        The result will be a weigher producing weights according to the used formula.
 
         Parameters
         ----------
@@ -644,10 +658,16 @@ class FuzzyBool:
     """
     Class representing a fuzzy truth statement, i.e. a function with values
     between 0 and 1 (truth function).
+    The truth function can be evaluated by calling the instance.
     Supports the operators `&`, `|`, `~` for the operators and, or, not.
+    If `fuzzy_bool` is a `FuzzyBool` instance, then `fuzzy_bool[item]` will return a `FuzzyBool` instance
+    evaluating the respective truth function on `x[item]` instead of `x` for a given input `x`.
+
     The easiest way to initialize a `FuzzyBool` object is by using the operators of the
     `FuzzyVariables` class, but it can also be initialized with a custom truth
     function.
+
+    Also supports the `str` method.
 
     Parameters
     ----------
@@ -831,6 +851,8 @@ class FuzzyVariable:
     - `(x < a) | (x > b)`, ... ('or' concatenation),
 
     - `~(x < a)`, ... ('not' operation).
+
+    Also supports the methods `repr` and `str`.
 
     Parameters
     ----------
