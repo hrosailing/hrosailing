@@ -198,9 +198,7 @@ def cruise(
         - "ws_wan": `wind` is interpreted as
             `(true wind speed, wind angle relative to north)`,
         - "ws_wa_hdt": `wind` is interpreted as
-            `(true wind speed, true wind angle,
-            `(true wind speed, true wind angle,
-            heading of the boat relative to north)`,
+            `(true wind speed, true wind angle, heading of the boat relative to north)`,
         - "uv_grd": `wind` is interpreted as `(u_grd, v_grd)` as can be read from
             a GRIB file.
 

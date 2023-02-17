@@ -46,7 +46,7 @@ class WeatherModel(ABC):
 
     @abstractmethod
     def get_weather(self, point):
-        """Given a space-time point, should use interpolate the weather at that point.
+        """Given a space-time point, should interpolate the weather at that point.
 
         Parameters
         ----------
