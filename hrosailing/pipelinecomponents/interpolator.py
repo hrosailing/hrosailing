@@ -69,6 +69,7 @@ class IDWInterpolator(Interpolator):
     Parameters
     ----------
     p : non-negative int, optional
+        The parameter 'p' used in the formulas above.
 
         Defaults to `2`.
 

@@ -46,8 +46,7 @@ class WeatherModel(ABC):
 
     @abstractmethod
     def get_weather(self, point):
-        """Given a space-time point, uses the available weather model
-        to calculate the weather at that point.
+        """Given a space-time point, should use interpolate the weather at that point.
 
         Parameters
         ----------
@@ -58,10 +57,7 @@ class WeatherModel(ABC):
         Returns
         -------
         weather : dict
-            The weather data at the given point.
-
-            If it is a grid point, the weather data is taken straight
-            from the model, else it is interpolated as described above.
+            The interpolated weather data at the given point.
         """
 
 

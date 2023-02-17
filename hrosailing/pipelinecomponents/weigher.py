@@ -286,7 +286,7 @@ class CylindricMeanWeigher(Weigher):
     `pt` in `pts` such that :math:`||pt[:d-1] - p[:d-1]|| \\leq r`.
 
     Then we take the mean `m_p` and standard deviation `std_p`
-    of the dth component of all those points and set
+    of the d-th component of all those points and set
     :math:`w_p = | m_p - p[d-1] | / std_p`.
 
     This weigher can only be used on floating point data.
@@ -452,7 +452,7 @@ class CylindricMemberWeigher(Weigher):
 
         if length < 0:
             raise WeigherInitializationException(
-                "`length` is not non-negative"
+                "`length` should be non-negative."
             )
 
         self._radius = radius

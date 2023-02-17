@@ -241,7 +241,7 @@ class NMEAFileHandler(DataHandler):
         Defaults to `None`.
 
     post_filter_types : tuple of types, optional
-        The resulting dictionary only contains data which is `None` or of a
+        The resulting `Data` instance only contains data which is `None` or of a
         type given in `post_filter_types`.
         If set to `False` all attributes are taken into account.
 

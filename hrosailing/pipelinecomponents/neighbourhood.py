@@ -370,14 +370,14 @@ class Polytope(Neighbourhood):
         Matrix to represent the normal vectors :math:`a_i` of the half
         spaces, i.e. :math:`A = (a_1, ... , a_m)^t`.
 
-        Defaults to :math:`(I_2, -I_2)^t`,
+        Defaults to `numpy.row_stack((numpy.eye(2), -numpy.eye(2)))`, i.e. :math:`(I_2, -I_2)^t`,
         where :math:`I_d` is the d-dimensional identity matrix.
 
     b : array_like of shape (m, ), optional
         Vector representing the :math:`b` of the half spaces, i.e.
         :math:`b = (b_1, ... , b_m)^t`.
 
-        Defaults to `(0.05, 0.05, 0.05, 0.05)`.
+        Defaults to `numpy.array([0.05, 0.05, 0.05, 0.05])`.
 
 
     Raises
