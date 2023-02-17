@@ -26,6 +26,7 @@ setuptools.setup(
     packages=[
         "hrosailing",
         "hrosailing.cruising",
+        "hrosailing.plotting",
         "hrosailing.polardiagram",
         "hrosailing.pipeline",
         "hrosailing.pipelinecomponents",
