@@ -192,7 +192,7 @@ def cruise(
     wind: tuple
         Description of the wind. The exact interpretation depends on
         `wind_fmt`. See the description of `wind_fmt` for details.
-    wind_fmt: {"ws_wan", ws_wa_hdt", "uv_grd"}, default: `"ws_wan"`
+    wind_fmt: {"ws_wan", ws_wa_hdt", "uv_grd"}, optional
         Specification how to interpret the parameter `wind`.
 
         - "ws_wan": `wind` is interpreted as
@@ -202,6 +202,8 @@ def cruise(
             heading of the boat relative to north)`,
         - "uv_grd": `wind` is interpreted as `(u_grd, v_grd)` as can be read from
             a GRIB file.
+
+        Defaults to "ws_wan".
     im : InfluenceModel, optional
         The influence model used to consider additional influences
         on the boat speed.
