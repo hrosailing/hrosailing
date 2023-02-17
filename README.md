@@ -48,9 +48,22 @@ The recommended way to install `hrosailing` is with
     
     pip install hrosailing
 
+It has the following dependencies:
+
+- `numpy` version 1.22.0
+- `scipy` version 1.9.1
+- `matplotlib` version 3.4.3
+	
+For some features it might be necessary to also use:
+
+- `pynmea2` version 1.18.0
+- `pandas` version 1.3.3
+- `netCDF4` version 1.6.1
+- `meteostat` version 1.6.5
+	
 The `hrosailing` package might also be compatible (in large) with 
-earlier versions of Python, together with some earlier versions of some 
-of the used packages, namely `numpy`, `scipy`, and `matplotlib`.
+other versions of Python, together with others versions of some 
+of the used packages. However, this has not been tested properly.
 
 
 ### Examples
