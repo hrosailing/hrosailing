@@ -228,9 +228,11 @@ class PolarDiagramTable(PolarDiagram):
 
             Defaults to: `hrosailing.pipelinecomponents.ArithmeticMeanInterpolator(params = (50, ))`
 
-        neighbourhood : hrosailing.pipelinecomponents.Neighbourhood, default: `hrosailing.pipelinecomponents.Ball(1)`
+        neighbourhood : hrosailing.pipelinecomponents.Neighbourhood, optional
             Neighbourhood subclass used to determine the grid points
             in the table that will be used in the interpolation.
+
+            Defaults to `hrosailing.pipelinecomponents.Ball(1)`
 
         Returns
         -------
@@ -315,8 +317,10 @@ class PolarDiagramTable(PolarDiagram):
         ----------
         csv_path : path_like
             Path for the .csv file.
-        fmt : {"hro", "orc", "opencpn", "array"}, default: "hro"
+        fmt : {"hro", "orc", "opencpn", "array"}, optional
             Format for the .csv file.
+
+            Defaults to "hro".
 
         See Also
         --------
@@ -505,10 +509,15 @@ class PolarDiagramTable(PolarDiagram):
         new_bsps: array_like of matching shape
             Sequence containing the new boat speeds to be inserted
             in the specified entries.
-        ws: array_like, default: `self.wind_speeds`
+        ws: array_like, optional
             Columns of table given as elements of `self.wind_speed`.
-        wa: array_like, default: `self.wind_angles`
+
+            Defaults to `self.wind_speeds`.
+
+        wa: array_like, optional
             Rows of table given as elements of `self.wind_angles`.
+
+            Defaults to `self.wind_angles`.
 
         Examples
         --------
@@ -596,12 +605,14 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        ws : array_like, default: `self.wind_speeds`
+        ws : array_like, optional
             Slices of the polar diagram table, given as either:
             - a tuple of length 2 specifying an interval of
                 considered wind speeds,
             - an iterable containing only elements of `self.wind_speeds`,
             - a single element of `self.wind_speeds`.
+
+            Defaults to `self.wind_speeds`.
 
         Returns
         -------
@@ -651,7 +662,7 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        ws : array_like, default: `self.wind_speeds`
+        ws : array_like, optional
             Slices of the polar diagram table, given as either:
             - a tuple of length 2 specifying an interval of
                 considered wind speeds,
@@ -659,6 +670,8 @@ class PolarDiagramTable(PolarDiagram):
             - a single element of `self.wind_speeds`.
             The slices are then equal to the corresponding
             columns of the table together with `self.wind_angles`.
+
+            Defaults to `self.wind_speeds`.
 
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
@@ -678,13 +691,15 @@ class PolarDiagramTable(PolarDiagram):
 
             Defaults to `("green", "red")`.
 
-        show_legend : bool, default: `False`
+        show_legend : bool, optional
             Specifies wether or not a legend will be shown next to the plot.
 
             The type of legend depends on the color options.
 
             If plotted with a color gradient, a `matplotlib.colorbar.Colorbar`
             will be created, otherwise a `matplotlib.legend.Legend` instance.
+
+            Defaults to `False`.
 
         Other Parameters
         ----------------
@@ -749,7 +764,7 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        ws : array_like, default: `self.wind_speeds`
+        ws : array_like, optional
             Slices of the polar diagram table, given as either:
             - a tuple of length 2 specifying an interval of considered
             wind speeds,
@@ -758,8 +773,12 @@ class PolarDiagramTable(PolarDiagram):
 
             The slices are then equal to the corresponding
             columns of the table together with `self.wind_angles`.
+
+            Defaults to `self.wind_speeds`.
+
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
+
         colors : color_like or sequence of color_likes or (ws, color_like) pairs
             Specifies the colors to be used for the different slices.
             - If a color_like is passed, all slices will be plotted in the
@@ -774,13 +793,16 @@ class PolarDiagramTable(PolarDiagram):
 
             Defaults to `("green", "red")`.
 
-        show_legend : bool, default: `False`
+        show_legend : bool, optional
             Specifies wether or not a legend will be shown next to the plot.
 
             The type of legend depends on the color options.
 
             If plotted with a color gradient, a `matplotlib.colorbar.Colorbar`
             will be created, otherwise a `matplotlib.legend.Legend` instance.
+
+            Defaults to `False`.
+
         legend_kw : dict, optional
             Keyword arguments to change position and appearance of the colorbar
             or legend respectively.
@@ -837,11 +859,13 @@ class PolarDiagramTable(PolarDiagram):
         ----------
         ax : mpl_toolkits.mplot3d.axes3d.Axes3D, optional
             Axes instance where the plot will be created.
-        colors: tuple of two (2) color_likes, default: `("green", "red")`
+        colors: tuple of two (2) color_likes, optional
             Color pair determining the color gradient with which the
             polar diagram will be plotted.
 
             Will be determined by the corresponding wind speeds.
+
+            Defaults to `("green", "red")`.
         """
         wa = np.deg2rad(self.wind_angles)
         ws, wa = np.meshgrid(self.wind_speeds, wa)
@@ -866,21 +890,30 @@ class PolarDiagramTable(PolarDiagram):
         ----------
         ax : matplotlib.axes.Axes, optional
             Axes instance where the plot will be created.
-        colors : tuple of two (2) color_likes, default: `("green", "red")`
+        colors : tuple of two (2) color_likes, optional
             Color pair determining the color gradient with which the
             polar diagram will be plotted.
 
             Will be determined by the corresponding boat speed.
+
+            Defaults to `("green", "red")`.
+
         marker : matplotlib.markers.Markerstyle or equivalent
             Markerstyle for the created scatter plot.
+
             Defaults to `"o"`.
+
         ms : array_like, optional
             Marker size in points**2.
-        show_legend : bool, default: `False`
+
+        show_legend : bool, optional
             Specifies whether a legend will be shown next
             to the plot.
 
             Legend will be a `matplotlib.colorbar.Colorbar` instance.
+
+            Defaults to `False`.
+
         legend_kw : dict, optional
             Keyword arguments to change position and appearance of the colorbar
             or legend respectively.
@@ -913,7 +946,7 @@ class PolarDiagramTable(PolarDiagram):
 
         Parameters
         ----------
-        ws : array_like, default: `self.wind_speeds`
+        ws : array_like, optional
             Slices of the polar diagram table, given as either:
             - a tuple of length 2 specifying an interval of considered
             wind speeds,
@@ -922,8 +955,12 @@ class PolarDiagramTable(PolarDiagram):
 
             The slices are then equal to the corresponding
             columns of the table together with `self.wind_angles`.
+
+            Defaults to `self.wind_speeds`.
+
         ax : matplotlib.projections.polar.PolarAxes, optional
             Axes instance where the plot will be created.
+
         colors : sequence of color_likes or (ws, color_like) pairs, optional
             Specifies the colors to be used for the different slices.
 
@@ -936,13 +973,17 @@ class PolarDiagramTable(PolarDiagram):
             a color out of order by passing a sequence of `(ws, color)` pairs.
 
             Defaults to `("green", "red")`
-        show_legend : bool, default: `False`
+
+        show_legend : bool, optional
             Specifies whether a legend will be shown next to the plot.
 
             The type of legend depends on the color options.
 
             If plotted with a color gradient, a `matplotlib.colorbar.Colorbar`
             will be created, otherwise a `matplotlib.legend.Legend`.
+
+             Defaults to `False`.
+
         legend_kw : dict, optional
             Keyword arguments to change position and appearance of the colorbar
             or legend respectively.
@@ -953,6 +994,7 @@ class PolarDiagramTable(PolarDiagram):
             - Otherwise, a legend will be created.
             In this case see `matplotlib.legend.Legend` for possible keywords
             and their effect.
+
         plot_kw : dict, optional
             Keyword arguments to change various appearances of the plot.
 

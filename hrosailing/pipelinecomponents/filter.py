@@ -65,6 +65,7 @@ class Filter(ComponentWithStatistics, ABC):
 
 class QuantileFilter(Filter):
     """A filter that removes the points with the lowest weights until a given percentage of points have been removed.
+    Supports the `repr` method.
 
     Parameters
     ----------
@@ -115,6 +116,7 @@ class QuantileFilter(Filter):
 class BoundFilter(Filter):
     """A filter that filters all points based on if their
     weight is outside an interval given by a lower and an upper bound.
+    Supports the `repr` method.
 
     Parameters
     ----------

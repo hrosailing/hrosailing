@@ -191,8 +191,7 @@ class ArchimedeanSampler(Sampler):
     The sample points all lie in the smallest enclosing circle
     of given data points.
 
-    Inspired by
-    https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2007GC001581.
+    Inspired by [this article](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2007GC001581).
 
     Parameters
     ----------

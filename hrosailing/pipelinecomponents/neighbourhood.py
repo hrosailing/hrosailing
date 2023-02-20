@@ -51,6 +51,8 @@ class Ball(Neighbourhood):
     """A class to describe a closed 2-dimensional ball
     centered around the origin, i.e. :math:`\\\\{x \\in R^2 : ||x|| \\leq r\\\\}`.
 
+    Supports the `repr` method.
+
     Parameters
     ----------
     radius : positive int or float, optional
@@ -120,6 +122,8 @@ class ScalingBall(Neighbourhood):
     where the radius :math:`r` will be dynamically determined, such that
     there is always a certain amount of given points contained
     in the ball.
+
+    Supports the `repr` method.
 
     Parameters
     ----------
@@ -370,14 +374,14 @@ class Polytope(Neighbourhood):
         Matrix to represent the normal vectors :math:`a_i` of the half
         spaces, i.e. :math:`A = (a_1, ... , a_m)^t`.
 
-        Defaults to :math:`(I_2, -I_2)^t`,
+        Defaults to `numpy.row_stack((numpy.eye(2), -numpy.eye(2)))`, i.e. :math:`(I_2, -I_2)^t`,
         where :math:`I_d` is the d-dimensional identity matrix.
 
     b : array_like of shape (m, ), optional
         Vector representing the :math:`b` of the half spaces, i.e.
         :math:`b = (b_1, ... , b_m)^t`.
 
-        Defaults to `(0.05, 0.05, 0.05, 0.05)`.
+        Defaults to `numpy.array([0.05, 0.05, 0.05, 0.05])`.
 
 
     Raises

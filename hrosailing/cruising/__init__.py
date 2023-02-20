@@ -28,7 +28,7 @@ class CruisingException(Exception):
 
 @dataclass
 class Direction:
-    """Dataclass to represent recommended sections of a sailing maneuver."""
+    """Dataclass to represent recommended sections of a sailing maneuver. Supports `str` method."""
 
     #: Right headed angle between the boat heading and the wind direction.
     #:   Same as TWA but from the boat's perspective.
@@ -192,16 +192,17 @@ def cruise(
     wind: tuple
         Description of the wind. The exact interpretation depends on
         `wind_fmt`. See the description of `wind_fmt` for details.
-    wind_fmt: {"ws_wan", ws_wa_hdt", "uv_grd"}, default: `"ws_wan"`
+    wind_fmt: {"ws_wan", ws_wa_hdt", "uv_grd"}, optional
         Specification how to interpret the parameter `wind`.
 
         - "ws_wan": `wind` is interpreted as
             `(true wind speed, wind angle relative to north)`,
         - "ws_wa_hdt": `wind` is interpreted as
-            `(true wind speed, true wind angle,
-            heading of the boat relative to north)`,
+            `(true wind speed, true wind angle, heading of the boat relative to north)`,
         - "uv_grd": `wind` is interpreted as `(u_grd, v_grd)` as can be read from
             a GRIB file.
+
+        Defaults to "ws_wan".
     im : InfluenceModel, optional
         The influence model used to consider additional influences
         on the boat speed.

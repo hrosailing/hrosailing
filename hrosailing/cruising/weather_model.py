@@ -46,8 +46,7 @@ class WeatherModel(ABC):
 
     @abstractmethod
     def get_weather(self, point):
-        """Given a space-time point, uses the available weather model
-        to calculate the weather at that point.
+        """Given a space-time point, should interpolate the weather at that point.
 
         Parameters
         ----------
@@ -58,10 +57,7 @@ class WeatherModel(ABC):
         Returns
         -------
         weather : dict
-            The weather data at the given point.
-
-            If it is a grid point, the weather data is taken straight
-            from the model, else it is interpolated as described above.
+            The interpolated weather data at the given point.
         """
 
 
@@ -325,7 +321,6 @@ def _recursive_affine_interpolation(point, grid, get_data):
 class NetCDFWeatherModel(GriddedWeatherModel):
     """
     A weather model that uses gridded data from a NetCDF (.nc or .nc4) file.
-    Uses the same interpolation method as `GriddedWeatherModel`.
     The module `netCDF4` has to be installed in order to use this class.
     The methods `from_file`, `to_file` and `from_meteostat` are not supported.
 
