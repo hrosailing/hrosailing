@@ -63,7 +63,7 @@ class HROPolar(PolarAxes):
         If a `PolarDiagram` is given, plots each slice corresponding to `ws` and `n_steps`
         as described in `PolarDiagram.get_slices`.
 
-        Parameter
+        Parameters
         ----------
         *args :
             If the first argument is a polar diagram it plots the polar diagram.
@@ -241,7 +241,7 @@ class HROColorGradient(Axes):
         If a `PolarDiagram` is given, plots each slice corresponding to `ws` and `n_steps`
         as described in `PolarDiagram.get_slices`.
 
-        Parameter
+        Parameters
         ----------
         *args :
             If the first argument is a polar diagram it plots the polar diagram.
