@@ -217,10 +217,12 @@ class PolarPipeline:
     def __call__(
         self, training_data, test_data=None, apparent_wind=False, **enabling
     ):
-        return self.execute(training_data, test_data, apparent_wind, **enabling)
+        return self.execute(
+            training_data, test_data, apparent_wind, **enabling
+        )
 
     def execute(
-            self, training_data, test_data=None, apparent_wind=False, **enabling
+        self, training_data, test_data=None, apparent_wind=False, **enabling
     ):
         """
         Executes the polar pipeline to create a polar diagram from data.
