@@ -214,16 +214,10 @@ class PolarPipeline:
 
         self._set_with_default(custom_components, keys, defaults, aliases)
 
-    def __call__(
-        self, training_data, test_data=None, **enabling
-    ):
-        return self.execute(
-            training_data, test_data, **enabling
-        )
+    def __call__(self, training_data, test_data=None, **enabling):
+        return self.execute(training_data, test_data, **enabling)
 
-    def execute(
-        self, training_data, test_data=None, **enabling
-    ):
+    def execute(self, training_data, test_data=None, **enabling):
         """
         Executes the polar pipeline to create a polar diagram from data.
         Alternatively you can call the polar pipeline.
