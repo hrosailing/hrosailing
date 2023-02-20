@@ -215,14 +215,14 @@ class PolarPipeline:
         self._set_with_default(custom_components, keys, defaults, aliases)
 
     def __call__(
-        self, training_data, test_data=None, apparent_wind=False, **enabling
+        self, training_data, test_data=None, **enabling
     ):
         return self.execute(
-            training_data, test_data, apparent_wind, **enabling
+            training_data, test_data, **enabling
         )
 
     def execute(
-        self, training_data, test_data=None, apparent_wind=False, **enabling
+        self, training_data, test_data=None, **enabling
     ):
         """
         Executes the polar pipeline to create a polar diagram from data.
@@ -247,13 +247,6 @@ class PolarPipeline:
             If `None` no quality check is performed.
 
             Default to `None`.
-
-        apparent_wind : bool, optional
-            Specifies if wind data is given in apparent wind.
-
-            If `True`, wind will be converted to true wind.
-
-            Defaults to `False`.
 
         Other Parameters
         ---------------------------
