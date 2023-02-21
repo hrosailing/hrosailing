@@ -51,6 +51,9 @@ class PolarDiagramMultiSails(PolarDiagram):
         If the polar tables don't share the same wind speeds.
     """
 
+    def __call__(self, ws, wa):
+        return max([diagram(ws, wa) for diagram in self._diagrams])
+
     @property
     def default_points(self):
         return np.row_stack([pd.default_points for pd in self._diagrams])

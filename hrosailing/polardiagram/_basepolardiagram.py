@@ -43,7 +43,7 @@ class PolarDiagram(ABC):
         """"""
 
     @abstractmethod
-    def __call__(self, *args, **kwargs):
+    def __call__(self, ws, wa):
         pass
 
     @abstractmethod
