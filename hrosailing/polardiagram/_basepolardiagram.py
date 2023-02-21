@@ -23,54 +23,6 @@ class PolarDiagram(ABC):
     -----------
     default_slices (abstract) :
         Should set the default windspeeds for `get_slices`.
-
-    Abstract Methods
-    ----------------
-    to_csv(csv_path)
-
-    __from_csv__(cls, file)
-
-    symmetrize()
-
-    get_slices(ws)
-
-    plot_polar(
-        ws,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw
-    )
-
-    plot_flat(
-        ws,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw
-    )
-
-    plot_3d(ax=None, **plot_kw)
-
-    plot_color_gradient(
-        ax=None,
-        colors=("green", "red"),
-        marker=None,
-        ms=None,
-        show_legend=False,
-        **legend_kw,
-    )
-
-    plot_convex_hull(
-        ws,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw,
-    )
     """
 
     @abstractmethod
@@ -89,6 +41,10 @@ class PolarDiagram(ABC):
     @abstractmethod
     def __from_csv__(cls, file):
         """"""
+
+    @abstractmethod
+    def __call__(self, *args, **kwargs):
+        pass
 
     @abstractmethod
     def symmetrize(self):
