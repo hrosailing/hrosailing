@@ -487,6 +487,8 @@ def _configure_axes(ax, labels, colors, show_legend, legend_kw, **kwargs):
     _configure_colors(ax, labels, colors)
     _check_plot_kw(kwargs, True)
     if show_legend:
+        if legend_kw is None:
+            legend_kw = {}
         _configure_legend(ax, labels, colors, "True Wind Speed", **legend_kw)
 
 
