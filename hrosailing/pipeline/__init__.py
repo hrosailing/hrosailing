@@ -97,7 +97,7 @@ class PolarPipeline:
         Determines the method which will be used to produce data without
         `None` entries.
 
-        Defaults to `RemoveOnlyImputator()`.
+        Defaults to `FillLocalImputator()`.
 
     smoother: Smoother, optional
         Determines the method which will be used to smoothen out the rounding
@@ -173,7 +173,7 @@ class PolarPipeline:
     def __init__(self, **custom_components):
         defaults = [
             pc.NMEAFileHandler(),
-            pc.RemoveOnlyImputator(),
+            pc.FillLocalImputator(),
             pc.LazySmoother(),
             pc.CylindricMeanWeigher(),
             pc.QuantileFilter(),

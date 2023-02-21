@@ -159,14 +159,17 @@ import hrosailing.pipelinecomponents as pcomp
 pol_pips = [
     pipe.PolarPipeline(
         data_handler=pcomp.ArrayHandler(),
+        imputator=pcomp.RemoveOnlyImputator(),
         extension=pipe.TableExtension()
     ),
     pipe.PolarPipeline(
         data_handler=pcomp.ArrayHandler(),
+        imputator=pcomp.RemoveOnlyImputator(),
         extension=pipe.PointcloudExtension()
     ),
     pipe.PolarPipeline(
         data_handler=pcomp.ArrayHandler(),
+        imputator=pcomp.RemoveOnlyImputator(),
         extension=pipe.CurveExtension()
     )
 ]
