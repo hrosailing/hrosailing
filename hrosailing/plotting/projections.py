@@ -483,6 +483,97 @@ def _get_convex_hull(slice, info_):
     return ws, wa, bsp, info_
 
 
+def plot_polar(*args, **kwargs):
+    """
+    Creates a single `HROPolar` Axes calls its `plot` method.
+    Useful for simple plots of just one polar diagram.
+
+    See also
+    ----------
+    `HROPolar.plot`
+    """
+    ax = plt.subplot(projection="hro polar")
+    ax.plot(*args, **kwargs)
+
+
+def scatter_polar(*args, **kwargs):
+    """
+    Creates a single `HROPolar` Axes calls its `scatter` method.
+    Useful for simple plots of just one polar diagram.
+
+    See also
+    ----------
+    `HROPolar.scatter`
+    """
+    ax = plt.subplot(projection="hro polar")
+    ax.scatter(*args, **kwargs)
+
+
+def plot_flat(*args, **kwargs):
+    """
+    Creates a single `HROFlat` Axes calls its `plot` method.
+    Useful for simple plots of just one polar diagram.
+
+    See also
+    ----------
+    `HROFlat.plot`
+    """
+    ax = plt.subplot(projection="hro flat")
+    ax.plot(*args, **kwargs)
+
+
+def scatter_flat(*args, **kwargs):
+    """
+    Creates a single `HROFlat` Axes calls its `scatter` method.
+    Useful for simple plots of just one polar diagram.
+
+    See also
+    ----------
+    `HROFlat.scatter`
+    """
+    ax = plt.subplot(projection="hro flat")
+    ax.scatter(*args, **kwargs)
+
+
+def plot_color_gradient(*args, **kwargs):
+    """
+    Creates a single `HROColorGradient` Axes calls its `plot` method.
+    Useful for simple plots of just one polar diagram.
+
+    See also
+    ----------
+    `HROColorGradient.plot`
+    """
+    ax = plt.subplot(projection="hro color gradient")
+    ax.plot(*args, **kwargs)
+
+
+def plot_3d(*args, **kwargs):
+    """
+    Creates a single `Axes3D` Axes calls its `plot` method.
+    Useful for simple plots of just one polar diagram.
+
+    See also
+    ----------
+    `Axes3D.plot`
+    """
+    ax = plt.subplot(projection="hro 3d")
+    ax.plot(*args, **kwargs)
+
+
+def scatter_3d(*args, **kwargs):
+    """
+    Creates a single `Axes3D` Axes calls its `scatter` method.
+    Useful for simple plots of just one polar diagram.
+
+    See also
+    ----------
+    `Axes3D.scatter`
+    """
+    ax = plt.subplot(projection="hro 3d")
+    ax.scatter(*args, **kwargs)
+
+
 def _configure_axes(ax, labels, colors, show_legend, legend_kw, **kwargs):
     _configure_colors(ax, labels, colors)
     _check_plot_kw(kwargs, True)
