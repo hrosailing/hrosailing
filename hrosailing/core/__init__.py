@@ -1,5 +1,5 @@
-import hrosailing.core.modelfunctions
-import hrosailing.core.computing
-import hrosailing.core.constants
-import hrosailing.core.data
-import hrosailing.core.statistics
+import .modelfunctions
+import .computing
+import .constants
+import .data
+import .statistics
