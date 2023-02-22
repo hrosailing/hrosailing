@@ -394,7 +394,6 @@ class Axes3D(pltAxes3D):
         super().scatter(x, y, z, c=z, cmap=color_map, **plot_kw)
 
 
-print("registering, LOL!")
 register_projection(HROPolar)
 register_projection(HROFlat)
 register_projection(HROColorGradient)
