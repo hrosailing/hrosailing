@@ -1,4 +1,6 @@
-"""Functions to convert wind from apparent to true and vice versa."""
+"""
+Functions for basic computations.
+"""
 
 
 import enum
@@ -107,6 +109,23 @@ def convert_true_wind_to_apparent(true_wind):
 
 
 def scaled_norm(norm, scal_factors):
+    """
+    Returns a function acting as a scaled norm.
+
+    Parameters
+    ----------
+    norm : function
+        A function mapping `numpy.ndarray` (vector(s)) to `float` (the norm of
+        the vector)
+
+    scal_factors : array-like of floats
+        Component-wise scaling factors. Shape has to be compatible with the
+        possible input shapes of `norm`.
+
+    Returns
+    ---------
+    s_norm : `norm` scaled component-wise by `scal_factors`.
+    """
     scaled = np.asarray(scal_factors)
 
     def s_norm(vec):
@@ -116,10 +135,36 @@ def scaled_norm(norm, scal_factors):
 
 
 def euclidean_norm(vec):
+    """
+    Evaluates the euclidean norm on a two dimensional array.
+
+    Parameters
+    --------
+    vec : numpy.ndarray of shape (n, d)
+
+    Returns
+    -------
+    norm : numpy.ndarray of shape (n)
+        The euclidean norms of the columns of `vec`.
+    """
     return np.linalg.norm(vec, axis=1)
 
 
 def scaled_euclidean_norm(vec):
+    """
+    Scaled version of the euclidean norm. Scaling factors depend on the input
+    dimension. First component gets scaled by 1/40, second by 1/360 and third
+    by 1/20.
+
+    Parameters
+    --------
+    vec : numpy.ndarray of shape (n, d)
+
+    Returns
+    -------
+    norm : numpy.ndarray of shape (n)
+        The scaled euclidean norms of the columns of `vec`.
+    """
     if vec.shape[1] == 2:
         norm_val = scaled_norm(euclidean_norm, [1 / 40, 1 / 360])(vec)
     elif vec.shape[1] == 3:
@@ -152,7 +197,20 @@ def data_dict_to_numpy(data_dict, keys):
     return np.column_stack([data_dict[key] for key in keys])
 
 
-def _safe_operation(operand, value):
+def safe_operation(operand, value):
+    """
+    Perform an operation savely, returning `None` if one of the following
+    Exceptions is raised:
+    `ValueError`, `TypeError`, `IndexError`, `KeyError`, `ZeroDivisionError`.
+
+    Parameters
+    ---------
+    operand : function
+        The operation to be savely evaluated.
+
+    value : arbitrary
+        The input value of the operation.
+    """
     try:
         return operand(value)
     except (ValueError, TypeError, IndexError, KeyError, ZeroDivisionError):

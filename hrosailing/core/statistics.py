@@ -1,3 +1,7 @@
+"""
+Functions for the handling of statistics.
+"""
+
 class ComponentWithStatistics:
     """
     Interface class for pipelinecomponents enabling to save and handle run statistics.
