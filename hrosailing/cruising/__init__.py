@@ -2,9 +2,6 @@
 Functions for navigation and weather routing using polar diagrams.
 """
 
-
-import itertools
-from bisect import bisect_left
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import List, Optional
@@ -13,8 +10,7 @@ import numpy as np
 from scipy.integrate import solve_ivp, trapezoid
 from scipy.spatial import ConvexHull
 
-from hrosailing.cruising.weather_model import (
-    GriddedWeatherModel,
+from models.weather_model import (
     OutsideGridException,
     WeatherModel,
 )
