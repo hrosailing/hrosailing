@@ -8,10 +8,6 @@ import enum
 import numpy as np
 
 
-class WindConversionException(Exception):
-    """Exception raised if an error occurs during wind conversion."""
-
-
 class _Wind(enum.Enum):
     TO_TRUE = -1
     TO_APPARENT = 1
@@ -20,13 +16,13 @@ class _Wind(enum.Enum):
         wind = np.asarray_chkfinite(wind)
 
         if wind.dtype == object:
-            raise WindConversionException("`wind` is not array_like")
+            raise TypeError("`wind` is not array_like")
         if wind.ndim != 2 or wind.shape[1] != 3:
-            raise WindConversionException("`wind` has incorrect shape")
+            raise TypeError("`wind` has incorrect shape")
 
         ws, wa, bsp = np.hsplit(wind, 3)
         if np.any((ws < 0)):
-            raise WindConversionException("`wind` has negative wind speeds")
+            raise TypeError("`wind` has negative wind speeds")
 
         wa %= 360  # normalize wind angles
         wa_above_180 = wa > 180
@@ -77,10 +73,6 @@ def convert_apparent_wind_to_true(apparent_wind):
     true_wind : numpy.ndarray of shape (n, 3)
         Array containing the same data as `apparent_wind`, but the wind speed
         and wind angle now measured as true wind.
-
-    Raises
-    ------
-    WindConversionException
     """
     return _Wind.TO_TRUE.convert_wind(apparent_wind)
 
@@ -100,10 +92,6 @@ def convert_true_wind_to_apparent(true_wind):
     apparent_wind : numpy.ndarray of shape (n, 3)
         Array containing the same data as `true_wind`, but the wind speed
         and wind angle now measured as apparent wind.
-
-    Raises
-    ------
-    WindConversionException
     """
     return _Wind.TO_APPARENT.convert_wind(true_wind)
 
