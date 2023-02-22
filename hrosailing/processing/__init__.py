@@ -1,6 +1,8 @@
 """
-Components for the `PolarPipeline` and `PipelineExtension`
-classes among other things.
+Interfaces and classes for data processing.
+
+Subclasses can be used with the `PolarPipeline` class
+of the `hrosailing.pipeline` module.
 """
 
 from .datahandler import (

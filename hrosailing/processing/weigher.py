@@ -13,11 +13,11 @@ from datetime import timedelta
 
 import numpy as np
 
-from hrosailing.pipelinecomponents.constants import NORM_SCALES
+from hrosailing.constants import NORM_SCALES
 from core.data import Data
 
-from core import (
-    ComponentWithStatistics,
+from hrosailing.statistics import ComponentWithStatistics
+from hrosailing.computing import (
     safe_operation,
     data_dict_to_numpy,
     euclidean_norm,

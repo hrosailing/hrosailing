@@ -3,9 +3,6 @@ Classes used to transform given data to the hrosailing data format for further p
 
 Defines the `DataHandler` abstract base class that can be used to
 create custom data handlers to handle formats which are not supported yet.
-
-Subclasses of `DataHandler` can be used with the `PolarPipeline` class
-in the `hrosailing.pipeline` module.
 """
 
 
@@ -20,8 +17,8 @@ from datetime import date, datetime, time
 
 import numpy as np
 
-from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
-from hrosailing.pipelinecomponents.constants import HROSAILING_TO_NMEA
+from hrosailing.statistics import ComponentWithStatistics
+from hrosailing.constants import HROSAILING_TO_NMEA
 from core.data import Data
 
 

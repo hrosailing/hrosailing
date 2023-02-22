@@ -10,8 +10,8 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-import hrosailing.pipelinecomponents as pc
-from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
+import hrosailing.processing as pc
+from hrosailing.statistics import ComponentWithStatistics
 
 
 class Injector(ComponentWithStatistics, ABC):
