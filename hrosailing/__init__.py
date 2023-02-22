@@ -64,21 +64,18 @@ del hard_dependencies, dependency, missing_dependencies
 
 import hrosailing.cruising
 import hrosailing.pipeline
-import hrosailing.pipelinecomponents
+import hrosailing.processing
 import hrosailing.plotting
 import hrosailing.polardiagram
-import hrosailing.wind
 import hrosailing.models
-
-from hrosailing.models import Data
+from hrosailing.core import *
 
 __all__ = [
     "cruising",
     "models",
     "pipeline",
     "plotting",
-    "pipelinecomponents",
+    "processing",
     "polardiagram",
-    "wind",
     "version",
 ]
