@@ -45,10 +45,22 @@ class PolarDiagramMultiSails(PolarDiagram):
         If nothing is passed, the names will be `"Sail i"`, i = 0...n-1,
         where `len(pds) = n`.
 
+    Attributes
+    ---------
+    sails (property) : list of str
+        A read only version of the list of sails.
+
+    diagrams (property) : list of `PolarDiagram`
+        The different polar diagrams.
+
     Raises
     ------
     PolarDiagramInitializationException
         If the polar tables don't share the same wind speeds.
+
+    SeeAlso
+    -------
+    `PolarDiagram`
     """
 
     def __call__(self, ws, wa):

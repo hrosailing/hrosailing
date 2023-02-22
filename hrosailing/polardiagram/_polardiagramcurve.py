@@ -42,12 +42,27 @@ class PolarDiagramCurve(PolarDiagram):
 
         Defaults to `False`.
 
+    Attributes
+    ----------
+    curve (property) : function
+        A read only version of the underlying function.
+        
+    parameters (property) : tuple
+        A read only version of the underlying parameters.
+
+    radians (property) : bool
+        A read only version wether the wind angle is given in radians or degrees.
+
     Raises
     ------
     PolarDiagramInitializationException
         If `f` is not callable.
     PolarDiagramInitializationException
         If `params` contains not enough parameters for `f`.
+
+    See also
+    ----------
+
     """
 
     @property
@@ -136,7 +151,6 @@ class PolarDiagramCurve(PolarDiagram):
 
     @property
     def curve(self):
-        """Returns a read only version of `self._f`."""
         return self._f
 
     @property

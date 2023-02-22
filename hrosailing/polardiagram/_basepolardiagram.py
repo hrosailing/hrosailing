@@ -19,10 +19,14 @@ class PolarDiagramInitializationException(Exception):
 class PolarDiagram(ABC):
     """Base class for all polar diagrams.
 
-    Properties
+    Attributes
     -----------
-    default_slices (abstract) :
-        Should set the default windspeeds for `get_slices`.
+    default_slices (abstract property) : numpy.ndarray of shape (n)
+        Should give the default windspeeds for `get_slices`.
+
+    default_points (abstract property) : numnpy.ndarray of shape (n, 3)
+        Should give the 'points' (consisting of wind speed, wind angle and boat speed) at which the
+        polar diagram is evaluated by default.
     """
 
     @abstractmethod
