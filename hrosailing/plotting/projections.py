@@ -408,11 +408,12 @@ def _plot(ax, slices, info, use_radians, use_convex_hull=False, use_scatter=Fals
         for entry in iter1:
             yield (entry, None)
 
-    for slice, info_ in safe_zip(slices, info):
+    for slice_, info_ in safe_zip(slices, info):
+        slice_ = slice_[:, np.argsort(slice_[1])]
         if use_convex_hull:
-            ws, wa, bsp, info_ = _get_convex_hull(slice, info_)
+            ws, wa, bsp, info_ = _get_convex_hull(slice_, info_)
         else:
-            ws, wa, bsp = slice
+            ws, wa, bsp = slice_
         if use_radians:
             wa = np.deg2rad(wa)
         if info_ is not None and not use_convex_hull:
