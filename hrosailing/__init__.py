@@ -68,9 +68,13 @@ import hrosailing.pipelinecomponents
 import hrosailing.plotting
 import hrosailing.polardiagram
 import hrosailing.wind
+import hrosailing.models
+
+from hrosailing.models import Data
 
 __all__ = [
     "cruising",
+    "models",
     "pipeline",
     "plotting",
     "pipelinecomponents",
