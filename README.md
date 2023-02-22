@@ -186,12 +186,13 @@ pds = [
 ]
 #
 for i, pd in enumerate(pds):
-   pd.plot_polar(ws=ws, ax=plt.subplot(1, 3, i+1, projection="polar"))
+   plt.subplot(1, 3, i+1, projection="hro polar").plot(pd, ws=ws)
 
 plt.tight_layout()
 plt.show()
 ```
-![pipeline_plots](https://user-images.githubusercontent.com/70914876/146170918-66224c66-05c4-49db-a1a5-ddfc2a13b9f1.png)
+
+![pipeline_plots_v2](https://user-images.githubusercontent.com/70914876/220584274-06f31e81-ecee-4825-b911-fef38c26fbef.png)
 
 If we are unhappy with the default behaviour of the pipelines, 
 we can customize one or more components of it.
