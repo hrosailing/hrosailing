@@ -2,9 +2,6 @@
 Pipeline to create polar diagrams from raw data.
 """
 
-
-import warnings
-from abc import ABC, abstractmethod
 from datetime import datetime as dt
 from typing import NamedTuple
 
@@ -12,9 +9,6 @@ import numpy as np
 
 import hrosailing.pipelinecomponents as pc
 import hrosailing.polardiagram as pol
-from hrosailing.pipelinecomponents.modelfunctions import (
-    ws_s_wa_gauss_and_square,
-)
 
 from .extensions import (
     CurveExtension,

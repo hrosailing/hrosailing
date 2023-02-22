@@ -6,7 +6,7 @@ from inspect import getmembers, isfunction
 
 import numpy as np
 
-import hrosailing.pipelinecomponents.modelfunctions as model
+import models.modelfunctions as model
 
 from ._basepolardiagram import (
     PolarDiagram,
