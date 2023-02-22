@@ -18,7 +18,7 @@ from typing import Callable
 
 import numpy as np
 
-from core._utils import scaled_euclidean_norm
+from core import scaled_euclidean_norm
 from .neighbourhood import Neighbourhood
 
 

@@ -16,9 +16,9 @@ import numpy as np
 from hrosailing.pipelinecomponents.constants import NORM_SCALES
 from core.data import Data
 
-from core._utils import (
+from core import (
     ComponentWithStatistics,
-    _safe_operation,
+    safe_operation,
     data_dict_to_numpy,
     euclidean_norm,
     scaled_norm,

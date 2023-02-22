@@ -6,7 +6,7 @@ from decimal import Decimal
 
 import numpy as np
 
-from hrosailing.pipelinecomponents.constants import KEYSYNONYMS, SEPARATORS
+from hrosailing.core.constants import KEYSYNONYMS, SEPARATORS
 
 
 class Data:
