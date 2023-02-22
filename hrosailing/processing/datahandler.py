@@ -22,7 +22,7 @@ import numpy as np
 
 from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 from hrosailing.pipelinecomponents.constants import HROSAILING_TO_NMEA
-from models.data import Data
+from core.data import Data
 
 
 class HandlerInitializationException(Exception):

@@ -15,7 +15,7 @@ from typing import Callable
 
 import numpy as np
 
-from ._utils import scaled_euclidean_norm
+from core._utils import scaled_euclidean_norm
 
 
 class NeighbourhoodInitializationException(Exception):
