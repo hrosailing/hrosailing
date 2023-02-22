@@ -9,7 +9,6 @@ from .datahandler import (
     DataHandler,
     NMEAFileHandler,
 )
-from .expander import Expander, LazyExpander, WeatherExpander
 from .filter import BoundFilter, Filter, QuantileFilter
 from .imputator import FillLocalImputator, RemoveOnlyImputator
 from .injector import ZeroInjector
@@ -26,11 +25,6 @@ from .neighbourhood import (
     Neighbourhood,
     Polytope,
     ScalingBall,
-)
-from .quality_assurance import (
-    ComformingQualityAssurance,
-    MinimalQualityAssurance,
-    QualityAssurance,
 )
 from .regressor import LeastSquareRegressor, ODRegressor, Regressor
 from .sampler import (
