@@ -42,9 +42,14 @@ class PolarDiagramTable(PolarDiagram):
 
     Attributes
     ----------
-    wind_speeds
-    wind_angles
-    boat_speeds
+    wind_angles (property) : numpy.ndarray
+        Read only version of the wind angle resolution.
+
+    wind_speeds (property) : numpy.ndarray
+        Read only version of the wind speed resolution.
+
+    boat_speeds (property) : numpy.ndarray
+        Read only version of the boat speed table.
 
     Examples
     --------

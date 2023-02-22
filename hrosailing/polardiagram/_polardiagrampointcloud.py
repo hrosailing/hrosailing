@@ -34,6 +34,26 @@ class PolarDiagramPointcloud(PolarDiagram):
         If `True`, data will be converted to true wind.
 
         Defaults to `False`.
+    
+    Attributes
+    -----------
+        
+    wind_speeds (property) : numpy.ndarray
+        All unique wind speeds in the point cloud.
+
+    wind_angles (property) : numpy.ndarray
+        All unique wind angles in the point cloud.
+
+    boat_speeds (property) :
+        All occurring boat speeds in the point cloud
+        (including duplicates).
+
+    points (property) :
+        Read only version of all points present in the point cloud.
+        
+    See also
+    ---------
+    `PolarDiagram`
     """
 
     @property
