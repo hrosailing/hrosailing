@@ -1,12 +1,17 @@
-from hrosailing.models.globe_model import (
+"""
+High level models regarding weather, influences to vessel performance and
+latitude longitude projections.
+"""
+
+from .globe_model import (
     GlobeModel, FlatMercatorProjection, SphericalGlobe
 )
 
-from hrosailing.models.influencemodel import (
+from .influencemodel import (
     InfluenceException, InfluenceModel, IdentityInfluenceModel,
     WindAngleCorrectingInfluenceModel
 )
-from hrosailing.models.weather_model import (
+from .weather_model import (
     WeatherModel, GriddedWeatherModel, NetCDFWeatherModel, OutsideGridException
 )
 

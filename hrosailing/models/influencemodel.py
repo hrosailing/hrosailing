@@ -12,11 +12,10 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
-from hrosailing.wind import convert_apparent_wind_to_true
-
-from pipelinecomponents._utils import data_dict_to_numpy
-
+from hrosailing.statistics import ComponentWithStatistics
+from hrosailing.computing import (
+    convert_apparent_wind_to_true, data_dict_to_numpy
+)
 
 class InfluenceException(Exception):
     """Raised when removing or adding influence does not work."""
