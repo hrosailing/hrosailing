@@ -103,13 +103,14 @@ to add more serialization options.
 #### Visualizing polar diagrams
 ```python
 import matplotlib.pyplot as plt
+import hrosailing.plotting as plot
 
 ws = [10, 20, 30]
 
-pd.plot_polar(ws=ws, ax=plt.subplot(2, 2, 1, projection="polar"))
-pd.plot_convex_hull(ws=ws, ax=plt.subplot(2, 2, 2, projection="polar"))
-pd.plot_flat(ws=ws, ax=plt.subplot(2, 2, 3))
-pd.plot_color_gradient(ax=plt.subplot(2, 2, 4))
+plt.subplot(2, 2, 1, projection="hro polar").plot(pd, ws=ws)
+plt.subplot(2, 2, 2, projection="hro polar").plot(pd, ws=ws, use_convex_hull=True)
+plt.subplot(2, 2, 3, projection="hro flat").plot(pd, ws=ws)
+plt.subplot(2, 2, 4, projection="hro color gradient").plot(pd)
 
 plt.show()
 ```
@@ -117,10 +118,11 @@ plt.show()
 
 3d visualization is also supported.
 ```python
-pd.plot_3d()
+plot.plot_3d(pd)
 plt.show()
 ```
-![3d_plot](https://user-images.githubusercontent.com/70914876/146153719-826e8c93-09ab-4387-b13c-e942139fcce6.png)
+![output_3d](https://user-images.githubusercontent.com/70914876/220571096-38bf678c-994e-4429-9da6-19dc2d84ffd6.png)
+
 
 
 #### Iterate over polar diagram data
