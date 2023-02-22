@@ -6,7 +6,7 @@ from inspect import getmembers, isfunction
 
 import numpy as np
 
-import models.modelfunctions as model
+import core.modelfunctions as model
 
 from ._basepolardiagram import (
     PolarDiagram,

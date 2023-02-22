@@ -10,4 +10,3 @@ from hrosailing.models.weather_model import (
     WeatherModel, GriddedWeatherModel, NetCDFWeatherModel, OutsideGridException
 )
 
-import hrosailing.models.modelfunctions
