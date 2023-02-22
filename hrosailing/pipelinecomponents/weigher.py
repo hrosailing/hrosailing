@@ -14,7 +14,7 @@ from datetime import timedelta
 import numpy as np
 
 from hrosailing.pipelinecomponents.constants import NORM_SCALES
-from hrosailing.pipelinecomponents.data import Data
+from models.data import Data
 
 from ._utils import (
     ComponentWithStatistics,

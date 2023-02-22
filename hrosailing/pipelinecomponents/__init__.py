@@ -12,11 +12,6 @@ from .datahandler import (
 from .expander import Expander, LazyExpander, WeatherExpander
 from .filter import BoundFilter, Filter, QuantileFilter
 from .imputator import FillLocalImputator, RemoveOnlyImputator
-from .influencemodel import (
-    IdentityInfluenceModel,
-    InfluenceModel,
-    WindAngleCorrectingInfluenceModel,
-)
 from .injector import ZeroInjector
 from .interpolator import (
     ArithmeticMeanInterpolator,

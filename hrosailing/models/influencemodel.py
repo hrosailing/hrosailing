@@ -15,7 +15,7 @@ import numpy as np
 from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
 from hrosailing.wind import convert_apparent_wind_to_true
 
-from ._utils import data_dict_to_numpy
+from pipelinecomponents._utils import data_dict_to_numpy
 
 
 class InfluenceException(Exception):

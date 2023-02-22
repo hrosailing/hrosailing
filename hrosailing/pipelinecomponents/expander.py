@@ -12,7 +12,7 @@ from abc import ABC, abstractmethod
 
 from hrosailing.cruising.weather_model import OutsideGridException
 from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
-from hrosailing.pipelinecomponents.data import Data
+from models.data import Data
 
 
 class Expander(ComponentWithStatistics, ABC):
