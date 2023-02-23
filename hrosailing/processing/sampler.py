@@ -15,12 +15,6 @@ import numpy as np
 from scipy.spatial import ConvexHull
 
 
-class SamplerInitializationException(Exception):
-    """Exception raised if an error occurs during
-    initialization of a `Sampler` object.
-    """
-
-
 class Sampler(ABC):
     """Base class for all sampler classes."""
 
@@ -50,11 +44,6 @@ class UniformRandomSampler(Sampler):
     n_samples : positive int
         Amount of samples that will be produced by the sampler.
 
-    Raises
-    ------
-    SamplerInitializationException
-        If `n_samples` is non-positive.
-
     See also
     ----------
     `Sampler`
@@ -62,7 +51,7 @@ class UniformRandomSampler(Sampler):
 
     def __init__(self, n_samples):
         if n_samples <= 0:
-            raise SamplerInitializationException("`n_samples` is non-positive")
+            raise ValueError("`n_samples` is non-positive")
 
         self._n_samples = n_samples
 
@@ -124,11 +113,6 @@ class FibonacciSampler(Sampler):
     n_samples : positive int
         Amount of samples that will be produced by the sampler.
 
-    Raises
-    ------
-    SamplerInitializationException
-        If `n_samples` is non-positive.
-
     See also
     ----------
     `Sampler`
@@ -136,7 +120,7 @@ class FibonacciSampler(Sampler):
 
     def __init__(self, n_samples):
         if n_samples <= 0:
-            raise SamplerInitializationException("`n_samples` is non-positive")
+            raise ValueError("`n_samples` is non-positive")
 
         self._n_samples = n_samples
 
@@ -198,11 +182,6 @@ class ArchimedeanSampler(Sampler):
     n_samples : positive int
         Amount of samples that will be produced by the sampler.
 
-    Raises
-    ------
-    SamplerInitializationException
-        If `n_samples` is non-positive.
-
     See also
     ----------
     `Sampler`
@@ -210,7 +189,7 @@ class ArchimedeanSampler(Sampler):
 
     def __init__(self, n_samples):
         if n_samples <= 0:
-            raise SamplerInitializationException("`n_samples` is non-positive")
+            raise ValueError("`n_samples` is non-positive")
 
         self._n_samples = n_samples
 

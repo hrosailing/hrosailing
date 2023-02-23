@@ -22,11 +22,6 @@ from hrosailing.computing import scaled_euclidean_norm
 from .neighbourhood import Neighbourhood
 
 
-class InterpolatorInitializationException(Exception):
-    """Exception raised if an error occurs during
-    initialization of an `Interpolator`.
-    """
-
 
 class Interpolator(ABC):
     """Base class for all `Interpolator` classes."""
@@ -80,11 +75,6 @@ class IDWInterpolator(Interpolator):
 
         Defaults to a scaled version of :math:`||.||_2`.
 
-    Raises
-    ------
-    InterpolatorInitializationException
-        If `p` is negative.
-
     See also
     ----------
     `Interpolator`
@@ -93,7 +83,7 @@ class IDWInterpolator(Interpolator):
     def __init__(self, p=2, norm: Callable = scaled_euclidean_norm):
         super().__init__()
         if p < 0:
-            raise InterpolatorInitializationException("`p` is negative")
+            raise ValueError("`p` is negative")
 
         self._p = p
         self._norm = norm
@@ -187,11 +177,6 @@ class ArithmeticMeanInterpolator(Interpolator):
 
         If no `distribution` is passed it defaults to `(100,)`, otherwise to `()`.
 
-    Raises
-    ------
-    InterpolatorInitializationException
-        If `s` is non-positive.
-
     See also
     ----------
     `Interpolator`
@@ -206,7 +191,7 @@ class ArithmeticMeanInterpolator(Interpolator):
     ):
         super().__init__()
         if s <= 0:
-            raise InterpolatorInitializationException("`s` is non-positive")
+            raise ValueError("`s` is non-positive")
 
         self._s = s
         self._norm = norm
@@ -350,14 +335,6 @@ class ShepardInterpolator(Interpolator):
 
         Defaults to a scaled version of :math:`||.||_2`.
 
-
-    Raises
-    ------
-    InterpolatorInitializationException
-         If `tol` is non-positive.
-    InterpolatorInitializationException
-         If `slope` is non-positive.
-
     See also
     ----------
     `Interpolator`
@@ -374,9 +351,9 @@ class ShepardInterpolator(Interpolator):
             tol = np.finfo(float).eps
         super().__init__()
         if tol <= 0:
-            raise InterpolatorInitializationException("`tol` is non-positive")
+            raise ValueError("`tol` is non-positive")
         if slope <= 0:
-            raise InterpolatorInitializationException(
+            raise ValueError(
                 "`slope` is non-positive"
             )
 

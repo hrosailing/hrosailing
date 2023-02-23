@@ -17,12 +17,6 @@ import numpy as np
 from hrosailing.statistics import ComponentWithStatistics
 
 
-class FilterInitializationException(Exception):
-    """Exception raised if an error occurs during
-    initialization of a `Filter`.
-    """
-
-
 class Filter(ComponentWithStatistics, ABC):
     """Base class for all filter classes."""
 
@@ -73,11 +67,6 @@ class QuantileFilter(Filter):
 
         Defaults to `50`.
 
-    Raises
-    ------
-    FilterInitializationException
-        If `percent` is not in the interval :math:`[0, 100]`.
-
     See also
     ----------
     `Filter`
@@ -86,7 +75,7 @@ class QuantileFilter(Filter):
     def __init__(self, percent=50):
         super().__init__()
         if percent < 0 or percent > 100:
-            raise FilterInitializationException(
+            raise ValueError(
                 "`percent` is not between 0 and 100"
             )
 
@@ -130,11 +119,6 @@ class BoundFilter(Filter):
 
         Defaults to `1`.
 
-    Raises
-    ------
-    FilterInitializationException
-        If `lower_bound` is greater than `upper_bound`.
-
     See also
     ----------
     `Filter`
@@ -143,7 +127,7 @@ class BoundFilter(Filter):
     def __init__(self, lower_bound=0.5, upper_bound=1):
         super().__init__()
         if upper_bound < lower_bound:
-            raise FilterInitializationException(
+            raise ValueError(
                 "`upper_bound` is smaller than `lower_bound`"
             )
 

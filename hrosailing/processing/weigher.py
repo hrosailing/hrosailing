@@ -25,23 +25,6 @@ from hrosailing.computing import (
 )
 
 
-class WeightedPointsInitializationException(Exception):
-    """Exception raised if an error occurs during
-    initialization of `WeightedPoints`.
-    """
-
-
-class WeigherInitializationException(Exception):
-    """Exception raised if an error occurs during
-    initialization of a `Weigher`.
-    """
-
-
-class WeighingException(Exception):
-    """Exception raised if an error occurs during the calling
-    of the `.weigh()`-method."""
-
-
 class WeightedPoints:
     """A class to weigh data points and represent them together
     with their respective weights.
@@ -317,11 +300,6 @@ class CylindricMeanWeigher(Weigher):
 
         If nothing is passed, it will automatically detect a scaled euclidean norm with respect to the used dimensions.
 
-    Raises
-    ------
-    WeigherInitializationException
-        If radius is non-positive.
-
     See also
     ----------
     `Weigher`
@@ -330,7 +308,7 @@ class CylindricMeanWeigher(Weigher):
     def __init__(self, radius=0.05, norm=None, dimensions=None):
         super().__init__()
         if radius <= 0:
-            raise WeigherInitializationException(
+            raise ValueError(
                 f"Invalid value for `radius`: {radius}. Non-positive number."
                 " Use a positive value for `radius`."
             )
@@ -447,13 +425,6 @@ class CylindricMemberWeigher(Weigher):
 
         Defaults to `None`.
 
-    Raises
-    ------
-    WeigherInitializationException
-        If radius is non-positive.
-    WeigherInitializationException
-        If length is negative.
-
     See also
     ----------
     `Weigher`
@@ -462,10 +433,10 @@ class CylindricMemberWeigher(Weigher):
     def __init__(self, radius=0.05, length=0.05, norm=None, dimensions=None):
         super().__init__()
         if radius <= 0:
-            raise WeigherInitializationException("`radius` is non-positive")
+            raise ValueError("`radius` is non-positive")
 
         if length < 0:
-            raise WeigherInitializationException(
+            raise ValueError(
                 "`length` should be non-negative."
             )
 
