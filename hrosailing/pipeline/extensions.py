@@ -10,9 +10,9 @@ import numpy as np
 
 import hrosailing.pipelinecomponents as pc
 import hrosailing.polardiagram as pol
-from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
-from core.modelfunctions import (
-    ws_s_wa_gauss_and_square,
+from hrosailing.statistics import ComponentWithStatistics
+from hrosailing.modelfunctions import (
+    ws_s_wa_gauss_and_square
 )
 from hrosailing.polardiagram._polardiagramtable import _Resolution
 

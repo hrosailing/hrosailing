@@ -10,8 +10,7 @@ Also contains predefined and usable expanders:
 
 from abc import ABC, abstractmethod
 
-from models.weather_model import OutsideGridException
-from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
+from hrosailing.statistics import ComponentWithStatistics
 from core.data import Data
 
 
@@ -68,7 +67,7 @@ class WeatherExpander(Expander):
         A suitable weather model (yielding weather information for the required times, latitudes and longitudes).
 
     exception_handling_mode: {"delete", "ignore"}, optional
-        Describes how to handle weather cases which throw an OutsideGridException.
+        Describes how to handle weather cases which throw a ValueError.
 
         - `"delete"` : delete the occurrences,
         - `"ignore"` : fill the corresponding records with `None`.
@@ -114,7 +113,7 @@ class WeatherExpander(Expander):
                 weather_list.append(weather)
                 if weather_keys is None:
                     weather_keys = weather.keys()
-            except OutsideGridException:
+            except ValueError:
                 if self._exception_handling_mode == "ignore":
                     weather_list.append(None)
                 none_idxs.append(idx)
