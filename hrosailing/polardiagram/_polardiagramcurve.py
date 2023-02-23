@@ -53,13 +53,6 @@ class PolarDiagramCurve(PolarDiagram):
     radians (property) : bool
         A read only version wether the wind angle is given in radians or degrees.
 
-    Raises
-    ------
-    PolarDiagramInitializationException
-        If `f` is not callable.
-    PolarDiagramInitializationException
-        If `params` contains not enough parameters for `f`.
-
     See also
     ----------
 
@@ -113,10 +106,10 @@ class PolarDiagramCurve(PolarDiagram):
 
     def __init__(self, f, *params, radians=False):
         if not callable(f):
-            raise PolarDiagramInitializationException("`f` is not callable")
+            raise ValueError("`f` is not callable")
 
         if not self._check_enough_params(f, params):
-            raise PolarDiagramInitializationException(
+            raise ValueError(
                 "`params` is an incorrect amount of parameters for `f`"
             )
 
@@ -144,7 +137,7 @@ class PolarDiagramCurve(PolarDiagram):
             wa = wa.copy()
 
         if np.any((ws < 0)):
-            raise PolarDiagramException("`ws` is negative")
+            raise ValueError("`ws` is negative")
 
         if self.radians:
             wa = np.rad2deg(wa)
@@ -207,7 +200,7 @@ class PolarDiagramCurve(PolarDiagram):
         params = [literal_eval(value) for value in next(csv_reader)[1:]]
 
         if function not in MODEL_FUNCTIONS:
-            raise PolarDiagramInitializationException(
+            raise RuntimeError(
                 f"no valid function, named {function}"
             )
 

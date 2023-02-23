@@ -6,14 +6,14 @@ from ast import literal_eval
 
 import numpy as np
 
-from hrosailing.pipelinecomponents import (
+from hrosailing.processing import (
     ArithmeticMeanInterpolator,
     Ball,
     WeightedPoints,
 )
-from hrosailing.wind import convert_apparent_wind_to_true
+from hrosailing.computing import convert_apparent_wind_to_true
 
-from ._basepolardiagram import PolarDiagram, PolarDiagramException
+from ._basepolardiagram import PolarDiagram
 
 
 class PolarDiagramPointcloud(PolarDiagram):
@@ -135,10 +135,6 @@ class PolarDiagramPointcloud(PolarDiagram):
         else:
             points = np.asarray_chkfinite(points)
             points = points[np.where(points[:, 0] >= 0)]
-            # if np.any((points[:, 0] <= 0)):
-            #    raise PolarDiagramInitializationException(
-            #        "`points` has non-positive wind speeds"
-            #    )
             points[:, 1] %= 360
 
         self._points = points
@@ -199,7 +195,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             Boat speed value as determined above.
         """
         if np.any((ws <= 0)):
-            raise PolarDiagramException("`ws` is non-positive")
+            raise ValueError("`ws` is non-positive")
 
         wa %= 360
 
@@ -324,7 +320,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         else:
             new_pts = np.asarray_chkfinite(new_pts)
             if np.any((new_pts[:, 0] <= 0)):
-                raise PolarDiagramException(
+                raise ValueError(
                     "`new_pts` has non-positive wind speeds"
                 )
             new_pts[:, 1] %= 360
@@ -343,7 +339,7 @@ class PolarDiagramPointcloud(PolarDiagram):
                 np.logical_and(w[1] >= cloud[:, 0], cloud[:, 0] >= w[0])
             ][:, 1:]
             if not pts.size:
-                raise PolarDiagramException(
+                raise RuntimeError(
                     f"no points with wind speed in range {w} found"
                 )
 
@@ -354,7 +350,7 @@ class PolarDiagramPointcloud(PolarDiagram):
             bsp.append(pts[:, 1])
 
         if not wa:
-            raise PolarDiagramException(
+            raise ValueError(
                 "there are no slices in the given range `ws`"
             )
 

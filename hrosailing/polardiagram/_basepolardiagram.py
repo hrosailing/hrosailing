@@ -5,18 +5,6 @@ from abc import ABC, abstractmethod
 import numpy as np
 
 
-class PolarDiagramException(Exception):
-    """Exception raised if some nonstandard error occurs,
-    while doing something with polar diagrams.
-    """
-
-
-class PolarDiagramInitializationException(Exception):
-    """Exception raised if an error occurs during
-    initialization of a `PolarDiagram`.
-    """
-
-
 class PolarDiagram(ABC):
     """Base class for all polar diagrams.
 

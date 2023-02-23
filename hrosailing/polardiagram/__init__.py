@@ -10,9 +10,7 @@ from ast import literal_eval
 import numpy as np
 
 from ._basepolardiagram import (
-    PolarDiagram,
-    PolarDiagramException,
-    PolarDiagramInitializationException,
+    PolarDiagram
 )
 from ._polardiagramcurve import PolarDiagramCurve
 from ._polardiagrammultisails import PolarDiagramMultiSails
@@ -26,9 +24,7 @@ __all__ = [
     "PolarDiagramPointcloud",
     "PolarDiagramTable",
     "from_csv",
-    "FileReadingException",
-    "PolarDiagramException",
-    "PolarDiagramInitializationException",
+    "FileReadingException"
 ]
 
 

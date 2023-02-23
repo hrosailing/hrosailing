@@ -6,7 +6,9 @@ from ast import literal_eval
 
 import numpy as np
 
-from ._basepolardiagram import PolarDiagram, PolarDiagramException
+from ._basepolardiagram import (
+    PolarDiagram
+)
 from ._polardiagramtable import PolarDiagramTable
 
 
@@ -46,11 +48,6 @@ class PolarDiagramMultiSails(PolarDiagram):
 
     diagrams (property) : list of `PolarDiagram`
         The different polar diagrams.
-
-    Raises
-    ------
-    PolarDiagramInitializationException
-        If the polar tables don't share the same wind speeds.
 
     SeeAlso
     -------
@@ -148,7 +145,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         try:
             index = self.sails.index(item)
         except ValueError as ve:
-            raise PolarDiagramException(
+            raise ValueError(
                 "`item` is not a name of a sail"
             ) from ve
 

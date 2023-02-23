@@ -9,16 +9,14 @@ from typing import Iterable
 
 import numpy as np
 
-from hrosailing.pipelinecomponents import (
+from hrosailing.processing import (
     ArithmeticMeanInterpolator,
     Ball,
     WeightedPoints,
 )
 
 from ._basepolardiagram import (
-    PolarDiagram,
-    PolarDiagramException,
-    PolarDiagramInitializationException,
+    PolarDiagram
 )
 
 
@@ -159,11 +157,11 @@ class PolarDiagramTable(PolarDiagram):
 
         # sanity checks
         if bsps.dtype is object:
-            raise PolarDiagramInitializationException(
+            raise TypeError(
                 "`bsps` is not array_like"
             )
         if _incompatible_shapes(bsps, ws_resolution, wa_resolution):
-            raise PolarDiagramInitializationException(
+            raise ValueError(
                 "`bsps` has incorrect shape"
             )
 
@@ -290,7 +288,7 @@ class PolarDiagramTable(PolarDiagram):
         """
         try:
             return self[ws, wa]
-        except PolarDiagramException:
+        except (TypeError, ValueError):
             point = np.array([ws, wa])
             ws, wa = np.meshgrid(self.wind_speeds, self.wind_angles)
             points = np.column_stack(
@@ -329,10 +327,10 @@ class PolarDiagramTable(PolarDiagram):
 
         # sanity checks
         if not wind:
-            raise PolarDiagramException("empty slice-list was passed")
+            raise ValueError("empty slice-list was passed")
 
         if not wind.issubset(set(res)):
-            raise PolarDiagramException(f"{wind} is not contained in {res}")
+            raise ValueError(f"{wind} is not contained in {res}")
 
         return [i for i, w in enumerate(res) if w in wind]
 
