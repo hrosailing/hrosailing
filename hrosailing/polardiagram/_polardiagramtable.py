@@ -433,7 +433,7 @@ class PolarDiagramTable(PolarDiagram):
         135.0         5.20   6.41    7.19    7.66    8.14
         """
         if fmt not in {"hro", "orc", "opencpn", "array"}:
-            raise PolarDiagramException("`fmt` not implemented")
+            raise NotImplementedError("`fmt` not implemented")
 
         with open(csv_path, "w", newline="", encoding="utf-8") as file:
             if fmt == "orc":
@@ -637,7 +637,7 @@ class PolarDiagramTable(PolarDiagram):
         new_bsps = np.asarray_chkfinite(new_bsps)
 
         if new_bsps.dtype == object:
-            raise PolarDiagramException("`new_bsps` is not array_like")
+            raise TypeError("`new_bsps` is not array_like")
 
         ws = self._get_indices(ws, _Resolution.WIND_SPEED)
         wa = self._get_indices(wa, _Resolution.WIND_ANGLE)
@@ -656,7 +656,7 @@ class PolarDiagramTable(PolarDiagram):
             correct_shape = new_bsps.shape == (len(wa), len(ws))
 
         if not correct_shape:
-            raise PolarDiagramException("`new_bsps` has wrong shape")
+            raise ValueError("`new_bsps` has wrong shape")
 
         mask = np.zeros(self.boat_speeds.shape, dtype=bool)
         for i in wa:
