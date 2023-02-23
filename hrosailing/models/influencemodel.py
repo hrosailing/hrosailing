@@ -17,10 +17,6 @@ from hrosailing.computing import (
     convert_apparent_wind_to_true, data_dict_to_numpy
 )
 
-class InfluenceException(Exception):
-    """Raised when removing or adding influence does not work."""
-
-
 class InfluenceModel(ComponentWithStatistics, ABC):
     """Base class for all influence model classes."""
 
@@ -241,7 +237,7 @@ def _get_true_wind_data(data: dict):
         apparent_data = data_dict_to_numpy(data, ["AWS", "AWA", speed])
         return convert_apparent_wind_to_true(apparent_data)
 
-    raise InfluenceException(
+    raise ValueError(
         "No sufficient wind data is given in order to apply influence"
         "model. Either give 'AWA' and 'AWS' or 'TWA' and 'TWS'"
     )
