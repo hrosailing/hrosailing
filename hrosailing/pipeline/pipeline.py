@@ -11,10 +11,7 @@ import hrosailing.processing as pc
 import hrosailing.polardiagram as pol
 
 from .extensions import (
-    CurveExtension,
-    PipelineExtension,
-    PointcloudExtension,
-    TableExtension,
+    TableExtension
 )
 
 
