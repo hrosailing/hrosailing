@@ -17,11 +17,6 @@ from hrosailing.models import (
 )
 
 
-class CruisingException(Exception):
-    """Exception which will be raised if a non-Standard error in a cruising
-    method occurs."""
-
-
 @dataclass
 class Direction:
     """Dataclass to represent recommended sections of a sailing maneuver. Supports `str` method."""
@@ -126,7 +121,7 @@ def convex_direction(
     else:
         i1, i2 = vert[0], vert[-1]
         if abs(wa[i1] - wa[i2]) < 180:
-            raise CruisingException(
+            raise ValueError(
                 "The given direction is not supported by the given"
                 " polar_diagram."
             )
