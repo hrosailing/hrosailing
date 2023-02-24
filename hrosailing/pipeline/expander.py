@@ -10,8 +10,8 @@ Also contains predefined and usable expanders:
 
 from abc import ABC, abstractmethod
 
-from hrosailing.statistics import ComponentWithStatistics
-from core.data import Data
+from hrosailing.core.statistics import ComponentWithStatistics
+from hrosailing.core.data import Data
 
 
 class Expander(ComponentWithStatistics, ABC):

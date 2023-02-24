@@ -7,7 +7,7 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from hrosailing.computing import safe_operation
+from hrosailing.core.computing import safe_operation
 
 
 class QualityAssurance(ABC):

@@ -12,8 +12,8 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from hrosailing.statistics import ComponentWithStatistics
-from hrosailing.computing import (
+from hrosailing.core.statistics import ComponentWithStatistics
+from hrosailing.core.computing import (
     convert_apparent_wind_to_true, data_dict_to_numpy
 )
 
