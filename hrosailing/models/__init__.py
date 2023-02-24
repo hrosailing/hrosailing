@@ -8,10 +8,15 @@ from .globe_model import (
 )
 
 from .influencemodel import (
-    InfluenceException, InfluenceModel, IdentityInfluenceModel,
+    InfluenceModel, IdentityInfluenceModel,
     WindAngleCorrectingInfluenceModel
 )
 from .weather_model import (
-    WeatherModel, GriddedWeatherModel, NetCDFWeatherModel, OutsideGridException
+    WeatherModel, GriddedWeatherModel, NetCDFWeatherModel, MultiWeatherModel
 )
 
+__all__ = [
+    "GlobeModel", "FlatMercatorProjection", "SphericalGlobe",
+    "InfluenceModel", "IdentityInfluenceModel", "WindAngleCorrectingInfluenceModel",
+    "WeatherModel", "GriddedWeatherModel", "NetCDFWeatherModel", "MultiWeatherModel"
+]

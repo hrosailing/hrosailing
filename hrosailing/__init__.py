@@ -71,8 +71,7 @@ import hrosailing.models
 from hrosailing.core import *
 
 __all__ = [
-    "computing",
-    "constants",
+    "core",
     "cruising",
     "data",
     "models",
@@ -80,6 +79,5 @@ __all__ = [
     "plotting",
     "processing",
     "polardiagram",
-    "statistics",
     "version",
 ]
