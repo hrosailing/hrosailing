@@ -1,12 +1,12 @@
 """
 Contains projections and functions for plotting objects of the hrosailing framework.
-Currently the plot of `PolarDiagram` objects is supported.
+Currently, the plot of `PolarDiagram` objects is supported.
 Defines the following projections:
 
-- "hro polar" : plot and scatter polar diagrams in a polar plot (see `HROPolar`)
-- "hro flat" : plot and scatter polar diagrams in an euclidean plot (see `HROFlat`)
-- "hro color gradient" : plot two dimensional heat maps of a polar diagram (see `HROColorGradient`)
-- "hro 3d" : scatter or plot the surface of the three dimensional representation of a polar diagram (see `Axes3D`)
+- `"hro polar"` : plot and scatter polar diagrams in a polar plot (see `HROPolar`),
+- `"hro flat"` : plot and scatter polar diagrams in a euclidean plot (see `HROFlat`),
+- `"hro color gradient"` : plot two-dimensional heat maps of a polar diagram (see `HROColorGradient`),
+- `"hro 3d"` : scatter or plot the surface of the three-dimensional representation of a polar diagram (see `Axes3D`).
 
 Examples
 --------
@@ -67,13 +67,13 @@ class HROPolar(PolarAxes):
         ----------
         *args :
             If the first argument is a polar diagram it plots the polar diagram.
-            Otherwise it plots the arguments as usual.
+            Otherwise, it plots the arguments as usual.
 
         ws : int, float or iterable thereof, optional
-            As in `Polardiagram.get_slices`
+            As in `Polardiagram.get_slices`.
 
         n_steps : int, optional
-            As in `Polardiagram.get_slices`
+            As in `Polardiagram.get_slices`.
 
         colors : color_like or sequence of color_likes or (ws, color_like) pairs
             Specifies the colors to be used for the different slices.
@@ -90,13 +90,15 @@ class HROPolar(PolarAxes):
 
             Defaults to `("green", "red")`.
 
-        show_legend : bool, default: `False`
-            Specifies wether or not a legend will be shown next to the plot.
+        show_legend : bool
+            Specifies whether a legend will be shown next to the plot.
 
             The type of legend depends on the color options.
 
             If plotted with a color gradient, a `matplotlib.colorbar.Colorbar`
             will be created, otherwise a `matplotlib.legend.Legend` instance.
+
+            Defaults to `False`.
 
         legend_kw : dict, optional
             Keyword arguments to change position and appearance of the colorbar
@@ -122,15 +124,15 @@ class HROPolar(PolarAxes):
         _plot(self, slices, info, True, use_convex_hull, **kwargs)
 
     def scatter(self,
-             *args,
-             ws=None,
-             n_steps=None,
-             colors=("green", "red"),
-             show_legend=False,
-             legend_kw=None,
-             use_convex_hull=False,
-             **kwargs
-             ):
+                *args,
+                ws=None,
+                n_steps=None,
+                colors=("green", "red"),
+                show_legend=False,
+                legend_kw=None,
+                use_convex_hull=False,
+                **kwargs
+                ):
         """
         Plots the given data as a polar plot.
         Parameters are identical to `plot`.
@@ -171,7 +173,7 @@ class HROFlat(Axes):
              ):
         """
         Plots the given data in a rectilinear plot.
-        Otherwise it works identical to `HROPolar.plot`.
+        Otherwise, it works identical to `HROPolar.plot`.
 
         See also
         ----------
@@ -187,17 +189,17 @@ class HROFlat(Axes):
         _plot(self, slices, info, False, use_convex_hull, **kwargs)
 
     def scatter(self,
-             *args,
-             ws=None,
-             colors=("green", "red"),
-             show_legend=False,
-             use_convex_hull=False,
-             legend_kw=None,
-             **kwargs
-             ):
+                *args,
+                ws=None,
+                colors=("green", "red"),
+                show_legend=False,
+                use_convex_hull=False,
+                legend_kw=None,
+                **kwargs
+                ):
         """
         Creates rectilinear scatter plot of a `PolarDiagram` instance.
-        Otherwise it works the same as `HROPolar.plot`
+        Otherwise, it works the same as `HROPolar.plot`
 
         See also:
         ----------
@@ -215,7 +217,7 @@ class HROFlat(Axes):
 
 
 class HROColorGradient(Axes):
-    """Projection supporting two dimensional color gradient plotting of polar diagrams."""
+    """Projection supporting two-dimensional color gradient plotting of polar diagrams."""
     name = "hro color gradient"
 
     def plot(self, *args, **kwargs):
@@ -229,13 +231,13 @@ class HROColorGradient(Axes):
         self.scatter(*args, **kwargs)
 
     def scatter(self,
-             *args,
-             wind = None,
-             colors = ("green", "red"),
-             show_legend=False,
-             legend_kw=None,
-             **kwargs
-             ):
+                *args,
+                wind=None,
+                colors=("green", "red"),
+                show_legend=False,
+                legend_kw=None,
+                **kwargs
+                ):
         """
         Plots the given data as a polar plot.
         If a `PolarDiagram` is given, plots each slice corresponding to `ws` and `n_steps`
@@ -245,17 +247,17 @@ class HROColorGradient(Axes):
         ----------
         *args :
             If the first argument is a polar diagram it plots the polar diagram.
-            Otherwise it plots the arguments as usual.
+            Otherwise, it plots the arguments as usual.
 
         wind : (2, d) or (d, 2) numpy.ndarray or tuple of 2 (1, d) numpy.ndarray or `None`, optional
-            As in `Polardiagram.get_points`
+            As in `Polardiagram.get_points`.
 
         colors : color_like or sequence of color_likes or (ws, color_like) pairs
             Specifies the colors to be used for the different slices.
             As in `HROPolar.plot`.
 
         show_legend : bool, default: `False`
-            Specifies wether or not a legend will be shown next to the plot.
+            Specifies whether a legend will be shown next to the plot.
             As in `HROPolar.plot`.
 
         legend_kw : dict, optional
@@ -283,17 +285,17 @@ class HROColorGradient(Axes):
 
 
 class Axes3D(pltAxes3D):
-    """Projection enabling the display of polar diagrams in a three dimensional plot."""
+    """Projection enabling the display of polar diagrams in a three-dimensional plot."""
     name = "hro 3d"
 
     def scatter(self,
-             *args,
-             wind=None,
-             colors=("green", "red"),
-             show_legend=False,
-             legend_kw=None,
-             **kwargs
-             ):
+                *args,
+                wind=None,
+                colors=("green", "red"),
+                show_legend=False,
+                legend_kw=None,
+                **kwargs
+                ):
         """
         Works identical to `HROColorGradient.scatter`.
 
@@ -313,7 +315,7 @@ class Axes3D(pltAxes3D):
     def plot(self, *args, **kwargs):
         """
         Works identical to `plot_surface` on polar diagrams.
-        Otherwise it works like `mpl_toolkits.mplot3d.Axes3D.plot`.
+        Otherwise, it works like `mpl_toolkits.mplot3d.Axes3D.plot`.
 
         See also
         --------
@@ -328,8 +330,8 @@ class Axes3D(pltAxes3D):
 
     def plot_surface(self, *args, wind=None, colors=("green", "red"), **kwargs):
         """
-        Plots a three dimensional depiction of the polar diagram as a triangulated surface plot if a
-        polar diagram is given. Otherwise it works as `mpl_toolkits.mplot3d.plot_surface`.
+        Plots a three-dimensional depiction of the polar diagram as a triangulated surface plot if a
+        polar diagram is given. Otherwise, it works as `mpl_toolkits.mplot3d.plot_surface`.
         Parameters are the same as in `HROColorGradient.scatter`.
 
         See also
@@ -351,8 +353,8 @@ class Axes3D(pltAxes3D):
         tzs = z[triang.triangles]
 
         diffz = [
-            (tzs[:, idx1] - tzs[:, idx2])**2
-            for idx1, idx2 in itertools.combinations([0,1,2], 2)
+            (tzs[:, idx1] - tzs[:, idx2]) ** 2
+            for idx1, idx2 in itertools.combinations([0, 1, 2], 2)
         ]
 
         not_too_narrow = np.logical_or(diffz[0] > 0.2, diffz[1] > 0.2, diffz[2] > 0.2)
@@ -373,16 +375,16 @@ class Axes3D(pltAxes3D):
         _set_3d_axis_labels(self)
         _remove_3d_tick_labels_for_polar_coordinates(self)
 
-        self.plot_trisurf(x, y, z, triangles = triang.triangles[mask], cmap=color_map, **kwargs)
+        self.plot_trisurf(x, y, z, triangles=triang.triangles[mask], cmap=color_map, **kwargs)
 
     def _prepare_points(self, pd, wind):
         points = pd.get_points(wind)
         ws, wa, bsp = points.T
-        #flip and rotate such that 0° is on top and 90° is right
-        #wa = (-wa)%360 - 90
+        # flip and rotate such that 0° is on top and 90° is right
+        # wa = (-wa)%360 - 90
         wa_rad = np.deg2rad(wa)
 
-        x, y = bsp*np.sin(wa_rad), bsp*np.cos(wa_rad)
+        x, y = bsp * np.sin(wa_rad), bsp * np.cos(wa_rad)
         return x, y, ws
 
     def _plot3d(self, x, y, z, colors, **plot_kw):
@@ -449,7 +451,7 @@ def _get_convex_hull(slice, info_):
     ws, wa, bsp = slice
     wa_rad = np.deg2rad(wa)
     points = np.column_stack([
-            bsp*np.cos(wa_rad), bsp*np.sin(wa_rad)
+        bsp * np.cos(wa_rad), bsp * np.sin(wa_rad)
     ])
     try:
         vertices = ConvexHull(points).vertices
@@ -463,30 +465,29 @@ def _get_convex_hull(slice, info_):
         slice = sorted(slice, key=lambda x: x[1])
     slice = np.array(slice).T
 
-    #if wind angle difference is big, wrap around
+    # if wind angle difference is big, wrap around
     if slice[1][-1] - slice[1][0] > 180:
-        #estimate bsp value at 0 (360 resp)
-        x0 = slice[2, 0]*np.sin(np.deg2rad(slice[1, 0]))
-        x1 = slice[2, -1]*np.sin(np.deg2rad(slice[1, -1]))
-        y0 = slice[2, 1]*np.cos(np.deg2rad(slice[1, 0]))
-        y1 = slice[2, -1]*np.cos(np.deg2rad(slice[1, -1]))
-        lamb = x0/(x0 - x1)
-        approx_ws = lamb*slice[0, 0] + (1-lamb)*slice[0, -1]
-        approx_bsp = lamb*y0 + (1-lamb)*y1
+        # estimate bsp value at 0 (360 resp)
+        x0 = slice[2, 0] * np.sin(np.deg2rad(slice[1, 0]))
+        x1 = slice[2, -1] * np.sin(np.deg2rad(slice[1, -1]))
+        y0 = slice[2, 1] * np.cos(np.deg2rad(slice[1, 0]))
+        y1 = slice[2, -1] * np.cos(np.deg2rad(slice[1, -1]))
+        lamb = x0 / (x0 - x1)
+        approx_ws = lamb * slice[0, 0] + (1 - lamb) * slice[0, -1]
+        approx_bsp = lamb * y0 + (1 - lamb) * y1
 
         slice = np.column_stack([[approx_ws, 0, approx_bsp], slice, [approx_ws, 360, approx_bsp]])
 
     ws, wa, bsp = slice
 
-    #connect if smaller than 180
-
+    # connect if smaller than 180
 
     return ws, wa, bsp, info_
 
 
 def plot_polar(*args, **kwargs):
     """
-    Creates a single `HROPolar` Axes calls its `plot` method.
+    Creates a single `HROPolar` Axes and calls its `plot` method.
     Useful for simple plots of just one polar diagram.
 
     See also
@@ -499,7 +500,7 @@ def plot_polar(*args, **kwargs):
 
 def scatter_polar(*args, **kwargs):
     """
-    Creates a single `HROPolar` Axes calls its `scatter` method.
+    Creates a single `HROPolar` Axes and calls its `scatter` method.
     Useful for simple plots of just one polar diagram.
 
     See also
@@ -512,7 +513,7 @@ def scatter_polar(*args, **kwargs):
 
 def plot_flat(*args, **kwargs):
     """
-    Creates a single `HROFlat` Axes calls its `plot` method.
+    Creates a single `HROFlat` Axes and calls its `plot` method.
     Useful for simple plots of just one polar diagram.
 
     See also
@@ -525,7 +526,7 @@ def plot_flat(*args, **kwargs):
 
 def scatter_flat(*args, **kwargs):
     """
-    Creates a single `HROFlat` Axes calls its `scatter` method.
+    Creates a single `HROFlat` Axes and calls its `scatter` method.
     Useful for simple plots of just one polar diagram.
 
     See also
@@ -538,7 +539,7 @@ def scatter_flat(*args, **kwargs):
 
 def plot_color_gradient(*args, **kwargs):
     """
-    Creates a single `HROColorGradient` Axes calls its `plot` method.
+    Creates a single `HROColorGradient` Axes and calls its `plot` method.
     Useful for simple plots of just one polar diagram.
 
     See also
@@ -551,7 +552,7 @@ def plot_color_gradient(*args, **kwargs):
 
 def plot_3d(*args, **kwargs):
     """
-    Creates a single `Axes3D` Axes calls its `plot` method.
+    Creates a single `Axes3D` Axes and calls its `plot` method.
     Useful for simple plots of just one polar diagram.
 
     See also
@@ -564,7 +565,7 @@ def plot_3d(*args, **kwargs):
 
 def scatter_3d(*args, **kwargs):
     """
-    Creates a single `Axes3D` Axes calls its `scatter` method.
+    Creates a single `Axes3D` Axes and calls its `scatter` method.
     Useful for simple plots of just one polar diagram.
 
     See also
