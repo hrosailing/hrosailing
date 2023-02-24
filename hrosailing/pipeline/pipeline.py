@@ -10,11 +10,15 @@ import numpy as np
 import hrosailing.core.data
 import hrosailing.processing as pc
 import hrosailing.polardiagram as pol
+import hrosailing.models as mod
 
 from .extensions import (
     TableExtension
 )
 
+from .expander import LazyExpander
+
+from .quality_assurance import MinimalQualityAssurance
 
 class Statistics(NamedTuple):
     """
@@ -169,15 +173,15 @@ class PolarPipeline:
             pc.LazySmoother(),
             pc.CylindricMeanWeigher(),
             pc.QuantileFilter(),
-            pc.LazyExpander(),
+            LazyExpander(),
             pc.CylindricMeanWeigher(),
             pc.QuantileFilter(),
-            pc.IdentityInfluenceModel(),
+            mod.IdentityInfluenceModel(),
             pc.CylindricMeanWeigher(),
             pc.QuantileFilter(),
             pc.ZeroInjector(500),
             TableExtension(),
-            pc.MinimalQualityAssurance(),
+            MinimalQualityAssurance(),
         ]
 
         keys = [
