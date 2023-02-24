@@ -37,7 +37,6 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     Attributes
     -----------
-
     wind_speeds (property) : numpy.ndarray
         All unique wind speeds in the point cloud.
 
