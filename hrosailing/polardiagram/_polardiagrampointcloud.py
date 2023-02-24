@@ -9,8 +9,8 @@ import numpy as np
 from hrosailing.processing import (
     ArithmeticMeanInterpolator,
     Ball,
-    WeightedPoints,
 )
+from ..core.data import WeightedPoints
 from hrosailing.computing import convert_apparent_wind_to_true
 
 from ._basepolardiagram import PolarDiagram

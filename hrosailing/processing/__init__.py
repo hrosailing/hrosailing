@@ -44,8 +44,8 @@ from .weigher import (
     FuzzyVariable,
     FuzzyWeigher,
     Weigher,
-    WeightedPoints,
 )
+from ..core.data import WeightedPoints
 
 __all__ = [
     "ArrayHandler",
@@ -78,6 +78,5 @@ __all__ = [
     "FluctuationWeigher",
     "FuzzyVariable",
     "FuzzyWeigher",
-    "Weigher",
-    "WeightedPoints"
+    "Weigher"
 ]

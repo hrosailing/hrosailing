@@ -12,8 +12,8 @@ import numpy as np
 from hrosailing.processing import (
     ArithmeticMeanInterpolator,
     Ball,
-    WeightedPoints,
 )
+from ..core.data import WeightedPoints
 
 from ._basepolardiagram import (
     PolarDiagram

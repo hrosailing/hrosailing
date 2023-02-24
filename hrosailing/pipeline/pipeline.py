@@ -7,6 +7,7 @@ from typing import NamedTuple
 
 import numpy as np
 
+import hrosailing.core.data
 import hrosailing.processing as pc
 import hrosailing.polardiagram as pol
 
@@ -331,7 +332,7 @@ class PolarPipeline:
             )
         else:
             pts_to_inject, injector_statistics = (
-                pc.WeightedPoints(np.empty((0, 3)), np.empty(0)),
+                hrosailing.core.data.WeightedPoints(np.empty((0, 3)), np.empty(0)),
                 {},
             )
 
@@ -531,14 +532,14 @@ def _is_empty_data(data):
         return True
     if isinstance(data, np.ndarray) and len(data) == 0:
         return True
-    if isinstance(data, pc.WeightedPoints):
+    if isinstance(data, hrosailing.core.data.WeightedPoints):
         return _is_empty_data(data.data)
     return False
 
 
 def _weigh_and_filter(data, weigher, filter_, weighing, filtering):
     if _is_empty_data(data):
-        return (pc.WeightedPoints(data, []), {}, {})
+        return (hrosailing.core.data.WeightedPoints(data, []), {}, {})
     if weighing:
         weights, weigher_statistics = _collect(weigher, weigher.weigh, data)
     else:
@@ -547,7 +548,7 @@ def _weigh_and_filter(data, weigher, filter_, weighing, filtering):
             def_weigher, def_weigher.weigh, data
         )
 
-    weighed_data = pc.WeightedPoints(data, weights)
+    weighed_data = hrosailing.core.data.WeightedPoints(data, weights)
 
     filtered_data, filter_statistics = (
         _filter_data(filter_, weighed_data)
@@ -577,7 +578,7 @@ def _add_zeros(weighted_points, n_zeros):
     original_points = weighted_points.points
     original_weights = weighted_points.weights
 
-    return pc.WeightedPoints(
+    return hrosailing.core.data.WeightedPoints(
         data=np.concatenate([original_points, zeros, fulls]),
         weights=np.concatenate([original_weights, np.ones(2 * n_zeros)]),
     )

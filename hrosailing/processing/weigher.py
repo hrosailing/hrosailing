@@ -18,87 +18,10 @@ from core.data import Data
 
 from hrosailing.statistics import ComponentWithStatistics
 from hrosailing.computing import (
-    safe_operation,
     data_dict_to_numpy,
     euclidean_norm,
     scaled_norm,
 )
-
-
-class WeightedPoints:
-    """A class to weigh data points and represent them together
-    with their respective weights.
-
-    If `weighted_points` is of type `WeightedPoints` then you can use `weighted_points[mask]` with an array-like over
-    booleans to create a boolean mask over the repective rows of the weighted points.
-
-    Parameters
-    ----------
-    data : Data, dict or numpy.ndarray
-        Points that will be weight or paired with given weights.
-        If given as a dictionary, each value has to be a list. Data points are interpreted as
-        `[data[key][i] for key in data.keys()]` for each suitable `i`.
-        If given as a `numpy.ndarray`, the rows will be interpreted as data points.
-
-    weights : scalar or array_like of shape (n, )
-        If the weights of the points are known beforehand,
-        they can be given as an argument. If weights are
-        passed, they will be assigned to the points
-        and no further weighing will take place.
-
-        If a scalar is passed, the points will all be assigned
-        the same weight.
-    """
-
-    def __init__(self, data, weights):
-        self.data = data
-        if isinstance(weights, (float, int)):
-            if isinstance(data, dict):
-                length = len(list(data.values())[0])
-            else:
-                length = len(data)
-            self.weights = weights * np.ones(length)
-        else:
-            self.weights = np.asarray(weights)
-
-    def __getitem__(self, mask):
-        if isinstance(self.data, dict):
-            return WeightedPoints(
-                data={
-                    key: list(np.array(value)[mask])
-                    for key, value in self.data.items()
-                },
-                weights=self.weights[mask],
-            )
-        return WeightedPoints(data=self.data[mask], weights=self.weights[mask])
-
-    def extend(self, other):
-        """
-        Extends the weighted points by other weighted points.
-        The value of the `data` attribute has to be of the same type in both respective `WeightedPoints` objects.
-        If both data is given as a dictionary of lists, the respective lists
-        will be extended.
-        Keys that are not present in both dictionaries are discarded.
-
-        Parameters
-        ----------
-        other : WeightedPoints
-            Points to be appended.
-        """
-
-        if isinstance(self.data, dict):
-            self.data = {
-                key: value + other.data[key]
-                for key, value in self.data.items()
-                if key in other.data
-            }
-        elif isinstance(self.data, Data):
-            self.data = Data.concatenate([self.data, other.data])
-        else:
-            self.data = np.row_stack([self.data, other.data])
-
-        self.weights = np.concatenate([self.weights, other.weights])
-
 
 class Weigher(ComponentWithStatistics, ABC):
     """Base class for all weigher classes.
