@@ -11,8 +11,7 @@ from abc import ABC, abstractmethod
 import numpy as np
 
 import hrosailing.core.data
-import hrosailing.processing as pc
-from hrosailing.statistics import ComponentWithStatistics
+from hrosailing.core.statistics import ComponentWithStatistics
 
 
 class Injector(ComponentWithStatistics, ABC):

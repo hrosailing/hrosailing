@@ -6,12 +6,10 @@ from inspect import getmembers, isfunction
 
 import numpy as np
 
-import core.modelfunctions as model
+import hrosailing.core.modelfunctions as model
 
 from ._basepolardiagram import (
-    PolarDiagram,
-    PolarDiagramException,
-    PolarDiagramInitializationException,
+    PolarDiagram
 )
 
 MODEL_FUNCTIONS = dict(getmembers(model, isfunction))

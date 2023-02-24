@@ -11,7 +11,7 @@ from hrosailing.processing import (
     Ball,
 )
 from ..core.data import WeightedPoints
-from hrosailing.computing import convert_apparent_wind_to_true
+from hrosailing.core.computing import convert_apparent_wind_to_true
 
 from ._basepolardiagram import PolarDiagram
 

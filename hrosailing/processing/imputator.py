@@ -6,7 +6,7 @@ to create custom imputators.
 from abc import ABC, abstractmethod
 from datetime import timedelta
 
-from hrosailing.statistics import ComponentWithStatistics
+from hrosailing.core.statistics import ComponentWithStatistics
 
 
 class Imputator(ComponentWithStatistics, ABC):

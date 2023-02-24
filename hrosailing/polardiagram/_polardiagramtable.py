@@ -13,7 +13,7 @@ from hrosailing.processing import (
     ArithmeticMeanInterpolator,
     Ball,
 )
-from ..core.data import WeightedPoints
+from hrosailing.core.data import WeightedPoints
 
 from ._basepolardiagram import (
     PolarDiagram

@@ -14,7 +14,7 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from hrosailing.statistics import ComponentWithStatistics
+from hrosailing.core.statistics import ComponentWithStatistics
 
 
 class Filter(ComponentWithStatistics, ABC):

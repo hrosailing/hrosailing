@@ -13,14 +13,15 @@ from datetime import timedelta
 
 import numpy as np
 
-from hrosailing.constants import NORM_SCALES
-from core.data import Data
+from hrosailing.core.constants import NORM_SCALES
+from hrosailing.core.data import Data
 
-from hrosailing.statistics import ComponentWithStatistics
-from hrosailing.computing import (
+from hrosailing.core.statistics import ComponentWithStatistics
+from hrosailing.core.computing import (
     data_dict_to_numpy,
     euclidean_norm,
     scaled_norm,
+    safe_operation
 )
 
 class Weigher(ComponentWithStatistics, ABC):
@@ -113,9 +114,9 @@ class Weigher(ComponentWithStatistics, ABC):
         weights : array_like of floats
             The weights to be analyzed.
         """
-        minw = _safe_operation(np.min, weights)
-        maxw = _safe_operation(np.max, weights)
-        span = _safe_operation(lambda x: x[1] - x[0], [minw, maxw])
+        minw = safe_operation(np.min, weights)
+        maxw = safe_operation(np.max, weights)
+        span = safe_operation(lambda x: x[1] - x[0], [minw, maxw])
 
         def get_quantiles(args):
             minw, span = args
@@ -140,10 +141,10 @@ class Weigher(ComponentWithStatistics, ABC):
             ]
 
         super().set_statistics(
-            average_weight=_safe_operation(np.mean, weights),
+            average_weight=safe_operation(np.mean, weights),
             minimal_weight=minw,
             maximal_weight=maxw,
-            quantiles=_safe_operation(get_quantiles, [minw, span]),
+            quantiles=safe_operation(get_quantiles, [minw, span]),
         )
 
 

@@ -45,7 +45,6 @@ from .weigher import (
     FuzzyWeigher,
     Weigher,
 )
-from ..core.data import WeightedPoints
 
 __all__ = [
     "ArrayHandler",

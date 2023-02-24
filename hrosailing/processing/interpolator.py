@@ -18,7 +18,7 @@ from typing import Callable
 
 import numpy as np
 
-from hrosailing.computing import scaled_euclidean_norm
+from hrosailing.core.computing import scaled_euclidean_norm
 from .neighbourhood import Neighbourhood
 
 
