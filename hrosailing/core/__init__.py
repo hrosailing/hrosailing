@@ -1,3 +1,7 @@
+"""
+Classes, methods and interfaces relevant for all other modules.
+"""
+
 import hrosailing.core.modelfunctions
 import hrosailing.core.computing
 import hrosailing.core.constants
