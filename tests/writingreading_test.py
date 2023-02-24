@@ -5,7 +5,7 @@ import unittest
 import numpy as np
 
 import hrosailing.polardiagram as pol
-from hrosailing.polardiagram import FileReadingException
+from hrosailing.core.exceptions import FileReadingException
 
 
 class FileReadingTest(unittest.TestCase):

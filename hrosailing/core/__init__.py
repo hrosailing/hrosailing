@@ -7,11 +7,13 @@ import hrosailing.core.computing
 import hrosailing.core.constants
 import hrosailing.core.data
 import hrosailing.core.statistics
+import hrosailing.core.exceptions
 
 __all__ = [
     "modelfunctions",
     "statistics",
     "computing",
     "data",
-    "constants"
+    "constants",
+    "exceptions"
 ]
