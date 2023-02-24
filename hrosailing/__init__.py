@@ -68,12 +68,11 @@ import hrosailing.processing
 import hrosailing.plotting
 import hrosailing.polardiagram
 import hrosailing.models
-from hrosailing.core import *
+import hrosailing.core
 
 __all__ = [
     "core",
     "cruising",
-    "data",
     "models",
     "pipeline",
     "plotting",
