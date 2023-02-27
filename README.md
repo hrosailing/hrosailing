@@ -103,13 +103,14 @@ to add more serialization options.
 #### Visualizing polar diagrams
 ```python
 import matplotlib.pyplot as plt
+import hrosailing.plotting as plot
 
 ws = [10, 20, 30]
 
-pd.plot_polar(ws=ws, ax=plt.subplot(2, 2, 1, projection="polar"))
-pd.plot_convex_hull(ws=ws, ax=plt.subplot(2, 2, 2, projection="polar"))
-pd.plot_flat(ws=ws, ax=plt.subplot(2, 2, 3))
-pd.plot_color_gradient(ax=plt.subplot(2, 2, 4))
+plt.subplot(2, 2, 1, projection="hro polar").plot(pd, ws=ws)
+plt.subplot(2, 2, 2, projection="hro polar").plot(pd, ws=ws, use_convex_hull=True)
+plt.subplot(2, 2, 3, projection="hro flat").plot(pd, ws=ws)
+plt.subplot(2, 2, 4, projection="hro color gradient").plot(pd)
 
 plt.show()
 ```
@@ -117,10 +118,11 @@ plt.show()
 
 3d visualization is also supported.
 ```python
-pd.plot_3d()
+plot.plot_3d(pd)
 plt.show()
 ```
-![3d_plot](https://user-images.githubusercontent.com/70914876/146153719-826e8c93-09ab-4387-b13c-e942139fcce6.png)
+![output_3d](https://user-images.githubusercontent.com/70914876/220571096-38bf678c-994e-4429-9da6-19dc2d84ffd6.png)
+
 
 
 #### Iterate over polar diagram data
@@ -159,14 +161,17 @@ import hrosailing.pipelinecomponents as pcomp
 pol_pips = [
     pipe.PolarPipeline(
         data_handler=pcomp.ArrayHandler(),
+        imputator=pcomp.RemoveOnlyImputator(),
         extension=pipe.TableExtension()
     ),
     pipe.PolarPipeline(
         data_handler=pcomp.ArrayHandler(),
+        imputator=pcomp.RemoveOnlyImputator(),
         extension=pipe.PointcloudExtension()
     ),
     pipe.PolarPipeline(
         data_handler=pcomp.ArrayHandler(),
+        imputator=pcomp.RemoveOnlyImputator(),
         extension=pipe.CurveExtension()
     )
 ]
@@ -181,12 +186,13 @@ pds = [
 ]
 #
 for i, pd in enumerate(pds):
-   pd.plot_polar(ws=ws, ax=plt.subplot(1, 3, i+1, projection="polar"))
+   plt.subplot(1, 3, i+1, projection="hro polar").plot(pd, ws=ws)
 
 plt.tight_layout()
 plt.show()
 ```
-![pipeline_plots](https://user-images.githubusercontent.com/70914876/146170918-66224c66-05c4-49db-a1a5-ddfc2a13b9f1.png)
+
+![pipeline_plots_v2](https://user-images.githubusercontent.com/70914876/220584274-06f31e81-ecee-4825-b911-fef38c26fbef.png)
 
 If we are unhappy with the default behaviour of the pipelines, 
 we can customize one or more components of it.

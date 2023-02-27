@@ -20,13 +20,6 @@ from ._basepolardiagram import (
     PolarDiagramException,
     PolarDiagramInitializationException,
 )
-from ._plotting import (
-    plot_color_gradient,
-    plot_convex_hull,
-    plot_flat,
-    plot_polar,
-    plot_surface,
-)
 
 
 class PolarDiagramTable(PolarDiagram):
@@ -49,9 +42,14 @@ class PolarDiagramTable(PolarDiagram):
 
     Attributes
     ----------
-    wind_speeds
-    wind_angles
-    boat_speeds
+    wind_angles (property) : numpy.ndarray
+        Read only version of the wind angle resolution.
+
+    wind_speeds (property) : numpy.ndarray
+        Read only version of the wind speed resolution.
+
+    boat_speeds (property) : numpy.ndarray
+        Read only version of the boat speed table.
 
     Examples
     --------
@@ -97,6 +95,57 @@ class PolarDiagramTable(PolarDiagram):
     >>> pd(11, 90)
     7.50924383603392
     """
+
+    def get_slices(
+        self,
+        ws=None,
+        n_steps=None,
+        full_info=False,
+        interpolator=ArithmeticMeanInterpolator(params=(50,)),
+        **kwargs,
+    ):
+        """
+        Parameters
+        ----------------
+        interpolator : Interpolator, optional
+            The interpolator used to estimate boat speeds
+            not covered in the table.
+
+            Defaults to `ArithmeticMeanInterpolator(params=(50,)`
+
+        See also
+        -------
+        `PolarDiagram.get_slices`
+        """
+        kwargs["interpolator"] = interpolator
+        return super().get_slices(ws, n_steps, full_info, **kwargs)
+
+    def ws_to_slices(
+        self,
+        ws,
+        interpolator=ArithmeticMeanInterpolator(params=(50,)),
+        **kwargs,
+    ):
+        """
+        See also
+        -------
+        `PolarDiagramTable.get_slices`
+        `PolarDiagram.ws_to_slices`
+        """
+        slices = []
+        for ws_ in ws:
+            if ws_ in self.wind_speeds:
+                bsp = self.boat_speeds.T[np.where(self.wind_speeds == ws_)][0]
+            else:
+                bsp = [
+                    self(ws_, wa_, interpolator) for wa_ in self.wind_angles
+                ]
+            slices.append(
+                np.row_stack(
+                    [[ws_] * len(self.wind_angles), self.wind_angles, bsp]
+                )
+            )
+        return slices
 
     def __init__(self, ws_resolution=None, wa_resolution=None, bsps=None):
         ws_resolution = _Resolution.WIND_SPEED.set_resolution(ws_resolution)
@@ -296,6 +345,27 @@ class PolarDiagramTable(PolarDiagram):
     def wind_speeds(self):
         """Returns a read only version of `self._ws_resolution`."""
         return self._ws_resolution.copy()
+
+    @property
+    def default_slices(self):
+        """
+        See also
+        ---------
+        `Polardiagram.default_slices`
+        """
+        return self.wind_speeds
+
+    @property
+    def default_points(self):
+        """
+        See also
+        --------
+        `Polardiagram.default_slices`
+        """
+        x, y = np.meshgrid(self.wind_speeds, self.wind_angles)
+        wind = np.array(list(zip(x.ravel(), y.ravel())))
+        bsps = self.boat_speeds.ravel()
+        return np.column_stack([wind, bsps])
 
     @property
     def boat_speeds(self):
@@ -596,433 +666,6 @@ class PolarDiagramTable(PolarDiagram):
                 mask[i, j] = True
 
         self._boat_speeds[mask] = new_bsps.flat
-
-    def get_slices(self, ws=None):
-        """Returns given slice of polar diagram.
-
-        The slices are equal to the corresponding columns of the table
-        together with `self.wind_angles`.
-
-        Parameters
-        ----------
-        ws : array_like, optional
-            Slices of the polar diagram table, given as either:
-            - a tuple of length 2 specifying an interval of
-                considered wind speeds,
-            - an iterable containing only elements of `self.wind_speeds`,
-            - a single element of `self.wind_speeds`.
-
-            Defaults to `self.wind_speeds`.
-
-        Returns
-        -------
-        slices : tuple
-            Slices of the polar diagram, given as a tuple of length 3,
-            consisting of the given wind speeds `ws`, `self.wind_angles`
-            (in rad) and an array with the corresponding columns of the table.
-
-        Raises
-        ------
-        PolarDiagramException
-            If at least one element of `ws` is not in `self.wind_speeds`.
-        PolarDiagramException
-            If the given interval doesn't contain any slices of the
-            polar diagram.
-        """
-        if ws is None:
-            ws = self.wind_speeds
-        elif isinstance(ws, (int, float)):
-            ws = [ws]
-        elif isinstance(ws, tuple) and len(ws) == 2:
-            ws = [w for w in self.wind_speeds if ws[0] <= w <= ws[1]]
-
-        ws = sorted(list(ws))
-        if not ws:
-            raise PolarDiagramException("no slices were given")
-
-        ind = self._get_indices(ws, _Resolution.WIND_SPEED)
-        wa = np.deg2rad(self.wind_angles)
-
-        bsp = self.boat_speeds[:, ind]
-        if max(wa) > np.deg2rad(350) and min(wa) < np.deg2rad(10):
-            bsp = np.concatenate([bsp, [bsp[0]]])
-            wa = np.concatenate([wa, [wa[0]]])
-        return ws, wa, bsp
-
-    def plot_polar(
-        self,
-        ws=None,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw,
-    ):
-        """Creates a polar plot of one or more slices of the polar diagram.
-
-        Parameters
-        ----------
-        ws : array_like, optional
-            Slices of the polar diagram table, given as either:
-            - a tuple of length 2 specifying an interval of
-                considered wind speeds,
-            - an iterable containing only elements of `self.wind_speeds`,
-            - a single element of `self.wind_speeds`.
-            The slices are then equal to the corresponding
-            columns of the table together with `self.wind_angles`.
-
-            Defaults to `self.wind_speeds`.
-
-        ax : matplotlib.projections.polar.PolarAxes, optional
-            Axes instance where the plot will be created.
-
-        colors : color_like or sequence of color_likes or (ws, color_like) pairs
-            Specifies the colors to be used for the different slices.
-
-            - If a color_like is passed, all slices will be plotted in the
-            respective color.
-            - If 2 colors are passed, slices will be plotted with a color
-            gradient that is determined by the corresponding wind speed.
-            - Otherwise the slices will be colored in turn with the specified
-            colors or the color `"blue"`, if there are too few colors. The
-            order is determined by the corresponding wind speeds.
-            - Alternatively one can specify certain slices to be plotted in
-            a color out of order by passing a sequence of `(ws, color)` pairs.
-
-            Defaults to `("green", "red")`.
-
-        show_legend : bool, optional
-            Specifies wether or not a legend will be shown next to the plot.
-
-            The type of legend depends on the color options.
-
-            If plotted with a color gradient, a `matplotlib.colorbar.Colorbar`
-            will be created, otherwise a `matplotlib.legend.Legend` instance.
-
-            Defaults to `False`.
-
-        Other Parameters
-        ----------------
-        legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the colorbar
-            or legend respectively.
-            - If 2 colors are passed, a colorbar will be created.
-            In this case see `matplotlib.colorbar.Colorbar` for possible
-            keywords and their effect.
-            - Otherwise, a legend will be created.
-            In this case see `matplotlib.legend.Legend` for possible keywords
-            and their effect.
-        plot_kw : dict, optional
-            Keyword arguments to change various appearances of the plot.
-            See `matplotlib.axes.Axes.plot` for possible keywords and their
-            effects.
-
-        Raises
-        ------
-        PolarDiagramException
-            If at least one element of `ws` is not in `self.wind_speeds`.
-        PolarDiagramException
-            If the given interval doesn't contain any slices of the
-            polar diagram.
-
-        Examples
-        --------
-        >>> import matplotlib.pyplot as pyplot
-        >>> pd = from_csv("src/polar_diagrams/orc/A-35.csv", fmt="orc")
-        >>> pd.plot_polar(
-        ...     ws=[6, 8], show_legend=True, ls="-", lw=1.5, marker=""
-        ... )
-        >>> pyplot.show()
-
-        ![logo](https://raw.githubusercontent.com/hrosailing/hrosailing/main/examples/pictures/table_plot_polar.png)
-        """
-        ws, wa, bsp = self.get_slices(ws)
-        bsp = list(bsp.T)
-        wa = [wa] * len(bsp)
-        plot_polar(
-            ws,
-            wa,
-            bsp,
-            ax,
-            colors,
-            show_legend,
-            legend_kw,
-            _lines=True,
-            **plot_kw,
-        )
-
-    def plot_flat(
-        self,
-        ws=None,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw,
-    ):
-        """Creates a cartesian plot of one or more slices of the polar diagram.
-
-        Parameters
-        ----------
-        ws : array_like, optional
-            Slices of the polar diagram table, given as either:
-            - a tuple of length 2 specifying an interval of considered
-            wind speeds,
-            - an iterable containing only elements of `self.wind_speeds`,
-            - a single element of `self.wind_speeds`.
-
-            The slices are then equal to the corresponding
-            columns of the table together with `self.wind_angles`.
-
-            Defaults to `self.wind_speeds`.
-
-        ax : matplotlib.axes.Axes, optional
-            Axes instance where the plot will be created.
-
-        colors : color_like or sequence of color_likes or (ws, color_like) pairs
-            Specifies the colors to be used for the different slices.
-            - If a color_like is passed, all slices will be plotted in the
-            respective color.
-            - If 2 colors are passed, slices will be plotted with a color
-            gradient that is determined by the corresponding wind speed.
-            - Otherwise the slices will be colored in turn with the specified
-            colors or the color `"blue"`, if there are too few colors. The
-            order is determined by the corresponding wind speeds.
-            - Alternatively one can specify certain slices to be plotted in
-            a color out of order by passing a sequence of `(ws, color)` pairs.
-
-            Defaults to `("green", "red")`.
-
-        show_legend : bool, optional
-            Specifies wether or not a legend will be shown next to the plot.
-
-            The type of legend depends on the color options.
-
-            If plotted with a color gradient, a `matplotlib.colorbar.Colorbar`
-            will be created, otherwise a `matplotlib.legend.Legend` instance.
-
-            Defaults to `False`.
-
-        legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the colorbar
-            or legend respectively.
-            - If 2 colors are passed, a colorbar will be created.
-            In this case see `matplotlib.colorbar.Colorbar` for possible
-            keywords and their effect.
-            - Otherwise, a legend will be created.
-            In this case see `matplotlib.legend.Legend` for possible keywords
-            and their effect.
-        plot_kw : dict, optional
-            Keyword arguments to change various appearances of the plot.
-
-            See `matplotlib.axes.Axes.plot` for possible keywords and their
-            effects.
-
-        Raises
-        ------
-        PolarDiagramException
-            If at least one element of `ws` is not in `self.wind_speeds`.
-        PolarDiagramException
-            If the given interval doesn't contain any slices of the
-            polar diagram.
-
-        Examples
-        --------
-        >>> import matplotlib.pyplot as pyplot
-        >>> pd = from_csv("src/polar_diagrams/orc/A-35.csv", fmt="orc")
-        >>> pd.plot_flat(
-        ...     ws=[6, 8], show_legend=True, ls="-", lw=1.5, marker=""
-        ... )
-        >>> pyplot.show()
-
-        ![logo](https://raw.githubusercontent.com/hrosailing/hrosailing/main/examples/pictures/table_plot_flat.png)
-        """
-        ws, wa, bsp = self.get_slices(ws)
-        bsp = list(bsp.T)
-        wa = [np.rad2deg(wa)] * len(bsp)
-        plot_flat(
-            ws,
-            wa,
-            bsp,
-            ax,
-            colors,
-            show_legend,
-            legend_kw,
-            _lines=True,
-            **plot_kw,
-        )
-
-    def plot_3d(self, ax=None, colors=("green", "red")):
-        """Creates a 3d plot of the polar diagram.
-
-        Parameters
-        ----------
-        ax : mpl_toolkits.mplot3d.axes3d.Axes3D, optional
-            Axes instance where the plot will be created.
-        colors: tuple of two (2) color_likes, optional
-            Color pair determining the color gradient with which the
-            polar diagram will be plotted.
-
-            Will be determined by the corresponding wind speeds.
-
-            Defaults to `("green", "red")`.
-        """
-        wa = np.deg2rad(self.wind_angles)
-        ws, wa = np.meshgrid(self.wind_speeds, wa)
-        bsp = self.boat_speeds
-        bsp, wa = bsp * np.cos(wa), bsp * np.sin(wa)
-
-        plot_surface(ws, wa, bsp, ax, colors)
-
-    def plot_color_gradient(
-        self,
-        ax=None,
-        colors=("green", "red"),
-        marker=None,
-        ms=None,
-        show_legend=False,
-        **legend_kw,
-    ):
-        """Creates a 'wind speed vs. wind angle' color gradient plot
-        of the polar diagram with respect to the corresponding boat speeds.
-
-        Parameters
-        ----------
-        ax : matplotlib.axes.Axes, optional
-            Axes instance where the plot will be created.
-        colors : tuple of two (2) color_likes, optional
-            Color pair determining the color gradient with which the
-            polar diagram will be plotted.
-
-            Will be determined by the corresponding boat speed.
-
-            Defaults to `("green", "red")`.
-
-        marker : matplotlib.markers.Markerstyle or equivalent
-            Markerstyle for the created scatter plot.
-
-            Defaults to `"o"`.
-
-        ms : array_like, optional
-            Marker size in points**2.
-
-        show_legend : bool, optional
-            Specifies whether a legend will be shown next
-            to the plot.
-
-            Legend will be a `matplotlib.colorbar.Colorbar` instance.
-
-            Defaults to `False`.
-
-        legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the colorbar
-            or legend respectively.
-            - If 2 colors are passed, a colorbar will be created.
-            In this case see `matplotlib.colorbar.Colorbar` for possible
-            keywords and their effect.
-            - Otherwise, a legend will be created.
-            In this case see `matplotlib.legend.Legend` for possible keywords
-            and their effect.
-        """
-        ws, wa = np.meshgrid(self.wind_speeds, self.wind_angles)
-        ws = ws.ravel()
-        wa = wa.ravel()
-        bsp = self.boat_speeds.ravel()
-        plot_color_gradient(
-            ws, wa, bsp, ax, colors, marker, ms, show_legend, **legend_kw
-        )
-
-    def plot_convex_hull(
-        self,
-        ws=None,
-        ax=None,
-        colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
-        **plot_kw,
-    ):
-        """Computes the (separate) convex hull of one or more
-        slices of the polar diagram and creates a polar plot of them.
-
-        Parameters
-        ----------
-        ws : array_like, optional
-            Slices of the polar diagram table, given as either:
-            - a tuple of length 2 specifying an interval of considered
-            wind speeds,
-            - an iterable containing only elements of `self.wind_speeds`,
-            - a single element of `self.wind_speeds`.
-
-            The slices are then equal to the corresponding
-            columns of the table together with `self.wind_angles`.
-
-            Defaults to `self.wind_speeds`.
-
-        ax : matplotlib.projections.polar.PolarAxes, optional
-            Axes instance where the plot will be created.
-
-        colors : sequence of color_likes or (ws, color_like) pairs, optional
-            Specifies the colors to be used for the different slices.
-
-            - If 2 colors are passed, slices will be plotted with a color
-            gradient that is determined by the corresponding wind speed.
-            - Otherwise the slices will be colored in turn with the specified
-            colors or the color `"blue"`, if there are too few colors. The
-            order is determined by the corresponding wind speeds.
-            - Alternatively one can specify certain slices to be plotted in
-            a color out of order by passing a sequence of `(ws, color)` pairs.
-
-            Defaults to `("green", "red")`
-
-        show_legend : bool, optional
-            Specifies whether a legend will be shown next to the plot.
-
-            The type of legend depends on the color options.
-
-            If plotted with a color gradient, a `matplotlib.colorbar.Colorbar`
-            will be created, otherwise a `matplotlib.legend.Legend`.
-
-             Defaults to `False`.
-
-        legend_kw : dict, optional
-            Keyword arguments to change position and appearance of the colorbar
-            or legend respectively.
-
-            - If 2 colors are passed, a colorbar will be created.
-            In this case see `matplotlib.colorbar.Colorbar` for possible
-            keywords and their effect.
-            - Otherwise, a legend will be created.
-            In this case see `matplotlib.legend.Legend` for possible keywords
-            and their effect.
-
-        plot_kw : dict, optional
-            Keyword arguments to change various appearances of the plot.
-
-            See `matplotlib.axes.Axes.plot` for possible keywords and their
-            effects.
-
-        Raises
-        ------
-        PolarDiagramException
-            If at least one element of `ws` is not in `self.wind_speeds`.
-        PolarDiagramException
-            If the given interval doesn't contain any slices of the
-            polar diagram.
-        """
-        ws, wa, bsp = self.get_slices(ws)
-        bsp = list(bsp.T)
-        wa = [wa] * len(bsp)
-        plot_convex_hull(
-            ws,
-            wa,
-            bsp,
-            ax,
-            colors,
-            show_legend,
-            legend_kw,
-            _lines=True,
-            **plot_kw,
-        )
 
 
 class _Resolution(enum.Enum):
