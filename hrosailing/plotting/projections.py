@@ -287,7 +287,7 @@ class HROColorGradient(Axes):
             legend_kw = {}
 
         pd = args[0]
-        points = pd.get_points()
+        points = pd.get_points(wind=wind)
         ws, wa, bsp = points.T
 
         if show_legend:
@@ -308,8 +308,6 @@ class Axes3D(pltAxes3D):
         *args,
         wind=None,
         colors=("green", "red"),
-        show_legend=False,
-        legend_kw=None,
         **kwargs,
     ):
         """
@@ -475,38 +473,38 @@ def _alter_with_info(wa, bsp, info_):
     return wa, bsp
 
 
-def _get_convex_hull(slice, info_):
-    ws, wa, bsp = slice
+def _get_convex_hull(slice_, info_):
+    ws, wa, bsp = slice_
     wa_rad = np.deg2rad(wa)
     points = np.column_stack([bsp * np.cos(wa_rad), bsp * np.sin(wa_rad)])
     try:
         vertices = ConvexHull(points).vertices
     except ValueError:
         return ws, wa, bsp, info_
-    slice = slice.T[vertices]
+    slice_ = slice_.T[vertices]
     if info_ is not None:
         info_ = [entry for i, entry in enumerate(info_) if i in vertices]
-        slice, info = zip(*sorted(zip(slice, info_), key=lambda x: x[0][1]))
+        slice_, info = zip(*sorted(zip(slice_, info_), key=lambda x: x[0][1]))
     else:
-        slice = sorted(slice, key=lambda x: x[1])
-    slice = np.array(slice).T
+        slice_ = sorted(slice_, key=lambda x: x[1])
+    slice_ = np.array(slice_).T
 
     # if wind angle difference is big, wrap around
-    if slice[1][-1] - slice[1][0] > 180:
+    if slice_[1][-1] - slice_[1][0] > 180:
         # estimate bsp value at 0 (360 resp)
-        x0 = slice[2, 0] * np.sin(np.deg2rad(slice[1, 0]))
-        x1 = slice[2, -1] * np.sin(np.deg2rad(slice[1, -1]))
-        y0 = slice[2, 1] * np.cos(np.deg2rad(slice[1, 0]))
-        y1 = slice[2, -1] * np.cos(np.deg2rad(slice[1, -1]))
+        x0 = slice_[2, 0] * np.sin(np.deg2rad(slice_[1, 0]))
+        x1 = slice_[2, -1] * np.sin(np.deg2rad(slice_[1, -1]))
+        y0 = slice_[2, 1] * np.cos(np.deg2rad(slice_[1, 0]))
+        y1 = slice_[2, -1] * np.cos(np.deg2rad(slice_[1, -1]))
         lamb = x0 / (x0 - x1)
-        approx_ws = lamb * slice[0, 0] + (1 - lamb) * slice[0, -1]
+        approx_ws = lamb * slice_[0, 0] + (1 - lamb) * slice_[0, -1]
         approx_bsp = lamb * y0 + (1 - lamb) * y1
 
-        slice = np.column_stack(
-            [[approx_ws, 0, approx_bsp], slice, [approx_ws, 360, approx_bsp]]
+        slice_ = np.column_stack(
+            [[approx_ws, 0, approx_bsp], slice_, [approx_ws, 360, approx_bsp]]
         )
 
-    ws, wa, bsp = slice
+    ws, wa, bsp = slice_
 
     # connect if smaller than 180
 

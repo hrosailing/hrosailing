@@ -74,9 +74,13 @@ class PolarDiagramCurve(PolarDiagram):
         bsp = np.array([self(ws_, wa_) for ws_, wa_ in zip(ws, wa)])
         return np.column_stack([ws, wa, bsp])
 
-    def get_slices(self, ws=None, n_steps=None, full_info=False, **kwargs):
+    def get_slices(
+            self, ws=None, n_steps=None, full_info=False,
+            wa_resolution = 100,
+            **kwargs
+    ):
         """
-        Other Parameters
+        Parameters
         ----------------
         wa_resolution : int, optional
             The number of wind angles that will be used for estimation if an
@@ -88,6 +92,7 @@ class PolarDiagramCurve(PolarDiagram):
         -------
         `PolarDiagram.get_slices`
         """
+        kwargs["wa_resolution"] = wa_resolution
         return super().get_slices(ws, n_steps, full_info, **kwargs)
 
     def ws_to_slices(self, ws, wa_resolution=100, **kwargs):

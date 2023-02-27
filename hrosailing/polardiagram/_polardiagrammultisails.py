@@ -2,16 +2,13 @@
 
 import csv
 import itertools
-import warnings
 from ast import literal_eval
 
-import matplotlib.pyplot as plt
 import numpy as np
 
 from ._basepolardiagram import (
     PolarDiagram,
     PolarDiagramException,
-    PolarDiagramInitializationException,
 )
 from ._polardiagramtable import PolarDiagramTable
 
@@ -64,7 +61,7 @@ class PolarDiagramMultiSails(PolarDiagram):
     """
 
     def __call__(self, ws, wa):
-        return max([diagram(ws, wa) for diagram in self._diagrams])
+        return max(diagram(ws, wa) for diagram in self._diagrams)
 
     @property
     def default_points(self):

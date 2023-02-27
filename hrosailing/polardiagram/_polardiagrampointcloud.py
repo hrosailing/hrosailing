@@ -67,9 +67,14 @@ class PolarDiagramPointcloud(PolarDiagram):
         """
         return self.points
 
-    def get_slices(self, ws=None, n_steps=None, full_info=False, **kwargs):
+    def get_slices(self,
+            ws=None, n_steps=None, full_info=False,
+            wa_resolution=100,
+            range_=1,
+            interpolator=None,
+            **kwargs):
         """
-        Other Parameters
+        Parameters
         ---------------------
         wa_resolution : int, optional
             The number of wind angles that will be used for estimation if an
@@ -93,6 +98,9 @@ class PolarDiagramPointcloud(PolarDiagram):
         --------
         `PolarDiagram.get_slices`
         """
+        kwargs["wa_resolution"] = wa_resolution
+        kwargs["range_"] = range_
+        kwargs["interpolator"] = interpolator
         return super().get_slices(ws, n_steps, full_info, **kwargs)
 
     def ws_to_slices(
