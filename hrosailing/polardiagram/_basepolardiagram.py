@@ -1,6 +1,7 @@
 # pylint: disable=missing-module-docstring
 
 from abc import ABC, abstractmethod
+
 import numpy as np
 
 
@@ -108,7 +109,6 @@ class PolarDiagram(ABC):
             return ws, slices, info
         return ws, slices
 
-
     def _get_windspeeds(self, ws, n_steps):
         if ws is None:
             ws = self.default_slices
@@ -117,9 +117,7 @@ class PolarDiagram(ABC):
         try:
             all_numbers = all([isinstance(ws_, (int, float)) for ws_ in ws])
         except TypeError:
-            raise TypeError(
-                "`ws` has to be an int a float or an iterable"
-            )
+            raise TypeError("`ws` has to be an int a float or an iterable")
         if not all_numbers:
             raise TypeError(
                 "If `ws` is an iterable, it needs to iterate over int or float"
@@ -132,9 +130,9 @@ class PolarDiagram(ABC):
             [
                 np.linspace(ws_before, ws_next, n_steps + 2)
                 for ws_before, ws_next in zip(ws, ws[1:])
-            ] + [[ws[-1]]]
+            ]
+            + [[ws[-1]]]
         )
-
 
     def _get_wind(self, wind):
         if isinstance(wind, np.ndarray):
@@ -143,13 +141,13 @@ class PolarDiagram(ABC):
             if wind.shape[0] == 2:
                 return wind.T
             raise ValueError(
-                 f"`wind` should be a tuple or an array with a dimension of shape 2,\n"
-                 f"got an array of shape {wind.shape} instead."
+                "`wind` should be a tuple or an array with a dimension of"
+                f" shape 2,\ngot an array of shape {wind.shape} instead."
             )
         if isinstance(wind, tuple):
             if len(wind) != 2:
                 raise ValueError(
-                    f"`wind` should be a tuple of size 2 or an array,\n"
+                    "`wind` should be a tuple of size 2 or an array,\n"
                     f"got a tuple of size {len(wind)} instead."
                 )
             ws, wa = wind

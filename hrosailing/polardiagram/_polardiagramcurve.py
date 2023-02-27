@@ -46,7 +46,7 @@ class PolarDiagramCurve(PolarDiagram):
     ----------
     curve (property) : function
         A read only version of the underlying function.
-        
+
     parameters (property) : tuple
         A read only version of the underlying parameters.
 
@@ -99,9 +99,7 @@ class PolarDiagramCurve(PolarDiagram):
         """
         wa_ls = np.linspace(0, 360, wa_resolution)
         return [
-            np.row_stack([
-                [ws_]*len(wa_ls), wa_ls, self(ws_, wa_ls)
-            ])
+            np.row_stack([[ws_] * len(wa_ls), wa_ls, self(ws_, wa_ls)])
             for ws_ in ws
         ]
 

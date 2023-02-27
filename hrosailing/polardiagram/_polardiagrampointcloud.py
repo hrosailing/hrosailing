@@ -34,10 +34,10 @@ class PolarDiagramPointcloud(PolarDiagram):
         If `True`, data will be converted to true wind.
 
         Defaults to `False`.
-    
+
     Attributes
     -----------
-        
+
     wind_speeds (property) : numpy.ndarray
         All unique wind speeds in the point cloud.
 
@@ -50,7 +50,7 @@ class PolarDiagramPointcloud(PolarDiagram):
 
     points (property) :
         Read only version of all points present in the point cloud.
-        
+
     See also
     ---------
     `PolarDiagram`
@@ -96,7 +96,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         return super().get_slices(ws, n_steps, full_info, **kwargs)
 
     def ws_to_slices(
-            self, ws, wa_resolution=100, range_=1, interpolator=None, **kwargs
+        self, ws, wa_resolution=100, range_=1, interpolator=None, **kwargs
     ):
         """
         See also
@@ -111,10 +111,8 @@ class PolarDiagramPointcloud(PolarDiagram):
         slices = []
         for ws_ in ws:
             if interpolator is None:
-                slicing = np.where(np.abs(all_ws -ws_) <= range_)
-                slices.append(
-                    np.atleast_2d(self.points[slicing]).T
-                )
+                slicing = np.where(np.abs(all_ws - ws_) <= range_)
+                slices.append(np.atleast_2d(self.points[slicing]).T)
                 continue
             slices.append(self(ws_, default_wind_angles))
         return slices

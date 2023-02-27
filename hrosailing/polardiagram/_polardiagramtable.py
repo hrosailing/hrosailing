@@ -113,9 +113,10 @@ class PolarDiagramTable(PolarDiagram):
         return super().get_slices(ws, n_steps, full_info, **kwargs)
 
     def ws_to_slices(
-            self, ws,
-            interpolator=ArithmeticMeanInterpolator(params=(50,)),
-            **kwargs
+        self,
+        ws,
+        interpolator=ArithmeticMeanInterpolator(params=(50,)),
+        **kwargs,
     ):
         """
         See also
@@ -129,13 +130,12 @@ class PolarDiagramTable(PolarDiagram):
                 bsp = self.boat_speeds.T[np.where(self.wind_speeds == ws_)][0]
             else:
                 bsp = [
-                    self(ws_, wa_, interpolator)
-                    for wa_ in self.wind_angles
+                    self(ws_, wa_, interpolator) for wa_ in self.wind_angles
                 ]
             slices.append(
-                np.row_stack([
-                    [ws_]*len(self.wind_angles), self.wind_angles, bsp
-                ])
+                np.row_stack(
+                    [[ws_] * len(self.wind_angles), self.wind_angles, bsp]
+                )
             )
         return slices
 
@@ -658,7 +658,7 @@ class PolarDiagramTable(PolarDiagram):
                 mask[i, j] = True
 
         self._boat_speeds[mask] = new_bsps.flat
-        
+
 
 class _Resolution(enum.Enum):
     WIND_SPEED = (np.arange(2, 42, 2), 40)

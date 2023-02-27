@@ -97,9 +97,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         `PolarDiagramMultisails.get_slices`
         `PolarDiagram.ws_to_slices`
         """
-        all_slices = [
-            pd.ws_to_slices(ws, **kwargs) for pd in self._diagrams
-        ]
+        all_slices = [pd.ws_to_slices(ws, **kwargs) for pd in self._diagrams]
         slices = [
             np.column_stack(slice_collection)
             for slice_collection in zip(*all_slices)
@@ -118,14 +116,13 @@ class PolarDiagramMultiSails(PolarDiagram):
         ----------
         `PolarDiagram.get_slices`
         """
-        all_slices = [
-            pd.ws_to_slices(ws, **kwargs) for pd in self._diagrams
-        ]
+        all_slices = [pd.ws_to_slices(ws, **kwargs) for pd in self._diagrams]
         slice_infos = [
             [
                 sail
                 for sail, slice in zip(self.sails, slice_collection)
-                for _ in range(slice.shape[1])]
+                for _ in range(slice.shape[1])
+            ]
             for slice_collection in zip(*all_slices)
         ]
         return slice_infos
@@ -233,9 +230,9 @@ class PolarDiagramMultiSails(PolarDiagram):
 
     @property
     def default_slices(self):
-        all_defaults = np.concatenate([
-            pd.default_slices for pd in self._diagrams
-        ])
+        all_defaults = np.concatenate(
+            [pd.default_slices for pd in self._diagrams]
+        )
         return np.linspace(all_defaults.min(), all_defaults.max(), 20)
 
 
