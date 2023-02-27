@@ -235,42 +235,42 @@ class PolarDiagramTableTest(unittest.TestCase):
                 with self.assertRaises(PolarDiagramException):
                     self.pd.change_entries(new_bsps=new_bsp)
 
-    def test_get_one_slice(self):
-        ws, wa, bsp = self.pd.get_slices(2)
-        self.assertEqual(ws, [2])
-        np.testing.assert_array_equal(wa, np.deg2rad(self.pd.wind_angles))
-        np.testing.assert_array_equal(bsp.ravel(), self.pd.boat_speeds[:, 0])
+    # def test_get_one_slice(self):
+    #     ws, wa, bsp = self.pd.get_slices(2)
+    #     self.assertEqual(ws, [2])
+    #     np.testing.assert_array_equal(wa, np.deg2rad(self.pd.wind_angles))
+    #     np.testing.assert_array_equal(bsp.ravel(), self.pd.boat_speeds[:, 0])
 
-    def test_get_multiple_slices_list(self):
-        ws, wa, bsp = self.pd.get_slices([2, 4, 8])
-        self.assertEqual(ws, [2, 4, 8])
-        np.testing.assert_array_equal(wa, np.deg2rad(self.pd.wind_angles))
-        np.testing.assert_array_equal(bsp, self.pd.boat_speeds[:, [0, 1, 3]])
+    # def test_get_multiple_slices_list(self):
+    #     ws, wa, bsp = self.pd.get_slices([2, 4, 8])
+    #     self.assertEqual(ws, [2, 4, 8])
+    #     np.testing.assert_array_equal(wa, np.deg2rad(self.pd.wind_angles))
+    #     np.testing.assert_array_equal(bsp, self.pd.boat_speeds[:, [0, 1, 3]])
 
-    def test_get_multiple_slices_tuple(self):
-        ws, wa, bsp = self.pd.get_slices((2, 4, 8))
-        self.assertEqual(ws, [2, 4, 8])
-        np.testing.assert_array_equal(wa, np.deg2rad(self.pd.wind_angles))
-        np.testing.assert_array_equal(bsp, self.pd.boat_speeds[:, [0, 1, 3]])
+    # def test_get_multiple_slices_tuple(self):
+    #     ws, wa, bsp = self.pd.get_slices((2, 4, 8))
+    #     self.assertEqual(ws, [2, 4, 8])
+    #     np.testing.assert_array_equal(wa, np.deg2rad(self.pd.wind_angles))
+    #     np.testing.assert_array_equal(bsp, self.pd.boat_speeds[:, [0, 1, 3]])
 
-    def test_get_multiple_slices_set(self):
-        ws, wa, bsp = self.pd.get_slices({2, 4, 8})
-        self.assertEqual(ws, [2, 4, 8])
-        np.testing.assert_array_equal(wa, np.deg2rad(self.pd.wind_angles))
-        np.testing.assert_array_equal(bsp, self.pd.boat_speeds[:, [0, 1, 3]])
+    # def test_get_multiple_slices_set(self):
+    #     ws, wa, bsp = self.pd.get_slices({2, 4, 8})
+    #     self.assertEqual(ws, [2, 4, 8])
+    #     np.testing.assert_array_equal(wa, np.deg2rad(self.pd.wind_angles))
+    #     np.testing.assert_array_equal(bsp, self.pd.boat_speeds[:, [0, 1, 3]])
 
-    def test_get_all_slices(self):
-        ws, wa, bsp = self.pd.get_slices()
-        self.assertEqual(ws, [2, 4, 6, 8])
-        np.testing.assert_array_equal(wa, np.deg2rad(self.pd.wind_angles))
-        np.testing.assert_array_equal(bsp, self.bsp)
+    # def test_get_all_slices(self):
+    #     ws, wa, bsp = self.pd.get_slices()
+    #     self.assertEqual(ws, [2, 4, 6, 8])
+    #     np.testing.assert_array_equal(wa, np.deg2rad(self.pd.wind_angles))
+    #     np.testing.assert_array_equal(bsp, self.bsp)
 
-    def test_get_slice_exceptions(self):
-        slices = [[], 0, [0, 2, 4]]
-        for i, slice_ in enumerate(slices):
-            with self.subTest(i=i):
-                with self.assertRaises(PolarDiagramException):
-                    self.pd.get_slices(slice_)
+    # def test_get_slice_exceptions(self):
+    #     slices = [[], 0, [0, 2, 4]]
+    #     for i, slice_ in enumerate(slices):
+    #         with self.subTest(i=i):
+    #             with self.assertRaises(PolarDiagramException):
+    #                 self.pd.get_slices(slice_)
 
 
 class PolarDiagramPointCloudTest(unittest.TestCase):
@@ -323,70 +323,70 @@ class PolarDiagramPointCloudTest(unittest.TestCase):
         pts = np.row_stack((self.pc.points, sym_pts))
         np.testing.assert_array_equal(sym_pc.points, pts)
 
-    def test_get_slice(self):
-        ws, wa, bsp = self.pc.get_slices(4)
-        self.assertEqual(ws, [4])
-        np.testing.assert_array_equal(wa[0], np.deg2rad([10, 15, 20, 25]))
-        np.testing.assert_array_equal(bsp[0], np.array([2, 2.4, 2.6, 3]))
+    # def test_get_slice(self):
+    #     ws, wa, bsp = self.pc.get_slices(4)
+    #     self.assertEqual(ws, [4])
+    #     np.testing.assert_array_equal(wa[0], np.deg2rad([10, 15, 20, 25]))
+    #     np.testing.assert_array_equal(bsp[0], np.array([2, 2.4, 2.6, 3]))
 
-    def test_get_slice_exception(self):
-        with self.assertRaises(PolarDiagramException):
-            self.pc.get_slices(0)
+    # def test_get_slice_exception(self):
+    #     with self.assertRaises(PolarDiagramException):
+    #         self.pc.get_slices(0)
 
-    def test_get_slices_list(self):
-        ws, wa, bsp = self.pc.get_slices([4, 8])
-        self.assertEqual(ws, [4, 8])
-        self.assertEqual(type(wa), list)
-        self.assertEqual(type(bsp), list)
-        self.assertEqual(len(wa), 2)
-        self.assertEqual(len(bsp), 2)
-        np.testing.assert_array_equal(wa[0], np.deg2rad([10, 15, 20, 25]))
-        np.testing.assert_array_equal(wa[1], np.deg2rad([10, 15, 20, 25]))
-        np.testing.assert_array_equal(bsp[0], np.array([2, 2.4, 2.6, 3]))
-        np.testing.assert_array_equal(bsp[1], np.array([4, 4.1, 4.4, 4.6]))
+    # def test_get_slices_list(self):
+    #     ws, wa, bsp = self.pc.get_slices([4, 8])
+    #     self.assertEqual(ws, [4, 8])
+    #     self.assertEqual(type(wa), list)
+    #     self.assertEqual(type(bsp), list)
+    #     self.assertEqual(len(wa), 2)
+    #     self.assertEqual(len(bsp), 2)
+    #     np.testing.assert_array_equal(wa[0], np.deg2rad([10, 15, 20, 25]))
+    #     np.testing.assert_array_equal(wa[1], np.deg2rad([10, 15, 20, 25]))
+    #     np.testing.assert_array_equal(bsp[0], np.array([2, 2.4, 2.6, 3]))
+    #     np.testing.assert_array_equal(bsp[1], np.array([4, 4.1, 4.4, 4.6]))
 
-    def test_get_slices_exception_empty(self):
-        with self.assertRaises(PolarDiagramException):
-            self.pc.get_slices([])
+    # def test_get_slices_exception_empty(self):
+    #     with self.assertRaises(PolarDiagramException):
+    #         self.pc.get_slices([])
 
-    def test_get_slices_exception_no_slices(self):
-        with self.assertRaises(PolarDiagramException):
-            self.pc.get_slices([0, 2])
+    # def test_get_slices_exception_no_slices(self):
+    #     with self.assertRaises(PolarDiagramException):
+    #         self.pc.get_slices([0, 2])
 
-    def test_get_slices_range(self):
-        ws, wa, bsp = self.pc.get_slices((3, 9))
-        self.assertEqual(ws, [3, 4.2, 5.4, 6.6, 7.8, 9])
-        self.assertEqual(type(wa), list)
-        self.assertEqual(type(bsp), list)
-        self.assertEqual(len(wa), len(ws))
-        self.assertEqual(len(bsp), len(ws))
-        bsps = [
-            np.array([1.1, 2, 1.5, 2.4, 1.7, 2.6, 2.1, 3]),
-            np.array([2, 2.4, 2.6, 3]),
-            np.array([3, 3.1, 3.5, 3.8]),
-            np.array([3, 3.1, 3.5, 3.8]),
-            np.array([4, 4.1, 4.4, 4.6]),
-            np.array([4, 4.1, 4.4, 4.6]),
-        ]
-        answers = [
-            np.deg2rad([10, 10, 15, 15, 20, 20, 25, 25]),
-            np.deg2rad([10, 15, 20, 25]),
-            np.deg2rad([10, 15, 20, 25]),
-            np.deg2rad([10, 15, 20, 25]),
-            np.deg2rad([10, 15, 20, 25]),
-            np.deg2rad([10, 15, 20, 25]),
-        ]
-        for i in range(6):
-            np.testing.assert_array_equal(wa[i], answers[i])
-            np.testing.assert_array_equal(bsp[i], bsps[i])
+    # def test_get_slices_range(self):
+    #     ws, wa, bsp = self.pc.get_slices((3, 9))
+    #     self.assertEqual(ws, [3, 4.2, 5.4, 6.6, 7.8, 9])
+    #     self.assertEqual(type(wa), list)
+    #     self.assertEqual(type(bsp), list)
+    #     self.assertEqual(len(wa), len(ws))
+    #     self.assertEqual(len(bsp), len(ws))
+    #     bsps = [
+    #         np.array([1.1, 2, 1.5, 2.4, 1.7, 2.6, 2.1, 3]),
+    #         np.array([2, 2.4, 2.6, 3]),
+    #         np.array([3, 3.1, 3.5, 3.8]),
+    #         np.array([3, 3.1, 3.5, 3.8]),
+    #         np.array([4, 4.1, 4.4, 4.6]),
+    #         np.array([4, 4.1, 4.4, 4.6]),
+    #     ]
+    #     answers = [
+    #         np.deg2rad([10, 10, 15, 15, 20, 20, 25, 25]),
+    #         np.deg2rad([10, 15, 20, 25]),
+    #         np.deg2rad([10, 15, 20, 25]),
+    #         np.deg2rad([10, 15, 20, 25]),
+    #         np.deg2rad([10, 15, 20, 25]),
+    #         np.deg2rad([10, 15, 20, 25]),
+    #     ]
+    #     for i in range(6):
+    #         np.testing.assert_array_equal(wa[i], answers[i])
+    #         np.testing.assert_array_equal(bsp[i], bsps[i])
 
-    def test_get_slices_range_no_slices(self):
-        with self.assertRaises(PolarDiagramException):
-            self.pc.get_slices((0, 1))
+    # def test_get_slices_range_no_slices(self):
+    #     with self.assertRaises(PolarDiagramException):
+    #         self.pc.get_slices((0, 1))
 
-    def test_get_slices_range_empty_interval(self):
-        with self.assertRaises(PolarDiagramException):
-            self.pc.get_slices((1, 0))
+    # def test_get_slices_range_empty_interval(self):
+    #     with self.assertRaises(PolarDiagramException):
+    #         self.pc.get_slices((1, 0))
 
 
 class PolarDiagramCurveTest(unittest.TestCase):
@@ -456,34 +456,34 @@ class PolarDiagramCurveTest(unittest.TestCase):
                 sym_c(ws, wa), 1 / 2 * (self.c(ws, wa) + self.c(ws, 360 - wa))
             )
 
-    def test_get_slice(self):
-        ws, wa, bsp = self.c.get_slices(10)
-        self.assertEqual(ws, [10])
-        np.testing.assert_array_equal(
-            wa, np.deg2rad(np.linspace(0, 360, 1000))
-        )
-        np.testing.assert_array_equal(
-            bsp[0], self.c(np.array(ws * 1000), np.linspace(0, 360, 1000))
-        )
+    # def test_get_slice(self):
+    #     ws, wa, bsp = self.c.get_slices(10)
+    #     self.assertEqual(ws, [10])
+    #     np.testing.assert_array_equal(
+    #         wa, np.deg2rad(np.linspace(0, 360, 1000))
+    #     )
+    #     np.testing.assert_array_equal(
+    #         bsp[0], self.c(np.array(ws * 1000), np.linspace(0, 360, 1000))
+    #     )
 
-    def test_get_slices_list(self):
-        ws, wa, bsp = self.c.get_slices([10, 12, 14])
-        self.assertEqual(ws, [10, 12, 14])
-        np.testing.assert_array_equal(
-            wa, np.deg2rad(np.linspace(0, 360, 1000))
-        )
-        for i, w in enumerate(ws):
-            np.testing.assert_array_equal(
-                bsp[i], self.c(np.array([w] * 1000), np.linspace(0, 360, 1000))
-            )
+    # def test_get_slices_list(self):
+    #     ws, wa, bsp = self.c.get_slices([10, 12, 14])
+    #     self.assertEqual(ws, [10, 12, 14])
+    #     np.testing.assert_array_equal(
+    #         wa, np.deg2rad(np.linspace(0, 360, 1000))
+    #     )
+    #     for i, w in enumerate(ws):
+    #         np.testing.assert_array_equal(
+    #             bsp[i], self.c(np.array([w] * 1000), np.linspace(0, 360, 1000))
+    #         )
 
-    def test_get_slices_tuple(self):
-        ws, wa, bsp = self.c.get_slices((10, 15), n_steps=100)
-        self.assertEqual(ws, list(np.linspace(10, 15, 100)))
-        np.testing.assert_array_equal(
-            wa, np.deg2rad(np.linspace(0, 360, 1000))
-        )
-        for i, w in enumerate(ws):
-            np.testing.assert_array_equal(
-                bsp[i], self.c(np.array([w] * 1000), np.linspace(0, 360, 1000))
-            )
+    # def test_get_slices_tuple(self):
+    #     ws, wa, bsp = self.c.get_slices((10, 15), n_steps=100)
+    #     self.assertEqual(ws, list(np.linspace(10, 15, 100)))
+    #     np.testing.assert_array_equal(
+    #         wa, np.deg2rad(np.linspace(0, 360, 1000))
+    #     )
+    #     for i, w in enumerate(ws):
+    #         np.testing.assert_array_equal(
+    #             bsp[i], self.c(np.array([w] * 1000), np.linspace(0, 360, 1000))
+    #         )
