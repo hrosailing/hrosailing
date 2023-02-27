@@ -117,7 +117,9 @@ class PolarDiagram(ABC):
         try:
             all_numbers = all(isinstance(ws_, (int, float)) for ws_ in ws)
         except TypeError as exp:
-            raise TypeError("`ws` has to be an int a float or an iterable") from exp
+            raise TypeError(
+                "`ws` has to be an int a float or an iterable"
+            ) from exp
         if not all_numbers:
             raise TypeError(
                 "If `ws` is an iterable, it needs to iterate over int or float"

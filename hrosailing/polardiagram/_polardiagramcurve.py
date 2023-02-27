@@ -75,9 +75,12 @@ class PolarDiagramCurve(PolarDiagram):
         return np.column_stack([ws, wa, bsp])
 
     def get_slices(
-            self, ws=None, n_steps=None, full_info=False,
-            wa_resolution = 100,
-            **kwargs
+        self,
+        ws=None,
+        n_steps=None,
+        full_info=False,
+        wa_resolution=100,
+        **kwargs,
     ):
         """
         Parameters

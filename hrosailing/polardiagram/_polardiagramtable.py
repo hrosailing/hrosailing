@@ -96,9 +96,13 @@ class PolarDiagramTable(PolarDiagram):
     7.50924383603392
     """
 
-    def get_slices(self, ws=None, n_steps=None, full_info=False,
-                   interpolator=ArithmeticMeanInterpolator(params=(50,)),
-                   **kwargs
+    def get_slices(
+        self,
+        ws=None,
+        n_steps=None,
+        full_info=False,
+        interpolator=ArithmeticMeanInterpolator(params=(50,)),
+        **kwargs,
     ):
         """
         Parameters
@@ -117,10 +121,10 @@ class PolarDiagramTable(PolarDiagram):
         return super().get_slices(ws, n_steps, full_info, **kwargs)
 
     def ws_to_slices(
-            self,
-            ws,
-            interpolator=ArithmeticMeanInterpolator(params=(50,)),
-            **kwargs,
+        self,
+        ws,
+        interpolator=ArithmeticMeanInterpolator(params=(50,)),
+        **kwargs,
     ):
         """
         See also
@@ -248,11 +252,11 @@ class PolarDiagramTable(PolarDiagram):
         )
 
     def __call__(
-            self,
-            ws,
-            wa,
-            interpolator=ArithmeticMeanInterpolator(params=(50,)),
-            neighbourhood=Ball(radius=1),
+        self,
+        ws,
+        wa,
+        interpolator=ArithmeticMeanInterpolator(params=(50,)),
+        neighbourhood=Ball(radius=1),
     ):
         """Calculates the boat speed for given `ws` and `wa`.
 
@@ -756,7 +760,7 @@ def _sort_table(ws_resolution, wa_resolution, bsps):
 def _delete_multiple_180_degree_occurrences(wa_resolution, bsps):
     mid = np.where(wa_resolution == 180)[0][0]
     wa_resolution = np.delete(wa_resolution, mid)
-    bsps = np.row_stack((bsps[:mid, :], bsps[mid + 1:, :]))
+    bsps = np.row_stack((bsps[:mid, :], bsps[mid + 1 :, :]))
 
     return wa_resolution, bsps
 

@@ -6,10 +6,7 @@ from ast import literal_eval
 
 import numpy as np
 
-from ._basepolardiagram import (
-    PolarDiagram,
-    PolarDiagramException,
-)
+from ._basepolardiagram import PolarDiagram, PolarDiagramException
 from ._polardiagramtable import PolarDiagramTable
 
 

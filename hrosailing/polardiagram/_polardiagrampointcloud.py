@@ -67,12 +67,16 @@ class PolarDiagramPointcloud(PolarDiagram):
         """
         return self.points
 
-    def get_slices(self,
-            ws=None, n_steps=None, full_info=False,
-            wa_resolution=100,
-            range_=1,
-            interpolator=None,
-            **kwargs):
+    def get_slices(
+        self,
+        ws=None,
+        n_steps=None,
+        full_info=False,
+        wa_resolution=100,
+        range_=1,
+        interpolator=None,
+        **kwargs,
+    ):
         """
         Parameters
         ---------------------
