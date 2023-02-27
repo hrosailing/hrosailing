@@ -7,7 +7,7 @@ from typing import NamedTuple
 
 import numpy as np
 
-import hrosailing.core.data
+import hrosailing.core as core
 import hrosailing.processing as pc
 import hrosailing.polardiagram as pol
 import hrosailing.models as mod
@@ -435,7 +435,7 @@ class PolarPipeline:
             data,
         )
 
-        data = pc.data.Data.concatenate([wp.data for wp in data])
+        data = core.data.Data.concatenate([wp.data for wp in data])
 
         if influence_fitting:
             self.influence_model.fit(data)
@@ -532,18 +532,18 @@ def _collector_fun(comp, method):
 
 
 def _is_empty_data(data):
-    if isinstance(data, pc.data.Data) and data.n_rows == 0:
+    if isinstance(data, core.data.Data) and data.n_rows == 0:
         return True
     if isinstance(data, np.ndarray) and len(data) == 0:
         return True
-    if isinstance(data, hrosailing.core.data.WeightedPoints):
+    if isinstance(data, core.data.WeightedPoints):
         return _is_empty_data(data.data)
     return False
 
 
 def _weigh_and_filter(data, weigher, filter_, weighing, filtering):
     if _is_empty_data(data):
-        return (hrosailing.core.data.WeightedPoints(data, []), {}, {})
+        return (core.data.WeightedPoints(data, []), {}, {})
     if weighing:
         weights, weigher_statistics = _collect(weigher, weigher.weigh, data)
     else:
@@ -552,7 +552,7 @@ def _weigh_and_filter(data, weigher, filter_, weighing, filtering):
             def_weigher, def_weigher.weigh, data
         )
 
-    weighed_data = hrosailing.core.data.WeightedPoints(data, weights)
+    weighed_data = core.data.WeightedPoints(data, weights)
 
     filtered_data, filter_statistics = (
         _filter_data(filter_, weighed_data)
