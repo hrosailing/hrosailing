@@ -19,8 +19,8 @@ from typing import Callable
 import numpy as np
 
 from hrosailing.core.computing import scaled_euclidean_norm
-from .neighbourhood import Neighbourhood
 
+from .neighbourhood import Neighbourhood
 
 
 class Interpolator(ABC):
@@ -353,9 +353,7 @@ class ShepardInterpolator(Interpolator):
         if tol <= 0:
             raise ValueError("`tol` is non-positive")
         if slope <= 0:
-            raise ValueError(
-                "`slope` is non-positive"
-            )
+            raise ValueError("`slope` is non-positive")
 
         self._norm = norm
         self._tol = tol

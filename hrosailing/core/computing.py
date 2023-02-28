@@ -203,4 +203,3 @@ def safe_operation(operand, value):
         return operand(value)
     except (ValueError, TypeError, IndexError, KeyError, ZeroDivisionError):
         return None
-

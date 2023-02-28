@@ -8,12 +8,10 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-import hrosailing.processing as pc
 import hrosailing.polardiagram as pol
+import hrosailing.processing as pc
+from hrosailing.core.modelfunctions import ws_s_wa_gauss_and_square
 from hrosailing.core.statistics import ComponentWithStatistics
-from hrosailing.core.modelfunctions import (
-    ws_s_wa_gauss_and_square
-)
 from hrosailing.polardiagram._polardiagramtable import _Resolution
 
 

@@ -6,13 +6,10 @@ from ast import literal_eval
 
 import numpy as np
 
-from hrosailing.processing import (
-    ArithmeticMeanInterpolator,
-    Ball,
-)
-from ..core.data import WeightedPoints
 from hrosailing.core.computing import convert_apparent_wind_to_true
+from hrosailing.processing import ArithmeticMeanInterpolator, Ball
 
+from ..core.data import WeightedPoints
 from ._basepolardiagram import PolarDiagram
 
 
@@ -319,9 +316,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         else:
             new_pts = np.asarray_chkfinite(new_pts)
             if np.any((new_pts[:, 0] <= 0)):
-                raise ValueError(
-                    "`new_pts` has non-positive wind speeds"
-                )
+                raise ValueError("`new_pts` has non-positive wind speeds")
             new_pts[:, 1] %= 360
 
         self._points = np.row_stack((self._points, new_pts))
@@ -349,8 +344,6 @@ class PolarDiagramPointcloud(PolarDiagram):
             bsp.append(pts[:, 1])
 
         if not wa:
-            raise ValueError(
-                "there are no slices in the given range `ws`"
-            )
+            raise ValueError("there are no slices in the given range `ws`")
 
         return wa, bsp

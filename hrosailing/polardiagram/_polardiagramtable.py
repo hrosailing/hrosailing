@@ -9,15 +9,10 @@ from typing import Iterable
 
 import numpy as np
 
-from hrosailing.processing import (
-    ArithmeticMeanInterpolator,
-    Ball,
-)
 from hrosailing.core.data import WeightedPoints
+from hrosailing.processing import ArithmeticMeanInterpolator, Ball
 
-from ._basepolardiagram import (
-    PolarDiagram
-)
+from ._basepolardiagram import PolarDiagram
 
 
 class PolarDiagramTable(PolarDiagram):
@@ -157,13 +152,9 @@ class PolarDiagramTable(PolarDiagram):
 
         # sanity checks
         if bsps.dtype is object:
-            raise TypeError(
-                "`bsps` is not array_like"
-            )
+            raise TypeError("`bsps` is not array_like")
         if _incompatible_shapes(bsps, ws_resolution, wa_resolution):
-            raise ValueError(
-                "`bsps` has incorrect shape"
-            )
+            raise ValueError("`bsps` has incorrect shape")
 
         (
             self._ws_resolution,

@@ -21,7 +21,7 @@ __all__ = [
     "PolarDiagramMultiSails",
     "PolarDiagramPointcloud",
     "PolarDiagramTable",
-    "from_csv"
+    "from_csv",
 ]
 
 from hrosailing.core.exceptions import FileReadingException

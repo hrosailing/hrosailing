@@ -75,9 +75,7 @@ class QuantileFilter(Filter):
     def __init__(self, percent=50):
         super().__init__()
         if percent < 0 or percent > 100:
-            raise ValueError(
-                "`percent` is not between 0 and 100"
-            )
+            raise ValueError("`percent` is not between 0 and 100")
 
         self._percent = percent
 
@@ -127,9 +125,7 @@ class BoundFilter(Filter):
     def __init__(self, lower_bound=0.5, upper_bound=1):
         super().__init__()
         if upper_bound < lower_bound:
-            raise ValueError(
-                "`upper_bound` is smaller than `lower_bound`"
-            )
+            raise ValueError("`upper_bound` is smaller than `lower_bound`")
 
         self._u_b = upper_bound
         self._l_b = lower_bound

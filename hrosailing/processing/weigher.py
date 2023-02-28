@@ -13,16 +13,16 @@ from datetime import timedelta
 
 import numpy as np
 
-from hrosailing.core.constants import NORM_SCALES
-from hrosailing.core.data import Data
-
-from hrosailing.core.statistics import ComponentWithStatistics
 from hrosailing.core.computing import (
     data_dict_to_numpy,
     euclidean_norm,
+    safe_operation,
     scaled_norm,
-    safe_operation
 )
+from hrosailing.core.constants import NORM_SCALES
+from hrosailing.core.data import Data
+from hrosailing.core.statistics import ComponentWithStatistics
+
 
 class Weigher(ComponentWithStatistics, ABC):
     """Base class for all weigher classes.
@@ -360,9 +360,7 @@ class CylindricMemberWeigher(Weigher):
             raise ValueError("`radius` is non-positive")
 
         if length < 0:
-            raise ValueError(
-                "`length` should be non-negative."
-            )
+            raise ValueError("`length` should be non-negative.")
 
         self._radius = radius
         self._length = length

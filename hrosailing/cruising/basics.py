@@ -6,10 +6,8 @@ import numpy as np
 from scipy.integrate import solve_ivp, trapezoid
 from scipy.spatial import ConvexHull
 
-from hrosailing.models import (
-    WeatherModel,
-    InfluenceModel
-)
+from hrosailing.models import InfluenceModel, WeatherModel
+
 
 @dataclass
 class Direction:

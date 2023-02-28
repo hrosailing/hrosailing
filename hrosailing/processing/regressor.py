@@ -17,6 +17,7 @@ import numpy as np
 from scipy.odr.odrpack import ODR, Data, Model
 from scipy.optimize import curve_fit
 
+
 class Regressor(ABC):
     """Base class for all regressor classes."""
 

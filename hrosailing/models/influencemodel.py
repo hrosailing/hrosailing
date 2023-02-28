@@ -12,10 +12,12 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from hrosailing.core.statistics import ComponentWithStatistics
 from hrosailing.core.computing import (
-    convert_apparent_wind_to_true, data_dict_to_numpy
+    convert_apparent_wind_to_true,
+    data_dict_to_numpy,
 )
+from hrosailing.core.statistics import ComponentWithStatistics
+
 
 class InfluenceModel(ComponentWithStatistics, ABC):
     """Base class for all influence model classes."""

@@ -8,9 +8,7 @@ import numpy as np
 
 import hrosailing.core.modelfunctions as model
 
-from ._basepolardiagram import (
-    PolarDiagram
-)
+from ._basepolardiagram import PolarDiagram
 
 MODEL_FUNCTIONS = dict(getmembers(model, isfunction))
 
@@ -198,9 +196,7 @@ class PolarDiagramCurve(PolarDiagram):
         params = [literal_eval(value) for value in next(csv_reader)[1:]]
 
         if function not in MODEL_FUNCTIONS:
-            raise RuntimeError(
-                f"no valid function, named {function}"
-            )
+            raise RuntimeError(f"no valid function, named {function}")
 
         function = MODEL_FUNCTIONS[function]
         return PolarDiagramCurve(function, *params, radians=radians)

@@ -8,17 +8,14 @@ from typing import NamedTuple
 import numpy as np
 
 import hrosailing.core as core
-import hrosailing.processing as pc
-import hrosailing.polardiagram as pol
 import hrosailing.models as mod
-
-from .extensions import (
-    TableExtension
-)
+import hrosailing.polardiagram as pol
+import hrosailing.processing as pc
 
 from .expander import LazyExpander
-
+from .extensions import TableExtension
 from .quality_assurance import MinimalQualityAssurance
+
 
 class Statistics(NamedTuple):
     """
@@ -336,7 +333,9 @@ class PolarPipeline:
             )
         else:
             pts_to_inject, injector_statistics = (
-                hrosailing.core.data.WeightedPoints(np.empty((0, 3)), np.empty(0)),
+                hrosailing.core.data.WeightedPoints(
+                    np.empty((0, 3)), np.empty(0)
+                ),
                 {},
             )
 

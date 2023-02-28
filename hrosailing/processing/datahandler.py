@@ -17,9 +17,9 @@ from datetime import date, datetime, time
 
 import numpy as np
 
-from hrosailing.core.statistics import ComponentWithStatistics
 from hrosailing.core.constants import HROSAILING_TO_NMEA
 from hrosailing.core.data import Data
+from hrosailing.core.statistics import ComponentWithStatistics
 
 
 class DataHandler(ComponentWithStatistics, ABC):

@@ -6,9 +6,7 @@ from ast import literal_eval
 
 import numpy as np
 
-from ._basepolardiagram import (
-    PolarDiagram
-)
+from ._basepolardiagram import PolarDiagram
 from ._polardiagramtable import PolarDiagramTable
 
 
@@ -145,9 +143,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         try:
             index = self.sails.index(item)
         except ValueError as ve:
-            raise ValueError(
-                "`item` is not a name of a sail"
-            ) from ve
+            raise ValueError("`item` is not a name of a sail") from ve
 
         return self._diagrams[index]
 

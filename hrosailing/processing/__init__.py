@@ -77,5 +77,5 @@ __all__ = [
     "FluctuationWeigher",
     "FuzzyVariable",
     "FuzzyWeigher",
-    "Weigher"
+    "Weigher",
 ]
