@@ -32,11 +32,6 @@ except ModuleNotFoundError:
     installed_meteostat = False
 
 
-class OutsideGridException(Exception):
-    """Exception raised if point accessed in weather model lies
-    outside the available grid."""
-
-
 class WeatherModel(ABC):
     """
     Base class for handling and approximating weather data.
@@ -259,7 +254,7 @@ def _recursive_affine_interpolation(point, grid, get_data):
     outside_right = [pt > right for pt, right in zip(point, lst)]
 
     if any(outside_left) or any(outside_right):
-        raise OutsideGridException(
+        raise ValueError(
             f"{point} is outside the grid. Weather data not available."
         )
 
@@ -471,7 +466,7 @@ class MultiWeatherModel(WeatherModel):
         An arbitrary number of weather models.
 
     exception_sensitive: bool, optional
-        If `False` any `ValueError`, `TypeError`, `KeyError`, `NotImplementedError` or `OutsideGridException`
+        If `False` any `ValueError`, `TypeError`, `KeyError`, `NotImplementedError`
         raised by some submodel is ignored. If `True` these exceptions are not ignored.
 
         Defaults to `False`.
@@ -500,7 +495,6 @@ class MultiWeatherModel(WeatherModel):
                 ValueError,
                 TypeError,
                 KeyError,
-                OutsideGridException,
             ) as e:
                 if self._exception_sensitive:
                     raise e

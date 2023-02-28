@@ -10,24 +10,12 @@ in the `hrosailing.pipeline` module.
 
 
 import inspect
-import logging.handlers
 from abc import ABC, abstractmethod
 from typing import Callable
 
 import numpy as np
 from scipy.odr.odrpack import ODR, Data, Model
 from scipy.optimize import curve_fit
-
-logging.basicConfig(
-    format="%(asctime)s %(levelname)s: %(message)s",
-    level=logging.INFO,
-    handlers=[
-        logging.handlers.TimedRotatingFileHandler(
-            "hrosailing.log", when="midnight"
-        )
-    ],
-)
-logger = logging.getLogger(__name__)
 
 
 class Regressor(ABC):

@@ -12,14 +12,11 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
-from hrosailing.wind import convert_apparent_wind_to_true
-
-from ._utils import data_dict_to_numpy
-
-
-class InfluenceException(Exception):
-    """Raised when removing or adding influence does not work."""
+from hrosailing.core.computing import (
+    convert_apparent_wind_to_true,
+    data_dict_to_numpy,
+)
+from hrosailing.core.statistics import ComponentWithStatistics
 
 
 class InfluenceModel(ComponentWithStatistics, ABC):
@@ -242,7 +239,7 @@ def _get_true_wind_data(data: dict):
         apparent_data = data_dict_to_numpy(data, ["AWS", "AWA", speed])
         return convert_apparent_wind_to_true(apparent_data)
 
-    raise InfluenceException(
+    raise ValueError(
         "No sufficient wind data is given in order to apply influence"
         "model. Either give 'AWA' and 'AWS' or 'TWA' and 'TWS'"
     )

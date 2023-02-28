@@ -9,11 +9,9 @@ from ast import literal_eval
 
 import numpy as np
 
-from ._basepolardiagram import (
-    PolarDiagram,
-    PolarDiagramException,
-    PolarDiagramInitializationException,
-)
+from hrosailing.core.exceptions import FileReadingException
+
+from ._basepolardiagram import PolarDiagram
 from ._polardiagramcurve import PolarDiagramCurve
 from ._polardiagrammultisails import PolarDiagramMultiSails
 from ._polardiagrampointcloud import PolarDiagramPointcloud
@@ -26,16 +24,7 @@ __all__ = [
     "PolarDiagramPointcloud",
     "PolarDiagramTable",
     "from_csv",
-    "FileReadingException",
-    "PolarDiagramException",
-    "PolarDiagramInitializationException",
 ]
-
-
-class FileReadingException(Exception):
-    """Exception raised if non-OS-error occurs,
-    when reading a file.
-    """
 
 
 def from_csv(csv_path, fmt="hro"):
@@ -66,8 +55,6 @@ def from_csv(csv_path, fmt="hro"):
     Raises
     ------
     FileReadingException
-        If an unknown format was specified.
-    FileReadingException
         If, in the format `hro`, the first row does not match any
         `PolarDiagram` subclass.
 
@@ -94,7 +81,7 @@ def from_csv(csv_path, fmt="hro"):
         150.0         3.21   4.10    4.87    5.40    5.78    6.22    7.32
     """
     if fmt not in {"array", "hro", "opencpn", "orc"}:
-        raise FileReadingException("`fmt` unknown")
+        raise ValueError("`fmt` unknown")
 
     with open(csv_path, "r", newline="", encoding="utf-8") as file:
         if fmt == "hro":

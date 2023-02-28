@@ -1,6 +1,8 @@
 """
-Components for the `PolarPipeline` and `PipelineExtension`
-classes among other things.
+Interfaces and classes for data processing.
+
+Subclasses can be used with the `PolarPipeline` class
+of the `hrosailing.pipeline` module.
 """
 
 from .datahandler import (
@@ -9,14 +11,8 @@ from .datahandler import (
     DataHandler,
     NMEAFileHandler,
 )
-from .expander import Expander, LazyExpander, WeatherExpander
 from .filter import BoundFilter, Filter, QuantileFilter
 from .imputator import FillLocalImputator, RemoveOnlyImputator
-from .influencemodel import (
-    IdentityInfluenceModel,
-    InfluenceModel,
-    WindAngleCorrectingInfluenceModel,
-)
 from .injector import ZeroInjector
 from .interpolator import (
     ArithmeticMeanInterpolator,
@@ -31,11 +27,6 @@ from .neighbourhood import (
     Neighbourhood,
     Polytope,
     ScalingBall,
-)
-from .quality_assurance import (
-    ComformingQualityAssurance,
-    MinimalQualityAssurance,
-    QualityAssurance,
 )
 from .regressor import LeastSquareRegressor, ODRegressor, Regressor
 from .sampler import (
@@ -53,5 +44,38 @@ from .weigher import (
     FuzzyVariable,
     FuzzyWeigher,
     Weigher,
-    WeightedPoints,
 )
+
+__all__ = [
+    "ArrayHandler",
+    "CsvFileHandler",
+    "DataHandler",
+    "NMEAFileHandler",
+    "ArithmeticMeanInterpolator",
+    "IDWInterpolator",
+    "ImprovedIDWInterpolator",
+    "Interpolator",
+    "Ball",
+    "Cuboid",
+    "Ellipsoid",
+    "Neighbourhood",
+    "Polytope",
+    "ScalingBall",
+    "LeastSquareRegressor",
+    "ODRegressor",
+    "Regressor",
+    "ArchimedeanSampler",
+    "FibonacciSampler",
+    "Sampler",
+    "UniformRandomSampler",
+    "AffineSmoother",
+    "LazySmoother",
+    "Smoother",
+    "AllOneWeigher",
+    "CylindricMeanWeigher",
+    "CylindricMemberWeigher",
+    "FluctuationWeigher",
+    "FuzzyVariable",
+    "FuzzyWeigher",
+    "Weigher",
+]

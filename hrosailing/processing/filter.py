@@ -14,13 +14,7 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
-
-
-class FilterInitializationException(Exception):
-    """Exception raised if an error occurs during
-    initialization of a `Filter`.
-    """
+from hrosailing.core.statistics import ComponentWithStatistics
 
 
 class Filter(ComponentWithStatistics, ABC):
@@ -73,11 +67,6 @@ class QuantileFilter(Filter):
 
         Defaults to `50`.
 
-    Raises
-    ------
-    FilterInitializationException
-        If `percent` is not in the interval :math:`[0, 100]`.
-
     See also
     ----------
     `Filter`
@@ -86,9 +75,7 @@ class QuantileFilter(Filter):
     def __init__(self, percent=50):
         super().__init__()
         if percent < 0 or percent > 100:
-            raise FilterInitializationException(
-                "`percent` is not between 0 and 100"
-            )
+            raise ValueError("`percent` is not between 0 and 100")
 
         self._percent = percent
 
@@ -130,11 +117,6 @@ class BoundFilter(Filter):
 
         Defaults to `1`.
 
-    Raises
-    ------
-    FilterInitializationException
-        If `lower_bound` is greater than `upper_bound`.
-
     See also
     ----------
     `Filter`
@@ -143,9 +125,7 @@ class BoundFilter(Filter):
     def __init__(self, lower_bound=0.5, upper_bound=1):
         super().__init__()
         if upper_bound < lower_bound:
-            raise FilterInitializationException(
-                "`upper_bound` is smaller than `lower_bound`"
-            )
+            raise ValueError("`upper_bound` is smaller than `lower_bound`")
 
         self._u_b = upper_bound
         self._l_b = lower_bound

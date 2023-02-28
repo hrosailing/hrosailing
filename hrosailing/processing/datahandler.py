@@ -3,9 +3,6 @@ Classes used to transform given data to the hrosailing data format for further p
 
 Defines the `DataHandler` abstract base class that can be used to
 create custom data handlers to handle formats which are not supported yet.
-
-Subclasses of `DataHandler` can be used with the `PolarPipeline` class
-in the `hrosailing.pipeline` module.
 """
 
 
@@ -20,21 +17,9 @@ from datetime import date, datetime, time
 
 import numpy as np
 
-from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
-from hrosailing.pipelinecomponents.constants import HROSAILING_TO_NMEA
-from hrosailing.pipelinecomponents.data import Data
-
-
-class HandlerInitializationException(Exception):
-    """Exception raised if an error occurs during
-    initialization of a `DataHandler`.
-    """
-
-
-class HandleException(Exception):
-    """Exception raised if an error occurs during
-    calling of the `.handle()`-method.
-    """
+from hrosailing.core.constants import HROSAILING_TO_NMEA
+from hrosailing.core.data import Data
+from hrosailing.core.statistics import ComponentWithStatistics
 
 
 class DataHandler(ComponentWithStatistics, ABC):
@@ -98,11 +83,6 @@ class ArrayHandler(DataHandler):
             correspond to different attributes and the rows to different data points.
             In this case, the ordered iterable has to contain the names of the attributes corresponding to the columns.
 
-        Raises
-        ------
-        HandleException
-            If the given `array_like` has a different number of columns than the number of given attributes.
-
         See also
         --------
         `DataHandler.handle`
@@ -114,7 +94,7 @@ class ArrayHandler(DataHandler):
             arr = np.asarray(arr)
 
             if len(keys) != arr.shape[1]:
-                raise HandleException("Number of keys does not match data")
+                raise ValueError("Number of keys does not match data")
 
             data_dict = {key: list(arr[:, i]) for i, key in enumerate(keys)}
 

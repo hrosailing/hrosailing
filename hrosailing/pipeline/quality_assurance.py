@@ -7,7 +7,7 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from hrosailing.pipelinecomponents._utils import _safe_operation
+from hrosailing.core.computing import safe_operation
 
 
 class QualityAssurance(ABC):
@@ -119,20 +119,20 @@ class ComformingQualityAssurance(QualityAssurance):
             tested_tuples[test_tuple] = min(bsp, prev_min), max(bsp, prev_max)
 
         statistics = {
-            "max_error": _safe_operation(max, diffs),
-            "min_error": _safe_operation(min, diffs),
-            "average_error": _safe_operation(np.mean, diffs),
-            "average_quadratic_error": _safe_operation(
+            "max_error": safe_operation(max, diffs),
+            "min_error": safe_operation(min, diffs),
+            "average_error": safe_operation(np.mean, diffs),
+            "average_quadratic_error": safe_operation(
                 np.mean, [diff**2 for diff in diffs]
             ),
-            "max_zero_val": _safe_operation(max, zero_diffs),
-            "min_zero_val": _safe_operation(min, zero_diffs),
-            "average_zero_val": _safe_operation(np.mean, zero_diffs),
-            "average_quadratic_zero_val": _safe_operation(
+            "max_zero_val": safe_operation(max, zero_diffs),
+            "min_zero_val": safe_operation(min, zero_diffs),
+            "average_zero_val": safe_operation(np.mean, zero_diffs),
+            "average_quadratic_zero_val": safe_operation(
                 np.mean, [diff**2 for diff in zero_diffs]
             ),
             "test_covering": len(tested_tuples),
-            "average_local_test_data_difference": _safe_operation(
+            "average_local_test_data_difference": safe_operation(
                 np.mean,
                 [
                     bsp_max - bsp_min

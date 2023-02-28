@@ -15,13 +15,7 @@ from typing import Callable
 
 import numpy as np
 
-from ._utils import scaled_euclidean_norm
-
-
-class NeighbourhoodInitializationException(Exception):
-    """Exception raised if an error occurs during
-    initialization of a `Neighbourhood`.
-    """
+from hrosailing.core.computing import scaled_euclidean_norm
 
 
 class Neighbourhood(ABC):
@@ -65,11 +59,6 @@ class Ball(Neighbourhood):
 
         Defaults to a scaled version of :math:`||.||_2` in two dimensions.
 
-    Raises
-    ------
-    NeighbourhoodInitializationException
-        If `radius` is non-positive.
-
     See also
     ----------
     `Neighbourhood`
@@ -81,9 +70,7 @@ class Ball(Neighbourhood):
         norm: Callable = scaled_euclidean_norm,
     ):
         if radius <= 0:
-            raise NeighbourhoodInitializationException(
-                "`radius` is non-positive"
-            )
+            raise ValueError("`radius` is non-positive")
 
         self._norm = norm
         self._radius = radius
@@ -136,11 +123,6 @@ class ScalingBall(Neighbourhood):
 
         Defaults to a scaled version of :math:`||.||_2`.
 
-    Raises
-    ------
-    NeighbourhoodInitializationException
-        If `min_pts` is non-positive.
-
     See also
     ----------
     `Neighbourhood`
@@ -152,9 +134,7 @@ class ScalingBall(Neighbourhood):
         norm: Callable = scaled_euclidean_norm,
     ):
         if min_pts <= 0:
-            raise NeighbourhoodInitializationException(
-                "`min_pts` is non-positive"
-            )
+            raise ValueError("`min_pts` is non-positive")
 
         self._min_pts = min_pts
         self._norm = norm
@@ -222,14 +202,6 @@ class Ellipsoid(Neighbourhood):
 
         Defaults to `0.05`.
 
-
-    Raises
-    ------
-    NeighbourhoodInitializationException
-        If `radius` is non-positive.
-     NeighbourhoodInitializationException
-        If `lin_trans` is not a (2,2)-array or is not invertible.
-
     See also
     ----------
     `Neighbourhood`
@@ -247,19 +219,13 @@ class Ellipsoid(Neighbourhood):
         lin_trans = np.asarray_chkfinite(lin_trans)
 
         if lin_trans.shape != (2, 2):
-            raise NeighbourhoodInitializationException(
-                "`lin_trans` has incorrect shape"
-            )
+            raise ValueError("`lin_trans` has incorrect shape")
 
         if not np.linalg.det(lin_trans):
-            raise NeighbourhoodInitializationException(
-                "`lin_trans` is singular"
-            )
+            raise ValueError("`lin_trans` is singular")
 
         if radius <= 0:
-            raise NeighbourhoodInitializationException(
-                "`radius` is non-positive"
-            )
+            raise ValueError("`radius` is non-positive")
 
         self._T = np.linalg.inv(lin_trans)
         self._norm = norm
@@ -383,12 +349,6 @@ class Polytope(Neighbourhood):
 
         Defaults to `numpy.array([0.05, 0.05, 0.05, 0.05])`.
 
-
-    Raises
-    ------
-    NeighbourhoodInitializationException
-        If `mat` and `b` are not of matching shape.
-
     See also
     ----------
     `Neighbourhood`
@@ -402,14 +362,10 @@ class Polytope(Neighbourhood):
         b = np.asarray_chkfinite(b)
 
         if mat.ndim != 2 or mat.shape[1] != 2:
-            raise NeighbourhoodInitializationException(
-                "`mat` has incorrect shape"
-            )
+            raise ValueError("`mat` has incorrect shape")
 
         if b.ndim != 1 or b.shape[0] != mat.shape[0]:
-            raise NeighbourhoodInitializationException(
-                "`b` has incorrect shape"
-            )
+            raise ValueError("`b` has incorrect shape")
 
         self._mat = mat
         self._b = b

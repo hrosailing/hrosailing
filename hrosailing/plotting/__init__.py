@@ -13,3 +13,13 @@ from hrosailing.plotting.projections import (
     scatter_flat,
     scatter_polar,
 )
+
+__all__ = [
+    "plot_polar",
+    "plot_flat",
+    "plot_3d",
+    "plot_color_gradient",
+    "scatter_flat",
+    "scatter_polar",
+    "scatter_3d",
+]
