@@ -7,10 +7,10 @@ from typing import NamedTuple
 
 import numpy as np
 
-from hrosailing import core
 import hrosailing.models as mod
 import hrosailing.polardiagram as pol
 import hrosailing.processing as pc
+from hrosailing import core
 
 from .expander import LazyExpander
 from .extensions import TableExtension
