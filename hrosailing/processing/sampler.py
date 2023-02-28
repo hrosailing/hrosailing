@@ -9,11 +9,11 @@ in the `hrosailing.pipeline` module.
 """
 
 
+import itertools
 from abc import ABC, abstractmethod
 
 import numpy as np
 from scipy.spatial import ConvexHull
-import itertools
 
 
 class Sampler(ABC):
@@ -335,13 +335,10 @@ def _small_circle(pts):
     except np.linalg.LinAlgError:
         pass
 
-    for idx_except in [0,1,2]:
-        idxs = [idx for idx in [0,1,2] if idx!=idx_except]
+    for idx_except in [0, 1, 2]:
+        idxs = [idx for idx in [0, 1, 2] if idx != idx_except]
         mp, radius = _small_circle(pts[idxs])
         if np.linalg.norm(pts[idx_except] - mp) <= radius:
             return mp, radius
 
     raise RuntimeError(f"Error computing small circle from {pts}")
-
-
-
