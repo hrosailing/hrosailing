@@ -13,6 +13,7 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 from scipy.spatial import ConvexHull
+import itertools
 
 
 class Sampler(ABC):
@@ -313,6 +314,8 @@ def _is_in_circle(p, circle, eps):
 
 def _small_circle(pts):
     """"""
+    if len(pts) > 3:
+        raise ValueError(f"number of points should be <= 3 but is {pts}")
     if len(pts) == 0:
         return np.zeros((2,)), 0
     if len(pts) == 1:
@@ -322,11 +325,23 @@ def _small_circle(pts):
         mp = 1 / 2 * (p1 + p2)
         r = 1 / 2 * np.linalg.norm(p1 - p2)
         return mp, r
-    if len(pts) == 3:
-        circle_m = -np.column_stack(pts).T
-        circle_m = np.column_stack([np.ones(3), circle_m])
-        circle_b = np.array([-np.linalg.norm(p) ** 2 for p in pts])
-        # TODO: handling for degenerate case
+    circle_m = -np.column_stack(pts).T
+    circle_m = np.column_stack([np.ones(3), circle_m])
+    circle_b = np.array([-np.linalg.norm(p) ** 2 for p in pts])
+    # TODO: handling for degenerate case
+    try:
         a, b, c = np.linalg.inv(circle_m) @ circle_b
         return np.array([b / 2, c / 2]), np.sqrt(b**2 / 4 + c**2 / 4 - a)
-    raise ValueError(f"number of points should be <= 3 but is {pts}")
+    except np.linalg.LinAlgError:
+        pass
+
+    for idx_except in [0,1,2]:
+        idxs = [idx for idx in [0,1,2] if idx!=idx_except]
+        mp, radius = _small_circle(pts[idxs])
+        if np.linalg.norm(pts[idx_except] - mp) <= radius:
+            return mp, radius
+
+    raise RuntimeError(f"Error computing small circle from {pts}")
+
+
+
