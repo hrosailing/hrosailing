@@ -334,9 +334,7 @@ class PolarPipeline:
             )
         else:
             pts_to_inject, injector_statistics = (
-                core.data.WeightedPoints(
-                    np.empty((0, 3)), np.empty(0)
-                ),
+                core.data.WeightedPoints(np.empty((0, 3)), np.empty(0)),
                 {},
             )
 
