@@ -156,22 +156,22 @@ data = data[np.random.choice(len(data), size=500)]
 #### Creating polar diagrams from raw data
 ```python
 import hrosailing.pipeline as pipe
-import hrosailing.pipelinecomponents as pcomp
+import hrosailing.processing as proc
 
 pol_pips = [
     pipe.PolarPipeline(
-        data_handler=pcomp.ArrayHandler(),
-        imputator=pcomp.RemoveOnlyImputator(),
+        data_handler=proc.ArrayHandler(),
+        imputator=proc.RemoveOnlyImputator(),
         extension=pipe.TableExtension()
     ),
     pipe.PolarPipeline(
-        data_handler=pcomp.ArrayHandler(),
-        imputator=pcomp.RemoveOnlyImputator(),
+        data_handler=proc.ArrayHandler(),
+        imputator=proc.RemoveOnlyImputator(),
         extension=pipe.PointcloudExtension()
     ),
     pipe.PolarPipeline(
-        data_handler=pcomp.ArrayHandler(),
-        imputator=pcomp.RemoveOnlyImputator(),
+        data_handler=proc.ArrayHandler(),
+        imputator=proc.RemoveOnlyImputator(),
         extension=pipe.CurveExtension()
     )
 ]
@@ -200,7 +200,9 @@ we can customize one or more components of it.
 
 #### Customizing `PolarPipeline`
 ```python
-class MyInfluenceModel(pcomp.InfluenceModel):
+import hrosailing.models as models
+
+class MyInfluenceModel(models.InfluenceModel):
     def remove_influence(self, data):
         tws = np.array(data["TWS"])
         twa = np.array(data["TWA"])
@@ -215,7 +217,7 @@ class MyInfluenceModel(pcomp.InfluenceModel):
         pass
 
 
-class MyFilter(pcomp.Filter):
+class MyFilter(proc.Filter):
     def filter(self, wts):
         return np.logical_or(wts <= 0.2, wts >= 0.8)
 
@@ -224,7 +226,7 @@ def my_model_func(ws, wa, *params):
     return params[0] + params[1]*wa + params[2]*ws + params[3]*ws*wa
 
 
-my_regressor = pcomp.LeastSquareRegressor(
+my_regressor = proc.LeastSquareRegressor(
     model_func=my_model_func,
     init_vals=(1, 2, 3, 4)
 )
@@ -240,22 +242,22 @@ def my_norm(pt):
 
 
 my_pol_pip = pipe.PolarPipeline(
-    data_handler=pcomp.ArrayHandler(),
+    data_handler=proc.ArrayHandler(),
+    imputator=proc.RemoveOnlyImputator(),
     influence_model=MyInfluenceModel(),
-    post_weigher=pcomp.CylindricMeanWeigher(radius=2, norm=my_norm),
+    post_weigher=proc.CylindricMeanWeigher(radius=2, norm=my_norm),
     extension=my_extension,
     post_filter=MyFilter()
 )
 
 out = my_pol_pip([(data, ["Wind speed", "Wind angle", "Boat speed"])])
 my_pd = out.polardiagram
-
 ```
 
 The customizations above are arbitrary and lead to comparably bad results:
 
 ```python
-my_pd.plot_polar(ws=ws)
+plot.plot_polar(my_pd, ws=ws)
 plt.show()
 ```
 ![custom_plot](https://raw.githubusercontent.com/Loitador41/test_repository/main/.github/images/Figure_Customizing_Pipeline.png)
@@ -269,10 +271,8 @@ a random weather model.
 from datetime import timedelta
 from datetime import datetime as dt
 
-import hrosailing.cruising as cruise
 
-
-class MyInfluenceModel(cruise.InfluenceModel):
+class MyInfluenceModel(models.InfluenceModel):
 
     def remove_influence(self, data):
         pass
@@ -292,7 +292,7 @@ n, m, k, l = 500, 50, 40, 3
 
 data = 20 * (np.random.random((n, m, k, l)))
 
-wm = cruise.GriddedWeatherModel(
+wm = models.GriddedWeatherModel(
     data=data,
     times=[dt.now() + i * timedelta(hours=1) for i in range(n)],
     lats=np.linspace(40, 50, m),
@@ -303,6 +303,8 @@ wm = cruise.GriddedWeatherModel(
 
 #### Computing Isochrones
 ```python
+import hrosailing.cruising as cruise
+
 start = (42.5, 43.5)
 
 isochrones = [
