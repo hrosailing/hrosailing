@@ -7,7 +7,7 @@ from typing import NamedTuple
 
 import numpy as np
 
-import hrosailing.core as core
+from hrosailing import core
 import hrosailing.models as mod
 import hrosailing.polardiagram as pol
 import hrosailing.processing as pc
@@ -206,6 +206,7 @@ class PolarPipeline:
         }
 
         self._set_with_default(custom_components, keys, defaults, aliases)
+        self.testing = False
 
     def __call__(self, training_data, test_data=None, **enabling):
         return self.execute(training_data, test_data, **enabling)

@@ -1,3 +1,8 @@
+"""
+Functions for navigation and weather routing using polar diagrams.
+"""
+
+
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import List, Optional
@@ -213,7 +218,7 @@ def cruise(
 
     ws, wdir = _wind_relative_to_north(wind, wind_fmt)
 
-    labels, slices, info = pd.get_slices(ws, full_info=True)
+    _, slices, _ = pd.get_slices(ws, full_info=True)
     ws, wa, bsp = slices[0]
     if im:
         for key, val in influence_data.items():

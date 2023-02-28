@@ -9,6 +9,8 @@ from ast import literal_eval
 
 import numpy as np
 
+from hrosailing.core.exceptions import FileReadingException
+
 from ._basepolardiagram import PolarDiagram
 from ._polardiagramcurve import PolarDiagramCurve
 from ._polardiagrammultisails import PolarDiagramMultiSails
@@ -23,8 +25,6 @@ __all__ = [
     "PolarDiagramTable",
     "from_csv",
 ]
-
-from hrosailing.core.exceptions import FileReadingException
 
 
 def from_csv(csv_path, fmt="hro"):
