@@ -108,7 +108,7 @@ class ODRegressor(Regressor):
         `Regressor.optimal_params`"""
         return self._popt
 
-    def fit(self, data, _enable_logging=False):
+    def fit(self, data):
         """Fits the model function to the given data, i.e. calculates
         the optimal parameters to minimize an objective
         function based on the given data.
@@ -134,32 +134,6 @@ class ODRegressor(Regressor):
         out = odr.run()
 
         self._popt = out.beta
-
-        if _enable_logging:
-            self._log_outcome_of_regression(out, y)
-
-    def _log_outcome_of_regression(self, out, y):
-        indep_vars = len(self._popt)
-        dof = y.shape[0] - indep_vars
-        chi_squared = np.sum(np.square(out.eps))
-        mean = np.mean(y)
-        sse = np.sum(np.square(y - mean))
-        ssr = out.sum_square
-        sst = ssr + sse
-        logger.info(f"Sum of squared residuals: {ssr}")
-        logger.info(f"Explained sum of squared residuals: {sse}")
-        logger.info(f"Total sum of squared residuals: {sst}")
-        logger.info(f"Sum of squared errors delta: {out.sum_square_delta}")
-        logger.info(f"Sum of squared error eps: {out.sum_square_eps}")
-        logger.info(f"R^2: {sse / sst}")
-        logger.info(f"Degrees of freedom: {dof}")
-        logger.info(
-            f"R^2_corr: {sse / sst - indep_vars * (1 - sse / sst) / dof}"
-        )
-        logger.info(f"F_emp ={(sse / indep_vars) / (sst / dof)}")
-        logger.info(f"Quasi-chi^2: {out.res_var}")
-        logger.info(f"chi^2_min: {chi_squared}")
-        logger.info(f"Reduced chi^2_min: {chi_squared / dof}")
 
 
 class LeastSquareRegressor(Regressor):
@@ -233,7 +207,7 @@ class LeastSquareRegressor(Regressor):
         """
         return self._popt
 
-    def fit(self, data, _enable_logging=False):
+    def fit(self, data):
         """Fits the model function to the given data, i.e. calculates
         the optimal parameters to minimize the sum of the squares of
         the residuals.
@@ -254,40 +228,14 @@ class LeastSquareRegressor(Regressor):
 
         self._popt = self._get_optimal_parameters(X, y)
 
-        if _enable_logging:
-            self._log_outcome_of_regression(X, y)
+        # if _enable_logging:
+        #     self._log_outcome_of_regression(X, y)
 
     def _get_optimal_parameters(self, X, y):
         optimal_parameters, _ = curve_fit(
             self._fitting_func, X, y, p0=self._init_vals
         )
         return optimal_parameters
-
-    def _log_outcome_of_regression(self, X, y):
-        sr = np.square(self._func(X[:, 0], X[:, 1], *self._popt) - y)
-        ssr = np.sum(sr)
-        mean = np.mean(y)
-        sse = np.sum(np.square(y - mean))
-        sst = ssr + sse
-        indep_vars = len(self._popt)
-        dof = y.shape[0] - indep_vars - 1
-        chi_squared = np.sum(sr / y)
-
-        logger.info(f"Model-function: {self._func}")
-        logger.info(f"Optimal parameters: {self._popt}")
-        logger.info(f"Max squared error: {np.max(sr)}")
-        logger.info(f"Min squared error: {np.min(sr)}")
-        logger.info(f"Sum of squared residuals: {ssr}")
-        logger.info(f"Explained sum of squares: {sse}")
-        logger.info(f"Total sum of squares: {sst}")
-        logger.info(f"R^2: {sse / sst}")
-        logger.info(f"Degrees of freedom: {dof}")
-        logger.info(
-            f"R^2_corr: {sse / sst - indep_vars * (1 - sse / sst) / dof}"
-        )
-        logger.info(f"F_emp ={(sse / indep_vars) / (sst / dof)}")
-        logger.info(f"chi^2: {chi_squared}")
-        logger.info(f"chi^2_red: {chi_squared / dof}")
 
 
 def _determine_params(func):

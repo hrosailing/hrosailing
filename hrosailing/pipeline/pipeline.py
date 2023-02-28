@@ -334,7 +334,7 @@ class PolarPipeline:
             )
         else:
             pts_to_inject, injector_statistics = (
-                hrosailing.core.data.WeightedPoints(
+                core.data.WeightedPoints(
                     np.empty((0, 3)), np.empty(0)
                 ),
                 {},
@@ -582,7 +582,7 @@ def _add_zeros(weighted_points, n_zeros):
     original_points = weighted_points.points
     original_weights = weighted_points.weights
 
-    return hrosailing.core.data.WeightedPoints(
+    return core.data.WeightedPoints(
         data=np.concatenate([original_points, zeros, fulls]),
         weights=np.concatenate([original_weights, np.ones(2 * n_zeros)]),
     )
