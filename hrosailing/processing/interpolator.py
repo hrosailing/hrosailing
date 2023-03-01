@@ -18,14 +18,9 @@ from typing import Callable
 
 import numpy as np
 
-from ._utils import scaled_euclidean_norm
+from hrosailing.core.computing import scaled_euclidean_norm
+
 from .neighbourhood import Neighbourhood
-
-
-class InterpolatorInitializationException(Exception):
-    """Exception raised if an error occurs during
-    initialization of an `Interpolator`.
-    """
 
 
 class Interpolator(ABC):
@@ -66,9 +61,12 @@ class IDWInterpolator(Interpolator):
     :math:`\\cfrac{\\sum_{pt} w_{pt} * pt[2]}{\\sum_{pt} w_{pt}}`
     or if :math:`grid\\\\_pt` is already a measured point :math:`pt`, it will equal :math:`pt[2]`.
 
+    Supports the `repr` method.
+
     Parameters
     ----------
     p : non-negative int, optional
+        The parameter 'p' used in the formulas above.
 
         Defaults to `2`.
 
@@ -76,11 +74,6 @@ class IDWInterpolator(Interpolator):
         Norm with which to calculate the distances, i.e. :math:`||.||`.
 
         Defaults to a scaled version of :math:`||.||_2`.
-
-    Raises
-    ------
-    InterpolatorInitializationException
-        If `p` is negative.
 
     See also
     ----------
@@ -90,7 +83,7 @@ class IDWInterpolator(Interpolator):
     def __init__(self, p=2, norm: Callable = scaled_euclidean_norm):
         super().__init__()
         if p < 0:
-            raise InterpolatorInitializationException("`p` is negative")
+            raise ValueError("`p` is negative")
 
         self._p = p
         self._norm = norm
@@ -155,6 +148,8 @@ class ArithmeticMeanInterpolator(Interpolator):
     Note that this is a more general approach to the inverse distance
     interpolator.
 
+    Supports the `repr` method.
+
     Parameters
     ----------
     s : positive int or float, optional
@@ -182,11 +177,6 @@ class ArithmeticMeanInterpolator(Interpolator):
 
         If no `distribution` is passed it defaults to `(100,)`, otherwise to `()`.
 
-    Raises
-    ------
-    InterpolatorInitializationException
-        If `s` is non-positive.
-
     See also
     ----------
     `Interpolator`
@@ -201,7 +191,7 @@ class ArithmeticMeanInterpolator(Interpolator):
     ):
         super().__init__()
         if s <= 0:
-            raise InterpolatorInitializationException("`s` is non-positive")
+            raise ValueError("`s` is non-positive")
 
         self._s = s
         self._norm = norm
@@ -324,6 +314,8 @@ class ShepardInterpolator(Interpolator):
     on the work of Shepard, "A two-dimensional interpolation
     function for irregularly-spaced data".
 
+    Supports the `repr` method.
+
 
     Parameters
     ----------
@@ -343,14 +335,6 @@ class ShepardInterpolator(Interpolator):
 
         Defaults to a scaled version of :math:`||.||_2`.
 
-
-    Raises
-    ------
-    InterpolatorInitializationException
-         If `tol` is non-positive.
-    InterpolatorInitializationException
-         If `slope` is non-positive.
-
     See also
     ----------
     `Interpolator`
@@ -367,11 +351,9 @@ class ShepardInterpolator(Interpolator):
             tol = np.finfo(float).eps
         super().__init__()
         if tol <= 0:
-            raise InterpolatorInitializationException("`tol` is non-positive")
+            raise ValueError("`tol` is non-positive")
         if slope <= 0:
-            raise InterpolatorInitializationException(
-                "`slope` is non-positive"
-            )
+            raise ValueError("`slope` is non-positive")
 
         self._norm = norm
         self._tol = tol

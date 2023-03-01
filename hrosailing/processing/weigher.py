@@ -13,105 +13,15 @@ from datetime import timedelta
 
 import numpy as np
 
-from hrosailing.pipelinecomponents.constants import NORM_SCALES
-from hrosailing.pipelinecomponents.data import Data
-
-from ._utils import (
-    ComponentWithStatistics,
-    _safe_operation,
+from hrosailing.core.computing import (
     data_dict_to_numpy,
     euclidean_norm,
+    safe_operation,
     scaled_norm,
 )
-
-
-class WeightedPointsInitializationException(Exception):
-    """Exception raised if an error occurs during
-    initialization of `WeightedPoints`.
-    """
-
-
-class WeigherInitializationException(Exception):
-    """Exception raised if an error occurs during
-    initialization of a `Weigher`.
-    """
-
-
-class WeighingException(Exception):
-    """Exception raised if an error occurs during the calling
-    of the `.weigh()`-method."""
-
-
-class WeightedPoints:
-    """A class to weigh data points and represent them together
-    with their respective weights.
-
-    Parameters
-    ----------
-    data : Data, dict or numpy.ndarray
-        Points that will be weight or paired with given weights.
-        If given as a dictionary, each value has to be a list. Data points are interpreted as
-        `[data[key][i] for key in data.keys()]` for each suitable `i`.
-        If given as a `numpy.ndarray`, the rows will be interpreted as data points.
-
-    weights : scalar or array_like of shape (n, )
-        If the weights of the points are known beforehand,
-        they can be given as an argument. If weights are
-        passed, they will be assigned to the points
-        and no further weighing will take place.
-
-        If a scalar is passed, the points will all be assigned
-        the same weight.
-    """
-
-    def __init__(self, data, weights):
-        self.data = data
-        if isinstance(weights, (float, int)):
-            if isinstance(data, dict):
-                length = len(list(data.values())[0])
-            else:
-                length = len(data)
-            self.weights = weights * np.ones(length)
-        else:
-            self.weights = np.asarray(weights)
-
-    def __getitem__(self, mask):
-        if isinstance(self.data, dict):
-            return WeightedPoints(
-                data={
-                    key: list(np.array(value)[mask])
-                    for key, value in self.data.items()
-                },
-                weights=self.weights[mask],
-            )
-        return WeightedPoints(data=self.data[mask], weights=self.weights[mask])
-
-    def extend(self, other):
-        """
-        Extends the weighted points by other weighted points.
-        The value of the `data` attribute has to be of the same type in both respective `WeightedPoints` objects.
-        If both data is given as a dictionary of lists, the respective lists
-        will be extended.
-        Keys that are not present in both dictionaries are discarded.
-
-        Parameters
-        ----------
-        other : WeightedPoints
-            Points to be appended.
-        """
-
-        if isinstance(self.data, dict):
-            self.data = {
-                key: value + other.data[key]
-                for key, value in self.data.items()
-                if key in other.data
-            }
-        elif isinstance(self.data, Data):
-            self.data = Data.concatenate([self.data, other.data])
-        else:
-            self.data = np.row_stack([self.data, other.data])
-
-        self.weights = np.concatenate([self.weights, other.weights])
+from hrosailing.core.constants import NORM_SCALES
+from hrosailing.core.data import Data
+from hrosailing.core.statistics import ComponentWithStatistics
 
 
 class Weigher(ComponentWithStatistics, ABC):
@@ -124,6 +34,17 @@ class Weigher(ComponentWithStatistics, ABC):
         """This method should be used to determine a weight for each point
         where the points might be given as `Data` or as `numpy.ndarray` of floating point numbers storing records
         in a row wise fashion and return the resulting weights.
+
+        The following arithmetic operations are supported for `Weigher` instances `weigher`, `weigher1`, `weigher2`,
+         integers `k` and `a` of type `float`, `int` or array like over `float` or `int`:
+
+        - `weigher1 + weigher2`, weigher + a`
+        - `-weigher`, `weigher1 - weigher2`, `weigher - a`
+        - `a*weigher`, `weigher1*weigher2`
+        - `weigher1/weigher2`, `a/weigher`, `weigher/a`
+        - `weigher**k`
+
+        The result will be a weigher producing weights according to the used formula.
 
         Parameters
         ----------
@@ -193,9 +114,9 @@ class Weigher(ComponentWithStatistics, ABC):
         weights : array_like of floats
             The weights to be analyzed.
         """
-        minw = _safe_operation(np.min, weights)
-        maxw = _safe_operation(np.max, weights)
-        span = _safe_operation(lambda x: x[1] - x[0], [minw, maxw])
+        minw = safe_operation(np.min, weights)
+        maxw = safe_operation(np.max, weights)
+        span = safe_operation(lambda x: x[1] - x[0], [minw, maxw])
 
         def get_quantiles(args):
             minw, span = args
@@ -220,10 +141,10 @@ class Weigher(ComponentWithStatistics, ABC):
             ]
 
         super().set_statistics(
-            average_weight=_safe_operation(np.mean, weights),
+            average_weight=safe_operation(np.mean, weights),
             minimal_weight=minw,
             maximal_weight=maxw,
-            quantiles=_safe_operation(get_quantiles, [minw, span]),
+            quantiles=safe_operation(get_quantiles, [minw, span]),
         )
 
 
@@ -286,7 +207,7 @@ class CylindricMeanWeigher(Weigher):
     `pt` in `pts` such that :math:`||pt[:d-1] - p[:d-1]|| \\leq r`.
 
     Then we take the mean `m_p` and standard deviation `std_p`
-    of the dth component of all those points and set
+    of the d-th component of all those points and set
     :math:`w_p = | m_p - p[d-1] | / std_p`.
 
     This weigher can only be used on floating point data.
@@ -303,11 +224,6 @@ class CylindricMeanWeigher(Weigher):
 
         If nothing is passed, it will automatically detect a scaled euclidean norm with respect to the used dimensions.
 
-    Raises
-    ------
-    WeigherInitializationException
-        If radius is non-positive.
-
     See also
     ----------
     `Weigher`
@@ -316,7 +232,7 @@ class CylindricMeanWeigher(Weigher):
     def __init__(self, radius=0.05, norm=None, dimensions=None):
         super().__init__()
         if radius <= 0:
-            raise WeigherInitializationException(
+            raise ValueError(
                 f"Invalid value for `radius`: {radius}. Non-positive number."
                 " Use a positive value for `radius`."
             )
@@ -433,13 +349,6 @@ class CylindricMemberWeigher(Weigher):
 
         Defaults to `None`.
 
-    Raises
-    ------
-    WeigherInitializationException
-        If radius is non-positive.
-    WeigherInitializationException
-        If length is negative.
-
     See also
     ----------
     `Weigher`
@@ -448,12 +357,10 @@ class CylindricMemberWeigher(Weigher):
     def __init__(self, radius=0.05, length=0.05, norm=None, dimensions=None):
         super().__init__()
         if radius <= 0:
-            raise WeigherInitializationException("`radius` is non-positive")
+            raise ValueError("`radius` is non-positive")
 
         if length < 0:
-            raise WeigherInitializationException(
-                "`length` is not non-negative"
-            )
+            raise ValueError("`length` should be non-negative.")
 
         self._radius = radius
         self._length = length
@@ -644,10 +551,16 @@ class FuzzyBool:
     """
     Class representing a fuzzy truth statement, i.e. a function with values
     between 0 and 1 (truth function).
+    The truth function can be evaluated by calling the instance.
     Supports the operators `&`, `|`, `~` for the operators and, or, not.
+    If `fuzzy_bool` is a `FuzzyBool` instance, then `fuzzy_bool[item]` will return a `FuzzyBool` instance
+    evaluating the respective truth function on `x[item]` instead of `x` for a given input `x`.
+
     The easiest way to initialize a `FuzzyBool` object is by using the operators of the
     `FuzzyVariables` class, but it can also be initialized with a custom truth
     function.
+
+    Also supports the `str` method.
 
     Parameters
     ----------
@@ -831,6 +744,8 @@ class FuzzyVariable:
     - `(x < a) | (x > b)`, ... ('or' concatenation),
 
     - `~(x < a)`, ... ('not' operation).
+
+    Also supports the methods `repr` and `str`.
 
     Parameters
     ----------

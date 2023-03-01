@@ -7,7 +7,6 @@ import numpy as np
 from os.path import exists
 
 import hrosailing.polardiagram as pol
-from hrosailing.polardiagram import FileReadingException
 
 
 class FileReadingTest(unittest.TestCase):

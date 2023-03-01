@@ -10,8 +10,8 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-import hrosailing.pipelinecomponents as pc
-from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
+import hrosailing.core.data
+from hrosailing.core.statistics import ComponentWithStatistics
 
 
 class Injector(ComponentWithStatistics, ABC):
@@ -87,7 +87,7 @@ class ZeroInjector(Injector):
         fulls = np.column_stack((ws, full, zero))
 
         self.set_statistics(2 * self.n_zeros)
-        return pc.WeightedPoints(
+        return hrosailing.core.data.WeightedPoints(
             data=np.concatenate([zeros, fulls]),
             weights=np.ones(2 * self.n_zeros),
         )

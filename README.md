@@ -48,9 +48,22 @@ The recommended way to install `hrosailing` is with
     
     pip install hrosailing
 
+It has the following dependencies:
+
+- `numpy` version 1.22.0
+- `scipy` version 1.9.1
+- `matplotlib` version 3.4.3
+	
+For some features it might be necessary to also use:
+
+- `pynmea2` version 1.18.0
+- `pandas` version 1.3.3
+- `netCDF4` version 1.6.1
+- `meteostat` version 1.6.5
+	
 The `hrosailing` package might also be compatible (in large) with 
-earlier versions of Python, together with some earlier versions of some 
-of the used packages, namely `numpy`, `scipy`, and `matplotlib`.
+other versions of Python, together with others versions of some 
+of the used packages. However, this has not been tested properly.
 
 
 ### Examples
@@ -90,13 +103,14 @@ to add more serialization options.
 #### Visualizing polar diagrams
 ```python
 import matplotlib.pyplot as plt
+import hrosailing.plotting as plot
 
 ws = [10, 20, 30]
 
-pd.plot_polar(ws=ws, ax=plt.subplot(2, 2, 1, projection="polar"))
-pd.plot_convex_hull(ws=ws, ax=plt.subplot(2, 2, 2, projection="polar"))
-pd.plot_flat(ws=ws, ax=plt.subplot(2, 2, 3))
-pd.plot_color_gradient(ax=plt.subplot(2, 2, 4))
+plt.subplot(2, 2, 1, projection="hro polar").plot(pd, ws=ws)
+plt.subplot(2, 2, 2, projection="hro polar").plot(pd, ws=ws, use_convex_hull=True)
+plt.subplot(2, 2, 3, projection="hro flat").plot(pd, ws=ws)
+plt.subplot(2, 2, 4, projection="hro color gradient").plot(pd)
 
 plt.show()
 ```
@@ -104,10 +118,11 @@ plt.show()
 
 3d visualization is also supported.
 ```python
-pd.plot_3d()
+plot.plot_3d(pd)
 plt.show()
 ```
-![3d_plot](https://user-images.githubusercontent.com/70914876/146153719-826e8c93-09ab-4387-b13c-e942139fcce6.png)
+![output_3d](https://user-images.githubusercontent.com/70914876/220571096-38bf678c-994e-4429-9da6-19dc2d84ffd6.png)
+
 
 
 #### Iterate over polar diagram data
@@ -141,19 +156,22 @@ data = data[np.random.choice(len(data), size=500)]
 #### Creating polar diagrams from raw data
 ```python
 import hrosailing.pipeline as pipe
-import hrosailing.pipelinecomponents as pcomp
+import hrosailing.processing as proc
 
 pol_pips = [
     pipe.PolarPipeline(
-        data_handler=pcomp.ArrayHandler(),
+        data_handler=proc.ArrayHandler(),
+        imputator=proc.RemoveOnlyImputator(),
         extension=pipe.TableExtension()
     ),
     pipe.PolarPipeline(
-        data_handler=pcomp.ArrayHandler(),
+        data_handler=proc.ArrayHandler(),
+        imputator=proc.RemoveOnlyImputator(),
         extension=pipe.PointcloudExtension()
     ),
     pipe.PolarPipeline(
-        data_handler=pcomp.ArrayHandler(),
+        data_handler=proc.ArrayHandler(),
+        imputator=proc.RemoveOnlyImputator(),
         extension=pipe.CurveExtension()
     )
 ]
@@ -168,12 +186,13 @@ pds = [
 ]
 #
 for i, pd in enumerate(pds):
-   pd.plot_polar(ws=ws, ax=plt.subplot(1, 3, i+1, projection="polar"))
+   plt.subplot(1, 3, i+1, projection="hro polar").plot(pd, ws=ws)
 
 plt.tight_layout()
 plt.show()
 ```
-![pipeline_plots](https://user-images.githubusercontent.com/70914876/146170918-66224c66-05c4-49db-a1a5-ddfc2a13b9f1.png)
+
+![pipeline_plots_v2](https://user-images.githubusercontent.com/70914876/220584274-06f31e81-ecee-4825-b911-fef38c26fbef.png)
 
 If we are unhappy with the default behaviour of the pipelines, 
 we can customize one or more components of it.
@@ -181,7 +200,9 @@ we can customize one or more components of it.
 
 #### Customizing `PolarPipeline`
 ```python
-class MyInfluenceModel(pcomp.InfluenceModel):
+import hrosailing.models as models
+
+class MyInfluenceModel(models.InfluenceModel):
     def remove_influence(self, data):
         tws = np.array(data["TWS"])
         twa = np.array(data["TWA"])
@@ -196,7 +217,7 @@ class MyInfluenceModel(pcomp.InfluenceModel):
         pass
 
 
-class MyFilter(pcomp.Filter):
+class MyFilter(proc.Filter):
     def filter(self, wts):
         return np.logical_or(wts <= 0.2, wts >= 0.8)
 
@@ -205,7 +226,7 @@ def my_model_func(ws, wa, *params):
     return params[0] + params[1]*wa + params[2]*ws + params[3]*ws*wa
 
 
-my_regressor = pcomp.LeastSquareRegressor(
+my_regressor = proc.LeastSquareRegressor(
     model_func=my_model_func,
     init_vals=(1, 2, 3, 4)
 )
@@ -221,22 +242,22 @@ def my_norm(pt):
 
 
 my_pol_pip = pipe.PolarPipeline(
-    data_handler=pcomp.ArrayHandler(),
+    data_handler=proc.ArrayHandler(),
+    imputator=proc.RemoveOnlyImputator(),
     influence_model=MyInfluenceModel(),
-    post_weigher=pcomp.CylindricMeanWeigher(radius=2, norm=my_norm),
+    post_weigher=proc.CylindricMeanWeigher(radius=2, norm=my_norm),
     extension=my_extension,
     post_filter=MyFilter()
 )
 
 out = my_pol_pip([(data, ["Wind speed", "Wind angle", "Boat speed"])])
 my_pd = out.polardiagram
-
 ```
 
 The customizations above are arbitrary and lead to comparably bad results:
 
 ```python
-my_pd.plot_polar(ws=ws)
+plot.plot_polar(my_pd, ws=ws)
 plt.show()
 ```
 ![custom_plot](https://raw.githubusercontent.com/Loitador41/test_repository/main/.github/images/Figure_Customizing_Pipeline.png)
@@ -250,10 +271,8 @@ a random weather model.
 from datetime import timedelta
 from datetime import datetime as dt
 
-import hrosailing.cruising as cruise
 
-
-class MyInfluenceModel(cruise.InfluenceModel):
+class MyInfluenceModel(models.InfluenceModel):
 
     def remove_influence(self, data):
         pass
@@ -273,7 +292,7 @@ n, m, k, l = 500, 50, 40, 3
 
 data = 20 * (np.random.random((n, m, k, l)))
 
-wm = cruise.GriddedWeatherModel(
+wm = models.GriddedWeatherModel(
     data=data,
     times=[dt.now() + i * timedelta(hours=1) for i in range(n)],
     lats=np.linspace(40, 50, m),
@@ -284,6 +303,8 @@ wm = cruise.GriddedWeatherModel(
 
 #### Computing Isochrones
 ```python
+import hrosailing.cruising as cruise
+
 start = (42.5, 43.5)
 
 isochrones = [

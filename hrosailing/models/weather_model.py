@@ -32,11 +32,6 @@ except ModuleNotFoundError:
     installed_meteostat = False
 
 
-class OutsideGridException(Exception):
-    """Exception raised if point accessed in weather model lies
-    outside the available grid."""
-
-
 class WeatherModel(ABC):
     """
     Base class for handling and approximating weather data.
@@ -46,8 +41,7 @@ class WeatherModel(ABC):
 
     @abstractmethod
     def get_weather(self, point):
-        """Given a space-time point, uses the available weather model
-        to calculate the weather at that point.
+        """Given a space-time point, should interpolate the weather at that point.
 
         Parameters
         ----------
@@ -58,10 +52,7 @@ class WeatherModel(ABC):
         Returns
         -------
         weather : dict
-            The weather data at the given point.
-
-            If it is a grid point, the weather data is taken straight
-            from the model, else it is interpolated as described above.
+            The interpolated weather data at the given point.
         """
 
 
@@ -263,7 +254,7 @@ def _recursive_affine_interpolation(point, grid, get_data):
     outside_right = [pt > right for pt, right in zip(point, lst)]
 
     if any(outside_left) or any(outside_right):
-        raise OutsideGridException(
+        raise ValueError(
             f"{point} is outside the grid. Weather data not available."
         )
 
@@ -325,7 +316,6 @@ def _recursive_affine_interpolation(point, grid, get_data):
 class NetCDFWeatherModel(GriddedWeatherModel):
     """
     A weather model that uses gridded data from a NetCDF (.nc or .nc4) file.
-    Uses the same interpolation method as `GriddedWeatherModel`.
     The module `netCDF4` has to be installed in order to use this class.
     The methods `from_file`, `to_file` and `from_meteostat` are not supported.
 
@@ -476,7 +466,7 @@ class MultiWeatherModel(WeatherModel):
         An arbitrary number of weather models.
 
     exception_sensitive: bool, optional
-        If `False` any `ValueError`, `TypeError`, `KeyError`, `NotImplementedError` or `OutsideGridException`
+        If `False` any `ValueError`, `TypeError`, `KeyError`, `NotImplementedError`
         raised by some submodel is ignored. If `True` these exceptions are not ignored.
 
         Defaults to `False`.
@@ -505,7 +495,6 @@ class MultiWeatherModel(WeatherModel):
                 ValueError,
                 TypeError,
                 KeyError,
-                OutsideGridException,
             ) as e:
                 if self._exception_sensitive:
                     raise e

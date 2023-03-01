@@ -10,7 +10,7 @@ Also contains predefined and usable smoothers:
 import datetime
 from abc import ABC, abstractmethod
 
-from hrosailing.pipelinecomponents._utils import ComponentWithStatistics
+from hrosailing.core.statistics import ComponentWithStatistics
 
 
 class Smoother(ComponentWithStatistics, ABC):
