@@ -4,7 +4,7 @@ import os
 import numpy as np
 
 import matplotlib.pyplot as plt
-from matplotlib.testing.compare import compare_images
+import matplotlib.testing.compare as plt_compare
 
 from hrosailing.plotting.projections import _plot
 
@@ -30,6 +30,10 @@ class PlotTest(unittest.TestCase):
             ["A", "B", "A", "B", "A", "B"]
         ]
 
+    def assertImageEqual(self, expected, actual):
+        res = plt_compare.compare_images(expected, actual, tol=5)
+        self.assertIsNone(res)
+
     def test_plot(self):
         #Input/Output Tests
 
@@ -39,15 +43,14 @@ class PlotTest(unittest.TestCase):
             _plot(ax, self.slices, None, False)
             save_plot("./result.png")
 
-            #creating exspected plot
+            #creating expected plot
             plt.plot([0, 45, 90, 180, 270, 315], [1, 2, 2, 2, 2, 2])
             plt.plot([0, 45, 90, 180, 270, 315], [10, 1, 2, 2, 2, 1])
             save_plot("./expected.png")
 
-            compare_images(
+            self.assertImageEqual(
                 "./expected.png",
-                "./result.png",
-                tol=5
+                "./result.png"
             )
 
         with self.subTest("using info"):
@@ -56,17 +59,16 @@ class PlotTest(unittest.TestCase):
             _plot(ax, self.slices, self.info, False)
             save_plot("./result.png")
 
-            #creating exspected plot
+            #creating expected plot
             plt.plot([0, 45], [1, 2], color="C0")
             plt.plot([90, 180, 270, 315], [2, 2, 2, 2], color="C0")
             plt.plot([0, 90, 270], [10, 2, 2], color="C1")
             plt.plot([45, 180, 315], [1, 2, 1], color="C1")
             save_plot("./expected.png")
 
-            compare_images(
+            self.assertImageEqual(
                 "./expected.png",
-                "./result.png",
-                tol=5
+                "./result.png"
             )
 
         with self.subTest("using radians"):
@@ -75,17 +77,35 @@ class PlotTest(unittest.TestCase):
             _plot(ax, self.slices, None, True)
             save_plot("./result.png")
 
-            #creating exspected plot
-            plt.plot([0, np.pi/4, np.pi/2, np.pi, 3*np.pi/4, 7*np.pi/8], [1, 2, 2, 2, 2, 2])
-            plt.plot([0, np.pi/4, np.pi/2, np.pi, 3*np.pi/4, 7*np.pi/8], [10, 1, 2, 2, 2, 1])
+            #creating expected plot
+            plt.plot([0, np.pi/4, np.pi/2, np.pi, 3*np.pi/2, 7*np.pi/4], [1, 2, 2, 2, 2, 2])
+            plt.plot([0, np.pi/4, np.pi/2, np.pi, 3*np.pi/2, 7*np.pi/4], [10, 1, 2, 2, 2, 1])
             save_plot("./expected.png")
 
-            compare_images(
+            self.assertImageEqual(
                 "./expected.png",
-                "./result.png",
-                tol=5
+                "./result.png"
+            )
+
+        with self.subTest("use convex hull"):
+            # creating resulting plot
+            ax = plt.subplot()
+            _plot(ax, self.slices, None, False, use_convex_hull=True)
+            save_plot("./result.png")
+
+            # creating expected plot
+            plt.plot([0, 45, 90, 180, 270, 315, 360], [2, 2, 2, 2, 2, 2, 2])
+            plt.plot([0, 90, 180, 270, 360], [10, 2, 2, 2, 10])
+            plt.plot([1,2,3], [1,2,3])
+            save_plot("./expected.png")
+
+            self.assertImageEqual(
+                "./expected.png",
+                "./result.png"
             )
 
     def tearDown(self) -> None:
         os.remove("./expected.png")
         os.remove("./result.png")
+        os.remove("./result-failed-diff.png")
+        return
