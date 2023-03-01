@@ -35,7 +35,7 @@ class PlotTest(unittest.TestCase):
 
         with self.subTest("regular plot"):
             #creating resulting plot
-            ax = plt.subplot(projection="hro flat")
+            ax = plt.subplot()
             _plot(ax, self.slices, None, False)
             save_plot("./result.png")
 
@@ -52,7 +52,7 @@ class PlotTest(unittest.TestCase):
 
         with self.subTest("using info"):
             #creating resulting plot
-            ax = plt.subplot(projection="hro flat")
+            ax = plt.subplot()
             _plot(ax, self.slices, self.info, False)
             save_plot("./result.png")
 
@@ -61,6 +61,23 @@ class PlotTest(unittest.TestCase):
             plt.plot([90, 180, 270, 315], [2, 2, 2, 2], color="C0")
             plt.plot([0, 90, 270], [10, 2, 2], color="C1")
             plt.plot([45, 180, 315], [1, 2, 1], color="C1")
+            save_plot("./expected.png")
+
+            compare_images(
+                "./expected.png",
+                "./result.png",
+                tol=5
+            )
+
+        with self.subTest("using radians"):
+            #creating resulting plot
+            ax = plt.subplot()
+            _plot(ax, self.slices, None, True)
+            save_plot("./result.png")
+
+            #creating exspected plot
+            plt.plot([0, np.pi/4, np.pi/2, np.pi, 3*np.pi/4, 7*np.pi/8], [1, 2, 2, 2, 2, 2])
+            plt.plot([0, np.pi/4, np.pi/2, np.pi, 3*np.pi/4, 7*np.pi/8], [10, 1, 2, 2, 2, 1])
             save_plot("./expected.png")
 
             compare_images(
