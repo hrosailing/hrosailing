@@ -6,7 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.testing.compare as plt_compare
 
-from hrosailing.plotting.projections import _plot
+from hrosailing.plotting.projections import _plot, _get_convex_hull
 
 
 def save_plot(path):
@@ -109,3 +109,34 @@ class PlotTest(unittest.TestCase):
         os.remove("./result.png")
         os.remove("./result-failed-diff.png")
         return
+
+
+class GetConvexHullTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.slice = np.array([
+                [2, 2, 2, 2, 2],
+                [45, 90, 180, 270, 315],
+                [1, 2, 2, 2, 1]
+            ])
+
+    def test_get_convex_hull(self):
+        # Input/Output Test
+
+        with self.subTest("info is None"):
+            ws, wa, bsp, info = _get_convex_hull(self.slice, None)
+            np.testing.assert_array_equal(
+                ws, np.array([2, 2, 2, 2, 2, 2, 2]),
+                err_msg="Wind speeds not as expected!"
+            )
+            np.testing.assert_array_equal(
+                wa, np.array([0, 45, 90, 180, 270, 315, 360]),
+                err_msg="Wind angles not as expected!"
+            )
+            np.testing.assert_array_equal(
+                bsp, np.array([1/np.sqrt(2), 1, 2, 2, 2, 1, 1/np.sqrt(2)]),
+                err_msg="Boat speeds not as expected!"
+            )
+            self.assertIsNone(info)
+
+        with self.subTest("info is not None"):
+            pass
