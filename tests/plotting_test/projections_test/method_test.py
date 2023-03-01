@@ -1,11 +1,17 @@
 import unittest
-import io
+import os
 
 import numpy as np
 
 import matplotlib.pyplot as plt
+from matplotlib.testing.compare import compare_images
 
 from hrosailing.plotting.projections import _plot
+
+
+def save_plot(path):
+    plt.savefig(path)
+    plt.close()
 
 
 class PlotTest(unittest.TestCase):
@@ -24,7 +30,30 @@ class PlotTest(unittest.TestCase):
             ["A", "B", "A", "B", "A"]
         ]
 
-    def plot_test(self):
-        #Input/Output Test with different parameters
+    def test_plot(self):
+        #Input/Output Tests
 
-        ax = plt.subplot(projection="hro polar")
+        with self.subTest("regular plot"):
+            #creating resulting plot
+            ax = plt.subplot(projection="hro flat")
+            _plot(ax, self.slices, None, False)
+            save_plot("./default_plot_result.png")
+
+            #creating exspected plot
+            plt.plot([0, 45, 90, 180, 270, 315], [1, 2, 2, 2, 2, 2])
+            plt.plot([0, 45, 90, 180, 270, 315], [10, 1, 2, 2, 2, 1])
+            save_plot("./default_plot_expected.png")
+
+            compare_images(
+                "./default_plot_expected.png",
+                "./default_plot_result.png",
+                tol=5
+            )
+
+    def tearDown(self) -> None:
+        paths = [
+            "./default_plot_expected.png",
+            "./default_plot_result.png",
+        ]
+        for path in paths:
+            os.remove(path)
