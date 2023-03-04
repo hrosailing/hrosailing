@@ -569,7 +569,7 @@ class WeightedPoints:
     with their respective weights.
 
     If `weighted_points` is of type `WeightedPoints` then you can use `weighted_points[mask]` with an array-like over
-    booleans to create a boolean mask over the repective rows of the weighted points.
+    booleans to create a boolean mask over the respective rows of the weighted points.
 
     Parameters
     ----------
