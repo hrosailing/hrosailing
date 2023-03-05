@@ -30,10 +30,11 @@ class TestNMEAFileHandler(TestCase):
         """
 
         with self.subTest("default NMEAFileHandler"):
-            result =
-            expected_result =
-            testing_function(result, expected_result,
-                             f"Expected {expected_result} but got {result}!")
+            result = dth.NMEAFileHandler()
+            self.assertEqual(result.wanted_sentences, None)
+            self.assertEqual(result.wanted_attributes, None)
+            self.assertEqual(result.unwanted_sentences, None)
+            self.assertEqual(result.unwanted_attributes, None)
 
 
 
