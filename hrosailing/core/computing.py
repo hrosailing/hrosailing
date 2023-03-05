@@ -104,7 +104,7 @@ def scaled_norm(norm, scal_factors):
     ----------
     norm : function
         A function mapping `numpy.ndarray` (vector(s)) to `float` (the norm of
-        the vector)
+        the vector).
 
     scal_factors : array-like of floats
         Component-wise scaling factors. Shape has to be compatible with the
@@ -124,7 +124,7 @@ def scaled_norm(norm, scal_factors):
 
 def euclidean_norm(vec):
     """
-    Evaluates the euclidean norm on a two dimensional array.
+    Evaluates the euclidean norm on a two-dimensional array.
 
     Parameters
     --------
