@@ -160,3 +160,18 @@ class TestGetConvexHull(unittest.TestCase):
                 None
             )
             self.assertOutputEqual(result, expected)
+
+        with self.subTest("wa given at zero"):
+            slice_ = np.array([
+                [1, 2, 3, 4, 5, 6],
+                [0, 45, 90, 135, 180, 270],
+                [1, 1, 0, 1, 1, 1]
+            ])
+            result = _get_convex_hull(slice_, None)
+            expected = (
+                np.array([1, 2, 4, 5, 6, 1]),
+                np.array([0, 45, 135, 180, 270, 360]),
+                np.array([1, 1, 1, 1, 1, 1]),
+                None
+            )
+            self.assertOutputEqual(result, expected)
