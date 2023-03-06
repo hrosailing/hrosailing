@@ -39,6 +39,18 @@ class TestPlot(ImageTestcase):
 
         self.assertPlotsEqual()
 
+    def test_different_axis(self):
+        #Input/Output plot with other `ax`
+        ax = plt.subplot(projection = "polar")
+        _plot(ax, self.slices, None, False)
+        self.set_result_plot()
+
+        ax = plt.subplot(projection="polar")
+        ax.plot(self.slices)
+        self.set_expected_plot()
+
+        self.assertPlotsEqual()
+
     def test_using_info(self):
         # Input/Output Tests with `info != None`
         #creating resulting plot
@@ -91,6 +103,39 @@ class TestPlot(ImageTestcase):
 
         plt.scatter([0, 45, 90, 180, 270, 315], [1, 2, 2, 2, 2, 2])
         plt.scatter([0, 45, 90, 180, 270, 315], [10, 1, 2, 2, 2, 1])
+        self.set_expected_plot()
+
+        self.assertPlotsEqual()
+
+    def test_with_keyword_arguments(self):
+        # Input/Output Test using keyword arguments
+        ax = plt.subplot()
+        _plot(
+            ax, self.slices, None, False,
+            alpha=0.1,
+            color="blue",
+            dashes=[0.1, 0.2, 0.1, 0.2],
+            linewidth=10,
+            marker="H"
+        )
+        self.set_result_plot()
+
+        plt.plot(
+            [0, 45, 90, 180, 270, 315], [1, 2, 2, 2, 2, 2],
+            alpha=0.1,
+            color="blue",
+            dashes=[0.1, 0.2, 0.1, 0.2],
+            linewidth=10,
+            marker="H"
+        )
+        plt.plot(
+            [0, 45, 90, 180, 270, 315], [10, 1, 2, 2, 2, 1],
+            alpha=0.1,
+            color="blue",
+            dashes=[0.1, 0.2, 0.1, 0.2],
+            linewidth=10,
+            marker="H"
+        )
         self.set_expected_plot()
 
         self.assertPlotsEqual()
