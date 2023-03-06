@@ -115,6 +115,36 @@ class TestGetConvexHull(unittest.TestCase):
     def test_get_convex_hull(self):
         # Input/Output Test
 
+        with self.subTest("ValueError in ConvexHull"):
+            slice_ = np.array([
+                [],
+                [],
+                []
+            ])
+            result = _get_convex_hull(slice_, None)
+            expected = (
+                np.array([]),
+                np.array([]),
+                np.array([]),
+                None
+            )
+            self.assertOutputEqual(result, expected)
+
+        with self.subTest("QHullError in ConvexHull"):
+            slice_ = np.array([
+                [1, 2],
+                [0, 315],
+                [1, 1]
+            ])
+            result = _get_convex_hull(slice_, None)
+            expected = (
+                np.array([1, 2]),
+                np.array([0, 315]),
+                np.array([1, 1]),
+                None
+            )
+            self.assertOutputEqual(result, expected)
+
         with self.subTest("wa given at 0 and 360"):
             slice_ = np.array([
                 [1, 2, 3],

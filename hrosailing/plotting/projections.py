@@ -38,6 +38,7 @@ from matplotlib.projections.polar import PolarAxes
 from matplotlib.tri import Triangulation
 from mpl_toolkits.mplot3d import Axes3D as pltAxes3D
 from scipy.spatial import ConvexHull
+from scipy.spatial.qhull import QhullError
 
 from hrosailing.polardiagram import PolarDiagram
 
@@ -479,7 +480,7 @@ def _get_convex_hull(slice_, info_):
     points = np.column_stack([bsp * np.cos(wa_rad), bsp * np.sin(wa_rad)])
     try:
         vertices = ConvexHull(points).vertices
-    except ValueError:
+    except (ValueError, QhullError):
         return ws, wa, bsp, info_
     slice_ = slice_.T[vertices]
     if info_ is not None:
