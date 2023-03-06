@@ -494,7 +494,7 @@ def _get_convex_hull(slice_, info_):
         # estimate bsp value at 0 (360 resp)
         x0 = slice_[2, 0] * np.sin(np.deg2rad(slice_[1, 0]))
         x1 = slice_[2, -1] * np.sin(np.deg2rad(slice_[1, -1]))
-        y0 = slice_[2, 1] * np.cos(np.deg2rad(slice_[1, 0]))
+        y0 = slice_[2, 0] * np.cos(np.deg2rad(slice_[1, 0]))
         y1 = slice_[2, -1] * np.cos(np.deg2rad(slice_[1, -1]))
         lamb = x0 / (x0 - x1)
         approx_ws = lamb * slice_[0, 0] + (1 - lamb) * slice_[0, -1]
