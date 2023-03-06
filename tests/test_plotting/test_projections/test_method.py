@@ -92,30 +92,44 @@ class TestGetConvexHullTest(unittest.TestCase):
                 [1, 2, 2, 2, 1]
             ])
 
+    def assertOutputEqual(self, result, expected):
+        ws, wa, bsp, info_ = result
+        exp_ws, exp_wa, exp_bsp, exp_info_ = expected
+        np.testing.assert_array_equal(
+            ws, exp_ws,
+            err_msg="Wind speeds not as expected!"
+        )
+        np.testing.assert_array_equal(
+            wa, exp_wa,
+            err_msg="Wind angles not as expected!"
+        )
+        np.testing.assert_array_equal(
+            bsp, exp_bsp,
+            err_msg="Boat speeds not as expected!"
+        )
+        self.assertEqual(
+            info_, exp_info_,
+            msg="Info not as expected!"
+        )
+
     def test_get_convex_hull(self):
         # Input/Output Test
 
-        with self.subTest("info is None"):
-            ws, wa, bsp, info = _get_convex_hull(self.slice, None)
-            np.testing.assert_array_equal(
-                ws, np.array([2, 2, 2, 2, 2, 2, 2]),
-                err_msg="Wind speeds not as expected!"
-            )
-            np.testing.assert_array_equal(
-                wa, np.array([0, 45, 90, 180, 270, 315, 360]),
-                err_msg="Wind angles not as expected!"
-            )
-            np.testing.assert_array_equal(
-                bsp, np.array([1/np.sqrt(2), 1, 2, 2, 2, 1, 1/np.sqrt(2)]),
-                err_msg="Boat speeds not as expected!"
-            )
-            self.assertIsNone(info)
-
         with self.subTest("info is not None"):
-            pass
-
-    def test_get_convex_hull_exceptional_cases(self):
-        # Input/Output Test
+            slice_ = np.array([
+                [1, 2, 3, 4, 5, 6],
+                [0, 45, 90, 135, 180, 270],
+                [1, 1, 0, 1, 1, 1]
+            ])
+            info_ = ["A", "B", "A", "B", "A", "B"]
+            result = _get_convex_hull(slice_, info_)
+            expected = (
+                np.array([1, 2, 4, 5, 6]),
+                np.array([0, 45, 135, 180, 270]),
+                np.array([1, 1, 1, 1, 1]),
+                ["A", "B", "B", "A", "B"]
+            )
+            self.assertOutputEqual(result, expected)
 
         with self.subTest("with values given at wa = 0 and wa = 360"):
             slice_ = np.array([
