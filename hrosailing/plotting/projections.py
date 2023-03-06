@@ -501,7 +501,8 @@ def _get_convex_hull(slice_, info_):
         slice_ = np.column_stack([
             slice_, [slice_[0, 0], 360, slice_[2, 0]]
         ])
-        info_ = info_ + [info_[0]]
+        if info_ is not None:
+            info_ = info_ + [info_[0]]
         ws, wa, bsp = slice_
         return ws, wa, bsp, info_
 
@@ -509,7 +510,8 @@ def _get_convex_hull(slice_, info_):
         slice_ = np.column_stack([
             [slice_[0, -1], 0, slice_[2, -1]], slice_
         ])
-        info_ = info_ + [info_[-1]]
+        if info_ is not None:
+            info_ = info_ + [info_[-1]]
         ws, wa, bsp = slice_
         return ws, wa, bsp, info_
 
@@ -527,7 +529,8 @@ def _get_convex_hull(slice_, info_):
     slice_ = np.column_stack(
         [[approx_ws, 0, approx_bsp], slice_, [approx_ws, 360, approx_bsp]]
         )
-    info_ = [info_[0]] + info_ + info_[-1]
+    if info_ is not None:
+        info_ = [info_[0]] + info_ + info_[-1]
 
     ws, wa, bsp = slice_
 
