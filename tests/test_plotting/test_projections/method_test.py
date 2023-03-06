@@ -9,10 +9,6 @@ import matplotlib.testing.compare as plt_compare
 from hrosailing.plotting.projections import _plot, _get_convex_hull
 
 
-def save_plot(path):
-    plt.savefig(path)
-    plt.close()
-
 
 class PlotTest(unittest.TestCase):
     def setUp(self) -> None:
