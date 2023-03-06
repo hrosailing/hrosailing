@@ -115,22 +115,6 @@ class TestGetConvexHull(unittest.TestCase):
     def test_get_convex_hull(self):
         # Input/Output Test
 
-        with self.subTest("info is not None"):
-            slice_ = np.array([
-                [1, 2, 3, 4, 5, 6],
-                [0, 45, 90, 135, 180, 270],
-                [1, 1, 0, 1, 1, 1]
-            ])
-            info_ = ["A", "B", "A", "B", "A", "B"]
-            result = _get_convex_hull(slice_, info_)
-            expected = (
-                np.array([1, 2, 4, 5, 6, 1]),
-                np.array([0, 45, 135, 180, 270, 360]),
-                np.array([1, 1, 1, 1, 1, 1]),
-                ["A", "B", "B", "A", "B", "A"]
-            )
-            self.assertOutputEqual(result, expected)
-
         with self.subTest("wa given at 0 and 360"):
             slice_ = np.array([
                 [1, 2, 3],
@@ -161,7 +145,7 @@ class TestGetConvexHull(unittest.TestCase):
             )
             self.assertOutputEqual(result, expected)
 
-        with self.subTest("wa given at zero"):
+        with self.subTest("wa given at 0"):
             slice_ = np.array([
                 [1, 2, 3, 4, 5, 6],
                 [0, 45, 90, 135, 180, 270],
@@ -173,5 +157,87 @@ class TestGetConvexHull(unittest.TestCase):
                 np.array([0, 45, 135, 180, 270, 360]),
                 np.array([1, 1, 1, 1, 1, 1]),
                 None
+            )
+            self.assertOutputEqual(result, expected)
+
+        with self.subTest("wa given at 0, info not None"):
+            slice_ = np.array([
+                [1, 2, 3, 4, 5, 6],
+                [0, 45, 90, 135, 180, 270],
+                [1, 1, 0, 1, 1, 1]
+            ])
+            info_ = ["A", "B", "A", "B", "A", "B"]
+            result = _get_convex_hull(slice_, info_)
+            expected = (
+                np.array([1, 2, 4, 5, 6, 1]),
+                np.array([0, 45, 135, 180, 270, 360]),
+                np.array([1, 1, 1, 1, 1, 1]),
+                ["A", "B", "B", "A", "B", "A"]
+            )
+            self.assertOutputEqual(result, expected)
+
+        with self.subTest("wa given at 360"):
+            slice_ = np.array([
+                [2, 3, 4, 5, 6, 1],
+                [45, 90, 135, 180, 270, 360],
+                [1, 0, 1, 1, 1, 1]
+            ])
+            result = _get_convex_hull(slice_, None)
+            expected = (
+                np.array([1, 2, 4, 5, 6, 1]),
+                np.array([0, 45, 135, 180, 270, 360]),
+                np.array([1, 1, 1, 1, 1, 1]),
+                None
+            )
+            self.assertOutputEqual(result, expected)
+
+        with self.subTest("wa given at 360, info not None"):
+            slice_ = np.array([
+                [2, 3, 4, 5, 6, 1],
+                [45, 90, 135, 180, 270, 360],
+                [1, 0, 1, 1, 1, 1]
+            ])
+            info_ = ["A", "B", "A", "B", "A", "B"]
+            result = _get_convex_hull(slice_, info_)
+            expected = (
+                np.array([1, 2, 4, 5, 6, 1]),
+                np.array([0, 45, 135, 180, 270, 360]),
+                np.array([1, 1, 1, 1, 1, 1]),
+                ["B", "A", "A", "B", "A", "B"]
+            )
+            self.assertOutputEqual(result, expected)
+
+        with self.subTest(
+                "not wa at 0 or 360 but first and last wa is > 180 apart"
+        ):
+            slice_ = np.array([
+                [1, 2, 3, 4, 5, 6],
+                [0, 45, 90, 180, 270, 315],
+                [0, 1, 1, 1, 1, 1]
+            ])
+            result = _get_convex_hull(slice_, None)
+            expected = (
+                np.array([4, 2, 3, 4, 5, 6, 4]),
+                np.array([0, 45, 90, 180, 270, 315, 360]),
+                np.array([1/np.sqrt(2), 1, 1, 1, 1, 1, 1/np.sqrt(2)]),
+                None
+            )
+            self.assertOutputEqual(result, expected)
+
+        with self.subTest(
+                "not wa at 0 or 360 but first and last wa is > 180 apart, info not None"
+        ):
+            slice_ = np.array([
+                [1, 2, 3, 4, 5, 6],
+                [0, 45, 90, 180, 270, 315],
+                [0, 1, 1, 1, 1, 1]
+            ])
+            info_ = ["A", "B", "A", "B", "A", "B"]
+            result = _get_convex_hull(slice_, info_)
+            expected = (
+                np.array([4, 2, 3, 4, 5, 6, 4]),
+                np.array([0, 45, 90, 180, 270, 315, 360]),
+                np.array([1 / np.sqrt(2), 1, 1, 1, 1, 1, 1 / np.sqrt(2)]),
+                [None, "B", "A", "B", "A", "B", None]
             )
             self.assertOutputEqual(result, expected)

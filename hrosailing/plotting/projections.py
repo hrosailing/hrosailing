@@ -483,8 +483,9 @@ def _get_convex_hull(slice_, info_):
         return ws, wa, bsp, info_
     slice_ = slice_.T[vertices]
     if info_ is not None:
-        info_ = [entry for i, entry in enumerate(info_) if i in vertices]
-        slice_, info = zip(*sorted(zip(slice_, info_), key=lambda x: x[0][1]))
+        info_ = [info_[vert] for vert in vertices]
+        slice_, info_ = zip(*sorted(zip(slice_, info_), key=lambda x: x[0][1]))
+        info_ = list(info_)
     else:
         slice_ = sorted(slice_, key=lambda x: x[1])
     slice_ = np.array(slice_).T
@@ -511,7 +512,7 @@ def _get_convex_hull(slice_, info_):
             [slice_[0, -1], 0, slice_[2, -1]], slice_
         ])
         if info_ is not None:
-            info_ = info_ + [info_[-1]]
+            info_ =  [info_[-1]] + info_
         ws, wa, bsp = slice_
         return ws, wa, bsp, info_
 
@@ -530,7 +531,7 @@ def _get_convex_hull(slice_, info_):
         [[approx_ws, 0, approx_bsp], slice_, [approx_ws, 360, approx_bsp]]
         )
     if info_ is not None:
-        info_ = [info_[0]] + info_ + info_[-1]
+        info_ = [None] + info_ + [None]
 
     ws, wa, bsp = slice_
 
