@@ -86,11 +86,11 @@ class TestPlot(ImageTestcase):
 
 class TestGetConvexHullTest(unittest.TestCase):
     def setUp(self) -> None:
-        self.slice = np.array([
-                [2, 2, 2, 2, 2],
-                [45, 90, 180, 270, 315],
-                [1, 2, 2, 2, 1]
-            ])
+        self.slice_ = np.array([
+            [1, 2, 3, 4, 5, 6],
+            [0, 45, 90, 135, 180, 270],
+            [1, 1, 0, 1, 1, 1]
+        ])
 
     def assertOutputEqual(self, result, expected):
         ws, wa, bsp, info_ = result
@@ -124,29 +124,39 @@ class TestGetConvexHullTest(unittest.TestCase):
             info_ = ["A", "B", "A", "B", "A", "B"]
             result = _get_convex_hull(slice_, info_)
             expected = (
-                np.array([1, 2, 4, 5, 6]),
-                np.array([0, 45, 135, 180, 270]),
-                np.array([1, 1, 1, 1, 1]),
-                ["A", "B", "B", "A", "B"]
+                np.array([1, 2, 4, 5, 6, 1]),
+                np.array([0, 45, 135, 180, 270, 360]),
+                np.array([1, 1, 1, 1, 1, 1]),
+                ["A", "B", "B", "A", "B", "A"]
             )
             self.assertOutputEqual(result, expected)
 
-        with self.subTest("with values given at wa = 0 and wa = 360"):
+        with self.subTest("wa given at 0 and 360"):
             slice_ = np.array([
-                [1, 1, 1, 1, 1],
-                [0, 90, 180, 270, 360],
-                [1, 1, 1, 1, 1]
+                [1, 2, 3],
+                [0, 315, 360],
+                [1, 1, 2]
             ])
-            ws, wa, bsp, info = _get_convex_hull(slice_, None)
-            np.testing.assert_array_equal(
-                ws, np.array([1, 1, 1, 1, 1]),
-                err_msg="Wind speeds not as expected!"
+            result = _get_convex_hull(slice_, None)
+            expected = (
+                np.array([1, 2, 3]),
+                np.array([0, 315, 360]),
+                np.array([1, 1, 2]),
+                None
             )
-            np.testing.assert_array_equal(
-                wa, np.array([0, 45, 90, 180, 270, 360]),
-                err_msg="Wind angles not as expected!"
+            self.assertOutputEqual(result, expected)
+
+        with self.subTest("first and last wa < 180 apart"):
+            slice_ = np.array([
+                [1, 2, 3],
+                [0, 45, 135],
+                [1, 1, 1]
+            ])
+            result = _get_convex_hull(slice_, info_)
+            expected = (
+                np.array([1, 2, 3]),
+                np.array([0, 45, 135]),
+                np.array([1, 1, 1]),
+                None
             )
-            np.testing.assert_array_equal(
-                bsp, np.array([1, 1, 1, 1, 1]),
-                err_msg="Boat speeds not as expected!"
-            )
+            self.assertOutputEqual(result, expected)
