@@ -25,11 +25,11 @@ class ImageTestcase(unittest.TestCase):
         Checks if the last plot saved with `set_expected_plot` equals the
         last plot saved with `set_result_plot` up to an accuracy of `tol`.
         """
-        res = compare_images("expected.png", "result.png", tol=tol)
+        res = compare_images("./expected.png", "./result.png", tol=tol)
         self.assertIsNone(res)
 
     def tearDown(self) -> None:
         super().tearDown()
         os.remove("./expected.png")
         os.remove("./result.png")
-        os.remove("./result-failed-diff.png")
+        #os.remove("./result-failed-diff.png")

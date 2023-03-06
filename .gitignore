@@ -170,3 +170,4 @@ testfiles/
 doc/
 temp.py
 pipe_csv.csv
+tests/*.png

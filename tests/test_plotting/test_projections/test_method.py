@@ -9,7 +9,7 @@ import matplotlib.testing.compare as plt_compare
 from hrosailing.plotting.projections import _plot, _get_convex_hull
 from ..image_testcase import ImageTestcase
 
-class PlotTest(ImageTestcase):
+class TestPlot(ImageTestcase):
     def setUp(self) -> None:
         self.slices = [
             np.array([
@@ -84,7 +84,7 @@ class PlotTest(ImageTestcase):
             self.assertPlotsEqual()
 
 
-class GetConvexHullTest(unittest.TestCase):
+class TestGetConvexHullTest(unittest.TestCase):
     def setUp(self) -> None:
         self.slice = np.array([
                 [2, 2, 2, 2, 2],
@@ -113,3 +113,26 @@ class GetConvexHullTest(unittest.TestCase):
 
         with self.subTest("info is not None"):
             pass
+
+    def test_get_convex_hull_exceptional_cases(self):
+        # Input/Output Test
+
+        with self.subTest("with values given at wa = 0 and wa = 360"):
+            slice_ = np.array([
+                [1, 1, 1, 1, 1],
+                [0, 90, 180, 270, 360],
+                [1, 1, 1, 1, 1]
+            ])
+            ws, wa, bsp, info = _get_convex_hull(slice_, None)
+            np.testing.assert_array_equal(
+                ws, np.array([1, 1, 1, 1, 1]),
+                err_msg="Wind speeds not as expected!"
+            )
+            np.testing.assert_array_equal(
+                wa, np.array([0, 45, 90, 180, 270, 360]),
+                err_msg="Wind angles not as expected!"
+            )
+            np.testing.assert_array_equal(
+                bsp, np.array([1, 1, 1, 1, 1]),
+                err_msg="Boat speeds not as expected!"
+            )
