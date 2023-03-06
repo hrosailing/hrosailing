@@ -84,7 +84,7 @@ class TestPlot(ImageTestcase):
             self.assertPlotsEqual()
 
 
-class TestGetConvexHullTest(unittest.TestCase):
+class TestGetConvexHull(unittest.TestCase):
     def setUp(self) -> None:
         self.slice_ = np.array([
             [1, 2, 3, 4, 5, 6],
@@ -152,7 +152,7 @@ class TestGetConvexHullTest(unittest.TestCase):
                 [0, 45, 135],
                 [1, 1, 1]
             ])
-            result = _get_convex_hull(slice_, info_)
+            result = _get_convex_hull(slice_, None)
             expected = (
                 np.array([1, 2, 3]),
                 np.array([0, 45, 135]),
