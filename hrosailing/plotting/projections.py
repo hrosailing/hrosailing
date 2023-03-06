@@ -489,24 +489,43 @@ def _get_convex_hull(slice_, info_):
         slice_ = sorted(slice_, key=lambda x: x[1])
     slice_ = np.array(slice_).T
 
-    # if wind angle difference is big, wrap around
-    if slice_[1][-1] - slice_[1][0] > 180:
-        # estimate bsp value at 0 (360 resp)
-        x0 = slice_[2, 0] * np.sin(np.deg2rad(slice_[1, 0]))
-        x1 = slice_[2, -1] * np.sin(np.deg2rad(slice_[1, -1]))
-        y0 = slice_[2, 0] * np.cos(np.deg2rad(slice_[1, 0]))
-        y1 = slice_[2, -1] * np.cos(np.deg2rad(slice_[1, -1]))
-        lamb = x0 / (x0 - x1)
-        approx_ws = lamb * slice_[0, 0] + (1 - lamb) * slice_[0, -1]
-        approx_bsp = lamb * y0 + (1 - lamb) * y1
+    if (slice_[1, 0] == 0 and slice_[1, -1] == 360):
+        ws, wa, bsp = slice_
+        return ws, wa, bsp, info_
 
-        slice_ = np.column_stack(
-            [[approx_ws, 0, approx_bsp], slice_, [approx_ws, 360, approx_bsp]]
+    if slice_[1][-1] - slice_[1][0] >= 180:
+        ws, wa, bsp = slice_
+        return ws, wa, bsp, info_
+
+    if slice_[1, 0] == 0:
+        slice_ = np.column_stack([
+            slice_, [slice_[0, 0], 360, slice_[2, 0]]
+        ])
+        ws, wa, bsp = slice_
+        return ws, wa, bsp, info_
+
+    if slice_[1, -1] == 360:
+        slice_ = np.column_stack([
+            [slice_[0, -1], 0, slice_[2, -1]], slice_
+        ])
+        ws, wa, bsp = slice_
+        return ws, wa, bsp, info_
+
+    # if wind angle difference is big, wrap around
+        # estimate bsp value at 0 (360 resp)
+    x0 = slice_[2, 0] * np.sin(np.deg2rad(slice_[1, 0]))
+    x1 = slice_[2, -1] * np.sin(np.deg2rad(slice_[1, -1]))
+    y0 = slice_[2, 0] * np.cos(np.deg2rad(slice_[1, 0]))
+    y1 = slice_[2, -1] * np.cos(np.deg2rad(slice_[1, -1]))
+    lamb = x0 / (x0 - x1)
+    approx_ws = lamb * slice_[0, 0] + (1 - lamb) * slice_[0, -1]
+    approx_bsp = lamb * y0 + (1 - lamb) * y1
+
+    slice_ = np.column_stack(
+        [[approx_ws, 0, approx_bsp], slice_, [approx_ws, 360, approx_bsp]]
         )
 
     ws, wa, bsp = slice_
-
-    # connect if smaller than 180
 
     return ws, wa, bsp, info_
 
