@@ -172,3 +172,4 @@ temp.py
 pipe_csv.csv
 tests/*.png
 tests/*.csv
+tests/test_processing/*.csv
