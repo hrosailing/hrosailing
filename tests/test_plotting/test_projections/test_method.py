@@ -1,13 +1,12 @@
 import unittest
-import os
 
 import numpy as np
 
 import matplotlib.pyplot as plt
-import matplotlib.testing.compare as plt_compare
 
 from hrosailing.plotting.projections import _plot, _get_convex_hull
 from ..image_testcase import ImageTestcase
+
 
 class TestPlot(ImageTestcase):
     def setUp(self) -> None:
