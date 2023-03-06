@@ -7,10 +7,9 @@ import matplotlib.pyplot as plt
 import matplotlib.testing.compare as plt_compare
 
 from hrosailing.plotting.projections import _plot, _get_convex_hull
+from ..image_testcase import ImageTestcase
 
-
-
-class PlotTest(unittest.TestCase):
+class PlotTest(ImageTestcase):
     def setUp(self) -> None:
         self.slices = [
             np.array([
@@ -26,10 +25,6 @@ class PlotTest(unittest.TestCase):
             ["A", "B", "A", "B", "A", "B"]
         ]
 
-    def assertImageEqual(self, expected, actual):
-        res = plt_compare.compare_images(expected, actual, tol=5)
-        self.assertIsNone(res)
-
     def test_plot(self):
         #Input/Output Tests
 
@@ -37,74 +32,56 @@ class PlotTest(unittest.TestCase):
             #creating resulting plot
             ax = plt.subplot()
             _plot(ax, self.slices, None, False)
-            save_plot("./result.png")
+            self.set_result_plot()
 
             #creating expected plot
             plt.plot([0, 45, 90, 180, 270, 315], [1, 2, 2, 2, 2, 2])
             plt.plot([0, 45, 90, 180, 270, 315], [10, 1, 2, 2, 2, 1])
-            save_plot("./expected.png")
+            self.set_expected_plot()
 
-            self.assertImageEqual(
-                "./expected.png",
-                "./result.png"
-            )
+            self.assertPlotsEqual()
 
         with self.subTest("using info"):
             #creating resulting plot
             ax = plt.subplot()
             _plot(ax, self.slices, self.info, False)
-            save_plot("./result.png")
+            self.set_result_plot()
 
             #creating expected plot
             plt.plot([0, 45], [1, 2], color="C0")
             plt.plot([90, 180, 270, 315], [2, 2, 2, 2], color="C0")
             plt.plot([0, 90, 270], [10, 2, 2], color="C1")
             plt.plot([45, 180, 315], [1, 2, 1], color="C1")
-            save_plot("./expected.png")
+            self.set_expected_plot()
 
-            self.assertImageEqual(
-                "./expected.png",
-                "./result.png"
-            )
+            self.assertPlotsEqual()
 
         with self.subTest("using radians"):
             #creating resulting plot
             ax = plt.subplot()
             _plot(ax, self.slices, None, True)
-            save_plot("./result.png")
+            self.set_result_plot()
 
             #creating expected plot
             plt.plot([0, np.pi/4, np.pi/2, np.pi, 3*np.pi/2, 7*np.pi/4], [1, 2, 2, 2, 2, 2])
             plt.plot([0, np.pi/4, np.pi/2, np.pi, 3*np.pi/2, 7*np.pi/4], [10, 1, 2, 2, 2, 1])
-            save_plot("./expected.png")
+            self.set_expected_plot()
 
-            self.assertImageEqual(
-                "./expected.png",
-                "./result.png"
-            )
+            self.assertPlotsEqual()
 
         with self.subTest("use convex hull"):
             # creating resulting plot
             ax = plt.subplot()
             _plot(ax, self.slices, None, False, use_convex_hull=True)
-            save_plot("./result.png")
+            self.set_result_plot()
 
             # creating expected plot
             plt.plot([0, 45, 90, 180, 270, 315, 360], [2, 2, 2, 2, 2, 2, 2])
             plt.plot([0, 90, 180, 270, 360], [10, 2, 2, 2, 10])
             plt.plot([1,2,3], [1,2,3])
-            save_plot("./expected.png")
+            self.set_expected_plot()
 
-            self.assertImageEqual(
-                "./expected.png",
-                "./result.png"
-            )
-
-    def tearDown(self) -> None:
-        os.remove("./expected.png")
-        os.remove("./result.png")
-        os.remove("./result-failed-diff.png")
-        return
+            self.assertPlotsEqual()
 
 
 class GetConvexHullTest(unittest.TestCase):
