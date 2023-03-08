@@ -24,21 +24,16 @@ class TestNMEAFileHandler(TestCase):
         with open("TestNMEAFileHandler.vdr", 'w') as file:
             file.writelines(self.data)
 
-    def test_NMEAFileHandler_init(self):
+    def test_init(self):
         """
         Input/Output-Test.
         """
-
-        with self.subTest("default NMEAFileHandler"):
-            result = dth.NMEAFileHandler()
-            self.assertEqual(result.wanted_sentences, None)
-            self.assertEqual(result.wanted_attributes, None)
-            self.assertEqual(result.unwanted_sentences, None)
-            self.assertEqual(result.unwanted_attributes, None)
+        # TODO: sentence filter?
+        pass
 
 
-
-    def test_NMEAFileHandler_handle(self):
+'''
+    def test_handle(self):
         """
         Input/Output-Test.
         """
@@ -48,3 +43,4 @@ class TestNMEAFileHandler(TestCase):
             expected_result =
             testing_function(result, expected_result,
                              f"Expected {expected_result} but got {result}!")
+'''

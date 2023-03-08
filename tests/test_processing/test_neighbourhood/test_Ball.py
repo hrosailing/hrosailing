@@ -10,14 +10,14 @@ class TestBall(TestCase):
         self.norm = lambda x: 0.03 * np.linalg.norm(x, ord=2, axis=1)
         self.pts = [[1, 2], [3, 1], [0.5, 0.5]]
 
-    def test_Ball_init_Error(self):
+    def test_init_Error(self):
         """
         ValueError occurs if radius is negative.
         """
         with self.assertRaises(ValueError):
             nbh.Ball(-1)
 
-    def test_Ball_repr(self):
+    def test_repr(self):
         """
         Input/Output-Test.
         """
@@ -27,25 +27,32 @@ class TestBall(TestCase):
         self.assertEqual(result, expected_result,
                          f"Expected {expected_result} but got {result}!")
 
-    def test_Ball_is_contained_in(self):
+    def test_is_contained_in_default(self):
         """
         Input/Output-Test.
         """
 
-        with self.subTest("default Ball"):
-            result = nbh.Ball().is_contained_in(self.pts)
-            expected_result = [True, False, True]
-            np.testing.assert_array_equal(result, expected_result,
-                             f"Expected {expected_result} but got {result}!")
+        result = nbh.Ball().is_contained_in(self.pts)
+        expected_result = [True, False, True]
+        np.testing.assert_array_equal(result, expected_result,
+                         f"Expected {expected_result} but got {result}!")
 
-        with self.subTest("custom radius"):
-            result = nbh.Ball(self.radius).is_contained_in(self.pts)
-            expected_result = [False, False, True]
-            np.testing.assert_array_equal(result, expected_result,
-                                          f"Expected {expected_result} but got {result}!")
+    def test_is_contained_in_custom_radius(self):
+        """
+        Input/Output-Test.
+        """
 
-        with self.subTest("custom norm"):
-            result = nbh.Ball(norm=self.norm).is_contained_in(self.pts)
-            expected_result = [False, False, True]
-            np.testing.assert_array_equal(result, expected_result,
-                                          f"Expected {expected_result} but got {result}!")
+        result = nbh.Ball(self.radius).is_contained_in(self.pts)
+        expected_result = [False, False, True]
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")
+
+    def test_is_contained_in_custom_norm(self):
+        """
+        Input/Output-Test.
+        """
+
+        result = nbh.Ball(norm=self.norm).is_contained_in(self.pts)
+        expected_result = [False, False, True]
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")

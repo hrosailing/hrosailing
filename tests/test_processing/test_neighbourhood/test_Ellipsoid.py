@@ -11,23 +11,30 @@ class TestEllipsoid(TestCase):
         self.norm = lambda x: 0.03 * np.linalg.norm(x, ord=2, axis=1)
         self.pts = [[1, 2], [3, 1], [0.5, 0.5]]
 
-    def test_Ellipsoid_init_Errors(self):
+    def test_init_Error_lin_trans_wrong_shape(self):
         """
-        ValueError if lin_trans has wrong shape, is singular or if radius is non-positive.
+        ValueError if lin_trans has wrong shape.
         """
-        with self.subTest("lin_trans wrong shape"):
-            with self.assertRaises(ValueError):
-                nbh.Ellipsoid(lin_trans=[[1, 2, 3], [1, 2, 3]])
+        with self.assertRaises(ValueError):
+            nbh.Ellipsoid(lin_trans=[[1, 2, 3], [1, 2, 3]])
 
-        with self.subTest("lin_trans singular"):
-            with self.assertRaises(ValueError):
-                nbh.Ellipsoid([[0, 0], [0, 0]])
+    def test_init_Error_lin_trans_singular(self):
+        """
+        ValueError if lin_trans is singular.
+        """
 
-        with self.subTest("radius non-positive"):
-            with self.assertRaises(ValueError):
-                nbh.Ellipsoid(radius=0)
+        with self.assertRaises(ValueError):
+            nbh.Ellipsoid([[0, 0], [0, 0]])
 
-    def test_Ellipsoid_repr(self):
+    def test_init_Error_radius_non_positive(self):
+        """
+        ValueError if radius is non-positive.
+        """
+
+        with self.assertRaises(ValueError):
+            nbh.Ellipsoid(radius=0)
+
+    def test_repr(self):
         """
         Input/Output-Test.
         """
@@ -38,30 +45,40 @@ class TestEllipsoid(TestCase):
         self.assertEqual(result, expected_result,
                          f"Expected {expected_result} but got {result}!")
 
-    def test_Ellipsoid_is_contained_in(self):
+    def test_is_contained_in_default(self):
         """
         Input/Output-Test.
         """
-        with self.subTest("default Ellipsoid"):
-            result = nbh.Ellipsoid().is_contained_in(self.pts)
-            expected_result = [True, False, True]
-            np.testing.assert_array_equal(result, expected_result,
-                             f"Expected {expected_result} but got {result}!")
 
-        with self.subTest("custom lin_trans"):
-            result = nbh.Ellipsoid(lin_trans=self.lin_trans).is_contained_in(self.pts)
-            expected_result = [True, True, True]
-            np.testing.assert_array_equal(result, expected_result,
-                                          f"Expected {expected_result} but got {result}!")
+        result = nbh.Ellipsoid().is_contained_in(self.pts)
+        expected_result = [True, False, True]
+        np.testing.assert_array_equal(result, expected_result,
+                         f"Expected {expected_result} but got {result}!")
 
-        with self.subTest("custom norm"):
-            result = nbh.Ellipsoid(norm=self.norm).is_contained_in(self.pts)
-            expected_result = [False, False, True]
-            np.testing.assert_array_equal(result, expected_result,
-                                          f"Expected {expected_result} but got {result}!")
+    def test_is_contained_in_custom_lin_trans(self):
+        """
+        Input/Output-Test.
+        """
 
-        with self.subTest("custom radius"):
-            result = nbh.Ellipsoid(radius=self.radius).is_contained_in(self.pts)
-            expected_result = [False, False, True]
-            np.testing.assert_array_equal(result, expected_result,
-                                          f"Expected {expected_result} but got {result}!")
+        result = nbh.Ellipsoid(lin_trans=self.lin_trans).is_contained_in(self.pts)
+        expected_result = [True, True, True]
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")
+
+    def test_is_contained_in_custom_norm(self):
+        """
+        Input/Output-Test.
+        """
+        result = nbh.Ellipsoid(norm=self.norm).is_contained_in(self.pts)
+        expected_result = [False, False, True]
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")
+
+    def test_is_contained_in_custom_radius(self):
+        """
+        Input/Output-Test.
+        """
+        result = nbh.Ellipsoid(radius=self.radius).is_contained_in(self.pts)
+        expected_result = [False, False, True]
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")

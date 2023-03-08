@@ -10,7 +10,7 @@ class TestZeroInjector(TestCase):
         self.n_zeros = 2
         self.wpts = dt.WeightedPoints(np.array([[12, 34, 15], [13, 40, 18]]), np.array([.3, .7]))
 
-    def test_ZeroInjector_inject(self):
+    def test_inject(self):
         """
         Input/Output-Test.
         """

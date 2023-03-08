@@ -10,7 +10,7 @@ class TestCuboid(TestCase):
         self.dimensions = (0.5, 0.5)
         self.pts = [[.01, .02], [.3, 1], [0.5, 0.5]]
 
-    def test_Cuboid_repr(self):
+    def test_repr(self):
         """
         Input/Output-Test.
         """
@@ -20,24 +20,33 @@ class TestCuboid(TestCase):
         self.assertEqual(result, expected_result,
                          f"Expected {expected_result} but got {result}!")
 
-    def test_Cuboid_is_contained_in(self):
+    def test_is_contained_in_default(self):
         """
         Input/Output-Test.
         """
+
         with self.subTest("default Cuboid"):
             result = nbh.Cuboid().is_contained_in(self.pts)
             expected_result = [True, False, False]
             np.testing.assert_array_equal(result, expected_result,
                                           f"Expected {expected_result} but got {result}!")
 
-        with self.subTest("custom norm"):
-            result = nbh.Cuboid(self.norm).is_contained_in(self.pts)
-            expected_result = [True, True, True]
-            np.testing.assert_array_equal(result, expected_result,
-                                          f"Expected {expected_result} but got {result}!")
+    def test_is_contained_in_custom_norm(self):
+        """
+        Input/Output-Test.
+        """
 
-        with self.subTest("custom dimensions"):
-            result = nbh.Cuboid(dimensions=self.dimensions).is_contained_in(self.pts)
-            expected_result = [True, False, True]
-            np.testing.assert_array_equal(result, expected_result,
-                                          f"Expected {expected_result} but got {result}!")
+        result = nbh.Cuboid(self.norm).is_contained_in(self.pts)
+        expected_result = [True, True, True]
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")
+
+    def test_is_contained_in_custom_dimensions(self):
+        """
+        Input/Output-Test.
+        """
+
+        result = nbh.Cuboid(dimensions=self.dimensions).is_contained_in(self.pts)
+        expected_result = [True, False, True]
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")

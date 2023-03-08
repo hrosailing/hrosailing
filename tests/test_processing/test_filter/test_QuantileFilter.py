@@ -9,18 +9,21 @@ class TestQuantileFilter(TestCase):
         self.percent = 20
         self.wts = np.array([2, 3, 2.1, 5, 8])
 
-    def test_QuantileFilter_init_ValueError(self):
+    def test_init_Error_upper_bound_exceeded(self):
         """
-        ValueError if percent not in [0, 100]
+        ValueError if percent >100.
         """
-        with self.subTest("upper bound exceeded"):
-            with self.assertRaises(ValueError):
-                flt.QuantileFilter(101)
-        with self.subTest("lower bound exceeded"):
-            with self.assertRaises(ValueError):
-                flt.QuantileFilter(-1)
+        with self.assertRaises(ValueError):
+            flt.QuantileFilter(101)
 
-    def test_QuantileFilter_repr(self):
+    def test_init_Error_lower_bound_exceeded(self):
+        """
+        ValueError if percent <0.
+        """
+        with self.assertRaises(ValueError):
+            flt.QuantileFilter(-1)
+
+    def test_repr(self):
         """
         Input/Output-Test.
         """
@@ -30,19 +33,22 @@ class TestQuantileFilter(TestCase):
         self.assertEqual(result, expected_result,
                          f"Expected {expected_result} but got {result}!")
 
-    def test_QuantileFilter_filter(self):
+    def test_filter_default(self):
         """
         Input/Output-Test.
         """
 
-        with self.subTest("default QuantileFilter"):
-            result = flt.QuantileFilter().filter(self.wts)
-            expected_result = [False, True, False, True, True]
-            np.testing.assert_array_equal(result, expected_result,
-                                          f"Expected {expected_result} but got {result}!")
+        result = flt.QuantileFilter().filter(self.wts)
+        expected_result = [False, True, False, True, True]
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")
 
-        with self.subTest("custom percent"):
-            result = flt.QuantileFilter(self.percent).filter(self.wts)
-            expected_result = [False, True, True, True, True]
-            np.testing.assert_array_equal(result, expected_result,
-                                          f"Expected {expected_result} but got {result}!")
+    def test_filter_custom_percent(self):
+        """
+        Input/Output-Test.
+        """
+
+        result = flt.QuantileFilter(self.percent).filter(self.wts)
+        expected_result = [False, True, True, True, True]
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")
