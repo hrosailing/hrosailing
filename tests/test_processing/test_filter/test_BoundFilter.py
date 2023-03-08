@@ -10,7 +10,7 @@ class TestBoundFilter(TestCase):
         self.upper = 5.78
         self.wts = np.array([.2, .3, .21, .5, .8])
 
-    def test_init_ValueError(self):
+    def test_init_Error(self):
         """
         ValueError if lower_bound > upper_bound
         """

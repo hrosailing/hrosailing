@@ -31,4 +31,4 @@ class TestUniformRandomSampler(TestCase):
         Amount of sampled points is n_samples.
         """
         result = len(smp.UniformRandomSampler(self.n_samples).sample(self.pts))
-        self.assertEqual(result, self.n_samples, f"Expected {self.n_samples} samop")
+        self.assertEqual(result, self.n_samples, f"Expected {self.n_samples} samples but got {result} samples.")
