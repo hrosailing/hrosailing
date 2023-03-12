@@ -31,3 +31,11 @@ class TestFibonacciSampler(TestCase):
         """
         result = len(smp.UniformRandomSampler(self.n_samples).sample(self.pts))
         self.assertEqual(result, self.n_samples, f"Expected {self.n_samples} samples but got {result} samples.")
+
+    def test_sample_edge_empty_pts(self):
+        """
+        EdgeCase: Sampling on empty pts.
+        """
+        # TODO: this needs to be more concrete!
+        result = smp.ArchimedeanSampler(self.n_samples).sample(np.array([]))
+        np.testing.assert_array_equal(result, [])

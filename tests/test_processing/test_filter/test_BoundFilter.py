@@ -54,3 +54,21 @@ class TestBoundFilter(TestCase):
         expected_result = [False, True, True, True, True]
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")
+
+    def test_filter_edge_empty_wts(self):
+        """
+        EdgeCase: Empty wts.
+        """
+        result = flt.BoundFilter().filter(np.array([]))
+        expected_result = []
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")
+
+    def test_filter_edge_bounds_in_wts(self):
+        """
+        EdgeCase: wts contains the bounds
+        """
+        result = flt.BoundFilter(lower_bound=.2, upper_bound=.8).filter(self.wts)
+        expected_result = np.ones(len(self.wts), dtype=bool)
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")

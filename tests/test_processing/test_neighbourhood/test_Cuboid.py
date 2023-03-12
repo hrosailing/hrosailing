@@ -50,3 +50,22 @@ class TestCuboid(TestCase):
         expected_result = [True, False, True]
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")
+
+    def test_is_contained_in_edge_empty_pts(self):
+        """
+        EdgeCase: Empty pts.
+        """
+        result = nbh.Cuboid().is_contained_in([])
+        expected_result = []
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")
+
+    def test_is_contained_in_edge_dimensions_0(self):
+        """
+        EdgeCase: dimensions = (0, 0).
+        """
+        result = nbh.Cuboid(dimensions=(0, 0)).is_contained_in(self.pts)
+        expected_result = np.zeros(3, dtype=bool)
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")
+

@@ -61,3 +61,13 @@ class TestPolytope(TestCase):
         expected_result = [True, False, False]
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")
+
+    def test_is_contained_in_edge_empty_pts(self):
+        """
+        EdgeCase: Empty pts.
+        """
+        result = nbh.Polytope().is_contained_in([])
+        expected_result = []
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")
+

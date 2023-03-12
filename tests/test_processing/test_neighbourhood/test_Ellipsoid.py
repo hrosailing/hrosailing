@@ -82,3 +82,12 @@ class TestEllipsoid(TestCase):
         expected_result = [False, False, True]
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")
+
+    def test_is_contained_in_edge_empty_pts(self):
+        """
+        EdgeCase: Empty pts.
+        """
+        result = nbh.Ellipsoid().is_contained_in([])
+        expected_result = []
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")

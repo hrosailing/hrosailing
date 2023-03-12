@@ -18,3 +18,4 @@ class TestLazySmoother(TestCase):
         expected_result = self.data._data
         self.assertEqual(result, expected_result,
                          f"Expected {expected_result} but got {result}!")
+

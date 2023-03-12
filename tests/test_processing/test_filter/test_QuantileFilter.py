@@ -52,3 +52,22 @@ class TestQuantileFilter(TestCase):
         expected_result = [False, True, True, True, True]
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")
+
+    def test_filter_edge_empty_wts(self):
+        """
+        EdgeCase: Empty wts.
+        """
+        result = flt.QuantileFilter().filter(np.array([]))
+        expected_result = []
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")
+
+    def test_filter_edge_same_wts(self):
+        """
+        EdgeCase: Same weights, so it is hard to decide which wts to remove.
+        """
+        wts = np.ones(5)
+        result = flt.QuantileFilter().filter(wts)
+        expected_result = [False, False, False, True, True]
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")
