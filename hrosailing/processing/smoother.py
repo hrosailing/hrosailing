@@ -67,8 +67,10 @@ class AffineSmoother(Smoother):
 
     Parameters
     ---------
-    timespan: datetime.timedelta
+    timespan: datetime.timedelta, optional
         Amount of time before the actual value of an interval is assumed to be the real value.
+
+        Defaults to `timedelta(seconds=30)`.
 
     See also
     ----------
