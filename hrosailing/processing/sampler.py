@@ -212,6 +212,9 @@ class ArchimedeanSampler(Sampler):
         `Sampler.sample`
         """
 
+        if len(pts) < 2:
+            raise ValueError("`pts` needs to contain at least 3 points")
+
         # calculate enclosing circle
         midpoint, r = _make_circle(pts)
 
