@@ -64,10 +64,8 @@ class TestIDWInterpolator(TestCase):
         """
         EdgeCase: Empty wpts.
         """
-        result = int.IDWInterpolator().interpolate(dt.WeightedPoints(np.array([]), np.array([])), self.grid_pt)
-        expected_result = 0
-        self.assertEqual(result, expected_result,
-                         f"Expected {expected_result} but got {result}!")
+        with self.assertRaises(ValueError):
+            int.IDWInterpolator().interpolate(dt.WeightedPoints(np.array([]), np.array([])), self.grid_pt)
 
     def test_interpolate_edge_float_p(self):
         """

@@ -113,6 +113,10 @@ class IDWInterpolator(Interpolator):
         `Interpolator.interpolate`
         """
         pts = w_pts.data
+
+        if len(pts) == 0:
+            raise ValueError("`pts` has to contain at least one point")
+
         wts = self._norm(pts[:, :2] - grid_pt)
         if np.any(wts == 0):
             mask = wts == 0
