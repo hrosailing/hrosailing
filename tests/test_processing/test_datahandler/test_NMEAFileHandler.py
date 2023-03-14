@@ -127,8 +127,7 @@ class TestNMEAFileHandler(TestCase):
         self.maxDiff = None
         for key in expected_result.keys():
             with self.subTest(f"test {key}"):
-                np.testing.assert_allclose(result[key], expected_result[key], decimal=6,
-                                           err_msg=f"Expected {expected_result} but got {result}!")
+                self.assertListEqual(result[key], expected_result[key])
 
     def test_handle_custom_wanted_attributes(self):
         """
