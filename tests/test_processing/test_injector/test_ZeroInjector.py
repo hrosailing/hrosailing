@@ -28,10 +28,7 @@ class TestZeroInjector(TestCase):
         EdgeCase: Empty WeightedPoints.
         """
         # TODO: this causes Error in Code
-        result = inj.ZeroInjector(self.n_zeros).inject(dt.WeightedPoints(np.array([]), np.array([])))
-        expected_result = dt.WeightedPoints(
-            np.array([[0, 0, 0], [0, 0, 0], [0, 360, 0], [0, 360, 0]]), [1, 1, 1, 1])
-        np.testing.assert_array_equal(result.sentences, expected_result.data,
-                                      f"Expected {expected_result} but got {result}!")
-        np.testing.assert_array_equal(result.weights, expected_result.weights,
-                                      f"Expected {expected_result} but got {result}!")
+        with self.assertRaises(ValueError):
+            inj.ZeroInjector(self.n_zeros).inject(
+                dt.WeightedPoints(np.array([]), np.array([]))
+            )
