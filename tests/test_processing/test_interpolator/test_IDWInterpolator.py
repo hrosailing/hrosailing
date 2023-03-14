@@ -71,7 +71,5 @@ class TestIDWInterpolator(TestCase):
         """
         EdgeCase: p is a float value.
         """
-        result = int.IDWInterpolator(p=.5).interpolate(self.wpts, self.grid_pt)
-        expected_result = .75
-        self.assertEqual(result, expected_result,
-                         f"Expected {expected_result} but got {result}!")
+        with self.assertRaises(TypeError):
+            int.IDWInterpolator(p=.5)

@@ -85,6 +85,9 @@ class IDWInterpolator(Interpolator):
         if p < 0:
             raise ValueError("`p` is negative")
 
+        if not isinstance(p, int):
+            raise TypeError(f"`p` has to be of type `int` but is {type(p)}")
+
         self._p = p
         self._norm = norm
 
