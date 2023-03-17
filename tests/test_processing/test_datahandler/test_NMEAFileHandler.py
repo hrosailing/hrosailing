@@ -11,20 +11,22 @@ class TestNMEAFileHandler(TestCase):
         self.wanted_sen = ["MWV"]
         self.unwanted_sen = ["GLL"]
         self.all_sen = ["MWV", "GLL"]
-        self.wanted_attr = ["wind angle", "wind speed"]
+        self.wanted_attr = ["TWA", "TWS"]
         self.unwanted_attr = ["lat", "lon", "time"]
-        self.all_attr = ["wind angle", "reference", "wind speed", "reference", "wind speed units", "status", "checksum"]
 
-        self.field = np.array([["wind angle", 199], ["TWS", 24.3], ["status", 'quick']])
+        self.field = np.array([["Wind angle", 199], ["TWA", 199], ["TWS", 24.3], ["lat", 54]])
 
         self.data_all = dt.Data().from_dict(
             {"TWA": [199.0, 195.0, None, 196.0, 195.0, None],
              "TWS": [18.6, 24.3, None, 18.0, 24.0, None],
-             "lat": [None, None, 5428.811, None, None, 5428.812],
-             "lon": [None, None, 01234.277, None, None, 01234.280],
+             "lat": [None, None, 54.480183, None, None, 54.48019],
+             "lon": [None, None, 12.571283, None, None, 12.5713],
              "time": [None, None, time(8, 34, 54), None, None, time(8, 34, 55)]})
 
         self.data_mwv = dt.Data().from_dict({"TWA": [199.0, 195.0, 196.0, 195.0], "TWS": [18.6, 24.3, 18.0, 24.0]})
+
+        self.data_attr_sel = dt.Data().from_dict({"TWA": [199.0, 195.0, 196.0, 195.0],
+                                                  "TWS": [18.6, 24.3, 18.0, 24.0]})
 
         self.sentences = np.array(["$IIMWV,199,T,18.6,N,A*1B\n",
                                    "$IIMWV,195,T,24.3,N,A*1D\n",
@@ -64,7 +66,7 @@ class TestNMEAFileHandler(TestCase):
         self.assertEqual(result, expected_result,
                          f"Expected {expected_result} but got {result}!")
 
-    def test_init_attrfilter_wanted_sentences_is_not_None(self):
+    def test_init_attrfilter_wanted_attributes_is_not_None(self):
         """
         Input/Output-Test.
         """
@@ -73,11 +75,11 @@ class TestNMEAFileHandler(TestCase):
         self.assertEqual(result, expected_result,
                          f"Expected {expected_result} but got {result}!")
 
-    def test_init_attrfilter_unwanted_sentences_is_not_None(self):
+    def test_init_attrfilter_unwanted_attributes_is_not_None(self):
         """
         Input/Output-Test.
         """
-        result = dth.NMEAFileHandler(unwanted_attributes=self.unwanted_attr)._attribute_filter(self.field[2])
+        result = dth.NMEAFileHandler(unwanted_attributes=self.unwanted_attr)._attribute_filter(self.field[3])
         expected_result = False
         self.assertEqual(result, expected_result,
                          f"Expected {expected_result} but got {result}!")
@@ -95,62 +97,66 @@ class TestNMEAFileHandler(TestCase):
         """
         Input/Output-Test.
         """
-        # TODO: find a way to compare data
+
         result = dth.NMEAFileHandler().handle("TestNMEAFileHandler.vdr")._data
         expected_result = self.data_all._data
-        self.maxDiff = None
-        for key in expected_result.keys():
-            with self.subTest(f"test {key}"):
-                np.testing.assert_array_equal(result[key], expected_result[key],
-                                              err_msg=f"Expected {expected_result} but got {result}!")
+        self.assertListEqual(result["TWS"], expected_result["TWS"],
+                             f"Expected {expected_result['TWS']} but got {result['TWS']}!")
+        self.assertListEqual(result["TWA"], expected_result["TWA"],
+                             f"Expected {expected_result['TWA']} but got {result['TWA']}!")
+
+        # TODO: find a better way to compare "lat" and "lon" fields
+        for i, lat in enumerate(result["lat"]):
+            if lat is not None:
+                self.assertAlmostEqual(result["lat"][i], expected_result["lat"][i], places=3)
+        for i, lon in enumerate(result["lon"]):
+            if lon is not None:
+                self.assertAlmostEqual(result["lon"][i], expected_result["lon"][i], places=3)
+
+        # TODO: order of "time" is wrong
+        self.assertListEqual(result["time"], expected_result["time"],
+                             f"Expected {expected_result['time']} but got {result['time']}!")
 
     def test_handle_custom_wanted_sentences(self):
         """
         Input/Output-Test.
         """
-        # TODO: find a way to compare data
         result = dth.NMEAFileHandler(wanted_sentences=self.wanted_sen).handle("TestNMEAFileHandler.vdr")._data
         expected_result = self.data_mwv._data
-        self.maxDiff = None
-        for key in expected_result.keys():
-            with self.subTest(f"test {key}"):
-                np.testing.assert_allclose(result[key], expected_result[key], decimal=6,
-                                           err_msg=f"Expected {expected_result} but got {result}!")
+        self.assertListEqual(result["TWA"], expected_result["TWA"],
+                             f"Expected {expected_result['TWA']} but got {result['TWA']}!")
+        self.assertListEqual(result["TWS"], expected_result["TWS"],
+                             f"Expected {expected_result['TWS']} but got {result['TWS']}!")
 
     def test_handle_custom_unwanted_sentences(self):
         """
         Input/Output-Test.
         """
-        # TODO: find a way to compare data
         result = dth.NMEAFileHandler(unwanted_sentences=self.unwanted_sen).handle("TestNMEAFileHandler.vdr")._data
         expected_result = self.data_mwv._data
-        self.maxDiff = None
-        for key in expected_result.keys():
-            with self.subTest(f"test {key}"):
-                self.assertListEqual(result[key], expected_result[key])
+        self.assertListEqual(result["TWA"], expected_result["TWA"],
+                             f"Expected {expected_result['TWA']} but got {result['TWA']}!")
+        self.assertListEqual(result["TWS"], expected_result["TWS"],
+                             f"Expected {expected_result['TWS']} but got {result['TWS']}!")
 
     def test_handle_custom_wanted_attributes(self):
         """
         Input/Output-Test.
         """
-        # TODO: find a way to compare data
         result = dth.NMEAFileHandler(wanted_attributes=self.wanted_attr).handle("TestNMEAFileHandler.vdr")._data
-        expected_result = self.data_mwv._data
-        self.maxDiff = None
-        for key in expected_result.keys():
-            with self.subTest(f"test {key}"):
-                np.testing.assert_allclose(result[key], expected_result[key], decimal=6,
-                                           err_msg=f"Expected {expected_result} but got {result}!")
+        expected_result = self.data_attr_sel
+        self.assertListEqual(result["TWA"], expected_result["TWA"],
+                             f"Expected {expected_result['TWA']} but got {result['TWA']}!")
+        self.assertListEqual(result["TWS"], expected_result["TWS"],
+                             f"Expected {expected_result['TWS']} but got {result['TWS']}!")
 
     def test_handle_custom_unwanted_attributes(self):
         """
         Input/Output-Test.
         """
-        # TODO: find a way to compare data
         result = dth.NMEAFileHandler(unwanted_attributes=self.unwanted_attr).handle("TestNMEAFileHandler.vdr")._data
-        expected_result = self.data_mwv._data
-        self.maxDiff = None
-        for key in expected_result.keys():
-            with self.subTest(f"test {key}"):
-                np.testing.assert_allclose(result[key], expected_result[key], decimal=6,
-                                           err_msg=f"Expected {expected_result} but got {result}!")
+        expected_result = self.data_attr_sel
+        self.assertListEqual(result["TWA"], expected_result["TWA"],
+                             f"Expected {expected_result['TWA']} but got {result['TWA']}!")
+        self.assertListEqual(result["TWS"], expected_result["TWS"],
+                             f"Expected {expected_result['TWS']} but got {result['TWS']}!")

@@ -70,7 +70,7 @@ class TestFillLocalImputator(TestCase):
                          datetime(2023, 3, 13, 8, 2, 45), datetime(2023, 3, 13, 8, 3),
                          datetime(2023, 3, 13, 8, 3, 30)],
             "TWS": [14.6, 16.9, 16.9, 17.6],
-            "TWA": [67, 77, 75, 74.9],
+            "TWA": [67.0, 77.0, 75.0, 74.9],
             "BSP": [14, 14, 14, 14]
         })._data
         self.assertDictEqual(result, expected_result,
@@ -87,7 +87,7 @@ class TestFillLocalImputator(TestCase):
                          datetime(2023, 3, 13, 8, 2, 45), datetime(2023, 3, 13, 8, 3),
                          datetime(2023, 3, 13, 8, 3, 30)],
             "TWS": [14.6, 16.9, 16.9, 17.6],
-            "TWA": [67, 77, 75, 74.9],
+            "TWA": [67.0, 77.0, 75.0, 74.9],
             "BSP": [14, 14, 14, 14]
         })._data
         self.assertDictEqual(result, expected_result,

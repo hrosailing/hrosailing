@@ -36,6 +36,5 @@ class TestFibonacciSampler(TestCase):
         """
         EdgeCase: Sampling on empty pts.
         """
-        # TODO: this needs to be more concrete!
-        result = smp.ArchimedeanSampler(self.n_samples).sample(np.array([]))
-        np.testing.assert_array_equal(result, [])
+        with self.assertRaises(ValueError):
+            smp.ArchimedeanSampler(self.n_samples).sample(np.array([]))
