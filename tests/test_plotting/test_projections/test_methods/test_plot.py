@@ -4,7 +4,7 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
-from hrosailing.plotting.projections import _plot, _get_convex_hull
+from hrosailing.plotting.projections import _plot
 from tests.test_plotting.image_testcase import ImageTestcase
 
 

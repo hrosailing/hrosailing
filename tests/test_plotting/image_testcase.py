@@ -10,6 +10,10 @@ def save_plot(path):
 
 
 class ImageTestcase(unittest.TestCase):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.debug = False
+
     def set_expected_plot(self):
         """saves the plot currently stored in `matplotlib.pyplot`
         as expected plot and resets `matplotlib.pyplot`."""
@@ -30,6 +34,8 @@ class ImageTestcase(unittest.TestCase):
 
     def tearDown(self) -> None:
         super().tearDown()
+        if self.debug:
+            return
         os.remove("./expected.png")
         os.remove("./result.png")
         #os.remove("./result-failed-diff.png")
