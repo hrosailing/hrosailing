@@ -296,7 +296,7 @@ class HROColorGradient(Axes):
 
         color_gradient = _determine_color_gradient(colors, bsp.ravel())
 
-        self.scatter(ws, wa, c=color_gradient, **legend_kw)
+        self.scatter(ws, wa, c=color_gradient, **kwargs)
 
 
 class Axes3D(pltAxes3D):
