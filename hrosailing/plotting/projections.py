@@ -435,6 +435,10 @@ def _plot(
         for entry in iter1:
             yield (entry, None)
 
+    if len(slices) == 0:
+        ax.plot([], [], **kwargs)
+        return
+
     for slice_, info_ in safe_zip(slices, info):
         slice_ = slice_[:, np.argsort(slice_[1])]
         if use_convex_hull:

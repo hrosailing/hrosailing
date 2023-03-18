@@ -140,3 +140,13 @@ class TestPlot(ImageTestcase):
         self.set_expected_plot()
 
         self.assertPlotsEqual()
+
+    def test_edge_empty_slices(self):
+        ax = plt.subplot()
+        _plot(ax, [], None, False)
+        self.set_result_plot()
+
+        plt.plot([], [])
+        self.set_expected_plot()
+
+        self.assertPlotsEqual()
