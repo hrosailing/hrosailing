@@ -461,7 +461,7 @@ def _get_info_intervals(info_):
         if entry not in intervals:
             intervals[entry] = []
         intervals[entry].append(j)
-    return intervals.values()
+    return list(intervals.values())
 
 
 def _merge(wa, intervals):
