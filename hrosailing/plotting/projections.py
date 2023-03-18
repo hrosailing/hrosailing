@@ -465,6 +465,8 @@ def _get_info_intervals(info_):
 
 
 def _merge(wa, intervals):
+    if len(intervals) == 0:
+        return np.empty((0))
     wa_in_intervals = [
         np.concatenate([wa[interval], [np.NAN]]) for interval in intervals
     ]
