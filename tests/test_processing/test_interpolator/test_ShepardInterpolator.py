@@ -28,3 +28,14 @@ class TestShepardInterpolator(TestCase):
         with self.assertRaises(ValueError):
             int.ShepardInterpolator(self.nbh, slope=0)
 
+    def test_repr(self):
+        """
+        Input/Output-Test.
+        """
+
+        result = repr(int.ShepardInterpolator(self.nbh, self.tol, self.slope, self.norm))
+        expected_result = f"ShepardInterpolator( tol={self.tol}, slope_scal={self.slope}, norm={self.norm.__name__})"
+        self.assertEqual(result, expected_result,
+                         f"Expected {expected_result} but got {result}!")
+
+    
