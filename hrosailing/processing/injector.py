@@ -10,7 +10,7 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from hrosailing.core.data import Data
+from hrosailing.core.data import Data, WeightedPoints
 from hrosailing.core.statistics import ComponentWithStatistics
 
 
@@ -88,7 +88,7 @@ class ZeroInjector(Injector):
         if len(data.T) == 0:
             raise ValueError(f"`weighted_points.data` should contain at least one record.")
 
-        ws = ws[:, 0]
+        ws = data[:, 0]
         ws = np.linspace(min(ws), max(ws), self.n_zeros)
 
         zero = np.zeros(self.n_zeros)
@@ -97,7 +97,7 @@ class ZeroInjector(Injector):
         fulls = np.column_stack((ws, full, zero))
 
         self.set_statistics(2 * self.n_zeros)
-        return hrosailing.core.data.WeightedPoints(
+        return WeightedPoints(
             data=np.concatenate([zeros, fulls]),
             weights=np.ones(2 * self.n_zeros),
         )

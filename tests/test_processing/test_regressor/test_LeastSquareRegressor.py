@@ -55,7 +55,7 @@ class TestLeastSquareRegressor(TestCase):
 
         # fitting the regressor
         lsr = reg.LeastSquareRegressor(self.model_func, self.init_vals)
-        lsr.fit(np.array([]))
+        lsr.fit(np.empty((0, 3)))
 
         # testing optimal params
         result = lsr.optimal_params

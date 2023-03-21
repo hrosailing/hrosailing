@@ -66,16 +66,10 @@ class TestODRegressor(TestCase):
 
     def test_fit_edge_empty_data(self):
         """
-        Input/Output-Test.
-        Testing optimal params after fitting.
+        Test for ValueError
         """
 
         # fitting the regressor
         odr = reg.ODRegressor(self.model_func, self.init_vals)
-        odr.fit(np.array([]))
-
-        # testing optimal params
-        result = odr.optimal_params
-        expected_result = self.opt_param
-        self.assertEqual(result, expected_result,
-                         msg=f"Expected {expected_result} but got {result}!")
+        with self.assertRaises(ValueError):
+            odr.fit(np.empty((3, 0)))
