@@ -271,6 +271,10 @@ class CylindricMeanWeigher(Weigher):
         ----------
         `Weigher.weigh`
         """
+        if isinstance(points, np.ndarray) and len(points) == 0:
+            return []
+        if isinstance(points, Data) and points.n_rows == 0:
+            return []
         dimensions, points, bsps = _set_points_from_data(
             points, self._dimensions
         )

@@ -3,13 +3,13 @@ import numpy as np
 
 import hrosailing.processing.weigher as wgh
 import hrosailing.core.data as dt
-import hrosailing.core.computing as comp
+from hrosailing.processing.weigher import hrosailing_standard_scaled_euclidean_norm as st_norm
 
 
 class TestCylindricMeanWeigher(TestCase):
     def setUp(self) -> None:
         self.radius = 1/3 * 0.05
-        self.norm = lambda x: 3 * comp.scaled_euclidean_norm(x)
+        self.norm = lambda x: 3 * st_norm(["TWS", "TWA"])(x)
         self.dimensions = 3
         self.data = dt.Data().from_dict({})
         self.np_arr = np.array([[1, 2, 0], [0.5, 0.5, 1], [0.25, 0, 2]])
@@ -46,7 +46,7 @@ class TestCylindricMeanWeigher(TestCase):
         """
         # TODO: this gets the wrong result
         result = wgh.CylindricMeanWeigher(radius=self.radius).weigh(self.np_arr)
-        expected_result = [0, 1, 0]
+        expected_result = [1, 0, 0]
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")
 
@@ -55,7 +55,7 @@ class TestCylindricMeanWeigher(TestCase):
         Input/Output-Test.
         """
         result = wgh.CylindricMeanWeigher(norm=self.norm).weigh(self.np_arr)
-        expected_result = [0, 1, 0]
+        expected_result = [1, 0, 0]
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")
 
