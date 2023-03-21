@@ -153,7 +153,7 @@ class FillLocalImputator(Imputator):
         Parameters
         ----------
         data : Data
-            The `Data` object to be imputed.
+            The `Data` object to be imputed. Has to support the key `datetime`.
 
         Returns
         -------
