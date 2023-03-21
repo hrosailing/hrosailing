@@ -257,14 +257,14 @@ class ImprovedIDWInterpolator(Interpolator):
     Instead of setting the weights as the normal inverse distance
     to some power, we set the weights in the following way:
 
-    Let :math:`r` be the radius of the `neighbourhood.ScalingBall` with the center being some
+    Let :math:`r` be the maximal distance of the data points and a
     point :math:`grid\\\\_pt` which is to be interpolated.
     For all considered measured points let :math:`d_{pt}` be the same as
     in `IDWInterpolator`. If :math:`d_{pt} \\leq \\cfrac{r}{3}` we set :math:`w_{pt} = \\cfrac{1}{d_{pt}}`.
-    Otherwise, we set :math:`w_{pt} = \\cfrac{27}{4 * r} * (\\cfrac{d_{pt}}{r - 1})^2`.
+    Otherwise, we set :math:`w_{pt} = \\cfrac{27}{4 * r} * (\\cfrac{d_{pt}}{r} - 1)^2`.
 
-    The resulting value at :math:`grid\\\\_pt` will then be calculated the same
-    way as in `IDWInterpolator`.
+    The resulting value at :math:`grid\\\\_pt` will then be calculated simliar as in
+    `IDWInterpolator` using squared weights instead.
 
     Parameters
     ----------

@@ -20,8 +20,8 @@ class TestIDWInterpolator(TestCase):
         Input/Output-Test.
         """
         result = itp.ImprovedIDWInterpolator().interpolate(self.wpts, self.grid_pt)
-        expected_result = 0.87445589
-        self.assertAlmostEqual(result, expected_result, places=1,
+        expected_result = 0.875
+        self.assertEqual(result, expected_result,
                                msg=f"Expected {expected_result} but got {result}!")
 
     def test_interpolate_custom_norm(self):
@@ -29,6 +29,6 @@ class TestIDWInterpolator(TestCase):
         Input/Output-Test.
         """
         result = itp.ImprovedIDWInterpolator(norm=self.norm).interpolate(self.wpts, self.grid_pt)
-        expected_result = 0.8340573528145949
-        self.assertAlmostEqual(result, expected_result, places=1,
+        expected_result = 0.875
+        self.assertAlmostEqual(result, expected_result, places=3,
                                msg=f"Expected {expected_result} but got {result}!")
