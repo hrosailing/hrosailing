@@ -224,6 +224,12 @@ class CylindricMeanWeigher(Weigher):
 
         If nothing is passed, it will automatically detect a scaled euclidean norm with respect to the used dimensions.
 
+    dimensions : list of str, optional
+        If not `None` and the input of `weigh` is of type `Data`, only the attributes mentioned in
+        `dimensions` will be considered.
+
+        Defaults to `None`.
+
     See also
     ----------
     `Weigher`

@@ -326,6 +326,9 @@ class ShepardInterpolator(Interpolator):
 
     Parameters
     ----------
+    neighbourhood: Neighbourhood
+        Only points inside the given neighbourhood will be taken into account.
+
     tol : positive float, optional
         The distance around every data point in which the data point is preferred to
         the interpolated data.
