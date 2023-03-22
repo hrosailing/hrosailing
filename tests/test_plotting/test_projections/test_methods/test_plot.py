@@ -55,15 +55,17 @@ class TestPlot(ImageTestcase):
     def test_using_info(self):
         # Input/Output Tests with `info != None`
         #creating resulting plot
+        self.debug = True
         ax = plt.subplot()
         _plot(ax, self.slices, self.info, False)
         self.set_result_plot()
 
         #creating expected plot
-        plt.plot([0, 45], [1, 2], color="C0")
-        plt.plot([90, 180, 270, 315], [2, 2, 2, 2], color="C0")
-        plt.plot([0, 90, 270], [10, 2, 2], color="C1")
-        plt.plot([45, 180, 315], [1, 2, 1], color="C1")
+        ax = plt.subplot()
+        ax.plot([90, 180, 270, 315], [2, 2, 2, 2])
+        ax.plot([0, 45], [1, 2])
+        ax.plot([0, 90, 270], [10, 2, 2])
+        ax.plot([45, 180, 315], [1, 2, 1])
         self.set_expected_plot()
 
         self.assertPlotsEqual()

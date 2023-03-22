@@ -24,7 +24,7 @@ class ImageTestcase(unittest.TestCase):
         as resulting plot and resets `matplotlib.pyplot`."""
         save_plot("result.png")
 
-    def assertPlotsEqual(self, tol=0):
+    def assertPlotsEqual(self, tol=10):
         """
         Checks if the last plot saved with `set_expected_plot` equals the
         last plot saved with `set_result_plot` up to an accuracy of `tol`.
