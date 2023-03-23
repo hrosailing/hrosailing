@@ -7,8 +7,7 @@ class TestPlot3D(unittest.TestCase):
     def test_polar_diagram_plot(self):
         # Execution test
         keywords = {
-            "marker": "H",
-            "linestyle": "--"
+            "shade" : False
         }
         pd = PolarDiagramTable(
             [1, 2, 3],
