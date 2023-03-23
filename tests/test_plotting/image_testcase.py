@@ -36,6 +36,6 @@ class ImageTestcase(unittest.TestCase):
         super().tearDown()
         if self.debug:
             return
-        os.remove("./expected.png")
-        os.remove("./result.png")
-        #os.remove("./result-failed-diff.png")
+        for path in ["./expected.png", "./result.png", "./result-failed-diff.png"]:
+            if os.path.isfile(path):
+                os.remove(path)

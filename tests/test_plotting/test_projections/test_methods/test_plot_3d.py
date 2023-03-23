@@ -1,13 +1,9 @@
-import matplotlib.pyplot as plt
-import numpy as np
 import unittest
 
-from tests.test_plotting.image_testcase import ImageTestcase
-
-from hrosailing.plotting.projections import scatter_flat
 from hrosailing.polardiagram import PolarDiagramTable
+from hrosailing.plotting.projections import plot_3d
 
-class TestScatterFlat(unittest.TestCase):
+class TestPlot3D(unittest.TestCase):
     def test_polar_diagram_plot(self):
         # Execution test
         keywords = {
@@ -19,10 +15,10 @@ class TestScatterFlat(unittest.TestCase):
             [0, 90, 180],
             [[0, 1, 2], [1, 2, 3], [2, 3, 4]]
         )
-        scatter_flat(
+        plot_3d(
             pd, **keywords
         )
 
     def test_regular_plot(self):
         # Execution test
-        scatter_flat([1, 2, 3], [1, 2, 3])
+        plot_3d([1, 2, 3], [1, 2, 3], [1, 2, 3])

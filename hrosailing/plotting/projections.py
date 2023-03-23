@@ -729,6 +729,7 @@ def _determine_color_gradient(colors, gradient):
 
 
 def _get_gradient_coefficients(gradient):
+    gradient = np.asarray(gradient)
     min_gradient = gradient.min()
     max_gradient = gradient.max()
 
