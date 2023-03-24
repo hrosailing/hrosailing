@@ -141,6 +141,7 @@ class PolarDiagram(ABC):
                     f"got a tuple of size {len(wind)} instead."
                 )
             ws, wa = wind
+            ws, wa = np.meshgrid(ws, wa)
             return np.array(list(zip(ws.ravel(), wa.ravel())))
         raise ValueError(
             f"`wind` should be a tuple or an array, got {type(wind)} instead."

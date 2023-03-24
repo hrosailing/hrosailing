@@ -177,10 +177,11 @@ class HROFlat(Axes):
         self,
         *args,
         ws=None,
+        n_steps=None,
         colors=("green", "red"),
         show_legend=False,
-        use_convex_hull=False,
         legend_kw=None,
+        use_convex_hull=False,
         **kwargs,
     ):
         """
@@ -196,7 +197,7 @@ class HROFlat(Axes):
             return
 
         pd = args[0]
-        labels, slices, info = pd.get_slices(ws, full_info=True)
+        labels, slices, info = pd.get_slices(ws, n_steps, full_info=True)
         _configure_axes(self, labels, colors, show_legend, legend_kw, **kwargs)
         _plot(self, slices, info, False, use_convex_hull, **kwargs)
 
@@ -204,10 +205,11 @@ class HROFlat(Axes):
         self,
         *args,
         ws=None,
+        n_steps=None,
         colors=("green", "red"),
         show_legend=False,
-        use_convex_hull=False,
         legend_kw=None,
+        use_convex_hull=False,
         **kwargs,
     ):
         """
@@ -224,7 +226,7 @@ class HROFlat(Axes):
             return
 
         pd = args[0]
-        labels, slices, info = pd.get_slices(ws, full_info=True)
+        labels, slices, info = pd.get_slices(ws, n_steps, full_info=True)
         _configure_axes(self, labels, colors, show_legend, legend_kw, **kwargs)
         _plot(self, slices, info, False, use_convex_hull, True, **kwargs)
 
