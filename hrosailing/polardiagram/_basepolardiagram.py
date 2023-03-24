@@ -118,7 +118,7 @@ class PolarDiagram(ABC):
             raise ValueError("`n_steps` has to be positive")
         return np.concatenate(
             [
-                np.linspace(ws_before, ws_next, n_steps + 2)
+                np.linspace(ws_before, ws_next, n_steps + 2)[:-1]
                 for ws_before, ws_next in zip(ws, ws[1:])
             ]
             + [[ws[-1]]]
