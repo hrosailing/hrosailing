@@ -10,8 +10,8 @@ class TestCylindricMeanWeigher(TestCase):
     def setUp(self) -> None:
         self.radius = 1/3 * 0.05
         self.norm = lambda x: 3 * st_norm(["TWS", "TWA"])(x)
-        self.dimensions = 3
-        self.data = dt.Data().from_dict({})
+        self.dimensions = ["TWS", "TWA"]
+        self.data = dt.Data().from_dict({"TWS": [1.0, .5, .25], "TWA": [2.0, .5, 0.0], "BSP": [0.0, 1.0, 2.0]})
         self.np_arr = np.array([[1, 2, 0], [0.5, 0.5, 1], [0.25, 0, 2]])
 
     def test_init_Error(self):
@@ -31,7 +31,7 @@ class TestCylindricMeanWeigher(TestCase):
         self.assertEqual(result, expected_result,
                          f"Expected {expected_result} but got {result}!")
 
-    def test_weigh_default(self):
+    def test_weigh_default_nparr(self):
         """
         Input/Output-Test.
         """
@@ -40,21 +40,47 @@ class TestCylindricMeanWeigher(TestCase):
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")
 
-    def test_weigh_custom_radius(self):
+    def test_weigh_custom_radius_nparr(self):
         """
         Input/Output-Test.
         """
-        # TODO: this gets the wrong result
         result = wgh.CylindricMeanWeigher(radius=self.radius).weigh(self.np_arr)
         expected_result = [1, 0, 0]
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")
 
-    def test_weigh_custom_norm(self):
+    def test_weigh_custom_norm_nparr(self):
         """
         Input/Output-Test.
         """
         result = wgh.CylindricMeanWeigher(norm=self.norm).weigh(self.np_arr)
+        expected_result = [1, 0, 0]
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")
+
+    def test_weigh_default_data(self):
+        """
+        Input/Output-Test.
+        """
+        result = wgh.CylindricMeanWeigher().weigh(self.data)
+        expected_result = [0, 1, 0]
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")
+
+    def test_weigh_custom_radius_data(self):
+        """
+        Input/Output-Test.
+        """
+        result = wgh.CylindricMeanWeigher(radius=self.radius).weigh(self.data)
+        expected_result = [1, 0, 0]
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")
+
+    def test_weigh_custom_norm_data(self):
+        """
+        Input/Output-Test.
+        """
+        result = wgh.CylindricMeanWeigher(norm=self.norm).weigh(self.data)
         expected_result = [1, 0, 0]
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")

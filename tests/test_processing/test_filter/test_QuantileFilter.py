@@ -71,3 +71,12 @@ class TestQuantileFilter(TestCase):
         expected_result = [True, True, True, True, True]
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")
+
+    def test__calculate_quantile(self):
+        """
+        Input/Output-Test.
+        """
+        result = flt.QuantileFilter()._calculate_quantile(self.wts)
+        expected_result = [False, True, False, True, True]
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")

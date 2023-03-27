@@ -1,5 +1,7 @@
+import os
 from unittest import TestCase
 import numpy as np
+from tests.utils_for_testing import hroTestCase
 
 import hrosailing.processing.datahandler as dth
 import hrosailing.core.data as dt
@@ -16,14 +18,17 @@ class TestNMEAFileHandler(TestCase):
 
         self.field = np.array([["Wind angle", 199], ["TWA", 199], ["TWS", 24.3], ["lat", 54]])
 
-        self.data_all = dt.Data().from_dict(
-            {"TWA": [199.0, 195.0, None, 196.0, 195.0, None],
-             "TWS": [18.6, 24.3, None, 18.0, 24.0, None],
-             "lat": [None, None, 54.480183, None, None, 54.48019],
-             "lon": [None, None, 12.571283, None, None, 12.5713],
-             "time": [None, None, time(8, 34, 54), None, None, time(8, 34, 55)]})
+        self.data_all = {"TWA": [199.0, 195.0, None, 196.0, 195.0, None],
+                         "TWS": [18.6, 24.3, None, 18.0, 24.0, None],
+                         "lat": [None, None, 54.480183, None, None, 54.48019],
+                         "lon": [None, None, 12.571283, None, None, 12.5713],
+                         "time": [None, None, time(8, 34, 54), None, None, time(8, 34, 55)]}
 
-        self.data_mwv = dt.Data().from_dict({"TWA": [199.0, 195.0, 196.0, 195.0], "TWS": [18.6, 24.3, 18.0, 24.0]})
+        self.data_all_comp = {"TWA": [199.0, 195.0, 196.0, 195.0],
+                              "TWS": [18.6, 24.3, 18.0, 24.0],
+                              "lat": [None, 54.480183, None, 54.48019],
+                              "lon": [None, 12.571283, None, 12.5713],
+                              "time": [None, time(8, 34, 54), None, time(8, 34, 55)]}
 
         self.data_attr_sel = dt.Data().from_dict({"TWA": [199.0, 195.0, 196.0, 195.0],
                                                   "TWS": [18.6, 24.3, 18.0, 24.0]})
@@ -37,6 +42,9 @@ class TestNMEAFileHandler(TestCase):
 
         with open("TestNMEAFileHandler.vdr", 'w') as file:
             file.writelines(self.sentences)
+
+    def tearDown(self) -> None:
+        os.remove("TestNMEAFileHandler.vdr")
 
     def test_init_senfilter_wanted_sentences_is_not_None(self):
         """
@@ -97,23 +105,20 @@ class TestNMEAFileHandler(TestCase):
         """
         Input/Output-Test.
         """
-
+        # TODO: there is an issue with the time column;
+        #  data is supposed to be compressed but this only happens in datetime col and not in all places
         result = dth.NMEAFileHandler().handle("TestNMEAFileHandler.vdr")._data
-        expected_result = self.data_all._data
+        expected_result = self.data_all
         self.assertListEqual(result["TWS"], expected_result["TWS"],
                              f"Expected {expected_result['TWS']} but got {result['TWS']}!")
         self.assertListEqual(result["TWA"], expected_result["TWA"],
                              f"Expected {expected_result['TWA']} but got {result['TWA']}!")
 
-        # TODO: find a better way to compare "lat" and "lon" fields
-        for i, lat in enumerate(result["lat"]):
-            if lat is not None:
-                self.assertAlmostEqual(result["lat"][i], expected_result["lat"][i], places=3)
-        for i, lon in enumerate(result["lon"]):
-            if lon is not None:
-                self.assertAlmostEqual(result["lon"][i], expected_result["lon"][i], places=3)
+        hroTestCase().assert_list_almost_equal(result=result["lat"], expected_result=expected_result["lat"], places=3,
+                                               msg=f"Expected {expected_result['lat']} but got {result['lat']}!")
+        hroTestCase().assert_list_almost_equal(result=result["lon"], expected_result=expected_result["lon"], places=3,
+                                               msg=f"Expected {expected_result['lon']} but got {result['lon']}!")
 
-        # TODO: order of "time" is wrong
         self.assertListEqual(result["time"], expected_result["time"],
                              f"Expected {expected_result['time']} but got {result['time']}!")
 
@@ -122,7 +127,7 @@ class TestNMEAFileHandler(TestCase):
         Input/Output-Test.
         """
         result = dth.NMEAFileHandler(wanted_sentences=self.wanted_sen).handle("TestNMEAFileHandler.vdr")._data
-        expected_result = self.data_mwv._data
+        expected_result = self.data_attr_sel._data
         self.assertListEqual(result["TWA"], expected_result["TWA"],
                              f"Expected {expected_result['TWA']} but got {result['TWA']}!")
         self.assertListEqual(result["TWS"], expected_result["TWS"],
@@ -133,7 +138,7 @@ class TestNMEAFileHandler(TestCase):
         Input/Output-Test.
         """
         result = dth.NMEAFileHandler(unwanted_sentences=self.unwanted_sen).handle("TestNMEAFileHandler.vdr")._data
-        expected_result = self.data_mwv._data
+        expected_result = self.data_attr_sel._data
         self.assertListEqual(result["TWA"], expected_result["TWA"],
                              f"Expected {expected_result['TWA']} but got {result['TWA']}!")
         self.assertListEqual(result["TWS"], expected_result["TWS"],
@@ -155,7 +160,7 @@ class TestNMEAFileHandler(TestCase):
         Input/Output-Test.
         """
         result = dth.NMEAFileHandler(unwanted_attributes=self.unwanted_attr).handle("TestNMEAFileHandler.vdr")._data
-        expected_result = self.data_attr_sel
+        expected_result = self.data_all
         self.assertListEqual(result["TWA"], expected_result["TWA"],
                              f"Expected {expected_result['TWA']} but got {result['TWA']}!")
         self.assertListEqual(result["TWS"], expected_result["TWS"],

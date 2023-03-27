@@ -27,7 +27,7 @@ class TestZeroInjector(TestCase):
         """
         EdgeCase: Empty WeightedPoints.
         """
-        # TODO: this causes Error in Code
+
         with self.assertRaises(ValueError):
             inj.ZeroInjector(self.n_zeros).inject(
                 dt.WeightedPoints(np.array([]), np.array([]))

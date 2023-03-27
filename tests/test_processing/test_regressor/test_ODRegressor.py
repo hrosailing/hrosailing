@@ -73,3 +73,13 @@ class TestODRegressor(TestCase):
         odr = reg.ODRegressor(self.model_func, self.init_vals)
         with self.assertRaises(ValueError):
             odr.fit(np.empty((3, 0)))
+
+    def test_fit_edge_wrong_size_data(self):
+        """
+        EdgeCase: fitting data has wrong size.
+        """
+
+        lsr = reg.ODRegressor(self.model_func, self.init_vals)
+        with self.assertRaises(IndexError):
+            lsr.fit(np.array([[1], [1, 2]], dtype=object))
+

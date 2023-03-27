@@ -38,4 +38,4 @@ class TestUniformRandomSampler(TestCase):
         EdgeCase: Sampling on empty pts.
         """
         with self.assertRaises(ValueError):
-            smp.UniformRandomSampler(self.n_samples).sample(np.empty(3, 0))
+            smp.UniformRandomSampler(self.n_samples).sample(np.empty((3, 0)))

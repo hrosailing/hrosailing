@@ -9,12 +9,19 @@ class TestAffineSmoother(TestCase):
     def setUp(self) -> None:
         self.timespan = timedelta(minutes=1)
         self.data = dt.Data().from_dict({
-            "datetime": [datetime(2023, 3, 14, 11), datetime(2023, 3, 14, 11, 0, 15), datetime(2023, 3, 14, 11, 0, 30),
-                         datetime(2023, 3, 14, 11, 1),  datetime(2023, 3, 14, 11, 1, 15),
-                         datetime(2023, 3, 14, 11, 1, 30)],
-            "TWS": [12.0, 12.0, 12.0, 16.0, 18.0, 18.0],
-            "TWA": [31.0, 34.0, 34.0, 35.0, 39.0, 39.0]
+            "datetime": [datetime(2023, 3, 14, 11), datetime(2023, 3, 14, 11, 0), datetime(2023, 3, 14, 11, 0, 30),
+                         datetime(2023, 3, 14, 11, 1),  datetime(2023, 3, 14, 11, 1),
+                         datetime(2023, 3, 14, 11, 1)],
+            "TWS": [12.0, 13.0, 12.0, 16.0, 17.0, 18.0],
+            "TWA": [31.0, 34.0, 34.0, 39.0, 39.0, 39.0]
         })
+        self.sm_data = {
+            "datetime": [datetime(2023, 3, 14, 11), datetime(2023, 3, 14, 11, 0), datetime(2023, 3, 14, 11, 0, 30),
+                         datetime(2023, 3, 14, 11, 1),  datetime(2023, 3, 14, 11, 1),
+                         datetime(2023, 3, 14, 11, 1)],
+            "TWS": [12.0, 13.0, 16.2, 16.0, 17.0, 18.0],
+            "TWA": [31.0, 34.0, 36.4, 39.0, 39.0, 39.0]
+        }
 
     def test_smooth_Error(self):
         """
@@ -27,14 +34,8 @@ class TestAffineSmoother(TestCase):
         """
         Input/Output-Test.
         """
-        # TODO: this does not change the data for some reason
         result = smt.AffineSmoother().smooth(self.data)._data
-        expected_result = dt.Data().from_dict({
-            "datetime": [datetime(2023, 3, 14, 11), datetime(2023, 3, 14, 11, 0, 30), datetime(2023, 3, 14, 11, 1),
-                         datetime(2023, 3, 14, 11, 1, 30),  datetime(2023, 3, 14, 11, 2), datetime(2023, 3, 14, 11, 2, 30)],
-            "TWS": [12.0, 12.0, 12.0, 14.4, 18.0, 18.0],
-            "TWA": [31.0, 34.0, 34.0, 36.5, 39.0, 39.0]
-        })._data
+        expected_result = self.sm_data
         self.assertDictEqual(result, expected_result,
                              f"Expected {expected_result} but got {result}!")
 
@@ -43,7 +44,7 @@ class TestAffineSmoother(TestCase):
         Input/Output-Test.
         """
         # TODO: this does not change the data for some reason
-        # TODO: consider changing datetimes for a different result
+        #  consider changing datetimes for a different result
         result = smt.AffineSmoother(self.timespan).smooth(self.data)._data
         expected_result = dt.Data().from_dict({
             "datetime": [datetime(2023, 3, 14, 11), datetime(2023, 3, 14, 11, 0, 30), datetime(2023, 3, 14, 11, 1),

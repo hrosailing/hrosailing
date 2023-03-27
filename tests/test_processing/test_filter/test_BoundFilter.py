@@ -12,7 +12,7 @@ class TestBoundFilter(TestCase):
 
     def test_init_Error(self):
         """
-        ValueError if lower_bound > upper_bound
+        ValueError if lower_bound > upper_bound.
         """
         with self.assertRaises(ValueError):
             flt.BoundFilter(3, 1)
@@ -70,5 +70,14 @@ class TestBoundFilter(TestCase):
         """
         result = flt.BoundFilter(lower_bound=.2, upper_bound=.8).filter(self.wts)
         expected_result = np.ones(len(self.wts), dtype=bool)
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")
+
+    def test__determine_points_within_bound(self):
+        """
+        Input/Output-Test.
+        """
+        result = flt.BoundFilter()._determine_points_within_bound(self.wts)
+        expected_result = [False, False, False, True, True]
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")

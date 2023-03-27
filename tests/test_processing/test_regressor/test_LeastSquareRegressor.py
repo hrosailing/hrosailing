@@ -49,16 +49,25 @@ class TestLeastSquareRegressor(TestCase):
 
     def test_fit_edge_empty_data(self):
         """
-        Input/Output-Test.
-        Testing optimal params after fitting.
+        EdgeCase: empty fitting data.
         """
 
-        # fitting the regressor
         lsr = reg.LeastSquareRegressor(self.model_func, self.init_vals)
-        lsr.fit(np.empty((0, 3)))
+        with self.assertRaises(ValueError):
+            lsr.fit(np.empty((0, 3)))
 
-        # testing optimal params
-        result = lsr.optimal_params
-        expected_result = self.opt_param
-        self.assertEqual(result, expected_result,
-                         msg=f"Expected {expected_result} but got {result}!")
+    def test_fit_edge_wrong_size_data(self):
+        """
+        EdgeCase: fitting data has wrong size.
+        """
+
+        lsr = reg.LeastSquareRegressor(self.model_func, self.init_vals)
+        with self.assertRaises(IndexError):
+            lsr.fit(np.array([[1], [1, 2]], dtype=object))
+
+    def test__get_optimal_parameters(self):
+        """
+        Input/Output-Test.
+        """
+        # TODO: this test needs to be implemented
+        pass
