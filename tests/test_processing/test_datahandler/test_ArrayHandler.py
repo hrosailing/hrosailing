@@ -10,15 +10,16 @@ import hrosailing.processing.datahandler as dth
 
 class TestArrayHandler(TestCase):
     def setUp(self) -> None:
-        self.pd_dataframe = pd.DataFrame(np.array([["TWS", "TWA", "BSP"], [12, 34, 15], [13, 40, 17]]))
+        self.pd_dataframe = pd.DataFrame(
+            data = np.array([[12, 34, 15], [13, 40, 17]]),
+            columns = ["TWS", "TWA", "BSP"]
+        )
         self.tuple = (np.array([[12, 34, 15], [13, 40, 17]]), ("TWS", "TWA", "BSP"))
 
     def test_handle_pdDataFrame(self):
         """
         Input/Output-Test.
         """
-        # TODO: this causes problems when calling hrosailing_standard_format on the Data instance
-
         result = dth.ArrayHandler().handle(self.pd_dataframe)._data
         expected_result = {"TWS": [12, 13], "TWA": [34, 40], "BSP": [15, 17]}
         self.assertDictEqual(result, expected_result,

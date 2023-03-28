@@ -71,7 +71,6 @@ class TestCylindricMemberWeigher(TestCase):
         """
         Input/Output-Test.
         """
-        # TODO: wrong result (pts[0] and pts[3] should not be in each others cylinder)
         result = wgh.CylindricMemberWeigher(length=self.length).weigh(self.np_arr)
         expected_result = [0, 0, 0, 0]
         np.testing.assert_array_equal(result, expected_result,
