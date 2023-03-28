@@ -96,4 +96,10 @@ class TestPolarDiagram(unittest.TestCase):
             [1, 1.5, 2, 2.5, 3]
         )
 
-    
+    def test_get_wind_array(self):
+        # Input/Output
+        result = self.pd._get_wind(np.array([[1, 2], [2, 3], [3, 4]]))
+        np.testing.assert_array_equal(
+            result,
+            [[1, 2], [2, 3], [3, 4]]
+        )
