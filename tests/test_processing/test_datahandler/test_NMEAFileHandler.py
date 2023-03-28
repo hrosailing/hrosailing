@@ -8,7 +8,7 @@ import hrosailing.core.data as dt
 from datetime import time
 
 
-class TestNMEAFileHandler(TestCase):
+class TestNMEAFileHandler(hroTestCase):
     def setUp(self) -> None:
         self.wanted_sen = ["MWV"]
         self.unwanted_sen = ["GLL"]
@@ -105,18 +105,17 @@ class TestNMEAFileHandler(TestCase):
         """
         Input/Output-Test.
         """
-        # TODO: there is an issue with the time column;
-        #  data is supposed to be compressed but this only happens in datetime col and not in all places
-        result = dth.NMEAFileHandler().handle("TestNMEAFileHandler.vdr")._data
-        expected_result = self.data_all
+        handler = dth.NMEAFileHandler(wanted_attributes=["TWS", "TWA", "lat", "lon", "time"])
+        result = handler.handle("TestNMEAFileHandler.vdr")._data
+        expected_result = self.data_all_comp
         self.assertListEqual(result["TWS"], expected_result["TWS"],
                              f"Expected {expected_result['TWS']} but got {result['TWS']}!")
         self.assertListEqual(result["TWA"], expected_result["TWA"],
                              f"Expected {expected_result['TWA']} but got {result['TWA']}!")
 
-        hroTestCase().assert_list_almost_equal(result=result["lat"], expected_result=expected_result["lat"], places=3,
+        self.assert_list_almost_equal(result=result["lat"], expected_result=expected_result["lat"], places=3,
                                                msg=f"Expected {expected_result['lat']} but got {result['lat']}!")
-        hroTestCase().assert_list_almost_equal(result=result["lon"], expected_result=expected_result["lon"], places=3,
+        self.assert_list_almost_equal(result=result["lon"], expected_result=expected_result["lon"], places=3,
                                                msg=f"Expected {expected_result['lon']} but got {result['lon']}!")
 
         self.assertListEqual(result["time"], expected_result["time"],

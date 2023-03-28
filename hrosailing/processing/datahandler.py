@@ -311,7 +311,7 @@ class NMEAFileHandler(DataHandler):
 
                 processed_dict = self._postprocess(parsed_dict)
 
-                comp_data.update(processed_dict)
+                comp_data.update(processed_dict, compress=True)
 
         comp_data.hrosailing_standard_format()
 

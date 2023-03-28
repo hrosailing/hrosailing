@@ -169,7 +169,7 @@ class Data:
             self._types[key] = data_type
             self._max_len = max(self._max_len, len(self._data[key]))
 
-    def update(self, data_dict):
+    def update(self, data_dict, compress = False):
         """
         Extends the data according to given data and fills missing
         entries in each column with `None`.
@@ -178,8 +178,22 @@ class Data:
         ----------
         data_dict : dict or Data
             The dictionary or `Data` object containing the data to be used for the update.
+
+        compress : bool, optional
+            If `True` and the last entrys of all present keys are not set or
+            `None`, the last entries will be replaced.
         """
         if isinstance(data_dict, dict):
+            enough_space = all(
+                key not in self.keys()
+                or self[key][-1] is None
+                for key in data_dict.keys()
+            )
+            if compress and enough_space:
+                for key in data_dict.keys():
+                    if key not in self.keys():
+                        continue
+                    self._data[key] = self._data[key][:-1]
             for key, val in data_dict.items():
                 if isinstance(val, list):
                     self.extend(key, val)
