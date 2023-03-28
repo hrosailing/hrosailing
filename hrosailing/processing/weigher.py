@@ -427,7 +427,7 @@ class CylindricMemberWeigher(Weigher):
         return len(points_in_cylinder) - 1
 
     def _count_points_in_cylinder(self, point, points):
-        height = np.abs(points[:, 0] - point[0]) <= self._length
+        height = np.abs(points[:, -1] - point[-1]) <= self._length
         radius = self._norm(points - point) <= self._radius
 
         cylinder = height & radius

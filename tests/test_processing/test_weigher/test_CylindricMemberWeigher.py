@@ -62,9 +62,8 @@ class TestCylindricMemberWeigher(TestCase):
         """
         Input/Output-Test.
         """
-        # TODO: same issue as in test_weigh_custom_radius
         result = wgh.CylindricMemberWeigher(norm=self.norm).weigh(self.np_arr)
-        expected_result = [1, 1, 0, 0]
+        expected_result = [1, 1, 0, 1]
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")
 
