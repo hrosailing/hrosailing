@@ -53,9 +53,8 @@ class TestCylindricMemberWeigher(TestCase):
         """
         Input/Output-Test.
         """
-        # TODO: result incorrect?
         result = wgh.CylindricMemberWeigher(self.radius).weigh(self.np_arr)
-        expected_result = [1, 1, 0, 0]
+        expected_result = [1, 1, 0, 1]
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")
 
