@@ -866,7 +866,7 @@ class FuzzyWeigher(Weigher):
         else:
             raise TypeError(
                 "FuzzyWeigher only takes numpy arrays or"
-                " `hrosailing.pipelinecomponents.data.Data` objectsgot"
+                " `hrosailing.core.data.Data` objects, got"
                 f" {type(points)} instead."
             )
         self.set_statistics(weights)

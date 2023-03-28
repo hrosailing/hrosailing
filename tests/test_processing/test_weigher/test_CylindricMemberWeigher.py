@@ -88,3 +88,21 @@ class TestCylindricMemberWeigher(TestCase):
         expected_result = []
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")
+
+    def test__calculate_weight(self):
+        """
+        Input/Output-Test.
+        """
+        result = wgh.CylindricMemberWeigher()._calculate_weight(self.np_arr[0], self.np_arr)
+        expected_result = 1
+        self.assertEqual(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")
+
+    def test__count_points_in_cylinder(self):
+        """
+        Input/Output-Test.
+        """
+        result = wgh.CylindricMemberWeigher()._count_points_in_cylinder()
+        expected_result = 1
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")

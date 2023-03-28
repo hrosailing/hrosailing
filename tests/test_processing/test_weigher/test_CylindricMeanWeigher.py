@@ -8,7 +8,7 @@ from hrosailing.processing.weigher import hrosailing_standard_scaled_euclidean_n
 
 class TestCylindricMeanWeigher(TestCase):
     def setUp(self) -> None:
-        self.radius = 1/3 * 0.05
+        self.radius = 1 / 3 * 0.05
         self.norm = lambda x: 3 * st_norm(["TWS", "TWA"])(x)
         self.dimensions = ["TWS", "TWA"]
         self.data = dt.Data().from_dict({"TWS": [1.0, .5, .25], "TWA": [2.0, .5, 0.0], "BSP": [0.0, 1.0, 2.0]})
@@ -91,5 +91,26 @@ class TestCylindricMeanWeigher(TestCase):
         """
         result = wgh.CylindricMeanWeigher().weigh(np.array([]))
         expected_result = []
+        np.testing.assert_array_equal(result, expected_result,
+                                      f"Expected {expected_result} but got {result}!")
+
+    def test__calculate_weight(self):
+        """
+        Input/Output-Test.
+        """
+
+        result = wgh.CylindricMeanWeigher()._calculate_weight(self.np_arr[0, :2], self.np_arr[1:, :2],
+                                                              self.np_arr[1:, 2], self.np_arr[0, 2], self.dimensions)
+        expected_result = 3
+        self.assertEqual(result, expected_result, f"Expected {expected_result} but got {result}!")
+
+    def test__determine_points_in_cylinder(self):
+        """
+        Input/Output-Test.
+        """
+
+        result = wgh.CylindricMeanWeigher()._determine_points_in_cylinder(self.np_arr[0, :2], self.np_arr[1:, :2],
+                                                                          self.np_arr[1:, 2], self.dimensions)
+        expected_result = [1., 2.]
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")
