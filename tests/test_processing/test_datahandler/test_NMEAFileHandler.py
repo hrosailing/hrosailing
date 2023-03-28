@@ -5,7 +5,7 @@ from tests.utils_for_testing import hroTestCase
 
 import hrosailing.processing.datahandler as dth
 import hrosailing.core.data as dt
-from datetime import time
+from datetime import time, date, datetime
 
 
 class TestNMEAFileHandler(hroTestCase):
@@ -105,21 +105,21 @@ class TestNMEAFileHandler(hroTestCase):
         """
         Input/Output-Test.
         """
-        handler = dth.NMEAFileHandler(wanted_attributes=["TWS", "TWA", "lat", "lon", "time"])
+        handler = dth.NMEAFileHandler(post_filter_types=(float, date, time, datetime, str))
         result = handler.handle("TestNMEAFileHandler.vdr")._data
-        expected_result = self.data_all_comp
+        expected_result = self.data_all
         self.assertListEqual(result["TWS"], expected_result["TWS"],
-                             f"Expected {expected_result['TWS']} but got {result['TWS']}!")
+                             f"Unexpected TWS!")
         self.assertListEqual(result["TWA"], expected_result["TWA"],
-                             f"Expected {expected_result['TWA']} but got {result['TWA']}!")
+                             f"Unexpected TWA!")
 
         self.assert_list_almost_equal(result=result["lat"], expected_result=expected_result["lat"], places=3,
-                                               msg=f"Expected {expected_result['lat']} but got {result['lat']}!")
+                                               msg=f"Unexpected lat!")
         self.assert_list_almost_equal(result=result["lon"], expected_result=expected_result["lon"], places=3,
-                                               msg=f"Expected {expected_result['lon']} but got {result['lon']}!")
+                                               msg=f"Unexpected lon!")
 
         self.assertListEqual(result["time"], expected_result["time"],
-                             f"Expected {expected_result['time']} but got {result['time']}!")
+                             f"Unexpected time!")
 
     def test_handle_custom_wanted_sentences(self):
         """

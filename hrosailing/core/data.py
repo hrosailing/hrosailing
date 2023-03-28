@@ -3,6 +3,7 @@
 
 from datetime import datetime
 from decimal import Decimal
+import itertools
 
 import numpy as np
 
@@ -156,6 +157,8 @@ class Data:
         """
         data_type = self._get_type(data)
         if key in self._data:
+            if self._types[key] is None:
+                self._types[key] = data_type
             if data_type is not None and data_type != self._types[key]:
                 raise ValueError(
                     f"data should be of type {self._types[key]}"
@@ -164,12 +167,13 @@ class Data:
             self._data[key].extend(data)
             self._max_len = max(self._max_len, len(self._data[key]))
         else:
-            self.fill(self._max_len - len(data), [key])
-            self._data[key].extend(data)
+            #self.fill(self._max_len - len(data), [key])
+            #self._data[key].extend(data)
+            self._data[key] = data
             self._types[key] = data_type
             self._max_len = max(self._max_len, len(self._data[key]))
 
-    def update(self, data_dict, compress = False):
+    def update(self, data_dict, compress=False):
         """
         Extends the data according to given data and fills missing
         entries in each column with `None`.
@@ -183,26 +187,34 @@ class Data:
             If `True` and the last entrys of all present keys are not set or
             `None`, the last entries will be replaced.
         """
-        if isinstance(data_dict, dict):
-            enough_space = all(
-                key not in self.keys()
-                or self[key][-1] is None
-                for key in data_dict.keys()
-            )
-            if compress and enough_space:
-                for key in data_dict.keys():
-                    if key not in self.keys():
-                        continue
-                    self._data[key] = self._data[key][:-1]
-            for key, val in data_dict.items():
-                if isinstance(val, list):
-                    self.extend(key, val)
-                else:
-                    self.append(key, val)
-            self.fill()
-        # if isinstance(data_dict, Data): this does not work for some reason
-        else:
+        if isinstance(data_dict, Data):
             self.update(data_dict.data)
+            return
+        if not isinstance(data_dict, dict):
+            raise TypeError(
+                f"`data_dict` has to be of type `Data` or `dict`"
+            )
+        self.fill(
+            self._max_len,
+            itertools.chain(data_dict.keys(), self.keys())
+        )
+        if not compress or self._max_len == 0:
+            self._unsafe_update(data_dict)
+            return
+
+        if all(self[key][-1] is None for key in data_dict.keys()):
+            for key in data_dict.keys():
+                self._data[key] = self._data[key][:-1]
+
+        self._unsafe_update(data_dict)
+
+    def _unsafe_update(self, data_dict):
+        for key, val in data_dict.items():
+            if isinstance(val, list):
+                self.extend(key, val)
+            else:
+                self.append(key, val)
+        self.fill()
 
     def append(self, key, data):
         """
