@@ -103,3 +103,43 @@ class TestPolarDiagram(unittest.TestCase):
             result,
             [[1, 2], [2, 3], [3, 4]]
         )
+
+    def test_get_wind_array_transposed(self):
+        # Input/Output
+        result = self.pd._get_wind(np.array([[1, 2, 3], [2, 3, 4]]))
+        np.testing.assert_array_equal(
+            result,
+            [[1, 2], [2, 3], [3, 4]]
+        )
+
+    def test_get_wind_array_wrong_shape(self):
+        # Exception Test
+        with self.assertRaises(ValueError):
+            self.pd._get_wind(np.array([[1, 2, 3], [2, 3, 4], [3, 4, 5]]))
+
+    def test_get_wind_wrong_tuple(self):
+        # Exception Test
+        with self.assertRaises(ValueError):
+            self.pd._get_wind((np.array([1]), np.array([2]), np.array([3])))
+
+    def test_get_wind_tuple(self):
+        # Input/Output
+        result = self.pd._get_wind((np.array([1, 2, 3]), np.array([4, 5, 6])))
+        np.testing.assert_array_equal(
+            result,
+            [
+            [1, 4],
+            [2, 4],
+            [3, 4],
+            [1, 5],
+            [2, 5],
+            [3, 5],
+            [1, 6],
+            [2, 6],
+            [3, 6]
+        ])
+
+    def test_get_wind_wrong_type(self):
+        # Exception test
+        with self.assertRaises(TypeError):
+            self.pd._get_wind("test")

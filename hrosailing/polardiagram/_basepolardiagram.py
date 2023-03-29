@@ -143,7 +143,7 @@ class PolarDiagram(ABC):
             ws, wa = wind
             ws, wa = np.meshgrid(ws, wa)
             return np.array(list(zip(ws.ravel(), wa.ravel())))
-        raise ValueError(
+        raise TypeError(
             f"`wind` should be a tuple or an array, got {type(wind)} instead."
         )
 
