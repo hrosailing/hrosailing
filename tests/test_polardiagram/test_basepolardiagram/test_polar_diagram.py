@@ -12,14 +12,14 @@ class DummyPolarDiagram(PolarDiagram):
         pass
 
     def __call__(self, ws, wa):
-        pass
+        return 1
 
     def symmetrize(self):
         pass
 
     @property
     def default_points(self):
-        pass
+        return [1, 1, 1]
 
     @property
     def default_slices(self):
@@ -33,6 +33,7 @@ class DummyPolarDiagram(PolarDiagram):
 class TestPolarDiagram(unittest.TestCase):
     def setUp(self) -> None:
         self.pd = DummyPolarDiagram()
+        self.wind = np.array([[1, 2], [2, 3], [3, 4]])
 
     def test_get_slices_without_full_info(self):
         # Input/Output
@@ -98,7 +99,7 @@ class TestPolarDiagram(unittest.TestCase):
 
     def test_get_wind_array(self):
         # Input/Output
-        result = self.pd._get_wind(np.array([[1, 2], [2, 3], [3, 4]]))
+        result = self.pd._get_wind(self.wind)
         np.testing.assert_array_equal(
             result,
             [[1, 2], [2, 3], [3, 4]]
@@ -143,3 +144,19 @@ class TestPolarDiagram(unittest.TestCase):
         # Exception test
         with self.assertRaises(TypeError):
             self.pd._get_wind("test")
+
+    def test_get_points_wind_is_None(self):
+        # Input/Output
+        result = self.pd.get_points(None)
+        np.testing.assert_array_equal(
+            result,
+            [1, 1, 1]
+        )
+
+    def test_get_points_regular_input(self):
+        # Input/Output
+        result = self.pd.get_points(self.wind)
+        np.testing.assert_array_equal(
+            result,
+            [[1, 2, 1], [2, 3, 1], [3, 4, 1]]
+        )
