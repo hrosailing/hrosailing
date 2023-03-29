@@ -71,10 +71,30 @@ class TestFuzzyBool(TestCase):
         """
         Input/Output-Test.
         """
-        fuzz = FuzzyBool.fuzzy_and(FuzzyBool(self.ev_fun), FuzzyBool(self.ev_fun2))
-        fuzz._concat_repr(FuzzyBool(self.ev_fun), FuzzyBool(self.ev_fun2), "and")
+        fuzz1 = FuzzyBool(self.ev_fun)
+        fuzz1.repr = "Fuzzy-1"
+        fuzz2 = FuzzyBool(self.ev_fun)
+        fuzz2.repr = "Fuzzy-2"
+        fuzz = FuzzyBool(self.ev_fun)
+        fuzz._concat_repr(fuzz1, fuzz2, "and")
 
         result = str(fuzz)
-        expected_result = "Fuzzy-Bool and Fuzzy-Bool"
+        expected_result = "Fuzzy-1 and Fuzzy-2"
         self.assertEqual(result, expected_result, f"Expected {expected_result} but got {result}!")
+
+    def test__concat_repr_with_brackets(self):
+        """
+        Input/Output-Test.
+        """
+        fuzz1 = FuzzyBool(self.ev_fun)
+        fuzz1.repr = "Fuzzy 1"
+        fuzz2 = FuzzyBool(self.ev_fun)
+        fuzz2.repr = "Fuzzy 2"
+        fuzz = FuzzyBool(self.ev_fun)
+        fuzz._concat_repr(fuzz1, fuzz2, "and")
+
+        result = str(fuzz)
+        expected_result = "(Fuzzy 1) and (Fuzzy 2)"
+        self.assertEqual(result, expected_result,
+                         f"Expected {expected_result} but got {result}!")
 
