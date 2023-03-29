@@ -57,7 +57,7 @@ class Ball(Neighbourhood):
     norm : function or callable, optional
         The norm for which the ball is described, i.e. :math:`||.||`.
 
-        Defaults to a scaled version of :math:`||.||_2` in two dimensions.
+        Defaults to a scaled version of :math:`||.||_2` in two attributes.
 
     See also
     ----------
@@ -301,7 +301,7 @@ class Cuboid(Neighbourhood):
         self._size = dimensions
 
     def __repr__(self):
-        return f"Cuboid(norm={self._norm.__name__}, dimensions={self._size})"
+        return f"Cuboid(norm={self._norm.__name__}, attributes={self._size})"
 
     def is_contained_in(self, pts):
         """Checks given points for membership.

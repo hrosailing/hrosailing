@@ -51,7 +51,10 @@ class Data:
         A `numpy.ndarray` containing all data of type `float`.
         """
         float_keys, float_vals = self.get_by_type(float)
-        array = np.column_stack(float_vals)
+        try:
+            array = np.column_stack(float_vals)
+        except ValueError:
+            array = np.empty((0,))
         return float_keys, array
 
     @property

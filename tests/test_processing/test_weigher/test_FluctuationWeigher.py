@@ -40,9 +40,11 @@ class TestFluctuationWeigher(TestCase):
         EdgeCase: Empty array.
         """
 
-        result = FluctuationWeigher(self.dimensions, self.time_single, self.u_b).weigh(Data().from_dict({"datetime": [],
-                                                                                                         "TWS": [],
-                                                                                                         "TWA": []}))
+        result = FluctuationWeigher(self.dimensions, self.time_single, self.u_b).weigh(Data().from_dict({
+            "datetime": [],
+            "TWS": [],
+            "TWA": []})
+        )
         expected_result = []
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")

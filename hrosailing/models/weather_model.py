@@ -93,7 +93,7 @@ class GriddedWeatherModel(WeatherModel):
     @property
     def grid(self):
         """
-        The dimensions of the grid given as an iterable containing times,
+        The attributes of the grid given as an iterable containing times,
         a `numpy.ndarray` containing the latitudes and a `numpy.ndarray`
         containing the longitudes.
         """

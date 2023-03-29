@@ -222,11 +222,11 @@ class CylindricMeanWeigher(Weigher):
     norm : function or callable, optional
         Norm with which to evaluate the distances, i.e. :math:`||.||`.
 
-        If nothing is passed, it will automatically detect a scaled euclidean norm with respect to the used dimensions.
+        If nothing is passed, it will automatically detect a scaled euclidean norm with respect to the used attributes.
 
     dimensions : list of str, optional
         If not `None` and the input of `weigh` is of type `Data`, only the attributes mentioned in
-        `dimensions` will be considered.
+        `attributes` will be considered.
 
         Defaults to `None`.
 
@@ -354,7 +354,7 @@ class CylindricMemberWeigher(Weigher):
         If nothing is passed, it will default to :math:`||.||_2`.
 
     dimensions : [str] or None, optional
-        If the data is given as `Data`, `dimensions` contains the keys
+        If the data is given as `Data`, `attributes` contains the keys
         which will be used in order to create the data space.
         If `None`, all keys of the given `Data` are used.
 
@@ -441,10 +441,10 @@ class FluctuationWeigher(Weigher):
 
     If a single attribute is used, we use the following procedure:
 
-    For each data point, the weigher considers the standard variation of the data restricted to an interval
+    For each data point, the weigher considers the standard deviation of the data restricted to an interval
     before and after the datestamp of the considered point.
-    Given an upper bound on the standard variation the weight is computed by a ReLu function mirrored and stretched
-    such that a standard variation of 0 gets the weight 1 and if the standard variation exceeds the upper bound, the
+    Given an upper bound on the standard deviation the weight is computed by a ReLu function mirrored and stretched
+    such that a standard deviation of 0 gets the weight 1 and if the standard variation exceeds the upper bound, the
     weight is set to 0.
 
     If more than one attribute is used, the weights described above will be computed for each such attribute
@@ -452,7 +452,7 @@ class FluctuationWeigher(Weigher):
 
     Parameters
     ----------
-    dimensions : list of str
+    attributes : list of str
         The names of the numeric attributes to be considered.
 
     timespan : timedelta or tuple of two timedelta
@@ -471,7 +471,7 @@ class FluctuationWeigher(Weigher):
     `Weigher`
     """
 
-    def __init__(self, dimensions, timespan, upper_bounds):
+    def __init__(self, attributes, timespan, upper_bounds):
         super().__init__()
         if isinstance(timespan, timedelta):
             self._timespan_before = timespan
@@ -479,7 +479,7 @@ class FluctuationWeigher(Weigher):
         else:
             self._timespan_before = timespan[0]
             self._timespan_after = timespan[1]
-        self._dimensions = dimensions
+        self._attributes = attributes
         self._upper_bounds = np.array(upper_bounds)
 
     def weigh(self, points):
@@ -498,10 +498,10 @@ class FluctuationWeigher(Weigher):
         """
         times = points["datetime"]
         dimensions, points = _set_points_from_data(
-            points, self._dimensions, False
+            points, self._attributes, False
         )
         upper_bounds = self._upper_bounds[
-            [i for i, key in enumerate(self._dimensions) if key in dimensions]
+            [i for i, key in enumerate(self._attributes) if key in dimensions]
         ]
 
         weights = [1] * len(points)
@@ -529,38 +529,38 @@ class FluctuationWeigher(Weigher):
         return weights
 
 
-def _set_points_from_data(data, dimensions, reduce=True):
+def _set_points_from_data(data, attributes, reduce=True):
     if isinstance(data, np.ndarray):
         if reduce:
             bsp = data[:, -1]
             data = data[:, :-1]
-            return dimensions, data, bsp
-        return dimensions, data
+            return attributes, data, bsp
+        return attributes, data
 
-    if dimensions is None:
-        dimensions = list(data.keys()) or list(data.keys)
+    if attributes is None:
+        attributes = list(data.keys()) or list(data.keys)
 
     if reduce:
-        if "BSP" in dimensions:
+        if "BSP" in attributes:
             bsp = data["BSP"]
-            dimensions.remove("BSP")
-        elif "SOG" in dimensions:
+            attributes.remove("BSP")
+        elif "SOG" in attributes:
             bsp = data["SOG"]
-            dimensions.remove("SOG")
+            attributes.remove("SOG")
         else:
             raise ValueError(
                 "Data has to support one of the keys 'BSP' or 'SOG'"
             )
 
     if isinstance(data, dict):
-        data = data_dict_to_numpy(data, dimensions)
+        data = data_dict_to_numpy(data, attributes)
 
     if isinstance(data, Data):
-        dimensions, data = data[dimensions].numerical
+        attributes, data = data[attributes].numerical
 
     if reduce:
-        return dimensions, data, np.asarray(bsp)
-    return dimensions, data
+        return attributes, data, np.asarray(bsp)
+    return attributes, data
 
 
 class FuzzyBool:

@@ -16,7 +16,7 @@ class TestCuboid(TestCase):
         """
 
         result = repr(nbh.Cuboid(self.norm, self.dimensions))
-        expected_result = f"Cuboid(norm={self.norm.__name__}, dimensions={self.dimensions})"
+        expected_result = f"Cuboid(norm={self.norm.__name__}, attributes={self.dimensions})"
         self.assertEqual(result, expected_result,
                          f"Expected {expected_result} but got {result}!")
 
@@ -62,7 +62,7 @@ class TestCuboid(TestCase):
 
     def test_is_contained_in_edge_dimensions_0(self):
         """
-        EdgeCase: dimensions = (0, 0).
+        EdgeCase: attributes = (0, 0).
         """
         result = nbh.Cuboid(dimensions=(0, 0)).is_contained_in(self.pts)
         expected_result = np.zeros(3, dtype=bool)
