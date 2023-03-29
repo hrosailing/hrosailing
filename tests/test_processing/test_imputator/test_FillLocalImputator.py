@@ -29,16 +29,15 @@ class TestFillLocalImputator(TestCase):
         """
         # TODO: why does this delete the last row? (it is not far apart in time), BSP values in result are strange
         result = imp.FillLocalImputator().impute(self.data)._data
-        expected_result = dt.Data().from_dict({
-            "datetime": [datetime(2023, 3, 13, 8), datetime(2023, 3, 13, 8, 2, 30),
-                         datetime(2023, 3, 13, 8, 2, 45), datetime(2023, 3, 13, 8, 3),
-                         datetime(2023, 3, 13, 8, 3, 30)],
-            "TWS": [14.6, 16.9, 17.2, 17.2, 17.6],
-            "TWA": [67, 77, 77, 75, 75],
-            "BSP": [14, 16, 16, 14, 14],
-            "idx": [1, 3, 4, 5, 6]
-
-        })._data
+        expected_result = {
+            "datetime": [datetime(2023, 3, 13, 8), datetime(2023, 3, 13, 8, 1), datetime(2023, 3, 13, 8, 2, 30),
+                         datetime(2023, 3, 13, 8, 2, 45),
+                         datetime(2023, 3, 13, 8, 3), datetime(2023, 3, 13, 8, 3, 30)],
+            "TWS": [14.6, 14.6, 16.9, 17.2, 17.2, 17.6],
+            "TWA": [67, 74, 77, 77, 75, 75],
+            "BSP": [14, 16, 16, 16, 14, 14],
+            "idx": [1, 2, 3, 4, 5, 6]
+        }
         self.assertDictEqual(result, expected_result,
                              f"Expected {expected_result} but got {result}!")
 
@@ -46,9 +45,17 @@ class TestFillLocalImputator(TestCase):
         """
         Input/Output-Test.
         """
-        # TODO: this test needs to be implemented
         result = imp.FillLocalImputator(fill_before=self.fill_before).impute(self.data)._data
-        expected_result = {}
+        expected_result = {
+            "datetime": [
+                datetime(2023, 3, 13, 8), datetime(2023, 3, 13, 8, 1), datetime(2023, 3, 13, 8, 2, 30),
+                datetime(2023, 3, 13, 8, 2, 45), datetime(2023, 3, 13, 8, 3), datetime(2023, 3, 13, 8, 3, 30)
+            ],
+            "TWS": [14.5, 14.6, 16.9, 17.2, 17.2, 17.6],
+            "TWA": [67, 74, 77, 77, 75, 75],
+            "BSP": [14, 16, 16, 16, 13.9, 14],
+            "idx": [1, 2, 3, 4, 5, 6]
+        }
         self.assertDictEqual(result, expected_result,
                              f"Expected {expected_result} but got {result}!")
 
@@ -56,19 +63,32 @@ class TestFillLocalImputator(TestCase):
         """
         Input/Output-Test.
         """
-        # TODO: this test needs to be implemented
-        result = imp.FillLocalImputator().impute(self.data)._data
-        expected_result = {}
-        self.assertDictEqual(result, expected_result,
-                             f"Expected {expected_result} but got {result}!")
+        result = imp.FillLocalImputator(fill_after=self.fill_after).impute(self.data)._data
+        expected_result = {
+            "datetime": [datetime(2023, 3, 13, 8), datetime(2023, 3, 13, 8, 1), datetime(2023, 3, 13, 8, 2, 30),
+                         datetime(2023, 3, 13, 8, 2, 45),
+                         datetime(2023, 3, 13, 8, 3), datetime(2023, 3, 13, 8, 3, 30)],
+            "TWS": [14.6, 14.6, 16.9, 17.2, 17.2, 17.6],
+            "TWA": [67, 74, 77, 77, 75, 74.9],
+            "BSP": [14, 16, 15.9, 15.9, 14, 14],
+            "idx": [1, 2, 3, 4, 5, 6]
+        }
+        self.assertDictEqual(result, expected_result)
 
     def test_impute_custom_fill_between(self):
         """
         Input/Output-Test.
         """
-        # TODO: this test needs to be implemented
         result = imp.FillLocalImputator(fill_between=self.fill_between).impute(self.data)._data
-        expected_result = {}
+        expected_result = {
+            "datetime": [datetime(2023, 3, 13, 8), datetime(2023, 3, 13, 8, 1), datetime(2023, 3, 13, 8, 2, 30),
+                         datetime(2023, 3, 13, 8, 2, 45),
+                         datetime(2023, 3, 13, 8, 3), datetime(2023, 3, 13, 8, 3, 30)],
+            "TWS": [14.6, 14.6, 16.9, 17.2, 17.4, 17.6],
+            "TWA": [67, 74, 77, 77, 75, 75],
+            "BSP": [14, 16, 16, 16, 14, 14],
+            "idx": [1, 2, 3, 4, 5, 6]
+        }
         self.assertDictEqual(result, expected_result,
                              f"Expected {expected_result} but got {result}!")
 
