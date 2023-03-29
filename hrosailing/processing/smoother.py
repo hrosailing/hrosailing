@@ -182,14 +182,13 @@ class AffineSmoother(Smoother):
         y_lb, y_ub = approx_intervals_y[0]
         interval_idx = 0
         for i, x in enumerate(xs):
-            if x > x_ub:
-                interval_idx += 1
-                try:
+            try:
+                while x > x_ub:
+                    interval_idx += 1
                     x_lb, x_ub = approx_intervals_x[interval_idx]
                     y_lb, y_ub = approx_intervals_y[interval_idx]
-                except IndexError:
-                    break
-                continue
+            except IndexError:
+                break
 
             try:
                 mu = (x - x_lb) / (x_ub - x_lb)

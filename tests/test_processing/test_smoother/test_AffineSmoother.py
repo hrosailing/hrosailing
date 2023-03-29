@@ -1,26 +1,36 @@
 from unittest import TestCase
 from datetime import timedelta, datetime
+import numpy as np
 
 import hrosailing.processing.smoother as smt
 import hrosailing.core.data as dt
 
-
 class TestAffineSmoother(TestCase):
     def setUp(self) -> None:
-        self.timespan = timedelta(minutes=1)
+        self.timespan = timedelta(seconds=15)
         self.data = dt.Data().from_dict({
-            "datetime": [datetime(2023, 3, 14, 11), datetime(2023, 3, 14, 11, 0), datetime(2023, 3, 14, 11, 0, 30),
-                         datetime(2023, 3, 14, 11, 1),  datetime(2023, 3, 14, 11, 1),
-                         datetime(2023, 3, 14, 11, 1)],
-            "TWS": [12.0, 13.0, 12.0, 16.0, 17.0, 18.0],
-            "TWA": [31.0, 34.0, 34.0, 39.0, 39.0, 39.0]
+            "datetime": [
+                datetime(2023, 3, 29, 11, 0, 0),
+                datetime(2023, 3, 29, 11, 0, 20),
+                datetime(2023, 3, 29, 11, 0, 40),
+                datetime(2023, 3, 29, 11, 1, 0),
+                datetime(2023, 3, 29, 11, 1, 20),
+                datetime(2023, 3, 29, 11, 1, 40)
+            ],
+            "TWS": [12.0, 12.0, 12.0, 16.0, 16.0, 16.0],
+            "TWA": [32.0, 34.0, 34.0, 38.0, 38.0, 38.0]
         })
         self.sm_data = {
-            "datetime": [datetime(2023, 3, 14, 11), datetime(2023, 3, 14, 11, 0), datetime(2023, 3, 14, 11, 0, 30),
-                         datetime(2023, 3, 14, 11, 1),  datetime(2023, 3, 14, 11, 1),
-                         datetime(2023, 3, 14, 11, 1)],
-            "TWS": [12.0, 13.0, 16.2, 16.0, 17.0, 18.0],
-            "TWA": [31.0, 34.0, 36.4, 39.0, 39.0, 39.0]
+            "datetime": [
+                datetime(2023, 3, 29, 11, 0, 0),
+                datetime(2023, 3, 29, 11, 0, 20),
+                datetime(2023, 3, 29, 11, 0, 40),
+                datetime(2023, 3, 29, 11, 1, 0),
+                datetime(2023, 3, 29, 11, 1, 20),
+                datetime(2023, 3, 29, 11, 1, 40)
+            ],
+            "TWS": [12.0, 12.0, 13.2, 14.8, 16.0, 16.0],
+            "TWA": [32, 33.5, 35, 36.8, 38, 38]
         }
 
     def test_smooth_Error(self):
@@ -36,25 +46,42 @@ class TestAffineSmoother(TestCase):
         """
         result = smt.AffineSmoother().smooth(self.data)._data
         expected_result = self.sm_data
-        self.assertDictEqual(result, expected_result,
-                             f"Expected {expected_result} but got {result}!")
+        self.assertEqual(result["datetime"], expected_result["datetime"])
+        np.testing.assert_array_almost_equal(
+            result["TWS"], expected_result["TWS"],
+            err_msg="TWS not as expected!"
+        )
+        np.testing.assert_array_almost_equal(
+            result["TWA"], expected_result["TWA"],
+            err_msg="TWA not as expected!"
+        )
 
     def test_smooth_custom_timespan(self):
         """
         Input/Output-Test.
         """
-        # TODO: this does not change the data for some reason
-        #  consider changing datetimes for a different result
         result = smt.AffineSmoother(self.timespan).smooth(self.data)._data
-        expected_result = dt.Data().from_dict({
-            "datetime": [datetime(2023, 3, 14, 11), datetime(2023, 3, 14, 11, 0, 30), datetime(2023, 3, 14, 11, 1),
-                         datetime(2023, 3, 14, 11, 1, 30), datetime(2023, 3, 14, 11, 2),
-                         datetime(2023, 3, 14, 11, 2, 30)],
-            "TWS": [12.0, 12.0, 12.0, 14.4, 18.0, 18.0],
-            "TWA": [31.0, 34.0, 34.0, 36.5, 39.0, 39.0]
-        })._data
-        self.assertDictEqual(result, expected_result,
-                             f"Expected {expected_result} but got {result}!")
+        expected_result = {
+            "datetime": [
+                datetime(2023, 3, 29, 11, 0, 0),
+                datetime(2023, 3, 29, 11, 0, 20),
+                datetime(2023, 3, 29, 11, 0, 40),
+                datetime(2023, 3, 29, 11, 1, 0),
+                datetime(2023, 3, 29, 11, 1, 20),
+                datetime(2023, 3, 29, 11, 1, 40)
+            ],
+            "TWS": [12.0, 12.0, 12.6666666, 15.3333333, 16.0, 16.0],
+            "TWA": [32, 33.6666666, 34.6666666, 37.3333333, 38, 38]
+        }
+        self.assertEqual(result["datetime"], expected_result["datetime"])
+        np.testing.assert_array_almost_equal(
+            result["TWS"], expected_result["TWS"],
+            err_msg="TWS not as expected!"
+        )
+        np.testing.assert_array_almost_equal(
+            result["TWA"], expected_result["TWA"],
+            err_msg="TWA not as expected!"
+        )
 
     def test_smooth_edge_timespan_0(self):
         """
