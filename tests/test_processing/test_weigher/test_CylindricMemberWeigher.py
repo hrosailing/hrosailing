@@ -99,7 +99,10 @@ class TestCylindricMemberWeigher(TestCase):
         """
         Input/Output-Test.
         """
-        result = wgh.CylindricMemberWeigher()._count_points_in_cylinder()
+        result = wgh.CylindricMemberWeigher()._count_points_in_cylinder(
+            np.array([1, 2]),
+            np.array([[1, 1], [1, 2], [2, 1], [2, 2]])
+        )
         expected_result = 1
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")

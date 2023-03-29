@@ -423,16 +423,16 @@ class CylindricMemberWeigher(Weigher):
         return weights
 
     def _calculate_weight(self, point, points):
-        points_in_cylinder = self._count_points_in_cylinder(point, points)
-        return len(points_in_cylinder) - 1
+        n_points_in_cylinder = self._count_points_in_cylinder(point, points)
+        return n_points_in_cylinder - 1
 
     def _count_points_in_cylinder(self, point, points):
         height = np.abs(points[:, -1] - point[-1]) <= self._length
-        radius = self._norm(points - point) <= self._radius
+        radius = self._norm(points[:, :-1] - point[:-1]) <= self._radius
 
         cylinder = height & radius
         points_in_cylinder = cylinder[cylinder]
-        return points_in_cylinder
+        return len(points_in_cylinder)
 
 
 class FluctuationWeigher(Weigher):
