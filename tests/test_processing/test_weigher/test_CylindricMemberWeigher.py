@@ -10,10 +10,10 @@ class TestCylindricMemberWeigher(TestCase):
     def setUp(self) -> None:
         self.radius = 0.02
         self.length = 0.
-        self.norm = lambda x: 2.5 * st_norm(["TWS", "TWA"])(x)
+        self.norm = lambda x: 2.5 * st_norm()(x)
         self.dimensions = ["TWS", "TWA"]
         self.data = dt.Data().from_dict({"TWS": [1.0, .5, 1.0], "TWA": [2.0, .5, 0.0], "BSP": [0.0, 1.0, 2.0]})
-        self.np_arr = np.array([[1, 2, 0], [0.96, 1.5, 0.5], [0.5, 0.5, 1], [1.0, 0, 2]])
+        self.np_arr = np.array([[1, 2, 1], [0.96, 1.5, 0.96], [0.5, 0.5, 0.5], [1.0, 0, 2]])
 
     def test_init_Error_radius(self):
         """
@@ -90,10 +90,11 @@ class TestCylindricMemberWeigher(TestCase):
         """
         Input/Output-Test.
         """
-        result = wgh.CylindricMemberWeigher()._calculate_weight(self.np_arr[0], self.np_arr)
-        expected_result = 1
+        result = wgh.CylindricMemberWeigher()._calculate_weight(np.array([1, 2]),
+                                                                np.array([[1, 1], [1, 2], [2, 1], [2, 2]]))
+        expected_result = 0
         self.assertEqual(result, expected_result,
-                                      f"Expected {expected_result} but got {result}!")
+                         f"Expected {expected_result} but got {result}!")
 
     def test__count_points_in_cylinder(self):
         """

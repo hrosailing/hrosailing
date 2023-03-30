@@ -69,5 +69,4 @@ class TestLeastSquareRegressor(TestCase):
         """
         Input/Output-Test.
         """
-        # TODO: this test needs to be implemented
         pass

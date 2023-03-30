@@ -10,7 +10,7 @@ class TestFuzzyVariable(TestCase):
         self.sharpness = 5
         self.key = "TWS"
         self.center = 10
-        self.data = Data().from_dict({"TWS": [10], "TWA": [33.]})
+        self.data = Data().from_dict({"TWS": [.25], "TWA": [33.]})
 
     def test_sharpness(self):
         """
@@ -26,7 +26,19 @@ class TestFuzzyVariable(TestCase):
         Input/Output-Test.
         """
 
-        result = FuzzyVariable(self.sharpness)._truth(self.center, -1)(10.25)
+        result = [FuzzyVariable(self.sharpness)._truth(self.center, -1)(10.25),
+                  FuzzyVariable(self.sharpness)._truth(self.center, -1)(9.5),
+                  FuzzyVariable(self.sharpness)._truth(self.center, -1)(12)]
+        expected_result = [0.7773, 0.07585818002124355, 0.9999546021313]
+        np.testing.assert_array_almost_equal(result, expected_result, decimal=4,
+                                             err_msg=f"Expected {expected_result} but got {result}!")
+
+    def test_truth_with_key(self):
+        """
+        Input/Output-Test.
+        """
+        # TODO: make this test work
+        result = FuzzyVariable(self.sharpness, "TWS")._truth(self.center, -1)(self.data)
         expected_result = 0.7773
         self.assertAlmostEqual(result, expected_result, places=4,
                                msg=f"Expected {expected_result} but got {result}!")
@@ -96,7 +108,7 @@ class TestFuzzyVariable(TestCase):
         Input/Output-Test.
         """
 
-        result = FuzzyVariable(self.sharpness)[self.key](10.25)
+        result = FuzzyVariable(self.sharpness)[self.key](self.data)
         expected_result = 0.7773
         self.assertAlmostEqual(result, expected_result, places=4,
                                msg=f"Expected {expected_result} but got {result}!")

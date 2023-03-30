@@ -27,7 +27,6 @@ class TestFillLocalImputator(TestCase):
         """
         Input/Output-Test.
         """
-        # TODO: why does this delete the last row? (it is not far apart in time), BSP values in result are strange
         result = imp.FillLocalImputator().impute(self.data)._data
         expected_result = {
             "datetime": [datetime(2023, 3, 13, 8), datetime(2023, 3, 13, 8, 1), datetime(2023, 3, 13, 8, 2, 30),

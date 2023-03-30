@@ -23,7 +23,6 @@ class TestSamplerFunctions(TestCase):
         Input/Output-Test.
         """
 
-        # TODO: figure out what the function does and fix test
 
         # setup
         n_samples = 1
