@@ -3,9 +3,8 @@ from ast import literal_eval
 
 import numpy as np
 
-from core.exceptions import FileReadingException
-from ._basepolardiagram import PolarDiagram
-from ._polardiagramtable import PolarDiagramTable
+from hrosailing.core.exceptions import FileReadingException
+from hrosailing.polardiagram._polardiagramtable import PolarDiagramTable, PolarDiagram
 
 
 def from_csv(csv_path, fmt="hro"):
