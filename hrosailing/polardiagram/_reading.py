@@ -3,7 +3,7 @@ from ast import literal_eval
 
 import numpy as np
 
-from ..core.exceptions import FileReadingException
+from core.exceptions import FileReadingException
 from ._basepolardiagram import PolarDiagram
 from ._polardiagramtable import PolarDiagramTable
 
