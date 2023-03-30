@@ -8,9 +8,9 @@ from hrosailing.processing.weigher import hrosailing_standard_scaled_euclidean_n
 
 class TestCylindricMemberWeigher(TestCase):
     def setUp(self) -> None:
-        self.radius = 0.02
+        self.radius = 0.002
         self.length = 0.
-        self.norm = lambda x: 2.5 * st_norm()(x)
+        self.norm = lambda x: 25 * st_norm()(x)
         self.dimensions = ["TWS", "TWA"]
         self.data = dt.Data().from_dict({"TWS": [1.0, .5, 1.0], "TWA": [2.0, .5, 0.0], "BSP": [0.0, 1.0, 2.0]})
         self.np_arr = np.array([[1, 2, 1], [0.96, 1.5, 0.96], [0.5, 0.5, 0.5], [1.0, 0, 2]])
@@ -45,7 +45,7 @@ class TestCylindricMemberWeigher(TestCase):
         """
 
         result = wgh.CylindricMemberWeigher().weigh(self.np_arr)
-        expected_result = [1, 1, 0, 1]
+        expected_result = [1, 1, 0, 0]
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")
 
@@ -54,7 +54,7 @@ class TestCylindricMemberWeigher(TestCase):
         Input/Output-Test.
         """
         result = wgh.CylindricMemberWeigher(self.radius).weigh(self.np_arr)
-        expected_result = [1, 1, 0, 1]
+        expected_result = [0, 0, 0, 0]
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")
 
@@ -63,7 +63,7 @@ class TestCylindricMemberWeigher(TestCase):
         Input/Output-Test.
         """
         result = wgh.CylindricMemberWeigher(norm=self.norm).weigh(self.np_arr)
-        expected_result = [1, 1, 0, 1]
+        expected_result = [0, 0, 0, 0]
         np.testing.assert_array_equal(result, expected_result,
                                       f"Expected {expected_result} but got {result}!")
 

@@ -411,8 +411,8 @@ class CylindricMemberWeigher(Weigher):
         if isinstance(points, Data) and points.n_rows == 0:
             return []
 
-        self._dimensions, points, bsps = _set_points_from_data(
-            points, self._dimensions
+        self._dimensions, points = _set_points_from_data(
+            points, self._dimensions, reduce=False
         )
 
         weights = [self._calculate_weight(point, points) for point in points]
