@@ -888,7 +888,7 @@ def hrosailing_standard_scaled_euclidean_norm(dimensions=None):
     ----------
     dimensions : iterator of str or None, optional
         Iterates over the names of the attributes used.
-        If set to `None`, a two-dimensional norm with scalings 1/40 (for wind speed) and 1/360 (for wind angle) is
+        If set to `None`, a two-dimensional norm with scalings 1/20 (for wind speed) and 1/360 (for wind angle) is
         returned.
 
         Defaults to `None`.

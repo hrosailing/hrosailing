@@ -15,4 +15,4 @@ class TestRegressorFunctions(TestCase):
         result = reg._determine_params(self.func)
         expected_result = [1, 1]
         self.assertEqual(result, expected_result,
-                                      f"Expected {expected_result} but got {result}!")
+                         f"Expected {expected_result} but got {result}!")

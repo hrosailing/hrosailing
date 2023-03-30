@@ -67,6 +67,6 @@ class TestLeastSquareRegressor(TestCase):
 
     def test__get_optimal_parameters(self):
         """
-        Input/Output-Test.
+        Execution-Test.
         """
-        pass
+        reg.LeastSquareRegressor(self.model_func)._get_optimal_parameters(self.data[:, :2], self.data[:, 2])
