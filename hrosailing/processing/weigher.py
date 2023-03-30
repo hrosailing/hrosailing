@@ -329,7 +329,7 @@ class CylindricMemberWeigher(Weigher):
 
     For a given point `p` and points `pts`
     we look at all the points `pt` in `pts` such that
-    :math:`|pt[0] - p[0]| \\leq h` and :math:`||pt[:d-1] - p[:d-1]|| \\leq r`.
+    :math:`|pt[-1] - p[-1]| \\leq h` and :math:`||pt[:d-1] - p[:d-1]|| \\leq r`.
 
     If we call the set of all such points `P`, then :math:`w_p = |P| - 1`
     normalized by dividing by the maximum weight.
