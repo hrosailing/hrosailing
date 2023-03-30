@@ -20,10 +20,14 @@ class TestFluctuationWeigher(TestCase):
         Input/Output-Test.
         """
         # TODO: finish once _set_points_from_data is debugged
-        result = FluctuationWeigher(self.dimensions[0], self.time_single, self.u_b[0]).weigh(self.data)
-        expected_result = [1, 1 / 2, 0.18350341907227397]
-        np.testing.assert_array_equal(result, expected_result,
-                                      f"Expected {expected_result} but got {result}!")
+        result = FluctuationWeigher(
+            [self.dimensions[0]],
+            self.time_single,
+            [self.u_b[0]]
+        ).weigh(self.data)
+        expected_result = [1, 0.5, 0.18350341907227397]
+        np.testing.assert_array_almost_equal(result, expected_result,
+                                      err_msg="Expected {expected_result} but got {result}!")
 
     def test_weigh_tuple_time_more_dim(self):
         """

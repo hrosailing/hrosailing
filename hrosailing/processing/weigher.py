@@ -508,12 +508,12 @@ class FluctuationWeigher(Weigher):
         start_idx = 0
 
         for curr_idx, (dt, pt) in enumerate(zip(times, points)):
-            while dt - times[start_idx] > self._timespan_before:
+            while dt - times[start_idx] >= self._timespan_before:
                 start_idx += 1
             end_idx = start_idx
             while (
                 end_idx + 1 < len(times)
-                and times[end_idx + 1] - dt < self._timespan_after
+                and times[end_idx + 1] - dt <= self._timespan_after
             ):
                 end_idx += 1
             for col, ub in enumerate(upper_bounds):
