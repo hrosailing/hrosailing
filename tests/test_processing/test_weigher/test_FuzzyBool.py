@@ -137,8 +137,16 @@ class TestFuzzyBool(TestCase):
         """
         Input/Output-Test.
         """
-        # TODO: does not return anything
-        result = FuzzyBool(self.ev_fun)["TWS"](self.data)
-        expected_result = [0.7773, 0.07585818002124355, 0.9999546021313]
-        np.testing.assert_array_almost_equal(result, expected_result, decimal=4,
-                                             err_msg=f"Expected {expected_result} but got {result}!")
+        fuzz = FuzzyBool(self.ev_fun)["TWS"]
+        self.assertAlmostEqual(
+            fuzz({"TWS": 0.25}),
+            0.92414182
+        )
+        self.assertAlmostEqual(
+            fuzz({"TWS": -0.5}),
+            0.00669285
+        )
+        self.assertAlmostEqual(
+            fuzz({"TWS": 2.0}),
+            1.
+        )
