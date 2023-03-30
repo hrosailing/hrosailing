@@ -7,6 +7,7 @@ import numpy as np
 from os.path import exists
 
 import hrosailing.polardiagram as pol
+import polardiagram._reading
 
 
 class FileReadingTest(unittest.TestCase):
@@ -174,7 +175,7 @@ class FileReadingTest(unittest.TestCase):
 
     def test_read_nonexistent_file(self):
         with self.assertRaises(OSError):
-            pol.from_csv("nonexistent.csv")
+            polardiagram._reading.from_csv("nonexistent.csv")
 
     def test_from_csv_read_correct_existent_file(self):
         files = [
@@ -186,13 +187,13 @@ class FileReadingTest(unittest.TestCase):
         ]
         for i, (file, fmt) in enumerate(files):
             with self.subTest(i=i):
-                pol.from_csv(file, fmt=fmt)
+                polardiagram._reading.from_csv(file, fmt=fmt)
 
     def test_from_csv_format_hro_works_correctly(self):
         files = [self.pd_hro_path, self.pc_hro_path]
         for i, file in enumerate(files):
             with self.subTest(i=i):
-                pd = pol.from_csv(file)
+                pd = polardiagram._reading.from_csv(file)
                 np.testing.assert_array_equal(
                     pd.wind_speeds, np.array([2, 4, 6, 8, 10])
                 )
@@ -204,7 +205,7 @@ class FileReadingTest(unittest.TestCase):
                 )
 
     def test_from_csv_format_orc_works_correctly(self):
-        pd = pol.from_csv(self.orc_path, fmt="orc")
+        pd = polardiagram._reading.from_csv(self.orc_path, fmt="orc")
         np.testing.assert_array_equal(
             pd.wind_speeds, np.array([6, 8, 10, 12, 14, 16, 20])
         )
@@ -228,13 +229,13 @@ class FileReadingTest(unittest.TestCase):
         )
 
     def test_from_csv_format_opencpn_works_correctly(self):
-        pd = pol.from_csv(self.opencpn_path, fmt="opencpn")
+        pd = polardiagram._reading.from_csv(self.opencpn_path, fmt="opencpn")
         np.testing.assert_array_equal(pd.wind_speeds, np.arange(2, 42, 2))
         np.testing.assert_array_equal(pd.wind_angles, np.arange(5, 185, 5))
         np.testing.assert_array_equal(pd.boat_speeds, np.zeros((36, 20)))
 
     def test_from_csv_format_array_works_correctly(self):
-        pd = pol.from_csv(self.array_path, fmt="array")
+        pd = polardiagram._reading.from_csv(self.array_path, fmt="array")
         np.testing.assert_array_equal(
             pd.wind_speeds, np.array([0, 4, 6, 8, 10, 12, 14, 16, 20, 25, 30])
         )
@@ -269,11 +270,11 @@ class FileReadingTest(unittest.TestCase):
 
     def test_from_csv_exception_unknown_format(self):
         with self.assertRaises(FileReadingException):
-            pol.from_csv("unknown_format_example.csv", fmt="unknown")
+            polardiagram._reading.from_csv("unknown_format_example.csv", fmt="unknown")
 
     def test_from_csv_exception_unknown_hro_subclass(self):
         with self.assertRaises(FileReadingException):
-            pol.from_csv(self.unknown_subclass_hro_path)
+            polardiagram._reading.from_csv(self.unknown_subclass_hro_path)
 
 
 def reading_suite():
@@ -489,17 +490,17 @@ class FileWritingTest(unittest.TestCase):
         os.remove('to_csv_orc.csv')
 
     def test_to_csv_pd_curve(self):
-        pd_curve = pol.from_csv(self.curve_path)
+        pd_curve = polardiagram._reading.from_csv(self.curve_path)
         pd_curve.to_csv("to_csv_pd_curve.csv")
         self.assertEqual(True, exists("to_csv_pd_curve.csv"))
-        pd_curve_2 = pol.from_csv("to_csv_pd_curve.csv")
+        pd_curve_2 = polardiagram._reading.from_csv("to_csv_pd_curve.csv")
         self.assertEqual(pd_curve.__dict__, pd_curve_2.__dict__)
 
     def test_to_csv_pd_multisails(self):
-        pd_ms = pol.from_csv(self.multisails_path)
+        pd_ms = polardiagram._reading.from_csv(self.multisails_path)
         pd_ms.to_csv("to_csv_pd_multisails.csv")
         self.assertEqual(True, exists("to_csv_pd_multisails.csv"))
-        pd_ms_2 = pol.from_csv("to_csv_pd_multisails.csv")
+        pd_ms_2 = polardiagram._reading.from_csv("to_csv_pd_multisails.csv")
         np.testing.assert_array_equal(pd_ms.sails, pd_ms_2.sails)
         np.testing.assert_array_equal(pd_ms.wind_speeds, pd_ms_2.wind_speeds)
         tables_1 = pd_ms.tables
@@ -511,50 +512,50 @@ class FileWritingTest(unittest.TestCase):
                 np.testing.assert_array_equal(table_list[0].boat_speeds, table_list[1].boat_speeds)
 
     def test_to_csv_pd_pointcloud(self):
-        pd_cloud = pol.from_csv(self.cloud_path)
+        pd_cloud = polardiagram._reading.from_csv(self.cloud_path)
         pd_cloud.to_csv("to_csv_pd_cloud.csv")
         self.assertEqual(True, exists("to_csv_pd_cloud.csv"))
-        pd_cloud_2 = pol.from_csv("to_csv_pd_cloud.csv")
+        pd_cloud_2 = polardiagram._reading.from_csv("to_csv_pd_cloud.csv")
         self.assertEqual(pd_cloud.__dict__.keys(), pd_cloud_2.__dict__.keys())
         for i, key in enumerate(pd_cloud.__dict__.keys()):
             with self.subTest(i=i):
                 np.testing.assert_array_equal(pd_cloud.__dict__[key], pd_cloud_2.__dict__[key])
 
     def test_to_csv_pd_table(self):
-        pd_table = pol.from_csv(self.table_path)
+        pd_table = polardiagram._reading.from_csv(self.table_path)
         pd_table.to_csv("to_csv_pd_table.csv")
         self.assertEqual(True, exists("to_csv_pd_table.csv"))
-        pd_table_2 = pol.from_csv("to_csv_pd_table.csv")
+        pd_table_2 = polardiagram._reading.from_csv("to_csv_pd_table.csv")
         self.assertEqual(pd_table.__dict__.keys(), pd_table_2.__dict__.keys())
         for i, key in enumerate(pd_table.__dict__.keys()):
             with self.subTest(i=i):
                 np.testing.assert_array_equal(pd_table.__dict__[key], pd_table_2.__dict__[key])
 
     def test_to_csv_array(self):
-        pd_1 = pol.from_csv(self.array_path, fmt="array")
+        pd_1 = polardiagram._reading.from_csv(self.array_path, fmt="array")
         pd_1.to_csv("to_csv_array.csv", fmt="array")
         self.assertEqual(True, exists("to_csv_array.csv"))
-        pd_2 = pol.from_csv("to_csv_array.csv", fmt="array")
+        pd_2 = polardiagram._reading.from_csv("to_csv_array.csv", fmt="array")
         self.assertEqual(pd_1.__dict__.keys(), pd_2.__dict__.keys())
         for i, key in enumerate(pd_1.__dict__.keys()):
             with self.subTest(i=i):
                 np.testing.assert_array_equal(pd_1.__dict__[key], pd_2.__dict__[key])
 
     def test_to_csv_opencpn(self):
-        pd_1 = pol.from_csv(self.opencpn_path, fmt="opencpn")
+        pd_1 = polardiagram._reading.from_csv(self.opencpn_path, fmt="opencpn")
         pd_1.to_csv("to_csv_opencpn.csv", fmt="opencpn")
         self.assertEqual(True, exists("to_csv_opencpn.csv"))
-        pd_2 = pol.from_csv("to_csv_opencpn.csv", fmt="opencpn")
+        pd_2 = polardiagram._reading.from_csv("to_csv_opencpn.csv", fmt="opencpn")
         self.assertEqual(pd_1.__dict__.keys(), pd_2.__dict__.keys())
         for i, key in enumerate(pd_1.__dict__.keys()):
             with self.subTest(i=i):
                 np.testing.assert_array_equal(pd_1.__dict__[key], pd_2.__dict__[key])
 
     def test_to_csv_orc(self):
-        pd_1 = pol.from_csv(self.orc_path, fmt="orc")
+        pd_1 = polardiagram._reading.from_csv(self.orc_path, fmt="orc")
         pd_1.to_csv("to_csv_orc.csv", fmt="orc")
         self.assertEqual(True, exists("to_csv_orc.csv"))
-        pd_2 = pol.from_csv("to_csv_orc.csv", fmt="orc")
+        pd_2 = polardiagram._reading.from_csv("to_csv_orc.csv", fmt="orc")
         self.assertEqual(pd_1.__dict__.keys(), pd_2.__dict__.keys())
         for i, key in enumerate(pd_1.__dict__.keys()):
             with self.subTest(i=i):

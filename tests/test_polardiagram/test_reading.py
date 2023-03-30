@@ -4,11 +4,9 @@ import csv
 
 import numpy as np
 
-from hrosailing.polardiagram import (
-    _read_opencpn_format, _read_wind_angles_and_boat_speeds, _read_wind_speeds,
-    _read_orc_format, _read_from_array, _read_extern_format, _read_intern_format,
-    from_csv
-)
+from polardiagram._reading import from_csv, _read_intern_format, \
+    _read_extern_format, _read_from_array, _read_orc_format, _read_wind_speeds, \
+    _read_wind_angles_and_boat_speeds, _read_opencpn_format
 from hrosailing.polardiagram import PolarDiagram, FileReadingException
 
 # Method `_read_extern_format` don't has a designated test case

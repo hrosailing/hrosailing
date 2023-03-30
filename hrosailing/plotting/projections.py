@@ -10,8 +10,7 @@ Defines the following projections:
 
 Examples
 --------
->>> import matplotlib.pyplot as plt
->>> from hrosailing.polardiagram import from_csv
+>>> from polardiagram._reading import from_csv import matplotlib.pyplot as plt
 >>> import hrosailing.plotting
 >>>
 >>> ax = plt.subplot("hro polar")

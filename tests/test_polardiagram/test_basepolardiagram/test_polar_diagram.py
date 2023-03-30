@@ -1,34 +1,7 @@
 import unittest
 import numpy as np
 
-from hrosailing.polardiagram import PolarDiagram
-
-class DummyPolarDiagram(PolarDiagram):
-    def to_csv(self, csv_path):
-        pass
-
-    @classmethod
-    def __from_csv__(cls, file):
-        pass
-
-    def __call__(self, ws, wa):
-        return 1
-
-    def symmetrize(self):
-        pass
-
-    @property
-    def default_points(self):
-        return [1, 1, 1]
-
-    @property
-    def default_slices(self):
-        return [1, 2, 3]
-
-    def ws_to_slices(self, ws, **kwargs):
-        return np.array([[1],[1],[1]])
-
-
+from tests.test_polardiagram.dummy_classes import DummyPolarDiagram
 
 class TestPolarDiagram(unittest.TestCase):
     def setUp(self) -> None:
@@ -46,7 +19,7 @@ class TestPolarDiagram(unittest.TestCase):
         np.testing.assert_array_equal(ws, np.array([1, 1.5, 2, 2.5, 3]))
         np.testing.assert_array_equal(
             slices,
-            np.array([[1],[1],[1]])
+            [[[1],[1],[1]]]
         )
 
     def test_get_slices_with_full_info(self):
@@ -60,7 +33,7 @@ class TestPolarDiagram(unittest.TestCase):
         np.testing.assert_array_equal(ws, np.array([1, 1.5, 2, 2.5, 3]))
         np.testing.assert_array_equal(
             slices,
-            np.array([[1],[1],[1]])
+            [[[1],[1],[1]]]
         )
         self.assertIsNone(info)
 
@@ -150,7 +123,7 @@ class TestPolarDiagram(unittest.TestCase):
         result = self.pd.get_points(None)
         np.testing.assert_array_equal(
             result,
-            [1, 1, 1]
+            [[1, 1, 1]]
         )
 
     def test_get_points_regular_input(self):
