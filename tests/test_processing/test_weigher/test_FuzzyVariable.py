@@ -37,8 +37,7 @@ class TestFuzzyVariable(TestCase):
         """
         Input/Output-Test.
         """
-        # TODO: make this test work
-        result = FuzzyVariable(self.sharpness, "TWS")._truth(self.center, -1)(self.data)
+        result = FuzzyVariable(self.sharpness, "TWS")._truth(self.center, -1)({"TWS" : 10.25})
         expected_result = 0.7773
         self.assertAlmostEqual(result, expected_result, places=4,
                                msg=f"Expected {expected_result} but got {result}!")

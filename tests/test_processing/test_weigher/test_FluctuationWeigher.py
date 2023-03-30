@@ -19,7 +19,6 @@ class TestFluctuationWeigher(TestCase):
         """
         Input/Output-Test.
         """
-        # TODO: finish once _set_points_from_data is debugged
         result = FluctuationWeigher(
             [self.dimensions[0]],
             self.time_single,
