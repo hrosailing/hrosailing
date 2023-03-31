@@ -260,6 +260,8 @@ class FillLocalImputator(Imputator):
         except ValueError:
             end_idx = None
 
+        return start_idx, end_idx
+
     def _apply_fill_functions(self, datetime, idx, key, data):
         for i, entry in enumerate(data[key]):
             if i in idx:
