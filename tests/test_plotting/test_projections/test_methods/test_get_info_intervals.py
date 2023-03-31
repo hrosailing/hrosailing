@@ -1,5 +1,7 @@
 import unittest
+
 from hrosailing.plotting.projections import _get_info_intervals
+
 
 class TestGetInfoIntervals(unittest.TestCase):
     def test_elaborate_input(self):

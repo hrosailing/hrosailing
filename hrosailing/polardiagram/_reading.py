@@ -4,7 +4,10 @@ from ast import literal_eval
 import numpy as np
 
 from hrosailing.core.exceptions import FileReadingException
-from hrosailing.polardiagram._polardiagramtable import PolarDiagramTable, PolarDiagram
+from hrosailing.polardiagram._polardiagramtable import (
+    PolarDiagram,
+    PolarDiagramTable,
+)
 
 
 def from_csv(csv_path, fmt="hro"):

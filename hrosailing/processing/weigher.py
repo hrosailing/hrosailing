@@ -507,8 +507,16 @@ class FluctuationWeigher(Weigher):
         weights = [1] * len(points)
 
         for curr_idx, (dt, pt) in enumerate(zip(times, points)):
-            start_idx = min(i for i in range(len(points)) if times[i] <= dt and dt - times[i] <= self._timespan_before)
-            end_idx = max(i for i in range(len(points)) if dt <= times[i] and times[i] - dt <= self._timespan_after)
+            start_idx = min(
+                i
+                for i in range(len(points))
+                if times[i] <= dt and dt - times[i] <= self._timespan_before
+            )
+            end_idx = max(
+                i
+                for i in range(len(points))
+                if dt <= times[i] and times[i] - dt <= self._timespan_after
+            )
             for col, ub in enumerate(upper_bounds):
                 curr_pts = points[start_idx : end_idx + 1, col]
                 std = np.std(curr_pts)

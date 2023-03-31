@@ -1,4 +1,5 @@
 from unittest import TestCase
+
 import numpy as np
 
 import hrosailing.processing.interpolator as int
@@ -33,9 +34,15 @@ class TestShepardInterpolator(TestCase):
         Input/Output-Test.
         """
 
-        result = repr(int.ShepardInterpolator(self.nbh, self.tol, self.slope, self.norm))
-        expected_result = f"ShepardInterpolator( tol={self.tol}, slope_scal={self.slope}, norm={self.norm.__name__})"
-        self.assertEqual(result, expected_result,
-                         f"Expected {expected_result} but got {result}!")
-
-    
+        result = repr(
+            int.ShepardInterpolator(self.nbh, self.tol, self.slope, self.norm)
+        )
+        expected_result = (
+            f"ShepardInterpolator( tol={self.tol}, slope_scal={self.slope},"
+            f" norm={self.norm.__name__})"
+        )
+        self.assertEqual(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )

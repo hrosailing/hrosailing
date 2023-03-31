@@ -93,7 +93,10 @@ class PolarDiagramMultiSails(PolarDiagram):
         return "".join(out)
 
     def __repr__(self):
-        return f"PolarDiagramMultiSails({[repr(diagram) for diagram in self._diagrams]}, {self.sails})"
+        return (
+            f"PolarDiagramMultiSails({[repr(diagram) for diagram in self._diagrams]},"
+            f" {self.sails})"
+        )
 
     def __call__(self, ws, wa):
         return max(diagram(ws, wa) for diagram in self._diagrams)
@@ -177,7 +180,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         with open(csv_path, "w", newline="", encoding="utf-8") as file:
             csv_writer = csv.writer(file, delimiter=":")
             csv_writer.writerow([self.__class__.__name__])
-            csv_writer.writerow(["Sails"]+self.sails)
+            csv_writer.writerow(["Sails"] + self.sails)
 
         for i, diagram in enumerate(self._diagrams):
             sub_csv_path = self._get_sub_csv_path(csv_path, i)
@@ -185,7 +188,7 @@ class PolarDiagramMultiSails(PolarDiagram):
 
     @staticmethod
     def _get_sub_csv_path(path, i):
-        path =  "_".join([path.split(".")[0], "sail", str(i)])
+        path = "_".join([path.split(".")[0], "sail", str(i)])
         return f"{path}.csv"
 
     @classmethod
@@ -196,9 +199,7 @@ class PolarDiagramMultiSails(PolarDiagram):
         diagrams = []
         for i, sail in enumerate(sails):
             sub_path = PolarDiagramMultiSails._get_sub_csv_path(path, i)
-            diagrams.append(
-                from_csv(sub_path)
-            )
+            diagrams.append(from_csv(sub_path))
         return PolarDiagramMultiSails(diagrams, sails)
 
     def symmetrize(self):
@@ -222,4 +223,3 @@ class PolarDiagramMultiSails(PolarDiagram):
             [pd.default_slices for pd in self._diagrams]
         )
         return np.linspace(all_defaults.min(), all_defaults.max(), 20)
-

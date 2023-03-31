@@ -1,11 +1,12 @@
-import unittest
-import numpy as np
 import os
+import unittest
 
-from hrosailing.polardiagram import PolarDiagramCurve
+import numpy as np
+
 from hrosailing.core.modelfunctions import s_shaped
-
+from hrosailing.polardiagram import PolarDiagramCurve
 from tests.utils_for_testing import hroTestCase
+
 
 class TestPolarDiagramCurve(hroTestCase):
     def setUp(self) -> None:
@@ -62,9 +63,7 @@ class TestPolarDiagramCurve(hroTestCase):
 
     def test_ws_to_slices(self):
         # Input/Output, note that wa values should be taken mod 360
-        result = self.pd.ws_to_slices(
-            [1, 2, 3], wa_resolution=3
-        )
+        result = self.pd.ws_to_slices([1, 2, 3], wa_resolution=3)
         expected = [
             np.array([[1, 1, 1], [0, 180, 360], [6, 186, 6]]),
             np.array([[2, 2, 2], [0, 180, 360], [7, 187, 7]]),
@@ -92,29 +91,19 @@ class TestPolarDiagramCurve(hroTestCase):
         # Input/Output
         result = repr(self.named_pd)
         self.assertEqual(
-            result,
-            "PolarDiagramCurve(f=s_shaped, 1, 2, 3, 4, radians=False)"
+            result, "PolarDiagramCurve(f=s_shaped, 1, 2, 3, 4, radians=False)"
         )
 
     def test_call_wa_is_array(self):
         # Input/Output
         result = self.pd(np.array([1, 2, 3]), np.array([1, 2, 360]))
-        np.testing.assert_array_equal(
-            result,
-            [7, 9, 8]
-        )
+        np.testing.assert_array_equal(result, [7, 9, 8])
 
     def test_call_with_radians(self):
         # Input/Output
         pd = PolarDiagramCurve(self.fun, *self.params, radians=True)
-        result = pd(
-            np.array([1, 2, 3]),
-            np.array([1, 2, 2*np.pi])
-        )
-        np.testing.assert_array_almost_equal(
-            result,
-            [7, 9, 8]
-        )
+        result = pd(np.array([1, 2, 3]), np.array([1, 2, 2 * np.pi]))
+        np.testing.assert_array_almost_equal(result, [7, 9, 8])
 
     def test_curve(self):
         # Input/Output
@@ -127,7 +116,7 @@ class TestPolarDiagramCurve(hroTestCase):
 
     def test_parameters(self):
         # Input/Output
-        self.assertEqual(self.pd.parameters, (5, ))
+        self.assertEqual(self.pd.parameters, (5,))
 
     def test_radians(self):
         # Input/Output
@@ -140,31 +129,29 @@ class TestPolarDiagramCurve(hroTestCase):
             content = file.read()
         self.assertEqual(
             content,
-            "PolarDiagramCurve\nFunction:s_shaped\nRadians:False\nParameters:1:2:3:4\n"
+            "PolarDiagramCurve\nFunction:s_shaped\nRadians:False\nParameters:1:2:3:4\n",
         )
 
     def test_from_csv_valid(self):
         # Input/Output
         with open("read_example.csv", "r", encoding="utf-8") as file:
             pd = PolarDiagramCurve.__from_csv__(file)
-        self.assertEqual(
-            pd.curve.__name__, "s_shaped"
-        )
-        self.assertEqual(
-            pd.parameters, (1, 2, 3, 4)
-        )
+        self.assertEqual(pd.curve.__name__, "s_shaped")
+        self.assertEqual(pd.parameters, (1, 2, 3, 4))
         self.assertFalse(pd.radians)
 
     def test_from_csv_invalid(self):
         # Exception Test
         with self.assertRaises(RuntimeError):
-            with open("read_example_invalid.csv", "r", encoding="utf-8") as file:
+            with open(
+                "read_example_invalid.csv", "r", encoding="utf-8"
+            ) as file:
                 PolarDiagramCurve.__from_csv__(file)
 
     def test_symmetrize(self):
         # Test if result is symmetric in wa
         symm_pd = self.pd.symmetrize()
-        self.assertEqual(symm_pd(3, 4), symm_pd(3, 360-4))
+        self.assertEqual(symm_pd(3, 4), symm_pd(3, 360 - 4))
         self.assertEqual(symm_pd(5, 0), symm_pd(5, 360))
-        self.assertEqual(symm_pd(1, 40), symm_pd(1, 360-40))
-        self.assertEqual(symm_pd(12, 370), symm_pd(12, 360-30))
+        self.assertEqual(symm_pd(1, 40), symm_pd(1, 360 - 40))
+        self.assertEqual(symm_pd(12, 370), symm_pd(12, 360 - 30))

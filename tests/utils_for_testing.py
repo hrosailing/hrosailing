@@ -1,9 +1,9 @@
-import numpy as np
 from unittest import TestCase
+
+import numpy as np
 
 
 class hroTestCase(TestCase):
-
     def assert_list_almost_equal(self, result, expected_result, places, msg):
         for i, element in enumerate(expected_result):
             try:
@@ -17,7 +17,7 @@ class hroTestCase(TestCase):
             except AssertionError as exp:
                 raise AssertionError(
                     f"{result} != {expected_result},\n"
-                    f"first different entry is "
+                    "first different entry is "
                     f"{result[i]} != {expected_result[i]} at index {i}.\n\n"
                     f"{msg}"
                 ) from exp
@@ -34,15 +34,20 @@ class hroTestCase(TestCase):
             except AssertionError as error:
                 raise AssertionError(
                     f"{result} != {expected},\n"
-                    f"first different entry is "
+                    "first different entry is "
                     f"{result[i]} != {expected[i]} at index {i}.\n\n"
                     f"{msg}"
                 ) from error
-            is_equal = (res.hour == exp.hour) and (res.minute == exp.minute) and (res.second == exp.second) and (res.microsecond == exp.microsecond)
+            is_equal = (
+                (res.hour == exp.hour)
+                and (res.minute == exp.minute)
+                and (res.second == exp.second)
+                and (res.microsecond == exp.microsecond)
+            )
             if not is_equal:
                 raise AssertionError(
                     f"{result} != {expected},\n"
-                    f"first different entry is "
+                    "first different entry is "
                     f"{result[i]} != {expected[i]} at index {i}.\n\n"
                     f"{msg}"
                 )

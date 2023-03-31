@@ -2,6 +2,7 @@ import unittest
 
 from hrosailing.plotting.projections import _only_one_color
 
+
 class TestOnlyOneColor(unittest.TestCase):
     def test_string_input(self):
         # Input/Output Test

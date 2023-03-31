@@ -1,7 +1,8 @@
-from matplotlib.testing.compare import compare_images
-import matplotlib.pyplot as plt
-import unittest
 import os
+import unittest
+
+import matplotlib.pyplot as plt
+from matplotlib.testing.compare import compare_images
 
 
 def save_plot(path):
@@ -36,6 +37,10 @@ class ImageTestcase(unittest.TestCase):
         super().tearDown()
         if self.debug:
             return
-        for path in ["./expected.png", "./result.png", "./result-failed-diff.png"]:
+        for path in [
+            "./expected.png",
+            "./result.png",
+            "./result-failed-diff.png",
+        ]:
             if os.path.isfile(path):
                 os.remove(path)

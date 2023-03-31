@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 from hrosailing.plotting.projections import _set_colormap
 
+
 class TestSetColormap(unittest.TestCase):
     def test_regular_input(self):
         # Execution Test
@@ -12,5 +13,5 @@ class TestSetColormap(unittest.TestCase):
             ["red", "green", "blue"],
             plt.subplot(),
             ["red", "green", "blue"],
-            location="left"
+            location="left",
         )

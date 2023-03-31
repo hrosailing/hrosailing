@@ -1,4 +1,5 @@
 from unittest import TestCase
+
 import numpy as np
 
 import hrosailing.processing.filter as flt
@@ -30,8 +31,11 @@ class TestQuantileFilter(TestCase):
 
         result = repr(flt.QuantileFilter(self.percent))
         expected_result = f"QuantileFilter(percent={self.percent})"
-        self.assertEqual(result, expected_result,
-                         f"Expected {expected_result} but got {result}!")
+        self.assertEqual(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test_filter_default(self):
         """
@@ -40,8 +44,11 @@ class TestQuantileFilter(TestCase):
 
         result = flt.QuantileFilter().filter(self.wts)
         expected_result = [False, True, False, True, True]
-        np.testing.assert_array_equal(result, expected_result,
-                                      f"Expected {expected_result} but got {result}!")
+        np.testing.assert_array_equal(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test_filter_custom_percent(self):
         """
@@ -50,8 +57,11 @@ class TestQuantileFilter(TestCase):
 
         result = flt.QuantileFilter(self.percent).filter(self.wts)
         expected_result = [False, True, True, True, True]
-        np.testing.assert_array_equal(result, expected_result,
-                                      f"Expected {expected_result} but got {result}!")
+        np.testing.assert_array_equal(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test_filter_edge_empty_wts(self):
         """
@@ -59,8 +69,11 @@ class TestQuantileFilter(TestCase):
         """
         result = flt.QuantileFilter().filter(np.array([]))
         expected_result = []
-        np.testing.assert_array_equal(result, expected_result,
-                                      f"Expected {expected_result} but got {result}!")
+        np.testing.assert_array_equal(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test_filter_edge_same_wts(self):
         """
@@ -69,8 +82,11 @@ class TestQuantileFilter(TestCase):
         wts = np.ones(5)
         result = flt.QuantileFilter().filter(wts)
         expected_result = [True, True, True, True, True]
-        np.testing.assert_array_equal(result, expected_result,
-                                      f"Expected {expected_result} but got {result}!")
+        np.testing.assert_array_equal(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test__calculate_quantile(self):
         """
@@ -78,5 +94,8 @@ class TestQuantileFilter(TestCase):
         """
         result = flt.QuantileFilter()._calculate_quantile(self.wts)
         expected_result = [False, True, False, True, True]
-        np.testing.assert_array_equal(result, expected_result,
-                                      f"Expected {expected_result} but got {result}!")
+        np.testing.assert_array_equal(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )

@@ -1,4 +1,5 @@
 from unittest import TestCase
+
 import numpy as np
 
 import hrosailing.processing.neighbourhood as nbh
@@ -40,10 +41,15 @@ class TestEllipsoid(TestCase):
         """
 
         result = repr(nbh.Ellipsoid(self.lin_trans, self.norm, self.radius))
-        expected_result = f"Ellipsoid(lin_trans={np.linalg.inv(self.lin_trans)}, " \
-                          f"norm={self.norm.__name__}, radius={self.radius})"
-        self.assertEqual(result, expected_result,
-                         f"Expected {expected_result} but got {result}!")
+        expected_result = (
+            f"Ellipsoid(lin_trans={np.linalg.inv(self.lin_trans)}, "
+            f"norm={self.norm.__name__}, radius={self.radius})"
+        )
+        self.assertEqual(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test_is_contained_in_default(self):
         """
@@ -52,18 +58,26 @@ class TestEllipsoid(TestCase):
 
         result = nbh.Ellipsoid().is_contained_in(self.pts)
         expected_result = [True, False, True]
-        np.testing.assert_array_equal(result, expected_result,
-                         f"Expected {expected_result} but got {result}!")
+        np.testing.assert_array_equal(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test_is_contained_in_custom_lin_trans(self):
         """
         Input/Output-Test.
         """
 
-        result = nbh.Ellipsoid(lin_trans=self.lin_trans).is_contained_in(self.pts)
+        result = nbh.Ellipsoid(lin_trans=self.lin_trans).is_contained_in(
+            self.pts
+        )
         expected_result = [True, True, True]
-        np.testing.assert_array_equal(result, expected_result,
-                                      f"Expected {expected_result} but got {result}!")
+        np.testing.assert_array_equal(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test_is_contained_in_custom_norm(self):
         """
@@ -71,8 +85,11 @@ class TestEllipsoid(TestCase):
         """
         result = nbh.Ellipsoid(norm=self.norm).is_contained_in(self.pts)
         expected_result = [False, False, True]
-        np.testing.assert_array_equal(result, expected_result,
-                                      f"Expected {expected_result} but got {result}!")
+        np.testing.assert_array_equal(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test_is_contained_in_custom_radius(self):
         """
@@ -80,8 +97,11 @@ class TestEllipsoid(TestCase):
         """
         result = nbh.Ellipsoid(radius=self.radius).is_contained_in(self.pts)
         expected_result = [False, False, True]
-        np.testing.assert_array_equal(result, expected_result,
-                                      f"Expected {expected_result} but got {result}!")
+        np.testing.assert_array_equal(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test_is_contained_in_edge_empty_pts(self):
         """
@@ -89,8 +109,11 @@ class TestEllipsoid(TestCase):
         """
         result = nbh.Ellipsoid().is_contained_in([])
         expected_result = []
-        np.testing.assert_array_equal(result, expected_result,
-                                      f"Expected {expected_result} but got {result}!")
+        np.testing.assert_array_equal(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test__transform_ellipsoid_to_ball(self):
         """
@@ -99,5 +122,8 @@ class TestEllipsoid(TestCase):
 
         result = nbh.Ellipsoid()._transform_ellipsoid_to_ball(self.pts)
         expected_result = self.pts
-        np.testing.assert_array_equal(result, expected_result,
-                                      f"Expected {expected_result} but got {result}!")
+        np.testing.assert_array_equal(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )

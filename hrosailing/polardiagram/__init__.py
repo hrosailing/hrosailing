@@ -3,12 +3,12 @@
 forms.
 """
 
-from ._reading import from_csv
 from ._basepolardiagram import PolarDiagram
 from ._polardiagramcurve import PolarDiagramCurve
 from ._polardiagrammultisails import PolarDiagramMultiSails
 from ._polardiagrampointcloud import PolarDiagramPointcloud
 from ._polardiagramtable import PolarDiagramTable
+from ._reading import from_csv
 
 __all__ = [
     "PolarDiagram",
@@ -16,7 +16,5 @@ __all__ = [
     "PolarDiagramMultiSails",
     "PolarDiagramPointcloud",
     "PolarDiagramTable",
-    "from_csv"
+    "from_csv",
 ]
-
-

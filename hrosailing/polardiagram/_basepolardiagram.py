@@ -103,7 +103,10 @@ class PolarDiagram(ABC):
         if isinstance(ws, (int, float)):
             return [ws]
         try:
-            all_numbers = all(isinstance(ws_, (int, float, np.integer, np.floating)) for ws_ in ws)
+            all_numbers = all(
+                isinstance(ws_, (int, float, np.integer, np.floating))
+                for ws_ in ws
+            )
         except TypeError as exp:
             raise TypeError(
                 "`ws` has to be an int a float or an iterable"

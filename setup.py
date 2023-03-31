@@ -32,7 +32,7 @@ setuptools.setup(
         "hrosailing.processing",
         "hrosailing.models",
         "hrosailing.core",
-        "hrosailing.core.modelfunctions"
+        "hrosailing.core.modelfunctions",
     ],
     python_requires=">=3.7",
 )

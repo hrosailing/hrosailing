@@ -1,14 +1,21 @@
-import unittest
-import os
 import csv
+import os
+import unittest
 
 import numpy as np
 
-from hrosailing.polardiagram._reading import from_csv, _read_intern_format, \
-    _read_extern_format, _read_from_array, _read_orc_format, _read_wind_speeds, \
-    _read_wind_angles_and_boat_speeds, _read_opencpn_format
-from hrosailing.polardiagram import PolarDiagram
 from hrosailing.core.exceptions import FileReadingException
+from hrosailing.polardiagram import PolarDiagram
+from hrosailing.polardiagram._reading import (
+    _read_extern_format,
+    _read_from_array,
+    _read_intern_format,
+    _read_opencpn_format,
+    _read_orc_format,
+    _read_wind_angles_and_boat_speeds,
+    _read_wind_speeds,
+    from_csv,
+)
 
 # Method `_read_extern_format` don't has a designated test case
 # and is tested in multiple test cases
@@ -40,15 +47,15 @@ class TestReadOpenCPNFormat(unittest.TestCase):
         self.assertEqual(
             bsps,
             [
-                [3.74,4.48,4.96,5.27,5.47,5.66,5.81],
-                [3.98,4.73,5.18,5.44,5.67,5.94,6.17],
-                [4.16,4.93,5.35,5.66,5.95,6.27,6.86],
-                [4.35,5.19,5.64,6.09,6.49,6.7,7.35],
-                [4.39,5.22,5.68,6.19,6.79,7.48,8.76],
-                [4.23,5.11,5.58,6.06,6.62,7.32,9.74],
-                [3.72,4.64,5.33,5.74,6.22,6.77,8.34],
-                [3.21,4.1,4.87,5.4,5.78,6.22,7.32],
-            ]
+                [3.74, 4.48, 4.96, 5.27, 5.47, 5.66, 5.81],
+                [3.98, 4.73, 5.18, 5.44, 5.67, 5.94, 6.17],
+                [4.16, 4.93, 5.35, 5.66, 5.95, 6.27, 6.86],
+                [4.35, 5.19, 5.64, 6.09, 6.49, 6.7, 7.35],
+                [4.39, 5.22, 5.68, 6.19, 6.79, 7.48, 8.76],
+                [4.23, 5.11, 5.58, 6.06, 6.62, 7.32, 9.74],
+                [3.72, 4.64, 5.33, 5.74, 6.22, 6.77, 8.34],
+                [3.21, 4.1, 4.87, 5.4, 5.78, 6.22, 7.32],
+            ],
         )
 
     def test_read_extern_format(self):
@@ -86,15 +93,15 @@ class TestReadWindAnglesAndBoatSpeeds(unittest.TestCase):
         self.assertEqual(
             bsps,
             [
-                [3.74,4.48,4.96,5.27,5.47,5.66,5.81],
-                [3.98,4.73,5.18,5.44,5.67,5.94,6.17],
-                [4.16,4.93,5.35,5.66,5.95,6.27,6.86],
-                [4.35,5.19,5.64,6.09,6.49,6.7,7.35],
-                [4.39,5.22,5.68,6.19,6.79,7.48,8.76],
-                [4.23,5.11,5.58,6.06,6.62,7.32,9.74],
-                [3.72,4.64,5.33,5.74,6.22,6.77,8.34],
-                [3.21,4.1,4.87,5.4,5.78,6.22,7.32],
-            ]
+                [3.74, 4.48, 4.96, 5.27, 5.47, 5.66, 5.81],
+                [3.98, 4.73, 5.18, 5.44, 5.67, 5.94, 6.17],
+                [4.16, 4.93, 5.35, 5.66, 5.95, 6.27, 6.86],
+                [4.35, 5.19, 5.64, 6.09, 6.49, 6.7, 7.35],
+                [4.39, 5.22, 5.68, 6.19, 6.79, 7.48, 8.76],
+                [4.23, 5.11, 5.58, 6.06, 6.62, 7.32, 9.74],
+                [3.72, 4.64, 5.33, 5.74, 6.22, 6.77, 8.34],
+                [3.21, 4.1, 4.87, 5.4, 5.78, 6.22, 7.32],
+            ],
         )
 
     def tearDown(self) -> None:
@@ -158,15 +165,15 @@ class TestReadORCFormat(unittest.TestCase):
         self.assertEqual(
             bsps,
             [
-                [3.74,4.48,4.96,5.27,5.47,5.66,5.81],
-                [3.98,4.73,5.18,5.44,5.67,5.94,6.17],
-                [4.16,4.93,5.35,5.66,5.95,6.27,6.86],
-                [4.35,5.19,5.64,6.09,6.49,6.7,7.35],
-                [4.39,5.22,5.68,6.19,6.79,7.48,8.76],
-                [4.23,5.11,5.58,6.06,6.62,7.32,9.74],
-                [3.72,4.64,5.33,5.74,6.22,6.77,8.34],
-                [3.21,4.1,4.87,5.4,5.78,6.22,7.32],
-            ]
+                [3.74, 4.48, 4.96, 5.27, 5.47, 5.66, 5.81],
+                [3.98, 4.73, 5.18, 5.44, 5.67, 5.94, 6.17],
+                [4.16, 4.93, 5.35, 5.66, 5.95, 6.27, 6.86],
+                [4.35, 5.19, 5.64, 6.09, 6.49, 6.7, 7.35],
+                [4.39, 5.22, 5.68, 6.19, 6.79, 7.48, 8.76],
+                [4.23, 5.11, 5.58, 6.06, 6.62, 7.32, 9.74],
+                [3.72, 4.64, 5.33, 5.74, 6.22, 6.77, 8.34],
+                [3.21, 4.1, 4.87, 5.4, 5.78, 6.22, 7.32],
+            ],
         )
 
     def test_read_extern_format(self):
@@ -201,19 +208,21 @@ class TestReadFromArray(unittest.TestCase):
         with open(self.path, "r", encoding="utf-8") as file:
             ws_res, wa_res, bsps = _read_from_array(file)
         np.testing.assert_array_equal(ws_res, [6, 8, 10, 12, 14, 16, 20])
-        np.testing.assert_array_equal(wa_res, [52, 60, 75, 90, 110, 120, 135, 150])
+        np.testing.assert_array_equal(
+            wa_res, [52, 60, 75, 90, 110, 120, 135, 150]
+        )
         np.testing.assert_array_equal(
             bsps,
             [
-                [3.74,4.48,4.96,5.27,5.47,5.66,5.81],
-                [3.98,4.73,5.18,5.44,5.67,5.94,6.17],
-                [4.16,4.93,5.35,5.66,5.95,6.27,6.86],
-                [4.35,5.19,5.64,6.09,6.49,6.7,7.35],
-                [4.39,5.22,5.68,6.19,6.79,7.48,8.76],
-                [4.23,5.11,5.58,6.06,6.62,7.32,9.74],
-                [3.72,4.64,5.33,5.74,6.22,6.77,8.34],
-                [3.21,4.1,4.87,5.4,5.78,6.22,7.32],
-            ]
+                [3.74, 4.48, 4.96, 5.27, 5.47, 5.66, 5.81],
+                [3.98, 4.73, 5.18, 5.44, 5.67, 5.94, 6.17],
+                [4.16, 4.93, 5.35, 5.66, 5.95, 6.27, 6.86],
+                [4.35, 5.19, 5.64, 6.09, 6.49, 6.7, 7.35],
+                [4.39, 5.22, 5.68, 6.19, 6.79, 7.48, 8.76],
+                [4.23, 5.11, 5.58, 6.06, 6.62, 7.32, 9.74],
+                [3.72, 4.64, 5.33, 5.74, 6.22, 6.77, 8.34],
+                [3.21, 4.1, 4.87, 5.4, 5.78, 6.22, 7.32],
+            ],
         )
 
     def test_read_extern_format(self):
@@ -225,10 +234,12 @@ class TestReadFromArray(unittest.TestCase):
         if os.path.isfile(self.path):
             os.remove(self.path)
 
+
 class ReadingDummyPolarDiagram(PolarDiagram):
     """
     Needed for the following tests
     """
+
     def __init__(self, teststr):
         super().__init__()
         self.teststr = teststr
@@ -261,18 +272,12 @@ class ReadingDummyPolarDiagram(PolarDiagram):
 class TestReadInternFormat(unittest.TestCase):
     def setUp(self) -> None:
         self.path = "example.csv"
-        lines = [
-            "ReadingDummyPolarDiagram\n"
-            "Test"
-        ]
+        lines = ["ReadingDummyPolarDiagram\nTest"]
         with open(self.path, "w", encoding="utf-8") as file:
             file.writelines(lines)
 
         self.path_fail = "example_fail.csv"
-        lines = [
-            "NonExistentPolarDiagram\n",
-            "Test"
-        ]
+        lines = ["NonExistentPolarDiagram\n", "Test"]
         with open(self.path_fail, "w", encoding="utf-8") as file:
             file.writelines(lines)
 
@@ -314,10 +319,7 @@ class TestFromCSV(unittest.TestCase):
             file.writelines(lines)
 
         self.path_intern = "example_intern.csv"
-        lines = [
-            "ReadingDummyPolarDiagram\n"
-            "Test"
-        ]
+        lines = ["ReadingDummyPolarDiagram\nTest"]
         with open(self.path_intern, "w", encoding="utf-8") as file:
             file.writelines(lines)
 

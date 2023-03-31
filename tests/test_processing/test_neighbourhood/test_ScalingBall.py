@@ -1,4 +1,5 @@
 from unittest import TestCase
+
 import numpy as np
 
 import hrosailing.processing.neighbourhood as nbh
@@ -23,9 +24,14 @@ class TestScalingBall(TestCase):
         """
 
         result = repr(nbh.ScalingBall(self.min_pts, self.norm))
-        expected_result = f"ScalingBall(min_pts={self.min_pts}, norm={self.norm.__name__})"
-        self.assertEqual(result, expected_result,
-                         f"Expected {expected_result} but got {result}!")
+        expected_result = (
+            f"ScalingBall(min_pts={self.min_pts}, norm={self.norm.__name__})"
+        )
+        self.assertEqual(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test_is_contained_in_custom_min_pts(self):
         """
@@ -34,17 +40,25 @@ class TestScalingBall(TestCase):
 
         result = nbh.ScalingBall(self.min_pts).is_contained_in(self.pts)
         expected_result = [True, False, True]
-        np.testing.assert_array_equal(result, expected_result,
-                                      f"Expected {expected_result} but got {result}!")
+        np.testing.assert_array_equal(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test_is_contained_in_custom_min_pts_custom_norm(self):
         """
         Input/Output-Test.
         """
-        result = nbh.ScalingBall(self.min_pts, self.norm).is_contained_in(self.pts)
+        result = nbh.ScalingBall(self.min_pts, self.norm).is_contained_in(
+            self.pts
+        )
         expected_result = [True, False, True]
-        np.testing.assert_array_equal(result, expected_result,
-                                      f"Expected {expected_result} but got {result}!")
+        np.testing.assert_array_equal(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test_is_contained_in_edge_empty_pts(self):
         """
@@ -52,8 +66,8 @@ class TestScalingBall(TestCase):
         """
         result = nbh.ScalingBall(self.min_pts).is_contained_in([])
         expected_result = []
-        np.testing.assert_array_equal(result, expected_result,
-                                      f"Expected {expected_result} but got {result}!")
-
-
-
+        np.testing.assert_array_equal(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )

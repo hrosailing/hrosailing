@@ -1,4 +1,5 @@
 from unittest import TestCase
+
 import numpy as np
 
 import hrosailing.processing.neighbourhood as nbh
@@ -23,9 +24,14 @@ class TestBall(TestCase):
         """
 
         result = repr(nbh.Ball(self.radius, self.norm))
-        expected_result = f"Ball(norm={self.norm.__name__}, radius={self.radius})"
-        self.assertEqual(result, expected_result,
-                         f"Expected {expected_result} but got {result}!")
+        expected_result = (
+            f"Ball(norm={self.norm.__name__}, radius={self.radius})"
+        )
+        self.assertEqual(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test_is_contained_in_default(self):
         """
@@ -34,8 +40,11 @@ class TestBall(TestCase):
 
         result = nbh.Ball().is_contained_in(self.pts)
         expected_result = [True, False, True]
-        np.testing.assert_array_equal(result, expected_result,
-                         f"Expected {expected_result} but got {result}!")
+        np.testing.assert_array_equal(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test_is_contained_in_custom_radius(self):
         """
@@ -44,8 +53,11 @@ class TestBall(TestCase):
 
         result = nbh.Ball(self.radius).is_contained_in(self.pts)
         expected_result = [False, False, True]
-        np.testing.assert_array_equal(result, expected_result,
-                                      f"Expected {expected_result} but got {result}!")
+        np.testing.assert_array_equal(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test_is_contained_in_custom_norm(self):
         """
@@ -54,8 +66,11 @@ class TestBall(TestCase):
 
         result = nbh.Ball(norm=self.norm).is_contained_in(self.pts)
         expected_result = [False, False, True]
-        np.testing.assert_array_equal(result, expected_result,
-                                      f"Expected {expected_result} but got {result}!")
+        np.testing.assert_array_equal(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test_is_contained_in_edge_empty_pts(self):
         """
@@ -63,5 +78,8 @@ class TestBall(TestCase):
         """
         result = nbh.Ball().is_contained_in([])
         expected_result = []
-        np.testing.assert_array_equal(result, expected_result,
-                                      f"Expected {expected_result} but got {result}!")
+        np.testing.assert_array_equal(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )

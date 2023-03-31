@@ -2,6 +2,7 @@ import numpy as np
 
 from hrosailing.polardiagram import PolarDiagram
 
+
 class DummyPolarDiagram(PolarDiagram):
     def to_csv(self, csv_path):
         with open(csv_path, "w", encoding="utf-8") as file:
@@ -26,7 +27,7 @@ class DummyPolarDiagram(PolarDiagram):
         return [1, 2, 3]
 
     def ws_to_slices(self, ws, **kwargs):
-        return [np.array([[1],[1],[1]])]
+        return [np.array([[1], [1], [1]])]
 
     def __str__(self):
         return "Dummy"

@@ -1,9 +1,9 @@
 """Contains the class `Data` which is an output of several pipeline components.
 """
 
+import itertools
 from datetime import datetime
 from decimal import Decimal
-import itertools
 
 import numpy as np
 
@@ -170,8 +170,8 @@ class Data:
             self._data[key].extend(data)
             self._max_len = max(self._max_len, len(self._data[key]))
         else:
-            #self.fill(self._max_len - len(data), [key])
-            #self._data[key].extend(data)
+            # self.fill(self._max_len - len(data), [key])
+            # self._data[key].extend(data)
             self._data[key] = data
             self._types[key] = data_type
             self._max_len = max(self._max_len, len(self._data[key]))
@@ -194,12 +194,9 @@ class Data:
             self.update(data_dict.data)
             return
         if not isinstance(data_dict, dict):
-            raise TypeError(
-                f"`data_dict` has to be of type `Data` or `dict`"
-            )
+            raise TypeError(f"`data_dict` has to be of type `Data` or `dict`")
         self.fill(
-            self._max_len,
-            itertools.chain(data_dict.keys(), self.keys())
+            self._max_len, itertools.chain(data_dict.keys(), self.keys())
         )
         if not compress or self._max_len == 0:
             self._unsafe_update(data_dict)

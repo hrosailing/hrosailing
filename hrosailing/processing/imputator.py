@@ -231,17 +231,16 @@ class FillLocalImputator(Imputator):
                 continue
 
             self._apply_fill_functions(datetime, idx, key, data)
-            #try:
+            # try:
             #    start_idx = self._aplly_fill_before(datetime, idx, key, data)
-            #except ValueError:
+            # except ValueError:
             #    continue
 
-            #self._apply_fill_between(key, idx, data, datetime)
+            # self._apply_fill_between(key, idx, data, datetime)
 
-            #self._apply_fill_after(key, idx, data, datetime, start_idx)
+            # self._apply_fill_after(key, idx, data, datetime, start_idx)
 
         return data
-
 
     def _apply_fill_functions(self, datetime, idx, key, data):
         for i, entry in enumerate(data[key]):
@@ -249,15 +248,19 @@ class FillLocalImputator(Imputator):
                 continue
             try:
                 start_idx = max(
-                    j for j in idx
-                    if j < i and datetime[i] - datetime[j] < self._max_time_diff
+                    j
+                    for j in idx
+                    if j < i
+                    and datetime[i] - datetime[j] < self._max_time_diff
                 )
             except ValueError:
                 start_idx = None
             try:
                 end_idx = min(
-                    j for j in idx
-                    if j>i and datetime[j] - datetime[i] < self._max_time_diff
+                    j
+                    for j in idx
+                    if j > i
+                    and datetime[j] - datetime[i] < self._max_time_diff
                 )
             except ValueError:
                 end_idx = None
@@ -266,27 +269,29 @@ class FillLocalImputator(Imputator):
                 continue
 
             try:
-                range_too_big = datetime[end_idx] - datetime[start_idx] > self._max_time_diff
+                range_too_big = (
+                    datetime[end_idx] - datetime[start_idx]
+                    > self._max_time_diff
+                )
             except TypeError:
                 range_too_big = False
 
             if start_idx is None:
-                mu = (datetime[end_idx] - datetime[i])/self._max_time_diff
+                mu = (datetime[end_idx] - datetime[i]) / self._max_time_diff
                 data[key][i] = self._fill_before(key, data[key][end_idx], mu)
                 self._n_filled += 1
                 continue
 
             if end_idx is None or range_too_big:
-                mu = (datetime[i] - datetime[start_idx])/self._max_time_diff
+                mu = (datetime[i] - datetime[start_idx]) / self._max_time_diff
                 data[key][i] = self._fill_after(key, data[key][start_idx], mu)
                 self._n_filled += 1
                 continue
 
-            mu = (datetime[i] - datetime[start_idx])/(datetime[end_idx] - datetime[start_idx])
+            mu = (datetime[i] - datetime[start_idx]) / (
+                datetime[end_idx] - datetime[start_idx]
+            )
             data[key][i] = self._fill_between(
-                key,
-                data[key][start_idx],
-                data[key][end_idx],
-                mu
+                key, data[key][start_idx], data[key][end_idx], mu
             )
             self._n_filled += 1

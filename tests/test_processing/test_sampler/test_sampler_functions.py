@@ -1,4 +1,5 @@
 from unittest import TestCase
+
 import numpy as np
 
 import hrosailing.processing.sampler as smp
@@ -15,14 +16,16 @@ class TestSamplerFunctions(TestCase):
 
         result = smp._create_bounds(self.pts)
         expected_result = (1, 5), (2, 6)
-        self.assertEqual(result, expected_result,
-                         f"Expected {expected_result} but got {result}!")
+        self.assertEqual(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def wip_test__binary_rescale(self):
         """
         Input/Output-Test.
         """
-
 
         # setup
         n_samples = 1
@@ -32,5 +35,8 @@ class TestSamplerFunctions(TestCase):
         # test
         result = smp._binary_rescale(n_samples, gen_samp, st_val)
         expected_result = ()
-        self.assertEqual(result, expected_result,
-                         f"Expected {expected_result} but got {result}!")
+        self.assertEqual(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )

@@ -1,4 +1,5 @@
 from unittest import TestCase
+
 import numpy as np
 
 import hrosailing.processing.regressor as reg
@@ -17,20 +18,30 @@ class TestODRegressor(TestCase):
         Input/Output-Test.
         """
 
-        result = reg.ODRegressor(self.model_func, self.init_vals).model_func(1, 2, 1)
+        result = reg.ODRegressor(self.model_func, self.init_vals).model_func(
+            1, 2, 1
+        )
         expected_result = 1
-        self.assertEqual(result, expected_result,
-                         f"Expected {expected_result} but got {result}!")
+        self.assertEqual(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test_property_optimal_params(self):
         """
         Input/Output-Test.
         """
 
-        result = reg.ODRegressor(self.model_func, self.init_vals).optimal_params
+        result = reg.ODRegressor(
+            self.model_func, self.init_vals
+        ).optimal_params
         expected_result = None
-        self.assertEqual(result, expected_result,
-                         f"Expected {expected_result} but got {result}!")
+        self.assertEqual(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test_fit(self):
         """
@@ -45,8 +56,11 @@ class TestODRegressor(TestCase):
         # testing optimal params
         result = odr.optimal_params
         expected_result = self.opt_param
-        self.assertEqual(result, expected_result,
-                         msg=f"Expected {expected_result} but got {result}!")
+        self.assertEqual(
+            result,
+            expected_result,
+            msg=f"Expected {expected_result} but got {result}!",
+        )
 
     def test_fit_custom_max_it(self):
         """
@@ -61,8 +75,11 @@ class TestODRegressor(TestCase):
         # testing optimal params
         result = odr.optimal_params
         expected_result = self.opt_param
-        self.assertEqual(result, expected_result,
-                         msg=f"Expected {expected_result} but got {result}!")
+        self.assertEqual(
+            result,
+            expected_result,
+            msg=f"Expected {expected_result} but got {result}!",
+        )
 
     def test_fit_edge_empty_data(self):
         """
@@ -82,4 +99,3 @@ class TestODRegressor(TestCase):
         lsr = reg.ODRegressor(self.model_func, self.init_vals)
         with self.assertRaises(IndexError):
             lsr.fit(np.array([[1], [1, 2]], dtype=object))
-

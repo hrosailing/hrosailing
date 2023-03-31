@@ -1,4 +1,5 @@
 from unittest import TestCase
+
 import numpy as np
 
 import hrosailing.processing.regressor as reg
@@ -16,20 +17,30 @@ class TestLeastSquareRegressor(TestCase):
         Input/Output-Test.
         """
 
-        result = reg.LeastSquareRegressor(self.model_func, self.init_vals).model_func(1, 2, 1)
+        result = reg.LeastSquareRegressor(
+            self.model_func, self.init_vals
+        ).model_func(1, 2, 1)
         expected_result = 1
-        self.assertEqual(result, expected_result,
-                         f"Expected {expected_result} but got {result}!")
+        self.assertEqual(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test_property_optimal_params(self):
         """
         Input/Output-Test.
         """
 
-        result = reg.LeastSquareRegressor(self.model_func, self.init_vals).optimal_params
+        result = reg.LeastSquareRegressor(
+            self.model_func, self.init_vals
+        ).optimal_params
         expected_result = None
-        self.assertEqual(result, expected_result,
-                         f"Expected {expected_result} but got {result}!")
+        self.assertEqual(
+            result,
+            expected_result,
+            f"Expected {expected_result} but got {result}!",
+        )
 
     def test_fit(self):
         """
@@ -44,8 +55,11 @@ class TestLeastSquareRegressor(TestCase):
         # testing optimal params
         result = lsr.optimal_params
         expected_result = self.opt_param
-        self.assertEqual(result, expected_result,
-                         msg=f"Expected {expected_result} but got {result}!")
+        self.assertEqual(
+            result,
+            expected_result,
+            msg=f"Expected {expected_result} but got {result}!",
+        )
 
     def test_fit_edge_empty_data(self):
         """
@@ -69,4 +83,6 @@ class TestLeastSquareRegressor(TestCase):
         """
         Execution-Test.
         """
-        reg.LeastSquareRegressor(self.model_func)._get_optimal_parameters(self.data[:, :2], self.data[:, 2])
+        reg.LeastSquareRegressor(self.model_func)._get_optimal_parameters(
+            self.data[:, :2], self.data[:, 2]
+        )

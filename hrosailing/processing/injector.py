@@ -82,11 +82,18 @@ class ZeroInjector(Injector):
         data = weighted_points.data
 
         if not isinstance(data, np.ndarray):
-            raise TypeError(f"`weighted_points.data` should be an `numpy.ndarray` but is {type(data)}.")
+            raise TypeError(
+                "`weighted_points.data` should be an `numpy.ndarray` but is"
+                f" {type(data)}."
+            )
         if data.ndim != 2 or data.shape[1] != 3:
-            raise ValueError(f"`weighted_points.data` should be of shape (n, 3)")
+            raise ValueError(
+                f"`weighted_points.data` should be of shape (n, 3)"
+            )
         if len(data.T) == 0:
-            raise ValueError(f"`weighted_points.data` should contain at least one record.")
+            raise ValueError(
+                f"`weighted_points.data` should contain at least one record."
+            )
 
         ws = data[:, 0]
         ws = np.linspace(min(ws), max(ws), self.n_zeros)
