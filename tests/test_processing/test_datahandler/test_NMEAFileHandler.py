@@ -118,7 +118,7 @@ class TestNMEAFileHandler(hroTestCase):
         self.assert_list_almost_equal(result=result["lon"], expected_result=expected_result["lon"], places=3,
                                                msg=f"Unexpected lon!")
 
-        self.assertListEqual(result["time"], expected_result["time"],
+        self.assert_time_list_equal(result["time"], expected_result["time"],
                              f"Unexpected time!")
 
     def test_handle_custom_wanted_sentences(self):

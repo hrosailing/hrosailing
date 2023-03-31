@@ -21,3 +21,28 @@ class hroTestCase(TestCase):
                     f"{result[i]} != {expected_result[i]} at index {i}.\n\n"
                     f"{msg}"
                 ) from exp
+
+    def assert_time_list_equal(self, result, expected, msg=""):
+        for i, (res, exp) in enumerate(zip(result, expected)):
+            try:
+                if result[i] is None:
+                    self.assertIsNone(exp)
+                    continue
+                if exp is None:
+                    self.assertIsNone(result[i])
+                    continue
+            except AssertionError as error:
+                raise AssertionError(
+                    f"{result} != {expected},\n"
+                    f"first different entry is "
+                    f"{result[i]} != {expected[i]} at index {i}.\n\n"
+                    f"{msg}"
+                ) from error
+            is_equal = (res.hour == exp.hour) and (res.minute == exp.minute) and (res.second == exp.second) and (res.microsecond == exp.microsecond)
+            if not is_equal:
+                raise AssertionError(
+                    f"{result} != {expected},\n"
+                    f"first different entry is "
+                    f"{result[i]} != {expected[i]} at index {i}.\n\n"
+                    f"{msg}"
+                )
