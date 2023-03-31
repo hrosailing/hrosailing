@@ -57,7 +57,7 @@ class Ball(Neighbourhood):
     norm : function or callable, optional
         The norm for which the ball is described, i.e. :math:`||.||`.
 
-        Defaults to a scaled version of :math:`||.||_2` in two dimensions.
+        Defaults to a scaled version of :math:`||.||_2` in two attributes.
 
     See also
     ----------
@@ -99,7 +99,7 @@ class Ball(Neighbourhood):
         pts = np.asarray(pts)
         try:
             return self._norm(pts) <= self._radius
-        except ValueError:
+        except (ValueError, IndexError):
             return np.asarray([self._norm(pt) <= self._radius for pt in pts])
 
 
@@ -168,6 +168,9 @@ class ScalingBall(Neighbourhood):
         `Neighbourhood.is_contained_in`
         """
         pts = np.asarray(pts)
+
+        if len(pts) == 0:
+            return True
 
         dist = self._norm(pts)
         self._radius = sorted(dist)[self._min_pts - 1]
@@ -257,6 +260,9 @@ class Ellipsoid(Neighbourhood):
         """
         pts = np.asarray(pts)
 
+        if len(pts) == 0:
+            return True
+
         pts = self._transform_ellipsoid_to_ball(pts)
 
         return self._norm(pts) <= self._radius
@@ -295,7 +301,7 @@ class Cuboid(Neighbourhood):
         self._size = dimensions
 
     def __repr__(self):
-        return f"Cuboid(norm={self._norm.__name__}, dimensions={self._size})"
+        return f"Cuboid(norm={self._norm.__name__}, attributes={self._size})"
 
     def is_contained_in(self, pts):
         """Checks given points for membership.
@@ -315,13 +321,17 @@ class Cuboid(Neighbourhood):
         ----------
         `Neighbourhood.is_contained_in`
         """
-        pts = np.asarray(pts)
+        pts = np.atleast_2d(np.asarray(pts))
+
+        if pts.shape[1] == 0:
+            return True
 
         mask = (
             np.ones((pts.shape[0],), dtype=bool)
             & (self._norm(pts[:, 0]) <= self._size[0])
             & (self._norm(pts[:, 1]) <= self._size[1])
         )
+
         return mask
 
 
@@ -392,6 +402,9 @@ class Polytope(Neighbourhood):
         `Neighbourhood.is_contained_in`
         """
         pts = np.asarray(pts)
+
+        if len(pts) == 0:
+            return True
 
         mask = np.ones((pts.shape[0],), dtype=bool)
         for ineq, bound in zip(self._mat, self._b):

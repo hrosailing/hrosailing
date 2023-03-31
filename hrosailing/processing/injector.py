@@ -10,7 +10,7 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-import hrosailing.core.data
+from hrosailing.core.data import WeightedPoints
 from hrosailing.core.statistics import ComponentWithStatistics
 
 
@@ -66,7 +66,8 @@ class ZeroInjector(Injector):
         Parameters
         ----------
         weighted_points : WeightedPoints
-            The original preprocessed points.
+            The original preprocessed points with `weighted_points.data` an
+            `numpy.ndarray` of shape (n, 3) containing at least one record.
 
         Returns
         -------
@@ -78,7 +79,23 @@ class ZeroInjector(Injector):
         `Injector.inject`
         """
 
-        ws = weighted_points.data[:, 0]
+        data = weighted_points.data
+
+        if not isinstance(data, np.ndarray):
+            raise TypeError(
+                "`weighted_points.data` should be an `numpy.ndarray` but is"
+                f" {type(data)}."
+            )
+        if data.ndim != 2 or data.shape[1] != 3:
+            raise ValueError(
+                "`weighted_points.data` should be of shape (n, 3)"
+            )
+        if len(data.T) == 0:
+            raise ValueError(
+                "`weighted_points.data` should contain at least one record."
+            )
+
+        ws = data[:, 0]
         ws = np.linspace(min(ws), max(ws), self.n_zeros)
 
         zero = np.zeros(self.n_zeros)
@@ -87,7 +104,7 @@ class ZeroInjector(Injector):
         fulls = np.column_stack((ws, full, zero))
 
         self.set_statistics(2 * self.n_zeros)
-        return hrosailing.core.data.WeightedPoints(
+        return WeightedPoints(
             data=np.concatenate([zeros, fulls]),
             weights=np.ones(2 * self.n_zeros),
         )

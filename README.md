@@ -12,7 +12,7 @@
 
 hrosailing 
 ==========
-![Still in active development. In particular we do not guarantee backwards compatibility to the versions 0.x.x.]!
+![Still in development. In particular we do not guarantee backwards compatibility to the versions 0.x.x.]!
 ---------------------------
 
 The `hrosailing` package provides various tools and interfaces to

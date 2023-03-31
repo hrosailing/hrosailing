@@ -103,7 +103,10 @@ class PolarDiagram(ABC):
         if isinstance(ws, (int, float)):
             return [ws]
         try:
-            all_numbers = all(isinstance(ws_, (int, float)) for ws_ in ws)
+            all_numbers = all(
+                isinstance(ws_, (int, float, np.integer, np.floating))
+                for ws_ in ws
+            )
         except TypeError as exp:
             raise TypeError(
                 "`ws` has to be an int a float or an iterable"
@@ -118,7 +121,7 @@ class PolarDiagram(ABC):
             raise ValueError("`n_steps` has to be positive")
         return np.concatenate(
             [
-                np.linspace(ws_before, ws_next, n_steps + 2)
+                np.linspace(ws_before, ws_next, n_steps + 2)[:-1]
                 for ws_before, ws_next in zip(ws, ws[1:])
             ]
             + [[ws[-1]]]
@@ -141,8 +144,9 @@ class PolarDiagram(ABC):
                     f"got a tuple of size {len(wind)} instead."
                 )
             ws, wa = wind
+            ws, wa = np.meshgrid(ws, wa)
             return np.array(list(zip(ws.ravel(), wa.ravel())))
-        raise ValueError(
+        raise TypeError(
             f"`wind` should be a tuple or an array, got {type(wind)} instead."
         )
 

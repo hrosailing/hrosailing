@@ -19,7 +19,7 @@ class PolarDiagramCurve(PolarDiagram):
 
     Parameters
     ----------
-    f : function
+    f : callable
         Curve/surface that describes the polar diagram, given as
         a function, with the signature `f(ws, wa, *params) -> bsp`,
         where
@@ -53,6 +53,19 @@ class PolarDiagramCurve(PolarDiagram):
     ----------
 
     """
+
+    def __init__(self, f, *params, radians=False):
+        if not callable(f):
+            raise TypeError("`f` is not callable")
+
+        if not self._check_enough_params(f, params):
+            raise ValueError(
+                "`params` is an incorrect amount of parameters for `f`"
+            )
+
+        self._f = f
+        self._params = params
+        self._rad = radians
 
     @property
     def default_points(self):
@@ -100,19 +113,6 @@ class PolarDiagramCurve(PolarDiagram):
             for ws_ in ws
         ]
 
-    def __init__(self, f, *params, radians=False):
-        if not callable(f):
-            raise ValueError("`f` is not callable")
-
-        if not self._check_enough_params(f, params):
-            raise ValueError(
-                "`params` is an incorrect amount of parameters for `f`"
-            )
-
-        self._f = f
-        self._params = params
-        self._rad = radians
-
     @staticmethod
     def _check_enough_params(func, params):
         try:
@@ -123,8 +123,8 @@ class PolarDiagramCurve(PolarDiagram):
 
     def __repr__(self):
         return (
-            f"PolarDiagramCurve(f={self._f.__name__},"
-            f"{self._params}, radians={self._rad})"
+            f"PolarDiagramCurve(f={self._f.__name__}, "
+            f"{str(self._params).strip('()')}, radians={self._rad})"
         )
 
     def __call__(self, ws, wa):
@@ -208,7 +208,7 @@ class PolarDiagramCurve(PolarDiagram):
 
         def sym_func(ws, wa, *params):
             y = self._f(ws, wa, *params)
-            y_symm = self._f(ws, (360 - wa) % 360, *params)
+            y_symm = self._f(ws, (360 - wa), *params)
             return 0.5 * (y + y_symm)
 
         return PolarDiagramCurve(

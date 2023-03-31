@@ -1,6 +1,7 @@
 """Contains the class `Data` which is an output of several pipeline components.
 """
 
+import itertools
 from datetime import datetime
 from decimal import Decimal
 
@@ -50,7 +51,10 @@ class Data:
         A `numpy.ndarray` containing all data of type `float`.
         """
         float_keys, float_vals = self.get_by_type(float)
-        array = np.column_stack(float_vals)
+        try:
+            array = np.column_stack(float_vals)
+        except ValueError:
+            array = np.empty((0,))
         return float_keys, array
 
     @property
@@ -156,6 +160,8 @@ class Data:
         """
         data_type = self._get_type(data)
         if key in self._data:
+            if self._types[key] is None:
+                self._types[key] = data_type
             if data_type is not None and data_type != self._types[key]:
                 raise ValueError(
                     f"data should be of type {self._types[key]}"
@@ -164,12 +170,13 @@ class Data:
             self._data[key].extend(data)
             self._max_len = max(self._max_len, len(self._data[key]))
         else:
-            self.fill(self._max_len - len(data), [key])
-            self._data[key].extend(data)
+            # self.fill(self._max_len - len(data), [key])
+            # self._data[key].extend(data)
+            self._data[key] = data
             self._types[key] = data_type
             self._max_len = max(self._max_len, len(self._data[key]))
 
-    def update(self, data_dict):
+    def update(self, data_dict, compress=False):
         """
         Extends the data according to given data and fills missing
         entries in each column with `None`.
@@ -178,17 +185,36 @@ class Data:
         ----------
         data_dict : dict or Data
             The dictionary or `Data` object containing the data to be used for the update.
+
+        compress : bool, optional
+            If `True` and the last entrys of all present keys are not set or
+            `None`, the last entries will be replaced.
         """
-        if isinstance(data_dict, dict):
-            for key, val in data_dict.items():
-                if isinstance(val, list):
-                    self.extend(key, val)
-                else:
-                    self.append(key, val)
-            self.fill()
-        # if isinstance(data_dict, Data): this does not work for some reason
-        else:
+        if isinstance(data_dict, Data):
             self.update(data_dict.data)
+            return
+        if not isinstance(data_dict, dict):
+            raise TypeError("`data_dict` has to be of type `Data` or `dict`")
+        self.fill(
+            self._max_len, itertools.chain(data_dict.keys(), self.keys())
+        )
+        if not compress or self._max_len == 0:
+            self._unsafe_update(data_dict)
+            return
+
+        if all(self[key][-1] is None for key in data_dict.keys()):
+            for key in data_dict.keys():
+                self._data[key] = self._data[key][:-1]
+
+        self._unsafe_update(data_dict)
+
+    def _unsafe_update(self, data_dict):
+        for key, val in data_dict.items():
+            if isinstance(val, list):
+                self.extend(key, val)
+            else:
+                self.append(key, val)
+        self.fill()
 
     def append(self, key, data):
         """
@@ -569,7 +595,7 @@ class WeightedPoints:
     with their respective weights.
 
     If `weighted_points` is of type `WeightedPoints` then you can use `weighted_points[mask]` with an array-like over
-    booleans to create a boolean mask over the repective rows of the weighted points.
+    booleans to create a boolean mask over the respective rows of the weighted points.
 
     Parameters
     ----------

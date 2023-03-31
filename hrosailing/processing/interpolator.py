@@ -85,6 +85,9 @@ class IDWInterpolator(Interpolator):
         if p < 0:
             raise ValueError("`p` is negative")
 
+        if not isinstance(p, int):
+            raise TypeError(f"`p` has to be of type `int` but is {type(p)}")
+
         self._p = p
         self._norm = norm
 
@@ -113,6 +116,10 @@ class IDWInterpolator(Interpolator):
         `Interpolator.interpolate`
         """
         pts = w_pts.data
+
+        if len(pts) == 0:
+            raise ValueError("`pts` has to contain at least one point")
+
         wts = self._norm(pts[:, :2] - grid_pt)
         if np.any(wts == 0):
             mask = wts == 0
@@ -250,14 +257,14 @@ class ImprovedIDWInterpolator(Interpolator):
     Instead of setting the weights as the normal inverse distance
     to some power, we set the weights in the following way:
 
-    Let :math:`r` be the radius of the `neighbourhood.ScalingBall` with the center being some
+    Let :math:`r` be the maximal distance of the data points and a
     point :math:`grid\\\\_pt` which is to be interpolated.
     For all considered measured points let :math:`d_{pt}` be the same as
     in `IDWInterpolator`. If :math:`d_{pt} \\leq \\cfrac{r}{3}` we set :math:`w_{pt} = \\cfrac{1}{d_{pt}}`.
-    Otherwise, we set :math:`w_{pt} = \\cfrac{27}{4 * r} * (\\cfrac{d_{pt}}{r - 1})^2`.
+    Otherwise, we set :math:`w_{pt} = \\cfrac{27}{4 * r} * (\\cfrac{d_{pt}}{r} - 1)^2`.
 
-    The resulting value at :math:`grid\\\\_pt` will then be calculated the same
-    way as in `IDWInterpolator`.
+    The resulting value at :math:`grid\\\\_pt` will then be calculated simliar as in
+    `IDWInterpolator` using squared weights instead.
 
     Parameters
     ----------
@@ -319,6 +326,9 @@ class ShepardInterpolator(Interpolator):
 
     Parameters
     ----------
+    neighbourhood: Neighbourhood
+        Only points inside the given neighbourhood will be taken into account.
+
     tol : positive float, optional
         The distance around every data point in which the data point is preferred to
         the interpolated data.

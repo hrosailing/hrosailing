@@ -13,6 +13,9 @@ class _Wind(enum.Enum):
     TO_APPARENT = 1
 
     def convert_wind(self, wind):
+        """
+        converts true wind to apparent and vice versa
+        """
         wind = np.asarray_chkfinite(wind)
 
         if wind.dtype == object:
@@ -104,7 +107,7 @@ def scaled_norm(norm, scal_factors):
     ----------
     norm : function
         A function mapping `numpy.ndarray` (vector(s)) to `float` (the norm of
-        the vector)
+        the vector).
 
     scal_factors : array-like of floats
         Component-wise scaling factors. Shape has to be compatible with the
@@ -124,7 +127,7 @@ def scaled_norm(norm, scal_factors):
 
 def euclidean_norm(vec):
     """
-    Evaluates the euclidean norm on a two dimensional array.
+    Evaluates the euclidean norm on a two-dimensional array.
 
     Parameters
     --------

@@ -58,7 +58,9 @@ class Filter(ComponentWithStatistics, ABC):
 
 
 class QuantileFilter(Filter):
-    """A filter that removes the points with the lowest weights until a given percentage of points have been removed.
+    """A filter that removes the points with the lowest weights until as many points as
+    possible are removed such that the total number of removed points is less than a given
+    percentage.
     Supports the `repr` method.
 
     Parameters
@@ -90,6 +92,8 @@ class QuantileFilter(Filter):
         --------
         `Filter.filter`
         """
+        if len(wts) == 0:
+            return []
         filtered_points = self._calculate_quantile(wts)
 
         self.set_statistics(filtered_points)

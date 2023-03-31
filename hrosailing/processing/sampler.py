@@ -9,7 +9,6 @@ in the `hrosailing.pipeline` module.
 """
 
 
-import itertools
 from abc import ABC, abstractmethod
 
 import numpy as np
@@ -212,6 +211,9 @@ class ArchimedeanSampler(Sampler):
         `Sampler.sample`
         """
 
+        if len(pts) < 2:
+            raise ValueError("`pts` needs to contain at least 3 points")
+
         # calculate enclosing circle
         midpoint, r = _make_circle(pts)
 
@@ -328,7 +330,6 @@ def _small_circle(pts):
     circle_m = -np.column_stack(pts).T
     circle_m = np.column_stack([np.ones(3), circle_m])
     circle_b = np.array([-np.linalg.norm(p) ** 2 for p in pts])
-    # TODO: handling for degenerate case
     try:
         a, b, c = np.linalg.inv(circle_m) @ circle_b
         return np.array([b / 2, c / 2]), np.sqrt(b**2 / 4 + c**2 / 4 - a)

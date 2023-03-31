@@ -10,8 +10,7 @@ Defines the following projections:
 
 Examples
 --------
->>> import matplotlib.pyplot as plt
->>> from hrosailing.polardiagram import from_csv
+>>> from polardiagram._reading import from_csv import matplotlib.pyplot as plt
 >>> import hrosailing.plotting
 >>>
 >>> ax = plt.subplot("hro polar")
@@ -38,6 +37,7 @@ from matplotlib.projections.polar import PolarAxes
 from matplotlib.tri import Triangulation
 from mpl_toolkits.mplot3d import Axes3D as pltAxes3D
 from scipy.spatial import ConvexHull
+from scipy.spatial.qhull import QhullError
 
 from hrosailing.polardiagram import PolarDiagram
 
@@ -176,10 +176,11 @@ class HROFlat(Axes):
         self,
         *args,
         ws=None,
+        n_steps=None,
         colors=("green", "red"),
         show_legend=False,
-        use_convex_hull=False,
         legend_kw=None,
+        use_convex_hull=False,
         **kwargs,
     ):
         """
@@ -195,7 +196,7 @@ class HROFlat(Axes):
             return
 
         pd = args[0]
-        labels, slices, info = pd.get_slices(ws, full_info=True)
+        labels, slices, info = pd.get_slices(ws, n_steps, full_info=True)
         _configure_axes(self, labels, colors, show_legend, legend_kw, **kwargs)
         _plot(self, slices, info, False, use_convex_hull, **kwargs)
 
@@ -203,10 +204,11 @@ class HROFlat(Axes):
         self,
         *args,
         ws=None,
+        n_steps=None,
         colors=("green", "red"),
         show_legend=False,
-        use_convex_hull=False,
         legend_kw=None,
+        use_convex_hull=False,
         **kwargs,
     ):
         """
@@ -223,7 +225,7 @@ class HROFlat(Axes):
             return
 
         pd = args[0]
-        labels, slices, info = pd.get_slices(ws, full_info=True)
+        labels, slices, info = pd.get_slices(ws, n_steps, full_info=True)
         _configure_axes(self, labels, colors, show_legend, legend_kw, **kwargs)
         _plot(self, slices, info, False, use_convex_hull, True, **kwargs)
 
@@ -295,7 +297,7 @@ class HROColorGradient(Axes):
 
         color_gradient = _determine_color_gradient(colors, bsp.ravel())
 
-        self.scatter(ws, wa, c=color_gradient, **legend_kw)
+        self.scatter(ws, wa, c=color_gradient, **kwargs)
 
 
 class Axes3D(pltAxes3D):
@@ -434,6 +436,10 @@ def _plot(
         for entry in iter1:
             yield (entry, None)
 
+    if len(slices) == 0:
+        ax.plot([], [], **kwargs)
+        return
+
     for slice_, info_ in safe_zip(slices, info):
         slice_ = slice_[:, np.argsort(slice_[1])]
         if use_convex_hull:
@@ -456,10 +462,12 @@ def _get_info_intervals(info_):
         if entry not in intervals:
             intervals[entry] = []
         intervals[entry].append(j)
-    return intervals.values()
+    return list(intervals.values())
 
 
 def _merge(wa, intervals):
+    if len(intervals) == 0:
+        return np.empty((0))
     wa_in_intervals = [
         np.concatenate([wa[interval], [np.NAN]]) for interval in intervals
     ]
@@ -479,34 +487,57 @@ def _get_convex_hull(slice_, info_):
     points = np.column_stack([bsp * np.cos(wa_rad), bsp * np.sin(wa_rad)])
     try:
         vertices = ConvexHull(points).vertices
-    except ValueError:
+    except (ValueError, QhullError):
         return ws, wa, bsp, info_
     slice_ = slice_.T[vertices]
     if info_ is not None:
-        info_ = [entry for i, entry in enumerate(info_) if i in vertices]
-        slice_, info = zip(*sorted(zip(slice_, info_), key=lambda x: x[0][1]))
+        info_ = [info_[vert] for vert in vertices]
+        slice_, info_ = zip(*sorted(zip(slice_, info_), key=lambda x: x[0][1]))
+        info_ = list(info_)
     else:
         slice_ = sorted(slice_, key=lambda x: x[1])
     slice_ = np.array(slice_).T
 
-    # if wind angle difference is big, wrap around
-    if slice_[1][-1] - slice_[1][0] > 180:
-        # estimate bsp value at 0 (360 resp)
-        x0 = slice_[2, 0] * np.sin(np.deg2rad(slice_[1, 0]))
-        x1 = slice_[2, -1] * np.sin(np.deg2rad(slice_[1, -1]))
-        y0 = slice_[2, 1] * np.cos(np.deg2rad(slice_[1, 0]))
-        y1 = slice_[2, -1] * np.cos(np.deg2rad(slice_[1, -1]))
-        lamb = x0 / (x0 - x1)
-        approx_ws = lamb * slice_[0, 0] + (1 - lamb) * slice_[0, -1]
-        approx_bsp = lamb * y0 + (1 - lamb) * y1
+    if slice_[1, 0] == 0 and slice_[1, -1] == 360:
+        ws, wa, bsp = slice_
+        return ws, wa, bsp, info_
 
-        slice_ = np.column_stack(
-            [[approx_ws, 0, approx_bsp], slice_, [approx_ws, 360, approx_bsp]]
-        )
+    if slice_[1][-1] - slice_[1][0] < 180:
+        ws, wa, bsp = slice_
+        return ws, wa, bsp, info_
+
+    if slice_[1, 0] == 0:
+        slice_ = np.column_stack([slice_, [slice_[0, 0], 360, slice_[2, 0]]])
+        if info_ is not None:
+            info_ = info_ + [info_[0]]
+        ws, wa, bsp = slice_
+        return ws, wa, bsp, info_
+
+    if slice_[1, -1] == 360:
+        slice_ = np.column_stack([[slice_[0, -1], 0, slice_[2, -1]], slice_])
+        if info_ is not None:
+            info_ = [info_[-1]] + info_
+        ws, wa, bsp = slice_
+        return ws, wa, bsp, info_
+
+    # if wind angle difference is big, wrap around
+    # estimate bsp value at 0 (360 resp)
+
+    x0 = slice_[2, 0] * np.sin(np.deg2rad(slice_[1, 0]))
+    x1 = slice_[2, -1] * np.sin(np.deg2rad(slice_[1, -1]))
+    y0 = slice_[2, 0] * np.cos(np.deg2rad(slice_[1, 0]))
+    y1 = slice_[2, -1] * np.cos(np.deg2rad(slice_[1, -1]))
+    lamb = x0 / (x0 - x1)
+    approx_ws = lamb * slice_[0, 0] + (1 - lamb) * slice_[0, -1]
+    approx_bsp = lamb * y0 + (1 - lamb) * y1
+
+    slice_ = np.column_stack(
+        [[approx_ws, 0, approx_bsp], slice_, [approx_ws, 360, approx_bsp]]
+    )
+    if info_ is not None:
+        info_ = [None] + info_ + [None]
 
     ws, wa, bsp = slice_
-
-    # connect if smaller than 180
 
     return ws, wa, bsp, info_
 
@@ -695,6 +726,7 @@ def _determine_color_gradient(colors, gradient):
 
 
 def _get_gradient_coefficients(gradient):
+    gradient = np.asarray(gradient)
     min_gradient = gradient.min()
     max_gradient = gradient.max()
 

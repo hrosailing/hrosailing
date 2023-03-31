@@ -124,6 +124,10 @@ class ODRegressor(Regressor):
         --------
         [ODRPACK](https://docs.scipy.org/doc/external/odrpack_guide.pdf), `Regressor.fit`
         """
+        if data.shape[1] != 3:
+            raise ValueError("`data` has to be of shape (n, 3).")
+        if data.shape[0] == 0:
+            raise ValueError("`data` has to contain at least one record!")
         X, y = data[:, :2], data[:, 2]
 
         odr_data = Data((X[:, 0], X[:, 1]), y)

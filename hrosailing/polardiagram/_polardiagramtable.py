@@ -31,7 +31,7 @@ class PolarDiagramTable(PolarDiagram):
         - If a scalar `num`, resolution will be `numpy.arange(num, 360, num)`.
     bsps : array_like, default: `numpy.zeros((rdim, cdim))`
         Boat speeds that will correspond to the entries of the table.
-        Needs to have dimensions matching `ws_resolution` and `wa_resolution`.
+        Needs to have attributes matching `ws_resolution` and `wa_resolution`.
 
     Attributes
     ----------
