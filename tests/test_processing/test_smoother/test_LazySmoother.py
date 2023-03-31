@@ -1,6 +1,4 @@
-"""
-Tests
-"""
+# pylint: disable-all
 
 from unittest import TestCase
 

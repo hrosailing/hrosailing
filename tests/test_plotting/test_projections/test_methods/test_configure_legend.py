@@ -1,3 +1,4 @@
+# pylint: disable-all
 import unittest
 
 import matplotlib.pyplot as plt

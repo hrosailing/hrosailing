@@ -1,3 +1,4 @@
+# pylint: disable-all
 import unittest
 
 from hrosailing.plotting.projections import _check_plot_kw

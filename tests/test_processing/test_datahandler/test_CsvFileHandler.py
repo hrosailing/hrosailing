@@ -1,6 +1,4 @@
-"""
-Tests
-"""
+# pylint: disable-all
 
 import csv
 import os

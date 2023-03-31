@@ -1,6 +1,4 @@
-"""
-Tests
-"""
+# pylint: disable-all
 
 import os
 import unittest

@@ -1,6 +1,4 @@
-"""
-Tests
-"""
+# pylint: disable-all
 
 from datetime import datetime, timedelta
 from unittest import TestCase

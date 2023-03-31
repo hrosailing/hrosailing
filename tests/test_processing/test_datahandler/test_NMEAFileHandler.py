@@ -1,6 +1,4 @@
-"""
-Tests
-"""
+# pylint: disable-all
 
 import os
 from datetime import date, datetime, time
