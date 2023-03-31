@@ -247,8 +247,7 @@ class FillLocalImputator(Imputator):
             start_idx = max(
                 j
                 for j in idx
-                if j < i
-                and datetime[i] - datetime[j] < self._max_time_diff
+                if j < i and datetime[i] - datetime[j] < self._max_time_diff
             )
         except ValueError:
             start_idx = None
@@ -256,8 +255,7 @@ class FillLocalImputator(Imputator):
             end_idx = min(
                 j
                 for j in idx
-                if j > i
-                and datetime[j] - datetime[i] < self._max_time_diff
+                if j > i and datetime[j] - datetime[i] < self._max_time_diff
             )
         except ValueError:
             end_idx = None
