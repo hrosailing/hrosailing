@@ -29,8 +29,10 @@ setuptools.setup(
         "hrosailing.plotting",
         "hrosailing.polardiagram",
         "hrosailing.pipeline",
-        "hrosailing.pipelinecomponents",
-        "hrosailing.pipelinecomponents.modelfunctions",
+        "hrosailing.processing",
+        "hrosailing.models",
+        "hrosailing.core",
+        "hrosailing.core.modelfunctions"
     ],
     python_requires=">=3.7",
 )
