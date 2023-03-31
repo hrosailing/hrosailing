@@ -10,7 +10,7 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-from hrosailing.core.data import Data, WeightedPoints
+from hrosailing.core.data import WeightedPoints
 from hrosailing.core.statistics import ComponentWithStatistics
 
 

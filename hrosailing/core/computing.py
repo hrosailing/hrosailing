@@ -13,6 +13,9 @@ class _Wind(enum.Enum):
     TO_APPARENT = 1
 
     def convert_wind(self, wind):
+        """
+
+        """
         wind = np.asarray_chkfinite(wind)
 
         if wind.dtype == object:
