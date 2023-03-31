@@ -1,3 +1,7 @@
+"""
+Tests
+"""
+
 from unittest import TestCase
 
 import hrosailing.processing.regressor as reg

@@ -1,3 +1,7 @@
+"""
+Tests
+"""
+
 import os
 import unittest
 

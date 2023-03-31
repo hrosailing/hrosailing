@@ -1,3 +1,7 @@
+"""
+Tests
+"""
+
 from datetime import datetime, timedelta
 from unittest import TestCase
 

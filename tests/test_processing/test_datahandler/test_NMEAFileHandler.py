@@ -1,3 +1,7 @@
+"""
+Tests
+"""
+
 import os
 from datetime import date, datetime, time
 from unittest import TestCase

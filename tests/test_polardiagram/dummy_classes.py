@@ -1,3 +1,7 @@
+"""
+Tests
+"""
+
 import numpy as np
 
 from hrosailing.polardiagram import PolarDiagram
