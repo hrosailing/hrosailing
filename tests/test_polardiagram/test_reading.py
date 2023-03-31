@@ -225,7 +225,7 @@ class TestReadFromArray(unittest.TestCase):
         if os.path.isfile(self.path):
             os.remove(self.path)
 
-class DummyPolarDiagram(PolarDiagram):
+class ReadingDummyPolarDiagram(PolarDiagram):
     """
     Needed for the following tests
     """
@@ -262,7 +262,7 @@ class TestReadInternFormat(unittest.TestCase):
     def setUp(self) -> None:
         self.path = "example.csv"
         lines = [
-            "DummyPolarDiagram\n"
+            "ReadingDummyPolarDiagram\n"
             "Test"
         ]
         with open(self.path, "w", encoding="utf-8") as file:
@@ -315,7 +315,7 @@ class TestFromCSV(unittest.TestCase):
 
         self.path_intern = "example_intern.csv"
         lines = [
-            "DummyPolarDiagram\n"
+            "ReadingDummyPolarDiagram\n"
             "Test"
         ]
         with open(self.path_intern, "w", encoding="utf-8") as file:
