@@ -18,7 +18,7 @@ class TestReadOpenCPNFormat(unittest.TestCase):
     def setUp(self) -> None:
         self.path = "example.csv"
         lines = [
-            "TWA\TWS,6,8,10,12,14,16,20\n",
+            "TWA\\TWS,6,8,10,12,14,16,20\n",
             "52°,3.74,4.48,4.96,5.27,5.47,5.66,5.81\n",
             "60°,3.98,4.73,5.18,5.44,5.67,5.94,6.17\n",
             "75°,4.16,4.93,5.35,5.66,5.95,6.27,6.86\n",
@@ -106,7 +106,7 @@ class TestReadWindSpeeds(unittest.TestCase):
     def setUp(self) -> None:
         self.path = "example.csv"
         lines = [
-            "TWA\TWS,6,8,10,12,14,16,20\n",
+            "TWA\\TWS,6,8,10,12,14,16,20\n",
             "52°,3.74,4.48,4.96,5.27,5.47,5.66,5.81\n",
             "60°,3.98,4.73,5.18,5.44,5.67,5.94,6.17\n",
             "75°,4.16,4.93,5.35,5.66,5.95,6.27,6.86\n",
@@ -183,7 +183,7 @@ class TestReadFromArray(unittest.TestCase):
     def setUp(self) -> None:
         self.path = "example.csv"
         lines = [
-            "TWA\TWS 6   8   10  12  14  16  20\n",
+            "TWA\\TWS 6   8   10  12  14  16  20\n",
             "52  3.74    4.48    4.96    5.27    5.47    5.66    5.81\n",
             "60  3.98    4.73    5.18    5.44    5.67    5.94    6.17\n",
             "75  4.16    4.93    5.35    5.66    5.95    6.27    6.86\n",
@@ -300,7 +300,7 @@ class TestFromCSV(unittest.TestCase):
     def setUp(self) -> None:
         self.path_extern = "example_extern.csv"
         lines = [
-            "TWA\TWS,6,8,10,12,14,16,20\n",
+            "TWA\\TWS,6,8,10,12,14,16,20\n",
             "52°,3.74,4.48,4.96,5.27,5.47,5.66,5.81\n",
             "60°,3.98,4.73,5.18,5.44,5.67,5.94,6.17\n",
             "75°,4.16,4.93,5.35,5.66,5.95,6.27,6.86\n",
