@@ -1,6 +1,5 @@
 from unittest import TestCase
 
-import black.concurrency
 import numpy as np
 
 import hrosailing.processing.interpolator as int
