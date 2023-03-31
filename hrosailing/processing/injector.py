@@ -88,11 +88,11 @@ class ZeroInjector(Injector):
             )
         if data.ndim != 2 or data.shape[1] != 3:
             raise ValueError(
-                f"`weighted_points.data` should be of shape (n, 3)"
+                "`weighted_points.data` should be of shape (n, 3)"
             )
         if len(data.T) == 0:
             raise ValueError(
-                f"`weighted_points.data` should contain at least one record."
+                "`weighted_points.data` should contain at least one record."
             )
 
         ws = data[:, 0]

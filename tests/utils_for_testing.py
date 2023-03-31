@@ -1,3 +1,5 @@
+# pylint: disable-all
+
 from unittest import TestCase
 
 import numpy as np

@@ -1,3 +1,7 @@
+"""
+Methods for reading polar diagram information from files.
+"""
+
 import csv
 from ast import literal_eval
 

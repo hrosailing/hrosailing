@@ -194,7 +194,7 @@ class Data:
             self.update(data_dict.data)
             return
         if not isinstance(data_dict, dict):
-            raise TypeError(f"`data_dict` has to be of type `Data` or `dict`")
+            raise TypeError("`data_dict` has to be of type `Data` or `dict`")
         self.fill(
             self._max_len, itertools.chain(data_dict.keys(), self.keys())
         )

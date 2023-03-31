@@ -242,28 +242,32 @@ class FillLocalImputator(Imputator):
 
         return data
 
+    def _get_start_and_end_idx(self, datetime, i, idx):
+        try:
+            start_idx = max(
+                j
+                for j in idx
+                if j < i
+                and datetime[i] - datetime[j] < self._max_time_diff
+            )
+        except ValueError:
+            start_idx = None
+        try:
+            end_idx = min(
+                j
+                for j in idx
+                if j > i
+                and datetime[j] - datetime[i] < self._max_time_diff
+            )
+        except ValueError:
+            end_idx = None
+
     def _apply_fill_functions(self, datetime, idx, key, data):
         for i, entry in enumerate(data[key]):
             if i in idx:
                 continue
-            try:
-                start_idx = max(
-                    j
-                    for j in idx
-                    if j < i
-                    and datetime[i] - datetime[j] < self._max_time_diff
-                )
-            except ValueError:
-                start_idx = None
-            try:
-                end_idx = min(
-                    j
-                    for j in idx
-                    if j > i
-                    and datetime[j] - datetime[i] < self._max_time_diff
-                )
-            except ValueError:
-                end_idx = None
+
+            start_idx, end_idx = self._get_start_and_end_idx(datetime, i, idx)
 
             if start_idx is None and end_idx is None:
                 continue
