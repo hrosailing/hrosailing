@@ -33,7 +33,7 @@ create own ones.
 The package also provides many navigational usages of polar
 (performance) diagrams with `cruising`.
 
-You can find the documentation [here](https://hrosailing.github.io/hrosailing/ "hrosailing").
+You can find the documentation [here](https://hrosailing.github.io/hrosailing/).
 See also the examples below for some showcases.
 
 
