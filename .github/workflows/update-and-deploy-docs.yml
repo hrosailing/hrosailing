@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
+      - uses: actions/setup-python@v4
         with: 
           python-version: '3.8'
       - run: |
@@ -21,11 +21,9 @@ jobs:
           pip install pdoc
       - run: pdoc -o docs/ -d numpy --search --math --no-show-source --logo "https://raw.githubusercontent.com/hrosailing/hrosailing/main/logo.png" hrosailing
       
-      - run: tar --directory docs/ -hcf artifact.tar .
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-pages-artifact@v1
         with:
-          name: github-pages
-          path: ./artifact.tar
+          path: docs/
         
 
   deploy:
@@ -39,5 +37,5 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v2
           
