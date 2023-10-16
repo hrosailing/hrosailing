@@ -12,7 +12,7 @@ import hrosailing.polardiagram as pol
 import hrosailing.processing as pc
 from hrosailing.core.modelfunctions import ws_s_wa_gauss_and_square
 from hrosailing.core.statistics import ComponentWithStatistics
-from hrosailing.polardiagram._polardiagramtable import _Resolution
+from hrosailing.polardiagram._polardiagramtable import _Resolution_helper
 
 
 class PipelineExtension(ComponentWithStatistics, ABC):
@@ -130,8 +130,8 @@ class TableExtension(PipelineExtension):
 
         ws_resolution, wa_resolution = self.wind_resolution
         return (
-            _Resolution.WIND_SPEED.set_resolution(ws_resolution),
-            _Resolution.WIND_ANGLE.set_resolution(wa_resolution),
+            _Resolution_helper.build_wind_speed_resolution(ws_resolution),
+            _Resolution_helper.build_wind_angle_resolution(wa_resolution),
         )
 
 
