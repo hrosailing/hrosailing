@@ -141,8 +141,12 @@ class PolarDiagramTable(PolarDiagram):
         return slices
 
     def __init__(self, ws_resolution=None, wa_resolution=None, bsps=None):
-        ws_resolution = _Resolution.WIND_SPEED.set_resolution(ws_resolution)
-        wa_resolution = _Resolution.WIND_ANGLE.set_resolution(wa_resolution)
+        ws_resolution = _Resolution_helper.build_wind_speed_resolution(
+            ws_resolution
+        )
+        wa_resolution = _Resolution_helper.build_wind_angle_resolution(
+            wa_resolution
+        )
 
         if bsps is None:
             self._create_zero_table(ws_resolution, wa_resolution)
@@ -300,21 +304,21 @@ class PolarDiagramTable(PolarDiagram):
         """Returns the value of a given entry in the table."""
         ws, wa = key[0]
 
-        col = self._get_indices(np.atleast_1d(ws), _Resolution.WIND_SPEED)
-        row = self._get_indices(np.atleast_1d(wa), _Resolution.WIND_ANGLE)
+        col = self._get_indices(np.atleast_1d(ws), _Resolution_type.WIND_SPEED)
+        row = self._get_indices(np.atleast_1d(wa), _Resolution_type.WIND_ANGLE)
         return float(self.boat_speeds[row, col])
 
-    def _get_indices(self, wind, soa):
+    def _get_indices(self, wind, resolution_type):
         res = (
             self.wind_speeds
-            if soa.name == _Resolution.WIND_SPEED.name
+            if resolution_type == _Resolution_type.WIND_SPEED
             else self.wind_angles
         )
 
         if wind is None:
             return range(len(res))
 
-        wind = soa.normalize_wind(wind)
+        wind = _Resolution_helper.normalize_wind(wind, resolution_type)
 
         # sanity checks
         if not wind:
@@ -630,8 +634,8 @@ class PolarDiagramTable(PolarDiagram):
         if new_bsps.dtype == object:
             raise TypeError("`new_bsps` is not array_like")
 
-        ws = self._get_indices(ws, _Resolution.WIND_SPEED)
-        wa = self._get_indices(wa, _Resolution.WIND_ANGLE)
+        ws = self._get_indices(ws, _Resolution_type.WIND_SPEED)
+        wa = self._get_indices(wa, _Resolution_type.WIND_ANGLE)
 
         wa_len = len(wa) == 1
         ws_len = len(ws) == 1
@@ -657,24 +661,75 @@ class PolarDiagramTable(PolarDiagram):
         self._boat_speeds[mask] = new_bsps.flat
 
 
-class _Resolution(enum.Enum):
-    WIND_SPEED = (np.arange(2, 42, 2), 40)
-    WIND_ANGLE = (np.arange(0, 360, 5), 360)
+class _Resolution_type(enum.Enum):
+    WIND_SPEED = "WIND_SPEED"
+    WIND_ANGLE = "WIND_ANGLE"
 
-    def __init__(self, standard_res, max_value):
-        self.standard_res = standard_res
-        self.max_value = max_value
 
-    def set_resolution(self, res):
+class _Resolution_helper:
+    WIND_SPEED_STANDARD_RESOLUTION = np.arange(2, 42, 2)
+    WIND_SPEED_STANDARD_MAX_VALUE = 40
+    WIND_ANGLE_STANDARD_RESOLUTION = np.arange(0, 360, 5)
+    WIND_ANGLE_STANDARD_MAX_VALUE = 360
+
+    @staticmethod
+    def build_wind_speed_resolution(descriptive_resolution=None):
+        return _Resolution_helper._descriptive_resolution_to_ndarray(
+            _Resolution_type.WIND_SPEED, descriptive_resolution
+        )
+
+    @staticmethod
+    def build_wind_angle_resolution(descriptive_resolution=None):
+        return _Resolution_helper._descriptive_resolution_to_ndarray(
+            _Resolution_type.WIND_ANGLE, descriptive_resolution
+        )
+
+    def __len__(self):
+        return len(self.resolution)
+
+    def __iter__(self):
+        yield from self.resolution
+
+    @staticmethod
+    def _get_standard_resolution(resolution_type):
+        if resolution_type == _Resolution_type.WIND_SPEED:
+            return _Resolution_helper.WIND_SPEED_STANDARD_RESOLUTION
+
+        if resolution_type == _Resolution_type.WIND_ANGLE:
+            return _Resolution_helper.WIND_ANGLE_STANDARD_RESOLUTION
+
+        raise TypeError(
+            'A resolution has to be one of "WIND_SPEED" or "WIND_ANGLE"'
+        )
+
+    @staticmethod
+    def _get_standard_max_value(resolution_type):
+        if resolution_type == _Resolution_type.WIND_SPEED:
+            return _Resolution_helper.WIND_SPEED_STANDARD_MAX_VALUE
+
+        if resolution_type == _Resolution_type.WIND_ANGLE:
+            return _Resolution_helper.WIND_ANGLE_STANDARD_MAX_VALUE
+
+        raise TypeError(
+            'A resolution has to be one of "WIND_SPEED" or "WIND_ANGLE"'
+        )
+
+    @staticmethod
+    def _descriptive_resolution_to_ndarray(resolution_type, res):
         if res is None:
-            return self.standard_res
+            return _Resolution_helper._get_standard_resolution(resolution_type)
 
         if isinstance(res, Iterable):
-            return self._custom_iterable_resolution(res)
+            return _Resolution_helper._custom_iterable_resolution(
+                resolution_type, res
+            )
 
-        return self._custom_stepsize_resolution(res)
+        return _Resolution_helper._custom_stepsize_resolution(
+            resolution_type, res
+        )
 
-    def _custom_iterable_resolution(self, res):
+    @staticmethod
+    def _custom_iterable_resolution(resolution_type, res):
         # NaN's and infinite values can cause problems later on
         res = np.asarray_chkfinite(res)
 
@@ -690,35 +745,39 @@ class _Resolution(enum.Enum):
                 "This may lead to unwanted behaviour"
             )
 
-        if self.name == _Resolution.WIND_SPEED.name:
+        if resolution_type == _Resolution_type.WIND_SPEED:
             if np.any((res < 0)):
                 raise ValueError("`res` contains negative entries")
 
-        if self.name == _Resolution.WIND_ANGLE.name:
+        if resolution_type == _Resolution_type.WIND_ANGLE:
             res %= 360
 
         return res
 
-    def _custom_stepsize_resolution(self, res):
+    @staticmethod
+    def _custom_stepsize_resolution(resolution_type, res):
         if res <= 0:
             raise ValueError("`res` is non-positive")
 
-        if res > self.max_value:
+        max_value = _Resolution_helper._get_standard_max_value(resolution_type)
+
+        if res > max_value:
             raise ValueError(
                 f"Resolution stepsize ({res}) is bigger than the maximal"
-                f" resolution value ({self.max_value})."
+                f" resolution value ({max_value})."
             )
 
-        return np.arange(res, self.max_value, res)
+        return np.arange(res, max_value, res)
 
-    def normalize_wind(self, wind):
+    @staticmethod
+    def normalize_wind(wind, resolution_type):
         wind = np.atleast_1d(wind)  # allow scalar inputs
 
-        if self.name == _Resolution.WIND_SPEED.name:
+        if resolution_type == _Resolution_type.WIND_SPEED:
             if np.any((wind < 0)):
                 raise ValueError("`wind` is negative")
 
-        if self.name == _Resolution.WIND_ANGLE.name:
+        if resolution_type == _Resolution_type.WIND_ANGLE:
             wind %= 360
 
         return set(wind)

@@ -166,10 +166,8 @@ class TestFuzzyVariable(TestCase):
         self.assertEqual(
             result._next_sharpness,
             expected_new_sharpness,
-            (
-                f"Expected {expected_new_sharpness} but got"
-                f" {result._next_sharpness}!"
-            ),
+            f"Expected {expected_new_sharpness} but got"
+            f" {result._next_sharpness}!",
         )
         self.assertEqual(
             result._sharpness,

@@ -96,10 +96,8 @@ class TestPolarDiagramMultisails(unittest.TestCase):
         # Input/Output
         self.assertEqual(
             repr(self.pd),
-            (
-                "PolarDiagramMultiSails(['Dummy()', 'Dummy()'], ['Sail 0',"
-                " 'Sail 1'])"
-            ),
+            "PolarDiagramMultiSails(['Dummy()', 'Dummy()'], ['Sail 0',"
+            " 'Sail 1'])",
         )
 
     def test_call(self):
