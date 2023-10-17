@@ -345,11 +345,9 @@ def _interpolate_point(point, weighted_points, neighbourhood, interpolator):
 
     if _neighbourhood_too_small(considered):
         warnings.warn(
-            (
-                "Neighbourhood possibly to `small`, or"
-                "chosen resolution not fitting for data. "
-                "Interpolation will not lead to complete results"
-            ),
+            "Neighbourhood possibly to `small`, or"
+            "chosen resolution not fitting for data. "
+            "Interpolation will not lead to complete results",
             category=InterpolationWarning,
         )
         return np.concatenate([point, [0]])

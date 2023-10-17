@@ -140,14 +140,13 @@ class PolarDiagramTable(PolarDiagram):
             )
         return slices
 
-    def __init__(
-            self,
-            ws_resolution=None,
-            wa_resolution=None,
-            bsps=None
-    ):
-        ws_resolution = _Resolution_helper.build_wind_speed_resolution(ws_resolution)
-        wa_resolution = _Resolution_helper.build_wind_angle_resolution(wa_resolution)
+    def __init__(self, ws_resolution=None, wa_resolution=None, bsps=None):
+        ws_resolution = _Resolution_helper.build_wind_speed_resolution(
+            ws_resolution
+        )
+        wa_resolution = _Resolution_helper.build_wind_angle_resolution(
+            wa_resolution
+        )
 
         if bsps is None:
             self._create_zero_table(ws_resolution, wa_resolution)
@@ -676,15 +675,13 @@ class _Resolution_helper:
     @staticmethod
     def build_wind_speed_resolution(descriptive_resolution=None):
         return _Resolution_helper._descriptive_resolution_to_ndarray(
-            _Resolution_type.WIND_SPEED,
-            descriptive_resolution
+            _Resolution_type.WIND_SPEED, descriptive_resolution
         )
 
     @staticmethod
     def build_wind_angle_resolution(descriptive_resolution=None):
         return _Resolution_helper._descriptive_resolution_to_ndarray(
-            _Resolution_type.WIND_ANGLE,
-            descriptive_resolution
+            _Resolution_type.WIND_ANGLE, descriptive_resolution
         )
 
     def __len__(self):
@@ -723,9 +720,13 @@ class _Resolution_helper:
             return _Resolution_helper._get_standard_resolution(resolution_type)
 
         if isinstance(res, Iterable):
-            return _Resolution_helper._custom_iterable_resolution(resolution_type, res)
+            return _Resolution_helper._custom_iterable_resolution(
+                resolution_type, res
+            )
 
-        return _Resolution_helper._custom_stepsize_resolution(resolution_type, res)
+        return _Resolution_helper._custom_stepsize_resolution(
+            resolution_type, res
+        )
 
     @staticmethod
     def _custom_iterable_resolution(resolution_type, res):
