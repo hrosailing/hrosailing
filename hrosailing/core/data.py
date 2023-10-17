@@ -435,7 +435,7 @@ class Data:
             if curr_type is None:
                 curr_type = type(entry)
                 continue
-            if type(entry) != curr_type:
+            if type(entry) is not curr_type:
                 raise ValueError(
                     "Data has no consistent type."
                     f"Found the types {type(entry)} and {curr_type}"

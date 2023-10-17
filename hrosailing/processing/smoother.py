@@ -95,7 +95,7 @@ class AffineSmoother(Smoother):
                 " series."
             )
         for key in data.keys():
-            if data.type(key) == float:
+            if data.type(key) is float:
                 data = self._smooth_field(key, data)
         return data
 
