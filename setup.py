@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="hrosailing",
-    version="0.11.0",
+    version="0.11.1",
     author="Valentin Dannenberg & Robert Schueler",
     author_email="valentin.dannenberg2@uni-rostock.de",
     description="Python library for Polar (Performance) Diagrams",
