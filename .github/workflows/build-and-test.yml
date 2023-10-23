@@ -1,7 +1,10 @@
 name: Test
 
-on: [push]
-
+on:
+  schedule:
+    - cron: "23 3 19 * *"
+  push:
+  
 jobs:
   build:
     runs-on: ubuntu-latest
