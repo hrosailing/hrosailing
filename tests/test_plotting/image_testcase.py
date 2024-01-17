@@ -18,24 +18,16 @@ class ImageTestcase(unittest.TestCase):
         self.debug = False
 
     def set_expected_plot(self):
-        """saves the plot currently stored in `matplotlib.pyplot`
-        as expected plot and resets `matplotlib.pyplot`."""
         save_plot("expected.png")
 
     def set_result_plot(self):
-        """saves the plot currently stored in `matplotlib.pyplot`
-        as resulting plot and resets `matplotlib.pyplot`."""
         save_plot("result.png")
 
     def assertPlotsEqual(self, tol=10):
-        """
-        Checks if the last plot saved with `set_expected_plot` equals the
-        last plot saved with `set_result_plot` up to an accuracy of `tol`.
-        """
         res = compare_images("./expected.png", "./result.png", tol=tol)
         self.assertIsNone(res)
 
-    def tearDown(self) -> None:
+    def tearDown(self):
         super().tearDown()
         if self.debug:
             return

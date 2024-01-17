@@ -2,11 +2,9 @@
 
 from unittest import TestCase
 
-import numpy as np
-
 
 class hroTestCase(TestCase):
-    def assert_list_almost_equal(self, result, expected_result, places, msg):
+    def assert_list_almost_equal(self, result, expected_result, places, msg=""):
         for i, element in enumerate(expected_result):
             try:
                 if result[i] is None:
@@ -15,14 +13,15 @@ class hroTestCase(TestCase):
                 if element is None:
                     self.assertIsNone(result[i])
                     continue
+
                 self.assertAlmostEqual(result[i], element, places, msg)
-            except AssertionError as exp:
+            except AssertionError as e:
                 raise AssertionError(
                     f"{result} != {expected_result},\n"
                     "first different entry is "
                     f"{result[i]} != {expected_result[i]} at index {i}.\n\n"
                     f"{msg}"
-                ) from exp
+                ) from e
 
     def assert_time_list_equal(self, result, expected, msg=""):
         for i, (res, exp) in enumerate(zip(result, expected)):
@@ -30,16 +29,19 @@ class hroTestCase(TestCase):
                 if result[i] is None:
                     self.assertIsNone(exp)
                     continue
+
                 if exp is None:
                     self.assertIsNone(result[i])
                     continue
-            except AssertionError as error:
+
+            except AssertionError as e:
                 raise AssertionError(
                     f"{result} != {expected},\n"
                     "first different entry is "
                     f"{result[i]} != {expected[i]} at index {i}.\n\n"
                     f"{msg}"
-                ) from error
+                ) from e
+
             is_equal = (
                 (res.hour == exp.hour)
                 and (res.minute == exp.minute)

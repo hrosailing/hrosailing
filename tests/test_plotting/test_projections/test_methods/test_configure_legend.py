@@ -1,4 +1,5 @@
 # pylint: disable-all
+
 import unittest
 
 import matplotlib.pyplot as plt
@@ -8,7 +9,6 @@ from hrosailing.plotting.projections import _configure_legend
 
 class TestConfigureLegend(unittest.TestCase):
     def test_color_gradients(self):
-        # Execution Test
         _configure_legend(
             plt.subplot(),
             [1, 2, 3],
@@ -18,7 +18,6 @@ class TestConfigureLegend(unittest.TestCase):
         )
 
     def test_tuples(self):
-        # Execution Test
         _configure_legend(
             plt.subplot(),
             [1, 2, 3],
@@ -28,7 +27,6 @@ class TestConfigureLegend(unittest.TestCase):
         )
 
     def test_color_list(self):
-        # Execution Test
         _configure_legend(
             plt.subplot(),
             [1, 2, 3],

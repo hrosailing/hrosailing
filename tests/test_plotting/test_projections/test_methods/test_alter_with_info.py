@@ -1,4 +1,5 @@
 # pylint: disable-all
+
 import unittest
 
 import numpy as np
@@ -22,7 +23,6 @@ class TestAlterWithInfo(unittest.TestCase):
         np.testing.assert_array_equal(result, expected)
 
     def test_edge_case_empty(self):
-        # Input/Output with empty data
         result = _alter_with_info(np.empty((0)), np.empty((0)), [])
         expected = np.empty((2, 0))
 

@@ -3,14 +3,12 @@
 from datetime import datetime, timedelta
 from unittest import TestCase
 
-import numpy as np
-
 import hrosailing.core.data as dt
 import hrosailing.processing.imputator as imp
 
 
 class TestFillLocalImputator(TestCase):
-    def setUp(self) -> None:
+    def setUp(self):
         self.fill_before = lambda name, right, mu: right - 0.1
         self.fill_between = lambda name, left, right, mu: 0.5 * (left + right)
         self.fill_after = lambda name, left, mu: left - 0.1
@@ -35,9 +33,6 @@ class TestFillLocalImputator(TestCase):
         )
 
     def test_impute_default(self):
-        """
-        Input/Output-Test.
-        """
         result = imp.FillLocalImputator().impute(self.data)._data
         expected_result = {
             "datetime": [
@@ -53,16 +48,10 @@ class TestFillLocalImputator(TestCase):
             "BSP": [14, 16, 16, 16, 14, 14],
             "idx": [1, 2, 3, 4, 5, 6],
         }
-        self.assertDictEqual(
-            result,
-            expected_result,
-            f"Expected {expected_result} but got {result}!",
-        )
+
+        self.assertDictEqual(result, expected_result)
 
     def test_impute_custom_fill_before(self):
-        """
-        Input/Output-Test.
-        """
         result = (
             imp.FillLocalImputator(fill_before=self.fill_before)
             .impute(self.data)
@@ -82,16 +71,10 @@ class TestFillLocalImputator(TestCase):
             "BSP": [14, 16, 16, 16, 13.9, 14],
             "idx": [1, 2, 3, 4, 5, 6],
         }
-        self.assertDictEqual(
-            result,
-            expected_result,
-            f"Expected {expected_result} but got {result}!",
-        )
+
+        self.assertDictEqual(result, expected_result)
 
     def test_impute_custom_fill_after(self):
-        """
-        Input/Output-Test.
-        """
         result = (
             imp.FillLocalImputator(fill_after=self.fill_after)
             .impute(self.data)
@@ -111,12 +94,10 @@ class TestFillLocalImputator(TestCase):
             "BSP": [14, 16, 15.9, 15.9, 14, 14],
             "idx": [1, 2, 3, 4, 5, 6],
         }
+
         self.assertDictEqual(result, expected_result)
 
     def test_impute_custom_fill_between(self):
-        """
-        Input/Output-Test.
-        """
         result = (
             imp.FillLocalImputator(fill_between=self.fill_between)
             .impute(self.data)
@@ -136,15 +117,9 @@ class TestFillLocalImputator(TestCase):
             "BSP": [14, 16, 16, 16, 14, 14],
             "idx": [1, 2, 3, 4, 5, 6],
         }
-        self.assertDictEqual(
-            result,
-            expected_result,
-            f"Expected {expected_result} but got {result}!",
-        )
+
+        self.assertDictEqual(result, expected_result)
 
     def test_impute_edge_empty_Data(self):
-        """
-        EdgeCase: Data is empty.
-        """
         with self.assertRaises(KeyError):
             imp.FillLocalImputator().impute(dt.Data())

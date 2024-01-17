@@ -24,7 +24,7 @@ from hrosailing.polardiagram._reading import (
 
 
 class TestReadOpenCPNFormat(unittest.TestCase):
-    def setUp(self) -> None:
+    def setUp(self):
         self.path = "example.csv"
         lines = [
             "TWA\\TWS,6,8,10,12,14,16,20\n",
@@ -41,9 +41,9 @@ class TestReadOpenCPNFormat(unittest.TestCase):
             file.writelines(lines)
 
     def test_call(self):
-        # Input/Output
         with open(self.path, "r", encoding="utf-8") as file:
             ws_res, wa_res, bsps = _read_opencpn_format(file)
+
         self.assertEqual(ws_res, [6, 8, 10, 12, 14, 16, 20])
         self.assertEqual(wa_res, [52, 60, 75, 90, 110, 120, 135, 150])
         self.assertEqual(
@@ -61,17 +61,16 @@ class TestReadOpenCPNFormat(unittest.TestCase):
         )
 
     def test_read_extern_format(self):
-        # Execution Test
         with open(self.path, "r", encoding="utf-8") as file:
             _read_extern_format(file, "opencpn")
 
-    def tearDown(self) -> None:
+    def tearDown(self):
         if os.path.isfile(self.path):
             os.remove(self.path)
 
 
 class TestReadWindAnglesAndBoatSpeeds(unittest.TestCase):
-    def setUp(self) -> None:
+    def setUp(self):
         self.path = "example.csv"
         lines = [
             "52°,3.74,4.48,4.96,5.27,5.47,5.66,5.81\n",
@@ -87,10 +86,10 @@ class TestReadWindAnglesAndBoatSpeeds(unittest.TestCase):
             file.writelines(lines)
 
     def test_call(self):
-        # Input/Output
         with open(self.path, "r", encoding="utf-8") as file:
             csv_reader = csv.reader(file, delimiter=",")
             wa_res, bsps = _read_wind_angles_and_boat_speeds(csv_reader)
+
         self.assertEqual(wa_res, [52, 60, 75, 90, 110, 120, 135, 150])
         self.assertEqual(
             bsps,
@@ -106,13 +105,13 @@ class TestReadWindAnglesAndBoatSpeeds(unittest.TestCase):
             ],
         )
 
-    def tearDown(self) -> None:
+    def tearDown(self):
         if os.path.isfile(self.path):
             os.remove(self.path)
 
 
 class TestReadWindSpeeds(unittest.TestCase):
-    def setUp(self) -> None:
+    def setUp(self):
         self.path = "example.csv"
         lines = [
             "TWA\\TWS,6,8,10,12,14,16,20\n",
@@ -129,19 +128,19 @@ class TestReadWindSpeeds(unittest.TestCase):
             file.writelines(lines)
 
     def test_call(self):
-        # Input/Output
         with open(self.path, "r", encoding="utf-8") as file:
             csv_reader = csv.reader(file, delimiter=",")
             ws_res = _read_wind_speeds(csv_reader)
+
             self.assertEqual(ws_res, [6, 8, 10, 12, 14, 16, 20])
 
-    def tearDown(self) -> None:
+    def tearDown(self):
         if os.path.isfile(self.path):
             os.remove(self.path)
 
 
 class TestReadORCFormat(unittest.TestCase):
-    def setUp(self) -> None:
+    def setUp(self):
         self.path = "example.csv"
         lines = [
             "twa/tws;6;8;10;12;14;16;20\n",
@@ -159,9 +158,9 @@ class TestReadORCFormat(unittest.TestCase):
             file.writelines(lines)
 
     def test_call(self):
-        # Input/Output
         with open(self.path, "r", encoding="utf-8") as file:
             ws_res, wa_res, bsps = _read_orc_format(file)
+
         self.assertEqual(ws_res, [6, 8, 10, 12, 14, 16, 20])
         self.assertEqual(wa_res, [52, 60, 75, 90, 110, 120, 135, 150])
         self.assertEqual(
@@ -179,17 +178,16 @@ class TestReadORCFormat(unittest.TestCase):
         )
 
     def test_read_extern_format(self):
-        # Execution Test
         with open(self.path, "r", encoding="utf-8") as file:
             _read_extern_format(file, "orc")
 
-    def tearDown(self) -> None:
+    def tearDown(self):
         if os.path.isfile(self.path):
             os.remove(self.path)
 
 
 class TestReadFromArray(unittest.TestCase):
-    def setUp(self) -> None:
+    def setUp(self):
         self.path = "example.csv"
         lines = [
             "TWA\\TWS 6   8   10  12  14  16  20\n",
@@ -206,9 +204,9 @@ class TestReadFromArray(unittest.TestCase):
             file.writelines(lines)
 
     def test_call(self):
-        # Input/Output
         with open(self.path, "r", encoding="utf-8") as file:
             ws_res, wa_res, bsps = _read_from_array(file)
+
         np.testing.assert_array_equal(ws_res, [6, 8, 10, 12, 14, 16, 20])
         np.testing.assert_array_equal(
             wa_res, [52, 60, 75, 90, 110, 120, 135, 150]
@@ -228,20 +226,15 @@ class TestReadFromArray(unittest.TestCase):
         )
 
     def test_read_extern_format(self):
-        # Execution Test
         with open(self.path, "r", encoding="utf-8") as file:
             _read_extern_format(file, "array")
 
-    def tearDown(self) -> None:
+    def tearDown(self):
         if os.path.isfile(self.path):
             os.remove(self.path)
 
 
 class ReadingDummyPolarDiagram(PolarDiagram):
-    """
-    Needed for the following tests
-    """
-
     def __init__(self, teststr):
         super().__init__()
         self.teststr = teststr
@@ -272,7 +265,7 @@ class ReadingDummyPolarDiagram(PolarDiagram):
 
 
 class TestReadInternFormat(unittest.TestCase):
-    def setUp(self) -> None:
+    def setUp(self):
         self.path = "example.csv"
         lines = ["ReadingDummyPolarDiagram\nTest"]
         with open(self.path, "w", encoding="utf-8") as file:
@@ -284,19 +277,17 @@ class TestReadInternFormat(unittest.TestCase):
             file.writelines(lines)
 
     def test_existing_polar_diagram_class(self):
-        # Input/Output
         with open(self.path, "r", encoding="utf-8") as file:
             pd = _read_intern_format(file)
 
         self.assertEqual(pd.teststr, "Test")
 
     def test_non_existent_polar_diagram_class(self):
-        # Exception test
         with self.assertRaises(FileReadingException):
             with open(self.path_fail, "r", encoding="utf-8") as file:
                 _read_intern_format(file)
 
-    def tearDown(self) -> None:
+    def tearDown(self):
         if os.path.isfile(self.path):
             os.remove(self.path)
         if os.path.isfile(self.path_fail):
@@ -304,7 +295,7 @@ class TestReadInternFormat(unittest.TestCase):
 
 
 class TestFromCSV(unittest.TestCase):
-    def setUp(self) -> None:
+    def setUp(self):
         self.path_extern = "example_extern.csv"
         lines = [
             "TWA\\TWS,6,8,10,12,14,16,20\n",
@@ -326,7 +317,6 @@ class TestFromCSV(unittest.TestCase):
             file.writelines(lines)
 
     def test_wrong_format(self):
-        # Exception test
         with self.assertRaises(ValueError):
             from_csv(self.path_extern, fmt="wrong_format")
 
@@ -336,7 +326,7 @@ class TestFromCSV(unittest.TestCase):
     def test_extern_format(self):
         from_csv(self.path_extern, fmt="opencpn")
 
-    def tearDown(self) -> None:
+    def tearDown(self):
         if os.path.isfile(self.path_extern):
             os.remove(self.path_extern)
         if os.path.isfile(self.path_intern):

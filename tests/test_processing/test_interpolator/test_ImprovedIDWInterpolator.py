@@ -9,7 +9,7 @@ import hrosailing.processing.interpolator as itp
 
 
 class TestIDWInterpolator(TestCase):
-    def setUp(self) -> None:
+    def setUp(self):
         self.norm = lambda x: 0.3 * np.linalg.norm(x, ord=2, axis=1)
 
         self.wpts = dt.WeightedPoints(
@@ -28,30 +28,17 @@ class TestIDWInterpolator(TestCase):
         self.grid_pt = np.array([0, 0])
 
     def test_interpolate_default(self):
-        """
-        Input/Output-Test.
-        """
         result = itp.ImprovedIDWInterpolator().interpolate(
             self.wpts, self.grid_pt
         )
         expected_result = 0.875
-        self.assertEqual(
-            result,
-            expected_result,
-            msg=f"Expected {expected_result} but got {result}!",
-        )
+
+        self.assertEqual(result, expected_result)
 
     def test_interpolate_custom_norm(self):
-        """
-        Input/Output-Test.
-        """
         result = itp.ImprovedIDWInterpolator(norm=self.norm).interpolate(
             self.wpts, self.grid_pt
         )
         expected_result = 0.875
-        self.assertAlmostEqual(
-            result,
-            expected_result,
-            places=3,
-            msg=f"Expected {expected_result} but got {result}!",
-        )
+
+        self.assertAlmostEqual(result, expected_result, places=3)

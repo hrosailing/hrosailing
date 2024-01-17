@@ -2,7 +2,6 @@
 
 import os
 from datetime import date, datetime, time
-from unittest import TestCase
 
 import numpy as np
 
@@ -12,7 +11,7 @@ from tests.utils_for_testing import hroTestCase
 
 
 class TestNMEAFileHandler(hroTestCase):
-    def setUp(self) -> None:
+    def setUp(self):
         self.wanted_sen = ["MWV"]
         self.unwanted_sen = ["GLL"]
         self.all_sen = ["MWV", "GLL"]
@@ -60,205 +59,120 @@ class TestNMEAFileHandler(hroTestCase):
         with open("TestNMEAFileHandler.vdr", "w") as file:
             file.writelines(self.sentences)
 
-    def tearDown(self) -> None:
+    def tearDown(self):
         os.remove("TestNMEAFileHandler.vdr")
 
     def test_init_senfilter_wanted_sentences_is_not_None(self):
-        """
-        Input/Output-Test.
-        """
         result = dth.NMEAFileHandler(
             wanted_sentences=self.wanted_sen
         )._sentence_filter(self.sentences[2])
         expected_result = False
-        self.assertEqual(
-            result,
-            expected_result,
-            f"Expected {expected_result} but got {result}!",
-        )
+
+        self.assertEqual(result, expected_result)
 
     def test_init_senfilter_unwanted_sentences_is_not_None(self):
-        """
-        Input/Output-Test.
-        """
         result = dth.NMEAFileHandler(
             unwanted_sentences=self.unwanted_sen
         )._sentence_filter(self.sentences[1])
         expected_result = True
-        self.assertEqual(
-            result,
-            expected_result,
-            f"Expected {expected_result} but got {result}!",
-        )
+
+        self.assertEqual(result, expected_result)
 
     def test_init_senfilter_both_set(self):
-        """
-        Input/Output-Test.
-        """
         result = dth.NMEAFileHandler(
             unwanted_sentences=self.unwanted_sen,
             wanted_sentences=self.wanted_sen,
         )._sentence_filter(self.sentences[5])
         expected_result = False
-        self.assertEqual(
-            result,
-            expected_result,
-            f"Expected {expected_result} but got {result}!",
-        )
+
+        self.assertEqual(result, expected_result)
 
     def test_init_attrfilter_wanted_attributes_is_not_None(self):
-        """
-        Input/Output-Test.
-        """
         result = dth.NMEAFileHandler(
             wanted_attributes=self.wanted_attr
         )._attribute_filter(self.field[0])
         expected_result = True
-        self.assertEqual(
-            result,
-            expected_result,
-            f"Expected {expected_result} but got {result}!",
-        )
+
+        self.assertEqual(result, expected_result)
 
     def test_init_attrfilter_unwanted_attributes_is_not_None(self):
-        """
-        Input/Output-Test.
-        """
         result = dth.NMEAFileHandler(
             unwanted_attributes=self.unwanted_attr
         )._attribute_filter(self.field[3])
         expected_result = False
-        self.assertEqual(
-            result,
-            expected_result,
-            f"Expected {expected_result} but got {result}!",
-        )
+
+        self.assertEqual(result, expected_result)
 
     def test_init_attrfilter_both_None(self):
-        """
-        Input/Output-Test.
-        """
         result = dth.NMEAFileHandler()._attribute_filter(self.field[2])
         expected_result = True
-        self.assertEqual(
-            result,
-            expected_result,
-            f"Expected {expected_result} but got {result}!",
-        )
+
+        self.assertEqual(result, expected_result)
 
     def test_handle_default(self):
-        """
-        Input/Output-Test.
-        """
         handler = dth.NMEAFileHandler(
             post_filter_types=(float, date, time, datetime, str)
         )
         result = handler.handle("TestNMEAFileHandler.vdr")._data
         expected_result = self.data_all
-        self.assertListEqual(
-            result["TWS"], expected_result["TWS"], f"Unexpected TWS!"
-        )
-        self.assertListEqual(
-            result["TWA"], expected_result["TWA"], f"Unexpected TWA!"
-        )
 
+        self.assertListEqual(result["TWS"], expected_result["TWS"])
+        self.assertListEqual(result["TWA"], expected_result["TWA"])
         self.assert_list_almost_equal(
             result=result["lat"],
             expected_result=expected_result["lat"],
             places=3,
-            msg=f"Unexpected lat!",
         )
         self.assert_list_almost_equal(
             result=result["lon"],
             expected_result=expected_result["lon"],
             places=3,
-            msg=f"Unexpected lon!",
         )
-
         self.assert_time_list_equal(
-            result["time"], expected_result["time"], f"Unexpected time!"
+            result["time"],
+            expected_result["time"],
         )
 
     def test_handle_custom_wanted_sentences(self):
-        """
-        Input/Output-Test.
-        """
         result = (
             dth.NMEAFileHandler(wanted_sentences=self.wanted_sen)
             .handle("TestNMEAFileHandler.vdr")
             ._data
         )
         expected_result = self.data_attr_sel._data
-        self.assertListEqual(
-            result["TWA"],
-            expected_result["TWA"],
-            f"Expected {expected_result['TWA']} but got {result['TWA']}!",
-        )
-        self.assertListEqual(
-            result["TWS"],
-            expected_result["TWS"],
-            f"Expected {expected_result['TWS']} but got {result['TWS']}!",
-        )
+
+        self.assertListEqual(result["TWA"], expected_result["TWA"])
+        self.assertListEqual(result["TWS"], expected_result["TWS"])
 
     def test_handle_custom_unwanted_sentences(self):
-        """
-        Input/Output-Test.
-        """
         result = (
             dth.NMEAFileHandler(unwanted_sentences=self.unwanted_sen)
             .handle("TestNMEAFileHandler.vdr")
             ._data
         )
         expected_result = self.data_attr_sel._data
-        self.assertListEqual(
-            result["TWA"],
-            expected_result["TWA"],
-            f"Expected {expected_result['TWA']} but got {result['TWA']}!",
-        )
-        self.assertListEqual(
-            result["TWS"],
-            expected_result["TWS"],
-            f"Expected {expected_result['TWS']} but got {result['TWS']}!",
-        )
+
+        self.assertListEqual(result["TWA"], expected_result["TWA"])
+        self.assertListEqual(result["TWS"], expected_result["TWS"])
 
     def test_handle_custom_wanted_attributes(self):
-        """
-        Input/Output-Test.
-        """
         result = (
             dth.NMEAFileHandler(wanted_attributes=self.wanted_attr)
             .handle("TestNMEAFileHandler.vdr")
             ._data
         )
         expected_result = self.data_attr_sel
-        self.assertListEqual(
-            result["TWA"],
-            expected_result["TWA"],
-            f"Expected {expected_result['TWA']} but got {result['TWA']}!",
-        )
-        self.assertListEqual(
-            result["TWS"],
-            expected_result["TWS"],
-            f"Expected {expected_result['TWS']} but got {result['TWS']}!",
-        )
+
+        self.assertListEqual(result["TWA"], expected_result["TWA"])
+        self.assertListEqual(result["TWS"], expected_result["TWS"])
 
     def test_handle_custom_unwanted_attributes(self):
-        """
-        Input/Output-Test.
-        """
         result = (
             dth.NMEAFileHandler(unwanted_attributes=self.unwanted_attr)
             .handle("TestNMEAFileHandler.vdr")
             ._data
         )
         expected_result = self.data_all
-        self.assertListEqual(
-            result["TWA"],
-            expected_result["TWA"],
-            f"Expected {expected_result['TWA']} but got {result['TWA']}!",
-        )
-        self.assertListEqual(
-            result["TWS"],
-            expected_result["TWS"],
-            f"Expected {expected_result['TWS']} but got {result['TWS']}!",
-        )
+
+        self.assertListEqual(result["TWA"], expected_result["TWA"])
+        self.assertListEqual(result["TWS"], expected_result["TWS"])

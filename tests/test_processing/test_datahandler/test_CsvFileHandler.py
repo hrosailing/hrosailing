@@ -1,7 +1,6 @@
 # pylint: disable-all
 
 import csv
-import os
 from datetime import datetime
 from unittest import TestCase
 
@@ -12,7 +11,7 @@ import hrosailing.processing.datahandler as dth
 
 
 class TestCsvFileHandler(TestCase):
-    def setUp(self) -> None:
+    def setUp(self):
         self.data = np.array(
             [
                 ["datetime", "TWS", "TWA", "BSP"],
@@ -24,19 +23,14 @@ class TestCsvFileHandler(TestCase):
             csv.writer(file).writerows(self.data)
 
     def test_CsvFileHandler_handle_Errors(self):
-        """
-        Error occurs if date format in Handler does not match the one in the file.
-        """
+        # Error occurs if date format in Handler does not match
+        # the one in the file.
         with self.assertRaises(RuntimeError):
             dth.CsvFileHandler().handle("TestCsvFileHandler.csv")
 
     def test_CsvFileHandler_handle(self):
-        """
-        Input/Output-Test.
-
-        ATTENTION: the parameter `date_format` has to be set in order for the Handler to work
-        """
-
+        # CAUTION: the parameter `date_format` has to be set in order for the
+        # handler to work
         result = (
             dth.CsvFileHandler("%Y-%m-%d %H:%M:%S")
             .handle("TestCsvFileHandler.csv")
@@ -54,11 +48,5 @@ class TestCsvFileHandler(TestCase):
             )
             ._data
         )
-        self.assertDictEqual(
-            result,
-            expected_result,
-            f"Expected {expected_result} but got {result}!",
-        )
 
-
-# os.remove("TestCsvFileHandler.csv")
+        self.assertDictEqual(result, expected_result)

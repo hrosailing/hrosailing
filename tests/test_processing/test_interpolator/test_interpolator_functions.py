@@ -9,7 +9,7 @@ from hrosailing.core.computing import scaled_euclidean_norm
 
 
 class TestInterpolatorFunctions(TestCase):
-    def setUp(self) -> None:
+    def setUp(self):
         self.pts = np.array(
             [
                 [100, 100, 0],
@@ -27,9 +27,6 @@ class TestInterpolatorFunctions(TestCase):
         self.wts = np.ones(len(self.pts))
 
     def test__set_weights(self):
-        """
-        Input/Output-Test.
-        """
         result = int._set_weights(self.pts, self.dist)
         expected_result = [
             0.0007152431971467461,
@@ -39,14 +36,9 @@ class TestInterpolatorFunctions(TestCase):
             39.75534939,
             0.0,
         ]
+
         np.testing.assert_array_almost_equal(
             result,
             expected_result,
             decimal=3,
-            err_msg=f"Expected {expected_result} but got {result}!",
         )
-
-    def test__include_direction(self):
-        """
-        Input/Output-Test.
-        """

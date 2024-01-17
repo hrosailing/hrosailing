@@ -1,5 +1,4 @@
 # pylint: disable-all
-import unittest
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -9,7 +8,7 @@ from tests.test_plotting.image_testcase import ImageTestcase
 
 
 class TestPlot(ImageTestcase):
-    def setUp(self) -> None:
+    def setUp(self):
         self.slices = [
             np.array(
                 [
@@ -40,14 +39,10 @@ class TestPlot(ImageTestcase):
         ]
 
     def test_regular(self):
-        # Input/Output Test
-
-        # creating resulting plot
         ax = plt.subplot()
         _plot(ax, self.slices, None, False)
         self.set_result_plot()
 
-        # creating expected plot
         plt.plot([0, 45, 90, 180, 270, 315], [1, 2, 2, 2, 2, 2])
         plt.plot([0, 45, 90, 180, 270, 315], [10, 1, 2, 2, 2, 1])
         self.set_expected_plot()
@@ -55,7 +50,6 @@ class TestPlot(ImageTestcase):
         self.assertPlotsEqual()
 
     def test_different_axis(self):
-        # Input/Output plot with other `ax`
         ax = plt.subplot(projection="polar")
         _plot(ax, self.slices, None, False)
         self.set_result_plot()
@@ -68,14 +62,11 @@ class TestPlot(ImageTestcase):
         self.assertPlotsEqual()
 
     def test_using_info(self):
-        # Input/Output Tests with `info != None`
-        # creating resulting plot
         self.debug = True
         ax = plt.subplot()
         _plot(ax, self.slices, self.info, False)
         self.set_result_plot()
 
-        # creating expected plot
         ax = plt.subplot()
         ax.plot([90, 180, 270, 315], [2, 2, 2, 2])
         ax.plot([0, 45], [1, 2])
@@ -86,13 +77,10 @@ class TestPlot(ImageTestcase):
         self.assertPlotsEqual()
 
     def test_using_radians(self):
-        # Input/Output test with `use_radians = True`
-        # creating resulting plot
         ax = plt.subplot()
         _plot(ax, self.slices, None, True)
         self.set_result_plot()
 
-        # creating expected plot
         plt.plot(
             [0, np.pi / 4, np.pi / 2, np.pi, 3 * np.pi / 2, 7 * np.pi / 4],
             [1, 2, 2, 2, 2, 2],
@@ -106,8 +94,6 @@ class TestPlot(ImageTestcase):
         self.assertPlotsEqual()
 
     def test_using_convex_hull(self):
-        # Input/Output test with `use_convex_hull = True`
-        # creating resulting plot
         ax = plt.subplot()
         _plot(ax, self.slices, None, False, use_convex_hull=True)
         self.set_result_plot()
@@ -123,7 +109,6 @@ class TestPlot(ImageTestcase):
         self.assertPlotsEqual()
 
     def test_using_scatter(self):
-        # Input/Output Test with `use_scatter = True`
         ax = plt.subplot()
         _plot(
             ax,
@@ -142,7 +127,6 @@ class TestPlot(ImageTestcase):
         self.assertPlotsEqual()
 
     def test_with_keyword_arguments(self):
-        # Input/Output Test using keyword arguments
         ax = plt.subplot()
         _plot(
             ax,
