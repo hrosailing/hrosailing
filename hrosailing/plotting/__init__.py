@@ -12,6 +12,9 @@ from hrosailing.plotting.projections import (
     scatter_3d,
     scatter_flat,
     scatter_polar,
+    HROPolar,
+    HROFlat,
+    HROColorGradient,
 )
 
 __all__ = [
@@ -22,4 +25,7 @@ __all__ = [
     "scatter_flat",
     "scatter_polar",
     "scatter_3d",
+    "HROPolar",
+    "HROFlat",
+    "HROColorGradient",
 ]
