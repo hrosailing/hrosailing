@@ -17,4 +17,3 @@ class TestOnlyOneColor(unittest.TestCase):
 
     def test_4_tuple_input(self):
         self.assertTrue(_only_one_color((1, 0, 0, 1)))
-

@@ -12,7 +12,6 @@ Subclasses of `Interpolator` can be used with:
 classes in the `hrosailing.polardiagram` module.
 """
 
-
 from abc import ABC, abstractmethod
 from typing import Callable
 

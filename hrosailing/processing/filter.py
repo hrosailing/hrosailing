@@ -9,7 +9,6 @@ Subclasses of `Filter` can be used with the `PolarPipeline` class
 in the `hrosailing.pipeline` module.
 """
 
-
 from abc import ABC, abstractmethod
 
 import numpy as np

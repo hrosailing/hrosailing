@@ -7,7 +7,6 @@ and the `CylindricMemberWeigher`, as well as the `WeightedPoints` class, used to
 represent data points together with their respective weights.
 """
 
-
 from abc import ABC, abstractmethod
 from datetime import timedelta
 

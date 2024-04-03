@@ -8,7 +8,6 @@ Subclasses of `Regressor` can be used with the `CurveExtension` class
 in the `hrosailing.pipeline` module.
 """
 
-
 import inspect
 from abc import ABC, abstractmethod
 from typing import Callable

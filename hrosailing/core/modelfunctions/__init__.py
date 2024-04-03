@@ -3,7 +3,6 @@ to model various different ship behaviours.
 
 """
 
-
 import numpy as np
 
 from ._models2d import (

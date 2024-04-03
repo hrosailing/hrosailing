@@ -9,7 +9,6 @@ Subclasses of `Neighbourhood` can be used with the `TableExtension` and
 the `PointcloudExtension` classes in the `hrosailing.pipeline` module.
 """
 
-
 from abc import ABC, abstractmethod
 from typing import Callable
 

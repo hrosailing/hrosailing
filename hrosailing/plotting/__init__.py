@@ -5,6 +5,9 @@ Currently, plots of `PolarDiagram` instances are supported.
 
 import hrosailing.plotting.projections
 from hrosailing.plotting.projections import (
+    HROColorGradient,
+    HROFlat,
+    HROPolar,
     plot_3d,
     plot_color_gradient,
     plot_flat,
@@ -12,9 +15,6 @@ from hrosailing.plotting.projections import (
     scatter_3d,
     scatter_flat,
     scatter_polar,
-    HROPolar,
-    HROFlat,
-    HROColorGradient,
 )
 
 __all__ = [

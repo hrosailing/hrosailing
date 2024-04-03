@@ -2,7 +2,6 @@
 Functions for basic computations.
 """
 
-
 import enum
 
 import numpy as np

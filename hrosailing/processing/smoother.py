@@ -7,6 +7,7 @@ Also contains predefined and usable smoothers:
 - `LazySmoother`,
 - `AffineSmoother`.
 """
+
 import datetime
 from abc import ABC, abstractmethod
 

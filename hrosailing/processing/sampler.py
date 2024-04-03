@@ -8,7 +8,6 @@ Subclasses of `Sampler` can be used with the `PointcloudExtension` class
 in the `hrosailing.pipeline` module.
 """
 
-
 from abc import ABC, abstractmethod
 
 import numpy as np

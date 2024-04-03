@@ -5,7 +5,6 @@ Defines the `DataHandler` abstract base class that can be used to
 create custom data handlers to handle formats which are not supported yet.
 """
 
-
 # pylint: disable=import-outside-toplevel
 # pylint: disable=import-error
 

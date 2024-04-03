@@ -189,7 +189,7 @@ class FlatMercatorProjection(GlobeModel):
         return self._earth_radius * np.column_stack(
             [
                 np.deg2rad(lon),
-                np.arcsinh(np.tan(np.deg2rad(lat)))
+                np.arcsinh(np.tan(np.deg2rad(lat))),
                 # np.log(np.tan(np.pi/4 + np.deg2rad(lat)/2))
             ]
         )

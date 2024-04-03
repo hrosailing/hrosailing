@@ -4,7 +4,9 @@ from unittest import TestCase
 
 
 class hroTestCase(TestCase):
-    def assert_list_almost_equal(self, result, expected_result, places, msg=""):
+    def assert_list_almost_equal(
+        self, result, expected_result, places, msg=""
+    ):
         for i, element in enumerate(expected_result):
             try:
                 if result[i] is None:
