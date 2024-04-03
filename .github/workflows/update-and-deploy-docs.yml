@@ -21,7 +21,7 @@ jobs:
           pip install pdoc
       - run: pdoc -o docs/ -d numpy --search --math --no-show-source --logo "https://raw.githubusercontent.com/hrosailing/hrosailing/main/logo.png" hrosailing
       
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           path: docs/
         
