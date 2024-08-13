@@ -83,5 +83,5 @@ __all__ = [
     "Filter",
     "ZeroInjector",
     "FillLocalImputator",
-    "RemoveOnlyImputator"
+    "RemoveOnlyImputator",
 ]
