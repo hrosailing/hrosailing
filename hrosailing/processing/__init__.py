@@ -78,4 +78,10 @@ __all__ = [
     "FuzzyVariable",
     "FuzzyWeigher",
     "Weigher",
+    "BoundFilter",
+    "QuantileFilter",
+    "Filter",
+    "ZeroInjector",
+    "FillLocalImputator",
+    "RemoveOnlyImputator"
 ]

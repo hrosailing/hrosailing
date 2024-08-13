@@ -1,12 +1,17 @@
 """
-Contains projections and functions for plotting objects of the hrosailing framework.
-Currently, the plot of `PolarDiagram` objects is supported.
+Contains projections and functions for plotting objects of the hrosailing
+framework. Currently, the plot of `PolarDiagram` objects is supported.
+
 Defines the following projections:
 
-- `"hro polar"` : plot and scatter polar diagrams in a polar plot (see `HROPolar`),
-- `"hro flat"` : plot and scatter polar diagrams in a euclidean plot (see `HROFlat`),
-- `"hro color gradient"` : plot two-dimensional heat maps of a polar diagram (see `HROColorGradient`),
-- `"hro 3d"` : scatter or plot the surface of the three-dimensional representation of a polar diagram (see `Axes3D`).
+- `"hro polar"` : plot and scatter polar diagrams in a polar plot
+    (see `HROPolar`),
+- `"hro flat"` : plot and scatter polar diagrams in a euclidean plot
+    (see `HROFlat`),
+- `"hro color gradient"` : plot two-dimensional heat maps of a polar diagram
+    (see `HROColorGradient`),
+- `"hro 3d"` : scatter or plot the surface of the three-dimensional
+    representation of a polar diagram (see `Axes3D`).
 
 Examples
 --------
@@ -20,6 +25,8 @@ Examples
 """
 
 import itertools
+import enum
+import typing
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -62,14 +69,15 @@ class HROPolar(PolarAxes):
     ):
         """
         Plots the given data as a polar plot.
-        If a `PolarDiagram` is given, plots each slice corresponding to `ws` and `n_steps`
-        as described in `PolarDiagram.get_slices`.
+        If a `PolarDiagram` is given, plots each slice corresponding to `ws`
+        and `n_steps` as described in `PolarDiagram.get_slices`.
 
         Parameters
         ----------
         *args :
-            If the first argument is a polar diagram it plots the polar diagram.
-            Otherwise, it plots the arguments as usual.
+            If the first argument is a polar diagram plot the polar diagram.
+            Otherwise, plot the arguments as
+            `matplotlib.projections.polar.PolarAxes`.
 
         ws : int, float or iterable thereof, optional
             As in `Polardiagram.get_slices`.
@@ -77,7 +85,7 @@ class HROPolar(PolarAxes):
         n_steps : int, optional
             As in `Polardiagram.get_slices`.
 
-        colors : color_like or sequence of color_likes or (ws, color_like) pairs
+        colors : color_like or sequence of color_like or (ws, color_like) pairs
             Specifies the colors to be used for the different slices.
 
             - If a color_like is passed, all slices will be plotted in the
@@ -115,8 +123,8 @@ class HROPolar(PolarAxes):
             Defaults to `None`
 
         use_convex_hull : bool, optional
-            If set to `True`, the convex hull (in polar coordinates) of the slices will be plotted instead of the
-            slices itself.
+            If set to `True`, the convex hull (in polar coordinates) of the
+            slices will be plotted instead of the slices itself.
         """
         if not isinstance(args[0], PolarDiagram):
             super().plot(*args, **kwargs)
@@ -231,7 +239,10 @@ class HROFlat(Axes):
 
 
 class HROColorGradient(Axes):
-    """Projection supporting two-dimensional color gradient plotting of polar diagrams."""
+    """
+    Projection supporting two-dimensional color gradient plotting of
+    polar diagrams.
+    """
 
     name = "hro color gradient"
 
@@ -256,24 +267,26 @@ class HROColorGradient(Axes):
     ):
         """
         Plots the given data as a polar plot.
-        If a `PolarDiagram` is given, plots each slice corresponding to `ws` and `n_steps`
-        as described in `PolarDiagram.get_slices`.
+        If a `PolarDiagram` is given, plots each slice corresponding to `ws`
+        and `n_steps` as described in `PolarDiagram.get_slices`.
 
         Parameters
         ----------
         *args :
-            If the first argument is a polar diagram it plots the polar diagram.
-            Otherwise, it plots the arguments as usual.
+            If the first argument is a polar diagram plot the polar diagram.
+            Otherwise, plot the arguments as `matplotlib.axes.Axes`.
 
-        wind : (2, d) or (d, 2) numpy.ndarray or tuple of 2 (1, d) numpy.ndarray or `None`, optional
+        wind : (2, d), (d, 2) or tuple of two (1, d) numpy.ndarray, optional
             As in `Polardiagram.get_points`.
 
-        colors : color_like or sequence of color_likes or (ws, color_like) pairs
+        colors : color_like or sequence of color_like or (ws, color_like) pairs
             Specifies the colors to be used for the different slices.
+
             As in `HROPolar.plot`.
 
         show_legend : bool, default: `False`
             Specifies whether a legend will be shown next to the plot.
+
             As in `HROPolar.plot`.
 
         legend_kw : dict, optional
@@ -301,7 +314,10 @@ class HROColorGradient(Axes):
 
 
 class Axes3D(pltAxes3D):
-    """Projection enabling the display of polar diagrams in a three-dimensional plot."""
+    """
+    Projection enabling the display of polar diagrams in a three-dimensional
+    plot.
+    """
 
     name = "hro 3d"
 
@@ -348,8 +364,9 @@ class Axes3D(pltAxes3D):
         self, *args, wind=None, colors=("green", "red"), **kwargs
     ):
         """
-        Plots a three-dimensional depiction of the polar diagram as a triangulated surface plot if a
-        polar diagram is given. Otherwise, it works as `mpl_toolkits.mplot3d.plot_surface`.
+        Plots a three-dimensional depiction of the polar diagram as a
+        triangulated surface plot if a polar diagram is given.
+        Otherwise, it works as `mpl_toolkits.mplot3d.plot_surface`.
         Parameters are the same as in `HROColorGradient.scatter`.
 
         See also
@@ -658,62 +675,55 @@ def _check_plot_kw(plot_kw, lines=True):
         plot_kw["marker"] = "o"
 
 
-def _configure_colors(ax, ws, colors):
+def _configure_colors(ax, labels, colors):
     if _only_one_color(colors):
         ax.set_prop_cycle("color", [colors])
         return
 
-    if _more_colors_than_plots(ws, colors) or _no_color_gradient(colors):
-        _set_color_cycle(ax, ws, colors)
+    if len(labels) <= len(colors) or _no_color_gradient(colors):
+        _set_color_cycle(ax, labels, colors)
         return
 
-    _set_color_gradient(ax, ws, colors)
+    _set_color_gradient(ax, labels, colors)
 
 
 def _only_one_color(colors):
-    return is_color_like(colors)
+    if isinstance(colors, str):
+        return is_color_like(colors)
 
+    if isinstance(colors, tuple) and len(colors) in {3, 4}:
+        if isinstance(colors[0], int):
+            return is_color_like(colors)
 
-def _more_colors_than_plots(ws, colors):
-    return len(ws) <= len(colors)
-
-
-def _no_color_gradient(colors):
-    all_color_format = all(_has_color_format(c) for c in colors)
-    return len(colors) != 2 or not all_color_format
-
-
-def _has_color_format(obj):
-    if isinstance(obj, str):
-        return True
-    if len(obj) in [3, 4]:
-        return True
     return False
 
 
-def _set_color_cycle(ax, ws, colors):
-    color_cycle = ["blue"] * len(ws)
-    _configure_color_cycle(color_cycle, colors, ws)
+def _no_color_gradient(colors):
+    all_color_like = all(is_color_like(color) for color in colors)
+    return len(colors) != 2 or not all_color_like
+
+
+def _set_color_cycle(ax, labels, colors):
+    color_cycle = ["blue"] * len(labels)
+    _configure_color_cycle(color_cycle, colors, labels)
 
     ax.set_prop_cycle("color", color_cycle)
 
 
-def _configure_color_cycle(color_cycle, colors, ws):
-    if isinstance(colors[0], tuple):
-        for w, color in colors:
-            i = list(ws).index(w)
+def _configure_color_cycle(color_cycle, colors, labels):
+    if isinstance(colors[0], tuple) and len(colors[0]) == 2:
+        for label, color in colors:
+            i = list(labels).index(label)
             color_cycle[i] = color
-
         return
 
     colors = itertools.islice(colors, len(color_cycle))
-
     for i, color in enumerate(colors):
         color_cycle[i] = color
 
 
-def _set_color_gradient(ax, ws, colors):
-    color_gradient = _determine_color_gradient(colors, ws)
+def _set_color_gradient(ax, labels, colors):
+    color_gradient = _determine_color_gradient(colors, labels)
     ax.set_prop_cycle("color", color_gradient)
 
 

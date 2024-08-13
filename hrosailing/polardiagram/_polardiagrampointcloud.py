@@ -259,9 +259,8 @@ class PolarDiagramPointcloud(PolarDiagram):
     def __from_csv__(cls, file):
         csv_reader = csv.reader(file, delimiter=",")
         next(csv_reader)
-        points = np.array(
-            [[literal_eval(point) for point in row] for row in csv_reader]
-        )
+        points = [[literal_eval(point) for point in row] for row in csv_reader]
+        points = np.array(points)
 
         return PolarDiagramPointcloud(points)
 
