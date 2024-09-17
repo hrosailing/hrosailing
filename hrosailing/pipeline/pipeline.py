@@ -418,7 +418,11 @@ class PolarPipeline:
             data,
         )
 
-        (data, pre_weigher_statistics, pre_filter_statistics,) = self._map(
+        (
+            data,
+            pre_weigher_statistics,
+            pre_filter_statistics,
+        ) = self._map(
             lambda data: _weigh_and_filter(
                 data,
                 self.pre_influence_weigher,
