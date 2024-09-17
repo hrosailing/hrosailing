@@ -294,7 +294,8 @@ class FillLocalImputator(Imputator):
 
             mu = (datetime[i] - datetime[start_idx]) / (
                 datetime[end_idx] - datetime[start_idx]
-            )
+            ) if datetime[end_idx] != datetime[start_idx] else 1
+
             data[key][i] = self._fill_between(
                 key, data[key][start_idx], data[key][end_idx], mu
             )
