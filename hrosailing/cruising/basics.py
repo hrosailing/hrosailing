@@ -1,7 +1,7 @@
 """
 Functions for navigation and weather routing using polar diagrams.
 """
-
+import math
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import List, Optional
@@ -137,7 +137,12 @@ def convex_direction(
     if abs(i1 - i2) == 1 and edge[0].sail == edge[1].sail:
         return [edge[0]]
 
-    lambda_ = (direction - wa[i2]) / (wa[i1] - wa[i2])
+    point1 = conv.points[i1]
+    point2 = conv.points[i2]
+    direction_rad = np.deg2rad(direction)
+    direction_polar = np.array([math.cos(direction_rad), math.sin(direction_rad)])
+    scalars = np.linalg.solve(np.column_stack([point1, point2]), direction_polar)
+    lambda_ = scalars[0]/sum(scalars)
     if lambda_ > 1 or lambda_ < 0:
         lambda_ = (direction + 360 - wa[i2]) / (wa[i1] + 360 - wa[i2])
 
