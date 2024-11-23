@@ -1,6 +1,7 @@
 """
 Functions for navigation and weather routing using polar diagrams.
 """
+
 import math
 from dataclasses import dataclass
 from datetime import datetime, timedelta
@@ -138,7 +139,9 @@ def convex_direction(
     if abs(i1 - i2) == 1 and edge[0].sail == edge[1].sail:
         return [edge[0]]
 
-    lambda_ = _get_first_proportion(conv.points[i1], conv.points[i2], direction)
+    lambda_ = _get_first_proportion(
+        conv.points[i1], conv.points[i2], direction
+    )
     if lambda_ > 1 or lambda_ < 0:
         lambda_ = (direction + 360 - wa[i2]) / (wa[i1] + 360 - wa[i2])
     edge[0].proportion = lambda_
@@ -148,8 +151,12 @@ def convex_direction(
 
 def _get_first_proportion(point1, point2, direction):
     direction_rad = np.deg2rad(direction)
-    direction_polar = np.array([math.cos(direction_rad), math.sin(direction_rad)])
-    scalars = np.linalg.solve(np.column_stack([point1, point2]), direction_polar)
+    direction_polar = np.array(
+        [math.cos(direction_rad), math.sin(direction_rad)]
+    )
+    scalars = np.linalg.solve(
+        np.column_stack([point1, point2]), direction_polar
+    )
     return scalars[0] / sum(scalars)
 
 
