@@ -1,8 +1,8 @@
-import math
+# pylint: disable-all
+
 import unittest
 
 from hrosailing.cruising import convex_direction
-
 from hrosailing.polardiagram import PolarDiagramTable
 
 
@@ -21,3 +21,11 @@ class TestHROPolar(unittest.TestCase):
 
         self.assertAlmostEqual(2/3, direction[0].proportion)
         self.assertAlmostEqual(1/3, direction[1].proportion)
+
+    def test_convex_direction_port_side_angles(self):
+        direction = convex_direction(self.pd, 1, 350)
+
+        self.assertEqual(2, len(direction))
+        self.assertGreaterEqual(direction[0].proportion, 0)
+        self.assertGreaterEqual(direction[1].proportion, 0)
+        self.assertAlmostEqual(1, direction[0].proportion + direction[1].proportion)
