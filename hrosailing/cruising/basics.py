@@ -2,6 +2,7 @@
 Functions for navigation and weather routing using polar diagrams.
 """
 
+import math
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import List, Optional
@@ -45,6 +46,7 @@ def convex_direction(
     pd,
     ws,
     direction,
+    *,
     im: Optional[InfluenceModel] = None,
     influence_data: Optional[dict] = None,
 ) -> List[Direction]:
@@ -137,13 +139,25 @@ def convex_direction(
     if abs(i1 - i2) == 1 and edge[0].sail == edge[1].sail:
         return [edge[0]]
 
-    lambda_ = (direction - wa[i2]) / (wa[i1] - wa[i2])
+    lambda_ = _get_first_proportion(
+        conv.points[i1], conv.points[i2], direction
+    )
     if lambda_ > 1 or lambda_ < 0:
         lambda_ = (direction + 360 - wa[i2]) / (wa[i1] + 360 - wa[i2])
-
     edge[0].proportion = lambda_
     edge[1].proportion = 1 - lambda_
     return edge
+
+
+def _get_first_proportion(point1, point2, direction):
+    direction_rad = np.deg2rad(direction)
+    direction_polar = np.array(
+        [math.cos(direction_rad), math.sin(direction_rad)]
+    )
+    scalars = np.linalg.solve(
+        np.column_stack([point1, point2]), direction_polar
+    )
+    return scalars[0] / sum(scalars)
 
 
 def cruise(
@@ -151,6 +165,7 @@ def cruise(
     start,
     end,
     wind,
+    *,
     wind_fmt="ws_wan",
     im: Optional[InfluenceModel] = None,
     influence_data: Optional[dict] = None,
@@ -256,6 +271,7 @@ def cost_cruise(
     end,
     start_time: datetime,
     wm: WeatherModel,
+    *,
     cost_fun_dens=None,
     cost_fun_abs=lambda total_t, total_s: total_t,
     integration_method=trapezoid,
@@ -377,6 +393,7 @@ def isochrone(
     start_time,
     direction,
     wm: WeatherModel,
+    *,
     total_time=1,
     min_nodes=100,
     im: Optional[InfluenceModel] = None,

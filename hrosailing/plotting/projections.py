@@ -24,9 +24,7 @@ Examples
 >>> plt.show()
 """
 
-import enum
 import itertools
-import typing
 
 import matplotlib.pyplot as plt
 import numpy as np
