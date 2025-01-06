@@ -21,6 +21,8 @@ from hrosailing.core.computing import scaled_euclidean_norm
 
 from .neighbourhood import Neighbourhood
 
+from hrosailing.core.exceptions import BilinearInterpolatorOutsideGridException
+from hrosailing.core.exceptions import BilinearInterpolatorNoGridException
 
 class Interpolator(ABC):
     """Base class for all `Interpolator` classes."""
@@ -551,14 +553,14 @@ class BilinearGridInterpolator(Interpolator):
                 upper_wa[np.argmin(upper_wa)] if len(upper_wa) > 0 else None
             )
 
+            # check if we are inside or on the edge of the grid
             if (
                 closest_lower_ws == None
                 or closest_upper_ws == None
                 or closest_lower_wa == None
                 or closest_upper_wa == None
             ):
-                # print(f"DBG: boundaries == 0.0 is not implemented for ws: {ws_in}, wa: {wa_in}")
-                return 0.0
+                raise BilinearInterpolatorOutsideGridException()
 
             bs_lws_lwa = self._bs_in_grid(
                 w_pts.data, closest_lower_ws, closest_lower_wa
@@ -572,8 +574,6 @@ class BilinearGridInterpolator(Interpolator):
             bs_uws_uwa = self._bs_in_grid(
                 w_pts.data, closest_upper_ws, closest_upper_wa
             )
-
-            # TODO: check if w_pts.data is really a filled grid (i.e. table), because this interpolator will only work there
 
             diff_ws = closest_upper_ws - closest_lower_ws
             diff_wa = closest_upper_wa - closest_lower_wa
@@ -608,7 +608,7 @@ class BilinearGridInterpolator(Interpolator):
                 ) * bs_lws + lower_ws_factor * bs_uws
                 return bs
 
-        return 0.0
+        raise BilinearInterpolatorNoGridException()
 
     def _bs_in_grid(self, w_pts_data, ws, wa):
         ws_points = w_pts_data[:, 0]
@@ -618,4 +618,4 @@ class BilinearGridInterpolator(Interpolator):
         if len(matching_row) > 0:
             return matching_row[0, 2]
         else:
-            raise ValueError(f"ERR: no grid point found with ws={ws}, wa={wa}")
+            raise BilinearInterpolatorNoGridException()
