@@ -497,13 +497,8 @@ def _determine_slope(pts, grid_pt, dist, wts, nhood, norm, slope):
 class BilinearGridInterpolator(Interpolator):
     """An interpolator that computes..."""
 
-    def __init__(
-        self,
-    ):
-        super().__init__()
-
     def __repr__(self):
-        return f"BilinearGridInterpolator()"
+        return "BilinearGridInterpolator()"
 
     def interpolate(self, w_pts, grid_pt):
         """Interpolates a given `grid_pt` according to the procedure described
@@ -580,33 +575,32 @@ class BilinearGridInterpolator(Interpolator):
 
             if diff_ws == 0 and diff_wa == 0:
                 return bs_lws_lwa
-            elif diff_ws == 0:
+            if diff_ws == 0:
                 lower_wa_factor = (wa_in - closest_lower_wa) / diff_wa
                 bs_lws = (
                     1.0 - lower_wa_factor
                 ) * bs_lws_lwa + lower_wa_factor * bs_lws_uwa
                 return bs_lws
-            elif diff_wa == 0:
+            if diff_wa == 0:
                 lower_ws_factor = (ws_in - closest_lower_ws) / diff_ws
                 bs_lwa = (
                     1.0 - lower_ws_factor
                 ) * bs_lws_lwa + lower_ws_factor * bs_uws_lwa
                 return bs_lwa
-            else:
-                lower_ws_factor = (ws_in - closest_lower_ws) / diff_ws
-                lower_wa_factor = (wa_in - closest_lower_wa) / diff_wa
-                # interpolation along wa
-                bs_lws = (
-                    1.0 - lower_wa_factor
-                ) * bs_lws_lwa + lower_wa_factor * bs_lws_uwa
-                bs_uws = (
-                    1.0 - lower_wa_factor
-                ) * bs_uws_lwa + lower_wa_factor * bs_uws_uwa
-                # interpolation along ws
-                bs = (
-                    1.0 - lower_ws_factor
-                ) * bs_lws + lower_ws_factor * bs_uws
-                return bs
+            lower_ws_factor = (ws_in - closest_lower_ws) / diff_ws
+            lower_wa_factor = (wa_in - closest_lower_wa) / diff_wa
+            # interpolation along wa
+            bs_lws = (
+                1.0 - lower_wa_factor
+            ) * bs_lws_lwa + lower_wa_factor * bs_lws_uwa
+            bs_uws = (
+                1.0 - lower_wa_factor
+            ) * bs_uws_lwa + lower_wa_factor * bs_uws_uwa
+            # interpolation along ws
+            bs = (
+                1.0 - lower_ws_factor
+            ) * bs_lws + lower_ws_factor * bs_uws
+            return bs
 
         raise BilinearInterpolatorNoGridException()
 
@@ -617,5 +611,5 @@ class BilinearGridInterpolator(Interpolator):
 
         if len(matching_row) > 0:
             return matching_row[0, 2]
-        else:
-            raise BilinearInterpolatorNoGridException()
+
+        raise BilinearInterpolatorNoGridException()

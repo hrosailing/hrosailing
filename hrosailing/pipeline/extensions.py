@@ -13,7 +13,8 @@ import hrosailing.processing as pc
 from hrosailing.core.modelfunctions import ws_s_wa_gauss_and_square
 from hrosailing.core.statistics import ComponentWithStatistics
 from hrosailing.polardiagram._polardiagramtable import _Resolution_helper
-
+from hrosailing.core.exceptions import BilinearInterpolatorOutsideGridException
+from hrosailing.core.exceptions import BilinearInterpolatorNoGridException
 
 class PipelineExtension(ComponentWithStatistics, ABC):
     """Base class for all pipeline extensions."""
