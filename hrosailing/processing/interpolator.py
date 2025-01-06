@@ -19,10 +19,10 @@ import numpy as np
 
 from hrosailing.core.computing import scaled_euclidean_norm
 
-from .neighbourhood import Neighbourhood
-
 from hrosailing.core.exceptions import BilinearInterpolatorOutsideGridException
 from hrosailing.core.exceptions import BilinearInterpolatorNoGridException
+
+from .neighbourhood import Neighbourhood
 
 class Interpolator(ABC):
     """Base class for all `Interpolator` classes."""
