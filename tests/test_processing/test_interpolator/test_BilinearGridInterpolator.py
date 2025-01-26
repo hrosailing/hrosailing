@@ -157,4 +157,3 @@ class TestBilinearGridInterpolator(TestCase):
         with self.assertRaises(BilinearInterpolatorOutsideGridException):
             itp.BilinearGridInterpolator().interpolate(wpts, grid_pt)
 
-        print("EOT")

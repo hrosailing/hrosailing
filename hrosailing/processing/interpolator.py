@@ -495,7 +495,7 @@ def _determine_slope(pts, grid_pt, dist, wts, nhood, norm, slope):
 
 
 class BilinearGridInterpolator(Interpolator):
-    """An interpolator that computes..."""
+    """An interpolator that computes the interpolated value by using subsequent linear interpolations in the different axis."""
 
     def __repr__(self):
         return "BilinearGridInterpolator()"
