@@ -193,11 +193,11 @@ class ArithmeticMeanInterpolator(Interpolator):
     """
 
     def __init__(
-            self,
-            s=1,
-            norm: Callable = scaled_euclidean_norm,
-            distribution: Callable = None,
-            params=(),
+        self,
+        s=1,
+        norm: Callable = scaled_euclidean_norm,
+        distribution: Callable = None,
+        params=(),
     ):
         super().__init__()
         if s <= 0:
@@ -354,11 +354,11 @@ class ShepardInterpolator(Interpolator):
     """
 
     def __init__(
-            self,
-            neighbourhood: Neighbourhood,
-            tol=None,
-            slope=0.1,
-            norm: Callable = scaled_euclidean_norm,
+        self,
+        neighbourhood: Neighbourhood,
+        tol=None,
+        slope=0.1,
+        norm: Callable = scaled_euclidean_norm,
     ):
         if tol is None:
             tol = np.finfo(float).eps
@@ -448,10 +448,10 @@ def _include_direction(pts, grid_pt, dist, wts):
 
     for i, pt in enumerate(pts):
         cosine = (grid_pt[0] - pt[0]) * (
-                grid_pt[0] - np.delete(pts, i, axis=0)[:, 0]
+            grid_pt[0] - np.delete(pts, i, axis=0)[:, 0]
         ) + (grid_pt[1] - pt[1]) * (
-                         grid_pt[1] - np.delete(pts, i, axis=0)[:, 0]
-                 )
+            grid_pt[1] - np.delete(pts, i, axis=0)[:, 0]
+        )
         cosine /= dist[i] * np.delete(dist, i)
         t[i] = np.sum(np.delete(wts, i) * (1 - cosine))
         t[i] /= np.sum(wts)
@@ -486,14 +486,14 @@ def _determine_slope(pts, grid_pt, dist, wts, nhood, norm, slope):
         yderiv[i] /= np.sum(wts_i)
 
     dim_of_dist = (
-            slope
-            * (np.max(pts[:, 2]) - np.min(pts[:, 2]))
-            / np.sqrt(np.max(np.square(xderiv) + np.square(yderiv)))
+        slope
+        * (np.max(pts[:, 2]) - np.min(pts[:, 2]))
+        / np.sqrt(np.max(np.square(xderiv) + np.square(yderiv)))
     )
 
     return (
-                   xderiv * (grid_pt[0] - pts[:, 0]) + yderiv * (grid_pt[1] - pts[:, 1])
-           ) * (dim_of_dist / (dim_of_dist + dist))
+        xderiv * (grid_pt[0] - pts[:, 0]) + yderiv * (grid_pt[1] - pts[:, 1])
+    ) * (dim_of_dist / (dim_of_dist + dist))
 
 
 class BilinearGridInterpolator(Interpolator):
@@ -544,22 +544,43 @@ class BilinearGridInterpolator(Interpolator):
         ws_in = grid_pt[0]
         wa_in = grid_pt[1]
 
-        closest_lower_ws = self._get_maximum_of_smaller_values(ws_points, ws_in)
+        closest_lower_ws = self._get_maximum_of_smaller_values(
+            ws_points, ws_in
+        )
         closest_upper_ws = self._get_minimum_of_bigger_values(ws_points, ws_in)
-        closest_lower_wa = self._get_maximum_of_smaller_values(wa_points, wa_in)
+        closest_lower_wa = self._get_maximum_of_smaller_values(
+            wa_points, wa_in
+        )
         closest_upper_wa = self._get_minimum_of_bigger_values(wa_points, wa_in)
 
-        interpolated_bs_lower_ws = self._convex_interpolation_1d(w_pts.data, closest_lower_ws, closest_lower_wa, closest_upper_wa, wa_in)
-        interpolated_bs_upper_ws = self._convex_interpolation_1d(w_pts.data, closest_upper_ws, closest_lower_wa, closest_upper_wa, wa_in)
+        interpolated_bs_lower_ws = self._convex_interpolation_1d(
+            w_pts.data,
+            closest_lower_ws,
+            closest_lower_wa,
+            closest_upper_wa,
+            wa_in,
+        )
+        interpolated_bs_upper_ws = self._convex_interpolation_1d(
+            w_pts.data,
+            closest_upper_ws,
+            closest_lower_wa,
+            closest_upper_wa,
+            wa_in,
+        )
 
         if closest_upper_ws == closest_lower_ws:
             return interpolated_bs_lower_ws
 
-        ws_factor = (ws_in - closest_lower_ws)/(closest_upper_ws - closest_lower_ws)
-        return (1.0 - ws_factor) * interpolated_bs_lower_ws + ws_factor * interpolated_bs_upper_ws
+        ws_factor = (ws_in - closest_lower_ws) / (
+            closest_upper_ws - closest_lower_ws
+        )
+        return (
+            1.0 - ws_factor
+        ) * interpolated_bs_lower_ws + ws_factor * interpolated_bs_upper_ws
 
-    def _convex_interpolation_1d(self, w_pts_data, common_ws, closest_lower_wa,
-                                 closest_upper_wa, wa_in):
+    def _convex_interpolation_1d(
+        self, w_pts_data, common_ws, closest_lower_wa, closest_upper_wa, wa_in
+    ):
 
         lower_wa_bs = self._bs_in_grid(w_pts_data, common_ws, closest_lower_wa)
         upper_wa_bs = self._bs_in_grid(w_pts_data, common_ws, closest_upper_wa)
@@ -567,7 +588,9 @@ class BilinearGridInterpolator(Interpolator):
         if closest_lower_wa == closest_upper_wa:
             return lower_wa_bs
 
-        wa_factor = (wa_in - closest_lower_wa) / (closest_upper_wa - closest_lower_wa)
+        wa_factor = (wa_in - closest_lower_wa) / (
+            closest_upper_wa - closest_lower_wa
+        )
         return (1.0 - wa_factor) * lower_wa_bs + wa_factor * upper_wa_bs
 
     @staticmethod
@@ -593,4 +616,3 @@ class BilinearGridInterpolator(Interpolator):
         if len(bigger_points) == 0:
             raise BilinearInterpolatorOutsideGridException()
         return bigger_points[np.argmin(bigger_points)]
-

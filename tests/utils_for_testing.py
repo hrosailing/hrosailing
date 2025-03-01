@@ -6,7 +6,7 @@ from unittest import TestCase
 class hroTestCase(TestCase):
 
     def assert_list_almost_equal(
-            self, result, expected_result, places, msg=""
+        self, result, expected_result, places, msg=""
     ):
         for i, element in enumerate(expected_result):
             try:
@@ -46,10 +46,10 @@ class hroTestCase(TestCase):
                 ) from e
 
             is_equal = (
-                    (res.hour == exp.hour)
-                    and (res.minute == exp.minute)
-                    and (res.second == exp.second)
-                    and (res.microsecond == exp.microsecond)
+                (res.hour == exp.hour)
+                and (res.minute == exp.minute)
+                and (res.second == exp.second)
+                and (res.microsecond == exp.microsecond)
             )
             if not is_equal:
                 raise AssertionError(
@@ -84,16 +84,22 @@ def parameterized(test_method, testdata):
         if len(failed_testcases) > 0:
             raise Exception(_exception_string(failed_testcases))
 
-    def _exception_string_for_single_testcase(index, failed_testcase, exception):
+    def _exception_string_for_single_testcase(
+        index, failed_testcase, exception
+    ):
         return f"testcase {index} - {failed_testcase}: {repr(exception)}"
 
     def _exception_string(failed_testcases):
-        prefix = f"There has been a failing testcase: \n"\
-            if len(failed_testcases) == 1 \
+        prefix = (
+            f"There has been a failing testcase: \n"
+            if len(failed_testcases) == 1
             else f"There have been {len(failed_testcases)} failing testcases: \n"
+        )
         failed_cases_string = "\n".join(
-            [_exception_string_for_single_testcase(*case) for case in
-             failed_testcases]
+            [
+                _exception_string_for_single_testcase(*case)
+                for case in failed_testcases
+            ]
         )
 
         return prefix + failed_cases_string
