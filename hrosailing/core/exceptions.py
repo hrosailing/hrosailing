@@ -6,10 +6,12 @@ class FileReadingException(Exception):
     when reading a file.
     """
 
+
 class BilinearInterpolatorOutsideGridException(Exception):
     """Exception raised if bilinear interpolator
     tries interpolation outside the grid
     """
+
 
 class BilinearInterpolatorNoGridException(Exception):
     """Exception raised if bilinear interpolator

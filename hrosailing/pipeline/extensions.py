@@ -14,6 +14,7 @@ from hrosailing.core.modelfunctions import ws_s_wa_gauss_and_square
 from hrosailing.core.statistics import ComponentWithStatistics
 from hrosailing.polardiagram._polardiagramtable import _Resolution_helper
 
+
 class PipelineExtension(ComponentWithStatistics, ABC):
     """Base class for all pipeline extensions."""
 

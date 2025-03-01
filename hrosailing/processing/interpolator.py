@@ -18,11 +18,13 @@ from typing import Callable
 import numpy as np
 
 from hrosailing.core.computing import scaled_euclidean_norm
-
-from hrosailing.core.exceptions import BilinearInterpolatorOutsideGridException
-from hrosailing.core.exceptions import BilinearInterpolatorNoGridException
+from hrosailing.core.exceptions import (
+    BilinearInterpolatorNoGridException,
+    BilinearInterpolatorOutsideGridException,
+)
 
 from .neighbourhood import Neighbourhood
+
 
 class Interpolator(ABC):
     """Base class for all `Interpolator` classes."""
@@ -597,9 +599,7 @@ class BilinearGridInterpolator(Interpolator):
                 1.0 - lower_wa_factor
             ) * bs_uws_lwa + lower_wa_factor * bs_uws_uwa
             # interpolation along ws
-            bs = (
-                1.0 - lower_ws_factor
-            ) * bs_lws + lower_ws_factor * bs_uws
+            bs = (1.0 - lower_ws_factor) * bs_lws + lower_ws_factor * bs_uws
             return bs
 
         raise BilinearInterpolatorNoGridException()
