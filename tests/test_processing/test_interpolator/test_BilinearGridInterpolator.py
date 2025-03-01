@@ -7,9 +7,9 @@ import numpy as np
 import hrosailing.core.data as dt
 import hrosailing.processing.interpolator as itp
 from hrosailing.core.exceptions import (
-    BilinearInterpolatorNoGridException,
     BilinearInterpolatorOutsideGridException,
 )
+from tests.utils_for_testing import parameterized
 
 
 class TestBilinearGridInterpolator(TestCase):
@@ -43,75 +43,22 @@ class TestBilinearGridInterpolator(TestCase):
             ),
             self.grid_pt,
         )
-        expected_result = 3
 
-        self.assertEqual(result, expected_result)
+        self.assertEqual(result, 3)
 
-    def test_simple(self):
-
-        wpts = dt.WeightedPoints(
-            np.array(
-                [
-                    [0, 0, 0],
-                    [0, 1, 1],
-                    [1, 0, 2],
-                    [1, 1, 4],
-                ]
-            ),
-            np.ones(3),
-        )
-
-        grid_pt = np.array([0, 0])
-        expected_result = 0.0
-        result = itp.BilinearGridInterpolator().interpolate(wpts, grid_pt)
-        self.assertAlmostEqual(result, expected_result)
-
-        grid_pt = np.array([1, 1])
-        expected_result = 4.0
-        result = itp.BilinearGridInterpolator().interpolate(wpts, grid_pt)
-        self.assertAlmostEqual(result, expected_result)
-
-        grid_pt = np.array([0, 1])
-        expected_result = 1.0
-        result = itp.BilinearGridInterpolator().interpolate(wpts, grid_pt)
-        self.assertAlmostEqual(result, expected_result)
-
-        grid_pt = np.array([1, 0])
-        expected_result = 2.0
-        result = itp.BilinearGridInterpolator().interpolate(wpts, grid_pt)
-        self.assertAlmostEqual(result, expected_result)
-
-        grid_pt = np.array([1, 1])
-        expected_result = 4.0
-        result = itp.BilinearGridInterpolator().interpolate(wpts, grid_pt)
-        self.assertAlmostEqual(result, expected_result)
-
-        grid_pt = np.array([0.0, 0.5])
-        expected_result = 0.5
-        result = itp.BilinearGridInterpolator().interpolate(wpts, grid_pt)
-        self.assertAlmostEqual(result, expected_result)
-
-        grid_pt = np.array([0.5, 0.0])
-        expected_result = 1.0
-        result = itp.BilinearGridInterpolator().interpolate(wpts, grid_pt)
-        self.assertAlmostEqual(result, expected_result)
-
-        grid_pt = np.array([1.0, 0.5])
-        expected_result = 3.0
-        result = itp.BilinearGridInterpolator().interpolate(wpts, grid_pt)
-        self.assertAlmostEqual(result, expected_result)
-
-        grid_pt = np.array([0.5, 1.0])
-        expected_result = 2.5
-        result = itp.BilinearGridInterpolator().interpolate(wpts, grid_pt)
-        self.assertAlmostEqual(result, expected_result)
-
-        grid_pt = np.array([0.75, 1.0])
-        expected_result = 3.25
-        result = itp.BilinearGridInterpolator().interpolate(wpts, grid_pt)
-        self.assertAlmostEqual(result, expected_result)
-
-    def test_grid_Error(self):
+    @parameterized([
+        (np.array([0., 0.]), 0.),
+        (np.array([1., 1.]), 4.),
+        (np.array([0., 1.]), 1.),
+        (np.array([1., 0.]), 2.),
+        (np.array([1., 1.]), 4.),
+        (np.array([0., 0.5]), 0.5),
+        (np.array([0.5, 0.]), 1.),
+        (np.array([1., 0.5]), 3.),
+        (np.array([0.5, 1.]), 2.5),
+        (np.array([0.75, 1.]), 3.25),
+    ])
+    def test_simple(self, grid_pt, expected_result):
 
         wpts = dt.WeightedPoints(
             np.array(
@@ -125,18 +72,28 @@ class TestBilinearGridInterpolator(TestCase):
             np.ones(3),
         )
 
-        grid_pt = np.array([-0.1, 0])
-        with self.assertRaises(BilinearInterpolatorOutsideGridException):
-            itp.BilinearGridInterpolator().interpolate(wpts, grid_pt)
+        result = itp.BilinearGridInterpolator().interpolate(wpts, grid_pt)
+        self.assertAlmostEqual(result, expected_result)
 
-        grid_pt = np.array([0.0, -0.1])
-        with self.assertRaises(BilinearInterpolatorOutsideGridException):
-            itp.BilinearGridInterpolator().interpolate(wpts, grid_pt)
+    @parameterized([
+        (np.array([-0.1, 0]),),
+        (np.array([0.0, -0.1]),),
+        (np.array([1.1, 0.5]),),
+        (np.array([0.1, 2.33]),),
+    ])
+    def test_grid_Error(self, grid_pt):
 
-        grid_pt = np.array([1.1, 0.5])
-        with self.assertRaises(BilinearInterpolatorOutsideGridException):
-            itp.BilinearGridInterpolator().interpolate(wpts, grid_pt)
+        wpts = dt.WeightedPoints(
+            np.array(
+                [
+                    [0, 0, 0],
+                    [0, 1, 1],
+                    [1, 0, 2],
+                    [1, 1, 4],
+                ]
+            ),
+            np.ones(3),
+        )
 
-        grid_pt = np.array([0.1, 2.33])
         with self.assertRaises(BilinearInterpolatorOutsideGridException):
             itp.BilinearGridInterpolator().interpolate(wpts, grid_pt)
