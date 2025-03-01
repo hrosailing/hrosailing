@@ -15,6 +15,7 @@ from .filter import BoundFilter, Filter, QuantileFilter
 from .imputator import FillLocalImputator, RemoveOnlyImputator
 from .injector import ZeroInjector
 from .interpolator import (
+    BilinearGridInterpolator,
     ArithmeticMeanInterpolator,
     IDWInterpolator,
     ImprovedIDWInterpolator,

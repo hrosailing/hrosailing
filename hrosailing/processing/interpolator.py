@@ -19,8 +19,10 @@ import numpy as np
 
 from hrosailing.core.computing import scaled_euclidean_norm
 
-from .neighbourhood import Neighbourhood
+from hrosailing.core.exceptions import BilinearInterpolatorOutsideGridException
+from hrosailing.core.exceptions import BilinearInterpolatorNoGridException
 
+from .neighbourhood import Neighbourhood
 
 class Interpolator(ABC):
     """Base class for all `Interpolator` classes."""
@@ -490,3 +492,124 @@ def _determine_slope(pts, grid_pt, dist, wts, nhood, norm, slope):
     return (
         xderiv * (grid_pt[0] - pts[:, 0]) + yderiv * (grid_pt[1] - pts[:, 1])
     ) * (dim_of_dist / (dim_of_dist + dist))
+
+
+class BilinearGridInterpolator(Interpolator):
+    """An interpolator that computes the interpolated value by using subsequent linear interpolations in the different axis."""
+
+    def __repr__(self):
+        return "BilinearGridInterpolator()"
+
+    def interpolate(self, w_pts, grid_pt):
+        """Interpolates a given `grid_pt` according to the procedure described
+        above.
+
+        Parameters
+        ----------
+        w_pts : WeightedPoints
+            Considered measured points.
+
+        grid_pt : numpy.ndarray of shape (2,)
+            Point that is to be interpolated.
+
+        Returns
+        -------
+        out : int / float
+            Interpolated value at `grid_pt`.
+
+        See also
+        ----------
+        `Interpolator.interpolate`
+        """
+
+        if w_pts.data.shape[1] == 3:
+
+            ws_points = w_pts.data[:, 0]
+            wa_points = w_pts.data[:, 1]
+
+            ws_in = grid_pt[0]
+            wa_in = grid_pt[1]
+
+            lower_ws = ws_points[ws_points <= ws_in]
+            upper_ws = ws_points[ws_points >= ws_in]
+            lower_wa = wa_points[wa_points <= wa_in]
+            upper_wa = wa_points[wa_points >= wa_in]
+
+            closest_lower_ws = (
+                lower_ws[np.argmax(lower_ws)] if len(lower_ws) > 0 else None
+            )
+            closest_upper_ws = (
+                upper_ws[np.argmin(upper_ws)] if len(upper_ws) > 0 else None
+            )
+            closest_lower_wa = (
+                lower_wa[np.argmax(lower_wa)] if len(lower_wa) > 0 else None
+            )
+            closest_upper_wa = (
+                upper_wa[np.argmin(upper_wa)] if len(upper_wa) > 0 else None
+            )
+
+            # check if we are inside or on the edge of the grid
+            if (
+                closest_lower_ws == None
+                or closest_upper_ws == None
+                or closest_lower_wa == None
+                or closest_upper_wa == None
+            ):
+                raise BilinearInterpolatorOutsideGridException()
+
+            bs_lws_lwa = self._bs_in_grid(
+                w_pts.data, closest_lower_ws, closest_lower_wa
+            )
+            bs_lws_uwa = self._bs_in_grid(
+                w_pts.data, closest_lower_ws, closest_upper_wa
+            )
+            bs_uws_lwa = self._bs_in_grid(
+                w_pts.data, closest_upper_ws, closest_lower_wa
+            )
+            bs_uws_uwa = self._bs_in_grid(
+                w_pts.data, closest_upper_ws, closest_upper_wa
+            )
+
+            diff_ws = closest_upper_ws - closest_lower_ws
+            diff_wa = closest_upper_wa - closest_lower_wa
+
+            if diff_ws == 0 and diff_wa == 0:
+                return bs_lws_lwa
+            if diff_ws == 0:
+                lower_wa_factor = (wa_in - closest_lower_wa) / diff_wa
+                bs_lws = (
+                    1.0 - lower_wa_factor
+                ) * bs_lws_lwa + lower_wa_factor * bs_lws_uwa
+                return bs_lws
+            if diff_wa == 0:
+                lower_ws_factor = (ws_in - closest_lower_ws) / diff_ws
+                bs_lwa = (
+                    1.0 - lower_ws_factor
+                ) * bs_lws_lwa + lower_ws_factor * bs_uws_lwa
+                return bs_lwa
+            lower_ws_factor = (ws_in - closest_lower_ws) / diff_ws
+            lower_wa_factor = (wa_in - closest_lower_wa) / diff_wa
+            # interpolation along wa
+            bs_lws = (
+                1.0 - lower_wa_factor
+            ) * bs_lws_lwa + lower_wa_factor * bs_lws_uwa
+            bs_uws = (
+                1.0 - lower_wa_factor
+            ) * bs_uws_lwa + lower_wa_factor * bs_uws_uwa
+            # interpolation along ws
+            bs = (
+                1.0 - lower_ws_factor
+            ) * bs_lws + lower_ws_factor * bs_uws
+            return bs
+
+        raise BilinearInterpolatorNoGridException()
+
+    def _bs_in_grid(self, w_pts_data, ws, wa):
+        ws_points = w_pts_data[:, 0]
+        wa_points = w_pts_data[:, 1]
+        matching_row = w_pts_data[(ws_points == ws) & (wa_points == wa)]
+
+        if len(matching_row) > 0:
+            return matching_row[0, 2]
+
+        raise BilinearInterpolatorNoGridException()
