@@ -68,6 +68,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         ws=None,
         n_steps=None,
         full_info=False,
+        *,
         wa_resolution=100,
         range_=1,
         interpolator=None,
@@ -112,17 +113,21 @@ class PolarDiagramPointcloud(PolarDiagram):
         `PolarDiagramPointcloud.get_slices`
         `PolarDiagram.ws_to_slices`
         """
+
         all_ws = self.points[:, 0]
         if interpolator is not None:
             default_wind_angles = np.linspace(0, 360, wa_resolution)
+            return [
+                np.row_stack(
+                    self(ws_, wa, interpolator) for wa in default_wind_angles
+                )
+                for ws_ in ws
+            ]
 
         slices = []
         for ws_ in ws:
-            if interpolator is None:
-                slicing = np.where(np.abs(all_ws - ws_) <= range_)
-                slices.append(np.atleast_2d(self.points[slicing]).T)
-                continue
-            slices.append(self(ws_, default_wind_angles))
+            slicing = np.where(np.abs(all_ws - ws_) <= range_)
+            slices.append(np.atleast_2d(self.points[slicing]).T)
         return slices
 
     def __init__(self, points, apparent_wind=False):
@@ -198,7 +203,7 @@ class PolarDiagramPointcloud(PolarDiagram):
         cloud = self.points
         point = cloud[np.logical_and(cloud[:, 0] == ws, cloud[:, 1] == wa)]
         if point.size:
-            return point[2]
+            return point[0][2]
 
         point = np.array([ws, wa])
         weighted_points = WeightedPoints(data=cloud, weights=1)

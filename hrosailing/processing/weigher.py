@@ -52,30 +52,39 @@ class Weigher(ComponentWithStatistics, ABC):
 
     def __add__(self, other):
         if isinstance(other, Weigher):
-            sum_ = _BinaryMapWeigher(self, other, lambda x, y: x + y)
-        elif isinstance(other, (int, float, np.ndarray)):
-            sum_ = _UnaryMapWeigher(self, lambda x: x + other)
-        return sum_
+            return _BinaryMapWeigher(self, other, lambda x, y: x + y)
+        if isinstance(other, (int, float, np.ndarray)):
+            return _UnaryMapWeigher(self, lambda x: x + other)
+        raise TypeError(
+            f"Invalid type for addition with Weigher."
+            f"Expected Weigher, int, float or np.ndarray. Got {type(other)} instead"
+        )
 
     def __radd__(self, other):
         return self + other
 
     def __mul__(self, other):
         if isinstance(other, Weigher):
-            prod_ = _BinaryMapWeigher(self, other, lambda x, y: x * y)
-        elif isinstance(other, (int, float, np.ndarray)):
-            prod_ = _UnaryMapWeigher(self, lambda x: x * other)
-        return prod_
+            return _BinaryMapWeigher(self, other, lambda x, y: x * y)
+        if isinstance(other, (int, float, np.ndarray)):
+            return _UnaryMapWeigher(self, lambda x: x * other)
+        raise TypeError(
+            f"Invalid type for multiplication with Weigher."
+            f"Expected Weigher, int, float or np.ndarray. Got {type(other)} instead"
+        )
 
     def __rmul__(self, other):
         return self * other
 
     def __sub__(self, other):
         if isinstance(other, Weigher):
-            sub = _BinaryMapWeigher(self, other, lambda x, y: x - y)
-        elif isinstance(other, np.ndarray):
-            sub = _UnaryMapWeigher(self, lambda x: x - other)
-        return sub
+            return _BinaryMapWeigher(self, other, lambda x, y: x - y)
+        if isinstance(other, np.ndarray):
+            return _UnaryMapWeigher(self, lambda x: x - other)
+        raise TypeError(
+            f"Invalid type for subtraction with Weigher."
+            f"Expected Weigher or np.ndarray. Got {type(other)} instead"
+        )
 
     def __neg__(self):
         neg = _UnaryMapWeigher(self, lambda x: -x)
@@ -83,17 +92,23 @@ class Weigher(ComponentWithStatistics, ABC):
 
     def __truediv__(self, other):
         if isinstance(other, Weigher):
-            div = _BinaryMapWeigher(self, other, lambda x, y: x / y)
-        elif isinstance(other, (int, float, np.ndarray)):
-            div = _UnaryMapWeigher(self, lambda x: x / other)
-        return div
+            return _BinaryMapWeigher(self, other, lambda x, y: x / y)
+        if isinstance(other, (int, float, np.ndarray)):
+            return _UnaryMapWeigher(self, lambda x: x / other)
+        raise TypeError(
+            f"Invalid type for division with Weigher."
+            f"Expected Weigher or np.ndarray. Got {type(other)} instead"
+        )
 
     def __rtruediv__(self, other):
         if isinstance(other, Weigher):
-            div = _BinaryMapWeigher(self, other, lambda x, y: y / x)
-        elif isinstance(other, np.ndarray):
-            div = _UnaryMapWeigher(self, lambda x: other / x)
-        return div
+            return _BinaryMapWeigher(self, other, lambda x, y: y / x)
+        if isinstance(other, np.ndarray):
+            return _UnaryMapWeigher(self, lambda x: other / x)
+        raise TypeError(
+            f"Invalid type for division with Weigher."
+            f"Expected Weigher or np.ndarray. Got {type(other)} instead"
+        )
 
     def __pow__(self, power, modulo=None):
         pow_ = _UnaryMapWeigher(self, lambda x: x**power)
@@ -278,7 +293,9 @@ class CylindricMeanWeigher(Weigher):
             points, self._dimensions
         )
         weights = [
-            self._calculate_weight(point, points, bsps, bsp, dimensions)
+            self._calculate_weight(
+                point, points=points, bsps=bsps, bsp=bsp, dimensions=dimensions
+            )
             for point, bsp in zip(points, bsps)
         ]
         weights = np.array(weights)
@@ -288,7 +305,7 @@ class CylindricMeanWeigher(Weigher):
 
         return weights
 
-    def _calculate_weight(self, point, points, bsps, bsp, dimensions):
+    def _calculate_weight(self, point, *, points, bsps, bsp, dimensions):
         points_in_cylinder = self._determine_points_in_cylinder(
             point, points, bsps, dimensions
         )
