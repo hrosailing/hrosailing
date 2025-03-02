@@ -57,7 +57,8 @@ class Weigher(ComponentWithStatistics, ABC):
             return _UnaryMapWeigher(self, lambda x: x + other)
         raise TypeError(
             f"Invalid type for addition with Weigher."
-            f"Expected Weigher, int, float or np.ndarray. Got {type(other)} instead")
+            f"Expected Weigher, int, float or np.ndarray. Got {type(other)} instead"
+        )
 
     def __radd__(self, other):
         return self + other
@@ -69,7 +70,8 @@ class Weigher(ComponentWithStatistics, ABC):
             return _UnaryMapWeigher(self, lambda x: x * other)
         raise TypeError(
             f"Invalid type for multiplication with Weigher."
-            f"Expected Weigher, int, float or np.ndarray. Got {type(other)} instead")
+            f"Expected Weigher, int, float or np.ndarray. Got {type(other)} instead"
+        )
 
     def __rmul__(self, other):
         return self * other
@@ -81,7 +83,8 @@ class Weigher(ComponentWithStatistics, ABC):
             return _UnaryMapWeigher(self, lambda x: x - other)
         raise TypeError(
             f"Invalid type for subtraction with Weigher."
-            f"Expected Weigher or np.ndarray. Got {type(other)} instead")
+            f"Expected Weigher or np.ndarray. Got {type(other)} instead"
+        )
 
     def __neg__(self):
         neg = _UnaryMapWeigher(self, lambda x: -x)
@@ -94,7 +97,8 @@ class Weigher(ComponentWithStatistics, ABC):
             return _UnaryMapWeigher(self, lambda x: x / other)
         raise TypeError(
             f"Invalid type for division with Weigher."
-            f"Expected Weigher or np.ndarray. Got {type(other)} instead")
+            f"Expected Weigher or np.ndarray. Got {type(other)} instead"
+        )
 
     def __rtruediv__(self, other):
         if isinstance(other, Weigher):
@@ -103,10 +107,11 @@ class Weigher(ComponentWithStatistics, ABC):
             return _UnaryMapWeigher(self, lambda x: other / x)
         raise TypeError(
             f"Invalid type for division with Weigher."
-            f"Expected Weigher or np.ndarray. Got {type(other)} instead")
+            f"Expected Weigher or np.ndarray. Got {type(other)} instead"
+        )
 
     def __pow__(self, power, modulo=None):
-        pow_ = _UnaryMapWeigher(self, lambda x: x ** power)
+        pow_ = _UnaryMapWeigher(self, lambda x: x**power)
         return pow_
 
     def set_statistics(self, weights):
@@ -140,7 +145,7 @@ class Weigher(ComponentWithStatistics, ABC):
                                 minw + span * (i + 1) / 10
                                 >= w
                                 >= minw + span * i / 10
-                        )
+                            )
                         ]
                     )
                     / len(weights),
@@ -288,11 +293,9 @@ class CylindricMeanWeigher(Weigher):
             points, self._dimensions
         )
         weights = [
-            self._calculate_weight(point,
-                                   points=points,
-                                   bsps=bsps,
-                                   bsp=bsp,
-                                   dimensions=dimensions)
+            self._calculate_weight(
+                point, points=points, bsps=bsps, bsp=bsp, dimensions=dimensions
+            )
             for point, bsp in zip(points, bsps)
         ]
         weights = np.array(weights)
@@ -531,7 +534,7 @@ class FluctuationWeigher(Weigher):
                 if dt <= times[i] and times[i] - dt <= self._timespan_after
             )
             for col, ub in enumerate(upper_bounds):
-                curr_pts = points[start_idx: end_idx + 1, col]
+                curr_pts = points[start_idx : end_idx + 1, col]
                 std = np.std(curr_pts)
                 if std > ub:
                     weights[curr_idx] = 0

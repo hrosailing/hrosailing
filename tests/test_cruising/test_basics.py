@@ -5,7 +5,7 @@ import unittest
 import numpy as np
 
 from hrosailing.cruising import convex_direction
-from hrosailing.polardiagram import PolarDiagramTable, PolarDiagram
+from hrosailing.polardiagram import PolarDiagram, PolarDiagramTable
 
 
 class TestHROPolar(unittest.TestCase):

@@ -118,8 +118,10 @@ class PolarDiagramPointcloud(PolarDiagram):
         if interpolator is not None:
             default_wind_angles = np.linspace(0, 360, wa_resolution)
             return [
-                np.row_stack(self(ws_, wa, interpolator)
-                             for wa in default_wind_angles) for ws_ in ws
+                np.row_stack(
+                    self(ws_, wa, interpolator) for wa in default_wind_angles
+                )
+                for ws_ in ws
             ]
 
         slices = []

@@ -3,9 +3,9 @@ from unittest import TestCase
 
 import numpy as np
 
-from hrosailing.processing import Weigher, ArithmeticMeanInterpolator
-
+from hrosailing.processing import ArithmeticMeanInterpolator, Weigher
 from tests.utils_for_testing import parameterized
+
 
 class DummyWeigher(Weigher):
 
