@@ -250,4 +250,3 @@ class PolarDiagram(ABC):
         # I do something with the variables to make codefactor happy, feel free to refactor
         kwargs["ws"] = ws
         kwargs["slices"] = slices
-        return None

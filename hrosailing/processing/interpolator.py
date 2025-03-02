@@ -554,19 +554,17 @@ class BilinearGridInterpolator(Interpolator):
         closest_upper_wa = self._get_minimum_of_bigger_values(wa_points, wa_in)
 
         interpolated_bs_lower_ws = self._convex_interpolation_1d(
-            w_pts.data,
             closest_lower_ws,
-            closest_lower_wa,
-            closest_upper_wa,
-            wa_in,
-        )
+            wa_in=wa_in,
+            w_pts_data=w_pts.data,
+            closest_lower_wa=closest_lower_wa,
+            closest_upper_wa=closest_upper_wa)
         interpolated_bs_upper_ws = self._convex_interpolation_1d(
-            w_pts.data,
             closest_upper_ws,
-            closest_lower_wa,
-            closest_upper_wa,
-            wa_in,
-        )
+            wa_in=wa_in,
+            w_pts_data=w_pts.data,
+            closest_lower_wa=closest_lower_wa,
+            closest_upper_wa=closest_upper_wa)
 
         if closest_upper_ws == closest_lower_ws:
             return interpolated_bs_lower_ws
@@ -579,7 +577,8 @@ class BilinearGridInterpolator(Interpolator):
         ) * interpolated_bs_lower_ws + ws_factor * interpolated_bs_upper_ws
 
     def _convex_interpolation_1d(
-        self, w_pts_data, common_ws, closest_lower_wa, closest_upper_wa, wa_in
+        self, common_ws, *, wa_in, w_pts_data,
+                                 closest_lower_wa, closest_upper_wa
     ):
 
         lower_wa_bs = self._bs_in_grid(w_pts_data, common_ws, closest_lower_wa)
