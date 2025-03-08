@@ -2,8 +2,10 @@
 
 import unittest
 
+import numpy as np
+
 from hrosailing.cruising import convex_direction
-from hrosailing.polardiagram import PolarDiagramTable
+from hrosailing.polardiagram import PolarDiagram, PolarDiagramTable
 
 
 class TestHROPolar(unittest.TestCase):
