@@ -6,8 +6,8 @@ authors:
 - family-names: "Schüler"
   given-names: "Robert"
 title: "hrosailing"
-version: 0.11.2
+version: 0.12.0
 doi: 10.5281/zenodo.6322872
-date-released: 2023-03-31
+date-released: 2025-03-22
 url: "https://github.com/hrosailing/hrosailing"
 
