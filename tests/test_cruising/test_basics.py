@@ -33,3 +33,23 @@ class TestHROPolar(unittest.TestCase):
         self.assertAlmostEqual(
             1, direction[0].proportion + direction[1].proportion
         )
+
+    def test_convex_direction_exact_angle_match(self):
+        """Test that convex_direction returns exact angles when target matches a vertex."""
+        # Test with 90° - should return exactly 90°, not a neighboring angle
+        direction = convex_direction(self.pd, 1, 90)
+        
+        self.assertEqual(1, len(direction), "Should return single direction for exact match")
+        self.assertEqual(90, direction[0].angle, "Should return exact target angle 90°")
+        
+        # Test with 180° - should return exactly 180°, not a neighboring angle  
+        direction = convex_direction(self.pd, 1, 180)
+        
+        self.assertEqual(1, len(direction), "Should return single direction for exact match")
+        self.assertEqual(180, direction[0].angle, "Should return exact target angle 180°")
+        
+        # Test with 45° - should return exactly 45°, not a neighboring angle
+        direction = convex_direction(self.pd, 1, 45)
+        
+        self.assertEqual(1, len(direction), "Should return single direction for exact match")
+        self.assertEqual(45, direction[0].angle, "Should return exact target angle 45°")
