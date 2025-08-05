@@ -129,10 +129,10 @@ def convex_direction(
         edge[0].sail = info[0][i1]
         edge[1].sail = info[0][i2]
 
-    if edge[0] == direction:
+    if edge[0].angle == direction:
         return [edge[0]]
 
-    if edge[1] == direction:
+    if edge[1].angle == direction:
         return [edge[1]]
 
     # direction lies on a common edge of polar diagram and convex hull

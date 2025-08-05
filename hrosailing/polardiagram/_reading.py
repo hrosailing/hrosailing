@@ -12,9 +12,12 @@ from hrosailing.polardiagram._polardiagramtable import (
     PolarDiagram,
     PolarDiagramTable,
 )
+from hrosailing.polardiagram._incompletedatahandler import (
+    interpolate_missing_values,
+)
 
 
-def from_csv(csv_path, fmt="hro"):
+def from_csv(csv_path, fmt="hro", interpolate_missing=False, interpolator=None):
     """Reads a .csv file and returns the `PolarDiagram`
     instance contained in it.
 
@@ -33,6 +36,15 @@ def from_csv(csv_path, fmt="hro"):
             opencpn.org/OpenCPN/plugins/polar.html),
         - `"array"` : tab-separated polar diagram in form of a table, also
             see the example files for a better look at the format.
+
+    interpolate_missing : bool, optional
+        If True, interpolate missing values in incomplete polar diagrams.
+        Works with orc and opencpn formats (which support missing values).
+        Array and hro formats typically don't contain missing values. Default is False.
+
+    interpolator : Interpolator, optional
+        Custom interpolator to use for missing value interpolation.
+        If None, uses ArithmeticMeanInterpolator(params=(50,)) as default.
 
     Returns
     -------
@@ -56,6 +68,15 @@ def from_csv(csv_path, fmt="hro"):
         >>> from polardiagram._reading import from_csv
         >>> pd = from_csv("table_hro_format_example.csv", fmt="hro")
         >>> print(pd)
+        
+        >>> # Load incomplete ORC file with automatic interpolation
+        >>> pd_incomplete = from_csv("incomplete.orc.csv", fmt="orc", interpolate_missing=True)
+        >>> print(f"Interpolation performed: {pd_incomplete._interpolation_performed}")
+        
+        >>> # Use custom interpolator for missing values
+        >>> from hrosailing.processing.interpolator import ShepardInterpolator
+        >>> custom_interp = ShepardInterpolator()
+        >>> pd_custom = from_csv("sparse.csv", fmt="orc", interpolate_missing=True, interpolator=custom_interp)
           TWA / TWS    6.0    8.0    10.0    12.0    14.0    16.0    20.0
         -----------  -----  -----  ------  ------  ------  ------  ------
         52.0          3.74   4.48    4.96    5.27    5.47    5.66    5.81
@@ -74,7 +95,7 @@ def from_csv(csv_path, fmt="hro"):
         if fmt == "hro":
             return _read_intern_format(file)
 
-        return _read_extern_format(file, fmt)
+        return _read_extern_format(file, fmt, interpolate_missing, interpolator)
 
 
 def _read_intern_format(file):
@@ -90,15 +111,25 @@ def _read_intern_format(file):
     return pd.__from_csv__(file)
 
 
-def _read_extern_format(file, fmt):
+def _read_extern_format(file, fmt, interpolate_missing=False, interpolator=None):
     if fmt == "array":
         ws_res, wa_res, bsps = _read_from_array(file)
     elif fmt == "orc":
-        ws_res, wa_res, bsps = _read_orc_format(file)
+        ws_res, wa_res, bsps = _read_orc_format(file, interpolate_missing)
     else:
-        ws_res, wa_res, bsps = _read_opencpn_format(file)
+        ws_res, wa_res, bsps = _read_opencpn_format(file, interpolate_missing)
 
-    return PolarDiagramTable(ws_res, wa_res, bsps)
+    # Apply interpolation to any format if requested
+    interpolation_performed = False
+    if interpolate_missing:
+        bsps, interpolation_performed = interpolate_missing_values(ws_res, wa_res, bsps, interpolator)
+
+    pd = PolarDiagramTable(ws_res, wa_res, bsps)
+    
+    # Store interpolation flag for later access
+    pd._interpolation_performed = interpolation_performed
+    
+    return pd
 
 
 def _read_from_array(file):
@@ -106,7 +137,7 @@ def _read_from_array(file):
     return file_data[0, 1:], file_data[1:, 0], file_data[1:, 1:]
 
 
-def _read_orc_format(file):
+def _read_orc_format(file, interpolate_missing=False):
     csv_reader = csv.reader(file, delimiter=";")
 
     ws_res = _read_wind_speeds(csv_reader)
@@ -114,7 +145,7 @@ def _read_orc_format(file):
     # skip line of zeros
     next(csv_reader)
 
-    wa_res, bsps = _read_wind_angles_and_boat_speeds(csv_reader)
+    wa_res, bsps = _read_wind_angles_and_boat_speeds(csv_reader, mark_empty_with_nan=interpolate_missing)
 
     return ws_res, wa_res, bsps
 
@@ -123,21 +154,26 @@ def _read_wind_speeds(csv_reader):
     return [literal_eval(ws) for ws in next(csv_reader)[1:]]
 
 
-def _read_wind_angles_and_boat_speeds(csv_reader):
+def _read_wind_angles_and_boat_speeds(csv_reader, mark_empty_with_nan=False):
     wa_res = []
     bsps = []
+    
+    # Choose fill value based on whether we want to mark empty cells for interpolation
+    fill_value = np.nan if mark_empty_with_nan else 0.0
 
     for row in csv_reader:
-        wa_res.append(literal_eval(row[0].replace("°", "")))
-        bsps.append([literal_eval(bsp) if bsp != "" else 0 for bsp in row[1:]])
+        if row:  # Skip empty rows
+            wa_res.append(literal_eval(row[0].replace("°", "")))
+            bsps.append([literal_eval(bsp) if bsp != "" else fill_value for bsp in row[1:]])
 
     return wa_res, bsps
 
 
-def _read_opencpn_format(file):
+def _read_opencpn_format(file, interpolate_missing=False):
     csv_reader = csv.reader(file, delimiter=",")
 
     ws_res = _read_wind_speeds(csv_reader)
-    wa_res, bsps = _read_wind_angles_and_boat_speeds(csv_reader)
+    wa_res, bsps = _read_wind_angles_and_boat_speeds(csv_reader, mark_empty_with_nan=interpolate_missing)
 
     return ws_res, wa_res, bsps
+

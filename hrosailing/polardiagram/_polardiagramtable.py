@@ -148,6 +148,10 @@ class PolarDiagramTable(PolarDiagram):
             wa_resolution
         )
 
+        # Initialize processing flags
+        self._interpolation_performed = False
+        self._symmetrized = False
+
         if bsps is None:
             self._create_zero_table(ws_resolution, wa_resolution)
             return
@@ -365,6 +369,16 @@ class PolarDiagramTable(PolarDiagram):
         """Returns a read only version of `self._boat_speeds`."""
         return self._boat_speeds.copy()
 
+    @property
+    def interpolation_performed(self):
+        """Returns True if interpolation was performed during loading, False otherwise."""
+        return self._interpolation_performed
+
+    @property
+    def symmetrization_performed(self):
+        """Returns True if symmetrization was performed, False otherwise."""
+        return self._symmetrized
+
     def to_csv(self, csv_path, fmt="hro"):
         """Creates a .csv file with delimiter ',' and the following format:
 
@@ -558,11 +572,17 @@ class PolarDiagramTable(PolarDiagram):
                 symmetric_wa_resolution, symmetric_bsps
             )
 
-        return PolarDiagramTable(
+        symmetric_pd = PolarDiagramTable(
             ws_resolution=self.wind_speeds,
             wa_resolution=symmetric_wa_resolution,
             bsps=symmetric_bsps,
         )
+        
+        # Preserve interpolation flag from original and mark as symmetrized
+        symmetric_pd._interpolation_performed = self.interpolation_performed
+        symmetric_pd._symmetrized = True
+        
+        return symmetric_pd
 
     def change_entries(self, new_bsps, ws=None, wa=None):
         """Changes specified entries in the table.
